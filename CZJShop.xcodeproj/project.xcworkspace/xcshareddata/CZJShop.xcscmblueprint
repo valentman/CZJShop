@@ -1,0 +1,25 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "f219117a-b458-4495-9fd9-3c87b1df5326++4655",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+    "f219117a-b458-4495-9fd9-3c87b1df5326++4655" : {
+
+    }
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "f219117a-b458-4495-9fd9-3c87b1df5326++4655" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "7B6B466D-81B1-4C08-A71A-1596388CC0D1",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "f219117a-b458-4495-9fd9-3c87b1df5326++4655" : "CZJ_app_iOS_2.0\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "CZJShop",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "CZJShop\/CZJShop.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "svn:\/\/192.168.0.231\/project",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Subversion",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "f219117a-b458-4495-9fd9-3c87b1df5326++4655"
+    }
+  ]
+}

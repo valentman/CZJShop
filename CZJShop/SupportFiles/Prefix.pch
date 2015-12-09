@@ -1,0 +1,269 @@
+//
+//  Prefix.pch
+//  CheZhiJian
+//
+//  Created by chelifang on 15/7/8.
+//  Copyright (c) 2015年 chelifang. All rights reserved.
+//
+
+#ifndef CheZhiJian_Prefix_pch
+#define CheZhiJian_Prefix_pch
+
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+
+#ifdef __OBJC__
+
+#import <SystemConfiguration/SystemConfiguration.h>
+#import <MobileCoreServices/MobileCoreServices.h>
+#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+#import "CZJDefinition.h"
+#import "ValueType.h"
+#import "CZJUtils.h"
+#import "SVProgressHUD.h"
+#import "CommonData.h"
+#import "CZJTableViewCell.h"
+#import "CZJViewControllerDelegate.h"
+
+
+//-------------------------系统---------------------------
+//检查系统版本
+#define SYSTEM_VERSION_EQUAL_TO(v)                  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedSame)
+#define SYSTEM_VERSION_GREATER_THAN(v)              ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedDescending)
+#define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
+#define SYSTEM_VERSION_LESS_THAN(v)                 ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedAscending)
+#define SYSTEM_VERSION_LESS_THAN_OR_EQUAL_TO(v)     ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedDescending)
+//获取系统版本
+#define IOS_VERSION [[[UIDevice currentDevice] systemVersion] floatValue]
+#define IS_IOS7 (IOS_VERSION >= 7)
+#define IS_IOS8 (IOS_VERSION >= 8)
+#define _IPHONE80_ 80000
+
+//获取当前语言
+#define CurrentLanguage ([[NSLocale preferredLanguages] objectAtIndex:0])
+
+//判断是否 Retina屏、设备是否iphone 5、iphone6、iphone6plus、是否是iPad
+#define iPhone4 ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(640, 960), [[UIScreen mainScreen] currentMode].size) : NO)
+#define iPhone5 ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(640, 1136), [[UIScreen mainScreen] currentMode].size) : NO)
+#define iPhone6 ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(750, 1334), [[UIScreen mainScreen] currentMode].size) : NO)
+#define iPhone6Plus ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? \
+                    (CGSizeEqualToSize(CGSizeMake(1242, 2208), [[UIScreen mainScreen] currentMode].size) || \
+                     CGSizeEqualToSize(CGSizeMake(1125, 2001), [[UIScreen mainScreen] currentMode].size)) : NO) 
+#define isPad (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+
+//判断是真机还是模拟器
+#if TARGET_OS_IPHONE
+//iPhone Device
+#endif
+
+#if TARGET_IPHONE_SIMULATOR
+//iPhone Simulator
+#endif
+
+
+//-------------------获取设备系统数据----------------------
+//获取屏幕 宽度、高度、宽高比
+#define PJ_SCREEN_BOUNDS [[UIScreen mainScreen] bounds]
+#define PJ_SCREEN_WIDTH  PJ_SCREEN_BOUNDS.size.width
+#define PJ_SCREEN_HEIGHT PJ_SCREEN_BOUNDS.size.height
+#define PJ_SCREEN_ASPECTRATIO PJ_SCREEN_WIDTH/PJ_SCREEN_HEIGHT
+#define ORIGINAL_MAX_WIDTH 640.0f
+//NavBar高度
+#define NavigationBar_HEIGHT 44
+#define StatusBar_HEIGHT 20
+#define Tabbar_HEIGHT 49
+
+
+//---------------获取设备系统缓存目录和文件目录---------------
+#define PJCachesPath [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) firstObject]
+#define PJDocumentsPath [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject]
+#define PJFileManager [NSFileManager defaultManager]
+
+//-------------------------内存----------------------------
+//使用ARC和不使用ARC
+#if __has_feature(objc_arc)
+//compiling with ARC
+#else
+// compiling without ARC
+#endif
+
+//释放一个对象
+#define SAFE_DELETE(P) if(P) { [P release], P = nil; }
+#define SAFE_RELEASE(x) [x release];x=nil
+
+
+//-------------------------图片-----------------------------
+//读取本地图片
+#define LOADIMAGE(file,ext) [UIImage imageWithContentsOfFile:[[NSBundle mainBundle]pathForResource:file ofType:ext]]
+
+//定义UIImage对象
+#define IMAGE(A) [UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:A ofType:nil]]
+
+//定义UIImage对象
+#define ImageNamed(_pointer) [UIImage imageNamed:[UIUtil imageName:_pointer]]
+
+
+//------------------------颜色类-------------------------
+#define RGBACOLOR(R,G,B,A) [UIColor colorWithRed:(R)/255.0f green:(G)/255.0f blue:(B)/255.0f alpha:(A)]
+// rgb颜色转换（16进制->10进制）
+#define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
+
+// 获取RGB颜色
+#define RGBA(r,g,b,a) [UIColor colorWithRed:r/255.0f green:g/255.0f blue:b/255.0f alpha:a]
+#define RGB(r,g,b) RGBA(r,g,b,1.0f)
+
+//背景色
+#define BACKGROUND_COLOR [UIColor colorWithRed:242.0/255.0 green:236.0/255.0 blue:231.0/255.0 alpha:1.0]
+#define FORGROUND_COLOR RGB(242,236,231)
+
+//清除背景色
+#define CLEARCOLOR [UIColor clearColor]
+
+
+//------------------------打印日志-------------------------
+//DEBUG模式下 打印日志,当前行
+#ifdef DEBUG
+#define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
+
+#else
+#define DLog(...)
+#endif
+
+//DEBUG模式下 打印日志,当前行 并弹出一个警告
+#ifdef DEBUG
+#define ULog(fmt, ...)  { DLog(fmt);UIAlertView *alert = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"%s\n [Line %d] ", __PRETTY_FUNCTION__, __LINE__] message:[NSString stringWithFormat:fmt, ##__VA_ARGS__]  delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil]; [alert show];}
+#else
+#define ULog(...)
+#endif
+
+//DEBUG模式下，条件判断打印日志,当前行
+#ifdef DEBUG
+#define DCONDITIONLOG(condition, xx, ...) { if ((condition)) { \
+DLog(xx, ##__VA_ARGS__); \
+} \
+} ((void)0)
+#else
+#define DCONDITIONLOG(condition, xx, ...) ((void)0)
+#endif
+
+//DEBUG模式下，条件判断打印日志
+#define PJAssert(condition, ...)                                       \
+do {                                                                      \
+    if (!(condition)) {                                                     \
+        [[NSAssertionHandler currentHandler]                                  \
+         handleFailureInFunction:[NSString stringWithUTF8String:__PRETTY_FUNCTION__] \
+         file:[NSString stringWithUTF8String:__FILE__]  \
+         lineNumber:__LINE__                                  \
+         description:__VA_ARGS__];                             \
+    }                                                                       \
+} while(0)
+
+//DEBUG模式下，条件判断打印日志,当前行 并弹出一个警告
+#define PJAlertAssert(condition, xx, ...) { if (!(condition)) { \
+ULog(xx, ##__VA_ARGS__); \
+} \
+} ((void)0)
+
+
+//-------------------------其他-----------------------------
+//方正黑体简体字体定义
+#define FONT(F) [UIFont fontWithName:@"FZHTJW--GB1-0" size:F]
+
+//定义一个API
+#define APIURL                @"http://xxxxx/"
+
+//登陆API
+#define APILogin              [APIURL stringByAppendingString:@"Login"]
+
+//设置View的tag属性
+#define VIEWWITHTAG(_OBJECT, _TAG)    [_OBJECT viewWithTag : _TAG]
+
+//程序的本地化,引用国际化的文件
+#define MyLocal(x, ...) NSLocalizedString(x, nil)
+
+//G－C－D
+#define BACK(block) dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), block)
+#define MAIN(block) dispatch_async(dispatch_get_main_queue(),block)
+
+//NSUserDefaults 实例化
+#define USER_DEFAULT [NSUserDefaults standardUserDefaults]
+#define APPLICATION [UIApplication sharedApplication]
+
+//由角度获取弧度 有弧度获取角度
+#define degreesToRadian(x) (M_PI * (x) / 180.0)
+#define radianToDegrees(radian) (radian*180.0)/(M_PI)
+
+
+//------------------------单例宏---------------------------
+//@interface
+#define singleton_interface(className) +(className*) shared##className;
+
+//@implementation
+#if __has_feature(objc_arc)
+
+#define singleton_implementation(className)\
+static className* _instance;\
+\
++(id)allocWithZone:(struct _NSZone*)zone\
+{\
+static dispatch_once_t onceToken;\
+dispatch_once(&onceToken, ^{\
+_instance = [super allocWithZone:zone];\
+});\
+return _instance;\
+}\
+\
++ (instancetype) shared##className \
+{\
+static dispatch_once_t onceToken;\
+dispatch_once(&onceToken, ^{\
+_instance = [[self alloc]init];\
+});\
+return _instance;\
+}\
+\
+- (id)copyWithZone:(NSZone*)zone\
+{\
+return _instance;\
+}\
+
+#else
+
+#define singleton_implementation(className)\
+static className* _instance;\
+\
++(id)allocWithZone:(struct _NSZone*)zone\
+{\
+static dispatch_once_t onceToken;\
+dispatch_once(&onceToken, ^{\
+_instance = [super allocWithZone:zone];\
+});\
+return _instance;\
+}\
+\
++ (instancetype) shared##className \
+{\
+static dispatch_once_t onceToken;\
+dispatch_once(&onceToken, ^{\
+_instance = [[self alloc]init];\
+});\
+return _instance;\
+}\
+\
+- (id)copyWithZone:(NSZone*)zone\
+{\
+return _instance;\
+}\
+\
+- (oneway void)release { } \
+- (id)retain { return self; } \
+- (NSUInteger)retainCount { return 1;} \
+- (id)autorelease { return self;}
+#endif
+
+
+
+
+#endif
+#endif

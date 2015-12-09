@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="KGk-i7-Jjw" customClass="CZJCarInfoCell">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="39"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="38"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="home_icon_new.png" translatesAutoresizingMaskIntoConstraints="NO" id="XX0-gM-ZQA">
+                        <rect key="frame" x="0.0" y="0.0" width="100" height="39"/>
+                        <animations/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="100" id="EZu-lH-KAq"/>
+                            <constraint firstAttribute="height" constant="39" id="plX-UY-Ife"/>
+                        </constraints>
+                    </imageView>
+                    <scrollView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Uel-QR-nVj">
+                        <rect key="frame" x="110" y="0.0" width="210" height="38"/>
+                        <animations/>
+                    </scrollView>
+                </subviews>
+                <animations/>
+                <constraints>
+                    <constraint firstItem="Uel-QR-nVj" firstAttribute="leading" secondItem="XX0-gM-ZQA" secondAttribute="trailing" constant="10" id="0bx-Uq-dm3"/>
+                    <constraint firstItem="XX0-gM-ZQA" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="5SW-QE-sKj"/>
+                    <constraint firstAttribute="trailing" secondItem="Uel-QR-nVj" secondAttribute="trailing" id="LNB-SB-MBL"/>
+                    <constraint firstItem="XX0-gM-ZQA" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="T3G-6Z-xfV"/>
+                    <constraint firstAttribute="bottom" secondItem="Uel-QR-nVj" secondAttribute="bottom" id="a6A-zd-FqE"/>
+                    <constraint firstItem="Uel-QR-nVj" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="wGR-0c-Lwa"/>
+                </constraints>
+            </tableViewCellContentView>
+            <animations/>
+            <connections>
+                <outlet property="carInfoWordImg" destination="XX0-gM-ZQA" id="2Lo-co-OD7"/>
+                <outlet property="scrollInfoView" destination="Uel-QR-nVj" id="fV9-Dl-sMi"/>
+            </connections>
+            <point key="canvasLocation" x="353" y="284.5"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="home_icon_new.png" width="85" height="39"/>
+    </resources>
+</document>
