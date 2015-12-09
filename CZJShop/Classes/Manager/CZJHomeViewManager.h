@@ -47,6 +47,6 @@ singleton_interface(CZJHomeViewManager);
 //获取发现数据
 - (void)showDiscoverWithBlocksuccess:(CZJSuccessBlock)success fail:(CZJFailureBlock)fail;
 
-
+-(void)getSomeInfoSuccess:(CZJSuccessBlock)success;
 
 @end

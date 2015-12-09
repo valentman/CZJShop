@@ -308,4 +308,10 @@ singleton_implementation(CZJHomeViewManager);
                                    fail:failBlock];
 }
 
+-(void)getSomeInfoSuccess:(CZJSuccessBlock)success{
+    NSString* tst = [[CZJLoginModelInstance  cheZhuId] stringByReplacingOccurrencesOfString:@"-" withString:@""];
+    NSString* str = [NSString stringWithFormat:@"{\"chezhuId\":\"%@\",\"cityId\":\"%@\",\"mobile\":\"%@\",\"lat\":\"%@\",\"lng\":\"%@\"}",tst,[CZJLoginModelInstance cityId],[CZJLoginModelInstance mobile],[NSNumber numberWithDouble:_curLocation.latitude],[NSNumber numberWithDouble:_curLocation.longitude]];
+    success(str);
+}
+
 @end

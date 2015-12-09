@@ -7,7 +7,7 @@
 //
 
 #import "WebViewJsBridge.h"
-#import "HomeViewManager.h"
+#import "CZJHomeViewManager.h"
 #import <objc/runtime.h>
 
 #define JsStr @"var chezhu = {}; (function how() { chezhu.getInfo = function () { return '%@';};})();"
@@ -75,11 +75,7 @@
         NSString *filePath = [bundle pathForResource:@"WebViewJsBridge" ofType:@"js"];
         NSString *js = [NSString stringWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:nil];
         
-        [[HomeViewManager sharedHomeViewManager] getSomeInfoSuccess:^(id dic){
-//            NSString *jss = [NSString stringWithFormat:JsStr,dic];
-//            NSString *jj = [NSString stringWithFormat:@"%@%@",jss,js];
-//            [webView stringByEvaluatingJavaScriptFromString:jss];
-//            NSString* string = [NSString stringWithFormat:js, methodList,dic];
+        [CZJHomeViewInstance getSomeInfoSuccess:^(id dic){
             [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:js, methodList,dic]];
         }];
     }

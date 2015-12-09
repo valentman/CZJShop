@@ -1,21 +1,36 @@
 {
-  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "f219117a-b458-4495-9fd9-3c87b1df5326++4655",
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "E0647A72A0C1C9D78EA44BB29D90BA7E6B16FC32",
   "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+    "E0647A72A0C1C9D78EA44BB29D90BA7E6B16FC32" : {
+
+    },
     "f219117a-b458-4495-9fd9-3c87b1df5326++4655" : {
 
     }
   },
   "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "E0647A72A0C1C9D78EA44BB29D90BA7E6B16FC32" : 0,
     "f219117a-b458-4495-9fd9-3c87b1df5326++4655" : 0
   },
   "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "7B6B466D-81B1-4C08-A71A-1596388CC0D1",
   "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "E0647A72A0C1C9D78EA44BB29D90BA7E6B16FC32" : "CZJ_app_iOS_2.0\/CZJShop\/CZJShop\/ThirdSDK\/LjjUISegmentedControl\/",
     "f219117a-b458-4495-9fd9-3c87b1df5326++4655" : "CZJ_app_iOS_2.0\/"
   },
   "DVTSourceControlWorkspaceBlueprintNameKey" : "CZJShop",
   "DVTSourceControlWorkspaceBlueprintVersion" : 204,
   "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "CZJShop\/CZJShop.xcodeproj",
   "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "svn:\/\/192.168.0.231\/project",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Subversion",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "E0647A72A0C1C9D78EA44BB29D90BA7E6B16FC32"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/jokeface\/LjjUISegmentedControl.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "E0647A72A0C1C9D78EA44BB29D90BA7E6B16FC32"
+    },
     {
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "svn:\/\/192.168.0.231\/project",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Subversion",
