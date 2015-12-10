@@ -8,8 +8,16 @@
 
 #import <UIKit/UIKit.h>
 #import "CZJViewControllerDelegate.h"
+#import "MXPullDownMenu.h"
+#import "PullTableView.h"
 
 @interface CZJServiceDetailInfo : UIViewController
+{
+    
+}
+
+
+
 @property (nonatomic, assign) EWEBTYPE curType;
 @property (nonatomic, assign) EWebHtmlType  htmlType;
 @property (retain, nonatomic) NSString* itemId;

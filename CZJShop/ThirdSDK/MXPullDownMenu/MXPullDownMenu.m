@@ -16,6 +16,7 @@
 #define kMXPullDownCollectionViewCell @"MXPullDownCollectionViewCell"
 #define kMXPullDownBGColor  RGB(239, 239, 239)
 
+
 @implementation MXPullDownMenu
 {
     UIColor *_menuColor;
@@ -39,9 +40,9 @@
     
     NSString* _selectedCityName;
     bool _show;
+    
+    CZJMXPullDownMenuType _menuType;
 }
-
-
 
 
 - (id)initWithFrame:(CGRect)frame
@@ -54,7 +55,7 @@
 }
 
 
-- (MXPullDownMenu *)initWithArray:(NSArray *)array selectedColor:(UIColor *)color WithFrame:(CGRect)frame
+- (MXPullDownMenu *)initWithArray:(NSArray *)array AndType:(CZJMXPullDownMenuType)menutype WithFrame:(CGRect)frame
 {
     self = [super init];
     if (self) {
@@ -65,15 +66,29 @@
         _array = array;
         _numOfMenu = _array.count;
         _selectIndex = -1;
+        _menuType = menutype;
         
         CGFloat textLayerInterval = PJ_SCREEN_WIDTH / ( _numOfMenu * 2);
         CGFloat separatorLineInterval = PJ_SCREEN_WIDTH / _numOfMenu;
-        _viewContentHeight = PJ_SCREEN_HEIGHT - StatusBar_HEIGHT - NavigationBar_HEIGHT - self.frame.size.height - Tabbar_HEIGHT;
         
         _titles = [[NSMutableArray alloc] initWithCapacity:_numOfMenu];
         _indicators = [[NSMutableArray alloc] initWithCapacity:_numOfMenu];
         _containCitys = [NSMutableArray array];
         
+        switch (_menuType) {
+            case CZJMXPullDownMenuTypeNone:
+                
+                break;
+            case CZJMXPullDownMenuTypeStore:
+                 _viewContentHeight = PJ_SCREEN_HEIGHT - StatusBar_HEIGHT - NavigationBar_HEIGHT - self.frame.size.height - Tabbar_HEIGHT;
+                break;
+            case CZJMXPullDownMenuTypeService:
+                 _viewContentHeight = PJ_SCREEN_HEIGHT - StatusBar_HEIGHT - NavigationBar_HEIGHT - self.frame.size.height;
+                break;
+                
+            default:
+                break;
+        }
         
         //主要是下拉菜单的菜单名及旁边的黑小三角以及中间分隔线
         for (int i = 0; i < _numOfMenu; i++) {
@@ -81,21 +96,46 @@
             //菜单名
             CGPoint position = CGPointMake( (i * 2 + 1) * textLayerInterval , self.frame.size.height / 2);
             CATextLayer *title = [CATextLayer new];
-            if (0 == i) {
-                CZJProvinceForm* form = _array[i][0];
-                title = [self creatTextLayerWithNSString:form.name withColor:_menuColor andPosition:position];
+            
+            switch (_menuType) {
+                case CZJMXPullDownMenuTypeNone:
+                    title = [self creatTextLayerWithNSString:_array[i][0] withColor:_menuColor andPosition:position];
+                    break;
+                case CZJMXPullDownMenuTypeStore:
+                case CZJMXPullDownMenuTypeService:
+                    if (0 == i) {
+                        CZJProvinceForm* form = _array[i][0];
+                        title = [self creatTextLayerWithNSString:form.name withColor:_menuColor andPosition:position];
+                    }
+                    else
+                    {
+                        title = [self creatTextLayerWithNSString:_array[i][0] withColor:_menuColor andPosition:position];
+                    }
+                    break;
+                default:
+                    title = [self creatTextLayerWithNSString:_array[i][0] withColor:_menuColor andPosition:position];
+                    break;
             }
-            else
-            {
-                title = [self creatTextLayerWithNSString:_array[i][0] withColor:_menuColor andPosition:position];
-            }
+
             [self.layer addSublayer:title];
             [_titles addObject:title];
             
             //小三角图形
-            CAShapeLayer *indicator = [self creatIndicatorWithColor:_menuColor andPosition:CGPointMake(position.x + title.bounds.size.width / 2 + 8, self.frame.size.height / 2)];
-            [self.layer addSublayer:indicator];
-            [_indicators addObject:indicator];
+            CGPoint pt = CGPointMake(position.x + title.bounds.size.width / 2 + 8, self.frame.size.height / 2);
+            if (CZJMXPullDownMenuTypeService == _menuType && 2 == i)
+            {//如果是服务列表界面，筛选则用筛选图片代替小三角
+                UIImageView* imgeview = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"serve_icon_shaixuan"]];
+                [self.layer addSublayer:[imgeview layer]];
+                [imgeview layer].position = CGPointMake(position.x + title.bounds.size.width / 2 + 8, self.frame.size.height / 2 + 2);
+                [_indicators addObject:[imgeview layer]];
+            }
+            else
+            {
+                CAShapeLayer *indicator = [self creatIndicatorWithColor:_menuColor andPosition:pt];
+                [self.layer addSublayer:indicator];
+                [_indicators addObject:indicator];
+            }
+            
             
             //分割线
             if (i != _numOfMenu - 1) {
@@ -108,7 +148,7 @@
         
         //TableView
         _tableView = [self creatTableViewAtPosition:CGPointMake(0, self.frame.origin.y + self.frame.size.height)];//
-        _tableView.tintColor = color;
+        _tableView.tintColor = RGBACOLOR(239, 0, 25, 1);
         _tableView.dataSource = self;
         _tableView.delegate = self;
         _selelctIndexPath = [NSIndexPath indexPathForRow:0 inSection:0];
@@ -125,7 +165,7 @@
         [self addGestureRecognizer:tapGesture];
         
         // 创建背景
-        _backGroundView = [[UIView alloc] initWithFrame:CGRectMake(0,self.frame.origin.y + self.frame.size.height + 1, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT)];
+        _backGroundView = [[UIView alloc] initWithFrame:CGRectMake(0,self.frame.origin.y + self.frame.size.height + 20, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT)];
         _backGroundView.backgroundColor = RGBACOLOR(100, 240, 240, 0);
         UIGestureRecognizer *gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapBackGround:)];
         [_backGroundView addGestureRecognizer:gesture];
@@ -176,6 +216,12 @@
         }
     }
     _selectIndex = -1;
+    
+    if (CZJMXPullDownMenuTypeService == _menuType && 2 == tapIndex)
+    {
+        [self.delegate pullDownMenuDidSelectFiliterButton];
+        return;
+    }
     //如果点击的是当前已经显示出来的按钮，则该按钮就隐藏
     if (tapIndex == _currentSelectedMenudIndex && _show) {
         
@@ -293,7 +339,7 @@
     
     int selectindeint = _selectIndex;
     int rowint = indexPath.row;
-    if (selectindeint == rowint &&
+    if (_selectIndex == indexPath.row &&
         0 == _currentSelectedMenudIndex)
     {
         DLog(@"selectinde:%ld",_selectIndex);
@@ -355,6 +401,10 @@
 //小三角指示器执行旋转动画
 - (void)animateIndicator:(CAShapeLayer *)indicator Forward:(BOOL)forward complete:(void(^)())complete
 {
+    if (![indicator isKindOfClass:[CAShapeLayer class]])
+    {
+        return;
+    }
     [CATransaction begin];
     [CATransaction setAnimationDuration:0.5];
     [CATransaction setAnimationTimingFunction:[CAMediaTimingFunction functionWithControlPoints:0.4 :0.0 :0.2 :1.0]];
@@ -370,7 +420,9 @@
     
     [CATransaction commit];
     
-    indicator.fillColor = forward ? _tableView.tintColor.CGColor : _menuColor.CGColor;
+    
+        indicator.fillColor = forward ? _tableView.tintColor.CGColor : _menuColor.CGColor;
+    
     
     complete();
 }
@@ -402,8 +454,9 @@
     if (show) {
         tableView.frame = CGRectMake(0, self.frame.origin.y + self.frame.size.height, self.frame.size.width, 0);
         [self.superview addSubview:tableView];
-        
         CGFloat tableViewHeight;
+        
+        
         if (_currentSelectedMenudIndex == 0)
         {
             tableViewHeight = _viewContentHeight;
@@ -480,6 +533,7 @@
 - (CAShapeLayer *)creatIndicatorWithColor:(UIColor *)color andPosition:(CGPoint)point
 {
     CAShapeLayer *layer = [CAShapeLayer new];
+    
     
     UIBezierPath *path = [UIBezierPath new];
     [path moveToPoint:CGPointMake(0, 0)];
@@ -588,6 +642,7 @@
     {
         title.string = _selectedCityName;
     }
+    
     
     [self animateIdicator:_indicators[_currentSelectedMenudIndex] background:_backGroundView tableView:_tableView title:_titles[_currentSelectedMenudIndex] forward:NO complecte:^{
         _show = NO;

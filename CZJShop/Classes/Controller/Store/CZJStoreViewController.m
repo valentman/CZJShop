@@ -28,8 +28,6 @@
     NSMutableDictionary* storePostParams;
     CZJHomeGetDataFromServerType _getdataType;
     BOOL _isAnimate;
-    BOOL _isLoctioning;
-    NSTimer* _autoMoveOutTimer;
     
     NSString* storeType;
     NSString* sortType;
@@ -88,7 +86,7 @@
     if ([CZJHomeViewInstance storeForm].provinceForms &&
         [CZJHomeViewInstance storeForm].provinceForms.count > 0) {
         NSArray* menuArray = @[[CZJHomeViewInstance storeForm].provinceForms, sortTypes,storeTypes];
-        [self.pullDownMenu initWithArray:menuArray selectedColor:RGBACOLOR(239, 0, 25, 1) WithFrame:self.pullDownMenu.frame].delegate = self;
+        [self.pullDownMenu initWithArray:menuArray AndType:CZJMXPullDownMenuTypeStore WithFrame:self.pullDownMenu.frame].delegate = self;
     }
     
     //参数初始化

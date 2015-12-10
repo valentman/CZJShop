@@ -28,10 +28,19 @@ typedef enum
 }
 BackGroundViewStatus;
 
+
+typedef NS_ENUM(NSInteger, CZJMXPullDownMenuType)
+{
+    CZJMXPullDownMenuTypeNone,                  //没有定制的情况
+    CZJMXPullDownMenuTypeStore,                 //门店界面
+    CZJMXPullDownMenuTypeService                //服务界面
+};
+
 @protocol MXPullDownMenuDelegate <NSObject>
 
 - (void)PullDownMenu:(MXPullDownMenu*)pullDownMenu didSelectRowAtColumn:(NSInteger)column row:(NSInteger)row;
 - (void)pullDownMenu:(MXPullDownMenu*)pullDownMenu didSelectCityName:(NSString*)cityName;
+- (void)pullDownMenuDidSelectFiliterButton;
 
 @end
 
@@ -40,7 +49,7 @@ BackGroundViewStatus;
                                     UICollectionViewDataSource,
                                     UICollectionViewDelegate>
 
-- (MXPullDownMenu *)initWithArray:(NSArray *)array selectedColor:(UIColor *)color WithFrame:(CGRect)frame;
+- (MXPullDownMenu *)initWithArray:(NSArray *)array AndType:(CZJMXPullDownMenuType)menutype WithFrame:(CGRect)frame;
 - (void)confiMenuWithSelectRow:(NSInteger)row;
 - (void)setCurrentSelectedMenudIndex:(int)index;
 - (void)registNotification;

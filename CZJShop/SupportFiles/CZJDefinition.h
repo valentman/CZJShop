@@ -10,10 +10,26 @@
 #define CZJDefinition_h
 
 /**  统一加CZJ前缀 **/
-
 //-----------------------系统常量定义---------------------------
 static NSString *const kCZJServerAddr = @"http://192.168.0.251:8080/appserver/";
 //static NSString *const kCZJServerAddr = @"http://m.chezhijian.com/appserver/";
+
+//----------------------------服务器接口-------------------------------
+static NSString *const kCZJServerAPIShowHome = @"chezhu/showHomeV2.do";                     //获取首页数据
+static NSString *const kCZJServerAPIGetRecoGoods = @"chezhu/showRecommendGoods.do";         //获取首页推荐商品
+static NSString *const kCZJServerAPIActivityCenter = @"chezhu/showActivityCenter.do";       //获取活动中心信息
+static NSString *const kCZJServerAPICarInfo = @"chezhu/URLshowCarNews.do";                  //获取汽车资讯
+static NSString *const kCZJServerAPILoadCarBrands = @"chezhu/loadCarBrandsV2.do";           //获取汽车品牌列表
+
+static NSString *const kCZJServerAPIGetCategoryData= @"chezhu/loadGoodsSubTypes.do";        //获取分类信息
+
+static NSString *const kCZJServerAPIGetNearbyStores = @"chezhu/loadNearbyStoresV2.do";      //获取附近门店列表
+static NSString *const kCZJServerAPIGetCitys = @"chezhu/loadO2oCitys.do";                   //获取城市列表
+static NSString *const kCZJServerAPIGetNearbyStoresMap = @"chezhu/loadMapStores.do";        //获取附近门店地图列表
+static NSString *const kCZJServerAPIGetServiceList = @"chezhu/searchServiceItemV2.do";      //获取附近门店服务列表
+
+static NSString *const kCZJServerAPIGetDiscovery = @"chezhu/loadDiscoveryInfo.do";          //获取发现数据
+
 
 //在应用商店中本APP的地址
 static NSString *const kCZJAPPURL = @"https://itunes.apple.com/us/app/id1035567397";
@@ -93,14 +109,6 @@ static NSString *const kCZJCollectionCellReuseIdMiaoSha = @"CZJMiaoShaCollection
 static NSString *const kCZJCollectionCellReuseIdLimit = @"CZJLimitCollectionCell";
 static NSString *const kCZJCollectionCellReuseIdGoodReco = @"CZJGoodsRecoCollectionCell";
 
-
-//----------------------------服务器接口-------------------------------
-static NSString *const kCZJServerAPIGetCitys = @"chezhu/loadO2oCitys.do";
-static NSString *const kCZJServerAPIShowHome = @"chezhu/showHomeV2.do";
-static NSString *const kCZJServerAPIGetRecoGoods = @"chezhu/showRecommendGoods.do";
-static NSString *const kCZJServerAPIGetCategoryData= @"chezhu/loadGoodsSubTypes.do";
-static NSString *const kCZJServerAPIGetNearbyStores = @"chezhu/loadNearbyStoresV2.do";
-static NSString *const kCZJServerAPIGetDiscovery = @"chezhu/loadDiscoveryInfo.do";
 
 
 

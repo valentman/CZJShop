@@ -27,6 +27,11 @@
 #import "CZJViewControllerDelegate.h"
 
 
+//----------------------临时----------------------
+typedef void (^MGBasicBlock)();
+#define kMGLeftSpace 0
+
+
 //-------------------------系统---------------------------
 //检查系统版本
 #define SYSTEM_VERSION_EQUAL_TO(v)                  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedSame)
@@ -70,8 +75,12 @@
 #define PJ_SCREEN_ASPECTRATIO PJ_SCREEN_WIDTH/PJ_SCREEN_HEIGHT
 #define ORIGINAL_MAX_WIDTH 640.0f
 //NavBar高度
-#define NavigationBar_HEIGHT 44
-#define StatusBar_HEIGHT 20
+//ios7以上视图中包含状态栏预留的高度
+#define kHeightInViewForStatus (IS_IOS7?20:0)
+//状态条占的高度
+#define StatusBar_HEIGHT (IS_IOS7?0:20)
+//导航栏高度
+#define NavigationBar_HEIGHT (IS_IOS7?64:44)
 #define Tabbar_HEIGHT 49
 
 

@@ -311,35 +311,46 @@ void backLastView(id sender, SEL _cmd)
 
 + (void)customizeNavigationBarForTarget:(UIViewController*)target
 {
-    UIButton *leftBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [leftBtn setTitle:@"返回" forState:UIControlStateNormal];
-    [leftBtn addTarget:target action:@selector(backLastView) forControlEvents:UIControlEventTouchUpInside];
-    leftBtn.frame = CGRectMake(0, 0, 60, 40);
+    SEL backToLastView = sel_registerName("backLastView:");
+    class_addMethod([target class],backToLastView,(IMP)backLastView,"v@:");    //动态的给类添加一个方法
+    
+    //UIButton
+    UIButton *leftBtn = [[ UIButton alloc ] initWithFrame : CGRectMake(- 20 , 0 , 44 , 44 )];
+    [leftBtn setBackgroundImage:[UIImage imageNamed:@"prodetail_btn_backnor"] forState:UIControlStateNormal];
+    [leftBtn addTarget:target action:backToLastView forControlEvents:UIControlEventTouchUpInside];
     [leftBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal]; //将leftItem设置为自定义按钮
+    
+    //UIBarButtonItem
     UIBarButtonItem *leftItem =[[UIBarButtonItem alloc]initWithCustomView: leftBtn];
-    target.navigationItem.leftBarButtonItem = leftItem;
+    if (([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0 ? 20 : 0))
+    {
+        UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+        negativeSpacer.width = -20 ;//这个数值可以根据情况自由变化
+        target.navigationItem.leftBarButtonItems = @[negativeSpacer, leftItem];
+        
+    } else
+    {
+        target . navigationItem . leftBarButtonItem = leftItem;
+    }
     target.navigationController.interactivePopGestureRecognizer.delegate = (id)target;
-    class_addMethod([target class],@selector(backLastView),(IMP)backLastView,"v@:");    //动态的给类添加一个方法
-}
-
-
-- (void)fullScreenGestureRecognizeForTarget:(UIViewController*)currenTarget
-{
-    currenTarget.navigationController.interactivePopGestureRecognizer.delegate = (id)self;
     
-    id target = currenTarget.navigationController.interactivePopGestureRecognizer.delegate;
-    
-    UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc] initWithTarget:target action:@selector(handleNavigationTransition:)];
-    pan.delegate = target;
-    [currenTarget.view addGestureRecognizer:pan];
-    currenTarget.navigationController.interactivePopGestureRecognizer.enabled = NO;
-
 }
 
-- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer
+
++ (void)fullScreenGestureRecognizeForTarget:(UIViewController*)currenTarget
 {
-    return YES;
+    UIGestureRecognizer* gesture = currenTarget.navigationController.interactivePopGestureRecognizer;
+    gesture.enabled = NO;
+    UIView* gestureView = gesture.view;
+    
+    NSMutableArray* _targets = [gesture valueForKey:@"_targets"];
+    id gestureRecogizerTarget = [_targets firstObject];
+    id navigationInteractiveTransition = [gestureRecogizerTarget valueForKey:@"_target"];
+    SEL handleTransition = NSSelectorFromString(@"handleNavigationTransition:");
+    UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc] initWithTarget:navigationInteractiveTransition action:handleTransition];
+    [gestureView addGestureRecognizer:pan];
 }
+
 
 #pragma mark- Frames
 + (float)xSizeScale{
