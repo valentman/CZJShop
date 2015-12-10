@@ -39,7 +39,9 @@
     CZJImageViewTouchDelegate,
     CZJServiceCellDelegate
 >
-
+{
+    NSString* _serviceTypeId;
+}
 @property (strong, nonatomic) IBOutlet PullTableView *homeTableView;
 @property (weak, nonatomic) IBOutlet UIButton *btnToTop;
 @property (strong, nonatomic) CZJNaviagtionBarView *navibarView;
@@ -69,6 +71,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [((CZJCarInfoCell*)[self.homeTableView dequeueReusableCellWithIdentifier:@"CZJCarInfoCell"]).autoScrollTimer setFireDate:[NSDate distantPast]];
+    self.navigationController.navigationBarHidden = NO;
 
 }
 
@@ -79,6 +82,7 @@
     [UIView animateWithDuration:0.5 animations:^{
         _navibarView.hidden = NO;
     }];
+    
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -109,7 +113,7 @@
     
     //导航栏添加搜索栏
     CGRect mainViewBounds = self.navigationController.navigationBar.bounds;
-    _navibarView = [[CZJNaviagtionBarView alloc]initWithFrame:mainViewBounds AndTag:CZJViewTypeNaviBarView];
+    _navibarView = [[CZJNaviagtionBarView alloc]initWithFrame:mainViewBounds AndType:CZJViewTypeNaviBarView];
     _navibarView.delegate = self;
     [self.navigationController.navigationBar addSubview:_navibarView];
     CGRect statusviewbound = CGRectMake(0, -20, mainViewBounds.size.width, 20);
@@ -267,27 +271,27 @@
     }
     float contentOffsetY = [scrollView contentOffset].y;
     if (contentOffsetY < 0) {
-        [UIView animateWithDuration:0.3f animations:^{
+        [UIView animateWithDuration:0.2f animations:^{
             [_navibarView setAlpha:0.0];
             [_statusBarBgView setAlpha:0.0];
         }];
-        [_navibarView setBackgroundColor:RGBA(200, 200, 200, 0)];
-        [_statusBarBgView setBackgroundColor:RGBA(200, 200, 200, 0)];
+        [_navibarView setBackgroundColor:RGBA(235, 35, 38, 0)];
+        [_statusBarBgView setBackgroundColor:RGBA(235, 35, 38, 0)];
     }
     else
     {
-        [UIView animateWithDuration:0.3f animations:^{
+        [UIView animateWithDuration:0.2f animations:^{
             [_navibarView setAlpha:1.0];
             [_statusBarBgView setAlpha:1.0];
         }];
 
         float alphaValue = contentOffsetY * 0.5 / 200;
-        if (alphaValue > 0.9)
+        if (alphaValue > 0.7)
         {
-            alphaValue = 0.9;
+            alphaValue = 0.7;
         }
-        [_navibarView setBackgroundColor:RGBA(254, 202, 22, alphaValue)];
-        [_statusBarBgView setBackgroundColor:RGBA(254, 202, 22, alphaValue)];
+        [_navibarView setBackgroundColor:RGBA(235, 20, 20, alphaValue)];
+        [_statusBarBgView setBackgroundColor:RGBA(235, 20, 20, alphaValue)];
     }
     if (contentOffsetY > 600) {
         self.btnToTop.hidden = NO;
@@ -582,6 +586,7 @@
 #pragma mark- CZJActivityDelegate
 - (void)showDetailInfoWithForm:(id)form
 {
+    _serviceTypeId = ((ServiceForm*)form).typeId;
     [self performSegueWithIdentifier:@"pushToServiceDetail" sender:self];
 }
 
@@ -621,6 +626,7 @@
         CZJServiceDetailInfo* detailInfo = segue.destinationViewController;
         detailInfo.title = @"";
         detailInfo.navTitleName = @"";
+        detailInfo.typeId = _serviceTypeId;
         
     }
 }

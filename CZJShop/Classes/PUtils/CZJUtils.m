@@ -330,7 +330,7 @@ void backLastView(id sender, SEL _cmd)
         
     } else
     {
-        target . navigationItem . leftBarButtonItem = leftItem;
+        target.navigationItem.leftBarButtonItem = leftItem;
     }
     target.navigationController.interactivePopGestureRecognizer.delegate = (id)target;
     

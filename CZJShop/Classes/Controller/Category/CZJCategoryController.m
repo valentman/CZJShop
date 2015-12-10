@@ -10,8 +10,9 @@
 #import "MultilevelMenu.h"
 #import "CZJNaviagtionBarView.h"
 
-@interface CZJCategoryController ()
-@property(strong,nonatomic) MultilevelMenu * multiView;
+@interface CZJCategoryController ()<CZJNaviagtionBarViewDelegate>
+@property (weak, nonatomic) IBOutlet MultilevelMenu *multiView;
+@property (weak, nonatomic) IBOutlet CZJNaviagtionBarView *naviBarView;
 @end
 
 @implementation CZJCategoryController
@@ -21,14 +22,19 @@
     [super viewDidLoad];
     NSMutableArray * lis=[NSMutableArray arrayWithCapacity:0];
     
-    NSInteger tabbarHeight = self.tabBarController.tabBar.frame.size.height;
-    NSInteger statusbarHieigh = [UIApplication sharedApplication].statusBarFrame.size.height;
+    
+    id navigationBarAppearance = self.navigationController.navigationBar;
+    [navigationBarAppearance setBackgroundImage:[UIImage imageNamed:@"nav_bargound"] forBarMetrics:UIBarMetricsDefault];
+    self.navigationController.toolbar.translucent = NO;
+    self.navigationController.navigationBar.shadowImage =[UIImage imageNamed:@"nav_bargound"];
+
     
     //导航栏添加搜索栏
+    self.navigationController.navigationBarHidden = YES;
     CGRect mainViewBounds = self.navigationController.navigationBar.bounds;
-    CZJNaviagtionBarView* _navibarView = [[CZJNaviagtionBarView alloc]initWithFrame:mainViewBounds AndTag:CZJViewTypeNaviBarView];
-    _navibarView.delegate = self;
-    [self.navigationController.navigationBar addSubview:_navibarView];
+    [self.naviBarView initWithFrame:mainViewBounds AndType:CZJViewTypeNaviBarViewCategory].delegate = self;
+    [self.naviBarView setBackgroundColor:UIColorFromRGB(0xF3F4F6)];
+
     
     //固定数据
     NSDictionary* menuNames = @{@"2000" : @"线下服务",
@@ -60,11 +66,10 @@
         return (NSComparisonResult)NSOrderedSame;
     }];
     
-    _multiView=[[MultilevelMenu alloc] initWithFrame:CGRectMake(0, NavigationBar_HEIGHT + statusbarHieigh, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT-NavigationBar_HEIGHT - tabbarHeight - statusbarHieigh) WithData:lis withSelectIndex:^(NSInteger left, NSInteger right,rightMeun* info) {
+    [self.multiView initWithFrame:CGRectMake(0, StatusBar_HEIGHT, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - Tabbar_HEIGHT - StatusBar_HEIGHT) WithData:lis withSelectIndex:^(NSInteger left, NSInteger right,rightMeun* info) {
         DLog(@"点击的 菜单%@",info.meunName);
     }];
     _multiView.isRecordLastScroll=YES;
-    [self.view addSubview:_multiView];
     
 }
 
@@ -73,5 +78,11 @@
     [super didReceiveMemoryWarning];
 }
 
+
+#pragma mark- CZJNaviBarViewDelegate
+- (void)clickEventCallBack:(id)sender
+{
+    DLog(@"category");
+}
 
 @end

@@ -1,36 +1,42 @@
 //
-//  MGMineMenuVc.m
-//  JDSelectDemo
+//  CZJServiceFilterController.m
+//  CZJShop
 //
-//  Created by mark on 15/8/3.
-//  Copyright (c) 2015年 mark. All rights reserved.
+//  Created by Joe.Pen on 12/10/15.
+//  Copyright © 2015 JoeP. All rights reserved.
 //
 
-#import "MGMineMenuVc.h"
-#import "MGSubSelectVc.h"
-@interface MGMineMenuVc ()<UITableViewDataSource,UITableViewDelegate>
+#import "CZJServiceFilterController.h"
+#import "CZJSerFilterChooseCar.h"
+
+@interface CZJServiceFilterController ()<UITableViewDataSource,UITableViewDelegate>
 @property (nonatomic, copy) MGBasicBlock basicBlock;
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSArray *arrTitle;
 @end
 
-@implementation MGMineMenuVc
+@implementation CZJServiceFilterController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     self.title = @"筛选";
-    UIBarButtonItem *cancelBarItem = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStyleDone target:self action:@selector(cancelAction)];
-    self.navigationItem.leftBarButtonItem = cancelBarItem;
     
+    UIButton *rightBtn = [[ UIButton alloc ] initWithFrame : CGRectMake(0 , 0 , 44 , 44 )];
+    [rightBtn setTitle:@"确定" forState:UIControlStateNormal];
+    [rightBtn.titleLabel setFont:[UIFont systemFontOfSize:15]];
+    [rightBtn addTarget:self action:@selector(navBackBarAction:) forControlEvents:UIControlEventTouchUpInside];
+    [rightBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+    [rightBtn setTag:1001];
+    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithCustomView:rightBtn];
+    self.navigationItem.rightBarButtonItem = rightItem;
+    [rightItem setTag:1001];
     
-     UIBarButtonItem *SureBarItem = [[UIBarButtonItem alloc] initWithTitle:@"确定" style:UIBarButtonItemStyleDone target:self action:@selector(cancelAction)];
-    UIBarButtonItem *spaceBar = [self spacerWithSpace:110];
-    self.navigationItem.rightBarButtonItems = @[spaceBar,SureBarItem];
     self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0,0, PJ_SCREEN_WIDTH-kMGLeftSpace, PJ_SCREEN_HEIGHT) style:UITableViewStyleGrouped];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     [self.view addSubview:self.tableView];
-    // Do any additional setup after loading the view.
+    
     self.arrTitle = @[@[@"配送至"],@[@"品牌",@"分类",@"颜色"]];
 }
 
@@ -40,39 +46,47 @@
 }
 
 - (void)cancelAction{
-
+    
     if(self.basicBlock)self.basicBlock();
     
 }
+- (void)navBackBarAction:(UIBarButtonItem *)bar{
+    if (self.navigationController.viewControllers.count > 1) {
+        [self.navigationController popViewControllerAnimated:YES];
+    }else{
+        [self dismissViewControllerAnimated:YES completion:nil];
+        if(self.basicBlock)self.basicBlock();
+    }
+}
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-
+    
     return self.arrTitle.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-
+    
     NSArray *arr = self.arrTitle[section];
     return arr.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-
+    
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
     
     if(!cell){
-    
+        
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
     
-     NSArray *arr = self.arrTitle[indexPath.section];
+    NSArray *arr = self.arrTitle[indexPath.section];
     cell.textLabel.text = arr[indexPath.row];
     return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-
+    
     return 0.001f;
 }
 
@@ -81,24 +95,9 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-
-    MGSubSelectVc *svc = [[MGSubSelectVc alloc] init];
+    
+    CZJSerFilterChooseCar *svc = [[CZJSerFilterChooseCar alloc] init];
     [self.navigationController pushViewController:svc animated:YES];
 }
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

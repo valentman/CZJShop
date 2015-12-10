@@ -8,14 +8,14 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <tableViewCell contentMode="scaleToFill" restorationIdentifier="CZJStoreCell" selectionStyle="default" indentationWidth="10" reuseIdentifier="CZJStoreCell" rowHeight="94" id="KGk-i7-Jjw" customClass="CZJStoreCell">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="94"/>
+            <rect key="frame" x="0.0" y="0.0" width="320" height="104"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="93"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="103"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="HQO-oF-ybd">
-                        <rect key="frame" x="14" y="13" width="67" height="67"/>
+                        <rect key="frame" x="14" y="18" width="67" height="67"/>
                         <animations/>
                         <constraints>
                             <constraint firstAttribute="width" constant="67" id="PWu-SL-ceX"/>
@@ -23,7 +23,7 @@
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="成交" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e4f-cn-c5Q">
-                        <rect key="frame" x="95" y="36" width="36" height="21"/>
+                        <rect key="frame" x="95" y="41" width="36" height="21"/>
                         <animations/>
                         <constraints>
                             <constraint firstAttribute="width" constant="36" id="8Oj-JJ-GXh"/>
@@ -34,7 +34,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2345" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Btz-3H-0iR">
-                        <rect key="frame" x="131" y="36" width="42" height="21"/>
+                        <rect key="frame" x="131" y="41" width="42" height="21"/>
                         <animations/>
                         <constraints>
                             <constraint firstAttribute="width" constant="42" id="Pgb-M0-eKk"/>
@@ -45,7 +45,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="一环路南四段兴蓉街1号" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TZM-2i-bFt">
-                        <rect key="frame" x="95" y="59" width="200" height="21"/>
+                        <rect key="frame" x="95" y="65" width="200" height="21"/>
                         <animations/>
                         <constraints>
                             <constraint firstAttribute="width" constant="200" id="RDo-YT-hCB"/>
@@ -56,7 +56,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="5.9km" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rIv-hj-ga4">
-                        <rect key="frame" x="246" y="59" width="60" height="21"/>
+                        <rect key="frame" x="246" y="69" width="60" height="21"/>
                         <animations/>
                         <constraints>
                             <constraint firstAttribute="height" constant="21" id="SPz-dw-iFq"/>
@@ -67,7 +67,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="100%" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rPR-2t-GcR">
-                        <rect key="frame" x="271" y="37" width="35" height="20"/>
+                        <rect key="frame" x="271" y="42" width="35" height="20"/>
                         <animations/>
                         <constraints>
                             <constraint firstAttribute="height" constant="20" id="hmb-wL-yiu"/>
@@ -78,7 +78,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="shop_icon_heart.png" translatesAutoresizingMaskIntoConstraints="NO" id="Zit-mw-HI0">
-                        <rect key="frame" x="224" y="40" width="15" height="13"/>
+                        <rect key="frame" x="224" y="45" width="15" height="13"/>
                         <animations/>
                         <constraints>
                             <constraint firstAttribute="width" constant="15" id="K3c-Ma-toH"/>
@@ -86,18 +86,18 @@
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="品尚车居兴蓉店" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iik-m4-t73">
-                        <rect key="frame" x="95" y="13" width="180" height="21"/>
+                        <rect key="frame" x="95" y="17" width="180" height="21"/>
                         <animations/>
                         <constraints>
                             <constraint firstAttribute="height" constant="21" id="Tvr-Ml-UyV"/>
                             <constraint firstAttribute="width" constant="180" id="xKz-xA-kFx"/>
                         </constraints>
-                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <fontDescription key="fontDescription" type="system" weight="light" pointSize="17"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="好评" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qlq-dA-3Ww">
-                        <rect key="frame" x="241" y="37" width="30" height="20"/>
+                        <rect key="frame" x="241" y="42" width="30" height="20"/>
                         <animations/>
                         <constraints>
                             <constraint firstAttribute="height" constant="20" id="3BV-YN-HJI"/>
@@ -111,7 +111,7 @@
                 <animations/>
                 <constraints>
                     <constraint firstItem="Btz-3H-0iR" firstAttribute="leading" secondItem="e4f-cn-c5Q" secondAttribute="trailing" id="05l-FZ-iyA"/>
-                    <constraint firstItem="iik-m4-t73" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="13" id="64L-Yn-C4K"/>
+                    <constraint firstItem="iik-m4-t73" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="17" id="64L-Yn-C4K"/>
                     <constraint firstAttribute="bottom" secondItem="rIv-hj-ga4" secondAttribute="bottom" constant="13" id="9Xt-UA-i6D"/>
                     <constraint firstAttribute="trailing" secondItem="rPR-2t-GcR" secondAttribute="trailing" constant="14" id="AeT-gS-osS"/>
                     <constraint firstItem="Btz-3H-0iR" firstAttribute="centerY" secondItem="e4f-cn-c5Q" secondAttribute="centerY" id="CqY-rZ-bvq"/>
@@ -123,7 +123,7 @@
                     <constraint firstItem="TZM-2i-bFt" firstAttribute="leading" secondItem="HQO-oF-ybd" secondAttribute="trailing" constant="14" id="bBM-HU-nrn"/>
                     <constraint firstItem="rPR-2t-GcR" firstAttribute="leading" secondItem="Zit-mw-HI0" secondAttribute="trailing" constant="32" id="bTG-lT-7KI"/>
                     <constraint firstItem="HQO-oF-ybd" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="bd8-aj-que"/>
-                    <constraint firstAttribute="bottom" secondItem="TZM-2i-bFt" secondAttribute="bottom" constant="13" id="eZy-eY-CIK"/>
+                    <constraint firstAttribute="bottom" secondItem="TZM-2i-bFt" secondAttribute="bottom" constant="17" id="eZy-eY-CIK"/>
                     <constraint firstItem="Qlq-dA-3Ww" firstAttribute="centerY" secondItem="rPR-2t-GcR" secondAttribute="centerY" id="gEM-X1-H9h"/>
                     <constraint firstItem="HQO-oF-ybd" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="14" id="pS6-fs-iEA"/>
                     <constraint firstItem="e4f-cn-c5Q" firstAttribute="leading" secondItem="HQO-oF-ybd" secondAttribute="trailing" constant="14" id="qf9-Bf-FkX"/>

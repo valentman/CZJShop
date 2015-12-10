@@ -15,6 +15,7 @@
 #import "ZXLocationManager.h"
 #import "HomeForm.h"
 #import "CZJStoreForm.h"
+#import "CZJCarForm.h"
 
 @implementation CZJHomeViewManager
 #pragma mark- synthesize
@@ -307,6 +308,90 @@ singleton_implementation(CZJHomeViewManager);
                                 success:successBlock
                                    fail:failBlock];
 }
+
+
+#pragma mark- 服务列表
+- (void)showSeverciceList:(NSDictionary*)postParams
+                     type:(CZJHomeGetDataFromServerType)type
+                  success:(CZJSuccessBlock)success
+                     fail:(CZJFailureBlock)failure
+{
+    CZJSuccessBlock successBlock = ^(id json){
+        if ([self showAlertView:json])
+        {
+            NSDictionary* dict = [CZJUtils DataFromJson:json];
+            if (_storeForm)
+            {
+                if (CZJHomeGetDataFromServerTypeOne == type) {
+                    [_storeForm setNewStoreServiceListDataWithDictionary:dict];
+                }
+                else
+                {
+                    [_storeForm appendStoreServiceListData:dict];
+                }
+            }
+            else
+            {
+                _storeForm = [[CZJStoreForm alloc]initWithDictionary:dict];
+                [_storeForm setNewStoreServiceListDataWithDictionary:dict];
+            }
+        }
+        success(json);
+    };
+    
+    CZJFailureBlock failBlock = ^(){
+        [[CZJErrorCodeManager sharedCZJErrorCodeManager] ShowNetError];
+        failure();
+    };
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [_params setObject:@(_curLocation.longitude) forKey:@"lng"];
+    [_params setObject:@(_curLocation.latitude) forKey:@"lat"];
+    
+    [params setValuesForKeysWithDictionary:_params];
+    [params setValuesForKeysWithDictionary:postParams];
+    
+    [CZJNetWorkInstance postJSONWithUrl:kCZJServerAPIGetServiceList
+                             parameters:params
+                                success:successBlock
+                                   fail:failBlock];
+}
+
+- (void)getCarBrandsList:(CZJSuccessBlock)success
+                    fail:(CZJFailureBlock)failure
+{
+    CZJSuccessBlock successBlock = ^(id json){
+        if ([self showAlertView:json])
+        {
+            NSDictionary* dict = [CZJUtils DataFromJson:json];
+            if (_carForm)
+            {
+                [_carForm setNewDictionary:dict];
+            }
+            else
+            {
+                _carForm = [[CZJCarForm alloc]initWithDictionary:dict];
+                [_storeForm setNewStoreServiceListDataWithDictionary:dict];
+            }
+        }
+        success(json);
+    };
+    
+    CZJFailureBlock failBlock = ^(){
+        [[CZJErrorCodeManager sharedCZJErrorCodeManager] ShowNetError];
+        failure();
+    };
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [_params setObject:@(_curLocation.longitude) forKey:@"lng"];
+    [_params setObject:@(_curLocation.latitude) forKey:@"lat"];
+    
+    [params setValuesForKeysWithDictionary:_params];
+    
+    [CZJNetWorkInstance postJSONWithUrl:kCZJServerAPILoadCarBrands
+                             parameters:params
+                                success:successBlock
+                                   fail:failBlock];
+}
+
 
 -(void)getSomeInfoSuccess:(CZJSuccessBlock)success{
     NSString* tst = [[CZJLoginModelInstance  cheZhuId] stringByReplacingOccurrencesOfString:@"-" withString:@""];

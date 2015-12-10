@@ -62,7 +62,7 @@
         
         self.frame = CGRectMake(0, 0, PJ_SCREEN_WIDTH, 44);
 
-        _menuColor = [UIColor blackColor];
+        _menuColor = [UIColor grayColor];
         _array = array;
         _numOfMenu = _array.count;
         _selectIndex = -1;
@@ -582,7 +582,7 @@
     CGFloat sizeWidth = (size.width < (self.frame.size.width / _numOfMenu) - 25) ? size.width : self.frame.size.width / _numOfMenu - 25;
     layer.bounds = CGRectMake(0, 0, sizeWidth, size.height);
     layer.string = string;
-    layer.fontSize = 13.0;
+    layer.fontSize = 15.0;
     layer.alignmentMode = kCAAlignmentCenter;
     layer.foregroundColor = color.CGColor;
     layer.contentsScale = [[UIScreen mainScreen] scale];
@@ -625,7 +625,7 @@
 
 - (CGSize)calculateTitleSizeWithString:(NSString *)string
 {
-    CGFloat fontSize = 13.0;
+    CGFloat fontSize = 15.0;
     NSDictionary *dic = @{NSFontAttributeName: [UIFont systemFontOfSize:fontSize]};
     CGSize size = [string boundingRectWithSize:CGSizeMake(280, 0) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:dic context:nil].size;
     return size;

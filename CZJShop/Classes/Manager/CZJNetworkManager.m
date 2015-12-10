@@ -72,7 +72,7 @@ singleton_implementation(CZJNetworkManager)
                 success:(void (^)(id responseObject))success
                    fail:(void (^)())fail
 {
-    DLog(@"ServerAPI:%@, Parameter:%@",urlStr,[parameters description]);
+    
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     // 设置返回类型
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html",@"text/plain", nil];
@@ -85,6 +85,7 @@ singleton_implementation(CZJNetworkManager)
     [manager.requestSerializer didChangeValueForKey:@"timeoutInterval"];
     
     NSString* path =  [self getPath:urlStr];
+    DLog(@"\nServerAPI:%@, \nParameter:%@",path,[parameters description]);
     [manager POST:path
        parameters:parameters
           success:^(AFHTTPRequestOperation *operation, id responseObject){

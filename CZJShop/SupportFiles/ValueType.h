@@ -42,7 +42,8 @@ typedef enum{
 
 typedef NS_ENUM(NSUInteger, CZJButtonType) {
     CZJButtonTypeHomeScan = 1,
-    CZJButtonTypeHomeShopping = 2
+    CZJButtonTypeHomeShopping = 2,
+    CZJButtonTypeNaviBarBack
 };
 
 typedef NS_ENUM (NSInteger, CZJHomeGetDataFromServerType)
@@ -53,7 +54,9 @@ typedef NS_ENUM (NSInteger, CZJHomeGetDataFromServerType)
 
 typedef NS_ENUM(NSInteger, CZJViewType)
 {
-    CZJViewTypeNaviBarView = 100
+    CZJViewTypeNaviBarView = 100,
+    CZJViewTypeNaviBarViewBack,
+    CZJViewTypeNaviBarViewCategory,
 };
 
 typedef NS_ENUM(NSInteger, CZJViewMoveOrientation)

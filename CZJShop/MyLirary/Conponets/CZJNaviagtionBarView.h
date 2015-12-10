@@ -16,8 +16,11 @@
 @end
 
 @interface CZJNaviagtionBarView : UIView
-
+@property(nullable, strong, nonatomic)UIButton* btnBack;
+@property(nullable, strong, nonatomic)UIButton* btnScan;
+@property(nullable, strong, nonatomic)UIButton* btnShop;
+@property(nullable, strong, nonatomic)UISearchBar* customSearchBar;
 @property(nullable,nonatomic,weak) id<CZJNaviagtionBarViewDelegate> delegate;
-- (nullable instancetype)initWithFrame:(CGRect)bounds AndTag:(NSInteger)tag;
+- (nullable instancetype)initWithFrame:(CGRect)bounds AndType:(CZJViewType)type;
 
 @end
