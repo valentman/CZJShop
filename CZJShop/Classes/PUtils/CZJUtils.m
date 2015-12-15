@@ -26,6 +26,21 @@
     return DataDic;
 }
 
++ (NSString*)JsonFromData:(id)data
+{
+    NSString *jsonString = nil;
+    NSError *error;
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:data
+                                                       options:NSJSONWritingPrettyPrinted
+                                                         error:&error];
+    if (! jsonData) {
+        NSLog(@"Got an error: %@", error);
+    } else {
+        jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    }
+    return jsonString;
+}
+
 +(NSData*)JsonFormData:(id)data{
     
     NSError* error;
@@ -445,8 +460,8 @@ void backLastView(id sender, SEL _cmd)
 }
 
 + (BOOL)isTimeCrossOneDay
-{
-    //此处只在第一次进入程序或启动时间超过一天才更新地区信息
+{//判断俩次启动相隔时长
+    
     UInt64 currentTime = [[NSDate date] timeIntervalSince1970];     //当前时间
     UInt64 lastUpdateTime = [[USER_DEFAULT valueForKey:kUserDefaultTime] longLongValue];   //上次更新时间
     UInt64 intervalTime = currentTime - lastUpdateTime;
@@ -487,5 +502,21 @@ void backLastView(id sender, SEL _cmd)
     }
 }
 
++ (CGSize)calculateTitleSizeWithString:(NSString *)string AndFontSize:(CGFloat)fontSize
+{
+    NSDictionary *dic = @{NSFontAttributeName: [UIFont systemFontOfSize:fontSize]};
+    CGSize size = [string boundingRectWithSize:CGSizeMake(280, 0) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:dic context:nil].size;
+    return size;
+}
+
+
++ (NSMutableAttributedString*)stringWithDeleteLine:(NSString*)string
+{
+    NSUInteger length = [string length];
+    NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:string];
+    [attri addAttribute:NSStrikethroughStyleAttributeName value:@(NSUnderlinePatternSolid | NSUnderlineStyleSingle) range:NSMakeRange(1, length-1)];
+    [attri addAttribute:NSStrikethroughColorAttributeName value:UIColorFromRGB(0x999999) range:NSMakeRange(1, length-1)];
+    return attri;
+}
 
 @end

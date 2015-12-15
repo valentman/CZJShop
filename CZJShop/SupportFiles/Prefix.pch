@@ -29,7 +29,7 @@
 
 //----------------------临时----------------------
 typedef void (^MGBasicBlock)();
-#define kMGLeftSpace 0
+#define kMGLeftSpace 50
 
 
 //-------------------------系统---------------------------

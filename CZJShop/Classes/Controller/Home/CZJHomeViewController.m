@@ -7,7 +7,7 @@
 //
 
 #import "CZJHomeViewController.h"
-#import "CZJHomeViewManager.h"
+#import "CZJBaseDataManager.h"
 #import "PullTableView.h"
 #import "CZJScanQRController.h"
 #import "CZJNaviagtionBarView.h"
@@ -27,7 +27,7 @@
 #import "CZJSpecialRecommendCell.h"
 #import "CZJGoodsRecoCellHeader.h"
 #import "CZJGoodsRecommendCell.h"
-#import "CZJServiceDetailInfo.h"
+#import "CZJServiceListController.h"
 
 
 @interface CZJHomeViewController ()<
@@ -214,7 +214,7 @@
     
     CZJFailureBlock failBlock = ^{};
     
-    [CZJHomeViewInstance  showHomeType:dataType
+    [CZJBaseDataInstance  showHomeType:dataType
                                   page:self.page
                                Success:successBlock
                                   fail:failBlock];
@@ -223,16 +223,16 @@
 
 - (void)dealWithArray
 {
-    _activityArray = [CZJHomeViewInstance  homeForm].activityFroms;
-    _serviceArray = [CZJHomeViewInstance  homeForm].serviceForms;
-    _carInfoArray = [CZJHomeViewInstance  homeForm].carInfoForms;
-    _miaoShaArray = [CZJHomeViewInstance  homeForm].secSkillForms;
-    _bannerOneArray = [CZJHomeViewInstance  homeForm].bannerOneForms;
-    _limitBuyArray = [CZJHomeViewInstance  homeForm].limitBuyForms;
-    _brandRecommentArray = [CZJHomeViewInstance  homeForm].brandRecommendForms;
-    _bannerTwoArray = [CZJHomeViewInstance  homeForm].bannerTwoForms;
-    _specialRecommentArray = [CZJHomeViewInstance  homeForm].specialRecommendForms;
-    _goodsRecommentArray = [CZJHomeViewInstance  homeForm].goodRecommendFromGroupedAry;
+    _activityArray = [CZJBaseDataInstance  homeForm].activityFroms;
+    _serviceArray = [CZJBaseDataInstance  homeForm].serviceForms;
+    _carInfoArray = [CZJBaseDataInstance  homeForm].carInfoForms;
+    _miaoShaArray = [CZJBaseDataInstance  homeForm].secSkillForms;
+    _bannerOneArray = [CZJBaseDataInstance  homeForm].bannerOneForms;
+    _limitBuyArray = [CZJBaseDataInstance  homeForm].limitBuyForms;
+    _brandRecommentArray = [CZJBaseDataInstance  homeForm].brandRecommendForms;
+    _bannerTwoArray = [CZJBaseDataInstance  homeForm].bannerTwoForms;
+    _specialRecommentArray = [CZJBaseDataInstance  homeForm].specialRecommendForms;
+    _goodsRecommentArray = [CZJBaseDataInstance  homeForm].goodRecommendFromGroupedAry;
 }
 
 
@@ -357,7 +357,7 @@
             else if (0 == indexPath.row)
             {
                 CZJMiaoShaCellHeader* headerView = [tableView dequeueReusableCellWithIdentifier:@"CZJMiaoShaCellHeader" forIndexPath:indexPath];
-                [headerView initHeaderWithTimestamp:CZJHomeViewInstance.homeForm.serverTime];
+                [headerView initHeaderWithTimestamp:CZJBaseDataInstance.homeForm.serverTime];
                 return headerView;
             }
         }
@@ -587,6 +587,7 @@
 - (void)showDetailInfoWithForm:(id)form
 {
     _serviceTypeId = ((ServiceForm*)form).typeId;
+    [USER_DEFAULT setValue:_serviceTypeId forKey:kUserDefaultServiceTypeID];
     [self performSegueWithIdentifier:@"pushToServiceDetail" sender:self];
 }
 
@@ -623,7 +624,7 @@
 {
     if ([segue.identifier isEqualToString:@"pushToServiceDetail"])
     {
-        CZJServiceDetailInfo* detailInfo = segue.destinationViewController;
+        CZJServiceListController* detailInfo = segue.destinationViewController;
         detailInfo.title = @"";
         detailInfo.navTitleName = @"";
         detailInfo.typeId = _serviceTypeId;

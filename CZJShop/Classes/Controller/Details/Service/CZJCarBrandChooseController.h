@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import "CZJFilterBaseController.h"
-@interface CZJSerFilterChooseCar : CZJFilterBaseController
+@interface CZJCarBrandChooseController : CZJFilterBaseController
 
 @end

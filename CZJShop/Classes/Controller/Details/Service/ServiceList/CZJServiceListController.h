@@ -1,5 +1,5 @@
 //
-//  CZJDetailInfoController.h
+//  CZJServiceListController.h
 //  CZJShop
 //
 //  Created by Joe.Pen on 12/7/15.
@@ -10,13 +10,13 @@
 #import "CZJViewControllerDelegate.h"
 #import "MXPullDownMenu.h"
 #import "PullTableView.h"
+#import "CZJStoreForm.h"
 
-@interface CZJServiceDetailInfo : UIViewController
+@interface CZJServiceListController : UIViewController
 {
-    
+    NSString* _choosedStoreitemPid;
+    BOOL isFirstIn;
 }
-
-
 
 @property (nonatomic, assign) EWEBTYPE curType;
 @property (nonatomic, assign) EWebHtmlType  htmlType;

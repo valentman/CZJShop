@@ -6,7 +6,7 @@
 //  Copyright © 2015 JoeP. All rights reserved.
 //
 
-#import "CZJHomeViewManager.h"
+#import "CZJBaseDataManager.h"
 #import "CZJNetworkManager.h"
 #import "WGS84TOGCJ02.h"
 #import "CZJLoginModelManager.h"
@@ -16,11 +16,14 @@
 #import "HomeForm.h"
 #import "CZJStoreForm.h"
 #import "CZJCarForm.h"
+#import "CZJDetailForm.h"
+#import "CZJGoodsForm.h"
 
-@implementation CZJHomeViewManager
+@implementation CZJBaseDataManager
 #pragma mark- synthesize
 @synthesize curLocation =  _curLocation;
 @synthesize homeForm = _homeForm;
+@synthesize carForm = _carForm;
 @synthesize storeForm = _storeForm;
 @synthesize params = _params;
 @synthesize discoverForms = _discoverForms;
@@ -28,7 +31,7 @@
 
 
 #pragma mark- implement
-singleton_implementation(CZJHomeViewManager);
+singleton_implementation(CZJBaseDataManager);
 
 - (id) init
 {
@@ -36,6 +39,8 @@ singleton_implementation(CZJHomeViewManager);
     {
         _params = [NSMutableDictionary alloc];
         _discoverForms = [NSMutableDictionary dictionary];
+        
+        //固定请求参数确定
         NSDictionary* _tmpparams = @{@"chezhuId" : nil == [CZJLoginModelInstance cheZhuId] ? @"0" : [CZJLoginModelInstance cheZhuId],
                                      @"cityId" : nil == [CZJLoginModelInstance cityId] ? @"0" : [CZJLoginModelInstance cityId],
                                      @"lng" : @(_curLocation.longitude),
@@ -45,18 +50,7 @@ singleton_implementation(CZJHomeViewManager);
                                      };
         _params = [_tmpparams mutableCopy];
         
-        //此处只在第一次进入程序或启动时间超过一天才更新地区信息
-        UInt64 currentTime = [[NSDate date] timeIntervalSince1970];     //当前时间
-        UInt64 lastUpdateTime = [[USER_DEFAULT valueForKey:kUserDefaultTime] longLongValue];   //上次更新时间
-        UInt64 intervalTime = currentTime - lastUpdateTime;
-        if (0 == currentTime ||
-            intervalTime > 86400)
-        {
-            [USER_DEFAULT setValue:[NSString stringWithFormat:@"%llu",currentTime] forKey:kUserDefaultTime];
-            [self getAreaInfos];
-        }
-        
-        
+        //更新地区信息：此处只在第一次进入程序或启动时间超过一天
         if ([CZJUtils isTimeCrossOneDay])
         {
             [self getAreaInfos];
@@ -122,6 +116,14 @@ singleton_implementation(CZJHomeViewManager);
                                    fail:^{}];
 }
 
+
+-(void)getSomeInfoSuccess:(CZJSuccessBlock)success{
+    NSString* tst = [[CZJLoginModelInstance  cheZhuId] stringByReplacingOccurrencesOfString:@"-" withString:@""];
+    NSString* str = [NSString stringWithFormat:@"{\"chezhuId\":\"%@\",\"cityId\":\"%@\",\"mobile\":\"%@\",\"lat\":\"%@\",\"lng\":\"%@\"}",tst,[CZJLoginModelInstance cityId],[CZJLoginModelInstance mobile],[NSNumber numberWithDouble:_curLocation.latitude],[NSNumber numberWithDouble:_curLocation.longitude]];
+    success(str);
+}
+
+
 #pragma mark- 首页
 - (void)showHomeType:(CZJHomeGetDataFromServerType)dataType
                 page:(int)page
@@ -129,6 +131,7 @@ singleton_implementation(CZJHomeViewManager);
                 fail:(CZJFailureBlock)fail;
 {
     __block CZJSuccessBlock successBlock = ^(id json){
+        [self getCarBrandsList];
         if ([self showAlertView:json])
         {
             if (dataType == CZJHomeGetDataFromServerTypeOne)
@@ -230,6 +233,43 @@ singleton_implementation(CZJHomeViewManager);
     [params setValue:typeId forKey:@"typeId"];
     
     [CZJNetWorkInstance postJSONWithUrl:kCZJServerAPIGetCategoryData
+                             parameters:params
+                                success:successBlock
+                                   fail:failBlock];
+}
+
+- (void)loadGoodsList:(NSDictionary*)postParams
+                 type:(CZJHomeGetDataFromServerType)type
+              success:(CZJSuccessBlock)success
+                 fail:(CZJFailureBlock)failure
+{
+    CZJSuccessBlock successBlock = ^(id json){
+        if ([self showAlertView:json])
+        {
+            NSDictionary* dict = [CZJUtils DataFromJson:json];
+            if (_goodsForm)
+            {
+                [_goodsForm setNewDictionary:dict WithType:type];
+            }
+            else
+            {
+                _goodsForm = [[CZJGoodsForm alloc] initWithDictionary:dict WithType:type];
+                [_goodsForm setNewDictionary:dict WithType:type];
+            }
+            
+        }
+        success(json);
+    };
+    
+    CZJFailureBlock failBlock = ^(){
+        [[CZJErrorCodeManager sharedCZJErrorCodeManager] ShowNetError];
+        failure();
+    };
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [params setValuesForKeysWithDictionary:self.params];
+    
+    [CZJNetWorkInstance postJSONWithUrl:kCZJServerAPIGoodsList
                              parameters:params
                                 success:successBlock
                                    fail:failBlock];
@@ -356,8 +396,9 @@ singleton_implementation(CZJHomeViewManager);
                                    fail:failBlock];
 }
 
-- (void)getCarBrandsList:(CZJSuccessBlock)success
-                    fail:(CZJFailureBlock)failure
+
+#pragma mark- 筛选列表，汽车车型选择
+- (void)getCarBrandsList
 {
     CZJSuccessBlock successBlock = ^(id json){
         if ([self showAlertView:json])
@@ -365,20 +406,18 @@ singleton_implementation(CZJHomeViewManager);
             NSDictionary* dict = [CZJUtils DataFromJson:json];
             if (_carForm)
             {
-                [_carForm setNewDictionary:dict];
+                [_carForm setNewCarBrandsFormDictionary:dict];
             }
             else
             {
                 _carForm = [[CZJCarForm alloc]initWithDictionary:dict];
-                [_storeForm setNewStoreServiceListDataWithDictionary:dict];
+                [_carForm setNewCarBrandsFormDictionary:dict];
             }
         }
-        success(json);
     };
     
     CZJFailureBlock failBlock = ^(){
         [[CZJErrorCodeManager sharedCZJErrorCodeManager] ShowNetError];
-        failure();
     };
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [_params setObject:@(_curLocation.longitude) forKey:@"lng"];
@@ -386,17 +425,140 @@ singleton_implementation(CZJHomeViewManager);
     
     [params setValuesForKeysWithDictionary:_params];
     
-    [CZJNetWorkInstance postJSONWithUrl:kCZJServerAPILoadCarBrands
-                             parameters:params
-                                success:successBlock
-                                   fail:failBlock];
+    if (_carForm.carBrandsForms.count < 0.1 ||
+        _carForm.haveCarsForms.count < 0.1 ||
+        !_carForm)
+    {
+        [CZJNetWorkInstance postJSONWithUrl:kCZJServerAPILoadCarBrands
+                                 parameters:params
+                                    success:successBlock
+                                       fail:failBlock];
+    }
+}
+
+- (void)loadCarSeriesWithBrandId:(NSString*)brandId
+                        BrandName:(NSString*)brandName
+                          Success:(CZJGeneralBlock)success
+                             fail:(CZJFailureBlock)fail
+{
+    CZJSuccessBlock successBlock = ^(id json)
+    {
+        if ([self showAlertView:json])
+        {
+            NSDictionary* dict = [CZJUtils DataFromJson:json];
+            if (_carForm)
+            {
+                [_carForm setNewCarSeriesWithDict:dict AndBrandName:brandName];
+            }
+            else
+            {
+                _carForm = [[CZJCarForm alloc]initWithDictionary:dict];
+                [_carForm setNewCarSeriesWithDict:dict AndBrandName:brandName];
+            }
+            DLog(@"login suc");
+            success();
+        }
+    };
+        
+    CZJFailureBlock failBlock = ^(){
+        [[CZJErrorCodeManager sharedCZJErrorCodeManager] ShowNetError];
+    };
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [_params setObject:brandId forKey:@"brandId"];
+
+    [params setValuesForKeysWithDictionary:_params];
+    
+    [CZJNetWorkInstance postJSONWithUrl:kCZJServerAPILoadCarSeries
+                            parameters:params
+                               success:successBlock
+                                  fail:failBlock];
+}
+
+- (void)loadCarModelSeriesId:(NSString*)seriesId
+                      Success:(CZJGeneralBlock)success
+                         fail:(CZJFailureBlock)fail
+{
+    
+    CZJSuccessBlock successBlock = ^(id json)
+    {
+        if ([self showAlertView:json])
+        {
+            NSDictionary* dict = [CZJUtils DataFromJson:json];
+            if (_carForm)
+            {
+                [_carForm setNewCarModelsWithDict:dict ];
+            }
+            else
+            {
+                _carForm = [[CZJCarForm alloc]initWithDictionary:dict];
+                [_carForm setNewCarModelsWithDict:dict ];
+            }
+            success(json);
+        }
+    };
+    
+    CZJFailureBlock failBlock = ^(){
+        [[CZJErrorCodeManager sharedCZJErrorCodeManager] ShowNetError];
+    };
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [_params setObject:seriesId forKey:@"seriesId"];
+    
+    [params setValuesForKeysWithDictionary:_params];
+    
+    [CZJNetWorkInstance postJSONWithUrl:kCZJServerAPILoadCarModels
+                            parameters:params
+                               success:successBlock
+                                  fail:failBlock];
+    
 }
 
 
--(void)getSomeInfoSuccess:(CZJSuccessBlock)success{
-    NSString* tst = [[CZJLoginModelInstance  cheZhuId] stringByReplacingOccurrencesOfString:@"-" withString:@""];
-    NSString* str = [NSString stringWithFormat:@"{\"chezhuId\":\"%@\",\"cityId\":\"%@\",\"mobile\":\"%@\",\"lat\":\"%@\",\"lng\":\"%@\"}",tst,[CZJLoginModelInstance cityId],[CZJLoginModelInstance mobile],[NSNumber numberWithDouble:_curLocation.latitude],[NSNumber numberWithDouble:_curLocation.longitude]];
-    success(str);
+
+#pragma mark- 获取商品或服务详情
+- (void)loadDetailsWithType:(CZJDetailType)type
+            AndStoreItemPid:(NSString*)storeItemPid
+                    Success:(CZJGeneralBlock)success
+                       fail:(CZJFailureBlock)fail
+{
+    CZJSuccessBlock successBlock = ^(id json)
+    {
+        if ([self showAlertView:json])
+        {
+            NSDictionary* dict = [CZJUtils DataFromJson:json];
+            if (_detailsForm)
+            {
+                [_detailsForm setNewDictionary:dict WithType:type];
+            }
+            else
+            {
+                _detailsForm = [[CZJDetailForm alloc] initWithDictionary:dict WithType:type];
+                [_detailsForm setNewDictionary:dict WithType:type];
+            }
+            success(json);
+        }
+    };
+    
+    CZJFailureBlock failBlock = ^(){
+        [[CZJErrorCodeManager sharedCZJErrorCodeManager] ShowNetError];
+    };
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [_params setObject:storeItemPid forKey:@"storeItemPid"];
+    
+    [params setValuesForKeysWithDictionary:_params];
+    NSString* apiUrl;
+    if (CZJDetailTypeGoods == type)
+    {
+        apiUrl = kCZJServerAPIGoodsDetail;
+    }
+    else if (CZJDetailTypeService == type)
+    {
+        apiUrl = kCZJServerAPIServiceDetail;
+    }
+    
+    [CZJNetWorkInstance postJSONWithUrl:apiUrl
+                             parameters:params
+                                success:successBlock
+                                   fail:failBlock];
 }
 
 @end

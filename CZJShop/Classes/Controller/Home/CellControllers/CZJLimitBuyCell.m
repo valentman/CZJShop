@@ -61,7 +61,7 @@
     form = _limitBuyDatas[indexPath.row];
     
     NSString* rmb = @"￥";
-    cell.originPriceLabel.text = [rmb stringByAppendingString:form.originalPrice];
+    [cell.originPriceLabel setAttributedText:[CZJUtils stringWithDeleteLine:[rmb stringByAppendingString:form.originalPrice]]];
     cell.currentPriceLabel.text = [rmb stringByAppendingString:form.currentPrice];
     cell.iconImage.backgroundColor=UIColorFromRGB(0xF8FCF8);
     [cell.iconImage sd_setImageWithURL:[NSURL URLWithString:form.img] placeholderImage:[UIImage imageNamed:@"home_btn_xiche"]];

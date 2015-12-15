@@ -10,15 +10,22 @@
 
 @interface CZJCarForm : NSObject
 {
-    NSMutableArray* _carBrandsForms;    //汽车品牌列表
+    NSMutableDictionary* _carBrandsForms;    //汽车品牌列表
+    NSMutableDictionary* _carSeries;         //汽车指定品牌车系列表
+    NSMutableArray* _carModels;              //汽车车型
+    
     NSMutableArray* _haveCarsForms;      //已有车辆
 }
-@property(nonatomic,strong)NSMutableArray* carBrandsForms;
+@property(nonatomic,strong)NSMutableDictionary* carBrandsForms;
+@property(nonatomic,strong)NSMutableDictionary* carSeries;
+@property(nonatomic,strong)NSMutableArray* carModels;
 @property(nonatomic,strong)NSMutableArray* haveCarsForms;
 
--(id)initWithDictionary:(NSDictionary*)dictionary;
--(void)setNewDictionary:(NSDictionary*)dictionary;
--(void)cleanData;
+- (id)initWithDictionary:(NSDictionary*)dictionary;
+- (void)setNewCarBrandsFormDictionary:(NSDictionary*)dict;
+- (void)setNewCarSeriesWithDict:(NSDictionary*)dict AndBrandName:(NSString*)brandName;
+- (void)setNewCarModelsWithDict:(NSDictionary*)dict;
+- (void)cleanData;
 @end
 
 
@@ -30,6 +37,25 @@
 @property(nonatomic, strong) NSString* brandId;
 
 - (id)initWithDictionary:(NSDictionary*)dict;
+@end
+
+//---------------------汽车车系信息----------------------
+@interface CarSeriesForm : NSObject
+@property(nonatomic,strong)NSString* groupName;
+@property(nonatomic,strong)NSString* name;
+@property(nonatomic,assign)int seriesId;
+
+-(id)initWithDictionary:(NSDictionary*)dictionary;
+
+@end
+
+//---------------------汽车车型信息----------------------
+@interface CarModelForm : NSObject
+@property(nonatomic,strong)NSString* modelId;
+@property(nonatomic,strong)NSString* name;
+
+-(id)initWithDictionary:(NSDictionary*)dictionary;
+
 @end
 
 //---------------------已有车辆信息----------------------

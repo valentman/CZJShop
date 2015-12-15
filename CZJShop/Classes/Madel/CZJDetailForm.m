@@ -1,0 +1,313 @@
+//
+//  CZJStoreServiceDetailForm.m
+//  CZJShop
+//
+//  Created by Joe.Pen on 12/14/15.
+//  Copyright © 2015 JoeP. All rights reserved.
+//
+
+#import "CZJDetailForm.h"
+#import "CZJStoreForm.h"
+
+@implementation CZJDetailForm
+@synthesize serviceDetail = _serviceDetail;
+@synthesize storeInfo = _storeInfo;
+@synthesize evalutionInfo = _evalutionInfo;
+@synthesize couponForms = _couponForms;
+@synthesize recommendServiceForms = _recommendServiceForms;
+@synthesize purchaseCount = _purchaseCount;
+
+- (id)initWithDictionary:(NSDictionary*)dict WithType:(CZJDetailType)type;
+{
+    if (self = [super init])
+    {
+        if (_couponForms) {
+            _couponForms = [NSMutableArray array];
+        }
+        if (_recommendServiceForms) {
+            _recommendServiceForms = [NSMutableArray array];
+        }
+        return self;
+    }
+    return nil;
+}
+
+- (void)setNewDictionary:(NSDictionary*)dict WithType:(CZJDetailType)type
+{
+    [self resetData];
+    if (CZJDetailTypeService == type)
+    {//服务详情页面
+        _purchaseCount = [dict valueForKey:@"purchaseCount"];
+        _serviceDetail = [[CZJServiceDetail alloc]initWithDictionary:[[dict valueForKey:@"msg"] valueForKey:@"service"]];
+    }
+    if (CZJDetailTypeGoods == type)
+    {//商品详情页面
+        _goodsDetail = [[CZJGoodsDetail alloc]initWithDictionary:[[dict valueForKey:@"msg"] valueForKey:@"goods"]];
+    }
+    //门店信息
+    _storeInfo = [[CZJStoreInfoForm alloc]initWithDictionary:[[dict valueForKey:@"msg"] valueForKey:@"store"]];
+    
+    //当前商品或服务评价简介
+    _evalutionInfo = [[CZJDetailEvalInfo alloc]initWithDictionary:[[dict valueForKey:@"msg"] valueForKey:@"evals"]];
+    
+    //当前商品或服务相关推荐
+    NSArray* recoArys = [[dict valueForKey:@"msg"] valueForKey:@"recommends"];
+    for (NSDictionary* dict in recoArys)
+    {
+        CZJStoreServiceForm* form = [[CZJStoreServiceForm alloc]initWithDictionary:dict];
+        [self.recommendServiceForms addObject:form];
+    }
+    //券信息
+    NSArray* couponArys = [[dict valueForKey:@"msg"] valueForKey:@"coupons"];
+    for (NSDictionary* dict in couponArys)
+    {
+        CZJCouponForm* form = [[CZJCouponForm alloc]initWithDictionary:dict];
+        [self.couponForms addObject:form];
+    }
+}
+
+- (void)resetData
+{
+    self.storeInfo = nil;
+    self.evalutionInfo = nil;
+    self.goodsDetail = nil;
+    self.serviceDetail = nil;
+    [_couponForms removeAllObjects];
+    [_recommendServiceForms removeAllObjects];
+}
+
+@end
+
+@implementation CZJCouponForm
+@synthesize value = _value;
+@synthesize validMoney = _validMoney;
+@synthesize couponId = _couponId;
+
+- (id)initWithDictionary:(NSDictionary*)dict
+{
+    if (self = [super init])
+    {
+        self.value = [dict valueForKey:@"value"];
+        self.validMoney = [dict valueForKey:@"validMoney"];
+        self.couponId = [dict valueForKey:@"couponId"];
+        return self;
+    }
+    return nil;
+}
+@end
+
+@implementation CZJStoreInfoForm
+
+@synthesize storeAddr = _storeAddr;
+@synthesize logo = _logo;
+@synthesize storeName = _storeName;
+@synthesize attentionCount = _attentionCount;
+@synthesize attentionFlag = _attentionFlag;
+@synthesize callCenterCount = _callCenterCount;
+@synthesize serviceCount = _serviceCount;
+@synthesize goodsCount = _goodsCount;
+@synthesize storeId = _storeId;
+@synthesize callCenterType = _callCenterType;
+
+- (id)initWithDictionary:(NSDictionary*)dict
+{
+    if (self = [super init])
+    {
+        self.storeAddr = [dict valueForKey:@"storeAddr"];
+        self.logo = [dict valueForKey:@"logo"];
+        self.storeName = [dict valueForKey:@"storeName"];
+        self.attentionCount = [dict valueForKey:@"attentionCount"];
+        self.attentionFlag = [[dict valueForKey:@"attentionFlag"] boolValue];
+        self.callCenterCount = [dict valueForKey:@"callCenterCount"];
+        self.serviceCount = [dict valueForKey:@"serviceCount"];
+        self.goodsCount = [dict valueForKey:@"goodsCount"];
+        self.storeId = [dict valueForKey:@"storeId"];
+        self.callCenterType = [dict valueForKey:@"callCenterType"];
+        return self;
+    }
+    return nil;
+}
+
+@end
+
+
+@implementation CZJServiceDetail
+@synthesize imgs = _imgs;
+@synthesize purchaseCount = _purchaseCount;
+@synthesize costPrice = _costPrice;
+@synthesize itemName = _itemName;
+@synthesize originalPrice = _originalPrice;
+@synthesize counterKey = _counterKey;
+@synthesize storeItemPid = _storeItemPid;
+@synthesize goHouseFlag = _goHouseFlag;
+@synthesize attentionFlag = _attentionFlag;
+@synthesize currentPrice = _currentPrice;
+@synthesize itemCode = _itemCode;
+
+- (id)initWithDictionary:(NSDictionary*)dict
+{
+    if (self = [super init])
+    {
+        self.imgs = [dict valueForKey:@"imgs"];
+        self.purchaseCount = [dict valueForKey:@"purchaseCount"];
+        self.costPrice = [dict valueForKey:@"costPrice"];
+        self.itemName = [dict valueForKey:@"itemName"];
+        self.originalPrice = [dict valueForKey:@"originalPrice"];
+        self.counterKey = [dict valueForKey:@"counterKey"];
+        self.storeItemPid = [dict valueForKey:@"storeItemPid"];
+        self.goHouseFlag = [[dict valueForKey:@"goHouseFlag"] boolValue];
+        self.attentionFlag = [[dict valueForKey:@"attentionFlag"] boolValue];
+        self.currentPrice = [dict valueForKey:@"currentPrice"];
+        self.itemCode = [dict valueForKey:@"itemCode"];
+        return self;
+    }
+    return nil;
+}
+
+@end
+
+@implementation CZJDetailEvalInfo
+@synthesize poorCount = _poorCount;
+@synthesize evalList = _evalList;
+@synthesize goodCount = _goodCount;
+@synthesize goodRate = _goodRate;
+@synthesize evalCount = _evalCount;
+@synthesize hasImgCount = _hasImgCount;
+@synthesize normalCount = _normalCount;
+
+- (id)initWithDictionary:(NSDictionary*)dict
+{
+    if (self = [super init])
+    {
+        self.poorCount = [dict valueForKey:@"poorCount"];
+        NSArray* evals = [dict valueForKey:@"evalList"];
+        for (NSDictionary* dict in evals)
+        {
+            CZJEvalutionsForm* form = [[CZJEvalutionsForm alloc]initWithDictionary:dict];
+            [self.evalList addObject:form];
+        }
+        self.goodCount = [dict valueForKey:@"goodCount"];
+        self.goodRate = [dict valueForKey:@"goodRate"];
+        self.evalCount = [dict valueForKey:@"evalCount"];
+        self.hasImgCount = [dict valueForKey:@"hasImgCount"];
+        self.normalCount = [dict valueForKey:@"normalCount"];
+        return self;
+    }
+    return nil;
+}
+
+@end
+
+@implementation CZJEvalutionsForm
+
+@synthesize evalutionId = _evalutionId;
+@synthesize imgs = _imgs;
+@synthesize evalStar = _evalStar;
+@synthesize evalTime = _evalTime;
+@synthesize evalDesc = _evalDesc;
+@synthesize evalHead = _evalHead;
+@synthesize evalName = _evalName;
+
+- (id)initWithDictionary:(NSDictionary*)dict
+{
+    if (self = [super init])
+    {
+        self.evalutionId = [dict valueForKey:@"id"];
+        self.imgs = [dict valueForKey:@"imgs"];
+        self.evalStar = [dict valueForKey:@"evalStar"];
+        self.evalTime = [dict valueForKey:@"evalTime"];
+        self.evalDesc = [dict valueForKey:@"evalDesc"];
+        self.evalHead = [dict valueForKey:@"evalHead"];
+        self.evalName = [dict valueForKey:@"evalName"];
+        return self;
+    }
+    return nil;
+}
+
+@end
+
+
+@implementation CZJGoodsDetail
+@synthesize imgs = _imgs;
+@synthesize purchaseCount = _purchaseCount;
+@synthesize itemName = _itemName;
+@synthesize costPrice = _costPrice;
+@synthesize storeItemPid = _storeItemPid;
+@synthesize setupFlag = _setupFlag;
+@synthesize goHouseFlag = _goHouseFlag;
+@synthesize attentionFlag = _attentionFlag;
+@synthesize currentPrice = _currentPrice;
+@synthesize sku = _sku;
+@synthesize vendorId = _vendorId;
+@synthesize deliveryFlag = _deliveryFlag;
+@synthesize transportPrice = _transportPrice;
+@synthesize originalPrice = _originalPrice;
+@synthesize counterKey = _counterKey;
+@synthesize skillFlag = _skillFlag;
+@synthesize itemImg = _itemImg;
+@synthesize skillPrice = _skillPrice;
+@synthesize typeId = _typeId;
+@synthesize storeId = _storeId;
+@synthesize skillEndTime = _skillEndTime;
+@synthesize selfFlag = _selfFlag;
+@synthesize itemCode = _itemCode;
+
+- (id)initWithDictionary:(NSDictionary *)dict
+{
+    if (self = [super init])
+    {
+        self.imgs = [dict valueForKey:@"imgs"];
+        self.purchaseCount = [dict valueForKey:@"purchaseCount"];
+        self.itemName = [dict valueForKey:@"itemName"];
+        self.costPrice = [dict valueForKey:@"costPrice"];
+        self.storeItemPid = [dict valueForKey:@"storeItemPid"];
+        self.setupFlag = [dict valueForKey:@"setupFlag"];
+        self.goHouseFlag = [dict valueForKey:@"goHouseFlag"];
+        self.attentionFlag = [dict valueForKey:@"attentionFlag"];
+        self.currentPrice = [dict valueForKey:@"currentPrice"];
+        self.sku = [[CZJGoodsSKU alloc]initWithDictionary:[dict valueForKey:@"sku"]];
+        self.vendorId = [dict valueForKey:@"vendorId"];
+        self.deliveryFlag = [dict valueForKey:@"deliveryFlag"];
+        self.transportPrice = [dict valueForKey:@"transportPrice"];
+        self.originalPrice = [dict valueForKey:@"originalPrice"];
+        self.counterKey = [dict valueForKey:@"counterKey"];
+        self.skillFlag = [dict valueForKey:@"skillFlag"];
+        self.itemImg = [dict valueForKey:@"itemImg"];
+        self.skillPrice = [dict valueForKey:@"skillPrice"];
+        self.typeId = [dict valueForKey:@"typeId"];
+        self.storeId = [dict valueForKey:@"storeId"];
+        self.skillEndTime = [dict valueForKey:@"skillEndTime"];
+        self.selfFlag = [dict valueForKey:@"selfFlag"];
+        self.itemCode = [dict valueForKey:@"itemCode"];
+        return self;
+    }
+    return nil;
+}
+
+@end
+
+@implementation CZJGoodsSKU
+@synthesize skuPrice = _skuPrice;
+@synthesize skuStock = _skuStock;
+@synthesize skuName = _skuName;
+@synthesize skuCode = _skuCode;
+@synthesize skuImg = _skuImg;
+@synthesize skuValueIds = _skuValueIds;
+@synthesize skuValues = _skuValues;
+
+- (id)initWithDictionary:(NSDictionary*)dict
+{
+    if (self = [super init])
+    {
+        self.skuPrice = [dict valueForKey:@"skuPrice"];
+        self.skuStock = [dict valueForKey:@"skuStock"];
+        self.skuName = [dict valueForKey:@"skuName"];
+        self.skuCode = [dict valueForKey:@"skuCode"];
+        self.skuImg = [dict valueForKey:@"skuImg"];
+        self.skuValueIds = [dict valueForKey:@"skuValueIds"];
+        self.skuValues = [dict valueForKey:@"skuValues"];
+        return self;
+    }
+    return nil;
+}
+@end

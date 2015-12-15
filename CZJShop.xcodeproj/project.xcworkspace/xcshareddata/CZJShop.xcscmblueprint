@@ -1,26 +1,26 @@
 {
-  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "E0647A72A0C1C9D78EA44BB29D90BA7E6B16FC32+++24CC2F4",
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "E0647A72A0C1C9D78EA44BB29D90BA7E6B16FC32+++36064DD",
   "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
-    "f219117a-b458-4495-9fd9-3c87b1df5326++4655+++5542DFF" : {
+    "E0647A72A0C1C9D78EA44BB29D90BA7E6B16FC32+++B6471CF" : {
 
     },
-    "E0647A72A0C1C9D78EA44BB29D90BA7E6B16FC32+++24CC2F4" : {
+    "E0647A72A0C1C9D78EA44BB29D90BA7E6B16FC32+++36064DD" : {
 
     },
-    "E0647A72A0C1C9D78EA44BB29D90BA7E6B16FC32+++3745FE4" : {
+    "f219117a-b458-4495-9fd9-3c87b1df5326++4655+++E65C02F" : {
 
     }
   },
   "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
-    "f219117a-b458-4495-9fd9-3c87b1df5326++4655+++5542DFF" : 0,
-    "E0647A72A0C1C9D78EA44BB29D90BA7E6B16FC32+++24CC2F4" : 0,
-    "E0647A72A0C1C9D78EA44BB29D90BA7E6B16FC32+++3745FE4" : 0
+    "E0647A72A0C1C9D78EA44BB29D90BA7E6B16FC32+++B6471CF" : 0,
+    "E0647A72A0C1C9D78EA44BB29D90BA7E6B16FC32+++36064DD" : 0,
+    "f219117a-b458-4495-9fd9-3c87b1df5326++4655+++E65C02F" : 0
   },
   "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "7B6B466D-81B1-4C08-A71A-1596388CC0D1",
   "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
-    "f219117a-b458-4495-9fd9-3c87b1df5326++4655+++5542DFF" : "CZJ_app_iOS_2.0\/",
-    "E0647A72A0C1C9D78EA44BB29D90BA7E6B16FC32+++24CC2F4" : "CZJ_app_iOS_2.0\/CZJShop\/CZJShop\/ThirdSDK\/LjjUISegmentedControl\/",
-    "E0647A72A0C1C9D78EA44BB29D90BA7E6B16FC32+++3745FE4" : "CZJ_app_iOS_2.0\/CZJShop\/CZJShop\/ThirdSDK\/LjjUISegmentedControl\/"
+    "E0647A72A0C1C9D78EA44BB29D90BA7E6B16FC32+++B6471CF" : "CZJ_app_iOS_2.0\/CZJShop\/CZJShop\/ThirdSDK\/LjjUISegmentedControl\/",
+    "E0647A72A0C1C9D78EA44BB29D90BA7E6B16FC32+++36064DD" : "CZJ_app_iOS_2.0\/CZJShop\/CZJShop\/ThirdSDK\/LjjUISegmentedControl\/",
+    "f219117a-b458-4495-9fd9-3c87b1df5326++4655+++E65C02F" : "CZJ_app_iOS_2.0\/"
   },
   "DVTSourceControlWorkspaceBlueprintNameKey" : "CZJShop",
   "DVTSourceControlWorkspaceBlueprintVersion" : 204,
@@ -29,17 +29,17 @@
     {
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/jokeface\/LjjUISegmentedControl.git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
-      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "E0647A72A0C1C9D78EA44BB29D90BA7E6B16FC32+++24CC2F4"
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "E0647A72A0C1C9D78EA44BB29D90BA7E6B16FC32+++36064DD"
     },
     {
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "svn:\/\/192.168.0.231\/project",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Subversion",
-      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "E0647A72A0C1C9D78EA44BB29D90BA7E6B16FC32+++3745FE4"
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "E0647A72A0C1C9D78EA44BB29D90BA7E6B16FC32+++B6471CF"
     },
     {
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "svn:\/\/192.168.0.231\/project",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Subversion",
-      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "f219117a-b458-4495-9fd9-3c87b1df5326++4655+++5542DFF"
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "f219117a-b458-4495-9fd9-3c87b1df5326++4655+++E65C02F"
     }
   ]
 }

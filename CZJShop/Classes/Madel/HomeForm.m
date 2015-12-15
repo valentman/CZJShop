@@ -280,7 +280,7 @@
     if (self = [super init]) {
         self.name = [dictionary valueForKey:@"name"];
         self.img = [dictionary valueForKey:@"img"];
-        self.typeId = [dictionary valueForKey:@"typeId"];
+        self.typeId = [NSString stringWithFormat:@"%@",[dictionary valueForKey:@"typeId"]];
         self.need = [[dictionary valueForKey:@"need"] boolValue];
         self.open = [[dictionary valueForKey:@"open"] boolValue];
         return self;

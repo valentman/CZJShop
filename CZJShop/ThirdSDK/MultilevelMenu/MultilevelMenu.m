@@ -10,7 +10,7 @@
 #import "MultilevelTableViewCell.h"
 #import "MultilevelCollectionViewCell.h"
 #import "UIImageView+WebCache.h"
-#import "CZJHomeViewManager.h"
+#import "CZJBaseDataManager.h"
 #import "AnimatedGif.h"
 #import "CollectionHeader.h"
 
@@ -154,7 +154,7 @@
     
     CZJFailureBlock failBlock = ^{};
     
-    [CZJHomeViewInstance showCategoryTypeId:typeId success:successBlock fail:failBlock];
+    [CZJBaseDataInstance showCategoryTypeId:typeId success:successBlock fail:failBlock];
 }
 
 #pragma mark---左边的tablew 代理

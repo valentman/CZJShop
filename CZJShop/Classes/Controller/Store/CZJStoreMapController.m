@@ -16,11 +16,11 @@
 #import "CZJStoreMAAroundForm.h"
 #import "MJExtension.h"
 
-#import "CZJHomeViewManager.h"
+#import "CZJBaseDataManager.h"
 #import "CZJStoreForm.h"
 #import "ZXLocationManager.h"
 
-#import "CZJServiceDetailInfo.h"
+#import "CZJServiceListController.h"
 
 #define kDefaultCalloutViewMargin       -8
 #define MAPKEY @"dd2b9e1576489ef636cdda90c74cbdbe"
@@ -132,12 +132,12 @@
 //获取附近商家列表
 -(void)getAroundMerchantData
 {
-        NSMutableArray* dataArray = [CZJHomeViewInstance storeForm].storeListForms;
+        NSMutableArray* dataArray = [CZJBaseDataInstance storeForm].storeListForms;
         if (dataArray.count > 0)
         {
             [_mapView removeAnnotations:_annotations];
             [_annotations removeAllObjects];
-            CLLocationCoordinate2D location = [CZJHomeViewInstance curLocation];
+            CLLocationCoordinate2D location = [CZJBaseDataInstance curLocation];
             for (int i = 0; i < dataArray.count; i++)
             {
                 CZJNearbyStoreForm* model = dataArray[i];
@@ -341,10 +341,10 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     
     if ([segue.identifier isEqualToString:@"mapToWebViewSID"]) {
-        CZJServiceDetailInfo* ctr = segue.destinationViewController;
-        ctr.itemId  = _curItemId;
-        ctr.curType = eStoreInfo;
-        ctr.navTitleName = @"门店详情";
+//        CZJServiceDetailInfo* ctr = segue.destinationViewController;
+//        ctr.itemId  = _curItemId;
+//        ctr.curType = eStoreInfo;
+//        ctr.navTitleName = @"门店详情";
     }
 }
 @end

@@ -20,7 +20,7 @@
     //UIButton
     UIButton *leftBtn = [[ UIButton alloc ] initWithFrame : CGRectMake(0 , 0 , 44 , 44 )];
     [leftBtn setTitle:@"取消" forState:UIControlStateNormal];
-    [leftBtn.titleLabel setFont:[UIFont systemFontOfSize:15]];
+    [leftBtn.titleLabel setFont:[UIFont systemFontOfSize:16]];
     [leftBtn addTarget:self action:@selector(navBackBarAction:) forControlEvents:UIControlEventTouchUpInside];
     [leftBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal]; //将leftItem设置为自定义按钮
     [leftBtn setTag:1000];
@@ -32,12 +32,19 @@
 }
 
 - (void)navBackBarAction:(UIBarButtonItem *)bar{
+    if (self.navigationController.viewControllers.count > 1) {
+        [self.navigationController popViewControllerAnimated:YES];
+    }else{
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }
 }
 
 - (void)setTitle:(NSString *)title{
     
     self.lblTitle = [[UILabel alloc] initWithFrame:CGRectMake(0, (PJ_SCREEN_WIDTH - kMGLeftSpace - 50)/2,100 , self.navigationController.navigationBar.frame.size.height)];
     self.lblTitle.text = title;
+    self.lblTitle.font = [UIFont systemFontOfSize:19];
+    self.lblTitle.textAlignment = NSTextAlignmentCenter;
     self.navigationItem.titleView = self.lblTitle;
     
 }

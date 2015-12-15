@@ -143,21 +143,6 @@
 -(id)initWithDictionary:(NSDictionary*)dict{
     if (self = [super init]) {
         self.distance = [dict valueForKey:@"distance"];
-        
-        if ([self.distance containsString:@"km"])
-        {
-            NSRange range = [self.distance rangeOfString:@"km"];
-            NSString* kilometer = [self.distance substringToIndex:range.location];
-            int distanc = [kilometer floatValue]*1000;
-            self.distanceMeter = [NSString stringWithFormat:@"%d",distanc];
-        }
-        else
-        {
-            NSRange range = [self.distance rangeOfString:@"m"];
-            self.distanceMeter = [self.distance substringToIndex:range.location];
-        }
-        
-        
         self.purchaseCount = [NSString stringWithFormat:@"%@",[dict valueForKey:@"purchaseCount"]];
         self.openingHours = [dict valueForKey:@"openingHours"];
         self.name = [dict valueForKey:@"name"];

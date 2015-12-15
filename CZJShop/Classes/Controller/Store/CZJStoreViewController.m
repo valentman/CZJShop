@@ -7,7 +7,7 @@
 //
 
 #import "CZJStoreViewController.h"
-#import "CZJHomeViewManager.h"
+#import "CZJBaseDataManager.h"
 #import "CZJStoreForm.h"
 #import "FDAlertView.h"
 #import "PullTableView.h"
@@ -83,9 +83,9 @@
     //下拉菜单筛选条件初始
     NSArray* sortTypes = @[@"默认排序", @"距离最近", @"评分最高", @"销量最高"];
     NSArray* storeTypes = @[@"全部项目",@"一站式", @"快修块保", @"装饰美容" , @"维修厂"];
-    if ([CZJHomeViewInstance storeForm].provinceForms &&
-        [CZJHomeViewInstance storeForm].provinceForms.count > 0) {
-        NSArray* menuArray = @[[CZJHomeViewInstance storeForm].provinceForms, sortTypes,storeTypes];
+    if ([CZJBaseDataInstance storeForm].provinceForms &&
+        [CZJBaseDataInstance storeForm].provinceForms.count > 0) {
+        NSArray* menuArray = @[[CZJBaseDataInstance storeForm].provinceForms, sortTypes,storeTypes];
         [self.pullDownMenu initWithArray:menuArray AndType:CZJMXPullDownMenuTypeStore WithFrame:self.pullDownMenu.frame].delegate = self;
     }
     
@@ -123,7 +123,7 @@
         self.storeTableView.pullTableIsRefreshing = NO;
     };
 
-    [CZJHomeViewInstance showStoreWithParams:storePostParams
+    [CZJBaseDataInstance showStoreWithParams:storePostParams
                                         type:_getdataType
                                      success:successBlock
                                         fail:^{}];
@@ -132,7 +132,7 @@
 - (void)dealWithArray
 {
     [_sortedStoreArys removeAllObjects];
-    _sortedStoreArys = [[NSArray arrayWithArray:[CZJHomeViewInstance storeForm].storeListForms]mutableCopy];
+    _sortedStoreArys = [[NSArray arrayWithArray:[CZJBaseDataInstance storeForm].storeListForms]mutableCopy];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -181,7 +181,7 @@
         
     }];
     [[CCLocationManager shareLocation] getCity:^(NSString *addressString) {
-        NSString* cityid = [CZJHomeViewInstance.storeForm getCityIDWithCityName:addressString];
+        NSString* cityid = [CZJBaseDataInstance.storeForm getCityIDWithCityName:addressString];
         [storePostParams setValue:cityid  forKey:@"cityId"];
         _getdataType = CZJHomeGetDataFromServerTypeOne;
         [self getStoreDataFromServer];
@@ -370,7 +370,7 @@ NSInteger compareSales(CZJNearbyStoreForm* obj1, CZJNearbyStoreForm* obj2,void* 
 
 - (void)pullDownMenu:(MXPullDownMenu *)pullDownMenu didSelectCityName:(NSString *)cityName
 {
-    [storePostParams setValue:[CZJHomeViewInstance.storeForm getCityIDWithCityName:cityName]  forKey:@"cityId"];
+    [storePostParams setValue:[CZJBaseDataInstance.storeForm getCityIDWithCityName:cityName]  forKey:@"cityId"];
     _getdataType = CZJHomeGetDataFromServerTypeOne;
     [self getStoreDataFromServer];
 }

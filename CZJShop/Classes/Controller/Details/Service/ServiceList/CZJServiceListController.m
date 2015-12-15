@@ -6,8 +6,8 @@
 //  Copyright © 2015 JoeP. All rights reserved.
 //
 
-#import "CZJServiceDetailInfo.h"
-#import "CZJHomeViewManager.h"
+#import "CZJServiceListController.h"
+#import "CZJBaseDataManager.h"
 #import "CZJNaviagtionBarView.h"
 #import "CZJStoreForm.h"
 #import "FDAlertView.h"
@@ -18,13 +18,15 @@
 #import "UIImageView+WebCache.h"
 #import "CCLocationManager.h"
 #import "CZJServiceFilterController.h"
+#import "CZJServiceDetailController.h"
 
-@interface CZJServiceDetailInfo ()<
+@interface CZJServiceListController ()<
     UITableViewDataSource,
     UITableViewDelegate,
     PullTableViewDelegate,
     MXPullDownMenuDelegate,
-    CZJNaviagtionBarViewDelegate
+    CZJNaviagtionBarViewDelegate,
+    CZJServiceFilterDelegate
 >
 {
     NSMutableArray* _sortedStoreArys;
@@ -48,14 +50,14 @@
 @property (nonatomic, weak) UIView *upView;
 @end
 
-@implementation CZJServiceDetailInfo
+@implementation CZJServiceListController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     [CZJUtils hideSearchBarViewForTarget:self];
     [CZJUtils customizeNavigationBarForTarget:self];
     
-    
+    isFirstIn = YES;
     [self initData];
     [self initTableViewAndPullDownMenu];
     [self initRefreshLocationBarView];
@@ -68,10 +70,13 @@
 
 - (void)viewDidAppear:(BOOL)animated
 {
-    CGRect currentFrame = _refreshLocationBarView.frame;
-    _refreshLocationBarView.frame = CGRectMake(30, currentFrame.origin.y, currentFrame.size.width, currentFrame.size.height);
-    _locationButton.tag = CZJViewMoveOrientationLeft;
-    [self btnTouched:nil];
+    if (isFirstIn) {
+        CGRect currentFrame = _refreshLocationBarView.frame;
+        _refreshLocationBarView.frame = CGRectMake(30, currentFrame.origin.y, currentFrame.size.width, currentFrame.size.height);
+        _locationButton.tag = CZJViewMoveOrientationLeft;
+        [self btnTouched:nil];
+        isFirstIn = NO;
+    }
     
     [_pullDownMenu registNotification];
 }
@@ -93,7 +98,7 @@
     //参数初始化
     [storePostParams setObject:@"0" forKey:@"cityId"];
     [storePostParams setObject:@"0" forKey:@"storeType"];
-    [storePostParams setObject:@"0" forKey:@"modelId"];
+    [storePostParams setObject:@"" forKey:@"modelId"];
     [storePostParams setObject:_typeId forKey:@"typeId"];
     [storePostParams setObject:[NSString stringWithFormat:@"%ld",self.page] forKey:@"page"];
 }
@@ -114,9 +119,9 @@
     //下拉菜单筛选条件初始
     NSArray* sortTypes = @[@"默认排序", @"距离最近", @"评分最高", @"销量最高"];
     NSArray* storeTypes = @[@"筛选"];
-    if ([CZJHomeViewInstance storeForm].provinceForms &&
-        [CZJHomeViewInstance storeForm].provinceForms.count > 0) {
-        NSArray* menuArray = @[[CZJHomeViewInstance storeForm].provinceForms, sortTypes,storeTypes];
+    if ([CZJBaseDataInstance storeForm].provinceForms &&
+        [CZJBaseDataInstance storeForm].provinceForms.count > 0) {
+        NSArray* menuArray = @[[CZJBaseDataInstance storeForm].provinceForms, sortTypes,storeTypes];
         [self.pullDownMenu initWithArray:menuArray AndType:CZJMXPullDownMenuTypeService WithFrame:self.pullDownMenu.frame].delegate = self;
     }
     CGRect mainViewBounds = self.navigationController.navigationBar.bounds;
@@ -139,7 +144,7 @@
         self.serviceTableView.pullTableIsRefreshing = NO;
     };
     
-    [CZJHomeViewInstance showSeverciceList:storePostParams
+    [CZJBaseDataInstance showSeverciceList:storePostParams
                                       type:_getdataType
                                    success:successBlock
                                       fail:^{}];
@@ -148,7 +153,7 @@
 - (void)dealWithArray
 {
     [_sortedStoreArys removeAllObjects];
-    _sortedStoreArys = [[NSArray arrayWithArray:[CZJHomeViewInstance storeForm].storeServiceListForms]mutableCopy];
+    _sortedStoreArys = [[NSArray arrayWithArray:[CZJBaseDataInstance storeForm].storeServiceListForms]mutableCopy];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -195,7 +200,7 @@
         
     }];
     [[CCLocationManager shareLocation] getCity:^(NSString *addressString) {
-        NSString* cityid = [CZJHomeViewInstance.storeForm getCityIDWithCityName:addressString];
+        NSString* cityid = [CZJBaseDataInstance.storeForm getCityIDWithCityName:addressString];
         [storePostParams setValue:cityid  forKey:@"cityId"];
         _getdataType = CZJHomeGetDataFromServerTypeOne;
         [self getStoreServiceListDataFromServer];
@@ -312,6 +317,7 @@
     if (0 == indexPath.row) {
         CZJStoreCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJStoreCell"];
         CZJNearbyStoreServiceListForm* storeForm = (CZJNearbyStoreServiceListForm*)_sortedStoreArys[indexPath.section];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.storeName.text = storeForm.name;
         cell.dealCount.text = storeForm.purchaseCount;
         cell.storeDistance.text = storeForm.distance;
@@ -333,17 +339,20 @@
             moreLabel.textAlignment = NSTextAlignmentCenter;
             [cell addSubview:moreLabel];
         }
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
     }
     else
     {
         CZJStoreServiceCell* cell  = [tableView dequeueReusableCellWithIdentifier:@"CZJStoreServiceCell"];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         CZJStoreServiceForm* storeForm = ((CZJNearbyStoreServiceListForm*)_sortedStoreArys[indexPath.section]).items[indexPath.row - 1];
         cell.serviceItemName.text = storeForm.itemName;
         NSString* rmbCharater = @"￥";
-        cell.originPrice.text =  [rmbCharater stringByAppendingString:storeForm.originalPrice];
         cell.currentPrice.text = [rmbCharater stringByAppendingString:storeForm.currentPrice];
         cell.purchasedCount.text = storeForm.purchaseCount;
+        NSString* orginPrice = [rmbCharater stringByAppendingString:storeForm.originalPrice];
+        [cell.originPrice setAttributedText:[CZJUtils stringWithDeleteLine:orginPrice]];
         return cell;
     }
     
@@ -387,9 +396,28 @@
 }
 
 
-
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
     return 14;
+}
+
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (0 == indexPath.row)
+    {//门店详情
+        
+    }
+    else if ((((CZJNearbyStoreServiceListForm*)_sortedStoreArys[indexPath.section]).items.count + 1) == indexPath.row)
+    {//查看更多服务
+        
+    }
+    else
+    {//服务详情
+        CZJStoreServiceForm* serviceForm = ((CZJNearbyStoreServiceListForm*)_sortedStoreArys[indexPath.section]).items[indexPath.row - 1];
+        _choosedStoreitemPid = serviceForm.storeItemPid;
+        [self performSegueWithIdentifier:@"segueToServiceDetail" sender:self];
+    }
+
 }
 
 
@@ -422,7 +450,7 @@
 
 - (void)pullDownMenu:(MXPullDownMenu *)pullDownMenu didSelectCityName:(NSString *)cityName
 {
-    [storePostParams setValue:[CZJHomeViewInstance.storeForm getCityIDWithCityName:cityName]  forKey:@"cityId"];
+    [storePostParams setValue:[CZJBaseDataInstance.storeForm getCityIDWithCityName:cityName]  forKey:@"cityId"];
     _getdataType = CZJHomeGetDataFromServerTypeOne;
     [self getStoreServiceListDataFromServer];
 }
@@ -436,12 +464,13 @@
 - (void)actionBtn{
     
     UIWindow *window = [[UIWindow alloc] initWithFrame:CGRectMake(50, 0, PJ_SCREEN_WIDTH-50, PJ_SCREEN_HEIGHT)];
-    window.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.5];
+    window.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:1.0];
     window.windowLevel = UIWindowLevelNormal;
     window.hidden = NO;
     [window makeKeyAndVisible];
     
     CZJServiceFilterController *serviceFilterController = [[CZJServiceFilterController alloc] init];
+    serviceFilterController.delegate = self;
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:serviceFilterController];
     serviceFilterController.view.frame = window.bounds;
     window.rootViewController = nav;
@@ -471,6 +500,27 @@
     self.window  = nil;
     self.upView = nil;
     self.navigationController.interactivePopGestureRecognizer.enabled = YES;
+}
+
+#pragma mark -CZJServiceFilterDelegate
+- (void)chooseFilterOK
+{
+    //更新参数，重新请求数据刷新
+    NSString* typeid = [USER_DEFAULT valueForKey:kUserDefaultServiceTypeID];
+    NSString* servicePlace = [USER_DEFAULT valueForKey:kUserDefaultServicePlace];
+    [storePostParams setValue:typeid forKey:@"typeId"];
+    _getdataType = CZJHomeGetDataFromServerTypeOne;
+    [self getStoreServiceListDataFromServer];
+}
+
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"segueToServiceDetail"])
+    {
+        CZJServiceDetailController* serviceDetailCon = segue.destinationViewController;
+        serviceDetailCon.storeItemPid = _choosedStoreitemPid;
+    }
 }
 
 @end

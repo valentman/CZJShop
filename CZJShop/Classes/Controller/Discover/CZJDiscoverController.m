@@ -7,7 +7,7 @@
 //
 
 #import "CZJDiscoverController.h"
-#import "CZJHomeViewManager.h"
+#import "CZJBaseDataManager.h"
 #import "CZJDiscoverDetailController.h"
 
 #define kTypeLabelTag 10
@@ -34,13 +34,13 @@
     //从服务器获取数据成功返回回调
     CZJSuccessBlock successBlock = ^(id json){
         
-        [self.discoverForms setValuesForKeysWithDictionary:CZJHomeViewInstance.discoverForms];
+        [self.discoverForms setValuesForKeysWithDictionary:CZJBaseDataInstance.discoverForms];
         [self updateTableView];
     };
     
     CZJFailureBlock failBlock = ^{};
     
-    [CZJHomeViewInstance showDiscoverWithBlocksuccess:successBlock fail:failBlock];
+    [CZJBaseDataInstance showDiscoverWithBlocksuccess:successBlock fail:failBlock];
 }
 
 

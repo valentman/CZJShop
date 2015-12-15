@@ -12,6 +12,7 @@
 #pragma mark- Zhouxin
 //---------------------------数据解析-----------------------------
 + (NSDictionary*)DataFromJson:(id)json;
++ (NSString*)JsonFromData:(id)data;
 + (NSData*)JsonFormData:(id)data;
 
 //------------------NSData数据的持久化----------------------------
@@ -64,6 +65,6 @@
 + (NSString*)getExplicitServerAPIURLPathWithSuffix:(NSString*)urlStr;
 + (BOOL)isTimeCrossOneDay;
 + (void)printClassMethodList:(id)target;
-
-
++ (CGSize)calculateTitleSizeWithString:(NSString *)string AndFontSize:(CGFloat)fontSize;   // 计算一定FontSize的字符串的长宽
++ (NSMutableAttributedString*)stringWithDeleteLine:(NSString*)string;                       //返回带删除线的字符串
 @end

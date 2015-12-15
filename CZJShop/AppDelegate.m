@@ -10,7 +10,7 @@
 #import "CZJUtils.h"
 #import "CCLocationManager.h"
 #import "ZXLocationManager.h"
-#import "CZJHomeViewManager.h"
+#import "CZJBaseDataManager.h"
 #import "CZJLoginModelManager.h"
 #import "CZJMessageManager.h"
 #import "OpenShareHeader.h"
@@ -60,19 +60,19 @@
     {
         [[CCLocationManager shareLocation] getLocationCoordinate:^(CLLocationCoordinate2D locationCorrrdinate)
         {
-            [[CZJHomeViewManager sharedCZJHomeViewManager] setCurLocation:locationCorrrdinate];
+            [CZJBaseDataInstance setCurLocation:locationCorrrdinate];
         }];
     }
     else if (IS_IOS7)
     {
         [[ZXLocationManager sharedZXLocationManager] getLocationCoordinate:^(CLLocationCoordinate2D coord)
         {
-            [[CZJHomeViewManager sharedCZJHomeViewManager] setCurLocation:coord];
+            [CZJBaseDataInstance setCurLocation:coord];
         }];
     }
     
-    if (CZJHomeViewInstance.curLocation.latitude == 0 &&
-        CZJHomeViewInstance.curLocation.longitude == 0)
+    if (CZJBaseDataInstance.curLocation.latitude == 0 &&
+        CZJBaseDataInstance.curLocation.longitude == 0)
     {
         if (IS_IOS8)
         {
@@ -83,7 +83,7 @@
         else if (IS_IOS7)
         {
             [[ZXLocationManager sharedZXLocationManager] getLocationCoordinate:^(CLLocationCoordinate2D coord) {
-                [CZJHomeViewInstance setCurLocation:coord];
+                [CZJBaseDataInstance setCurLocation:coord];
             }];
         }
     }
@@ -221,13 +221,13 @@
     //清除所有通知(包含本地通知)
     [[UIApplication sharedApplication] cancelAllLocalNotifications];
     
-    if ([CZJHomeViewManager sharedCZJHomeViewManager].curLocation.latitude == 0 &&
-        [CZJHomeViewManager sharedCZJHomeViewManager].curLocation.longitude == 0) {
+    if (CZJBaseDataInstance.curLocation.latitude == 0 &&
+        CZJBaseDataInstance.curLocation.longitude == 0) {
         if (IS_IOS8)
         {
             [[CCLocationManager shareLocation] getLocationCoordinate:^(CLLocationCoordinate2D locationCorrrdinate)
             {
-                [[CZJHomeViewManager sharedCZJHomeViewManager] setCurLocation:locationCorrrdinate];
+                [CZJBaseDataInstance setCurLocation:locationCorrrdinate];
                 DLog(@"--%f",locationCorrrdinate.latitude);
             }];
         }
@@ -235,7 +235,7 @@
         {
             [[ZXLocationManager sharedZXLocationManager] getLocationCoordinate:^(CLLocationCoordinate2D locationCorrrdinate)
             {
-                [[CZJHomeViewManager sharedCZJHomeViewManager] setCurLocation:locationCorrrdinate];
+                [CZJBaseDataInstance setCurLocation:locationCorrrdinate];
             }];
         }
     }

@@ -209,13 +209,13 @@ CGFloat const kDefaultCellHeight = 44.0f;
  *  Uncomment the implementations of the required methods.
  */
 
-//- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
-//{
-//    if ([_SKSTableViewDelegate respondsToSelector:@selector(tableView:titleForHeaderInSection:)])
-//        return [_SKSTableViewDelegate tableView:tableView titleForHeaderInSection:section];
-//    
-//    return nil;
-//}
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    if ([_SKSTableViewDelegate respondsToSelector:@selector(tableView:titleForHeaderInSection:)])
+        return [_SKSTableViewDelegate tableView:tableView titleForHeaderInSection:section];
+    
+    return nil;
+}
 //
 //- (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
 //{
@@ -241,14 +241,14 @@ CGFloat const kDefaultCellHeight = 44.0f;
 //    return NO;
 //}
 //
-//- (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView
-//{
-//    if ([_SKSTableViewDelegate respondsToSelector:@selector(sectionIndexTitlesForTableView:)])
-//        [_SKSTableViewDelegate sectionIndexTitlesForTableView:tableView];
-//    
-//    return nil;
-//}
-//
+- (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView
+{
+    if ([_SKSTableViewDelegate respondsToSelector:@selector(sectionIndexTitlesForTableView:)])
+        [_SKSTableViewDelegate sectionIndexTitlesForTableView:tableView];
+    
+    return nil;
+}
+
 //- (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index
 //{
 //    if ([_SKSTableViewDelegate respondsToSelector:@selector(tableView:sectionForSectionIndexTitle:atIndex:)])
@@ -365,18 +365,18 @@ CGFloat const kDefaultCellHeight = 44.0f;
 //        [_SKSTableViewDelegate tableView:tableView willDisplayCell:cell forRowAtIndexPath:indexPath];
 //}
 //
-//- (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section
-//{
-//    if ([_SKSTableViewDelegate respondsToSelector:@selector(tableView:willDisplayHeaderView:forSection:)])
-//        [_SKSTableViewDelegate tableView:tableView willDisplayHeaderView:view forSection:section];
-//}
-//
-//- (void)tableView:(UITableView *)tableView willDisplayFooterView:(UIView *)view forSection:(NSInteger)section
-//{
-//    if ([_SKSTableViewDelegate respondsToSelector:@selector(tableView:willDisplayFooterView:forSection:)])
-//        [_SKSTableViewDelegate tableView:tableView willDisplayFooterView:view forSection:section];
-//}
-//
+- (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section
+{
+    if ([_SKSTableViewDelegate respondsToSelector:@selector(tableView:willDisplayHeaderView:forSection:)])
+        [_SKSTableViewDelegate tableView:tableView willDisplayHeaderView:view forSection:section];
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayFooterView:(UIView *)view forSection:(NSInteger)section
+{
+    if ([_SKSTableViewDelegate respondsToSelector:@selector(tableView:willDisplayFooterView:forSection:)])
+        [_SKSTableViewDelegate tableView:tableView willDisplayFooterView:view forSection:section];
+}
+
 //- (void)tableView:(UITableView *)tableView didEndDisplayingCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath*)indexPath
 //{
 //    if ([_SKSTableViewDelegate respondsToSelector:@selector(tableView:didEndDisplayingCell:forRowAtIndexPath:)])
@@ -417,22 +417,22 @@ CGFloat const kDefaultCellHeight = 44.0f;
         return kDefaultCellHeight;
     }
 }
-//
-//- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-//{
-//    if ([_SKSTableViewDelegate respondsToSelector:@selector(tableView:heightForHeaderInSection:)])
-//        [_SKSTableViewDelegate tableView:tableView heightForHeaderInSection:section];
-//    
-//    return 0;
-//}
-//
-//- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
-//{
-//    if ([_SKSTableViewDelegate respondsToSelector:@selector(tableView:heightForFooterInSection:)])
-//        [_SKSTableViewDelegate tableView:tableView heightForFooterInSection:section];
-//    
-//    return 0;
-//}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    if ([_SKSTableViewDelegate respondsToSelector:@selector(tableView:heightForHeaderInSection:)])
+        [_SKSTableViewDelegate tableView:tableView heightForHeaderInSection:section];
+    
+    return 0;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    if ([_SKSTableViewDelegate respondsToSelector:@selector(tableView:heightForFooterInSection:)])
+        [_SKSTableViewDelegate tableView:tableView heightForFooterInSection:section];
+    
+    return 0;
+}
 //
 //- (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath
 //{
@@ -510,12 +510,12 @@ CGFloat const kDefaultCellHeight = 44.0f;
 //    return nil;
 //}
 //
-//- (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
-//{
-//    if ([_SKSTableViewDelegate respondsToSelector:@selector(tableView:didDeselectRowAtIndexPath:)])
-//        [_SKSTableViewDelegate tableView:tableView didDeselectRowAtIndexPath:indexPath];
-//}
-//
+- (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if ([_SKSTableViewDelegate respondsToSelector:@selector(tableView:didDeselectRowAtIndexPath:)])
+        [_SKSTableViewDelegate tableView:tableView didDeselectRowAtIndexPath:indexPath];
+}
+
 //- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
 //{
 //    if ([_SKSTableViewDelegate respondsToSelector:@selector(tableView:editingStyleForRowAtIndexPath:)])
