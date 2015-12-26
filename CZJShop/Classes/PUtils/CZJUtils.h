@@ -65,6 +65,13 @@
 + (NSString*)getExplicitServerAPIURLPathWithSuffix:(NSString*)urlStr;
 + (BOOL)isTimeCrossOneDay;
 + (void)printClassMethodList:(id)target;
++ (CGSize)calculateTitleSizeWithString:(NSString *)string WithFont:(UIFont*)font;
 + (CGSize)calculateTitleSizeWithString:(NSString *)string AndFontSize:(CGFloat)fontSize;   // 计算一定FontSize的字符串的长宽
 + (NSMutableAttributedString*)stringWithDeleteLine:(NSString*)string;                       //返回带删除线的字符串
+
++ (void)showLoginView:(UIViewController*)target;
++ (void)removeLoginViewFromCurrent:(UIViewController*)target;
++ (void)showShoppingCartView:(UIViewController*)target;
++ (void)removeShoppintCartViewFromCurrent:(UIViewController*)target;
+
 @end

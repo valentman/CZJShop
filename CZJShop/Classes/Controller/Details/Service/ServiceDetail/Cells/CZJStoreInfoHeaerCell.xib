@@ -15,7 +15,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="fEx-Nc-iTf">
-                        <rect key="frame" x="15" y="15" width="51" height="51"/>
+                        <rect key="frame" x="20" y="15" width="51" height="51"/>
                         <animations/>
                         <constraints>
                             <constraint firstAttribute="height" constant="51" id="671-80-1Rj"/>
@@ -23,7 +23,7 @@
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="品尚车居羊西北店" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SAJ-Iw-h9N">
-                        <rect key="frame" x="79" y="15" width="200" height="21"/>
+                        <rect key="frame" x="84" y="15" width="200" height="21"/>
                         <animations/>
                         <constraints>
                             <constraint firstAttribute="width" constant="200" id="vnz-ld-Zaq"/>
@@ -34,7 +34,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="西芯大道天辰路1号" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dGc-l0-l4B">
-                        <rect key="frame" x="79" y="45" width="150" height="21"/>
+                        <rect key="frame" x="84" y="45" width="150" height="21"/>
                         <animations/>
                         <constraints>
                             <constraint firstAttribute="height" constant="21" id="WRO-jp-9Jn"/>
@@ -44,14 +44,29 @@
                         <color key="textColor" red="0.50196081400000003" green="0.50196081400000003" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gq0-Bx-9Su">
-                        <rect key="frame" x="229" y="29" width="76" height="22"/>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gq0-Bx-9Su">
+                        <rect key="frame" x="225" y="25" width="80" height="30"/>
                         <animations/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="21" id="CGa-61-A9f"/>
-                            <constraint firstAttribute="width" constant="76" id="ks8-sc-oU0"/>
+                            <constraint firstAttribute="height" constant="30" id="CGa-61-A9f"/>
+                            <constraint firstAttribute="width" constant="80" id="ks8-sc-oU0"/>
                         </constraints>
-                        <state key="normal" title="关注门店" image="prodetail_icon_guanzhu02"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                        <inset key="titleEdgeInsets" minX="5" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        <state key="normal" title="关注门店" image="prodetail_icon_guanzhu01.png">
+                            <color key="titleColor" red="0.50196081400000003" green="0.50196081400000003" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
+                        </state>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                <integer key="value" value="3"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
+                                <real key="value" value="0.5"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="color" keyPath="layer.borderColorFromUIColor">
+                                <color key="value" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
                     </button>
                 </subviews>
                 <animations/>
@@ -61,15 +76,23 @@
                     <constraint firstItem="gq0-Bx-9Su" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="MxJ-YS-lYU"/>
                     <constraint firstItem="fEx-Nc-iTf" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="15" id="Ncq-21-K3k"/>
                     <constraint firstItem="dGc-l0-l4B" firstAttribute="leading" secondItem="fEx-Nc-iTf" secondAttribute="trailing" constant="13" id="Rf5-cV-Uli"/>
-                    <constraint firstItem="fEx-Nc-iTf" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="j3b-R1-dsI"/>
+                    <constraint firstItem="fEx-Nc-iTf" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="j3b-R1-dsI"/>
                     <constraint firstAttribute="bottom" secondItem="dGc-l0-l4B" secondAttribute="bottom" constant="14" id="mgG-Us-2aT"/>
                     <constraint firstAttribute="trailing" secondItem="gq0-Bx-9Su" secondAttribute="trailing" constant="15" id="sls-yi-j84"/>
                 </constraints>
             </tableViewCellContentView>
             <animations/>
+            <connections>
+                <outlet property="attentionStore" destination="gq0-Bx-9Su" id="Kyh-fU-uX8"/>
+                <outlet property="storeAddr" destination="dGc-l0-l4B" id="BhO-nX-jLc"/>
+                <outlet property="storeAddrLayoutWidth" destination="ZWP-7G-7nJ" id="JpT-Gr-58C"/>
+                <outlet property="storeImage" destination="fEx-Nc-iTf" id="aH5-W5-ChX"/>
+                <outlet property="storeName" destination="SAJ-Iw-h9N" id="5un-1Y-nfg"/>
+                <outlet property="storeNameLayoutWidth" destination="vnz-ld-Zaq" id="WR6-b3-zcU"/>
+            </connections>
         </tableViewCell>
     </objects>
     <resources>
-        <image name="prodetail_icon_guanzhu02" width="22" height="22"/>
+        <image name="prodetail_icon_guanzhu01.png" width="12" height="12"/>
     </resources>
 </document>

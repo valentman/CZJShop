@@ -9,13 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "CZJFilterBaseController.h"
 
-@protocol CZJServiceFilterDelegate <NSObject>
-
-- (void)chooseFilterOK;
-
-@end
-
 @interface CZJServiceFilterController : CZJFilterBaseController
-@property (nonatomic,weak)id<CZJServiceFilterDelegate>delegate;
+@property (nonatomic,weak)id<CZJFilterControllerDelegate>delegate;
 - (void)setCancleBarItemHandle:(CZJGeneralBlock)basicBlock;
 @end

@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -14,23 +15,28 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="112"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GSk-uG-fUO">
-                        <rect key="frame" x="14" y="65" width="167" height="33"/>
-                        <animations/>
-                        <constraints>
-                            <constraint firstAttribute="width" constant="167" id="9TF-lA-eGy"/>
-                            <constraint firstAttribute="height" constant="33" id="wcz-00-h5S"/>
-                        </constraints>
-                        <state key="normal" title="联系客服" image="prodetail_icon_kefu01"/>
-                    </button>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ys3-k6-cGM">
-                        <rect key="frame" x="138" y="67" width="167" height="30"/>
+                        <rect key="frame" x="170" y="57" width="130" height="40"/>
                         <animations/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="167" id="bQs-xI-MrI"/>
-                            <constraint firstAttribute="height" constant="30" id="x7f-q8-7sd"/>
+                            <constraint firstAttribute="height" constant="40" id="x7f-q8-7sd"/>
                         </constraints>
-                        <state key="normal" title="进入门店" image="prodetail_icon_shop01"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <inset key="titleEdgeInsets" minX="5" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        <state key="normal" title="进入门店" image="prodetail_icon_shop01">
+                            <color key="titleColor" red="0.50196081400000003" green="0.50196081400000003" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
+                        </state>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="color" keyPath="layer.borderColorFromUIColor">
+                                <color key="value" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                <integer key="value" value="3"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
+                                <real key="value" value="0.5"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
                     </button>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="200" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v4w-hR-XHg">
                         <rect key="frame" x="40" y="15" width="42" height="21"/>
@@ -98,28 +104,60 @@
                         <color key="textColor" red="0.50196081400000003" green="0.50196081400000003" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GSk-uG-fUO">
+                        <rect key="frame" x="20" y="58" width="130" height="40"/>
+                        <animations/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="40" id="wcz-00-h5S"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <inset key="titleEdgeInsets" minX="5" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        <state key="normal" title="联系客服" image="prodetail_icon_kefu01">
+                            <color key="titleColor" red="0.50196081400000003" green="0.50196081400000003" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
+                        </state>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                <integer key="value" value="3"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
+                                <real key="value" value="0.5"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="color" keyPath="layer.borderColorFromUIColor">
+                                <color key="value" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </button>
                 </subviews>
                 <animations/>
                 <constraints>
                     <constraint firstItem="l3w-qu-IEZ" firstAttribute="centerX" secondItem="bcK-Q0-x7g" secondAttribute="centerX" id="1HU-pd-sQV"/>
                     <constraint firstItem="ANG-OW-f5E" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="Eow-Mi-DVv"/>
                     <constraint firstItem="6vo-Zb-Jgg" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="LeF-bM-32t"/>
+                    <constraint firstItem="ys3-k6-cGM" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="centerX" constant="10" id="N8G-lq-k55"/>
                     <constraint firstItem="Vls-Qs-OZK" firstAttribute="top" secondItem="v4w-hR-XHg" secondAttribute="bottom" id="Pz4-Ij-OwT"/>
                     <constraint firstAttribute="bottom" secondItem="ys3-k6-cGM" secondAttribute="bottom" constant="15" id="Q5E-T2-7QZ"/>
                     <constraint firstItem="bcK-Q0-x7g" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="15" id="T0Y-Ds-AGn"/>
                     <constraint firstItem="v4w-hR-XHg" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="40" id="bMb-O3-kRA"/>
-                    <constraint firstAttribute="trailing" secondItem="ys3-k6-cGM" secondAttribute="trailing" constant="15" id="cfm-cz-Jst"/>
+                    <constraint firstAttribute="trailing" secondItem="ys3-k6-cGM" secondAttribute="trailing" constant="20" id="cfm-cz-Jst"/>
                     <constraint firstItem="Vls-Qs-OZK" firstAttribute="centerX" secondItem="v4w-hR-XHg" secondAttribute="centerX" id="eeB-1L-rdu"/>
                     <constraint firstAttribute="bottom" secondItem="GSk-uG-fUO" secondAttribute="bottom" constant="14" id="jLN-YH-sMc"/>
                     <constraint firstItem="l3w-qu-IEZ" firstAttribute="top" secondItem="bcK-Q0-x7g" secondAttribute="bottom" id="k2o-rX-gUS"/>
                     <constraint firstItem="ANG-OW-f5E" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="15" id="k9D-84-3QC"/>
                     <constraint firstAttribute="trailing" secondItem="bcK-Q0-x7g" secondAttribute="trailing" constant="40" id="lKl-NE-VPM"/>
-                    <constraint firstItem="GSk-uG-fUO" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="14" id="uFT-3Q-yGF"/>
+                    <constraint firstItem="GSk-uG-fUO" firstAttribute="trailing" secondItem="H2p-sc-9uM" secondAttribute="centerX" constant="-10" id="oqO-zz-RiD"/>
+                    <constraint firstItem="GSk-uG-fUO" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="uFT-3Q-yGF"/>
                     <constraint firstItem="v4w-hR-XHg" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="15" id="ubR-do-X4d"/>
                     <constraint firstItem="6vo-Zb-Jgg" firstAttribute="top" secondItem="ANG-OW-f5E" secondAttribute="bottom" id="wOB-NP-7VF"/>
                 </constraints>
             </tableViewCellContentView>
             <animations/>
+            <connections>
+                <outlet property="attentionNumber" destination="v4w-hR-XHg" id="6dT-so-Aot"/>
+                <outlet property="contactServerButton" destination="GSk-uG-fUO" id="XXY-qd-7if"/>
+                <outlet property="goodsNumber" destination="ANG-OW-f5E" id="hA7-Zh-Jiz"/>
+                <outlet property="intoStoreButton" destination="ys3-k6-cGM" id="tak-U0-AVo"/>
+                <outlet property="serviceNumber" destination="bcK-Q0-x7g" id="uAj-kU-X82"/>
+            </connections>
         </tableViewCell>
     </objects>
     <resources>

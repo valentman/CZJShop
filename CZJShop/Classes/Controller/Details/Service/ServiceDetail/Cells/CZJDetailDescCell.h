@@ -15,5 +15,8 @@
 @property (weak, nonatomic) IBOutlet UIImageView *goShopImage;
 @property (weak, nonatomic) IBOutlet UILabel *miaoShaLabel;
 @property (weak, nonatomic) IBOutlet UILabel *leftTimeLabel;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *labelLayoutConst;
+@property (weak, nonatomic) IBOutlet UILabel *productNameLabel;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *productNameLayoutHeight;
 
 @end

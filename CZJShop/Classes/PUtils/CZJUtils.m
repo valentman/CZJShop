@@ -10,6 +10,8 @@
 #import "CZJUtils.h"
 #import "MBProgressHUD.h"
 #import "FDAlertView.h"
+#import "CZJLoginController.h"
+#import "CZJShoppingCartController.h"
 
 @interface CZJUtils ()<UIAlertViewDelegate>
 
@@ -312,7 +314,7 @@
     [bar setBackgroundColor:RGBA(240, 16, 35, 0.0)];
     NSArray* _barSubViews = [bar subviews];
     for (id object in _barSubViews) {
-        if ([object tag] == CZJViewTypeNaviBarView)
+        if ([object tag] == CZJNaviBarViewTypeHome)
         {
             [object setHidden:YES];
         }
@@ -509,14 +511,103 @@ void backLastView(id sender, SEL _cmd)
     return size;
 }
 
++ (CGSize)calculateTitleSizeWithString:(NSString *)string WithFont:(UIFont*)font
+{
+    NSDictionary *dic = @{NSFontAttributeName: font};
+    CGSize size = [string boundingRectWithSize:CGSizeMake(280, 0) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:dic context:nil].size;
+    return size;
+}
 
 + (NSMutableAttributedString*)stringWithDeleteLine:(NSString*)string
 {
     NSUInteger length = [string length];
+    if (0 == length) {
+        return nil;
+    }
     NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:string];
     [attri addAttribute:NSStrikethroughStyleAttributeName value:@(NSUnderlinePatternSolid | NSUnderlineStyleSingle) range:NSMakeRange(1, length-1)];
     [attri addAttribute:NSStrikethroughColorAttributeName value:UIColorFromRGB(0x999999) range:NSMakeRange(1, length-1)];
     return attri;
+}
+
++ (void)showLoginView:(CZJViewController*)target
+{
+    //获取storyboard: 通过bundle根据storyboard的名字来获取我们的storyboard,
+    UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
+    
+    //由storyboard根据LoginView获取到登录界面
+    UINavigationController *loginView = [story instantiateViewControllerWithIdentifier:@"LoginView"];
+    
+    
+    //把loginView加入到当前navigationController中
+    UIWindow *window = [[UIWindow alloc] initWithFrame:CGRectMake(0, PJ_SCREEN_HEIGHT, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT)];
+    window.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:1.0];
+    window.windowLevel = UIWindowLevelNormal;
+    window.hidden = NO;
+    window.rootViewController = loginView;
+    target.window = window;
+    [window makeKeyAndVisible];
+    
+    [UIView animateWithDuration:0.5 animations:^{
+        target.window.frame = CGRectMake(0, 0, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT);
+        ((CZJLoginController*)loginView.topViewController).delegate = target;
+    } completion:^(BOOL finished) {
+        
+    }];
+}
+
++ (void)showShoppingCartView:(CZJViewController*)target
+{
+    //获取storyboard: 通过bundle根据storyboard的名字来获取我们的storyboard,
+    UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
+    
+    //由storyboard根据LoginView获取到登录界面
+    UINavigationController *shopping = [story instantiateViewControllerWithIdentifier:@"ShoppingCart"];
+    
+    
+    //把loginView加入到当前navigationController中
+    UIWindow *window = [[UIWindow alloc] initWithFrame:CGRectMake(PJ_SCREEN_WIDTH, 0, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT)];
+    window.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:1.0];
+    window.windowLevel = UIWindowLevelNormal;
+    window.hidden = NO;
+    window.rootViewController = shopping;
+    target.window = window;
+    [window makeKeyAndVisible];
+    
+    [UIView animateWithDuration:0.5 animations:^{
+        target.window.frame = CGRectMake(0, 0, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT);
+        ((CZJShoppingCartController*)shopping.topViewController).delegate = target;
+    } completion:^(BOOL finished) {
+        
+    }];
+}
+
+
+
++ (void)removeLoginViewFromCurrent:(CZJViewController*)target
+{
+    [UIView animateWithDuration:0.5 animations:^{
+        target.window.frame = CGRectMake(0, PJ_SCREEN_HEIGHT, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT);
+    } completion:^(BOOL finished) {
+        if (finished) {
+            [target.window resignKeyWindow];
+            target.window  = nil;
+        }
+    }];
+
+}
+
++ (void)removeShoppintCartViewFromCurrent:(CZJViewController*)target
+{
+    [UIView animateWithDuration:0.5 animations:^{
+        target.window.frame = CGRectMake(PJ_SCREEN_WIDTH, 0, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT);
+    } completion:^(BOOL finished) {
+        if (finished) {
+            [target.window resignKeyWindow];
+            target.window  = nil;
+        }
+    }];
+    
 }
 
 @end

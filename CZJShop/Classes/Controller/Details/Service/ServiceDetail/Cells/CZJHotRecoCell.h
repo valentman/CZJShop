@@ -9,5 +9,9 @@
 #import <UIKit/UIKit.h>
 
 @interface CZJHotRecoCell : UIView
+@property (weak, nonatomic) IBOutlet UIImageView *hotRecoImage;
+@property (weak, nonatomic) IBOutlet UILabel *hotRecoName;
+@property (weak, nonatomic) IBOutlet UILabel *hotRecoPrice;
+@property (weak, nonatomic) IBOutlet UIButton *cellBtn;
 
 @end

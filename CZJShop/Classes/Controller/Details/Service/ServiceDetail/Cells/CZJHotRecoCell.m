@@ -12,6 +12,12 @@
 
 - (void)awakeFromNib {
     // Initialization code
+    [_cellBtn addTarget:self action:@selector(btnTouch:) forControlEvents:UIControlEventTouchUpInside];
+}
+
+- (void)btnTouch:(id)sender
+{
+    
 }
 
 @end

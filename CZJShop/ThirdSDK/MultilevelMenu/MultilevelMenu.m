@@ -83,6 +83,7 @@
         self.rightCollection.delegate=self;
         self.rightCollection.dataSource=self;
         
+        //注册可用视图
         UINib *nib=[UINib nibWithNibName:kMultilevelCollectionViewCell bundle:nil];
         [self.rightCollection registerNib: nib forCellWithReuseIdentifier:kMultilevelCollectionViewCell];
         
@@ -91,6 +92,7 @@
         
         [self addSubview:self.rightCollection];
         
+        //默认点击第一个
         self.selelctIndexPath = [NSIndexPath indexPathForRow:0 inSection:0];
         if (self.allData.count>0) {
             [self tableView:self.leftTablew didSelectRowAtIndexPath: self.selelctIndexPath];
@@ -280,46 +282,27 @@
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     rightMeun * title=self.allData[self.selectIndex];
-    NSArray * list;
-    
-    rightMeun * meun;
-    
-    meun=title.nextArray[indexPath.section];
-    
-    if (meun.nextArray.count>0) {
-        meun=title.nextArray[indexPath.section];
-        list=meun.nextArray;
-        meun=list[indexPath.row];
+    rightMeun * touchedItemMeun=title.nextArray[indexPath.item];
+    if (self.block)
+    {
+        void (^select)(NSInteger left,NSInteger right,id info) = self.block;
+        select(self.selectIndex,indexPath.item,touchedItemMeun);
     }
-
-
-    void (^select)(NSInteger left,NSInteger right,id info) = self.block;
-    
-    select(self.selectIndex,indexPath.row,meun);
-    
 }
 
 
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     
     MultilevelCollectionViewCell *cell=[collectionView dequeueReusableCellWithReuseIdentifier:kMultilevelCollectionViewCell forIndexPath:indexPath];
+    
+    //cell数据
     rightMeun * title=self.allData[self.selectIndex];
-    NSArray * list;
-    
-    rightMeun * meun;
+    rightMeun * itemMenu=title.nextArray[indexPath.item];
 
-    meun=title.nextArray[indexPath.section];
-
-    if (meun.nextArray.count>0) {
-        meun=title.nextArray[indexPath.section];
-        list=meun.nextArray;
-        meun=list[indexPath.row];
-    }
-    
-    cell.titile.text=meun.meunName;
+    cell.titile.text=itemMenu.meunName;
     cell.backgroundColor=[UIColor clearColor];
     cell.imageView.backgroundColor=UIColorFromRGB(0xF8FCF8);
-    [cell.imageView sd_setImageWithURL:[NSURL URLWithString:meun.urlName] placeholderImage:[UIImage imageNamed:kImageDefaultName]];
+    [cell.imageView sd_setImageWithURL:[NSURL URLWithString:itemMenu.urlName] placeholderImage:[UIImage imageNamed:kImageDefaultName]];
     return cell;
 }
 
@@ -343,7 +326,6 @@
             if ([banner containsString:@".gif"])
             {
                 view.bannerAdImageview = [AnimatedGif getAnimationForGifAtUrl:[NSURL URLWithString:banner]];
-                
             }
             else if ([banner containsString:@".png"])
             {

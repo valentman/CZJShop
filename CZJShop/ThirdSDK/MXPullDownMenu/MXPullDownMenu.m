@@ -83,6 +83,7 @@
                  _viewContentHeight = PJ_SCREEN_HEIGHT - StatusBar_HEIGHT - NavigationBar_HEIGHT - self.frame.size.height - Tabbar_HEIGHT;
                 break;
             case CZJMXPullDownMenuTypeService:
+            case CZJMXPullDownMenuTypeGoods:
                  _viewContentHeight = PJ_SCREEN_HEIGHT - StatusBar_HEIGHT - NavigationBar_HEIGHT - self.frame.size.height;
                 break;
                 
@@ -99,6 +100,7 @@
             
             switch (_menuType) {
                 case CZJMXPullDownMenuTypeNone:
+                case CZJMXPullDownMenuTypeGoods:
                     title = [self creatTextLayerWithNSString:_array[i][0] withColor:_menuColor andPosition:position];
                     break;
                 case CZJMXPullDownMenuTypeStore:
@@ -122,7 +124,8 @@
             
             //小三角图形
             CGPoint pt = CGPointMake(position.x + title.bounds.size.width / 2 + 8, self.frame.size.height / 2);
-            if (CZJMXPullDownMenuTypeService == _menuType && 2 == i)
+            if ((CZJMXPullDownMenuTypeService == _menuType || CZJMXPullDownMenuTypeGoods == _menuType) &&
+                2 == i)
             {//如果是服务列表界面，筛选则用筛选图片代替小三角
                 UIImageView* imgeview = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"serve_icon_shaixuan"]];
                 [self.layer addSublayer:[imgeview layer]];
@@ -217,7 +220,8 @@
     }
     _selectIndex = -1;
     
-    if (CZJMXPullDownMenuTypeService == _menuType && 2 == tapIndex)
+    if ((CZJMXPullDownMenuTypeService == _menuType || CZJMXPullDownMenuTypeGoods== _menuType) &&
+        2 == tapIndex)
     {
         [self.delegate pullDownMenuDidSelectFiliterButton];
         return;
@@ -239,7 +243,8 @@
         [_tableView reloadData];
         [self animateIdicator:_indicators[tapIndex] background:_backGroundView tableView:_tableView title:_titles[tapIndex] forward:YES complecte:^{
             _show = YES;
-            if (0 == _currentSelectedMenudIndex) {
+            if (0 == _currentSelectedMenudIndex &&
+                CZJMXPullDownMenuTypeGoods != _menuType) {
                 [self tableView:_tableView didSelectRowAtIndexPath:_selelctIndexPath];
             }
         }];
@@ -258,7 +263,8 @@
 - (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell* cell = [tableView cellForRowAtIndexPath:indexPath];
-    if (0 == _currentSelectedMenudIndex)
+    if (0 == _currentSelectedMenudIndex &&
+        CZJMXPullDownMenuTypeGoods != _menuType)
     {
         cell.backgroundColor = kMXPullDownBGColor;
     }
@@ -268,7 +274,8 @@
 {
     UITableViewCell* cell = [tableView cellForRowAtIndexPath:indexPath];
     cell.selected = YES;
-    if (0 == _currentSelectedMenudIndex)
+    if (0 == _currentSelectedMenudIndex &&
+        CZJMXPullDownMenuTypeGoods != _menuType)
     {
         if (0 == _selectIndex)
         {
@@ -317,7 +324,8 @@
     [cell.textLabel setTextColor:[UIColor grayColor]];
     [((UILabel*)[cell viewWithTag:1001]) setTextColor:[UIColor grayColor]];
     [cell setAccessoryType:UITableViewCellAccessoryNone];
-    if (0 == _currentSelectedMenudIndex) {
+    if (0 == _currentSelectedMenudIndex &&
+        CZJMXPullDownMenuTypeGoods != _menuType) {
         
         CZJProvinceForm* province = ((CZJProvinceForm*)_array[_currentSelectedMenudIndex][indexPath.row]);
         cell.textLabel.text = province.name;
@@ -337,8 +345,6 @@
 
     cell.backgroundColor = kMXPullDownBGColor;
     
-    int selectindeint = _selectIndex;
-    int rowint = indexPath.row;
     if (_selectIndex == indexPath.row &&
         0 == _currentSelectedMenudIndex)
     {
@@ -457,7 +463,8 @@
         CGFloat tableViewHeight;
         
         
-        if (_currentSelectedMenudIndex == 0)
+        if (_currentSelectedMenudIndex == 0 &&
+            CZJMXPullDownMenuTypeGoods != _menuType)
         {
             tableViewHeight = _viewContentHeight;
             _subCollectionView.frame = CGRectMake(PJ_SCREEN_WIDTH - _collectionViewWidth, self.frame.origin.y + self.frame.size.height, _collectionViewWidth, 0);
@@ -483,7 +490,8 @@
         
         [UIView animateWithDuration:0.5 animations:^{
             tableView.frame = CGRectMake(0, self.frame.origin.y + self.frame.size.height, self.frame.size.width, 0);
-            if (_currentSelectedMenudIndex == 0)
+            if (_currentSelectedMenudIndex == 0 &&
+                CZJMXPullDownMenuTypeGoods != _menuType)
             {
                 _subCollectionView.frame = CGRectMake(PJ_SCREEN_WIDTH - _collectionViewWidth, self.frame.origin.y + self.frame.size.height, _collectionViewWidth, 0);
             }
@@ -640,7 +648,15 @@
     }
     if (0 == _currentSelectedMenudIndex)
     {
-        title.string = _selectedCityName;
+        if (CZJMXPullDownMenuTypeGoods == _menuType)
+        {
+            NSString* str = [[_array objectAtIndex:_currentSelectedMenudIndex] objectAtIndex:row];
+            title.string = [[_array objectAtIndex:_currentSelectedMenudIndex] objectAtIndex:row];
+        }
+        else
+        {
+            title.string = _selectedCityName;
+        }
     }
     
     

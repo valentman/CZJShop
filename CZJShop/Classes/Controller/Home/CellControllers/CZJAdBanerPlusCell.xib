@@ -14,13 +14,19 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="v8R-Ua-oNv" customClass="ImagePlayerView">
+                    <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="v8R-Ua-oNv" customClass="ImagePlayerView">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                 </subviews>
                 <animations/>
+                <constraints>
+                    <constraint firstAttribute="trailing" secondItem="v8R-Ua-oNv" secondAttribute="trailing" id="4yQ-Cm-QN3"/>
+                    <constraint firstItem="v8R-Ua-oNv" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="Faz-hG-6hD"/>
+                    <constraint firstAttribute="bottom" secondItem="v8R-Ua-oNv" secondAttribute="bottom" constant="1" id="U0J-qx-2Tu"/>
+                    <constraint firstItem="v8R-Ua-oNv" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="Ugr-2A-WgD"/>
+                </constraints>
             </tableViewCellContentView>
             <animations/>
             <connections>

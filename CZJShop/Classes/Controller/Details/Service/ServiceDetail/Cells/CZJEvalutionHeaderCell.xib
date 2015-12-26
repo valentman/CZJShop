@@ -15,7 +15,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="服务评价" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cik-uG-Cso">
-                        <rect key="frame" x="15" y="12" width="60" height="21"/>
+                        <rect key="frame" x="20" y="12" width="60" height="21"/>
                         <animations/>
                         <constraints>
                             <constraint firstAttribute="height" constant="21" id="K0u-sQ-Fzx"/>
@@ -26,7 +26,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="好评率" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IYP-s6-hHU">
-                        <rect key="frame" x="85" y="12" width="42" height="21"/>
+                        <rect key="frame" x="90" y="12" width="42" height="21"/>
                         <animations/>
                         <constraints>
                             <constraint firstAttribute="height" constant="21" id="3kB-ez-bRW"/>
@@ -36,8 +36,8 @@
                         <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="90%" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="s5A-fZ-ktb">
-                        <rect key="frame" x="132" y="12" width="42" height="21"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="s5A-fZ-ktb">
+                        <rect key="frame" x="137" y="12" width="42" height="21"/>
                         <animations/>
                         <constraints>
                             <constraint firstAttribute="height" constant="21" id="kHe-8S-nfq"/>
@@ -47,7 +47,7 @@
                         <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="90" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5td-DS-9hw">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5td-DS-9hw">
                         <rect key="frame" x="183" y="12" width="70" height="21"/>
                         <animations/>
                         <constraints>
@@ -73,7 +73,7 @@
                 <animations/>
                 <constraints>
                     <constraint firstItem="IYP-s6-hHU" firstAttribute="leading" secondItem="Cik-uG-Cso" secondAttribute="trailing" constant="10" id="2K3-MI-rp4"/>
-                    <constraint firstItem="Cik-uG-Cso" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="73p-Hy-v8s"/>
+                    <constraint firstItem="Cik-uG-Cso" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="73p-Hy-v8s"/>
                     <constraint firstItem="Cik-uG-Cso" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="B0A-e0-FoZ"/>
                     <constraint firstItem="5td-DS-9hw" firstAttribute="trailing" secondItem="AyT-15-U4J" secondAttribute="leading" id="IBV-TU-ZKJ"/>
                     <constraint firstItem="IYP-s6-hHU" firstAttribute="centerY" secondItem="Cik-uG-Cso" secondAttribute="centerY" id="Lhl-ft-6wM"/>

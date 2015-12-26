@@ -12,6 +12,8 @@
 
 - (void)awakeFromNib {
     // Initialization code
+    _contactServerButton.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    _intoStoreButton.layer.borderColor = [UIColor lightGrayColor].CGColor;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

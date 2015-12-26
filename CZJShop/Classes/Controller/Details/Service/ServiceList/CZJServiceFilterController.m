@@ -55,6 +55,7 @@
     self.tableView.separatorStyle = UITableViewCellSelectionStyleNone;
     self.tableView.clipsToBounds = true;
     [self.view addSubview:self.tableView];
+    self.tableView.bounces = NO;
     
     self.arrTitle = @[@"到店服务", @"上门服务"];
     

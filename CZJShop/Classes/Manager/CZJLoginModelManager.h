@@ -15,57 +15,51 @@
 @interface CZJLoginModelManager : NSObject{
     NSString* _cheZhuId;
     UserBaseForm* _usrBaseForm;
-    
 }
 @property(nonatomic,retain)NSString* cheZhuId;
 @property(nonatomic,retain)NSString* mobile;
-@property(nonatomic,retain)UserBaseForm* usrBaseForm;
 @property(nonatomic,retain)NSString* cityId;
 @property(nonatomic,retain)NSString* cityName;
 @property(nonatomic,retain)NSString* chezhuName;
+
+@property(nonatomic,retain)UserBaseForm* usrBaseForm;
 @property(nonatomic,retain)StartPageForm*  startPageForm;
 
 singleton_interface(CZJLoginModelManager)
 
-- (void)loginMobilephone:(NSString *)phone
-                password:(NSString *)password
-                 success:(CZJSuccessBlock)success
-                    fail:(CZJGeneralBlock)fail;
-
-- (void)loginWithDefaultInfoSuccess:(CZJGeneralBlock)success
-                               fail:(CZJGeneralBlock)fail;
-
-- (void)registerAccountPhone:(NSString*)phone
-                    password:(NSString*)password
-                     success:(CZJGeneralBlock)success
-                        fail:(CZJGeneralBlock)fail;
-
-- (void)findPasswordPhone:(NSString*)phone
-         verificationCode:(NSString*)code
-                 password:(NSString*)password
-                  success:(CZJGeneralBlock)success
-                     fail:(CZJGeneralBlock)fail;
-
-- (void)sendRegisterCodeWithPhone:(NSString*)phone
-                          success:(CZJGeneralBlock)success
-                             fail:(CZJGeneralBlock)fail;
-
-- (void)sendAuthCodeWithIphone:(NSString*)phone
+//获取验证码
+- (void)getAuthCodeWithIphone:(NSString*)phone
                        success:(CZJGeneralBlock)success
                           fail:(CZJGeneralBlock)fail;
 
-- (void)logOffSuccess:(CZJGeneralBlock)success
-                 fail:(CZJGeneralBlock)fail;
+//验证码登录
+- (void)loginWithAuthCode:(NSString*)codeNum
+              mobilePhone:(NSString*)phoneNum
+                  success:(CZJSuccessBlock)success
+                     fali:(CZJGeneralBlock)fail;
+//密码登录
+- (void)loginWithPassword:(NSString*)pwd
+              mobilePhone:(NSString*)phoneNum
+                  success:(CZJGeneralBlock)success
+                     fali:(CZJGeneralBlock)fail;
 
--(void)loadStartPageSuccess:(CZJSuccessBlock)success
-                       Fail:(CZJGeneralBlock)fail;
+//登录成功
+- (void)loginWithDefaultInfoSuccess:(CZJGeneralBlock)success
+                               fail:(CZJGeneralBlock)fail;
+
+//设置密码（注册或忘记密码重置）
+- (void)setPassword:(NSString*)pwd
+        mobliePhone:(NSString*)phoneNum
+            success:(CZJGeneralBlock)success
+               fali:(CZJGeneralBlock)fail;
+
 //查询自己的城市ID
-- (void)getCityNameByLoctaion;
 - (void)questCityIdByName:(NSString*)choiceCityName
                   success:(CZJSuccessBlock)success
                      fail:(CZJGeneralBlock)fail;
 
-- (BOOL)saveDataToLocal:(id)json;
-- (NSData*)readDataFromLocal;
+//获取开始界面接口
+-(void)loadStartPageSuccess:(CZJSuccessBlock)success
+                       Fail:(CZJGeneralBlock)fail;
 
 @end

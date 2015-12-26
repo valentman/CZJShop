@@ -10,4 +10,5 @@
 
 @interface CZJTableViewCell : UITableViewCell
 @property (assign) BOOL isInit;
+@property (assign) BOOL isSelected;
 @end

@@ -15,6 +15,7 @@
 
 - (void)awakeFromNib {
     // Initialization code
+    _imageArray = [NSMutableArray array];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -22,7 +23,7 @@
 
     // Configure the view for the selected state
 }
-- (void)initBannerOneWithDatas:(NSArray*)datas
+- (void)initBannerTwoWithDatas:(NSArray*)datas
 {
     _bannerDatas = datas;
     for (BannerForm* tmp in _bannerDatas) {

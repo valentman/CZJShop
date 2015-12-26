@@ -12,6 +12,7 @@
 
 - (void)awakeFromNib {
     // Initialization code
+    _attentionStore.layer.borderColor = [UIColor lightGrayColor].CGColor;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

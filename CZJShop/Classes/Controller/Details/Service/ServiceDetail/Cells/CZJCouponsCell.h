@@ -8,6 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CZJCouponsCell : UITableViewCell
+@interface CZJCouponsCell : CZJTableViewCell
+{
+    NSArray* couponsAry;
+}
+@property (weak, nonatomic) IBOutlet UILabel *couponNameLabel;
 
+
+- (void)initWithCouponDatas:(NSArray*)coupons;
 @end

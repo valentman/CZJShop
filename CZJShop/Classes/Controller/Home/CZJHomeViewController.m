@@ -28,7 +28,8 @@
 #import "CZJGoodsRecoCellHeader.h"
 #import "CZJGoodsRecommendCell.h"
 #import "CZJServiceListController.h"
-
+#import "CZJShoppingCartController.h"
+#import "CZJLoginController.h"
 
 @interface CZJHomeViewController ()<
     UISearchBarDelegate,
@@ -37,7 +38,8 @@
     PullTableViewDelegate,
     CZJNaviagtionBarViewDelegate,
     CZJImageViewTouchDelegate,
-    CZJServiceCellDelegate
+    CZJServiceCellDelegate,
+    CZJViewControllerDelegate
 >
 {
     NSString* _serviceTypeId;
@@ -46,6 +48,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *btnToTop;
 @property (strong, nonatomic) CZJNaviagtionBarView *navibarView;
 @property (nonatomic, strong) UIView* statusBarBgView;
+@property (nonatomic, strong) UIWindow *window;
 
 - (IBAction)tapToTop:(id)sender;
 @end
@@ -113,7 +116,7 @@
     
     //导航栏添加搜索栏
     CGRect mainViewBounds = self.navigationController.navigationBar.bounds;
-    _navibarView = [[CZJNaviagtionBarView alloc]initWithFrame:mainViewBounds AndType:CZJViewTypeNaviBarView];
+    _navibarView = [[CZJNaviagtionBarView alloc]initWithFrame:mainViewBounds AndType:CZJNaviBarViewTypeHome];
     _navibarView.delegate = self;
     [self.navigationController.navigationBar addSubview:_navibarView];
     CGRect statusviewbound = CGRectMake(0, -20, mainViewBounds.size.width, 20);
@@ -365,7 +368,7 @@
         case 4:
         {//广告栏一
             CZJAdBanerCell *cell = (CZJAdBanerCell*)[tableView dequeueReusableCellWithIdentifier:@"CZJAdBanerCell" forIndexPath:indexPath];
-            [cell initBannerOneWithDatas:_carInfoArray];
+            [cell initBannerOneWithDatas:_bannerOneArray];
             return cell;
         }
             break;
@@ -459,7 +462,12 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     //广告条和汽车头条可能没有信息数据，则返回0
     if ((_bannerOneArray.count == 0 && section == 4)||
-        (_bannerTwoArray.count == 0 && section == 7))
+        (_bannerTwoArray.count == 0 && section == 7)||
+        (_carInfoArray.count == 0 && section == 2) ||
+        (_specialRecommentArray.count == 0 && section == 8) ||
+        (_brandRecommentArray.count == 0 && section == 6) ||
+        (_limitBuyArray.count == 0 && section == 5)||
+        (_miaoShaArray.count == 0 && section == 3))
     {
         return 0;
     }
@@ -611,6 +619,10 @@
             break;
             
         case CZJButtonTypeHomeShopping:
+        {
+//            [CZJUtils showLoginView:self];
+            [CZJUtils showShoppingCartView:self];
+        }
             break;
             
         default:
@@ -619,7 +631,22 @@
 }
 
 
-#pragma mark- mark
+#pragma mark- CZJViewControllerDelegate
+- (void)didCancel:(id)controller
+{
+    if ([controller isKindOfClass: [CZJLoginController class]] )
+    {
+        [CZJUtils removeLoginViewFromCurrent:self];
+    }
+    else if ([controller isKindOfClass: [CZJShoppingCartController class]])
+    {
+        [CZJUtils removeShoppintCartViewFromCurrent:self];
+    }
+    
+}
+
+
+#pragma mark- storyboardSegue
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([segue.identifier isEqualToString:@"pushToServiceDetail"])
@@ -637,4 +664,7 @@
 {
     [self.homeTableView setContentOffset:CGPointMake(0,0) animated:YES];
 }
+
+
+
 @end

@@ -12,12 +12,19 @@
 
 - (void)awakeFromNib {
     // Initialization code
+    couponsAry = [NSArray array];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 
     // Configure the view for the selected state
+}
+
+- (void)initWithCouponDatas:(NSArray*)coupons
+{
+    self.isInit = YES;
+    couponsAry = coupons;
 }
 
 @end

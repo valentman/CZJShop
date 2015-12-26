@@ -9,12 +9,12 @@
 #import <UIKit/UIKit.h>
 #import "ImagePlayerView.h"
 
-@interface CZJDetailPicShowCell : CZJTableViewCell
+@interface CZJDetailPicShowCell : CZJTableViewCell<ImagePlayerViewDelegate>
 {
      NSMutableArray* _imageArray;
 }
 
-@property (weak, nonatomic) IBOutlet ImagePlayerView *adScrollView;
+@property (weak, nonatomic) IBOutlet ImagePlayerView *picDetailView;
 @property (weak, nonatomic) NSMutableArray* activeties;
 @property (weak, nonatomic) id<CZJImageViewTouchDelegate> delegate;
 

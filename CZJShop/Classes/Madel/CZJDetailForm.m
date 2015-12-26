@@ -16,16 +16,46 @@
 @synthesize couponForms = _couponForms;
 @synthesize recommendServiceForms = _recommendServiceForms;
 @synthesize purchaseCount = _purchaseCount;
+@synthesize userEvalutionAllForms = _userEvalutionAllForms;
+@synthesize userEvalutionBadForms = _userEvalutionBadForms;
+@synthesize userEvalutionGoodForms = _userEvalutionGoodForms;
+@synthesize userEvalutionMiddleForms = _userEvalutionMiddleForms;
+@synthesize userEvalutionWithPicForms = _userEvalutionWithPicForms;
+@synthesize userEvalutionReplyForms = _userEvalutionReplyForms;
 
-- (id)initWithDictionary:(NSDictionary*)dict WithType:(CZJDetailType)type;
+- (id)initWithDictionary:(NSDictionary*)dict
 {
     if (self = [super init])
     {
-        if (_couponForms) {
+        if (!_couponForms) {
             _couponForms = [NSMutableArray array];
         }
-        if (_recommendServiceForms) {
+        if (!_recommendServiceForms) {
             _recommendServiceForms = [NSMutableArray array];
+        }
+        if (!_userEvalutionAllForms)
+        {
+            _userEvalutionAllForms = [NSMutableArray array];
+        }
+        if (!_userEvalutionWithPicForms)
+        {
+            _userEvalutionWithPicForms = [NSMutableArray array];
+        }
+        if (!_userEvalutionGoodForms)
+        {
+            _userEvalutionGoodForms = [NSMutableArray array];
+        }
+        if (!_userEvalutionMiddleForms)
+        {
+            _userEvalutionMiddleForms = [NSMutableArray array];
+        }
+        if (!_userEvalutionBadForms)
+        {
+            _userEvalutionBadForms = [NSMutableArray array];	
+        }
+        if (!_userEvalutionReplyForms)
+        {
+            _userEvalutionReplyForms = [NSMutableArray array];
         }
         return self;
     }
@@ -55,14 +85,85 @@
     for (NSDictionary* dict in recoArys)
     {
         CZJStoreServiceForm* form = [[CZJStoreServiceForm alloc]initWithDictionary:dict];
-        [self.recommendServiceForms addObject:form];
+        [_recommendServiceForms addObject:form];
     }
     //券信息
     NSArray* couponArys = [[dict valueForKey:@"msg"] valueForKey:@"coupons"];
     for (NSDictionary* dict in couponArys)
     {
         CZJCouponForm* form = [[CZJCouponForm alloc]initWithDictionary:dict];
-        [self.couponForms addObject:form];
+        [_couponForms addObject:form];
+    }
+}
+- (void)setEvalutionInfoWithDictionary:(NSDictionary*)dict WitySegType:(CZJEvalutionType)type
+{
+    switch (type)
+    {
+        case CZJEvalutionTypeAll:
+            [_userEvalutionAllForms removeAllObjects];
+            break;
+        case CZJEvalutionTypePic:
+            [_userEvalutionWithPicForms removeAllObjects];
+            break;
+        case CZJEvalutionTypeGood:
+            [_userEvalutionGoodForms removeAllObjects];
+            break;
+        case CZJEvalutionTypeMiddle:
+            [_userEvalutionMiddleForms removeAllObjects];
+            break;
+        case CZJEvalutionTypeBad:
+            [_userEvalutionBadForms removeAllObjects];
+            break;
+            
+        default:
+            break;
+    }
+    [self appendEvalutionInfoWithDictionary:dict WitySegType:type];
+}
+
+- (void)appendEvalutionInfoWithDictionary:(NSDictionary*)dict WitySegType:(CZJEvalutionType)type
+{
+    NSArray* couponArys = [dict valueForKey:@"msg"];
+    for (NSDictionary* dict in couponArys)
+    {
+        CZJEvalutionsForm* form = [[CZJEvalutionsForm alloc]initWithDictionary:dict];
+        switch (type)
+        {
+            case CZJEvalutionTypeAll:
+                [_userEvalutionAllForms addObject:form];
+                break;
+            case CZJEvalutionTypePic:
+                [_userEvalutionWithPicForms addObject:form];
+                break;
+            case CZJEvalutionTypeGood:
+                [_userEvalutionGoodForms addObject:form];
+                break;
+            case CZJEvalutionTypeMiddle:
+                [_userEvalutionMiddleForms addObject:form];
+                break;
+            case CZJEvalutionTypeBad:
+                [_userEvalutionBadForms addObject:form];
+                break;
+                
+            default:
+                break;
+        }
+    }
+}
+
+- (void)setEvalutionReplyWithDictionary:(NSDictionary*)dict
+{
+    [_userEvalutionReplyForms removeAllObjects];
+    [self appendEvalutionReplyWithDictionary:dict];
+}
+
+- (void)appendEvalutionReplyWithDictionary:(NSDictionary*)dict
+{
+    NSArray* couponArys = [dict valueForKey:@"msg"] ;
+    for (NSDictionary* dict in couponArys)
+    {
+        CZJEvalutionReplyForm* form = [[CZJEvalutionReplyForm alloc]initWithDictionary:dict];
+        [_userEvalutionReplyForms addObject:form];
     }
 }
 
@@ -79,17 +180,35 @@
 @end
 
 @implementation CZJCouponForm
+@synthesize validServiceName = _validServiceName;
+@synthesize validStartTime = _validStartTime;
+@synthesize storeName = _storeName;
+@synthesize validServiceId = _validServiceId;
+@synthesize taked = _taked;
+@synthesize name = _name;
 @synthesize value = _value;
-@synthesize validMoney = _validMoney;
+@synthesize validEndTime = _validEndTime;
 @synthesize couponId = _couponId;
+@synthesize type = _type;
+@synthesize validMoney = _validMoney;
+@synthesize storeId = _storeId;
 
 - (id)initWithDictionary:(NSDictionary*)dict
 {
     if (self = [super init])
     {
+        self.validServiceName = [dict valueForKey:@"validServiceName"];
+        self.validStartTime = [dict valueForKey:@"validStartTime"];
+        self.storeName = [dict valueForKey:@"storeName"];
+        self.validServiceId = [dict valueForKey:@"validServiceId"];
+        self.taked = [[dict valueForKey:@"taked"] boolValue];
+        self.name = [dict valueForKey:@"name"];
         self.value = [dict valueForKey:@"value"];
-        self.validMoney = [dict valueForKey:@"validMoney"];
+        self.validEndTime = [dict valueForKey:@"validEndTime"];
         self.couponId = [dict valueForKey:@"couponId"];
+        self.type = [dict valueForKey:@"type"];
+        self.validMoney = [dict valueForKey:@"validMoney"];
+        self.storeId = [dict valueForKey:@"storeId"];
         return self;
     }
     return nil;
@@ -179,6 +298,7 @@
 {
     if (self = [super init])
     {
+        self.evalList = [NSMutableArray array];
         self.poorCount = [dict valueForKey:@"poorCount"];
         NSArray* evals = [dict valueForKey:@"evalList"];
         for (NSDictionary* dict in evals)
@@ -202,11 +322,14 @@
 
 @synthesize evalutionId = _evalutionId;
 @synthesize imgs = _imgs;
+@synthesize replyCount = _replyCount;
 @synthesize evalStar = _evalStar;
 @synthesize evalTime = _evalTime;
 @synthesize evalDesc = _evalDesc;
 @synthesize evalHead = _evalHead;
 @synthesize evalName = _evalName;
+@synthesize purchaseItem = _purchaseItem;
+@synthesize purchaseTime = _purchaseTime;
 
 - (id)initWithDictionary:(NSDictionary*)dict
 {
@@ -214,11 +337,14 @@
     {
         self.evalutionId = [dict valueForKey:@"id"];
         self.imgs = [dict valueForKey:@"imgs"];
+        self.replyCount = [dict valueForKey:@"replyCount"];
         self.evalStar = [dict valueForKey:@"evalStar"];
         self.evalTime = [dict valueForKey:@"evalTime"];
         self.evalDesc = [dict valueForKey:@"evalDesc"];
         self.evalHead = [dict valueForKey:@"evalHead"];
         self.evalName = [dict valueForKey:@"evalName"];
+        self.purchaseItem = [dict valueForKey:@"purchaseItem"];
+        self.purchaseTime = [dict valueForKey:@"purchaseTime"];
         return self;
     }
     return nil;
@@ -226,6 +352,30 @@
 
 @end
 
+
+@implementation CZJEvalutionReplyForm
+@synthesize replyDesc = _replyDesc;
+@synthesize replyHead = _replyHead;
+@synthesize replyTime = _replyTime;
+@synthesize replyId = _replyId;
+@synthesize replyName = _replyName;
+
+
+- (id)initWithDictionary:(NSDictionary*)dict
+{
+    if (self = [super init])
+    {
+        self.replyDesc = [dict valueForKey:@"replyDesc"];
+        self.replyHead = [dict valueForKey:@"replyHead"];
+        self.replyTime = [dict valueForKey:@"replyTime"];
+        self.replyId = [dict valueForKey:@"replyId"];
+        self.replyName = [dict valueForKey:@"replyName"];
+        return self;
+    }
+    return nil;
+}
+
+@end
 
 @implementation CZJGoodsDetail
 @synthesize imgs = _imgs;
@@ -271,7 +421,7 @@
         self.transportPrice = [dict valueForKey:@"transportPrice"];
         self.originalPrice = [dict valueForKey:@"originalPrice"];
         self.counterKey = [dict valueForKey:@"counterKey"];
-        self.skillFlag = [dict valueForKey:@"skillFlag"];
+        self.skillFlag = [[dict valueForKey:@"skillFlag"] boolValue];
         self.itemImg = [dict valueForKey:@"itemImg"];
         self.skillPrice = [dict valueForKey:@"skillPrice"];
         self.typeId = [dict valueForKey:@"typeId"];

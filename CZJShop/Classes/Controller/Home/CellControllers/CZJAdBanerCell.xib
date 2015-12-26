@@ -14,18 +14,25 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iu8-Ay-5ub" customClass="ImagePlayerView">
+                    <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iu8-Ay-5ub" customClass="ImagePlayerView">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                 </subviews>
                 <animations/>
+                <constraints>
+                    <constraint firstItem="iu8-Ay-5ub" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="9YC-ow-nHd"/>
+                    <constraint firstItem="iu8-Ay-5ub" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="JI9-AU-OzA"/>
+                    <constraint firstAttribute="bottom" secondItem="iu8-Ay-5ub" secondAttribute="bottom" id="oxb-SO-QUU"/>
+                    <constraint firstAttribute="trailing" secondItem="iu8-Ay-5ub" secondAttribute="trailing" id="pKn-O6-WOY"/>
+                </constraints>
             </tableViewCellContentView>
             <animations/>
             <connections>
                 <outlet property="adBannerImageView" destination="iu8-Ay-5ub" id="29S-SZ-dNO"/>
             </connections>
+            <point key="canvasLocation" x="265" y="326"/>
         </tableViewCell>
     </objects>
 </document>

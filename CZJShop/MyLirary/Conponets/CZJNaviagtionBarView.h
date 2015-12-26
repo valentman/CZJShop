@@ -16,13 +16,14 @@
 @end
 
 @interface CZJNaviagtionBarView : UIView
-@property(nullable, strong, nonatomic)UIButton* btnBack;
-@property(nullable, strong, nonatomic)UIButton* btnScan;
-@property(nullable, strong, nonatomic)UIButton* btnShop;
-@property(nullable, strong, nonatomic)UIButton* btnMore;
+@property(nullable, strong, nonatomic)UIButton* btnBack;                            //返回按钮
+@property(nullable, strong, nonatomic)UIButton* btnScan;                            //扫一扫按钮
+@property(nullable, strong, nonatomic)UIButton* btnShop;                            //购物车
+@property(nullable, strong, nonatomic)UIButton* btnMore;                            //更多按钮
+@property(nullable, strong, nonatomic)UIButton* btnArrange;                         //列表排列样式按钮
 @property(nullable, strong, nonatomic)UILabel* btnShopBadgeLabel;
-@property(nullable, strong, nonatomic)UISearchBar* customSearchBar;
+@property(nullable, strong, nonatomic)UISearchBar* customSearchBar;                 //搜索栏
 @property(nullable,nonatomic,weak) id<CZJNaviagtionBarViewDelegate> delegate;
-- (nullable instancetype)initWithFrame:(CGRect)bounds AndType:(CZJViewType)type;
+- (nullable instancetype)initWithFrame:(CGRect)bounds AndType:(CZJNaviBarViewType)type;
 
 @end

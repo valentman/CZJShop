@@ -18,7 +18,7 @@
 #import "UIImageView+WebCache.h"
 #import "CCLocationManager.h"
 #import "CZJServiceFilterController.h"
-#import "CZJServiceDetailController.h"
+#import "CZJDetailViewController.h"
 
 @interface CZJServiceListController ()<
     UITableViewDataSource,
@@ -26,7 +26,7 @@
     PullTableViewDelegate,
     MXPullDownMenuDelegate,
     CZJNaviagtionBarViewDelegate,
-    CZJServiceFilterDelegate
+    CZJFilterControllerDelegate
 >
 {
     NSMutableArray* _sortedStoreArys;
@@ -125,7 +125,7 @@
         [self.pullDownMenu initWithArray:menuArray AndType:CZJMXPullDownMenuTypeService WithFrame:self.pullDownMenu.frame].delegate = self;
     }
     CGRect mainViewBounds = self.navigationController.navigationBar.bounds;
-    [self.navigationBar initWithFrame:mainViewBounds AndType:CZJViewTypeNaviBarViewBack].delegate = self;
+    [self.navigationBar initWithFrame:mainViewBounds AndType:CZJNaviBarViewTypeBack].delegate = self;
     self.navigationBar.backgroundColor = RGB(239, 239, 239);
 }
 
@@ -463,7 +463,7 @@
 
 - (void)actionBtn{
     
-    UIWindow *window = [[UIWindow alloc] initWithFrame:CGRectMake(50, 0, PJ_SCREEN_WIDTH-50, PJ_SCREEN_HEIGHT)];
+    UIWindow *window = [[UIWindow alloc] initWithFrame:CGRectMake(PJ_SCREEN_WIDTH, 0, PJ_SCREEN_WIDTH-50, PJ_SCREEN_HEIGHT)];
     window.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:1.0];
     window.windowLevel = UIWindowLevelNormal;
     window.hidden = NO;
@@ -482,24 +482,44 @@
     [view addGestureRecognizer:tap];
     [self.view addSubview:view];
     self.upView = view;
+    self.upView.alpha = 0.0;
+    [UIView animateWithDuration:0.5 animations:^{
+        self.window.frame = CGRectMake(50, 0, PJ_SCREEN_WIDTH-50, PJ_SCREEN_HEIGHT);
+        self.upView.alpha = 1.0;
+    } completion:nil];
+    
     
     __weak typeof(self) weak = self;
     [serviceFilterController setCancleBarItemHandle:^{
-        [weak.upView removeFromSuperview];
-        [weak.window resignKeyWindow];
-        weak.window  = nil;
-        weak.upView = nil;
-        weak.navigationController.interactivePopGestureRecognizer.enabled = YES;
+        [UIView animateWithDuration:0.5 animations:^{
+            weak.window.frame = CGRectMake(PJ_SCREEN_WIDTH, 0, PJ_SCREEN_WIDTH-50, PJ_SCREEN_HEIGHT);
+            self.upView.alpha = 0.0;
+        } completion:^(BOOL finished) {
+            if (finished) {
+                [weak.upView removeFromSuperview];
+                [weak.window resignKeyWindow];
+                weak.window  = nil;
+                weak.upView = nil;
+                weak.navigationController.interactivePopGestureRecognizer.enabled = YES;
+            }
+        }];
     }];
     
 }
 
 - (void)tapAction{
-    [self.upView removeFromSuperview];
-    [self.window resignKeyWindow];
-    self.window  = nil;
-    self.upView = nil;
-    self.navigationController.interactivePopGestureRecognizer.enabled = YES;
+    [UIView animateWithDuration:0.5 animations:^{
+        self.window.frame = CGRectMake(PJ_SCREEN_WIDTH, 0, PJ_SCREEN_WIDTH-50, PJ_SCREEN_HEIGHT);
+        self.upView.alpha = 0.0;
+    } completion:^(BOOL finished) {
+        if (finished) {
+            [self.upView removeFromSuperview];
+            [self.window resignKeyWindow];
+            self.window  = nil;
+            self.upView = nil;
+            self.navigationController.interactivePopGestureRecognizer.enabled = YES;
+        }
+    }];
 }
 
 #pragma mark -CZJServiceFilterDelegate
@@ -518,8 +538,9 @@
 {
     if ([segue.identifier isEqualToString:@"segueToServiceDetail"])
     {
-        CZJServiceDetailController* serviceDetailCon = segue.destinationViewController;
+        CZJDetailViewController* serviceDetailCon = segue.destinationViewController;
         serviceDetailCon.storeItemPid = _choosedStoreitemPid;
+        serviceDetailCon.detaiViewType = CZJDetailTypeService;
     }
 }
 

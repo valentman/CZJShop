@@ -33,11 +33,13 @@ typedef NS_ENUM(NSInteger, CZJMXPullDownMenuType)
 {
     CZJMXPullDownMenuTypeNone,                  //没有定制的情况
     CZJMXPullDownMenuTypeStore,                 //门店界面
-    CZJMXPullDownMenuTypeService                //服务界面
+    CZJMXPullDownMenuTypeService,               //服务列表界面
+    CZJMXPullDownMenuTypeGoods                  //商品列表界面
 };
 
 @protocol MXPullDownMenuDelegate <NSObject>
 
+@optional
 - (void)PullDownMenu:(MXPullDownMenu*)pullDownMenu didSelectRowAtColumn:(NSInteger)column row:(NSInteger)row;
 - (void)pullDownMenu:(MXPullDownMenu*)pullDownMenu didSelectCityName:(NSString*)cityName;
 - (void)pullDownMenuDidSelectFiliterButton;

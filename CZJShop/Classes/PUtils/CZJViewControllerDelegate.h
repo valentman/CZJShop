@@ -23,6 +23,15 @@
 @optional
 - (void)showActivityHtmlWithUrl:(NSString*)url;
 
+- (void)showDetailInfoWithIndex:(NSInteger)index;
+
 - (void)showDetailInfoWithForm:(id)form;
+
+@end
+
+
+@protocol CZJFilterControllerDelegate <NSObject>
+
+- (void)chooseFilterOK;
 
 @end

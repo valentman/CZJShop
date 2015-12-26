@@ -132,6 +132,13 @@
                 </constraints>
             </tableViewCellContentView>
             <animations/>
+            <connections>
+                <outlet property="allEvalView" destination="DaL-6R-5f7" id="aUe-f6-BEt"/>
+                <outlet property="evalDetailView" destination="ren-Qx-ZDW" id="pZi-G0-VQA"/>
+                <outlet property="evalutionReplyBtn" destination="UiH-sq-aHr" id="2D8-ms-eKk"/>
+                <outlet property="serviceName" destination="Oev-dP-WNA" id="XuD-da-k5R"/>
+                <outlet property="serviceTime" destination="tQP-Eh-ebv" id="HUD-N9-w7o"/>
+            </connections>
         </tableViewCell>
     </objects>
     <resources>

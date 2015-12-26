@@ -18,6 +18,7 @@
 #import "CZJCarForm.h"
 #import "CZJDetailForm.h"
 #import "CZJGoodsForm.h"
+#import "CZJShoppingCartForm.h"
 
 @implementation CZJBaseDataManager
 #pragma mark- synthesize
@@ -26,6 +27,8 @@
 @synthesize carForm = _carForm;
 @synthesize storeForm = _storeForm;
 @synthesize params = _params;
+@synthesize goodsForm = _goodsForm;
+@synthesize shoppingCartForm = _shoppingCartForm;
 @synthesize discoverForms = _discoverForms;
 
 
@@ -49,19 +52,25 @@ singleton_implementation(CZJBaseDataManager);
                                      @"suffix" : ((iPhone6Plus || iPhone6) ? @"@3x" : @"@2x")
                                      };
         _params = [_tmpparams mutableCopy];
-        
-        //更新地区信息：此处只在第一次进入程序或启动时间超过一天
-        if ([CZJUtils isTimeCrossOneDay])
-        {
-            [self getAreaInfos];
-        }
-        else
-        {
-            [self getAreaInfos];
-        }
+        [self loadAreaInfos];
         return self;
     }
     return nil;
+}
+
+
+- (void)loadAreaInfos
+{
+    
+    //更新地区信息：此处只在第一次进入程序或启动时间超过一天
+    if ([CZJUtils isTimeCrossOneDay])
+    {
+        [self getAreaInfos];
+    }
+    else
+    {
+        [self getAreaInfos];
+    }
 }
 
 - (void)setCurLocation:(CLLocationCoordinate2D)curLocation
@@ -171,6 +180,7 @@ singleton_implementation(CZJBaseDataManager);
         switch (dataType) {
             case CZJHomeGetDataFromServerTypeOne:
             {
+                [self loadAreaInfos];
                 explicitUrl = kCZJServerAPIShowHome;
                 [params setValuesForKeysWithDictionary:_params];
             }
@@ -268,8 +278,72 @@ singleton_implementation(CZJBaseDataManager);
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params setValuesForKeysWithDictionary:self.params];
+    [params setValuesForKeysWithDictionary:postParams];
     
     [CZJNetWorkInstance postJSONWithUrl:kCZJServerAPIGoodsList
+                             parameters:params
+                                success:successBlock
+                                   fail:failBlock];
+}
+
+
+- (void)loadGoodsFilterTypes:(NSDictionary*)postParams
+                     success:(CZJSuccessBlock)success
+                        fail:(CZJFailureBlock)failure
+{
+    CZJSuccessBlock successBlock = ^(id json){
+        if ([self showAlertView:json])
+        {
+            success(json);
+        }
+    };
+    
+    CZJFailureBlock failBlock = ^(){
+        [[CZJErrorCodeManager sharedCZJErrorCodeManager] ShowNetError];
+        failure();
+    };
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [params setValuesForKeysWithDictionary:self.params];
+    [params setValuesForKeysWithDictionary:postParams];
+    
+    [CZJNetWorkInstance postJSONWithUrl:kCZJServerAPIGoodsFilterList
+                             parameters:params
+                                success:successBlock
+                                   fail:failBlock];
+}
+
+
+- (void)loadGoodsPriceOrBrandList:(NSDictionary*)postParams
+                             type:(NSString*)typeName
+                          success:(CZJSuccessBlock)success
+                             fail:(CZJFailureBlock)failure
+{
+    CZJSuccessBlock successBlock = ^(id json){
+        if ([self showAlertView:json])
+        {
+            success(json);
+        }
+    };
+    
+    CZJFailureBlock failBlock = ^(){
+        [[CZJErrorCodeManager sharedCZJErrorCodeManager] ShowNetError];
+        failure();
+    };
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [params setValuesForKeysWithDictionary:self.params];
+    [params setValuesForKeysWithDictionary:postParams];
+    NSString* urlAPI;
+    if ([typeName isEqualToString:@"品牌"])
+    {
+        urlAPI = kCZJServerAPIGoodsBrandsList;
+    }
+    if ([typeName isEqualToString:@"价格"])
+    {
+        urlAPI = kCZJServerAPIGoodsPriceList;
+    }
+    [CZJNetWorkInstance postJSONWithUrl:urlAPI
                              parameters:params
                                 success:successBlock
                                    fail:failBlock];
@@ -325,7 +399,8 @@ singleton_implementation(CZJBaseDataManager);
 
 
 #pragma mark- 发现
-- (void)showDiscoverWithBlocksuccess:(CZJSuccessBlock)success fail:(CZJFailureBlock)fail
+- (void)showDiscoverWithBlocksuccess:(CZJSuccessBlock)success
+                                fail:(CZJFailureBlock)fail
 {
     CZJSuccessBlock successBlock = ^(id json){
         if ([self showAlertView:json])
@@ -531,7 +606,7 @@ singleton_implementation(CZJBaseDataManager);
             }
             else
             {
-                _detailsForm = [[CZJDetailForm alloc] initWithDictionary:dict WithType:type];
+                _detailsForm = [[CZJDetailForm alloc] initWithDictionary:dict];
                 [_detailsForm setNewDictionary:dict WithType:type];
             }
             success(json);
@@ -556,6 +631,194 @@ singleton_implementation(CZJBaseDataManager);
     }
     
     [CZJNetWorkInstance postJSONWithUrl:apiUrl
+                             parameters:params
+                                success:successBlock
+                                   fail:failBlock];
+}
+
+
+- (void)loadGoodsSKU:(NSDictionary*)postParams
+             Success:(CZJGeneralBlock)success
+                fail:(CZJFailureBlock)fail
+{
+    CZJSuccessBlock successBlock = ^(id json)
+    {
+        if ([self showAlertView:json])
+        {
+            NSDictionary* dict = [CZJUtils DataFromJson:json];
+            success(json);
+        }
+    };
+    
+    CZJFailureBlock failBlock = ^(){
+        [[CZJErrorCodeManager sharedCZJErrorCodeManager] ShowNetError];
+    };
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [_params setValuesForKeysWithDictionary:postParams];
+    [params setValuesForKeysWithDictionary:_params];
+    
+    [CZJNetWorkInstance postJSONWithUrl:kCZJServerAPIGoodsSKU
+                             parameters:params
+                                success:successBlock
+                                   fail:failBlock];
+}
+
+
+- (void)loadUserEvalutions:(NSDictionary*)postParams
+                      type:(CZJHomeGetDataFromServerType)type
+                   SegType:(CZJEvalutionType)segType
+                   Success:(CZJGeneralBlock)success
+                      fail:(CZJFailureBlock)fail
+{
+    CZJSuccessBlock successBlock = ^(id json)
+    {
+        if ([self showAlertView:json])
+        {
+            NSDictionary* dict = [CZJUtils DataFromJson:json];
+            if (_detailsForm)
+            {
+                if (CZJHomeGetDataFromServerTypeOne == type)
+                {
+                    [_detailsForm setEvalutionInfoWithDictionary:dict WitySegType:segType];
+                }
+                else if ( CZJHomeGetDataFromServerTypeTwo == type)
+                {
+                    [_detailsForm appendEvalutionInfoWithDictionary:dict WitySegType:segType];
+                }
+            }
+            else
+            {
+                _detailsForm = [[CZJDetailForm alloc] initWithDictionary:dict];
+                [_detailsForm setEvalutionInfoWithDictionary:dict WitySegType:segType];
+            }
+            success(json);
+        }
+    };
+    
+    CZJFailureBlock failBlock = ^(){
+        [[CZJErrorCodeManager sharedCZJErrorCodeManager] ShowNetError];
+    };
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [_params setValuesForKeysWithDictionary:postParams];
+    [params setValuesForKeysWithDictionary:_params];
+    
+    [CZJNetWorkInstance postJSONWithUrl:kCZJServerAPICommentsList
+                             parameters:params
+                                success:successBlock
+                                   fail:failBlock];
+}
+
+
+- (void)loadUserEvalutionReplys:(NSDictionary*)postParams
+                           type:(CZJHomeGetDataFromServerType)type
+                        Success:(CZJGeneralBlock)success
+                           fail:(CZJFailureBlock)fail
+{
+    CZJSuccessBlock successBlock = ^(id json)
+    {
+        if ([self showAlertView:json])
+        {
+            NSDictionary* dict = [CZJUtils DataFromJson:json];
+            if (_detailsForm)
+            {
+                
+                if (CZJHomeGetDataFromServerTypeOne == type)
+                {
+                    [_detailsForm setEvalutionReplyWithDictionary:dict];
+                }
+                else if ( CZJHomeGetDataFromServerTypeTwo == type)
+                {
+                    [_detailsForm appendEvalutionReplyWithDictionary:dict];
+                }
+            }
+            else
+            {
+                _detailsForm = [[CZJDetailForm alloc] initWithDictionary:dict];
+                [_detailsForm setEvalutionReplyWithDictionary:dict];
+            }
+            success(json);
+        }
+    };
+    
+    CZJFailureBlock failBlock = ^(){
+        [[CZJErrorCodeManager sharedCZJErrorCodeManager] ShowNetError];
+    };
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [_params setValuesForKeysWithDictionary:postParams];
+    [params setValuesForKeysWithDictionary:_params];
+    
+    [CZJNetWorkInstance postJSONWithUrl:kCZJServerAPIReplyList
+                             parameters:params
+                                success:successBlock
+                                   fail:failBlock];
+}
+
+
+#pragma mark- 购物车
+- (void)loadShoppingCart:(NSDictionary*)postParams
+                 Success:(CZJGeneralBlock)success
+                    fail:(CZJFailureBlock)fail
+{
+    CZJSuccessBlock successBlock = ^(id json)
+    {
+        if ([self showAlertView:json])
+        {
+            NSDictionary* dict = [CZJUtils DataFromJson:json];
+            if (_shoppingCartForm)
+            {
+                [_shoppingCartForm appendNewShoppingCartData:dict];
+            }
+            else
+            {
+                _shoppingCartForm = [[CZJShoppingCartForm alloc] initWithDictionary:dict];
+                [_shoppingCartForm setNewShoppingCartDictionary:dict];
+            }
+            success(json);
+        }
+    };
+    
+    CZJFailureBlock failBlock = ^(){
+        [[CZJErrorCodeManager sharedCZJErrorCodeManager] ShowNetError];
+    };
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [_params setValuesForKeysWithDictionary:postParams];
+    [params setValuesForKeysWithDictionary:_params];
+    
+    
+    [CZJNetWorkInstance postJSONWithUrl:kCZJServerAPIShoppingCartCount
+                             parameters:params
+                                success:successBlock
+                                   fail:failBlock];
+}
+
+- (void)loadShoppingCouponsCart:(NSDictionary*)postParams
+                        Success:(CZJGeneralBlock)success
+                           fail:(CZJFailureBlock)fail
+{
+    CZJSuccessBlock successBlock = ^(id json)
+    {
+        if ([self showAlertView:json])
+        {
+            NSDictionary* dict = [CZJUtils DataFromJson:json];
+            [_shoppingCartForm setNewCouponsDictionary:dict];
+            success(json);
+        }
+    };
+    
+    CZJFailureBlock failBlock = ^(){
+        [[CZJErrorCodeManager sharedCZJErrorCodeManager] ShowNetError];
+    };
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [_params setValuesForKeysWithDictionary:postParams];
+    [params setValuesForKeysWithDictionary:_params];
+    
+    
+    [CZJNetWorkInstance postJSONWithUrl:kCZJServerAPIStoreCoupons
                              parameters:params
                                 success:successBlock
                                    fail:failBlock];

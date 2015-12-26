@@ -43,21 +43,36 @@
                         <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xZK-iB-Urf">
+                        <rect key="frame" x="0.0" y="0.0" width="101" height="161"/>
+                        <animations/>
+                        <state key="normal" title="Button"/>
+                    </button>
                 </subviews>
                 <animations/>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
             <animations/>
             <constraints>
+                <constraint firstItem="xZK-iB-Urf" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="74c-Eg-u0R"/>
                 <constraint firstAttribute="trailing" secondItem="ufB-t6-wMF" secondAttribute="trailing" id="BMv-Ve-Ota"/>
                 <constraint firstAttribute="trailing" secondItem="j1B-v7-hMk" secondAttribute="trailing" id="Bbk-GT-iFU"/>
+                <constraint firstAttribute="trailing" secondItem="xZK-iB-Urf" secondAttribute="trailing" id="NAs-06-aH4"/>
                 <constraint firstItem="ufB-t6-wMF" firstAttribute="top" secondItem="j1B-v7-hMk" secondAttribute="bottom" constant="7" id="Yp5-et-5zA"/>
                 <constraint firstItem="j1B-v7-hMk" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="b02-Hz-BC6"/>
                 <constraint firstItem="ufB-t6-wMF" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="dUK-s1-KIO"/>
+                <constraint firstItem="wZM-Cc-vh7" firstAttribute="bottom" secondItem="xZK-iB-Urf" secondAttribute="bottom" id="fUu-T5-wDd"/>
                 <constraint firstAttribute="bottom" secondItem="wZM-Cc-vh7" secondAttribute="bottom" id="fai-El-2Lu"/>
                 <constraint firstItem="j1B-v7-hMk" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="fgs-Oa-0NU"/>
                 <constraint firstItem="wZM-Cc-vh7" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="h4t-kG-6Cl"/>
+                <constraint firstItem="xZK-iB-Urf" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="rI3-8b-6wk"/>
             </constraints>
+            <connections>
+                <outlet property="cellBtn" destination="xZK-iB-Urf" id="t4r-wC-Ogw"/>
+                <outlet property="hotRecoImage" destination="j1B-v7-hMk" id="aYO-NX-GiE"/>
+                <outlet property="hotRecoName" destination="ufB-t6-wMF" id="2yt-g9-ixB"/>
+                <outlet property="hotRecoPrice" destination="wZM-Cc-vh7" id="aIA-6P-SzX"/>
+            </connections>
             <point key="canvasLocation" x="224.5" y="330.5"/>
         </collectionViewCell>
     </objects>

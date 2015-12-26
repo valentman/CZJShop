@@ -8,6 +8,7 @@
 
 #import "CZJDetailPicShowCell.h"
 #import "UIImageView+WebCache.h"
+#import "ImagePlayerView.h"
 
 @implementation CZJDetailPicShowCell
 
@@ -23,17 +24,17 @@
 {
     self.isInit = YES;
     [_imageArray removeAllObjects];
-    _activeties = array;
+    _imageArray = array;
 
     [self loadImageData];
 }
 
 - (void)loadImageData{
-    self.adScrollView.imagePlayerViewDelegate = self;
-    self.adScrollView.scrollInterval = 5.0f;
-    self.adScrollView.pageControlPosition = ICPageControlPosition_BottomCenter;
-    self.adScrollView.hidePageControl = NO;
-    [self.adScrollView reloadData];
+    self.picDetailView.imagePlayerViewDelegate = self;
+    self.picDetailView.scrollInterval = 5.0f;
+    self.picDetailView.pageControlPosition = ICPageControlPosition_BottomCenter;
+    self.picDetailView.hidePageControl = NO;
+    [self.picDetailView reloadData];
 }
 
 #pragma mark - ImagePlayerViewDelegate
@@ -49,7 +50,7 @@
 
 - (void)imagePlayerView:(ImagePlayerView *)imagePlayerView didTapAtIndex:(NSInteger)index
 {
-
+    [self.delegate showDetailInfoWithIndex:index];
 }
 
 @end

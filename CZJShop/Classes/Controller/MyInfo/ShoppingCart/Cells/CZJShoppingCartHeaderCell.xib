@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="KGk-i7-Jjw" customClass="CZJShoppingCartHeaderCell">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="commit_icon_ziying.png" highlightedImage="commit_icon_shop.png" translatesAutoresizingMaskIntoConstraints="NO" id="Olp-AD-WjE">
+                        <rect key="frame" x="57" y="12" width="20" height="20"/>
+                        <animations/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="20" id="B11-WQ-UMT"/>
+                            <constraint firstAttribute="width" constant="20" id="suy-F6-1Ib"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="店名" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9jt-7f-ie9">
+                        <rect key="frame" x="87" y="12" width="200" height="21"/>
+                        <animations/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="200" id="46G-ky-sKl"/>
+                            <constraint firstAttribute="height" constant="21" id="51n-wk-J00"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="m7a-kL-wTl">
+                        <rect key="frame" x="259" y="7" width="46" height="30"/>
+                        <animations/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="30" id="OIW-48-QTP"/>
+                            <constraint firstAttribute="width" constant="46" id="TNZ-8A-yY3"/>
+                        </constraints>
+                        <state key="normal" title="领券">
+                            <color key="titleColor" red="1" green="0.40000000600000002" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
+                        </state>
+                        <connections>
+                            <action selector="getCouponsAction:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="fkb-3l-wjA"/>
+                        </connections>
+                    </button>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QCk-Qm-Rxv">
+                        <rect key="frame" x="15" y="11" width="22" height="22"/>
+                        <animations/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="22" id="NnX-2Q-9IN"/>
+                            <constraint firstAttribute="width" constant="22" id="qd5-kG-v06"/>
+                        </constraints>
+                        <state key="normal" title="Button" image="commit_btn_circle_sel.png"/>
+                        <connections>
+                            <action selector="allChooseAction:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="0Ab-b9-Fk2"/>
+                        </connections>
+                    </button>
+                </subviews>
+                <animations/>
+                <constraints>
+                    <constraint firstItem="9jt-7f-ie9" firstAttribute="leading" secondItem="Olp-AD-WjE" secondAttribute="trailing" constant="10" id="8t4-xH-6yX"/>
+                    <constraint firstItem="QCk-Qm-Rxv" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="AgM-b4-JN4"/>
+                    <constraint firstItem="Olp-AD-WjE" firstAttribute="centerY" secondItem="QCk-Qm-Rxv" secondAttribute="centerY" id="DzQ-f2-guX"/>
+                    <constraint firstItem="QCk-Qm-Rxv" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="NGb-AE-5lG"/>
+                    <constraint firstItem="9jt-7f-ie9" firstAttribute="centerY" secondItem="Olp-AD-WjE" secondAttribute="centerY" id="P8f-6r-EEa"/>
+                    <constraint firstAttribute="trailing" secondItem="m7a-kL-wTl" secondAttribute="trailing" constant="15" id="ZU7-PX-0oz"/>
+                    <constraint firstItem="Olp-AD-WjE" firstAttribute="leading" secondItem="QCk-Qm-Rxv" secondAttribute="trailing" constant="20" id="hAX-nO-EOu"/>
+                    <constraint firstItem="m7a-kL-wTl" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="mje-XJ-i4J"/>
+                </constraints>
+            </tableViewCellContentView>
+            <animations/>
+            <connections>
+                <outlet property="allChooseBtn" destination="QCk-Qm-Rxv" id="vSb-ov-HwC"/>
+                <outlet property="getCouponsBtn" destination="m7a-kL-wTl" id="LZ7-j0-6UM"/>
+                <outlet property="storeNameLabel" destination="9jt-7f-ie9" id="ibD-tf-Rmg"/>
+                <outlet property="storeTypeImage" destination="Olp-AD-WjE" id="OyU-00-7av"/>
+            </connections>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="commit_btn_circle_sel.png" width="18" height="18"/>
+        <image name="commit_icon_shop.png" width="14" height="14"/>
+        <image name="commit_icon_ziying.png" width="14" height="14"/>
+    </resources>
+</document>

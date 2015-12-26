@@ -44,8 +44,10 @@ typedef enum{
 typedef NS_ENUM(NSUInteger, CZJButtonType) {
     CZJButtonTypeHomeScan = 1,              //导航栏上扫一扫按钮
     CZJButtonTypeHomeShopping = 2,          //导航栏上购物车按钮
+    CZJButtonTypeSearchBar,                 //导航栏上搜索按钮
     CZJButtonTypeNaviBarBack,               //导航栏上返回上一页按钮
-    CZJButtonTypeNaviBarMore,                  //导航栏上详情界面更多按钮
+    CZJButtonTypeNaviBarMore,               //导航栏上详情界面更多按钮
+    CZJButtonTypeNaviArrange                //导航栏上列表排列按钮
 };
 
 typedef NS_ENUM (NSInteger, CZJHomeGetDataFromServerType)
@@ -54,12 +56,13 @@ typedef NS_ENUM (NSInteger, CZJHomeGetDataFromServerType)
     CZJHomeGetDataFromServerTypeTwo         //取得推荐商品信息              *记载更多
 };
 
-typedef NS_ENUM(NSInteger, CZJViewType)
+typedef NS_ENUM(NSInteger, CZJNaviBarViewType)
 {
-    CZJViewTypeNaviBarView = 100,           //主页导航栏
-    CZJViewTypeNaviBarViewBack,             //一般界面带返回按钮导航栏
-    CZJViewTypeNaviBarViewCategory,         //分类界面导航栏
-    CZJViewTypeNaviBarViewDetail            //详情界面导航栏
+    CZJNaviBarViewTypeHome = 100,           //主页导航栏
+    CZJNaviBarViewTypeBack,             //一般界面带返回按钮导航栏
+    CZJNaviBarViewTypeCategory,         //分类界面导航栏
+    CZJNaviBarViewTypeDetail,           //详情界面导航栏
+    CZJNaviBarViewTypeGoodsList         //商品列表界面导航栏
 };
 
 typedef NS_ENUM(NSInteger, CZJViewMoveOrientation)
@@ -76,6 +79,17 @@ typedef NS_ENUM(NSInteger, CZJDetailType)
     CZJDetailTypeService,
     CZJDetailTypeGoods
 };
+
+//评论类型
+typedef NS_ENUM(NSInteger, CZJEvalutionType)
+{
+    CZJEvalutionTypeAll = 0,
+    CZJEvalutionTypePic = 1,
+    CZJEvalutionTypeGood = 2,
+    CZJEvalutionTypeMiddle = 3,
+    CZJEvalutionTypeBad = 4
+};
+
 
 typedef void (^CZJSuccessBlock)(id json);
 typedef void (^CZJFailureBlock)();

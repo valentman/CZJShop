@@ -73,6 +73,13 @@
             }
                 break;
                 
+            case kCZJSerFilterTypeChooseCellTypeGoods:
+            {
+                NSString* name = self.buttonDatas[i];
+                [child setTitle:name forState:UIControlStateNormal];
+            }
+                break;
+                
             default:
                 break;
         }
@@ -83,27 +90,52 @@
 {
     UIButton* _button = (UIButton*)sender;
     NSInteger tag = [_button tag];
-    for (UIButton* btn in self.contentView.subviews)
+    if (kCZJSerFilterTypeChooseCellTypeGoods == cellType)
     {
-        if (btn.tag == tag)
-        {
-            [btn setSelected:true];
-            [btn setBackgroundColor:RGB(251, 70, 78)];
-            btn.layer.borderColor = RGB(251, 70, 78).CGColor;
-            btn.titleLabel.textColor = [UIColor whiteColor];
-            [btn setImage:[UIImage imageNamed:@"shaixuan_icon_gou"] forState:UIControlStateSelected];
-            [btn setImageEdgeInsets:UIEdgeInsetsMake(0.0, 0.0, 0.0, 0.0)];
+        if (_button.selected) {
+            [_button setSelected:false];
+            [_button setBackgroundColor:[UIColor whiteColor]];
+            _button.layer.borderColor = RGB(180, 180, 180).CGColor;
+            _button.layer.borderWidth = 0.5;
+            _button.titleLabel.textColor = [UIColor grayColor];
+            [_button setImage:[UIImage imageNamed:@""] forState:UIControlStateSelected];
         }
         else
         {
-            [btn setSelected:false];
-            [btn setBackgroundColor:[UIColor whiteColor]];
-            btn.layer.borderColor = RGB(180, 180, 180).CGColor;
-            btn.layer.borderWidth = 0.5;
-            btn.titleLabel.textColor = [UIColor grayColor];
-            [btn setImage:[UIImage imageNamed:@""] forState:UIControlStateSelected];
+            [_button setSelected:true];
+            [_button setBackgroundColor:RGB(251, 70, 78)];
+            _button.layer.borderColor = RGB(251, 70, 78).CGColor;
+            _button.titleLabel.textColor = [UIColor whiteColor];
+            [_button setImage:[UIImage imageNamed:@"shaixuan_icon_gou"] forState:UIControlStateSelected];
+            [_button setImageEdgeInsets:UIEdgeInsetsMake(0.0, 0.0, 0.0, 0.0)];
         }
     }
+    else if (kCZJSerFilterTypeChooseCellTypeGoWhere == cellType ||
+             kCZJSerFilterTypeChooseCellTypeService == cellType)
+    {
+        for (UIButton* btn in self.contentView.subviews)
+        {
+            if (btn.tag == tag)
+            {
+                [btn setSelected:true];
+                [btn setBackgroundColor:RGB(251, 70, 78)];
+                btn.layer.borderColor = RGB(251, 70, 78).CGColor;
+                btn.titleLabel.textColor = [UIColor whiteColor];
+                [btn setImage:[UIImage imageNamed:@"shaixuan_icon_gou"] forState:UIControlStateSelected];
+                [btn setImageEdgeInsets:UIEdgeInsetsMake(0.0, 0.0, 0.0, 0.0)];
+            }
+            else
+            {
+                [btn setSelected:false];
+                [btn setBackgroundColor:[UIColor whiteColor]];
+                btn.layer.borderColor = RGB(180, 180, 180).CGColor;
+                btn.layer.borderWidth = 0.5;
+                btn.titleLabel.textColor = [UIColor grayColor];
+                [btn setImage:[UIImage imageNamed:@""] forState:UIControlStateSelected];
+            }
+        }
+    }
+
     NSString* typeID;
     switch (cellType) {
         case kCZJSerFilterTypeChooseCellTypeService:
@@ -117,6 +149,11 @@
         {
             typeID = self.buttonDatas[tag];
             [USER_DEFAULT setValue:typeID forKey:kUserDefaultServicePlace];
+        }
+            break;
+        case kCZJSerFilterTypeChooseCellTypeGoods:
+        {
+            
         }
             break;
         default:

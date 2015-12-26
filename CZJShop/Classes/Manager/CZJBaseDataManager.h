@@ -14,15 +14,16 @@
 @class CZJCarForm;
 @class CZJDetailForm;
 @class CZJGoodsForm;
+@class CZJShoppingCartForm;
 
 @interface CZJBaseDataManager : NSObject
 {
     HomeForm* _homeForm;                            //首页信息
     CZJCarForm* _carForm;                           //汽车列表信息
-    CZJDetailForm* _detailsForm;                    //详情信息（服务或商品）
+    CZJDetailForm* _detailsForm;                    //详情信息（服务或商品及其评价）
     CZJGoodsForm* _goodsForm;                       //商品相关信息
     CZJStoreForm* _storeForm;                       //门店信息
-    
+    CZJShoppingCartForm* _shoppingCartForm;         //购物车信息
     NSMutableDictionary* _discoverForms;            //发现信息
     
     NSMutableDictionary *_params;                   //post参数字典
@@ -33,6 +34,8 @@
 @property (nonatomic, retain) CZJCarForm* carForm;
 @property (nonatomic, retain) CZJStoreForm* storeForm;
 @property (nonatomic, retain) CZJDetailForm* detailsForm;
+@property (nonatomic, retain) CZJGoodsForm* goodsForm;
+@property (nonatomic, retain) CZJShoppingCartForm* shoppingCartForm;
 @property (nonatomic, retain) NSMutableDictionary* discoverForms;
 //-------------------------本地数据对象------------------------------
 @property (nonatomic, assign) CLLocationCoordinate2D curLocation;
@@ -41,7 +44,6 @@
 singleton_interface(CZJBaseDataManager);
 
 -(void)getSomeInfoSuccess:(CZJSuccessBlock)success;
-
 
 //获取首页数据
 - (void)showHomeType:(CZJHomeGetDataFromServerType)dataType
@@ -60,6 +62,17 @@ singleton_interface(CZJBaseDataManager);
               success:(CZJSuccessBlock)success
                  fail:(CZJFailureBlock)failure;
 
+//获取商品列表筛选条件列表
+- (void)loadGoodsFilterTypes:(NSDictionary*)postParams
+                     success:(CZJSuccessBlock)success
+                        fail:(CZJFailureBlock)failure;
+
+//获取商品品牌列表或价格列表
+- (void)loadGoodsPriceOrBrandList:(NSDictionary*)postParams
+                             type:(NSString*)typeName
+                          success:(CZJSuccessBlock)success
+                             fail:(CZJFailureBlock)failure;
+
 //获取门店数据
 - (void)showStoreWithParams:(NSDictionary*)postParams
                        type:(CZJHomeGetDataFromServerType)type
@@ -67,8 +80,8 @@ singleton_interface(CZJBaseDataManager);
                        fail:(CZJFailureBlock)failure;
 
 //获取发现数据
-- (void)showDiscoverWithBlocksuccess:(CZJSuccessBlock)success fail:(CZJFailureBlock)fail;
-
+- (void)showDiscoverWithBlocksuccess:(CZJSuccessBlock)success
+                                fail:(CZJFailureBlock)fail;
 
 //获取服务列表数据
 - (void)showSeverciceList:(NSDictionary*)postParams
@@ -95,4 +108,31 @@ singleton_interface(CZJBaseDataManager);
                     Success:(CZJGeneralBlock)success
                        fail:(CZJFailureBlock)fail;
 
+//获取商品SKU
+- (void)loadGoodsSKU:(NSDictionary*)postParams
+             Success:(CZJGeneralBlock)success
+                fail:(CZJFailureBlock)fail;
+
+//获取评价列表
+- (void)loadUserEvalutions:(NSDictionary*)postParams
+                      type:(CZJHomeGetDataFromServerType)type
+                   SegType:(CZJEvalutionType)segType
+                   Success:(CZJGeneralBlock)success
+                      fail:(CZJFailureBlock)fail;
+
+//获取评价回复列表
+- (void)loadUserEvalutionReplys:(NSDictionary*)postParams
+                           type:(CZJHomeGetDataFromServerType)type
+                       Success:(CZJGeneralBlock)success
+                          fail:(CZJFailureBlock)fail;
+
+//获取购物车信息
+- (void)loadShoppingCart:(NSDictionary*)postParams
+                 Success:(CZJGeneralBlock)success
+                    fail:(CZJFailureBlock)fail;
+
+//获取领券信息
+- (void)loadShoppingCouponsCart:(NSDictionary*)postParams
+                        Success:(CZJGeneralBlock)success
+                           fail:(CZJFailureBlock)fail;
 @end

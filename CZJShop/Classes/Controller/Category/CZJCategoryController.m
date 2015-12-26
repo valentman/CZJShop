@@ -9,10 +9,15 @@
 #import "CZJCategoryController.h"
 #import "MultilevelMenu.h"
 #import "CZJNaviagtionBarView.h"
+#import "CZJServiceListController.h"
+#import "CZJGoodsListController.h"
 
 @interface CZJCategoryController ()<CZJNaviagtionBarViewDelegate>
 @property (weak, nonatomic) IBOutlet MultilevelMenu *multiView;
 @property (weak, nonatomic) IBOutlet CZJNaviagtionBarView *naviBarView;
+@property (strong, nonatomic) NSString* serviceTypeId;
+@property (strong, nonatomic) NSString* goodsTypeId;
+
 @end
 
 @implementation CZJCategoryController
@@ -32,7 +37,7 @@
     //导航栏添加搜索栏
     self.navigationController.navigationBarHidden = YES;
     CGRect mainViewBounds = self.navigationController.navigationBar.bounds;
-    [self.naviBarView initWithFrame:mainViewBounds AndType:CZJViewTypeNaviBarViewCategory].delegate = self;
+    [self.naviBarView initWithFrame:mainViewBounds AndType:CZJNaviBarViewTypeCategory].delegate = self;
     [self.naviBarView setBackgroundColor:UIColorFromRGB(0xF3F4F6)];
 
     
@@ -67,7 +72,17 @@
     }];
     
     [self.multiView initWithFrame:CGRectMake(0, StatusBar_HEIGHT, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - Tabbar_HEIGHT - StatusBar_HEIGHT) WithData:lis withSelectIndex:^(NSInteger left, NSInteger right,rightMeun* info) {
-        DLog(@"点击的 菜单%@",info.meunName);
+        DLog(@"点击的 菜单%@, ID:%@",info.meunName,info.ID);
+        if ([info.ID hasPrefix:@"10"])
+        {
+            _serviceTypeId = info.ID;
+            [self performSegueWithIdentifier:@"segueToServiceList" sender:self];
+        }
+        else
+        {
+            _goodsTypeId = info.ID;
+            [self performSegueWithIdentifier:@"segueToGoodsList" sender:self];
+        }
     }];
     _multiView.isRecordLastScroll=YES;
     
@@ -76,6 +91,24 @@
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
+}
+
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"segueToServiceList"])
+    {
+        CZJServiceListController* detailInfo = segue.destinationViewController;
+        detailInfo.title = @"";
+        detailInfo.navTitleName = @"";
+        detailInfo.typeId = _serviceTypeId;
+        
+    }
+    if ([segue.identifier isEqualToString:@"segueToGoodsList"])
+    {
+        CZJGoodsListController* detailInfo = segue.destinationViewController;
+        detailInfo.typeId = _goodsTypeId;
+    }
 }
 
 

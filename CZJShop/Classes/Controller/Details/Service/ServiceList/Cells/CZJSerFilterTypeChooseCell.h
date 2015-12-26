@@ -9,6 +9,7 @@
 #import "CZJButtonArrayCell.h"
 #define kCZJSerFilterTypeChooseCellTypeService 1111
 #define kCZJSerFilterTypeChooseCellTypeGoWhere 1112
+#define kCZJSerFilterTypeChooseCellTypeGoods 1113
 
 
 @interface CZJSerFilterTypeChooseCell : CZJButtonArrayCell

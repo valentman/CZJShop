@@ -7,7 +7,20 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CZJDetailForm.h"
 
-@interface CZJEvalutionFooterCell : UITableViewCell
+#define kLookAllEvalView 5001
+#define kEvalDetailView 5002
 
+@interface CZJEvalutionFooterCell : UITableViewCell<CZJImageViewTouchDelegate>
+@property (weak, nonatomic) IBOutlet UIView *allEvalView;
+@property (weak, nonatomic) IBOutlet UIView *evalDetailView;
+@property (weak, nonatomic) IBOutlet UIButton *evalutionReplyBtn;
+
+@property (weak, nonatomic) IBOutlet UILabel *serviceName;
+@property (weak, nonatomic) IBOutlet UILabel *serviceTime;
+@property (weak, nonatomic) id<CZJImageViewTouchDelegate>delegate;
+@property (strong, nonatomic)CZJEvalutionsForm* form;
+
+- (void)setVisibleView:(NSInteger)type;
 @end

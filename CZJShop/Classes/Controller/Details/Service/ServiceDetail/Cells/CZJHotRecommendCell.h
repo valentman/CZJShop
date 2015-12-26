@@ -7,7 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "LSPageScrollView.h"
 
-@interface CZJHotRecommendCell : UITableViewCell
+@interface CZJHotRecommendCell : CZJTableViewCell
+@property (weak, nonatomic) IBOutlet LSPageScrollView *hotRecoPageScrollView;
 
+
+- (void)setHotRecommendDatas:(NSArray*)hotRecommends;
 @end
