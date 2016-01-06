@@ -33,8 +33,9 @@
 - (void)appendNewShoppingCartData:(NSDictionary*)dict
 {
     NSArray* tmpAry = [dict valueForKey:@"msg"];
-    for (NSDictionary* tmpdict in tmpAry) {
-        CZJShoppingCartInfoForm* form = [[CZJShoppingCartInfoForm alloc]initWithDictionary:tmpdict];
+    for (int i = 0; i < tmpAry.count; i++)
+    {
+        CZJShoppingCartInfoForm* form = [[CZJShoppingCartInfoForm alloc]initWithDictionary:tmpAry[i]];
         [_shoppingCartList addObject:form];
     }
 }
@@ -61,6 +62,9 @@
 @synthesize storeId = _storeId;
 @synthesize selfFlag = _selfFlag;
 @synthesize hasCoupon = _hasCoupon;
+@synthesize companyId = _companyId;
+@synthesize isSelect = _isSelect;
+@synthesize isDeleteSelect = _isDeleteSelect;
 
 
 - (id)initWithDictionary:(NSDictionary*)dict
@@ -75,9 +79,11 @@
             [self.items addObject:form];
         }
         self.storeId = [dict valueForKey:@"storeId"];
+        self.companyId = [dict valueForKey:@"companyId"];
         self.selfFlag = [[dict valueForKey:@"selfFlag"] boolValue];
         self.hasCoupon = [[dict valueForKey:@"hasCoupon"] boolValue];
         self.isSelect = YES;
+        self.isDeleteSelect = NO;
         return self;
     }
     return nil;
@@ -99,6 +105,7 @@
 @synthesize itemSku = _itemSku;
 @synthesize itemCode = _itemCode;
 @synthesize isSelect = _isSelect;
+@synthesize isDeleteSelect = _isDeleteSelect;
 
 - (id)initWithDictionary:(NSDictionary*)dict
 {
@@ -108,11 +115,13 @@
         self.storeItemPid = [dict valueForKey:@"storeItemPid"];
         self.itemType = [dict valueForKey:@"itemType"];
         self.itemImg = [dict valueForKey:@"itemImg"];
-        self.off = [dict valueForKey:@"off"];
+        self.off = [[dict valueForKey:@"off"] boolValue];
         self.currentPrice = [dict valueForKey:@"currentPrice"];
         self.itemCount = [dict valueForKey:@"itemCount"];
         self.itemSku = [dict valueForKey:@"itemSku"];
         self.itemCode = [dict valueForKey:@"itemCode"];
+        self.isSelect = YES;
+        self.isDeleteSelect = NO;
         return self;
     }
     return nil;

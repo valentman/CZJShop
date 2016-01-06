@@ -53,7 +53,7 @@ typedef NS_ENUM(NSUInteger, CZJButtonType) {
 typedef NS_ENUM (NSInteger, CZJHomeGetDataFromServerType)
 {
     CZJHomeGetDataFromServerTypeOne = 0,    //取得除了推荐商品之外的主页信息  *刷新
-    CZJHomeGetDataFromServerTypeTwo         //取得推荐商品信息              *记载更多
+    CZJHomeGetDataFromServerTypeTwo         //取得推荐商品信息              *加载更多
 };
 
 typedef NS_ENUM(NSInteger, CZJNaviBarViewType)
@@ -90,7 +90,7 @@ typedef NS_ENUM(NSInteger, CZJEvalutionType)
     CZJEvalutionTypeBad = 4
 };
 
-
+typedef void (^CZJButtonBlock)(UIButton* button);
 typedef void (^CZJSuccessBlock)(id json);
 typedef void (^CZJFailureBlock)();
 typedef void (^CZJGeneralBlock)();

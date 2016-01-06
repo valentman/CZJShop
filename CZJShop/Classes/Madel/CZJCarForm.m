@@ -44,7 +44,6 @@
             [_carBrandsForms setObject:tmp_brands forKey:tmp_key];
         }
     }
-    DLog(@"%@",[_carBrandsForms description]);
     NSArray* haveCars = [[dict valueForKey:@"msg"] valueForKey:@"cars"];
     for (id obj in haveCars) {
         HaveCarsForm* tmp_ser = [[HaveCarsForm alloc] initWithDictionary:obj];

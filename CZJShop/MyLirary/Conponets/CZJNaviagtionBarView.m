@@ -7,8 +7,9 @@
 //
 
 #import "CZJNaviagtionBarView.h"
-
-@interface CZJNaviagtionBarView ()<UISearchBarDelegate>
+#import "CZJLoginController.h"
+#import "CZJShoppingCartController.h"
+@interface CZJNaviagtionBarView ()
 {
     CGRect _selfBounds;
 }
@@ -35,6 +36,22 @@
     }
     return nil;
 }
+
+- (void)refreshShopBadgeLabel
+{
+    NSString* shoppingCartCount = [USER_DEFAULT valueForKey:kUserDefaultShoppingCartCount];
+    if ([shoppingCartCount intValue]<= 0)
+    {
+        _btnShopBadgeLabel.text = @"";
+        _btnShopBadgeLabel.hidden = YES;
+    }
+    else
+    {
+        _btnShopBadgeLabel.text = [NSString stringWithFormat:@"%@",shoppingCartCount];
+        _btnShopBadgeLabel.hidden = NO;
+    }
+}
+
 
 - (void)initWithButtonsWithType:(CZJNaviBarViewType)type
 {
@@ -94,19 +111,25 @@
     [_btnShop setTag:CZJButtonTypeHomeShopping];
     [_btnShop setHidden:YES];
     
-    _btnShopBadgeLabel = [[UILabel alloc]initWithFrame:CGRectMake(30, -2, 20, 20)];
+    _btnShopBadgeLabel = [[UILabel alloc]initWithFrame:CGRectMake(25, 0, 16, 16)];
     _btnShopBadgeLabel.textColor = [UIColor whiteColor];
-    _btnShopBadgeLabel.text = @"20";
-    _btnShopBadgeLabel.font = [UIFont boldSystemFontOfSize:11];
     
-    _btnShopBadgeLabel.textAlignment = NSTextAlignmentCenter;
-    _btnShopBadgeLabel.layer.backgroundColor = [UIColor redColor].CGColor;
-    _btnShopBadgeLabel.layer.cornerRadius = 10;
-    _btnShopBadgeLabel.hidden = YES;
-    [_btnShop addSubview:_btnShopBadgeLabel];
-    if (CZJNaviBarViewTypeDetail == type) {
+    NSString* shoppingCartCount = [USER_DEFAULT valueForKey:kUserDefaultShoppingCartCount];
+    if ([shoppingCartCount intValue]<= 0)
+    {
+        _btnShopBadgeLabel.text = @"";
+        _btnShopBadgeLabel.hidden = YES;
+    }
+    else
+    {
+        _btnShopBadgeLabel.text = [NSString stringWithFormat:@"%@",shoppingCartCount];
         _btnShopBadgeLabel.hidden = NO;
     }
+    _btnShopBadgeLabel.font = [UIFont boldSystemFontOfSize:10];
+    _btnShopBadgeLabel.textAlignment = NSTextAlignmentCenter;
+    _btnShopBadgeLabel.layer.backgroundColor = [UIColor redColor].CGColor;
+    _btnShopBadgeLabel.layer.cornerRadius = 8;
+    [_btnShop addSubview:_btnShopBadgeLabel];
     
     //6.列表分类按钮
     CGRect btnArrangeRect = CGRectMake(CGRectGetMaxX(_selfBounds) - 44, 10, 24, 24);
@@ -200,9 +223,42 @@
 
 - (void)clickButton:(id)sender
 {
+    __block UIButton* touchBt = (UIButton*)sender;
+    [touchBt setEnabled:NO];
     if ([_delegate respondsToSelector:@selector(clickEventCallBack:)]) {
         [_delegate clickEventCallBack:sender];
     }
+    
+    if (CZJButtonTypeHomeShopping == touchBt.tag)
+    {
+        if ([USER_DEFAULT valueForKey:kCZJIsUserHaveLogined])
+        {
+            [CZJUtils showShoppingCartView:(UIViewController*)_delegate andNaviBar:self];
+        }
+        else
+        {
+            [CZJUtils showLoginView:(UIViewController*)_delegate];
+        }
+    }
+    
+    CZJGeneralBlock generBlock = ^()
+    {
+        [touchBt setEnabled:YES];
+    };
+    [CZJUtils performBlock:generBlock afterDelay:1.5];
 }
+
+- (void)didCancel:(id)controller
+{
+    if ([controller isKindOfClass: [CZJLoginController class]] )
+    {
+        [CZJUtils removeLoginViewFromCurrent:(UIViewController*)_delegate];
+    }
+    else if ([controller isKindOfClass: [CZJShoppingCartController class]])
+    {
+        [CZJUtils removeShoppintCartViewFromCurrent:(UIViewController*)_delegate];
+    }
+}
+
 
 @end

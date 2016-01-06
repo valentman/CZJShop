@@ -17,7 +17,6 @@
 #import "XGPush.h"
 #import "XGSetting.h"
 #import "JRSwizzle.h"
-#import "NSDictionary+NSDictonay_Unicode.h"
 
 @interface AppDelegate ()
 
@@ -55,7 +54,34 @@
     NSURLCache *URLCache = [[NSURLCache alloc] initWithMemoryCapacity:40 * 1024 * 1024 diskCapacity:40 * 1024 * 1024 diskPath:nil];
     [NSURLCache setSharedURLCache:URLCache];
     
-    //--------------------3.初始化定位-------------------
+    
+    //------------------3.登录设置----------------
+    [CZJLoginModelInstance loginWithDefaultInfoSuccess:^
+    {
+        if ([USER_DEFAULT valueForKey:kCZJUserName])
+        {
+            [USER_DEFAULT setObject:@"" forKey:kCZJUserName];
+        }
+        if (![USER_DEFAULT valueForKey:kCZJDefaultCityID] ||
+            ![USER_DEFAULT valueForKey:kCZJDefaultyCityName])
+        {
+            [USER_DEFAULT setObject:kCZJChengduID forKey:kCZJDefaultCityID];
+            [USER_DEFAULT setObject:kCZJChengdu forKey:kCZJDefaultyCityName];
+            CZJLoginModelInstance.cityId = kCZJChengduID;
+            CZJLoginModelInstance.cityName = kCZJChengdu;
+        }
+        else
+        {
+            CZJLoginModelInstance.cityId = [USER_DEFAULT valueForKey: kCZJDefaultCityID];
+            CZJLoginModelInstance.cityName = [USER_DEFAULT valueForKey:kCZJDefaultyCityName];
+        }
+    } fail:^{
+        
+    }];
+    
+    
+    
+    //--------------------4.初始化定位-------------------
     if (IS_IOS8)
     {
         [[CCLocationManager shareLocation] getLocationCoordinate:^(CLLocationCoordinate2D locationCorrrdinate)
@@ -88,26 +114,8 @@
         }
     }
     
-    if ([USER_DEFAULT valueForKey:kCZJUserName])
-    {
-        [USER_DEFAULT setObject:@"" forKey:kCZJUserName];
-    }
-    if (![USER_DEFAULT valueForKey:kCZJDefaultCityID] ||
-        ![USER_DEFAULT valueForKey:kCZJDefaultyCityName])
-    {
-        [USER_DEFAULT setObject:kCZJChengduID forKey:kCZJDefaultCityID];
-        [USER_DEFAULT setObject:kCZJChengdu forKey:kCZJDefaultyCityName];
-        [CZJLoginModelManager sharedCZJLoginModelManager].cityId = kCZJChengduID;
-        [CZJLoginModelManager sharedCZJLoginModelManager].cityName = kCZJChengdu;
-    }
-    else
-    {
-        [CZJLoginModelManager sharedCZJLoginModelManager].cityId = [USER_DEFAULT valueForKey: kCZJDefaultCityID];
-        [CZJLoginModelManager sharedCZJLoginModelManager].cityName = [USER_DEFAULT valueForKey:kCZJDefaultyCityName];
-    }
     
-    
-    //--------------------4.推送注册中心-----------------
+    //--------------------5.推送注册中心-----------------
     [XGPush startApp:kCZJPushServerAppId appKey:kCZJPushServerAppKey];
     CZJGeneralBlock successBlock = ^(void)
     {
@@ -152,14 +160,14 @@
     [XGPush setTag:[CZJLoginModelManager sharedCZJLoginModelManager].cityId];
     BOOL isLoginedIn = [USER_DEFAULT boolForKey:kCZJIsUserHaveLogined];
     if (isLoginedIn) {
-        [[CZJLoginModelManager sharedCZJLoginModelManager] loginWithDefaultInfoSuccess:^()
+        [CZJLoginModelInstance loginWithDefaultInfoSuccess:^()
          {
-             [XGPush setAccount:[[CZJLoginModelManager sharedCZJLoginModelManager] cheZhuId]];
+             [XGPush setAccount:[CZJLoginModelInstance cheZhuId]];
          }fail:^(){}];
     }
     
     
-    //-----------------5.判断是否启动广告页面--------------
+    //-----------------6.判断是否启动广告页面--------------
     NSString* storyboardId = @"";
     NSMutableDictionary* tmp = [CZJUtils readStartInfoPlistWithPlistName];
     if (nil != tmp)
@@ -178,7 +186,6 @@
         storyboardId = kCZJStoryBoardIDHomeView;
     }
 
-    
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:kCZJStoryBoardFileMain bundle:nil];
     UIViewController *initViewController = [storyboard instantiateViewControllerWithIdentifier:storyboardId];
     
@@ -187,14 +194,15 @@
     [self.window makeKeyAndVisible];
     
     
-    //---------------------6.分享设置---------------------
+    //---------------------7.分享设置---------------------
     [OpenShare connectQQWithAppId:kCZJOpenShareQQAppId];
     [OpenShare connectWeiboWithAppKey:kCZJOpenShareWeiboAppKey];
     [OpenShare connectWeixinWithAppId:kCZJOpenShareWeixinAppId];
     [OpenShare connectAlipay];
     
-    //-------------------7.字典描述分类替换---------------
-     [NSDictionary jr_swizzleMethod:@selector(description) withMethod:@selector(my_description) error:nil];
+    
+    //-------------------8.字典描述分类替换---------------
+    [NSDictionary jr_swizzleMethod:@selector(description) withMethod:@selector(my_description) error:nil];
 
     return YES;
 }

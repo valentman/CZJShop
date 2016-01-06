@@ -10,6 +10,6 @@
 #import "PullTableView.h"
 
 
-@interface CZJShoppingCartController : UIViewController
+@interface CZJShoppingCartController : CZJViewController
 @property (nonatomic, weak) id <CZJViewControllerDelegate> delegate;
 @end

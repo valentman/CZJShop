@@ -34,13 +34,13 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
     lastScale = 1.0;
     self.view.backgroundColor = [UIColor blackColor];
     screen_height=[UIScreen mainScreen].bounds.size.height;
     screen_width=[UIScreen mainScreen].bounds.size.width;
-//    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(OnTapView)];
-//    [self.view addGestureRecognizer:tap];
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(OnTapView)];
+    tap.numberOfTapsRequired = 1;
+    [self.view addGestureRecognizer:tap];
 
     [self initScrollView];
     [self addLabels];
@@ -50,12 +50,11 @@
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 -(void)initScrollView{
-//    [[SDImageCache sharedImageCache] cleanDisk];
-//    [[SDImageCache sharedImageCache] clearMemory];
+    [[SDImageCache sharedImageCache] cleanDisk];
+    [[SDImageCache sharedImageCache] clearMemory];
     self.scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, screen_width, screen_height)];
     self.scrollView.pagingEnabled = YES;
     self.scrollView.userInteractionEnabled = YES;
@@ -65,8 +64,8 @@
     self.scrollView.delegate = self;
     self.scrollView.contentOffset = CGPointMake(0, 0);
     //设置放大缩小的最大，最小倍数
-//    self.scrollView.minimumZoomScale = 1;
-//    self.scrollView.maximumZoomScale = 2;
+    self.scrollView.minimumZoomScale = 1;
+    self.scrollView.maximumZoomScale = 2;
     [self.view addSubview:self.scrollView];
     
     for (int i = 0; i < self.imgArr.count; i++) {
@@ -147,7 +146,6 @@
     
     sender.view.layer.transform = newTransform;
     if ([sender state] == UIGestureRecognizerStateEnded) {
-        //
     }
 }
 
@@ -160,15 +158,5 @@
     self.nameLabel.text=self.imageNameArray[i-1];
 }
 
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

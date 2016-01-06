@@ -16,11 +16,13 @@
 @property (weak, nonatomic) IBOutlet UIView *allEvalView;
 @property (weak, nonatomic) IBOutlet UIView *evalDetailView;
 @property (weak, nonatomic) IBOutlet UIButton *evalutionReplyBtn;
+@property (weak, nonatomic) IBOutlet UILabel *seeAllEvalution;
 
 @property (weak, nonatomic) IBOutlet UILabel *serviceName;
 @property (weak, nonatomic) IBOutlet UILabel *serviceTime;
 @property (weak, nonatomic) id<CZJImageViewTouchDelegate>delegate;
 @property (strong, nonatomic)CZJEvalutionsForm* form;
 
+- (IBAction)replyEvalutionAction:(id)sender;
 - (void)setVisibleView:(NSInteger)type;
 @end

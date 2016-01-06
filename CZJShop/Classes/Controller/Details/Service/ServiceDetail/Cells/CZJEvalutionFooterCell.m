@@ -12,14 +12,26 @@
 
 - (void)awakeFromNib {
     // Initialization code
-    [self.evalutionReplyBtn addTarget:self action:@selector(goToReplyDetail:) forControlEvents:UIControlEventTouchUpInside];
+    _seeAllEvalution.layer.borderWidth = 0.5;
+    _seeAllEvalution .layer.borderColor = [[UIColor lightGrayColor]CGColor];
+    _seeAllEvalution.layer.cornerRadius = 2;
     
-}
+    
+    _evalutionReplyBtn.layer.borderWidth = 0.5;
+    _evalutionReplyBtn .layer.borderColor = [[UIColor lightGrayColor]CGColor];
+    _evalutionReplyBtn.layer.cornerRadius = 2;
+    
+}   
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 
     // Configure the view for the selected state
+}
+
+- (IBAction)replyEvalutionAction:(id)sender
+{
+    [self.delegate showDetailInfoWithIndex:[self.form.evalutionId integerValue]];
 }
 
 - (void)setVisibleView:(NSInteger)type
@@ -34,11 +46,6 @@
         _allEvalView.hidden = YES;
         _evalDetailView.hidden = NO;
     }
-}
-
-- (void)goToReplyDetail:(id)sender
-{
-    [self.delegate showDetailInfoWithIndex:self.form.evalutionId];
 }
 
 @end

@@ -15,7 +15,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="commit_icon_ziying.png" highlightedImage="commit_icon_shop.png" translatesAutoresizingMaskIntoConstraints="NO" id="Olp-AD-WjE">
-                        <rect key="frame" x="57" y="12" width="20" height="20"/>
+                        <rect key="frame" x="60" y="12" width="20" height="20"/>
                         <animations/>
                         <constraints>
                             <constraint firstAttribute="height" constant="20" id="B11-WQ-UMT"/>
@@ -23,7 +23,7 @@
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="店名" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9jt-7f-ie9">
-                        <rect key="frame" x="87" y="12" width="200" height="21"/>
+                        <rect key="frame" x="90" y="12" width="200" height="21"/>
                         <animations/>
                         <constraints>
                             <constraint firstAttribute="width" constant="200" id="46G-ky-sKl"/>
@@ -48,13 +48,15 @@
                         </connections>
                     </button>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QCk-Qm-Rxv">
-                        <rect key="frame" x="15" y="11" width="22" height="22"/>
+                        <rect key="frame" x="5" y="2" width="40" height="40"/>
                         <animations/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="22" id="NnX-2Q-9IN"/>
-                            <constraint firstAttribute="width" constant="22" id="qd5-kG-v06"/>
+                            <constraint firstAttribute="height" constant="40" id="NnX-2Q-9IN"/>
+                            <constraint firstAttribute="width" constant="40" id="qd5-kG-v06"/>
                         </constraints>
-                        <state key="normal" title="Button" image="commit_btn_circle_sel.png"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                        <inset key="imageEdgeInsets" minX="5" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        <state key="normal" image="commit_btn_circle_sel.png"/>
                         <connections>
                             <action selector="allChooseAction:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="0Ab-b9-Fk2"/>
                         </connections>
@@ -65,10 +67,10 @@
                     <constraint firstItem="9jt-7f-ie9" firstAttribute="leading" secondItem="Olp-AD-WjE" secondAttribute="trailing" constant="10" id="8t4-xH-6yX"/>
                     <constraint firstItem="QCk-Qm-Rxv" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="AgM-b4-JN4"/>
                     <constraint firstItem="Olp-AD-WjE" firstAttribute="centerY" secondItem="QCk-Qm-Rxv" secondAttribute="centerY" id="DzQ-f2-guX"/>
-                    <constraint firstItem="QCk-Qm-Rxv" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="NGb-AE-5lG"/>
+                    <constraint firstItem="QCk-Qm-Rxv" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="5" id="NGb-AE-5lG"/>
                     <constraint firstItem="9jt-7f-ie9" firstAttribute="centerY" secondItem="Olp-AD-WjE" secondAttribute="centerY" id="P8f-6r-EEa"/>
                     <constraint firstAttribute="trailing" secondItem="m7a-kL-wTl" secondAttribute="trailing" constant="15" id="ZU7-PX-0oz"/>
-                    <constraint firstItem="Olp-AD-WjE" firstAttribute="leading" secondItem="QCk-Qm-Rxv" secondAttribute="trailing" constant="20" id="hAX-nO-EOu"/>
+                    <constraint firstItem="Olp-AD-WjE" firstAttribute="leading" secondItem="QCk-Qm-Rxv" secondAttribute="trailing" constant="15" id="hAX-nO-EOu"/>
                     <constraint firstItem="m7a-kL-wTl" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="mje-XJ-i4J"/>
                 </constraints>
             </tableViewCellContentView>
@@ -79,6 +81,7 @@
                 <outlet property="storeNameLabel" destination="9jt-7f-ie9" id="ibD-tf-Rmg"/>
                 <outlet property="storeTypeImage" destination="Olp-AD-WjE" id="OyU-00-7av"/>
             </connections>
+            <point key="canvasLocation" x="35" y="320"/>
         </tableViewCell>
     </objects>
     <resources>

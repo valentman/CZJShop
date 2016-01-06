@@ -66,6 +66,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     self.navigationController.navigationBarHidden = YES;
+    [_navigationBar refreshShopBadgeLabel];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -483,7 +484,7 @@
     [self.view addSubview:view];
     self.upView = view;
     self.upView.alpha = 0.0;
-    [UIView animateWithDuration:0.5 animations:^{
+    [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
         self.window.frame = CGRectMake(50, 0, PJ_SCREEN_WIDTH-50, PJ_SCREEN_HEIGHT);
         self.upView.alpha = 1.0;
     } completion:nil];
@@ -491,7 +492,7 @@
     
     __weak typeof(self) weak = self;
     [serviceFilterController setCancleBarItemHandle:^{
-        [UIView animateWithDuration:0.5 animations:^{
+        [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
             weak.window.frame = CGRectMake(PJ_SCREEN_WIDTH, 0, PJ_SCREEN_WIDTH-50, PJ_SCREEN_HEIGHT);
             self.upView.alpha = 0.0;
         } completion:^(BOOL finished) {

@@ -29,22 +29,35 @@
     NSMutableArray* hotRecoCells = [NSMutableArray array];
     int cellHeight;
     int cellWidth;
+    NSArray *nib = [[NSBundle mainBundle]loadNibNamed:@"CZJHotRecoCell" owner:self options:nil];
+    //得到第一个UIView
     for (CZJStoreServiceForm* form in hotRecommends)
     {
-        CZJHotRecoCell* cell = [[CZJHotRecoCell alloc]init];
+        NSArray *nib = [[NSBundle mainBundle]loadNibNamed:@"CZJHotRecoCell" owner:self options:nil];
+        CZJHotRecoCell* cell = [nib objectAtIndex:0];
+        ;
         [cell.hotRecoImage sd_setImageWithURL:[NSURL URLWithString:form.itemImg] placeholderImage:nil];
+        
+        NSDictionary *dic = @{NSFontAttributeName: SYSTEMFONT(12)};
+        CGSize hotSize = [form.itemName boundingRectWithSize:CGSizeMake(100, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading  attributes:dic context:nil].size;
         cell.hotRecoName.text = form.itemName;
+        
+        DLog(@"%@,%f,%f",form.itemName,hotSize.width,hotSize.height);
+        if (hotSize.height > 30)
+        {
+            hotSize.height = 30;
+        }
+        cell.hotRecoNameLayoutHeight.constant = hotSize.height;
         cell.hotRecoPrice.text = form.skillPrice;
         [hotRecoCells addObject:cell];
         cellHeight = cell.frame.size.height;
         cellWidth = cell.frame.size.width;
     }
     
-    
-    
-    CGRect hotRect = self.hotRecoPageScrollView.frame;
+    CGSize hotSize = CGSizeMake(PJ_SCREEN_WIDTH - 40, self.hotRecoPageScrollView.frame.size.height);
+    CGRect hotRect = CGRectMake(20, 44, hotSize.width, hotSize.height);
     NSInteger numbers = hotRecommends.count / 6;
-    self.hotRecoPageScrollView = [[LSPageScrollView alloc]initWithFrame:hotRect numberOfItem:numbers itemSize:hotRect.size complete:^(NSArray *items) {
+    UIView* pageView = [[LSPageScrollView alloc]initWithFrame:hotRect numberOfItem:numbers itemSize:hotSize complete:^(NSArray *items) {
         for (int i = 0; i < items.count; i++)
         {
             UIView* view = items[i];
@@ -60,7 +73,7 @@
                 int row = x/divide;
                 DLog(@"row:%d, column:%d", row, column);
                 // 很据列数和行数算出x、y
-                int childX = column * cellWidth;
+                int childX = column * (cellWidth + 35);
                 int childY = row * cellHeight;
                 cell.frame = CGRectMake(childX , childY, hotRect.size.width, hotRect.size.height);
                 [view addSubview:cell];
@@ -68,6 +81,7 @@
 
         }
     }];
+    [self.contentView addSubview:pageView];
 }
 
 

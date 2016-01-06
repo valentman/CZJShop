@@ -59,6 +59,12 @@ CZJNaviagtionBarViewDelegate
     // Do any additional setup after loading the view.
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [_topNaviBarView refreshShopBadgeLabel];
+}
+
+
 - (void)initDatas
 {
     goodsListAry = [NSMutableArray array];

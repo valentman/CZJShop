@@ -51,6 +51,9 @@
 //详情界面信息初始
 - (void)setNewDictionary:(NSDictionary*)dict WithType:(CZJDetailType)type;
 
+//详情界面热门商品推荐列表
+- (void)setNewRecommendDictionary:(NSDictionary*)dict WithType:(CZJDetailType)type;
+
 //评价页面评价信息列表
 - (void)setEvalutionInfoWithDictionary:(NSDictionary*)dict WitySegType:(CZJEvalutionType)type;
 - (void)appendEvalutionInfoWithDictionary:(NSDictionary*)dict WitySegType:(CZJEvalutionType)type;
@@ -150,8 +153,13 @@
 @property(nonatomic, strong) NSString* storeItemPid;
 @property(nonatomic, assign) BOOL goHouseFlag;
 @property(nonatomic, assign) BOOL attentionFlag;
+@property(nonatomic, assign) BOOL selfFlag;
 @property(nonatomic, strong) NSString* currentPrice;
 @property(nonatomic, strong) NSString* itemCode;
+@property(nonatomic, strong) NSString* companyId;
+@property(nonatomic, strong) NSString* itemType;
+@property(nonatomic, strong) NSString* buyType;
+@property(nonatomic, strong) NSString* itemImg;
 
 - (id)initWithDictionary:(NSDictionary*)dict;
 
@@ -169,6 +177,8 @@
 @property(nonatomic, strong) NSString* setupFlag;
 @property(nonatomic, assign) BOOL goHouseFlag;
 @property(nonatomic, assign) BOOL attentionFlag;
+@property(nonatomic, assign) BOOL skillFlag;
+@property(nonatomic, assign) BOOL selfFlag;
 @property(nonatomic, strong) NSString* currentPrice;
 @property(nonatomic, strong) CZJGoodsSKU* sku;
 @property(nonatomic, strong) NSString* vendorId;
@@ -176,14 +186,18 @@
 @property(nonatomic, strong) NSString* transportPrice;
 @property(nonatomic, strong) NSString* originalPrice;
 @property(nonatomic, strong) NSString* counterKey;
-@property(nonatomic, assign) BOOL skillFlag;
+
 @property(nonatomic, strong) NSString* itemImg;
 @property(nonatomic, strong) NSString* skillPrice;
 @property(nonatomic, strong) NSString* typeId;
 @property(nonatomic, strong) NSString* storeId;
 @property(nonatomic, strong) NSString* skillEndTime;
-@property(nonatomic, assign) BOOL selfFlag;
+
 @property(nonatomic, strong) NSString* itemCode;
+@property(nonatomic, strong) NSString* companyId;
+@property(nonatomic, strong) NSString* buyType;
+@property(nonatomic, strong) NSString* itemSku;
+@property(nonatomic, strong) NSString* itemType;
 
 - (id)initWithDictionary:(NSDictionary*)dict;
 
@@ -199,6 +213,8 @@
 @property(nonatomic, strong) NSString* skuImg;
 @property(nonatomic, strong) NSString* skuValueIds;
 @property(nonatomic, strong) NSString* skuValues;
+@property(nonatomic, strong) NSString* storeItemPid;
+
 
 - (id)initWithDictionary:(NSDictionary*)dict;
 @end

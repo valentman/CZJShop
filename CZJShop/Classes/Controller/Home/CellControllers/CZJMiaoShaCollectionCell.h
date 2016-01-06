@@ -13,4 +13,5 @@
 @property (weak, nonatomic) IBOutlet UIImageView *iconImage;
 @property (weak, nonatomic) IBOutlet UILabel *originPriceLabel;
 @property (weak, nonatomic) IBOutlet UILabel *currentPriceLabel;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *originPriceLayoutWidth;
 @end

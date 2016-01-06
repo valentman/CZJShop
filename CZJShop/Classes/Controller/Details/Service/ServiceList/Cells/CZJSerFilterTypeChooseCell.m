@@ -29,7 +29,7 @@
 
 -(void)setButtonDatas:(NSArray *)buttonDatas WithType:(NSInteger)type{
     [super setButtonDatas:[buttonDatas mutableCopy]];
-    
+    DLog(@"%f",self.bounds.size.height);
     cellType = type;
     NSUInteger buttonCount = self.buttonDatas.count;
     //先初始化按钮
@@ -49,6 +49,7 @@
         child.titleLabel.font = [UIFont systemFontOfSize:15];
         [child addTarget:self action:@selector(selectedBtnClick:) forControlEvents:UIControlEventTouchUpInside];
         
+        //根据传入的内容的不同，button的标题的获取方式不同
         switch (type) {
             case kCZJSerFilterTypeChooseCellTypeService:
             {
@@ -80,8 +81,30 @@
             }
                 break;
                 
+            case kCZJSerfilterTypeChooseCellTypeDetail:
+            {
+                NSString* name = [self.buttonDatas[i] valueForKey:@"valueName"];
+                [child setTitle:name forState:UIControlStateNormal];
+                child.tag = [[self.buttonDatas[i] valueForKey:@"valueId"] integerValue];
+            }
+                break;
+                
             default:
                 break;
+        }
+    }
+    DLog(@"%f",self.bounds.size.height);
+}
+
+
+- (void)setDefaultSelectBtn:(NSString*)selectdString
+{
+    for (int i = 0; i< self.buttonDatas.count; i++)
+    {
+        UIButton *child = self.contentView.subviews[i];
+        if ([child.titleLabel.text isEqualToString:selectdString])
+        {
+            [self selectedBtnClick:child];
         }
     }
 }
@@ -111,7 +134,8 @@
         }
     }
     else if (kCZJSerFilterTypeChooseCellTypeGoWhere == cellType ||
-             kCZJSerFilterTypeChooseCellTypeService == cellType)
+             kCZJSerFilterTypeChooseCellTypeService == cellType ||
+             kCZJSerfilterTypeChooseCellTypeDetail == cellType)
     {
         for (UIButton* btn in self.contentView.subviews)
         {
@@ -154,6 +178,14 @@
         case kCZJSerFilterTypeChooseCellTypeGoods:
         {
             
+        }
+            break;
+        case kCZJSerfilterTypeChooseCellTypeDetail:
+        {
+            if (self.buttonBlock)
+            {
+                self.buttonBlock(_button);
+            }
         }
             break;
         default:

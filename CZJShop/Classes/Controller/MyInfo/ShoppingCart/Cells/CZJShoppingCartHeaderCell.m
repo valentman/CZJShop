@@ -31,8 +31,6 @@
 - (void)prepareForReuse
 {
     [super prepareForReuse];
-    [_allChooseBtn setImage:IMAGENAMED(@"commit_btn_circle.png") forState:UIControlStateNormal];
-    [_allChooseBtn setImage:IMAGENAMED(@"commit_btn_circle_sel.png") forState:UIControlStateSelected];
 }
 
 
@@ -41,12 +39,14 @@
     _allChooseBtn.selected = shoppingCartInfo.isSelect;
     _storeTypeImage.highlighted = !shoppingCartInfo.selfFlag;
     _storeNameLabel.text = shoppingCartInfo.storeName;
-    _getCouponsBtn.hidden = shoppingCartInfo.hasCoupon;
+    _getCouponsBtn.hidden = !shoppingCartInfo.hasCoupon;
+    [_allChooseBtn setImage:IMAGENAMED(@"commit_btn_circle.png") forState:UIControlStateNormal];
+    [_allChooseBtn setImage:IMAGENAMED(@"commit_btn_circle_sel.png") forState:UIControlStateSelected];
 }
 
 - (IBAction)getCouponsAction:(id)sender
 {
-    //show coupons view
+    [self.delegate clickGetCoupon:sender andIndexPath:self.indexPath];
 }
 
 - (IBAction)allChooseAction:(id)sender

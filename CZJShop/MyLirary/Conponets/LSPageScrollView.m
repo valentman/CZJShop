@@ -36,8 +36,8 @@
         //
         _num = num;
         myscrollview = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
-        myscrollview.backgroundColor = [UIColor lightGrayColor];
         myscrollview.scrollsToTop = NO;
+        myscrollview.backgroundColor = [UIColor whiteColor];
         myscrollview.showsHorizontalScrollIndicator = NO;
         myscrollview.delegate = self;
         myscrollview.pagingEnabled = YES;
@@ -50,7 +50,7 @@
             UIImageView* imgview = [[UIImageView alloc] initWithFrame:CGRectMake(i*itemsize.width, 0, itemsize.width, itemsize.height)];
             imgview.contentMode = UIViewContentModeScaleAspectFill;
             imgview.userInteractionEnabled = YES;
-            imgview.backgroundColor = [self randomColor];
+            imgview.backgroundColor = [UIColor whiteColor];
             [myscrollview addSubview:imgview];
             [items addObject:imgview];
         }

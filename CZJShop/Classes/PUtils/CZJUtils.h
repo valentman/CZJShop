@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
+
 @interface CZJUtils : NSObject
 #pragma mark- Zhouxin
 //---------------------------数据解析-----------------------------
@@ -66,12 +67,14 @@
 + (BOOL)isTimeCrossOneDay;
 + (void)printClassMethodList:(id)target;
 + (CGSize)calculateTitleSizeWithString:(NSString *)string WithFont:(UIFont*)font;
-+ (CGSize)calculateTitleSizeWithString:(NSString *)string AndFontSize:(CGFloat)fontSize;   // 计算一定FontSize的字符串的长宽
-+ (NSMutableAttributedString*)stringWithDeleteLine:(NSString*)string;                       //返回带删除线的字符串
++ (CGSize)calculateTitleSizeWithString:(NSString *)string AndFontSize:(CGFloat)fontSize;        //计算一定FontSize的字符串的长宽
++ (CGSize)calculateStringSizeWithString:(NSString*)string Font:(UIFont*)font Width:(CGFloat)width;
++ (NSMutableAttributedString*)stringWithDeleteLine:(NSString*)string;                           //返回带删除线的字符串
 
 + (void)showLoginView:(UIViewController*)target;
 + (void)removeLoginViewFromCurrent:(UIViewController*)target;
-+ (void)showShoppingCartView:(UIViewController*)target;
-+ (void)removeShoppintCartViewFromCurrent:(UIViewController*)target;
++ (void)showShoppingCartView:(UIViewController*)target andNaviBar:(UIView*)naviBar;
++ (void)removeShoppintCartViewFromCurrent:(UIViewController*)target ;
 
++ (void)performBlock:(CZJGeneralBlock)block afterDelay:(NSTimeInterval)delay;                        //延迟执行Block
 @end

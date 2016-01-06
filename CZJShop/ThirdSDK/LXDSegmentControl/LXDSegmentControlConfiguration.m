@@ -93,13 +93,13 @@
     self.itemNormalScale = self.itemSelectScale = INITSCALE;
     self.cornerRadius = 5.f;
     self.cornerWidth = 1.f;
-    self.cornerColor = kRGB(123, 189, 229);
+    self.cornerColor = [UIColor lightGrayColor];
     self.backgroundColor = CLEAR_COLOR;
     self.itemBackgroundColor = CLEAR_COLOR;
-    self.itemSelectedColor = kRGB(123, 189, 229);
-    self.itemTextColor = kRGB(123, 189, 229);
+    self.itemSelectedColor = CLEAR_COLOR;
+    self.itemTextColor = [UIColor lightGrayColor];
     self.itemSelectedTextColor = [UIColor whiteColor];
-    self.slideBlockColor = CLEAR_COLOR;
+    self.slideBlockColor = [UIColor redColor];
 }
 
 /*!

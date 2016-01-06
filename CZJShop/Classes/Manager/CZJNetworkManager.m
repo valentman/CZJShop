@@ -78,11 +78,10 @@ singleton_implementation(CZJNetworkManager)
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html",@"text/plain", nil];
     
     // 设置返回格式
-    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
-    
     [manager.requestSerializer willChangeValueForKey:@"timeoutInterval"];
-    manager.requestSerializer.timeoutInterval = 10.f;
     [manager.requestSerializer didChangeValueForKey:@"timeoutInterval"];
+    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+    manager.requestSerializer.timeoutInterval = 10.f;
     
     NSString* path =  [self getPath:urlStr];
     DLog(@"\nServerAPI:%@, \nParameter:%@",path,[parameters description]);

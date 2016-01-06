@@ -108,11 +108,11 @@
     {
         _manager=[[CLLocationManager alloc]init];
         _manager.delegate=self;
-        _manager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;    //定位精度，暂定为十米级别
-        _manager.distanceFilter=100;                                       //位置更新最小距离，暂定为100米
+        _manager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;     //定位精度，暂定为十米级别
+        _manager.distanceFilter=100;                                        //位置更新最小距离，暂定为100米
         
         [_manager requestWhenInUseAuthorization];
-        [_manager startUpdatingLocation];            //开始定位追踪
+        [_manager startUpdatingLocation];                                   //开始定位追踪
     }
     else
     {
@@ -132,16 +132,13 @@
 #pragma mark - CLLocationManagerDelegate
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
 {
-    
-    NSUserDefaults *standard = [NSUserDefaults standardUserDefaults];
-    
     CLGeocoder *geocoder=[[CLGeocoder alloc]init];
     [geocoder reverseGeocodeLocation:newLocation completionHandler:^(NSArray *placemarks,NSError *error)
      {
          if (placemarks.count > 0) {
              CLPlacemark *placemark = [placemarks objectAtIndex:0];
              _lastCity = [NSString stringWithFormat:@"%@%@",placemark.administrativeArea,placemark.locality];
-             [standard setObject:_lastCity forKey:CCLastCity];//省市地址
+             [USER_DEFAULT setObject:_lastCity forKey:CCLastCity];//省市地址
              DLog(@"#######%@",_lastCity);
              
              _lastAddress = [NSString stringWithFormat:@"%@%@%@%@%@%@",placemark.country,placemark.administrativeArea,placemark.locality,placemark.subLocality,placemark.thoroughfare,placemark.subThoroughfare];//详细地址
@@ -170,8 +167,8 @@
     }
     
     NSLog(@"%f--%f",newLocation.coordinate.latitude,newLocation.coordinate.longitude);
-    [standard setObject:@(newLocation.coordinate.latitude) forKey:CCLastLatitude];
-    [standard setObject:@(newLocation.coordinate.longitude) forKey:CCLastLongitude];
+    [USER_DEFAULT setObject:@(newLocation.coordinate.latitude) forKey:CCLastLatitude];
+    [USER_DEFAULT setObject:@(newLocation.coordinate.longitude) forKey:CCLastLongitude];
     
     [manager stopUpdatingLocation];
     

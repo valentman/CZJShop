@@ -87,7 +87,6 @@
     
     for (id cityObj in citys)
     {
-        NSString* cityProID = [cityObj valueForKey:@"provinceId"];
         CZJCitysForm* tmp_citys = [[CZJCitysForm alloc]initWithDictionary:cityObj];
         [_cityForms addObject:tmp_citys];
     }

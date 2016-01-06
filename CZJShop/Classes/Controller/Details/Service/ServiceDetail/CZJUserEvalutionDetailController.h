@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "CZJDetailForm.h"
 
-@interface CZJUserEvalutionDetailController : UIViewController
+@interface CZJUserEvalutionDetailController : CZJViewController
 @property(strong, nonatomic)CZJEvalutionsForm* evalutionForm;
 @end

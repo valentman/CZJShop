@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CZJViewController : UIViewController
+@interface CZJViewController : UIViewController<CZJViewControllerDelegate>
 
 @property (nonatomic, strong) UIWindow *window;
 @property (nonatomic, strong) UIView *upView;

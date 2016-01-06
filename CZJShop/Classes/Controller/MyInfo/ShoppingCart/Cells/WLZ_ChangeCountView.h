@@ -9,6 +9,9 @@
 #import <UIKit/UIKit.h>
 
 @interface WLZ_ChangeCountView : UIView
+{
+    CGRect _selfBounds;
+}
 //加
 @property (nonatomic, strong) UIButton *addButton;
 //减

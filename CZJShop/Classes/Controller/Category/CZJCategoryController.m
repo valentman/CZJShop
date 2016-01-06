@@ -89,6 +89,13 @@
 }
 
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [_naviBarView refreshShopBadgeLabel];
+}
+
+
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
@@ -112,7 +119,7 @@
 }
 
 
-#pragma mark- CZJNaviBarViewDelegate
+#pragma mark- CZJNaviagtionBarViewDelegate
 - (void)clickEventCallBack:(id)sender
 {
     DLog(@"category");

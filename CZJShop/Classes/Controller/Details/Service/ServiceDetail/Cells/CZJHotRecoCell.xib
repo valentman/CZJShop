@@ -13,6 +13,10 @@
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                 <rect key="frame" x="0.0" y="0.0" width="101" height="161"/>
                 <subviews>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xZK-iB-Urf">
+                        <rect key="frame" x="0.0" y="0.0" width="101" height="156"/>
+                        <animations/>
+                    </button>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="j1B-v7-hMk">
                         <rect key="frame" x="0.0" y="0.0" width="101" height="101"/>
                         <animations/>
@@ -21,33 +25,28 @@
                             <constraint firstAttribute="width" constant="101" id="VuP-V5-3Qz"/>
                         </constraints>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="大法师打发的说法是打发第三方" lineBreakMode="characterWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ufB-t6-wMF">
-                        <rect key="frame" x="0.0" y="108" width="101" height="26"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="大法师打发的说法是打发第三方" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ufB-t6-wMF">
+                        <rect key="frame" x="0.0" y="106" width="101" height="16"/>
                         <animations/>
                         <constraints>
                             <constraint firstAttribute="width" constant="101" id="QMk-jC-aJH"/>
-                            <constraint firstAttribute="height" constant="26" id="zXK-Px-Nuz"/>
+                            <constraint firstAttribute="height" constant="16" id="zXK-Px-Nuz"/>
                         </constraints>
-                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="￥668" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wZM-Cc-vh7">
-                        <rect key="frame" x="0.0" y="140" width="42" height="21"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="￥668" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wZM-Cc-vh7">
+                        <rect key="frame" x="0.0" y="141" width="100" height="15"/>
                         <animations/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="21" id="F6F-ga-Nvp"/>
-                            <constraint firstAttribute="width" constant="42" id="veP-sc-VqM"/>
+                            <constraint firstAttribute="height" constant="15" id="F6F-ga-Nvp"/>
+                            <constraint firstAttribute="width" constant="100" id="veP-sc-VqM"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xZK-iB-Urf">
-                        <rect key="frame" x="0.0" y="0.0" width="101" height="161"/>
-                        <animations/>
-                        <state key="normal" title="Button"/>
-                    </button>
                 </subviews>
                 <animations/>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -58,11 +57,11 @@
                 <constraint firstAttribute="trailing" secondItem="ufB-t6-wMF" secondAttribute="trailing" id="BMv-Ve-Ota"/>
                 <constraint firstAttribute="trailing" secondItem="j1B-v7-hMk" secondAttribute="trailing" id="Bbk-GT-iFU"/>
                 <constraint firstAttribute="trailing" secondItem="xZK-iB-Urf" secondAttribute="trailing" id="NAs-06-aH4"/>
-                <constraint firstItem="ufB-t6-wMF" firstAttribute="top" secondItem="j1B-v7-hMk" secondAttribute="bottom" constant="7" id="Yp5-et-5zA"/>
+                <constraint firstItem="ufB-t6-wMF" firstAttribute="top" secondItem="j1B-v7-hMk" secondAttribute="bottom" constant="5" id="Yp5-et-5zA"/>
                 <constraint firstItem="j1B-v7-hMk" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="b02-Hz-BC6"/>
                 <constraint firstItem="ufB-t6-wMF" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="dUK-s1-KIO"/>
                 <constraint firstItem="wZM-Cc-vh7" firstAttribute="bottom" secondItem="xZK-iB-Urf" secondAttribute="bottom" id="fUu-T5-wDd"/>
-                <constraint firstAttribute="bottom" secondItem="wZM-Cc-vh7" secondAttribute="bottom" id="fai-El-2Lu"/>
+                <constraint firstAttribute="bottom" secondItem="wZM-Cc-vh7" secondAttribute="bottom" constant="5" id="fai-El-2Lu"/>
                 <constraint firstItem="j1B-v7-hMk" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="fgs-Oa-0NU"/>
                 <constraint firstItem="wZM-Cc-vh7" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="h4t-kG-6Cl"/>
                 <constraint firstItem="xZK-iB-Urf" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="rI3-8b-6wk"/>
@@ -71,9 +70,10 @@
                 <outlet property="cellBtn" destination="xZK-iB-Urf" id="t4r-wC-Ogw"/>
                 <outlet property="hotRecoImage" destination="j1B-v7-hMk" id="aYO-NX-GiE"/>
                 <outlet property="hotRecoName" destination="ufB-t6-wMF" id="2yt-g9-ixB"/>
+                <outlet property="hotRecoNameLayoutHeight" destination="zXK-Px-Nuz" id="TpV-Ke-kmh"/>
                 <outlet property="hotRecoPrice" destination="wZM-Cc-vh7" id="aIA-6P-SzX"/>
             </connections>
-            <point key="canvasLocation" x="224.5" y="330.5"/>
+            <point key="canvasLocation" x="224.5" y="338.5"/>
         </collectionViewCell>
     </objects>
 </document>

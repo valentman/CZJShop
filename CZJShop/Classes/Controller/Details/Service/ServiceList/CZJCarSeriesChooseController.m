@@ -14,6 +14,10 @@
 #define CarSesCellIdentifierID  @"CarSesCellIdentifierID"
 
 @interface CZJCarSeriesChooseController ()
+<
+UITableViewDelegate,
+UITableViewDataSource
+>
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) UIImageView *curCarBrandLogo;
 @property (nonatomic, strong) UILabel* curCarBrandName;

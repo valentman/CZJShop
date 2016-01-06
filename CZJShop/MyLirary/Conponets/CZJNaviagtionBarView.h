@@ -15,7 +15,7 @@
 
 @end
 
-@interface CZJNaviagtionBarView : UIView
+@interface CZJNaviagtionBarView : UIView<UISearchBarDelegate, CZJViewControllerDelegate>
 @property(nullable, strong, nonatomic)UIButton* btnBack;                            //返回按钮
 @property(nullable, strong, nonatomic)UIButton* btnScan;                            //扫一扫按钮
 @property(nullable, strong, nonatomic)UIButton* btnShop;                            //购物车
@@ -25,5 +25,6 @@
 @property(nullable, strong, nonatomic)UISearchBar* customSearchBar;                 //搜索栏
 @property(nullable,nonatomic,weak) id<CZJNaviagtionBarViewDelegate> delegate;
 - (nullable instancetype)initWithFrame:(CGRect)bounds AndType:(CZJNaviBarViewType)type;
+- (void)refreshShopBadgeLabel;
 
 @end

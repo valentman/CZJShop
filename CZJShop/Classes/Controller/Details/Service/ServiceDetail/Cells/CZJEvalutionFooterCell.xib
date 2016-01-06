@@ -14,35 +14,26 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="63"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DaL-6R-5f7" userLabel="查看全部评价界面">
+                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DaL-6R-5f7" userLabel="查看全部评价界面">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="63"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gUc-4I-NIM">
-                                <rect key="frame" x="110" y="17" width="100" height="30"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="查看全部评价" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wzs-zE-yaV">
+                                <rect key="frame" x="100" y="17" width="120" height="30"/>
                                 <animations/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="CUh-e6-WVH"/>
-                                    <constraint firstAttribute="width" constant="100" id="IVE-5s-JVG"/>
+                                    <constraint firstAttribute="width" constant="120" id="OIP-ku-mQO"/>
+                                    <constraint firstAttribute="height" constant="30" id="Pzl-SX-i6n"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                <state key="normal" title="查看全部评价">
-                                    <color key="titleColor" red="1" green="0.12874946139999999" blue="0.1621697557" alpha="1" colorSpace="calibratedRGB"/>
-                                </state>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
-                                        <real key="value" value="0.5"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="color" keyPath="layer.borderColor">
-                                        <color key="value" red="0.60000002379999995" green="0.60000002379999995" blue="0.60000002379999995" alpha="1" colorSpace="calibratedRGB"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                            </button>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <color key="textColor" red="1" green="0.12874946139999999" blue="0.1621697557" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="gUc-4I-NIM" firstAttribute="centerY" secondItem="DaL-6R-5f7" secondAttribute="centerY" id="7Ak-jt-zm3"/>
-                            <constraint firstItem="gUc-4I-NIM" firstAttribute="centerX" secondItem="DaL-6R-5f7" secondAttribute="centerX" id="sex-Pc-wLg"/>
+                            <constraint firstItem="Wzs-zE-yaV" firstAttribute="centerY" secondItem="DaL-6R-5f7" secondAttribute="centerY" id="tDy-mo-XG1"/>
+                            <constraint firstItem="Wzs-zE-yaV" firstAttribute="centerX" secondItem="DaL-6R-5f7" secondAttribute="centerX" id="zUU-8C-ylb"/>
                         </constraints>
                     </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ren-Qx-ZDW">
@@ -56,7 +47,7 @@
                                     <constraint firstAttribute="width" constant="70" id="WaG-i4-YCY"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <color key="textColor" red="0.50196081400000003" green="0.50196081400000003" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="textColor" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="购买日期：" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AGX-wC-0TM">
@@ -67,7 +58,7 @@
                                     <constraint firstAttribute="width" constant="70" id="eZm-gD-aTb"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <color key="textColor" red="0.50196081400000003" green="0.50196081400000003" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="textColor" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="机油保养" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Oev-dP-WNA">
@@ -78,7 +69,7 @@
                                     <constraint firstAttribute="width" constant="120" id="yq0-8Z-znz"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <color key="textColor" red="0.50196081400000003" green="0.50196081400000003" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="textColor" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UiH-sq-aHr">
@@ -88,8 +79,17 @@
                                     <constraint firstAttribute="height" constant="30" id="CbN-Sy-4Sb"/>
                                     <constraint firstAttribute="width" constant="46" id="bBK-kh-13d"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                <state key="normal" title="(0)" image="prodetail_icon_reply"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <inset key="titleEdgeInsets" minX="5" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                <state key="normal" title="(0)" image="prodetail_icon_reply">
+                                    <color key="titleColor" red="0.60000002379999995" green="0.60000002379999995" blue="0.60000002379999995" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="keyPath" value="YES"/>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="replyEvalutionAction:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="eit-cQ-86N"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2015-12-23 12:12" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tQP-Eh-ebv">
                                 <rect key="frame" x="79" y="34" width="150" height="21"/>
@@ -99,7 +99,7 @@
                                     <constraint firstAttribute="height" constant="21" id="IuT-Fd-bY6"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <color key="textColor" red="0.50196081400000003" green="0.50196081400000003" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="textColor" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
@@ -136,6 +136,7 @@
                 <outlet property="allEvalView" destination="DaL-6R-5f7" id="aUe-f6-BEt"/>
                 <outlet property="evalDetailView" destination="ren-Qx-ZDW" id="pZi-G0-VQA"/>
                 <outlet property="evalutionReplyBtn" destination="UiH-sq-aHr" id="2D8-ms-eKk"/>
+                <outlet property="seeAllEvalution" destination="Wzs-zE-yaV" id="pi3-SO-Tr5"/>
                 <outlet property="serviceName" destination="Oev-dP-WNA" id="XuD-da-k5R"/>
                 <outlet property="serviceTime" destination="tQP-Eh-ebv" id="HUD-N9-w7o"/>
             </connections>

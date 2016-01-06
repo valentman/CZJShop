@@ -261,7 +261,14 @@
 - (void)egoRefreshTableHeaderDidTriggerRefresh:(EGORefreshTableHeaderView*)view
 {
     pullTableIsRefreshing = YES;
-    [pullDelegate pullTableViewDidTriggerRefresh:self];    
+    [pullDelegate pullTableViewDidTriggerRefresh:self];
+    [CZJUtils performBlock:^{
+        if (pullTableIsRefreshing)
+        {
+            pullTableIsRefreshing = NO;
+            [refreshView egoRefreshScrollViewDataSourceDidFinishedLoading:self];
+        }
+    } afterDelay:2];
 }
 
 - (NSDate*)egoRefreshTableHeaderDataSourceLastUpdated:(EGORefreshTableHeaderView*)view {
@@ -274,6 +281,13 @@
 {
     pullTableIsLoadingMore = YES;
     [pullDelegate pullTableViewDidTriggerLoadMore:self];
+    [CZJUtils performBlock:^{
+        if (pullTableIsLoadingMore)
+        {
+            pullTableIsLoadingMore = NO;
+            [loadMoreView egoRefreshScrollViewDataSourceDidFinishedLoading:self];
+        }
+    } afterDelay:2];
 }
 
 

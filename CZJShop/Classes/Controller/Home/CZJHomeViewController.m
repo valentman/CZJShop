@@ -38,8 +38,7 @@
     PullTableViewDelegate,
     CZJNaviagtionBarViewDelegate,
     CZJImageViewTouchDelegate,
-    CZJServiceCellDelegate,
-    CZJViewControllerDelegate
+    CZJServiceCellDelegate
 >
 {
     NSString* _serviceTypeId;
@@ -75,7 +74,7 @@
 {
     [((CZJCarInfoCell*)[self.homeTableView dequeueReusableCellWithIdentifier:@"CZJCarInfoCell"]).autoScrollTimer setFireDate:[NSDate distantPast]];
     self.navigationController.navigationBarHidden = NO;
-
+    [_navibarView refreshShopBadgeLabel];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -619,30 +618,11 @@
             break;
             
         case CZJButtonTypeHomeShopping:
-        {
-//            [CZJUtils showLoginView:self];
-            [CZJUtils showShoppingCartView:self];
-        }
             break;
             
         default:
             break;
     }
-}
-
-
-#pragma mark- CZJViewControllerDelegate
-- (void)didCancel:(id)controller
-{
-    if ([controller isKindOfClass: [CZJLoginController class]] )
-    {
-        [CZJUtils removeLoginViewFromCurrent:self];
-    }
-    else if ([controller isKindOfClass: [CZJShoppingCartController class]])
-    {
-        [CZJUtils removeShoppintCartViewFromCurrent:self];
-    }
-    
 }
 
 
@@ -655,7 +635,6 @@
         detailInfo.title = @"";
         detailInfo.navTitleName = @"";
         detailInfo.typeId = _serviceTypeId;
-        
     }
 }
 

@@ -13,5 +13,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *hotRecoName;
 @property (weak, nonatomic) IBOutlet UILabel *hotRecoPrice;
 @property (weak, nonatomic) IBOutlet UIButton *cellBtn;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *hotRecoNameLayoutHeight;
 
 @end

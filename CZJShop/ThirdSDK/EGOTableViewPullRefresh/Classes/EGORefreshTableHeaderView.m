@@ -230,14 +230,17 @@
 
 - (void)egoRefreshScrollViewDidScroll:(UIScrollView *)scrollView {
     
-	if (_state == EGOOPullLoading) {
+	if (_state == EGOOPullLoading)
+    {
 		CGFloat offset = MAX(scrollView.contentOffset.y * -1, 0);
 		offset = MIN(offset, PULL_AREA_HEIGTH);
         UIEdgeInsets currentInsets = scrollView.contentInset;
         currentInsets.top = offset;
         scrollView.contentInset = currentInsets;
 		
-	} else if (scrollView.isDragging) {
+	}
+    else if (scrollView.isDragging)
+    {
 		if (_state == EGOOPullPulling &&
             scrollView.contentOffset.y > -PULL_TRIGGER_HEIGHT &&
             scrollView.contentOffset.y < 0.0f &&

@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CZJUserEvalutionController : UIViewController
+@interface CZJUserEvalutionController : CZJViewController
 
 @end

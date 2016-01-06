@@ -12,11 +12,15 @@
 #import "CZJShoppingCartCell.h"
 #import "CZJShoppingCartHeaderCell.h"
 #import "UIImageView+WebCache.h"
+#import "CZJReceiveCouponsController.h"
+#import "CZJNaviagtionBarView.h"
 
 @interface CZJShoppingCartController ()
 <
 CZJShoppingCartCellDelegate,
-CZJShoppingCartHeaderCellDelegate
+CZJShoppingCartHeaderCellDelegate,
+UITableViewDataSource,
+UITableViewDelegate
 >
 {
     NSMutableArray* shoppingInfos;
@@ -58,6 +62,7 @@ CZJShoppingCartHeaderCellDelegate
     UINib* nib2 = [UINib nibWithNibName:@"CZJShoppingCartHeaderCell" bundle:nil];
     [self.myTableView registerNib:nib1 forCellReuseIdentifier:@"CZJShoppingCartCell"];
     [self.myTableView registerNib:nib2 forCellReuseIdentifier:@"CZJShoppingCartHeaderCell"];
+    self.automaticallyAdjustsScrollViewInsets = NO;
 
     
     //自定义导航栏左右按钮
@@ -110,8 +115,12 @@ CZJShoppingCartHeaderCellDelegate
         [shoppingInfos removeAllObjects];
         shoppingInfos = [[CZJBaseDataInstance shoppingCartForm] shoppingCartList];
         [self.myTableView reloadData];
+        [self calculateTotalPrice];
     };
-    [CZJBaseDataInstance loadShoppingCart:nil Success:successBlock fail:nil];
+    [CZJBaseDataInstance loadShoppingCart:nil
+                                     type:CZJHomeGetDataFromServerTypeOne
+                                  Success:successBlock
+                                     fail:nil];
 }
 
 //计算总价
@@ -119,10 +128,8 @@ CZJShoppingCartHeaderCellDelegate
 {
     float num = 0.00;
     for (int i=0; i<shoppingInfos.count; i++) {
-        CZJShoppingCartInfoForm* _shoppingcartInfo = (CZJShoppingCartInfoForm*)shoppingInfos[i];
-        NSArray* goodsInfos = _shoppingcartInfo.items;
-        
-        for (int j = 0; j<goodsInfos.count-1; j++) {
+        NSArray* goodsInfos = ((CZJShoppingCartInfoForm*)shoppingInfos[i]).items;
+        for (int j = 0; j<goodsInfos.count; j++) {
             CZJShoppingGoodsInfoForm *model = goodsInfos[j];
             NSInteger count = [model.itemCount integerValue];
             float sale = [model.currentPrice floatValue];
@@ -145,6 +152,7 @@ CZJShoppingCartHeaderCellDelegate
 #pragma mark- ClickEventCallback
 - (void)backToLastView:(id)sender
 {
+    [((CZJNaviagtionBarView*)self.delegate) refreshShopBadgeLabel];
     [self.delegate didCancel:self];
 }
 
@@ -157,10 +165,14 @@ CZJShoppingCartHeaderCellDelegate
     if (self.isEdit)
     {
         self.settleBtn.titleLabel.text = @"删除";
+        self.addUpLabel.hidden = YES;
+        self.addUpNumLabel.hidden = YES;
     }
     else
     {
         self.settleBtn.titleLabel.text = @"提交订单";
+        self.addUpLabel.hidden = NO;
+        self.addUpNumLabel.hidden = NO;
     }
     for (int i=0; i<shoppingInfos.count; i++)
     {
@@ -184,6 +196,7 @@ CZJShoppingCartHeaderCellDelegate
 
 - (void)pitchOn
 {//主要作用是更新门店header的。
+    self.allChooseBtn.selected = YES;
     for (int i =0; i<shoppingInfos.count; i++)
     {
         CZJShoppingCartInfoForm* form = shoppingInfos[i];
@@ -195,6 +208,7 @@ CZJShoppingCartHeaderCellDelegate
             if (!model.isSelect && !model.off)
             {//如果门店子物品有一个未被选中或者不能购买，都不能算门店所有物品全选
                 form.isSelect = NO;
+                self.allChooseBtn.selected = NO;
                 break;
             }
         }
@@ -209,7 +223,7 @@ CZJShoppingCartHeaderCellDelegate
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    DLog(@"", ((CZJShoppingCartInfoForm*)shoppingInfos[section]).items.count);
+    DLog(@"%ld", ((CZJShoppingCartInfoForm*)shoppingInfos[section]).items.count);
     return ((CZJShoppingCartInfoForm*)shoppingInfos[section]).items.count + 1;
 }
 
@@ -220,8 +234,11 @@ CZJShoppingCartHeaderCellDelegate
         CZJShoppingCartHeaderCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJShoppingCartHeaderCell" forIndexPath:indexPath];
         if (shoppingInfos.count > 0)
         {
+            cell.indexPath = indexPath;
+            cell.delegate = self;
             [cell setModels:_shoppingcartInfo];
         }
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
     }
     else
@@ -230,8 +247,11 @@ CZJShoppingCartHeaderCellDelegate
         CZJShoppingCartCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJShoppingCartCell" forIndexPath:indexPath];
         if (goodsInfo)
         {
+            cell.indexPath = indexPath;
+            cell.delegate = self;
             [cell setModels:goodsInfo];
         }
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
     }
     return nil;
@@ -259,7 +279,7 @@ CZJShoppingCartHeaderCellDelegate
 
 -(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (self.isEdit)
+    if (self.isEdit || indexPath.row == 0)
     {
         return UITableViewCellEditingStyleNone;
     }
@@ -269,6 +289,7 @@ CZJShoppingCartHeaderCellDelegate
 
 -(NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+
     return @"删除";
 }
 
@@ -277,17 +298,26 @@ CZJShoppingCartHeaderCellDelegate
 {
     if (editingStyle == UITableViewCellEditingStyleDelete)
     {
-        NSMutableArray *goodsList = [shoppingInfos objectAtIndex:indexPath.section];
-        
-        CZJShoppingCartInfoForm *model = [ goodsList objectAtIndex:indexPath.row];
-        model.isSelect=NO;
-        [goodsList removeObjectAtIndex:indexPath.row];
-        
-        if (0 == goodsList.count ){
-            [shoppingInfos removeObjectAtIndex:indexPath.section];
-        }
-        
-        [self.myTableView reloadData];
+        CZJShoppingCartInfoForm *goodsList = [shoppingInfos objectAtIndex:indexPath.section];
+        CZJShoppingGoodsInfoForm *model = [ goodsList.items objectAtIndex:indexPath.row -1];
+        NSDictionary* params = @{@"storeItemPids" : model.storeItemPid};
+        [CZJBaseDataInstance removeProductFromShoppingCart:params Success:^{
+            [CZJBaseDataInstance loadShoppingCartCount:nil Success:nil fail:nil];
+            model.isSelect=NO;
+            [goodsList.items removeObjectAtIndex:indexPath.row - 1];
+            
+            if (0 == goodsList.items.count ){
+                [shoppingInfos removeObjectAtIndex:indexPath.section];
+                [self.myTableView reloadData];
+            }
+            else
+            {
+                [self.myTableView reloadSections:[NSIndexSet indexSetWithIndex:indexPath.section] withRowAnimation:UITableViewRowAnimationFade];
+            }
+
+        } fail:^{
+            //删除失败
+        }];
     }
 }
 
@@ -310,12 +340,15 @@ CZJShoppingCartHeaderCellDelegate
 #pragma mark- CZJShoppingCartHeaderCellDelegate
 - (void)clickChooseAllSection:(id)sender andIndexPath:(NSIndexPath *)indexPath
 {
+    
+    DLog(@"section:%ld",indexPath.section);
+    UIButton* cellAllChooseBtn = (UIButton*)sender;
     CZJShoppingCartInfoForm* form = (CZJShoppingCartInfoForm*)shoppingInfos[indexPath.section];
     NSArray* goodsList = form.items;
     for (int i =0; i<goodsList.count; i++)
     {
         CZJShoppingGoodsInfoForm *model = (CZJShoppingGoodsInfoForm *)goodsList[i];
-        if (_allChooseBtn.selected)
+        if (cellAllChooseBtn.selected)
         {
             form.isSelect = YES;
         }
@@ -330,9 +363,71 @@ CZJShoppingCartHeaderCellDelegate
         }
         else
         {
-            model.isSelect=_allChooseBtn.selected;
+            model.isSelect=cellAllChooseBtn.selected;
         }
     }
+    
+    [self.myTableView reloadSections:[NSIndexSet indexSetWithIndex:indexPath.section] withRowAnimation:UITableViewRowAnimationFade];
+    [self calculateTotalPrice];
+    [self pitchOn];
+}
+
+- (void)clickGetCoupon:(id)sender andIndexPath:(NSIndexPath*)indexPath
+{
+    CGRect popViewRect = CGRectMake(0, PJ_SCREEN_HEIGHT, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - 200);
+    UIWindow *window = [[UIWindow alloc] initWithFrame:popViewRect];
+    window.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:1.0];
+    window.windowLevel = UIWindowLevelNormal;
+    window.hidden = NO;
+    [window makeKeyAndVisible];
+    
+    CZJReceiveCouponsController *receiveCouponsController = [[CZJReceiveCouponsController alloc] init];
+    window.rootViewController = receiveCouponsController;
+    self.window = window;
+    
+    UIView *view = [[UIView alloc] initWithFrame:self.view.bounds];
+    view.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.5];
+    UITapGestureRecognizer *tap  = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapAction)];
+    [view addGestureRecognizer:tap];
+    [self.view addSubview:view];
+    self.upView = view;
+    self.upView.alpha = 0.0;
+    [UIView animateWithDuration:0.5 animations:^{
+        self.window.frame =  CGRectMake(0, 200, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - 200);
+        self.upView.alpha = 1.0;
+    } completion:nil];
+    self.navigationController.interactivePopGestureRecognizer.enabled = NO;
+    
+    __weak typeof(self) weak = self;
+    [receiveCouponsController setCancleBarItemHandle:^{
+        [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+            weak.window.frame = popViewRect;
+            self.upView.alpha = 0.0;
+        } completion:^(BOOL finished) {
+            if (finished) {
+                [weak.upView removeFromSuperview];
+                [weak.window resignKeyWindow];
+                weak.window  = nil;
+                weak.upView = nil;
+                weak.navigationController.interactivePopGestureRecognizer.enabled = YES;
+            }
+        }];
+    }];
+}
+
+- (void)tapAction{
+    [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+        self.window.frame = CGRectMake(0, PJ_SCREEN_HEIGHT, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - 200);
+        self.upView.alpha = 0.0;
+    } completion:^(BOOL finished) {
+        if (finished) {
+            [self.upView removeFromSuperview];
+            [self.window resignKeyWindow];
+            self.window  = nil;
+            self.upView = nil;
+            self.navigationController.interactivePopGestureRecognizer.enabled = YES;
+        }
+    }];
 }
 
 #pragma mark - Navigation
@@ -346,20 +441,44 @@ CZJShoppingCartHeaderCellDelegate
     if (self.isEdit)
     {
         //删除
-        for (int i = 0; i<shoppingInfos.count; i++) {
+        NSMutableArray* deleteAry = [NSMutableArray array];
+        for (int i = 0; i<shoppingInfos.count; i++)
+        {
             CZJShoppingCartInfoForm* form = shoppingInfos[i];
             NSMutableArray* goodsList = form.items;
             for (int j=0 ; j<goodsList.count; j++) {
                 CZJShoppingGoodsInfoForm *model = goodsList[j];
                 if (model.isSelect==YES) {
-                    [goodsList removeObjectAtIndex:j];
+                    [deleteAry addObject:model.storeItemPid];
                     continue;
                 }
             }
-            if (goodsList.count<=1) {
-                [shoppingInfos removeObjectAtIndex:i];
-            }
+            
+//            [goodsList removeObjectAtIndex:j];
+//            if (goodsList.count<=1) {
+//                [shoppingInfos removeObjectAtIndex:i];
+//            }
         }
+        
+        
+//        [CZJBaseDataInstance removeProductFromShoppingCart:params Success:^{
+//            [CZJBaseDataInstance loadShoppingCartCount:nil Success:nil fail:nil];
+//            model.isSelect=NO;
+//            [goodsList.items removeObjectAtIndex:indexPath.row - 1];
+//            
+//            if (0 == goodsList.items.count ){
+//                [shoppingInfos removeObjectAtIndex:indexPath.section];
+//                [self.myTableView reloadData];
+//            }
+//            else
+//            {
+//                [self.myTableView reloadSections:[NSIndexSet indexSetWithIndex:indexPath.section] withRowAnimation:UITableViewRowAnimationFade];
+//            }
+//            
+//        } fail:^{
+//            //删除失败
+//        }];
+        
         [self.myTableView reloadData];
     }
     else
@@ -373,25 +492,17 @@ CZJShoppingCartHeaderCellDelegate
     _allChooseBtn.selected = !_allChooseBtn.selected;
     BOOL isSelected = _allChooseBtn.selected;
     
-    if (isSelected)
-    {
-        _allChooseLabel.text = @"全选";
-    }
-    else
-    {
-        _allChooseLabel.text = @"取消全选";
-    }
-    
     for (int i =0; i<shoppingInfos.count; i++) {
         CZJShoppingCartInfoForm* form = shoppingInfos[i];
         form.isSelect = isSelected;
         NSArray *goodsList = form.items;
-        for (int j = 0; j<goodsList.count-1; j++)
+        for (int j = 0; j<goodsList.count; j++)
         {
             CZJShoppingGoodsInfoForm *model = goodsList[j];
             model.isSelect=isSelected;
         }
     }
     [self.myTableView reloadData];
+    [self calculateTotalPrice];
 }
 @end

@@ -11,8 +11,16 @@
 #import "LJWKeyboardHandlerHeaders.h"
 #import "ServiceProtocol.h"
 
+#define kLoginColorRed RGB(255, 102, 102)
+#define kPhoneNum 1000
+#define kPwdNum 1001
+#define kCodeNum 1002
+
+
 @interface CZJLoginController ()
-<UITextFieldDelegate>
+<UITextFieldDelegate,
+FDAlertViewDelegate
+>
 {
     BOOL isLoginWithCode;
     CGRect loginViewOriginRect;
@@ -41,8 +49,6 @@
 - (IBAction)loginWithPWDAction:(id)sender;
 - (IBAction)getCodeAction:(id)sender;
 - (IBAction)confirmLoginAction:(id)sender;
-- (IBAction)registAccountAction:(id)sender;
-- (IBAction)goProtocolAction:(id)sender;
 - (IBAction)isSecurityPwd:(id)sender;
 - (IBAction)agreeProtocolAction:(id)sender;
 
@@ -88,10 +94,14 @@
     self.phoneNumTextField.delegate = self;
     self.pwdTextField.delegate = self;
     self.codeTextField.delegate = self;
-    [self.phoneNumTextField setTag:1000];
-    [self.pwdTextField setTag:1001];
-    [self.codeTextField setTag:1002];
+    [self.phoneNumTextField setTag:kPhoneNum];
+    [self.pwdTextField setTag:kPwdNum];
+    [self.codeTextField setTag:kCodeNum];
     
+    self.confirmBtn.enabled = NO;
+    self.confirmBtn.backgroundColor = [UIColor lightGrayColor];
+    
+    loginViewOriginRect = self.loginBtnView.frame;
     
 }
 
@@ -110,6 +120,7 @@
 
 - (IBAction)loginWithCodeAction:(id)sender
 {
+    isLoginWithCode = YES;
     //验证码登录时，获取验证码按钮显示，密码栏隐藏
     [self.codeView setHidden:NO];
     [self.pwdView setHidden:YES];
@@ -121,16 +132,17 @@
     self.loginWithCodeBtn.titleLabel.font = [UIFont systemFontOfSize:15];
     self.loginWithPWDBtn.titleLabel.textColor = [UIColor grayColor];
     self.loginWithPWDBtn.titleLabel.font = [UIFont systemFontOfSize:13];
-    isLoginWithCode = YES;
     
-//    loginViewOriginRect = self.loginBtnView.frame;
-    [UIView animateWithDuration:0.5 animations:^{
-        self.loginBtnView.frame = loginViewOriginRect;
-    }];
+    
+    //登录按钮动画
+    [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
+//        self.loginBtnView.frame = loginViewOriginRect;
+    } completion:nil];
 }
 
 - (IBAction)loginWithPWDAction:(id)sender
 {
+    isLoginWithCode = NO;
     //验证码登录时，获取验证码按钮隐藏，密码栏显示
     [self.codeView setHidden:YES];
     [self.pwdView setHidden:NO];
@@ -143,13 +155,11 @@
     self.loginWithPWDBtn.titleLabel.textColor = [UIColor blackColor];
     self.loginWithPWDBtn.titleLabel.font = [UIFont systemFontOfSize:15];
     
-    isLoginWithCode = NO;
-    CGRect pwdRect = CGRectMake(loginViewOriginRect.origin.x, loginViewOriginRect.origin.y + 80, loginViewOriginRect.size.width, loginViewOriginRect.size.height);
-    
-    self.loginBtnView.frame = pwdRect;
-    [UIView animateWithDuration:0.5 animations:^{
-        
-    }];
+    //登录按钮动画
+//    CGRect pwdRect = CGRectMake(loginViewOriginRect.origin.x, loginViewOriginRect.origin.y + 80, loginViewOriginRect.size.width, loginViewOriginRect.size.height);
+    [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
+//        self.loginBtnView.frame = pwdRect;
+    } completion:nil];
 }
 
 - (IBAction)getCodeAction:(id)sender
@@ -160,7 +170,6 @@
         [self.phoneNumTextField.text isEqualToString:@""])
     {
         [self showAlert:@"请输入正确手机号码!"];
-        [CZJUtils showExitAlertViewWithContent];
         return;
     }
     
@@ -184,11 +193,13 @@
                         [self.getCodeBtn setEnabled:YES];
                         [self.getCodeBtn setHidden:NO];
                         [self.daojishiLab setHidden:YES];
+                        [self.confirmBtn setEnabled:NO];
+                        self.confirmBtn.backgroundColor = [UIColor lightGrayColor];
                         [self.getCodeBtn setTitle:@"获取验证码" forState:UIControlStateNormal];
                     });
                 }else{
                     int seconds = timeout % 120;
-                    NSString *strTime = [NSString stringWithFormat:@"%ds", seconds];
+                    NSString *strTime = [NSString stringWithFormat:@"重新发送(%d)", seconds];
                     dispatch_async(dispatch_get_main_queue(), ^{
                         //设置界面的按钮显示 根据自己需求设置
                         [self.getCodeBtn setEnabled:NO];
@@ -217,16 +228,20 @@
         self.codeTextField.text.length > 0)
     {
         [self.confirmBtn setEnabled:NO];
+        [self.confirmBtn setBackgroundColor:[UIColor lightGrayColor]];
         CZJSuccessBlock successBlock = ^(id json){
             NSDictionary* dict = [CZJUtils DataFromJson:json];
-            if ([[dict valueForKey:@"code"] integerValue] == 0)
+            if ([[dict valueForKey:@"code"] integerValue] != 0)
             {
+                [self showAlert:[dict valueForKey:@"msg"]];
             }
             [self.confirmBtn setEnabled:YES];
+            [self.confirmBtn setBackgroundColor:kLoginColorRed];
         };
         CZJFailureBlock failure = ^{
             NSLog(@"login fail");
             [self.confirmBtn setEnabled:YES];
+            [self.confirmBtn setBackgroundColor:kLoginColorRed];
         };
         [CZJLoginModelInstance loginWithAuthCode:self.codeTextField.text
                                      mobilePhone:self.phoneNumTextField.text
@@ -236,32 +251,30 @@
     //密码登录
     if (!isLoginWithCode &&
         self.phoneNumTextField.text.length == 11 &&
-        self.pwdTextField.text.length > 0) {
+        self.pwdTextField.text.length > 0)
+    {
         [self.confirmBtn setEnabled:NO];
+        [self.confirmBtn setBackgroundColor:[UIColor lightGrayColor]];
         CZJSuccessBlock successBlock = ^(id json){
             NSDictionary* dict = [CZJUtils DataFromJson:json];
-            if ([[dict valueForKey:@"code"] integerValue] == 0)
+            if ([[dict valueForKey:@"code"] integerValue] != 0)
             {
+                [self showAlert:[dict valueForKey:@"msg"]];
             }
             [self.confirmBtn setEnabled:YES];
+            [self.confirmBtn setBackgroundColor:kLoginColorRed];
         };
         CZJFailureBlock failure = ^{
             NSLog(@"login fail");
+            
             [self.confirmBtn setEnabled:YES];
+            [self.confirmBtn setBackgroundColor:kLoginColorRed];
         };
         [CZJLoginModelInstance loginWithPassword:self.pwdTextField.text
                                      mobilePhone:self.phoneNumTextField.text
                                          success:successBlock
                                             fali:failure];
     }
-}
-
-- (IBAction)registAccountAction:(id)sender
-{
-}
-
-- (IBAction)goProtocolAction:(id)sender
-{
 }
 
 - (IBAction)isSecurityPwd:(id)sender {
@@ -304,15 +317,15 @@
 - (void)textFieldDidBeginEditing:(UITextField *)textField
 {
     switch (textField.tag) {
-        case 1000:
+        case kPhoneNum:
             [self.phoneNumPrompt setHidden:YES];
             break;
             
-        case 1001:
+        case kPwdNum:
             [self.pwdPrompt setHidden:YES];
             break;
             
-        case 1002:
+        case kCodeNum:
             [self.codePrompt setHidden:YES];
             break;
             
@@ -326,21 +339,31 @@
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
     switch (textField.tag) {
-        case 1000:
+        case kPhoneNum:
             if (textField.text.length == 0) {
                 [self.phoneNumPrompt setHidden:NO];
             }
             break;
             
-        case 1001:
+        case kPwdNum:
             if (textField.text.length == 0) {
                 [self.pwdPrompt setHidden:NO];
             }
+            if (textField.text.length > 0 && self.phoneNumTextField.text.length == 11)
+            {
+                self.confirmBtn.enabled = YES;
+                [self.confirmBtn setBackgroundColor:kLoginColorRed];
+            }
             break;
             
-        case 1002:
+        case kCodeNum:
             if (textField.text.length == 0) {
                 [self.codePrompt setHidden:NO];
+            }
+            if (textField.text.length == 6 && self.phoneNumTextField.text.length == 11)
+            {
+                self.confirmBtn.enabled = YES;
+                [self.confirmBtn setBackgroundColor:kLoginColorRed];
             }
             break;
             

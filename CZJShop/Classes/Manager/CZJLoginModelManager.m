@@ -14,6 +14,7 @@
 #import "ZXLocationManager.h"
 #import "StartPageForm.h"
 #import "CCLocationManager.h"
+#import "CZJBaseDataManager.h"
 
 @implementation CZJLoginModelManager
 
@@ -56,7 +57,7 @@ singleton_implementation(CZJLoginModelManager)
     {
         if ([self showAlertView:json]) {
             success(json);
-            DLog(@"login suc");
+            DLog(@"获取验证码成功");
         }
     };
     CZJFailureBlock failure = ^()
@@ -83,8 +84,11 @@ singleton_implementation(CZJLoginModelManager)
     CZJSuccessBlock successBlock = ^(id json)
     {
         if ([self showAlertView:json]) {
+            NSDictionary* dict = [CZJUtils DataFromJson:json] ;
+            _cheZhuId = [[dict valueForKey:@"msg"] valueForKey:@"chezhuId"];
+            [CZJBaseDataInstance refreshChezhuID:_cheZhuId];
             success(json);
-            DLog(@"login suc");
+            DLog(@"使用验证码登录成功");
         }
     };
     CZJFailureBlock failure = ^()
@@ -106,7 +110,7 @@ singleton_implementation(CZJLoginModelManager)
                      fali:(CZJGeneralBlock)fail
 {
     NSDictionary *params = @{@"mobile" : phoneNum,
-                             @"password" : pwd};
+                             @"passwd" : pwd};
     
     CZJSuccessBlock successBlock = ^(id json)
     {
@@ -118,11 +122,12 @@ singleton_implementation(CZJLoginModelManager)
             _cheZhuId = self.usrBaseForm.chezhuId;
             _mobile = self.usrBaseForm.mobile;
             if ([self saveDataToLocal:json]) {
-                [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:YES] forKey:kCZJIsUserHaveLogined];
+                [USER_DEFAULT setObject:[NSNumber numberWithBool:YES] forKey:kCZJIsUserHaveLogined];
             }
 
             success(json);
-            DLog(@"login suc");
+            [CZJBaseDataInstance refreshChezhuID:_cheZhuId];
+            DLog(@"使用密码登录成功");
         }
     };
     CZJFailureBlock failure = ^()
@@ -152,7 +157,7 @@ singleton_implementation(CZJLoginModelManager)
         {
             NSDictionary* dict = [CZJUtils DataFromJson:json] ;
             success(json);
-            DLog(@"login suc");
+            DLog(@"设置密码成功");
             _cheZhuId = [[dict valueForKey:@"msg"] valueForKey:@"chezhuId"];
             _mobile = [[dict valueForKey:@"msg"] valueForKey:@"mobile"];
             self.cityName = [[dict valueForKey:@"msg"] valueForKey:@"cityName"];
@@ -181,6 +186,7 @@ singleton_implementation(CZJLoginModelManager)
     
     if (error) {
         NSLog(@"json解析失败：%@",error);
+        fail();
         return;
     }
     self.usrBaseForm = [[UserBaseForm alloc] initWithDictionary:dict];
@@ -189,7 +195,6 @@ singleton_implementation(CZJLoginModelManager)
     _cheZhuId = self.usrBaseForm.chezhuId;
     _mobile = self.usrBaseForm.mobile;
     success();
-    
 }
 
 

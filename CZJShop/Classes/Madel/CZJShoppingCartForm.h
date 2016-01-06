@@ -31,10 +31,11 @@
 @property(nonatomic, strong) NSString* storeName;
 @property(nonatomic, strong) NSMutableArray* items;
 @property(nonatomic, strong) NSString* storeId;
+@property(nonatomic, strong) NSString* companyId;
 @property(assign) BOOL selfFlag;
 @property(assign) BOOL hasCoupon;
 @property(assign) BOOL isSelect;
-
+@property(assign) BOOL isDeleteSelect;
 
 - (id)initWithDictionary:(NSDictionary*)dict;
 @end
@@ -46,12 +47,14 @@
 @property(nonatomic, strong) NSString*storeItemPid;
 @property(nonatomic, strong) NSString*itemType;
 @property(nonatomic, strong) NSString*itemImg;
-@property(nonatomic, strong) NSString*off;
+
 @property(nonatomic, strong) NSString*currentPrice;
 @property(nonatomic, strong) NSString*itemCount;
 @property(nonatomic, strong) NSString*itemSku;
 @property(nonatomic, strong) NSString*itemCode;
 @property(assign) BOOL isSelect;
+@property(assign) BOOL isDeleteSelect;
+@property(assign) BOOL off;
 
 - (id)initWithDictionary:(NSDictionary*)dict;
 @end

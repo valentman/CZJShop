@@ -68,7 +68,7 @@
     if (CZJDetailTypeService == type)
     {//服务详情页面
         _purchaseCount = [dict valueForKey:@"purchaseCount"];
-        _serviceDetail = [[CZJServiceDetail alloc]initWithDictionary:[[dict valueForKey:@"msg"] valueForKey:@"service"]];
+        _serviceDetail = [[CZJServiceDetail alloc]initWithDictionary:[[dict valueForKey:@"msg"] valueForKey:@"goods"]];
     }
     if (CZJDetailTypeGoods == type)
     {//商品详情页面
@@ -80,13 +80,7 @@
     //当前商品或服务评价简介
     _evalutionInfo = [[CZJDetailEvalInfo alloc]initWithDictionary:[[dict valueForKey:@"msg"] valueForKey:@"evals"]];
     
-    //当前商品或服务相关推荐
-    NSArray* recoArys = [[dict valueForKey:@"msg"] valueForKey:@"recommends"];
-    for (NSDictionary* dict in recoArys)
-    {
-        CZJStoreServiceForm* form = [[CZJStoreServiceForm alloc]initWithDictionary:dict];
-        [_recommendServiceForms addObject:form];
-    }
+
     //券信息
     NSArray* couponArys = [[dict valueForKey:@"msg"] valueForKey:@"coupons"];
     for (NSDictionary* dict in couponArys)
@@ -95,6 +89,21 @@
         [_couponForms addObject:form];
     }
 }
+
+
+- (void)setNewRecommendDictionary:(NSDictionary*)dict WithType:(CZJDetailType)type
+{
+    [_recommendServiceForms removeAllObjects];
+    //当前商品或服务相关推荐
+    NSArray* recoArys = [dict valueForKey:@"msg"];
+    for (NSDictionary* dict in recoArys)
+    {
+        CZJStoreServiceForm* form = [[CZJStoreServiceForm alloc]initWithDictionary:dict];
+        [_recommendServiceForms addObject:form];
+    }
+}
+
+
 - (void)setEvalutionInfoWithDictionary:(NSDictionary*)dict WitySegType:(CZJEvalutionType)type
 {
     switch (type)
@@ -262,6 +271,11 @@
 @synthesize attentionFlag = _attentionFlag;
 @synthesize currentPrice = _currentPrice;
 @synthesize itemCode = _itemCode;
+@synthesize companyId = _companyId;
+@synthesize selfFlag = _selfFlag;
+@synthesize buyType = _buyType;
+@synthesize itemType = _itemType;
+@synthesize itemImg = _itemImg;
 
 - (id)initWithDictionary:(NSDictionary*)dict
 {
@@ -276,8 +290,13 @@
         self.storeItemPid = [dict valueForKey:@"storeItemPid"];
         self.goHouseFlag = [[dict valueForKey:@"goHouseFlag"] boolValue];
         self.attentionFlag = [[dict valueForKey:@"attentionFlag"] boolValue];
+        self.selfFlag = [[dict valueForKey:@"selfFlag"] boolValue];
         self.currentPrice = [dict valueForKey:@"currentPrice"];
         self.itemCode = [dict valueForKey:@"itemCode"];
+        self.companyId = [dict valueForKey:@"companyId"];
+        self.buyType = [dict valueForKey:@"buyType"];
+        self.itemType = [dict valueForKey:@"itemType"];
+        self.itemImg = [dict valueForKey:@"itemImg"];
         return self;
     }
     return nil;
@@ -386,6 +405,7 @@
 @synthesize setupFlag = _setupFlag;
 @synthesize goHouseFlag = _goHouseFlag;
 @synthesize attentionFlag = _attentionFlag;
+@synthesize selfFlag = _selfFlag;
 @synthesize currentPrice = _currentPrice;
 @synthesize sku = _sku;
 @synthesize vendorId = _vendorId;
@@ -399,8 +419,11 @@
 @synthesize typeId = _typeId;
 @synthesize storeId = _storeId;
 @synthesize skillEndTime = _skillEndTime;
-@synthesize selfFlag = _selfFlag;
 @synthesize itemCode = _itemCode;
+@synthesize companyId = _companyId;
+@synthesize buyType = _buyType;
+@synthesize itemSku = _itemSku;
+@synthesize itemType = _itemType;
 
 - (id)initWithDictionary:(NSDictionary *)dict
 {
@@ -412,8 +435,10 @@
         self.costPrice = [dict valueForKey:@"costPrice"];
         self.storeItemPid = [dict valueForKey:@"storeItemPid"];
         self.setupFlag = [dict valueForKey:@"setupFlag"];
-        self.goHouseFlag = [dict valueForKey:@"goHouseFlag"];
-        self.attentionFlag = [dict valueForKey:@"attentionFlag"];
+        self.goHouseFlag = [[dict valueForKey:@"goHouseFlag"] boolValue];
+        self.attentionFlag = [[dict valueForKey:@"attentionFlag"] boolValue];
+        self.selfFlag = [[dict valueForKey:@"selfFlag"] boolValue];
+        self.skillFlag = [[dict valueForKey:@"skillFlag"] boolValue];
         self.currentPrice = [dict valueForKey:@"currentPrice"];
         self.sku = [[CZJGoodsSKU alloc]initWithDictionary:[dict valueForKey:@"sku"]];
         self.vendorId = [dict valueForKey:@"vendorId"];
@@ -421,14 +446,16 @@
         self.transportPrice = [dict valueForKey:@"transportPrice"];
         self.originalPrice = [dict valueForKey:@"originalPrice"];
         self.counterKey = [dict valueForKey:@"counterKey"];
-        self.skillFlag = [[dict valueForKey:@"skillFlag"] boolValue];
         self.itemImg = [dict valueForKey:@"itemImg"];
         self.skillPrice = [dict valueForKey:@"skillPrice"];
         self.typeId = [dict valueForKey:@"typeId"];
         self.storeId = [dict valueForKey:@"storeId"];
         self.skillEndTime = [dict valueForKey:@"skillEndTime"];
-        self.selfFlag = [dict valueForKey:@"selfFlag"];
         self.itemCode = [dict valueForKey:@"itemCode"];
+        self.companyId = [dict valueForKey:@"companyId"];
+        self.buyType = [dict valueForKey:@"buyType"];
+        self.itemSku = [dict valueForKey:@"itemSku"];
+        self.itemType = [dict valueForKey:@"itemType"];
         return self;
     }
     return nil;
@@ -456,6 +483,7 @@
         self.skuImg = [dict valueForKey:@"skuImg"];
         self.skuValueIds = [dict valueForKey:@"skuValueIds"];
         self.skuValues = [dict valueForKey:@"skuValues"];
+        self.storeItemPid = [dict valueForKey:@"storeItemPid"];
         return self;
     }
     return nil;

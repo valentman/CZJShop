@@ -43,6 +43,8 @@
 
 singleton_interface(CZJBaseDataManager);
 
+- (void)refreshChezhuID:(NSString*)chezhuID;
+
 -(void)getSomeInfoSuccess:(CZJSuccessBlock)success;
 
 //获取首页数据
@@ -107,6 +109,11 @@ singleton_interface(CZJBaseDataManager);
             AndStoreItemPid:(NSString*)storeItemPid
                     Success:(CZJGeneralBlock)success
                        fail:(CZJFailureBlock)fail;
+//获取详情界面热门推荐列表
+- (void)loadDetailHotRecommendWithType:(CZJDetailType)type
+                            andStoreId:(NSString*)storeId
+                               Success:(CZJGeneralBlock)success
+                                  fail:(CZJFailureBlock)fail;
 
 //获取商品SKU
 - (void)loadGoodsSKU:(NSDictionary*)postParams
@@ -123,13 +130,29 @@ singleton_interface(CZJBaseDataManager);
 //获取评价回复列表
 - (void)loadUserEvalutionReplys:(NSDictionary*)postParams
                            type:(CZJHomeGetDataFromServerType)type
-                       Success:(CZJGeneralBlock)success
-                          fail:(CZJFailureBlock)fail;
+                        Success:(CZJGeneralBlock)success
+                           fail:(CZJFailureBlock)fail;
 
 //获取购物车信息
 - (void)loadShoppingCart:(NSDictionary*)postParams
+                    type:(CZJHomeGetDataFromServerType)type
                  Success:(CZJGeneralBlock)success
                     fail:(CZJFailureBlock)fail;
+
+//获取购物车数量
+- (void)loadShoppingCartCount:(NSDictionary*)postParams
+                      Success:(CZJGeneralBlock)success
+                         fail:(CZJFailureBlock)fail;
+
+//加入购物车
+- (void)addProductToShoppingCart:(NSDictionary*)postParams
+                         Success:(CZJGeneralBlock)success
+                            fail:(CZJFailureBlock)fail;
+
+//删除购物车物品
+- (void)removeProductFromShoppingCart:(NSDictionary*)postParams
+                              Success:(CZJGeneralBlock)success
+                                 fail:(CZJFailureBlock)fail;
 
 //获取领券信息
 - (void)loadShoppingCouponsCart:(NSDictionary*)postParams

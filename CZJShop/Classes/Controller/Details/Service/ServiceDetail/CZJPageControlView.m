@@ -9,7 +9,8 @@
 #import "CZJPageControlView.h"
 #import "CZJPicDetailController.h"
 #import "CZJBuyNoticeController.h"
-#import "CZJHotRecoController.h"
+#import "CZJAfterServiceController.h"
+#import "CZJApplicableCarController.h"
 #define BtnTag 1001
 
 @interface CZJPageControlView()
@@ -42,7 +43,7 @@ UIScrollViewDelegate>
  */
 - (NSArray *)btnArr{
     if (!_btnArr) {
-        _btnArr =  @[@"图文详情",@"购买须知",@"热门推荐"];
+        _btnArr =  @[@"图文详情",@"购买须知",@"包装售后",@"适用车型"];
     }
     return _btnArr;
 }
@@ -56,9 +57,10 @@ UIScrollViewDelegate>
         _viewControllerArray = [[NSMutableArray alloc]init];
         CZJPicDetailController *FController = [[CZJPicDetailController alloc]init];
         CZJBuyNoticeController *SController = [[CZJBuyNoticeController alloc]init];
-        CZJHotRecoController *TController = [[CZJHotRecoController alloc]init];
+        CZJAfterServiceController *TController = [[CZJAfterServiceController alloc]init];
+        CZJApplicableCarController *AController = [[CZJApplicableCarController alloc]init];
         
-        [_viewControllerArray addObjectsFromArray:@[FController,SController,TController]];
+        [_viewControllerArray addObjectsFromArray:@[FController,SController,TController,AController]];
     }
     return _viewControllerArray;
 }
@@ -85,7 +87,7 @@ UIScrollViewDelegate>
         [btn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
         [btn setTitleColor:[UIColor redColor] forState:UIControlStateSelected];
         btn.titleLabel.font = [UIFont systemFontOfSize:16];
-        float horiMargin = (PJ_SCREEN_WIDTH - self.btnArr.count*size.width)/4;
+        float horiMargin = (PJ_SCREEN_WIDTH - self.btnArr.count*size.width)/5;
         float originX = i * (size.width + horiMargin);
         btn.frame = CGRectMake(originX + horiMargin, 20, size.width, size.height);
         btn.tag = BtnTag + i;

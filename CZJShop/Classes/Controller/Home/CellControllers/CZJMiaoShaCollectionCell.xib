@@ -72,8 +72,9 @@
                 <outlet property="currentPriceLabel" destination="Sdg-Q3-3mt" id="xMN-a2-zXS"/>
                 <outlet property="iconImage" destination="nJv-lf-6tC" id="1dS-MN-uyG"/>
                 <outlet property="originPriceLabel" destination="Ne7-GQ-UoE" id="MZk-tm-nPt"/>
+                <outlet property="originPriceLayoutWidth" destination="4rs-dA-CtR" id="YaG-Gd-VRd"/>
             </connections>
-            <point key="canvasLocation" x="508" y="346.5"/>
+            <point key="canvasLocation" x="300" y="327.5"/>
         </collectionViewCell>
     </objects>
 </document>

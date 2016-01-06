@@ -13,6 +13,7 @@
 @protocol CZJShoppingCartHeaderCellDelegate <NSObject>
 @optional
 - (void)clickChooseAllSection:(id)sender andIndexPath:(NSIndexPath*)indexPath;
+- (void)clickGetCoupon:(id)sender andIndexPath:(NSIndexPath*)indexPath;
 
 @end
 

@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CZJCategoryController : UIViewController
+@interface CZJCategoryController : CZJViewController
 
 @end

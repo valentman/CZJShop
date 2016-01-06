@@ -23,6 +23,7 @@
     if (self)
     {
         _buttonDatas = [NSMutableArray array];
+        _currentButtons =[NSMutableArray array];
     }
     return self;
 }
@@ -43,6 +44,7 @@
         btn.backgroundColor = [UIColor whiteColor];
         [btn.titleLabel setFont:[UIFont systemFontOfSize:12]];
         [self.contentView addSubview:btn];
+        [_currentButtons addObject:btn];
     }
 }
 

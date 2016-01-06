@@ -12,6 +12,7 @@
 #import "FDAlertView.h"
 #import "CZJLoginController.h"
 #import "CZJShoppingCartController.h"
+#import "CZJNaviagtionBarView.h"
 
 @interface CZJUtils ()<UIAlertViewDelegate>
 
@@ -506,15 +507,18 @@ void backLastView(id sender, SEL _cmd)
 
 + (CGSize)calculateTitleSizeWithString:(NSString *)string AndFontSize:(CGFloat)fontSize
 {
-    NSDictionary *dic = @{NSFontAttributeName: [UIFont systemFontOfSize:fontSize]};
-    CGSize size = [string boundingRectWithSize:CGSizeMake(280, 0) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:dic context:nil].size;
-    return size;
+    return [self calculateStringSizeWithString:string Font:SYSTEMFONT(fontSize) Width:280];
 }
 
 + (CGSize)calculateTitleSizeWithString:(NSString *)string WithFont:(UIFont*)font
 {
+    return [self calculateStringSizeWithString:string Font:font Width:280];
+}
+
++ (CGSize)calculateStringSizeWithString:(NSString*)string Font:(UIFont*)font Width:(CGFloat)width
+{
     NSDictionary *dic = @{NSFontAttributeName: font};
-    CGSize size = [string boundingRectWithSize:CGSizeMake(280, 0) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:dic context:nil].size;
+    CGSize size = [string boundingRectWithSize:CGSizeMake(width, 0) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:dic context:nil].size;
     return size;
 }
 
@@ -548,7 +552,7 @@ void backLastView(id sender, SEL _cmd)
     target.window = window;
     [window makeKeyAndVisible];
     
-    [UIView animateWithDuration:0.5 animations:^{
+    [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
         target.window.frame = CGRectMake(0, 0, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT);
         ((CZJLoginController*)loginView.topViewController).delegate = target;
     } completion:^(BOOL finished) {
@@ -556,7 +560,7 @@ void backLastView(id sender, SEL _cmd)
     }];
 }
 
-+ (void)showShoppingCartView:(CZJViewController*)target
++ (void)showShoppingCartView:(CZJViewController*)target  andNaviBar:(CZJNaviagtionBarView*)naviBar
 {
     //获取storyboard: 通过bundle根据storyboard的名字来获取我们的storyboard,
     UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
@@ -574,9 +578,9 @@ void backLastView(id sender, SEL _cmd)
     target.window = window;
     [window makeKeyAndVisible];
     
-    [UIView animateWithDuration:0.5 animations:^{
+    [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
         target.window.frame = CGRectMake(0, 0, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT);
-        ((CZJShoppingCartController*)shopping.topViewController).delegate = target;
+        ((CZJShoppingCartController*)shopping.topViewController).delegate = naviBar;
     } completion:^(BOOL finished) {
         
     }];
@@ -586,9 +590,13 @@ void backLastView(id sender, SEL _cmd)
 
 + (void)removeLoginViewFromCurrent:(CZJViewController*)target
 {
-    [UIView animateWithDuration:0.5 animations:^{
+    [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^
+    {
         target.window.frame = CGRectMake(0, PJ_SCREEN_HEIGHT, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT);
-    } completion:^(BOOL finished) {
+        
+    }
+    completion:^(BOOL finished)
+    {
         if (finished) {
             [target.window resignKeyWindow];
             target.window  = nil;
@@ -599,15 +607,24 @@ void backLastView(id sender, SEL _cmd)
 
 + (void)removeShoppintCartViewFromCurrent:(CZJViewController*)target
 {
-    [UIView animateWithDuration:0.5 animations:^{
+    [UIView animateWithDuration:0.5f delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^
+    {
         target.window.frame = CGRectMake(PJ_SCREEN_WIDTH, 0, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT);
-    } completion:^(BOOL finished) {
+    }
+    completion:^(BOOL finished)
+    {
         if (finished) {
             [target.window resignKeyWindow];
             target.window  = nil;
         }
     }];
     
+}
+
++ (void)performBlock:(CZJGeneralBlock)block afterDelay:(NSTimeInterval)delay
+{
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delay * NSEC_PER_SEC));
+    dispatch_after(popTime, dispatch_get_main_queue(), block);
 }
 
 @end

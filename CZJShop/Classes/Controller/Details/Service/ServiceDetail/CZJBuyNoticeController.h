@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CZJPicDetailBaseController.h"
 
-@interface CZJBuyNoticeController : UIViewController
+@interface CZJBuyNoticeController : CZJPicDetailBaseController
 
 @end

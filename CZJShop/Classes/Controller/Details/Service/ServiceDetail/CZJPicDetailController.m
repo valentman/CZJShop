@@ -8,40 +8,36 @@
 
 #import "CZJPicDetailController.h"
 
-// 颜色
-#define NNColor(r, g, b) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:1.0]
 // 随机色
 #define NNRandomColor NNColor(arc4random_uniform(256), arc4random_uniform(256), arc4random_uniform(256))
 @interface CZJPicDetailController ()
-
 @end
 
 @implementation CZJPicDetailController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = NNRandomColor;
-    // Do any additional setup after loading the view.
-}
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    DLog(@"picDetailcontroller");
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    DLog(@"CZJApplicableCarController");
+    NSString* apiType;
+    if (CZJDetailTypeGoods == self.detaiViewType)
+    {
+        apiType = kCZJServerAPIGoodsPicDetails;
+    }
+    else
+    {
+        apiType = kCZJServerAPIServicePicDetail;
+    }
+    NSString* url = [NSString stringWithFormat:@"%@%@?storeItemPid=%@&itemCode=%@", kCZJServerAddr, apiType,[USER_DEFAULT valueForKey:kUserDefaultDetailStoreItemPid], [USER_DEFAULT valueForKey:kUserDefaultDetailItemCode]];
+    [self loadWebPageWithString:url];
 }
-*/
 
 @end

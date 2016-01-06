@@ -17,3 +17,11 @@
 
 - (void)initWithCouponDatas:(NSArray*)coupons;
 @end
+
+
+@interface CZJCouponView : UIView
+@property (strong, nonatomic)UIImageView* bgImage;
+@property (strong, nonatomic)UILabel* couponInfoLabel;
+
+- (id)initWithFrame:(CGRect)frame;
+@end

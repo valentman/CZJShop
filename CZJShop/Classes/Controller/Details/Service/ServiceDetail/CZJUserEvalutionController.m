@@ -21,7 +21,10 @@
 <
 LXDSegmentControlDelegate,
 PullTableViewDelegate,
-CZJImageViewTouchDelegate
+CZJImageViewTouchDelegate,
+CZJNaviagtionBarViewDelegate,
+UITableViewDelegate,
+UITableViewDataSource
 >
 {
     NSMutableDictionary* postParams;
@@ -47,9 +50,14 @@ CZJImageViewTouchDelegate
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self initTopViews];
     [self initDatas];
-    // Do any additional setup after loading the view.
+    [self initTopViews];
+    [self firstLoadAllTypeCommentsDataFromServer];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [_topNaviBarView refreshShopBadgeLabel];
 }
 
 - (void)initDatas
@@ -68,18 +76,21 @@ CZJImageViewTouchDelegate
 
 - (void)initTopViews
 {
+    CGRect mainViewBounds = self.navigationController.navigationBar.bounds;
+    CGRect viewBounds = CGRectMake(0, 0, mainViewBounds.size.width, 52);
+    [self.topNaviBarView initWithFrame:viewBounds AndType:CZJNaviBarViewTypeDetail].delegate = self;
+    [self.topNaviBarView setBackgroundColor:RGBA(239, 239, 239, 0)];
+    
     //segment初始化
-    CGRect frame = CGRectMake(0, 0, PJ_SCREEN_WIDTH- 30.f, 44.f);
-    NSArray * items = @[@"全部", @"有图", @"好评", @"中评", @"差评"];
+    CGRect frame = CGRectMake(15, 10, PJ_SCREEN_WIDTH - 30, 45);
+    NSArray * items = @[@"全部100", @"有图90", @"好评90", @"中评70", @"差评10"];
     LXDSegmentControlConfiguration * select = [LXDSegmentControlConfiguration configurationWithControlType: LXDSegmentControlTypeSelectBlock items: items];
-    self.segmentControl = [LXDSegmentControl segmentControlWithFrame: frame configuration: select delegate: self];
-//    self.segmentControl.center = (CGPoint){ self.view.center.x, self.view.center.y };
+    UIView* segmentView = [LXDSegmentControl segmentControlWithFrame: frame configuration: select delegate: self];
+    [self.segmentControl addSubview:segmentView];
     self.automaticallyAdjustsScrollViewInsets = NO;
+    self.navigationController.interactivePopGestureRecognizer.enabled = true;
     
     //TableView初始化
-    self.myEvalTableView.delegate = self;
-    self.myEvalTableView.dataSource = self;
-    
     UINib *nib1=[UINib nibWithNibName:@"CZJEvalutionDetailCell" bundle:nil];
     UINib *nib2=[UINib nibWithNibName:@"CZJEvalutionDescCell" bundle:nil];
     UINib *nib3=[UINib nibWithNibName:@"CZJEvalutionFooterCell" bundle:nil];
@@ -103,6 +114,9 @@ CZJImageViewTouchDelegate
             _badEvalutionAry = [[CZJBaseDataInstance detailsForm] userEvalutionBadForms];
             _goodEvalutionAry = [[CZJBaseDataInstance detailsForm] userEvalutionGoodForms];
             _tmpEvalutionAry = _allEvalutionAry;
+            self.myEvalTableView.delegate = self;
+            self.myEvalTableView.dataSource = self;
+            self.myEvalTableView.pullDelegate = self;
             [self.myEvalTableView reloadData];
         }
     };
@@ -121,7 +135,6 @@ CZJImageViewTouchDelegate
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 
@@ -148,12 +161,15 @@ CZJImageViewTouchDelegate
         [cell.evalWriteHeadImage sd_setImageWithURL:[NSURL URLWithString:form.evalHead] placeholderImage:nil];
         cell.evalWriterName.text = form.evalName;
         cell.evalWriteTime.text = form.evalTime;
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
     }
     if (indexPath.row == 1)
     {
         CZJEvalutionDescCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJEvalutionDescCell" forIndexPath:indexPath];
         [cell setStar:[form.evalStar intValue]];
+        CGSize contenSize = [form.evalDesc boundingRectWithSize:CGSizeMake(PJ_SCREEN_WIDTH - 40, 0) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName: SYSTEMFONT(13)} context:nil].size;
+        cell.evalContentLayoutHeight.constant = contenSize.height;
         cell.evalContent.text = form.evalDesc;
         cell.evalTime.text = nil;
         cell.evalWriter.text = nil;
@@ -164,7 +180,8 @@ CZJImageViewTouchDelegate
         {
             UIImageView* image = [[UIImageView alloc]init];
             [image sd_setImageWithURL:[NSURL URLWithString:form.imgs[i]] placeholderImage:nil];
-            
+            image.layer.cornerRadius = 2;
+            image.clipsToBounds = YES;
             int divide = 4;
             // 列数
             int column = i%divide;
@@ -172,11 +189,12 @@ CZJImageViewTouchDelegate
             int row = i/divide;
             DLog(@"row:%d, column:%d", row, column);
             // 很据列数和行数算出x、y
-            int childX = column * imagerect.size.width;
+            int childX = column * (imagerect.size.width + 10);
             int childY = row * imagerect.size.height;
-            image.frame = CGRectMake(childX , childY, imagerect.size.width, imagerect.size.height);
+            image.frame = CGRectMake(20 + childX , childY + contenSize.height + 40, imagerect.size.width, imagerect.size.height);
             [cell addSubview:image];
         }
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
     }
     if (2 == indexPath.row)
@@ -186,11 +204,35 @@ CZJImageViewTouchDelegate
         cell.serviceName.text = form.purchaseItem;
         cell.serviceTime.text = form.purchaseTime;
         cell.form = form;
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
     }
     return nil;
 }
 
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (0 == indexPath.row) {
+        return 46;
+    }
+    if (1 == indexPath.row) {
+        //这里是动态改变的，暂时设一个固定值
+        return 160;
+    }
+    if (2 == indexPath.row)
+    {
+        return 64;
+    }
+    return 0;
+}
+
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    currentTouchedEvalutionForm = (CZJEvalutionsForm*)_tmpEvalutionAry[indexPath.section];
+    [self performSegueWithIdentifier:@"segueToUserEvalutionDetail" sender:self];
+}
 
 #pragma mark - PullTableViewDelegate
 
@@ -204,20 +246,12 @@ CZJImageViewTouchDelegate
     [self performSelector:@selector(loadMoreToTable) withObject:nil afterDelay:0.1f];
 }
 
-/**
- *  @brief 刷新数据表
- *
- */
 - (void)refreshTable
 {
     self.page=1;
     [self loadDataWithType:_currentSelectedSegment isRefreshType:CZJHomeGetDataFromServerTypeOne];
 }
 
-/**
- *  @brief 载入更多
- *
- */
 - (void)loadMoreToTable
 {
     self.page++;
@@ -235,13 +269,47 @@ NSInteger customSort(CZJEvalutionsForm* obj1, CZJEvalutionsForm* obj2,void* cont
     return (NSComparisonResult)NSOrderedSame;
 }
 
--(void)loadDataWithType:(int)segType  isRefreshType:(CZJHomeGetDataFromServerType)type{
+-(void)loadDataWithType:(NSInteger)segType  isRefreshType:(CZJHomeGetDataFromServerType)type{
     
     [postParams setValue:@(self.page) forKey:@"page"];
     CZJSuccessBlock successBlock = ^(id json)
     {
         [self segmentControl:nil didSelectAtIndex:_currentSelectedSegment];
 
+        [self.myEvalTableView reloadData];
+        
+        switch (type) {
+            case CZJHomeGetDataFromServerTypeOne:
+            {
+                DLog(@"Get Home Data From Server Success...");
+                [self.myEvalTableView reloadData];
+                
+                if (self.myEvalTableView.pullTableIsRefreshing == YES)
+                {
+                    self.myEvalTableView.pullLastRefreshDate = [NSDate date];
+                }
+                self.myEvalTableView.pullTableIsLoadingMore = NO;
+                self.myEvalTableView.pullTableIsRefreshing = NO;
+            }
+                break;
+                
+            case CZJHomeGetDataFromServerTypeTwo:
+            {
+                DLog(@"Get Goods Data From Server Success...");
+                [self.myEvalTableView reloadData];
+                if (self.myEvalTableView.pullTableIsRefreshing == YES)
+                {
+                    self.myEvalTableView.pullLastRefreshDate = [NSDate date];
+                }
+                self.myEvalTableView.pullTableIsLoadingMore = NO;
+                self.myEvalTableView.pullTableIsRefreshing = NO;
+                
+            }
+                break;
+                
+            default:
+                break;
+        }
     };
     [CZJBaseDataInstance loadUserEvalutions:postParams
                                            type:0
@@ -259,6 +327,7 @@ NSInteger customSort(CZJEvalutionsForm* obj1, CZJEvalutionsForm* obj2,void* cont
     DLog(@"select segment:%ld",index);
     _currentSelectedSegment = index;
     [self.myEvalTableView setContentOffset:CGPointZero];
+    [self reloadTableview];
 }
 
 - (void)reloadTableview
@@ -291,11 +360,33 @@ NSInteger customSort(CZJEvalutionsForm* obj1, CZJEvalutionsForm* obj2,void* cont
 }
 
 
-#pragma mark-CZJImageViewTouchDelegate
+#pragma mark- CZJImageViewTouchDelegate
 - (void)showDetailInfoWithForm:(id)form
 {
     currentTouchedEvalutionForm = (CZJEvalutionsForm*)form;
     [self performSegueWithIdentifier:@"segueToUserEvalutionDetail" sender:self];
+}
+
+
+#pragma mark- CZJNaviagtionBarViewDelegate
+- (void)clickEventCallBack:(nullable id)sender
+{
+    UIButton* barButton = (UIButton*)sender;
+    switch (barButton.tag) {
+        case CZJButtonTypeNaviBarMore:
+            break;
+            
+        case CZJButtonTypeNaviBarBack:
+            [self.navigationController popViewControllerAnimated:true];
+            break;
+            
+        case CZJButtonTypeHomeShopping:
+            
+            break;
+            
+        default:
+            break;
+    }
 }
 
 
@@ -307,5 +398,8 @@ NSInteger customSort(CZJEvalutionsForm* obj1, CZJEvalutionsForm* obj2,void* cont
         detailcontroller.evalutionForm = currentTouchedEvalutionForm;
     }
 }
+
+
+
 
 @end

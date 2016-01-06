@@ -1,31 +1,22 @@
 //
-//  CZJHotRecoController.m
+//  CZJCommitOrderController.m
 //  CZJShop
 //
-//  Created by Joe.Pen on 12/16/15.
-//  Copyright © 2015 JoeP. All rights reserved.
+//  Created by Joe.Pen on 1/4/16.
+//  Copyright © 2016 JoeP. All rights reserved.
 //
 
-#import "CZJHotRecoController.h"
-// 颜色
-#define NNColor(r, g, b) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:1.0]
-// 随机色
-#define NNRandomColor NNColor(arc4random_uniform(256), arc4random_uniform(256), arc4random_uniform(256))
-@interface CZJHotRecoController ()
+#import "CZJCommitOrderController.h"
+
+@interface CZJCommitOrderController ()
 
 @end
 
-@implementation CZJHotRecoController
+@implementation CZJCommitOrderController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = NNRandomColor;
     // Do any additional setup after loading the view.
-}
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    DLog(@"CZJHotRecoController");
 }
 
 - (void)didReceiveMemoryWarning {

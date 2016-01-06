@@ -36,14 +36,7 @@
 - (void)prepareForReuse
 {
     [super prepareForReuse];
-    _soldoutLab.hidden=YES;
-    [_goodImage sd_setImageWithURL:nil];
-    [_changeView setHidden:YES];
-    _changeView = nil;
-    _itemTypes.text = nil;
 
-    [_chooseBtn setImage:IMAGENAMED(@"commit_btn_circle.png") forState:UIControlStateNormal];
-    [_chooseBtn setImage:IMAGENAMED(@"commit_btn_circle_sel.png") forState:UIControlStateSelected];
     
 }
 
@@ -53,8 +46,17 @@
 
 - (void)setModels:(CZJShoppingGoodsInfoForm*)shoppingGoodsInfo
 {
+    _soldoutLab.hidden=YES;
+    [_goodImage sd_setImageWithURL:nil];
+    [_changeView setHidden:YES];
+    _changeView = nil;
+    _itemTypes.text = nil;
+    
+    [_chooseBtn setImage:IMAGENAMED(@"commit_btn_circle.png") forState:UIControlStateNormal];
+    [_chooseBtn setImage:IMAGENAMED(@"commit_btn_circle_sel.png") forState:UIControlStateSelected];
+    _chooseBtn.selected = shoppingGoodsInfo.isSelect;
+    
     self.goodsInfoForm = shoppingGoodsInfo;
-
     self.goodName.text = shoppingGoodsInfo.itemName;
     self.itemTypes.text = shoppingGoodsInfo.itemSku;
     if (self.goodsInfoForm.off)
@@ -62,9 +64,11 @@
         [_goodsOnSellView setHidden:YES];
         self.soldoutLab.hidden = NO;
         _chooseBtn.enabled=NO;
+        self.contentView.alpha = 0.5;
         if (self.isEdit) {
             //编辑状态
             _chooseBtn.enabled=YES;
+            self.contentView.alpha = 1;
         }
     }
     else
@@ -72,7 +76,7 @@
         [_goodsOnSellView setHidden:NO];
         self.soldoutLab.hidden = YES;
         _chooseBtn.enabled=YES;
-        self.goodPrice.text = shoppingGoodsInfo.currentPrice;
+        self.goodPrice.text = [NSString stringWithFormat:@"￥%@", shoppingGoodsInfo.currentPrice];
         self.choosedCount = [shoppingGoodsInfo.itemCount integerValue];
         self.changeView.numberFD.text = [NSString stringWithFormat:@"%ld", self.choosedCount];
         [self.changeView.subButton addTarget:self action:@selector(subButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
@@ -150,6 +154,7 @@
     }
     
     [self.delegate singleClick:self.goodsInfoForm indexPath:self.indexPath];
+    [self.delegate changePurchaseNumberNotification];
 }
 
 @end

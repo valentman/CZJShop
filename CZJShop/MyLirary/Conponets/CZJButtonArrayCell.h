@@ -17,7 +17,8 @@
 
 @interface CZJButtonArrayCell : UITableViewCell
 {
-    NSMutableArray *_buttonDatas;
+    NSMutableArray* _buttonDatas;
+    NSMutableArray* _currentButtons;
 }
 @property (nonatomic, strong) NSMutableArray *buttonDatas;
 @property (nonatomic, weak) id<CZJButtonArrayCellDelegate>delegate;

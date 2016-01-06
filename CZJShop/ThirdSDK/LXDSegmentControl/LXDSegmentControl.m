@@ -31,7 +31,6 @@ NSString * const LXDSegmentControlIndexKey = @"LXDSegmentControlIndexKey";
  */
 - (instancetype)initWithFrame: (CGRect)frame configuration: (LXDSegmentControlConfiguration *)configuration delegate: (id<LXDSegmentControlDelegate>)delegate
 {
-    frame.size.height = 30.f;
     if (self = [super initWithFrame: frame]) {
         self.configuration = configuration;
         self.delegate = delegate;
@@ -70,15 +69,24 @@ NSString * const LXDSegmentControlIndexKey = @"LXDSegmentControlIndexKey";
  */
 - (void)setupItems
 {
+    if (_configuration.controlType == LXDSegmentControlTypeSelectBlock) {
+        [self addSubview: self.slideBlock];
+    }
     [_configuration.items enumerateObjectsUsingBlock: ^(NSString * _Nonnull itemTitle, NSUInteger idx, BOOL * _Nonnull stop) {
         UIButton * item = [self segmentItemWithIndex: idx];
         [item setTitle: itemTitle forState: UIControlStateNormal];
+        item.layer.borderWidth = .5f;
+        item.layer.borderColor = [[UIColor lightGrayColor]CGColor];
+        UIEdgeInsets myedges = UIEdgeInsetsMake(5, 25, 5, 25);
+        item.titleEdgeInsets = myedges;
+        item.titleLabel.lineBreakMode = NSLineBreakByCharWrapping;
+        item.titleLabel.numberOfLines = 2;
+        item.titleLabel.textAlignment = NSTextAlignmentCenter;
+        item.titleLabel.font = SYSTEMFONT(13);
         [self addSubview: item];
         if (idx == 0) { [self clickSegmentItem: item]; }
     }];
-    if (_configuration.controlType == LXDSegmentControlTypeSlideBlock) {
-        [self addSubview: self.slideBlock];
-    }
+
 }
 
 
@@ -110,7 +118,7 @@ NSString * const LXDSegmentControlIndexKey = @"LXDSegmentControlIndexKey";
     if (!_slideBlock) {
         CGFloat itemWidth = CGRectGetWidth(self.bounds) / _configuration.items.count;
         CGFloat height = CGRectGetHeight(self.bounds);
-        _slideBlock = [[UIView alloc] initWithFrame: CGRectMake(itemWidth * 0.25f, height - 3.f, itemWidth * 0.5f, 2.f)];
+        _slideBlock = [[UIView alloc] initWithFrame: CGRectMake(0, 0, itemWidth, height)];
         _slideBlock.backgroundColor = _configuration.slideBlockColor;
     }
     return _slideBlock;
@@ -154,9 +162,8 @@ NSString * const LXDSegmentControlIndexKey = @"LXDSegmentControlIndexKey";
     if (segmentItem == _currentItem) { return; }
     [self.lock lock];
     
-    self.currentItem = segmentItem;
     NSUInteger index = segmentItem.tag - BUTTONINITTAG;
-    [self changeAssociateViewWithIndex: index];
+    [self changeAssociateViewWithIndex: segmentItem];
     [self callbackWithIndex: index];
     
     [self.lock unlock];
@@ -165,8 +172,9 @@ NSString * const LXDSegmentControlIndexKey = @"LXDSegmentControlIndexKey";
 /*!
  *  改变关联的视图
  */
-- (void)changeAssociateViewWithIndex: (NSUInteger)index
+- (void)changeAssociateViewWithIndex: (UIButton *)segmentItem
 {
+    NSUInteger index = segmentItem.tag - BUTTONINITTAG;
     if (_scrollView) {
         if (_scrollView.contentSize.width / CGRectGetWidth(_scrollView.frame) >= index) {
             [_scrollView setContentOffset: CGPointMake(index * CGRectGetWidth(_scrollView.frame), 0) animated: YES];
@@ -180,9 +188,14 @@ NSString * const LXDSegmentControlIndexKey = @"LXDSegmentControlIndexKey";
     if (_slideBlock) {
         CGRect frame = _slideBlock.frame;
         CGFloat itemWidth = CGRectGetWidth(self.bounds) / _configuration.items.count;
-        frame.origin.x = (index + 0.25f) * itemWidth;
-        [UIView animateWithDuration: 0.15f animations: ^{
+        frame.origin.x = (index) * itemWidth;
+        [UIView animateWithDuration: 0.3f animations: ^{
             _slideBlock.frame = frame;
+        } completion:^(BOOL finished) {
+            if (finished)
+            {
+                self.currentItem = segmentItem;
+            }
         }];
     }
 }
