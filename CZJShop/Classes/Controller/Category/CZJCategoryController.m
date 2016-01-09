@@ -71,7 +71,7 @@
         return (NSComparisonResult)NSOrderedSame;
     }];
     
-    [self.multiView initWithFrame:CGRectMake(0, StatusBar_HEIGHT, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - Tabbar_HEIGHT - StatusBar_HEIGHT) WithData:lis withSelectIndex:^(NSInteger left, NSInteger right,rightMeun* info) {
+    [self.multiView initWithFrame:CGRectMake(0, StatusBar_HEIGHT, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - Tabbar_HEIGHT - StatusBar_HEIGHT - NavigationBar_HEIGHT) WithData:lis withSelectIndex:^(NSInteger left, NSInteger right,rightMeun* info) {
         DLog(@"点击的 菜单%@, ID:%@",info.meunName,info.ID);
         if ([info.ID hasPrefix:@"10"])
         {

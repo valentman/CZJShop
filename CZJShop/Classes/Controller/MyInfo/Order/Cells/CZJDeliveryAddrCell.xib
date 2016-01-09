@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -19,7 +20,6 @@
                         <animations/>
                         <constraints>
                             <constraint firstAttribute="width" constant="6" id="S4k-S2-1h8"/>
-                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="6" id="Xcl-Wg-6l8"/>
                         </constraints>
                     </imageView>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="commit_icon_address.png" translatesAutoresizingMaskIntoConstraints="NO" id="Wtm-MP-ueS">
@@ -38,7 +38,7 @@
                             <constraint firstAttribute="width" constant="42" id="zVt-LV-3nw"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1510832983" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tkb-kF-Jf8">
@@ -49,7 +49,7 @@
                             <constraint firstAttribute="height" constant="16" id="zBI-bX-4IH"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="默认" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W5e-ZG-uSM">
@@ -60,15 +60,15 @@
                             <constraint firstAttribute="width" constant="30" id="wgx-4w-BPO"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="四川省" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Zz-UF-2Kz">
-                        <rect key="frame" x="79" y="53" width="200" height="16"/>
+                        <rect key="frame" x="79" y="53" width="300" height="16"/>
                         <animations/>
                         <constraints>
                             <constraint firstAttribute="height" constant="16" id="Q4c-tB-Rsw"/>
-                            <constraint firstAttribute="width" constant="200" id="mmq-fZ-Mq6"/>
+                            <constraint firstAttribute="width" constant="300" id="mmq-fZ-Mq6"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                         <color key="textColor" red="0.50196081400000003" green="0.50196081400000003" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
@@ -84,14 +84,22 @@
                     <constraint firstAttribute="bottom" secondItem="W5e-ZG-uSM" secondAttribute="bottom" constant="15" id="YVn-bN-sGW"/>
                     <constraint firstAttribute="trailing" secondItem="tkb-kF-Jf8" secondAttribute="trailing" constant="31" id="ZIh-rh-FBm"/>
                     <constraint firstItem="Wtm-MP-ueS" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="b9P-iv-a0k"/>
-                    <constraint firstItem="9Zz-UF-2Kz" firstAttribute="leading" secondItem="W5e-ZG-uSM" secondAttribute="trailing" constant="8" id="m1F-70-a46"/>
                     <constraint firstItem="W5e-ZG-uSM" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="41" id="mDU-kk-siA"/>
+                    <constraint firstItem="9Zz-UF-2Kz" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="71" id="rxd-GM-cr0"/>
                     <constraint firstItem="Wtm-MP-ueS" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="xfb-CZ-esv"/>
                     <constraint firstAttribute="trailing" secondItem="3Es-jg-FZ5" secondAttribute="trailing" constant="15" id="yEG-O7-9Rc"/>
                     <constraint firstAttribute="bottom" secondItem="9Zz-UF-2Kz" secondAttribute="bottom" constant="15" id="yLf-NT-X5v"/>
                 </constraints>
             </tableViewCellContentView>
             <animations/>
+            <connections>
+                <outlet property="contactNumLabel" destination="tkb-kF-Jf8" id="mlj-ls-CMa"/>
+                <outlet property="defaultLabel" destination="W5e-ZG-uSM" id="Nps-5T-7pY"/>
+                <outlet property="deliveryAddrLabel" destination="9Zz-UF-2Kz" id="k5A-Yh-X9E"/>
+                <outlet property="deliveryAddrLayoutLeading" destination="rxd-GM-cr0" id="NGu-bL-Zph"/>
+                <outlet property="deliveryAddrrLayoutWidth" destination="mmq-fZ-Mq6" id="gsz-U3-aKq"/>
+                <outlet property="deliveryNameLabel" destination="fEv-Eo-Xra" id="jNd-W3-OCn"/>
+            </connections>
         </tableViewCell>
     </objects>
     <resources>

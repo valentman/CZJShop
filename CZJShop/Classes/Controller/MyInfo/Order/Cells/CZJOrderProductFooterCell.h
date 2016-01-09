@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CZJOrderProductFooterCell : UITableViewCell
+@interface CZJOrderProductFooterCell : CZJTableViewCell
 
 @end

@@ -82,6 +82,7 @@
         
         self.rightCollection.delegate=self;
         self.rightCollection.dataSource=self;
+        self.rightCollection.backgroundColor = [UIColor blueColor];
         
         //注册可用视图
         UINib *nib=[UINib nibWithNibName:kMultilevelCollectionViewCell bundle:nil];

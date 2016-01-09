@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CZJChooseInstallStoreCell : UITableViewCell
+@interface CZJChooseInstallStoreCell : CZJTableViewCell
 
 @end

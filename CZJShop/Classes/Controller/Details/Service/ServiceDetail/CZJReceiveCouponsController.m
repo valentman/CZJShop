@@ -154,6 +154,30 @@ UITableViewDelegate
     return cell;
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    __block __weak CZJReceiveCouponsCell *cell  = [tableView cellForRowAtIndexPath:indexPath];
+
+    CZJShoppingCouponsForm* couponForm = (CZJShoppingCouponsForm*)self.coupons[indexPath.row];
+    NSDictionary* params = @{@"couponId": couponForm.couponId,
+                             @"name": couponForm.name,
+                             @"type": couponForm.type,
+                             @"validServiceId": couponForm.validServiceId,
+                             @"validStartTime": couponForm.validStartTime,
+                             @"validEndTime": couponForm.validEndTime,
+                             @"validMoney": couponForm.validMoney,
+                             @"value": couponForm.value,
+                             @"storeId": couponForm.storeId,
+                             @"storeName": couponForm.storeName
+                            };
+    
+    
+    [CZJBaseDataInstance takeCoupons:params Success:^(id json){
+        [cell setCellIsTaken:YES andServiceType:![couponForm.validServiceId isEqualToString:@"0"]];
+    } fail:^{
+        
+    }];
+}
 
 
 @end

@@ -103,6 +103,7 @@
     self.storeTableView.dataSource = self;
     self.storeTableView.delegate = self;
     self.automaticallyAdjustsScrollViewInsets = NO;
+    self.storeTableView.tableFooterView = [[UIView alloc] init];
     
     UINib *nib=[UINib nibWithNibName:@"CZJStoreCell" bundle:nil];
     [self.storeTableView registerNib:nib forCellReuseIdentifier:@"CZJStoreCell"];

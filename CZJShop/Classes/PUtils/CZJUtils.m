@@ -32,14 +32,12 @@
 + (NSString*)JsonFromData:(id)data
 {
     NSString *jsonString = nil;
-    NSError *error;
-    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:data
-                                                       options:NSJSONWritingPrettyPrinted
-                                                         error:&error];
-    if (! jsonData) {
-        NSLog(@"Got an error: %@", error);
+    NSData *jsonData = [CZJUtils JsonFormData:data];
+    if (!jsonData) {
+        NSLog(@"Got an error");
     } else {
         jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+        DLog(@"jsonString:%@",jsonString);
     }
     return jsonString;
 }
@@ -51,6 +49,8 @@
                         dataWithJSONObject:data options:NSJSONWritingPrettyPrinted error:&error];
     return jsonData;
 }
+
+
 
 
 #pragma mark- 数据持久化
@@ -552,7 +552,7 @@ void backLastView(id sender, SEL _cmd)
     target.window = window;
     [window makeKeyAndVisible];
     
-    [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+    [UIView animateWithDuration:0.4 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
         target.window.frame = CGRectMake(0, 0, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT);
         ((CZJLoginController*)loginView.topViewController).delegate = target;
     } completion:^(BOOL finished) {
@@ -578,7 +578,7 @@ void backLastView(id sender, SEL _cmd)
     target.window = window;
     [window makeKeyAndVisible];
     
-    [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+    [UIView animateWithDuration:0.4 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
         target.window.frame = CGRectMake(0, 0, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT);
         ((CZJShoppingCartController*)shopping.topViewController).delegate = naviBar;
     } completion:^(BOOL finished) {
@@ -590,7 +590,7 @@ void backLastView(id sender, SEL _cmd)
 
 + (void)removeLoginViewFromCurrent:(CZJViewController*)target
 {
-    [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^
+    [UIView animateWithDuration:0.4 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^
     {
         target.window.frame = CGRectMake(0, PJ_SCREEN_HEIGHT, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT);
         
@@ -607,7 +607,7 @@ void backLastView(id sender, SEL _cmd)
 
 + (void)removeShoppintCartViewFromCurrent:(CZJViewController*)target
 {
-    [UIView animateWithDuration:0.5f delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^
+    [UIView animateWithDuration:0.4f delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^
     {
         target.window.frame = CGRectMake(PJ_SCREEN_WIDTH, 0, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT);
     }

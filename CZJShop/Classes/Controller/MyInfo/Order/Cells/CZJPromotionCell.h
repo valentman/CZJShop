@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CZJPromotionCell : UITableViewCell
+@interface CZJPromotionCell : CZJTableViewCell
 
 @end

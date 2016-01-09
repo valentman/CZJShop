@@ -17,6 +17,7 @@
 #import "XGPush.h"
 #import "XGSetting.h"
 #import "JRSwizzle.h"
+#import "KMCGeigerCounter.h"
 
 @interface AppDelegate ()
 
@@ -203,6 +204,9 @@
     
     //-------------------8.字典描述分类替换---------------
     [NSDictionary jr_swizzleMethod:@selector(description) withMethod:@selector(my_description) error:nil];
+    
+    [KMCGeigerCounter sharedGeigerCounter].enabled = YES;
+
 
     return YES;
 }

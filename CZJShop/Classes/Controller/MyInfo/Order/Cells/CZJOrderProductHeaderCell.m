@@ -11,6 +11,7 @@
 @implementation CZJOrderProductHeaderCell
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
     // Initialization code
 }
 

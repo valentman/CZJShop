@@ -24,15 +24,13 @@
         label_type.layer.cornerRadius = 5;
         label_type.layer.borderWidth = 0.5;
         label_type.layer.borderColor = [UIColor redColor].CGColor;
-
+        label_type.frame =  CGRectMake(10 , (frame.size.height - 20) / 2, 40, 20);
         
         UILabel* label_title = [[UILabel alloc] init];
-        label_title.textAlignment = NSTextAlignmentCenter;
+        label_title.textAlignment = NSTextAlignmentLeft;
         label_title.font = [UIFont systemFontOfSize:16.0f];;
         label_title.text = data.title;
-        
-        label_type.frame =  CGRectMake(10 , (frame.size.height - 20) / 2, 40, 20);
-        label_title.frame = CGRectMake(0, 0, frame.size.width - 60, frame.size.height);
+        label_title.frame = CGRectMake(60, 0, frame.size.width - 60, frame.size.height);
         
         [self addSubview:label_type];
         [self addSubview:label_title];
@@ -66,12 +64,12 @@
     _carInfoDatas = infoDatas;
     _infocount = _carInfoDatas.count;
     for (int i  = 0; i < _carInfoDatas.count; i++) {
-        CarInfoBarView* view = [[CarInfoBarView alloc]initWithFrame:_scrollInfoView.frame AndData:_carInfoDatas[i]];
+        CGRect frame = CGRectMake(10, i * 39, _scrollInfoView.frame.size.width, _scrollInfoView.frame.size.height);
+        CarInfoBarView* view = [[CarInfoBarView alloc]initWithFrame:frame AndData:_carInfoDatas[i]];
         [view setTag:i + kStarTag];
         
         //信息条顺序往下添加
-        CGRect frame = CGRectMake(10, i * 39, _scrollInfoView.frame.size.width, _scrollInfoView.frame.size.height);
-        view.frame = frame;
+        
         [_scrollInfoView addSubview:view];
     }
     UIView* lines = [[UIView alloc]initWithFrame:CGRectMake(0, (_scrollInfoView.frame.size.height - 20) / 2, 0.5, 20)];

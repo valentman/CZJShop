@@ -14,8 +14,8 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="commit_icon_zhifubao.png" translatesAutoresizingMaskIntoConstraints="NO" id="FQB-Nx-hqI">
-                        <rect key="frame" x="16" y="15" width="20" height="20"/>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="commit_icon_zhifubao.png" translatesAutoresizingMaskIntoConstraints="NO" id="FQB-Nx-hqI">
+                        <rect key="frame" x="15" y="15" width="20" height="20"/>
                         <animations/>
                         <constraints>
                             <constraint firstAttribute="width" constant="20" id="Gyf-7O-dxs"/>
@@ -38,7 +38,7 @@
                             <constraint firstAttribute="width" constant="150" id="meG-hY-AiN"/>
                             <constraint firstAttribute="height" constant="16" id="sI5-2M-esA"/>
                         </constraints>
-                        <fontDescription key="fontDescription" type="system" weight="light" pointSize="14"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>
@@ -54,6 +54,12 @@
                 </constraints>
             </tableViewCellContentView>
             <animations/>
+            <connections>
+                <outlet property="orderTypeImage" destination="FQB-Nx-hqI" id="FUD-ab-9Ke"/>
+                <outlet property="orderTypeNameLabel" destination="Qvy-O0-opK" id="NvI-te-dFw"/>
+                <outlet property="selectedBtn" destination="pEx-cD-1Cy" id="4gV-oh-z0Z"/>
+            </connections>
+            <point key="canvasLocation" x="225" y="351"/>
         </tableViewCell>
     </objects>
     <resources>

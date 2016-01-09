@@ -7,7 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface CZJDeliveryAddrCell : UITableViewCell
-
+#import "CZJOrderForm.h"
+@interface CZJDeliveryAddrCell : CZJTableViewCell
+@property (weak, nonatomic) IBOutlet UILabel *deliveryNameLabel;
+@property (weak, nonatomic) IBOutlet UILabel *contactNumLabel;
+@property (weak, nonatomic) IBOutlet UILabel *defaultLabel;
+@property (weak, nonatomic) IBOutlet UILabel *deliveryAddrLabel;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *deliveryAddrrLayoutWidth;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *deliveryAddrLayoutLeading;
+@property (strong, nonatomic) CZJAddrForm* addrForm;
 @end

@@ -41,6 +41,9 @@
                             <constraint firstAttribute="width" constant="40" id="eH9-oj-qiP"/>
                         </constraints>
                         <state key="normal" title="Button" image="commit_icon_swich_on.png"/>
+                        <connections>
+                            <action selector="selectAction:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="SqQ-7L-b72"/>
+                        </connections>
                     </button>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="￥12" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a3U-UG-ab6">
                         <rect key="frame" x="221" y="12" width="42" height="21"/>
@@ -80,6 +83,13 @@
                 </constraints>
             </tableViewCellContentView>
             <animations/>
+            <connections>
+                <outlet property="leftCountLabel" destination="a3U-UG-ab6" id="FG0-Kg-CpS"/>
+                <outlet property="leftLabel" destination="9lK-KK-hlm" id="XGj-t6-3va"/>
+                <outlet property="redPacketImg" destination="Kce-9v-6nc" id="nXE-Tc-1BX"/>
+                <outlet property="redPacketNameLabel" destination="X6r-c6-l10" id="O3Z-Qd-mDm"/>
+                <outlet property="selectBtn" destination="fGk-hR-5sT" id="Vpw-jL-sB5"/>
+            </connections>
         </tableViewCell>
     </objects>
     <resources>

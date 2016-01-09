@@ -8,6 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CZJRedPacketCell : UITableViewCell
+@interface CZJRedPacketCell : CZJTableViewCell
+@property (weak, nonatomic) IBOutlet UIImageView *redPacketImg;
+@property (weak, nonatomic) IBOutlet UILabel *redPacketNameLabel;
+@property (weak, nonatomic) IBOutlet UILabel *leftLabel;
+@property (weak, nonatomic) IBOutlet UILabel *leftCountLabel;
+@property (weak, nonatomic) IBOutlet UIButton *selectBtn;
 
+- (IBAction)selectAction:(id)sender;
 @end

@@ -141,6 +141,7 @@
 @synthesize type = _type;
 @synthesize validMoney = _validMoney;
 @synthesize storeId = _storeId;
+@synthesize chezhuCouponPid = _chezhuCouponPid;
 
 - (id)initWithDictionary:(NSDictionary*)dict
 {
@@ -149,7 +150,7 @@
         self.validStartTime = [dict valueForKey:@"validStartTime"];
         self.storeName = [dict valueForKey:@"storeName"];
         self.validServiceId = [dict valueForKey:@"validServiceId"];
-        self.taked = [dict valueForKey:@"taked"];
+        self.taked = [[dict valueForKey:@"taked"] boolValue];
         self.name = [dict valueForKey:@"name"];
         self.value = [dict valueForKey:@"value"];
         self.validEndTime = [dict valueForKey:@"validEndTime"];
@@ -157,6 +158,7 @@
         self.type = [dict valueForKey:@"type"];
         self.validMoney = [dict valueForKey:@"validMoney"];
         self.storeId = [dict valueForKey:@"storeId"];
+        self.chezhuCouponPid = [dict valueForKey:@"chezhuCouponPid"];
         return self;
     }
     return nil;

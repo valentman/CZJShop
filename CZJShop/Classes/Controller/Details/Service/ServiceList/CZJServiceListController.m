@@ -111,6 +111,7 @@
     self.serviceTableView.dataSource = self;
     self.serviceTableView.delegate = self;
     self.automaticallyAdjustsScrollViewInsets = NO;
+    self.serviceTableView.tableFooterView = [[UIView alloc] init];
     
     UINib *nib=[UINib nibWithNibName:@"CZJStoreCell" bundle:nil];
     [self.serviceTableView registerNib:nib forCellReuseIdentifier:@"CZJStoreCell"];

@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CZJLeaveMessageCell : UITableViewCell
+@interface CZJLeaveMessageCell : CZJTableViewCell
 
 @end

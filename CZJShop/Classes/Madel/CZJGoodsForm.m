@@ -23,7 +23,7 @@
 
 - (void)setNewDictionary:(NSDictionary*)dict WithType:(CZJHomeGetDataFromServerType)type
 {
-    if (CZJHomeGetDataFromServerTypeOne)
+    if (CZJHomeGetDataFromServerTypeOne == type)
     {
         [self resetData];
     }

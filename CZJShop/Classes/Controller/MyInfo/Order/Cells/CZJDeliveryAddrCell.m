@@ -11,6 +11,7 @@
 @implementation CZJDeliveryAddrCell
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
     // Initialization code
 }
 

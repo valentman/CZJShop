@@ -10,4 +10,7 @@
 
 @interface CZJCommitOrderController : UIViewController
 
+@property(strong, nonatomic)NSArray* settleParamsAry;
+
+
 @end

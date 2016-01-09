@@ -14,6 +14,7 @@
 #import "UIImageView+WebCache.h"
 #import "CZJReceiveCouponsController.h"
 #import "CZJNaviagtionBarView.h"
+#import "CZJCommitOrderController.h"
 
 @interface CZJShoppingCartController ()
 <
@@ -24,6 +25,8 @@ UITableViewDelegate
 >
 {
     NSMutableArray* shoppingInfos;
+    NSInteger _selectedCount;
+    NSMutableArray* _settleOrderAry;
 }
 @property (weak, nonatomic) IBOutlet PullTableView *myTableView;
 @property (weak, nonatomic) IBOutlet UIButton *settleBtn;
@@ -51,6 +54,7 @@ UITableViewDelegate
 - (void)initDatas
 {
     shoppingInfos = [NSMutableArray array];
+    _selectedCount = 0;
 }
 
 - (void)initViews
@@ -82,6 +86,9 @@ UITableViewDelegate
     {
         self.navigationItem.leftBarButtonItem = leftItem;
     }
+    
+    
+    
     //右按钮
     UIButton *rightBtn = [[ UIButton alloc ] initWithFrame : CGRectMake(0 , 0 , 44 , 44 )];
     [rightBtn setTitle:@"编辑" forState:UIControlStateNormal];
@@ -140,8 +147,37 @@ UITableViewDelegate
         }
     }
     self.addUpNumLabel.text = [NSString stringWithFormat:@"￥%.2f",num];
+    [self calculateSelectdCount];
 }
 
+- (void)calculateSelectdCount
+{
+    _selectedCount = 0;
+    for (int i =0; i<shoppingInfos.count; i++)
+    {
+        NSArray* goodsList = ((CZJShoppingCartInfoForm*)shoppingInfos[i]).items;
+        for (int j=0; j<goodsList.count; j++)
+        {
+            CZJShoppingGoodsInfoForm *model = (CZJShoppingGoodsInfoForm *)goodsList[j];
+            if (model.isSelect && !model.off)
+            {
+                _selectedCount++;
+            }
+        }
+    }
+    if (self.isEdit)
+    {
+        self.addUpLabel.hidden = YES;
+        self.addUpNumLabel.hidden = YES;
+        [self.settleBtn setTitle:[NSString stringWithFormat:@"删除(%ld)",_selectedCount] forState:UIControlStateNormal];
+    }
+    else
+    {
+        self.addUpLabel.hidden = NO;
+        self.addUpNumLabel.hidden = NO;
+        [self.settleBtn setTitle:[NSString stringWithFormat:@"去结算(%ld)",_selectedCount] forState:UIControlStateNormal];
+    }
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -162,18 +198,7 @@ UITableViewDelegate
     UIButton* itemButton = (UIButton*)sender;
     itemButton.selected = !itemButton.selected;
     self.isEdit = !self.isEdit;
-    if (self.isEdit)
-    {
-        self.settleBtn.titleLabel.text = @"删除";
-        self.addUpLabel.hidden = YES;
-        self.addUpNumLabel.hidden = YES;
-    }
-    else
-    {
-        self.settleBtn.titleLabel.text = @"提交订单";
-        self.addUpLabel.hidden = NO;
-        self.addUpNumLabel.hidden = NO;
-    }
+    [self calculateSelectdCount];
     for (int i=0; i<shoppingInfos.count; i++)
     {
         NSArray *goodsList = ((CZJShoppingCartInfoForm*)shoppingInfos[i]).items;
@@ -430,17 +455,13 @@ UITableViewDelegate
     }];
 }
 
-#pragma mark - Navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-}
 
 #pragma mark- 结算按钮
 - (IBAction)settleActioin:(id)sender
 {
     if (self.isEdit)
     {
-        //删除
+        //先遍历购物车数组中被选中的商品，将商品ID加入一个数组中。
         NSMutableArray* deleteAry = [NSMutableArray array];
         for (int i = 0; i<shoppingInfos.count; i++)
         {
@@ -453,37 +474,77 @@ UITableViewDelegate
                     continue;
                 }
             }
-            
-//            [goodsList removeObjectAtIndex:j];
-//            if (goodsList.count<=1) {
-//                [shoppingInfos removeObjectAtIndex:i];
-//            }
         }
         
-        
-//        [CZJBaseDataInstance removeProductFromShoppingCart:params Success:^{
-//            [CZJBaseDataInstance loadShoppingCartCount:nil Success:nil fail:nil];
-//            model.isSelect=NO;
-//            [goodsList.items removeObjectAtIndex:indexPath.row - 1];
-//            
-//            if (0 == goodsList.items.count ){
-//                [shoppingInfos removeObjectAtIndex:indexPath.section];
-//                [self.myTableView reloadData];
-//            }
-//            else
-//            {
-//                [self.myTableView reloadSections:[NSIndexSet indexSetWithIndex:indexPath.section] withRowAnimation:UITableViewRowAnimationFade];
-//            }
-//            
-//        } fail:^{
-//            //删除失败
-//        }];
-        
-        [self.myTableView reloadData];
+        //再将待删除的商品id数组组合成一个字符串，作为删除参数
+        NSString* storeItemPids = [deleteAry componentsJoinedByString:@","];
+        NSDictionary* params = @{@"storeItemPids" : storeItemPids};
+        [CZJBaseDataInstance removeProductFromShoppingCart:params Success:^{
+            [CZJBaseDataInstance loadShoppingCartCount:nil Success:nil fail:nil];
+            
+            //删除所选商品成功返回后，从本地商品数组中移除已删除的商品
+            for (NSString* deleteStr in deleteAry)
+            {
+                for (int i = 0; i<shoppingInfos.count; i++)
+                {
+                    NSMutableArray* goodsList = ((CZJShoppingCartInfoForm*)shoppingInfos[i]).items;
+                    for (int j=0 ; j<goodsList.count; j++)
+                    {
+                        CZJShoppingGoodsInfoForm *model = goodsList[j];
+                        DLog(@"%@, %@", deleteStr, model.storeItemPid);
+                        if ([deleteStr isEqualToString:model.storeItemPid])
+                        {
+                            [goodsList removeObjectAtIndex:j];
+                            j = 0;
+                            if (0 == goodsList.count )
+                            {
+                                [shoppingInfos removeObjectAtIndex:i];
+                                i = 0;
+                            }
+                        }
+                    }
+                }
+            }
+            [self.myTableView reloadData];
+        } fail:^{
+            //删除失败
+        }];
     }
     else
     {
-        
+        _settleOrderAry = [NSMutableArray array];
+        for (int i = 0; i<shoppingInfos.count; i++)
+        {
+            BOOL isStoreSelected = NO;
+            NSMutableArray* itemsAry = [NSMutableArray array];
+            CZJShoppingCartInfoForm* form = shoppingInfos[i];
+            NSMutableArray* goodsList = form.items;
+            for (int j=0 ; j<goodsList.count; j++) {
+                CZJShoppingGoodsInfoForm *model = goodsList[j];
+                if (model.isSelect==YES && model.off != YES) {
+                    isStoreSelected = YES;
+                    NSDictionary* itemDict = @{@"itemCode" : model.itemCode,
+                                               @"storeItemPid" : model.storeItemPid,
+                                               @"itemImg" : model.itemImg,
+                                               @"itemName" : model.itemName,
+                                               @"itemSku" : model.itemSku,
+                                               @"itemType" : model.itemType,
+                                               @"itemCount" : model.itemCount,
+                                               };
+                    [itemsAry addObject:itemDict];
+                }
+            }
+            if (isStoreSelected) {
+                NSDictionary* storeDict = @{@"items" :itemsAry,
+                                            @"storeName" : form.storeName,
+                                            @"storeId" :form.storeId,
+                                            @"selfFlag" : form.selfFlag ? @"true" : @"false"
+                                            };
+                [_settleOrderAry addObject:storeDict];
+            }
+            
+        }
+        [self performSegueWithIdentifier:@"segueToSettle" sender:nil];
     }
 }
 
@@ -504,5 +565,16 @@ UITableViewDelegate
     }
     [self.myTableView reloadData];
     [self calculateTotalPrice];
+}
+
+
+#pragma mark - Navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"segueToSettle"])
+    {
+        CZJCommitOrderController* settleOrder = segue.destinationViewController;
+        settleOrder.settleParamsAry = _settleOrderAry;
+    }
 }
 @end

@@ -30,7 +30,7 @@
                             <constraint firstAttribute="height" constant="16" id="xYL-wa-eTa"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xH0-tZ-1G1">
@@ -65,6 +65,10 @@
             <constraints>
                 <constraint firstItem="gRC-Fn-b5T" firstAttribute="centerY" secondItem="KGk-i7-Jjw" secondAttribute="centerY" id="4db-Z1-Vh1"/>
             </constraints>
+            <connections>
+                <outlet property="orderCouponImg" destination="4db-Z1-Vh1" id="Ttc-i5-8wz"/>
+                <outlet property="orderCouponScrollView" destination="xH0-tZ-1G1" id="JnB-JP-I9b"/>
+            </connections>
         </tableViewCell>
     </objects>
     <resources>

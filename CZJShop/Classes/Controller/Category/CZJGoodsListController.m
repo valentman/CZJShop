@@ -71,6 +71,8 @@ CZJNaviagtionBarViewDelegate
     goodsListPostParams = [NSMutableDictionary dictionary];
     self.page = 1;
     isArrangeByList = YES;
+    _getdataType = CZJHomeGetDataFromServerTypeOne;
+    
     
     //post参数初始化
     [goodsListPostParams setObject:@"0" forKey:@"cityId"];
@@ -102,11 +104,12 @@ CZJNaviagtionBarViewDelegate
     self.myGoodsTableView.dataSource = self;
     UINib* nib1 = [UINib nibWithNibName:@"CZJGoodsListCell" bundle:nil];
     [self.myGoodsTableView registerNib:nib1 forCellReuseIdentifier:@"CZJGoodsListCell"];
+    self.myGoodsTableView.tableFooterView = [[UIView alloc] init];
     
     //CollectionView
     self.myGoodsCollectionView.delegate = self;
     self.myGoodsCollectionView.dataSource = self;
-//    self.myGoodsCollectionView.backgroundColor = [UIColor whiteColor];
+    self.myGoodsCollectionView.backgroundColor = [UIColor clearColor];
     UINib *nib=[UINib nibWithNibName:kCZJCollectionCellReuseIdGoodReco bundle:nil];
     [self.myGoodsCollectionView registerNib: nib forCellWithReuseIdentifier:kCZJCollectionCellReuseIdGoodReco];
 }

@@ -11,6 +11,12 @@
 @implementation CZJDeliveryAddrListCell
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
+    [_chooseedBtn setImage:[UIImage imageNamed:@"add_icon_gou"] forState:UIControlStateSelected];
+    [_chooseedBtn setImage:nil forState:UIControlStateNormal];
+    [_setDefaultBtn setImage:[UIImage imageNamed:@"commit_btn_circle_sel"] forState:UIControlStateSelected];
+    [_setDefaultBtn setImage:[UIImage imageNamed:@"commit_btn_circle"] forState:UIControlStateNormal];
+    _setDefaultBtn.selected = NO;
     // Initialization code
 }
 
@@ -20,4 +26,16 @@
     // Configure the view for the selected state
 }
 
+- (IBAction)deleteAddrAction:(id)sender {
+    [self.delegate clickDeleteAddrButton:sender andIndexPath:self.indexPath];
+}
+
+- (IBAction)editAddrAction:(id)sender {
+    [self.delegate clickEditAddrButton: sender andIndexPath:self.indexPath];
+}
+
+- (IBAction)setDefalutAction:(id)sender {
+    _setDefaultBtn.selected = !_setDefaultBtn.selected;
+    [self.delegate clickSetDefault:sender andIndexPath:self.indexPath];
+}
 @end

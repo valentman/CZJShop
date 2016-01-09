@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CZJAddDeliveryAddrCell : UITableViewCell
+@interface CZJAddDeliveryAddrCell : CZJTableViewCell
 
 @end

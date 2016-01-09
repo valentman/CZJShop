@@ -64,7 +64,7 @@
 @property(nonatomic, strong) NSString* validStartTime;
 @property(nonatomic, strong) NSString* storeName;
 @property(nonatomic, strong) NSString* validServiceId;
-@property(nonatomic, strong) NSString* taked;
+@property(assign) BOOL taked;
 @property(nonatomic, strong) NSString* name;
 @property(nonatomic, strong) NSString* value;
 @property(nonatomic, strong) NSString* validEndTime;
@@ -72,6 +72,7 @@
 @property(nonatomic, strong) NSString* type;
 @property(nonatomic, strong) NSString* validMoney;
 @property(nonatomic, strong) NSString* storeId;
+@property(nonatomic, strong) NSString* chezhuCouponPid;
 
 - (id)initWithDictionary:(NSDictionary*)dict;
 @end

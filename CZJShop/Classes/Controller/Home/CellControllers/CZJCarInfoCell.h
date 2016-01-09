@@ -10,8 +10,6 @@
 #import "HomeForm.h"
 
 @interface CarInfoBarView : UIView
-@property (nonatomic, strong) NSString* type;
-@property (nonatomic, strong) NSString* title;
 - (instancetype)initWithFrame:(CGRect)frame AndData:(CarInfoForm*)data;
 @end
 

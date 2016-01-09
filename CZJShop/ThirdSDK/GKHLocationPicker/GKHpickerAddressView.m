@@ -164,7 +164,7 @@ GKHpickerAddressView * instance;
     NSString *provinceStr=self.provinceArray[[self.pickerView selectedRowInComponent:0]];
     NSString *cityStr=self.cityArray[[self.pickerView selectedRowInComponent:1]];
      NSString *townStr=self.townArray[[self.pickerView selectedRowInComponent:2]];
-    NSString *string=[NSString stringWithFormat:@"%@%@%@",provinceStr,cityStr,townStr];
+    NSString *string=[NSString stringWithFormat:@"%@ %@ %@",provinceStr,cityStr,townStr];
     self.valueBlock(self.ctrl,string);
 }
 

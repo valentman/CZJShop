@@ -63,25 +63,28 @@ static NSString *const kCZJServerAPIRegisterSetPassword = @"chezhu/resetPasswdV2
 static NSString *const kCZJServerAPIAddToShoppingCart= @"chezhu/addShoppingCartItem.do";            //加入购物车
 static NSString *const kCZJServerAPIShoppingCartCount = @"chezhu/countShoppingCart.do";             //读取购物车数量
 static NSString *const kCZJServerAPIStoreCoupons = @"chezhu/showStoreCoupons.do";                   //获取优惠券列表
-//static NSString *const kCZJServerAPITakeCoupon = @"chezhu/takeCouponV2.do";                         //领取优惠券
+static NSString *const kCZJServerAPITakeCoupon = @"chezhu/takeCouponV2.do";                         //领取优惠券
 static NSString *const kCZJServerAPIShoppingCartList = @"chezhu/loadShoppingCart.do";               //获取购物车信息
 static NSString *const kCZJServerAPIDeleteShoppingCartInfo = @"chezhu/deleteShoppingCart.do";       //删除购物车信息
-//static NSString *const kCZJServerAPISettleOrders = @"chezhu/settleOrder.do";                        //去结算
-//static NSString *const kCZJServerAPIGetUseableCouponList = @"chezhu/showCouponsForOrder.do";        //获取能使用的优惠券列表
+static NSString *const kCZJServerAPISettleOrders = @"chezhu/settleOrder.do";                        //去结算
+static NSString *const kCZJServerAPIGetUseableCouponList = @"chezhu/showCouponsForOrder.do";        //获取能使用的优惠券列表(storeIds)
 //static NSString *const kCZJServerAPIGetSetupStoreList = @"chezhu/loadSetupStores.do";               //获取安装门店列表
 static NSString *const kCZJServerAPIAddAddr = @"chezhu/addAddrV2.do";                               //添加地址
 static NSString *const kCZJServerAPIGetAddrList = @"chezhu/loadAddrsV2.do";                         //获取地址列表
-static NSString *const kCZJServerAPIRemoveAddr = @"chezhu/removeAddrV2.do";                         //删除地址
-static NSString *const kCZJServerAPISetDefaultAddr = @"chezhu/setDftAddrV2.do";                     //设置默认地址
+static NSString *const kCZJServerAPIRemoveAddr = @"chezhu/removeAddrV2.do";                         //删除地址 (id)
+static NSString *const kCZJServerAPISetDefaultAddr = @"chezhu/setDftAddrV2.do";                     //设置默认地址 (id)
 static NSString *const kCZJServerAPIUpdateAddr = @"chezhu/updateAddrV2.do";                         //修改地址
-static NSString *const kCZJServerAPIGetStoreDetail = @"chezhu/showStoreDetail.do";                  //获取门店详情
-static NSString *const kCZJServerAPILoadGoodsInStore = @"chezhu/loadStoreGoods.do";                 //获取门店下面的服务和商品
-static NSString *const kCZJServerAPIAttentionStore = @"chezhu/attentionStore.do";                   //关注门店
-static NSString *const kCZJServerAPICancelAttentionStore = @"chezhu/cancelAttentionStore.do";       //取消关注门店
-static NSString *const kCZJServerAPIAttentaionGoods = @"chezhu/attentionGoods.do";                  //关注商品
-static NSString *const kCZJServerAPICancleAttentionGoods = @"chezhu/cancelAttentionGoods.do";       //取消关注商品
-static NSString *const kCZJServerAPILoadOtherStoreList = @"chezhu/loadOtherStores.do";              //其他门店列表
-static NSString *const kCZJServerAPILoadServiceTypes = @"chezhu/loadServiceTypes.do";               //得到服务分类
+
+
+//门店详情接口组
+//static NSString *const kCZJServerAPIGetStoreDetail = @"chezhu/showStoreDetail.do";                  //获取门店详情
+//static NSString *const kCZJServerAPILoadGoodsInStore = @"chezhu/loadStoreGoods.do";                 //获取门店下面的服务和商品
+//static NSString *const kCZJServerAPIAttentionStore = @"chezhu/attentionStore.do";                   //关注门店
+//static NSString *const kCZJServerAPICancelAttentionStore = @"chezhu/cancelAttentionStore.do";       //取消关注门店
+//static NSString *const kCZJServerAPIAttentaionGoods = @"chezhu/attentionGoods.do";                  //关注商品
+//static NSString *const kCZJServerAPICancleAttentionGoods = @"chezhu/cancelAttentionGoods.do";       //取消关注商品
+//static NSString *const kCZJServerAPILoadOtherStoreList = @"chezhu/loadOtherStores.do";              //其他门店列表
+//static NSString *const kCZJServerAPILoadServiceTypes = @"chezhu/loadServiceTypes.do";               //得到服务分类
 
 
 

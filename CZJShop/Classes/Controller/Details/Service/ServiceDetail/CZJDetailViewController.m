@@ -123,7 +123,6 @@ CZJNaviagtionBarViewDelegate
     
     //详情TableView
     _detailTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, -20, PJ_SCREEN_WIDTH, (PJ_SCREEN_HEIGHT-70)) style:UITableViewStylePlain];
-    _detailTableView.backgroundColor = [UIColor lightGrayColor];
     _detailTableView.showsVerticalScrollIndicator = NO;
     NSArray* nibArys = @[ @"CZJDetailDescCell",
                           @"CZJDetailPicShowCell",
@@ -158,6 +157,7 @@ CZJNaviagtionBarViewDelegate
         }];
     }];
     _detailTableView.tag = kTagTableView;
+    self.detailTableView.tableFooterView = [[UIView alloc] init];
     [self.myScrollView addSubview:_detailTableView];
 }
 
@@ -198,7 +198,11 @@ CZJNaviagtionBarViewDelegate
         _detailTableView.delegate = self;
         _detailTableView.dataSource = self;
         [self.detailTableView reloadData];
-        [self getHotRecommendDataFromServer];
+        if (CZJDetailTypeGoods == self.detaiViewType)
+        {
+            [self getHotRecommendDataFromServer];
+        }
+        
         //图文详情页
         CZJPageControlView* webVie = [[CZJPageControlView alloc]initWithFrame:CGRectMake(0, (PJ_SCREEN_HEIGHT-90), PJ_SCREEN_WIDTH, (PJ_SCREEN_HEIGHT-110))];
         [self.myScrollView addSubview:webVie];
@@ -491,7 +495,7 @@ CZJNaviagtionBarViewDelegate
             }
             else if (2 == indexPath.row)
             {
-                CZJEvalutionFooterCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJEvalutionFooterCell" forIndexPath:indexPath];
+                CZJEvalutionFooterCell* cell = (CZJEvalutionFooterCell*)[tableView dequeueReusableCellWithIdentifier:@"CZJEvalutionFooterCell"];
                 [cell setVisibleView:kLookAllEvalView];
                 [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
                 return cell;

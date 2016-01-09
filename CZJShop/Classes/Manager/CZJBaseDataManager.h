@@ -15,6 +15,7 @@
 @class CZJDetailForm;
 @class CZJGoodsForm;
 @class CZJShoppingCartForm;
+@class CZJOrderStoreCouponsForm;
 
 @interface CZJBaseDataManager : NSObject
 {
@@ -25,9 +26,9 @@
     CZJStoreForm* _storeForm;                       //门店信息
     CZJShoppingCartForm* _shoppingCartForm;         //购物车信息
     NSMutableDictionary* _discoverForms;            //发现信息
+    NSMutableArray* _orderStoreCouponAry;           //订单结算页面可用优惠券列表
     
     NSMutableDictionary *_params;                   //post参数字典
-    
 }
 //--------------------服务器返回数据对象模型----------------------------
 @property (nonatomic, retain) HomeForm* homeForm;
@@ -37,6 +38,7 @@
 @property (nonatomic, retain) CZJGoodsForm* goodsForm;
 @property (nonatomic, retain) CZJShoppingCartForm* shoppingCartForm;
 @property (nonatomic, retain) NSMutableDictionary* discoverForms;
+@property (nonatomic, retain) NSMutableArray* orderStoreCouponAry;
 //-------------------------本地数据对象------------------------------
 @property (nonatomic, assign) CLLocationCoordinate2D curLocation;
 @property (nonatomic) NSMutableDictionary *params;
@@ -120,6 +122,16 @@ singleton_interface(CZJBaseDataManager);
              Success:(CZJGeneralBlock)success
                 fail:(CZJFailureBlock)fail;
 
+//获取商品优惠券列表
+- (void)loadShoppingCouponsCart:(NSDictionary*)postParams
+                        Success:(CZJGeneralBlock)success
+                           fail:(CZJFailureBlock)fail;
+
+//领取优惠券
+- (void)takeCoupons:(NSDictionary*)postParams
+            Success:(CZJSuccessBlock)success
+               fail:(CZJFailureBlock)fail;
+
 //获取评价列表
 - (void)loadUserEvalutions:(NSDictionary*)postParams
                       type:(CZJHomeGetDataFromServerType)type
@@ -154,8 +166,40 @@ singleton_interface(CZJBaseDataManager);
                               Success:(CZJGeneralBlock)success
                                  fail:(CZJFailureBlock)fail;
 
-//获取领券信息
-- (void)loadShoppingCouponsCart:(NSDictionary*)postParams
-                        Success:(CZJGeneralBlock)success
+//获取结算页数据
+- (void)loadSettleOrder:(NSDictionary*)postParams
+                Success:(CZJSuccessBlock)success
+                   fail:(CZJFailureBlock)fail;
+
+//获取可用优惠券列表
+- (void)loadUseableCouponsList:(NSDictionary*)postParams
+                        Success:(CZJSuccessBlock)success
                            fail:(CZJFailureBlock)fail;
+
+//获取地址列表
+- (void)loadAddrList:(NSDictionary*)postParams
+             Success:(CZJSuccessBlock)success
+                fail:(CZJFailureBlock)fail;
+
+//添加地址
+- (void)addDeliveryAddr:(NSDictionary*)postParams
+                Success:(CZJGeneralBlock)success
+                   fail:(CZJFailureBlock)fail;
+
+//修改收货地址
+- (void)updateDeliveryAddr:(NSDictionary*)postParams
+                Success:(CZJGeneralBlock)success
+                   fail:(CZJFailureBlock)fail;
+
+//删除收货地址
+- (void)removeDeliveryAddr:(NSDictionary*)postParams
+                   Success:(CZJSuccessBlock)success
+                      fail:(CZJFailureBlock)fail;
+
+//设置默认地址
+- (void)setDefaultAddr:(NSDictionary*)postParams
+               Success:(CZJSuccessBlock)success
+                  fail:(CZJFailureBlock)fail;
+
+
 @end

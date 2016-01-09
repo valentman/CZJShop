@@ -8,6 +8,18 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CZJChooseCouponController : UIViewController
 
+@protocol CZJChooseCouponControllerDelegate <NSObject>
+
+- (void)clickToConfirmUse;
+
+@end
+
+
+@interface CZJChooseCouponController : UIViewController
+{
+    NSString* _storeIds;
+}
+@property (strong, nonatomic) NSString* storeIds;
+@property (weak, nonatomic)id<CZJChooseCouponControllerDelegate> delegate;
 @end

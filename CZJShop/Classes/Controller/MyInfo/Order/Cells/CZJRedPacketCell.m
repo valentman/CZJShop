@@ -11,6 +11,9 @@
 @implementation CZJRedPacketCell
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
+    [_selectBtn setImage:[UIImage imageNamed:@"commit_icon_swich_off"] forState:UIControlStateNormal];
+    [_selectBtn setImage:[UIImage imageNamed:@"commit_icon_swich_on"] forState:UIControlStateSelected];
     // Initialization code
 }
 
@@ -20,4 +23,7 @@
     // Configure the view for the selected state
 }
 
+- (IBAction)selectAction:(id)sender {
+    _selectBtn.selected = !_selectBtn.selected;
+}
 @end

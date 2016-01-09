@@ -11,6 +11,7 @@
 @implementation CZJLeaveMessageCell
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
     // Initialization code
 }
 

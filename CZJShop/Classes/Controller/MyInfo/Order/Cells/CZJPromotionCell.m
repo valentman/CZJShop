@@ -11,6 +11,7 @@
 @implementation CZJPromotionCell
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
     // Initialization code
 }
 

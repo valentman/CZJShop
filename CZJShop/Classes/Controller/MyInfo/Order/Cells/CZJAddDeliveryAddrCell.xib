@@ -14,11 +14,15 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="48"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="请填写收货人信息" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ANP-SB-yQf">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="请填写收货人信息" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ANP-SB-yQf">
                         <rect key="frame" x="43" y="14" width="150" height="21"/>
                         <animations/>
-                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="150" id="4UW-SC-FM0"/>
+                            <constraint firstAttribute="height" constant="21" id="oXX-CH-Q7X"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="commit_arrow_next.png" translatesAutoresizingMaskIntoConstraints="NO" id="pCd-ec-AGZ">
@@ -41,10 +45,11 @@
                 <animations/>
                 <constraints>
                     <constraint firstAttribute="trailing" secondItem="pCd-ec-AGZ" secondAttribute="trailing" constant="15" id="9Hf-fl-cwl"/>
+                    <constraint firstItem="Be4-gi-8Qa" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="Api-Ko-s83"/>
                     <constraint firstItem="Be4-gi-8Qa" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="BAI-An-Mvo"/>
-                    <constraint firstItem="Be4-gi-8Qa" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="14" id="GGy-JZ-Vcj"/>
+                    <constraint firstItem="ANP-SB-yQf" firstAttribute="leading" secondItem="Be4-gi-8Qa" secondAttribute="trailing" constant="8" id="Xrh-UY-Wck"/>
                     <constraint firstItem="pCd-ec-AGZ" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="c9q-Nj-wE2"/>
-                    <constraint firstAttribute="bottom" secondItem="Be4-gi-8Qa" secondAttribute="bottom" constant="14" id="cF2-3a-xhx"/>
+                    <constraint firstItem="ANP-SB-yQf" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="gIE-v5-wyZ"/>
                 </constraints>
             </tableViewCellContentView>
             <animations/>
