@@ -22,6 +22,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [CZJUtils hideSearchBarViewForTarget:self];
+    [CZJUtils customizeNavigationBarForTarget:self];
+
     
     _captureSession = nil;
     _isReading = NO;

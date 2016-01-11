@@ -73,7 +73,6 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [((CZJCarInfoCell*)[self.homeTableView dequeueReusableCellWithIdentifier:@"CZJCarInfoCell"]).autoScrollTimer setFireDate:[NSDate distantPast]];
-    self.navigationController.navigationBarHidden = NO;
     [_navibarView refreshShopBadgeLabel];
 }
 

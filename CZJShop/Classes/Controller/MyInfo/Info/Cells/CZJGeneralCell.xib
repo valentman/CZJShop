@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="KGk-i7-Jjw" customClass="CZJGeneralCell">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="aRY-co-kF7">
+                        <rect key="frame" x="20" y="12" width="19" height="19"/>
+                        <animations/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="19" id="JWh-ZT-qgF"/>
+                            <constraint firstAttribute="width" constant="19" id="bbM-Gb-VdH"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="我的钱包" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NBw-VK-z46">
+                        <rect key="frame" x="49" y="11" width="150" height="21"/>
+                        <animations/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="150" id="1Qb-Np-JL8"/>
+                            <constraint firstAttribute="height" constant="21" id="h8s-M3-AL3"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="all_arrow_next.png" translatesAutoresizingMaskIntoConstraints="NO" id="DLh-vG-E1W">
+                        <rect key="frame" x="300" y="17" width="5" height="10"/>
+                        <animations/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="5" id="kdG-0b-0ng"/>
+                            <constraint firstAttribute="height" constant="10" id="rxF-rQ-Yqq"/>
+                        </constraints>
+                    </imageView>
+                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="查看全部订单" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EI7-FV-nYW">
+                        <rect key="frame" x="190" y="14" width="100" height="15"/>
+                        <animations/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="100" id="V7a-Xo-CkZ"/>
+                            <constraint firstAttribute="height" constant="15" id="v7L-te-bn1"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                        <color key="textColor" red="0.50196081400000003" green="0.50196081400000003" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <animations/>
+                <constraints>
+                    <constraint firstItem="DLh-vG-E1W" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="5MP-Ta-Tum"/>
+                    <constraint firstItem="NBw-VK-z46" firstAttribute="leading" secondItem="aRY-co-kF7" secondAttribute="trailing" constant="10" id="91s-n4-pzu"/>
+                    <constraint firstItem="aRY-co-kF7" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="FJ9-a5-wyA"/>
+                    <constraint firstItem="aRY-co-kF7" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="FQg-fJ-fF8"/>
+                    <constraint firstItem="EI7-FV-nYW" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="IWa-MV-oPg"/>
+                    <constraint firstItem="NBw-VK-z46" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="V5T-yj-qPD"/>
+                    <constraint firstItem="DLh-vG-E1W" firstAttribute="leading" secondItem="EI7-FV-nYW" secondAttribute="trailing" constant="10" id="Zul-Gw-hRZ"/>
+                    <constraint firstAttribute="trailing" secondItem="DLh-vG-E1W" secondAttribute="trailing" constant="15" id="duQ-8b-r05"/>
+                </constraints>
+            </tableViewCellContentView>
+            <animations/>
+            <connections>
+                <outlet property="detailLabel" destination="EI7-FV-nYW" id="1xP-1Q-47B"/>
+                <outlet property="headImgView" destination="aRY-co-kF7" id="pmE-5I-GEX"/>
+                <outlet property="nameLabel" destination="NBw-VK-z46" id="32p-lm-ELl"/>
+            </connections>
+            <point key="canvasLocation" x="226" y="324"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="all_arrow_next.png" width="6" height="11"/>
+    </resources>
+</document>
