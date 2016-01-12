@@ -9,5 +9,13 @@
 #import <UIKit/UIKit.h>
 
 @interface CZJChooseInstallStoreCell : CZJTableViewCell
+@property (weak, nonatomic) IBOutlet UIImageView *storeImg;
+@property (weak, nonatomic) IBOutlet UILabel *storeNameLabel;
+@property (weak, nonatomic) IBOutlet UILabel *storeAddrLabel;
+@property (weak, nonatomic) IBOutlet UILabel *starLabel;
+@property (weak, nonatomic) IBOutlet UILabel *servicePriceLabel;
+@property (weak, nonatomic) IBOutlet UILabel *setupNumLabel;
+@property (weak, nonatomic) IBOutlet UILabel *otherLabel;
+@property (weak, nonatomic) IBOutlet UIButton *selectBtn;
 
 @end

@@ -9,6 +9,7 @@
 #import "CZJChooseInstallController.h"
 
 @interface CZJChooseInstallController ()
+@property (weak, nonatomic) IBOutlet UITableView *myStoreListTableView;
 
 @end
 
