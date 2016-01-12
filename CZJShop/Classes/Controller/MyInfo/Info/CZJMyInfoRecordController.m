@@ -1,18 +1,18 @@
 //
-//  CZJPersonalInfoController.m
+//  CZJMyInfoRecordController.m
 //  CZJShop
 //
-//  Created by Joe.Pen on 1/11/16.
+//  Created by Joe.Pen on 1/12/16.
 //  Copyright © 2016 JoeP. All rights reserved.
 //
 
-#import "CZJPersonalInfoController.h"
+#import "CZJMyInfoRecordController.h"
 
-@interface CZJPersonalInfoController ()
+@interface CZJMyInfoRecordController ()
 
 @end
 
-@implementation CZJPersonalInfoController
+@implementation CZJMyInfoRecordController
 
 - (void)viewDidLoad {
     [super viewDidLoad];

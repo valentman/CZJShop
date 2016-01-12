@@ -26,13 +26,17 @@
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1n9-VY-INB">
-                                <rect key="frame" x="41" y="11" width="24" height="24"/>
+                                <rect key="frame" x="28" y="0.0" width="50" height="50"/>
                                 <animations/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="24" id="Bln-DB-Z2J"/>
-                                    <constraint firstAttribute="width" constant="24" id="hc3-3x-sNl"/>
+                                    <constraint firstAttribute="height" constant="50" id="Bln-DB-Z2J"/>
+                                    <constraint firstAttribute="width" constant="50" id="hc3-3x-sNl"/>
                                 </constraints>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="-10" maxX="0.0" maxY="0.0"/>
                                 <state key="normal" image="my_icon_shop.png"/>
+                                <connections>
+                                    <action selector="clickAction:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="fcO-aa-FhU"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="购物车" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tiS-5Y-diB">
                                 <rect key="frame" x="32" y="34" width="42" height="21"/>
@@ -49,7 +53,7 @@
                         <animations/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="1n9-VY-INB" firstAttribute="top" secondItem="Vdq-O0-tYc" secondAttribute="top" constant="11" id="9Yl-vG-SIz"/>
+                            <constraint firstItem="1n9-VY-INB" firstAttribute="top" secondItem="Vdq-O0-tYc" secondAttribute="top" id="9Yl-vG-SIz"/>
                             <constraint firstAttribute="bottom" secondItem="ufH-98-tHa" secondAttribute="bottom" constant="12" id="IQh-gi-jei"/>
                             <constraint firstAttribute="trailing" secondItem="ufH-98-tHa" secondAttribute="trailing" id="NXK-zZ-Mhd"/>
                             <constraint firstAttribute="bottom" secondItem="tiS-5Y-diB" secondAttribute="bottom" id="Tba-pm-kuQ"/>
@@ -80,14 +84,18 @@
                                     <constraint firstAttribute="width" constant="1" id="1CM-vm-bzr"/>
                                 </constraints>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rYv-8P-Waa">
-                                <rect key="frame" x="41" y="11" width="24" height="24"/>
+                            <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rYv-8P-Waa">
+                                <rect key="frame" x="28" y="0.0" width="50" height="50"/>
                                 <animations/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="24" id="PBh-pF-zpN"/>
-                                    <constraint firstAttribute="height" constant="24" id="ipS-Lp-1bm"/>
+                                    <constraint firstAttribute="width" constant="50" id="PBh-pF-zpN"/>
+                                    <constraint firstAttribute="height" constant="50" id="ipS-Lp-1bm"/>
                                 </constraints>
+                                <inset key="contentEdgeInsets" minX="0.0" minY="-10" maxX="0.0" maxY="0.0"/>
                                 <state key="normal" image="my_icon_attention.png"/>
+                                <connections>
+                                    <action selector="clickAction:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="IAO-Yw-4qz"/>
+                                </connections>
                             </button>
                         </subviews>
                         <animations/>
@@ -97,7 +105,7 @@
                             <constraint firstItem="8Of-SG-jy5" firstAttribute="top" secondItem="DbZ-Z1-ID9" secondAttribute="top" constant="12" id="6XZ-dK-Uk6"/>
                             <constraint firstItem="S4W-Rv-Uua" firstAttribute="centerX" secondItem="DbZ-Z1-ID9" secondAttribute="centerX" id="EfB-ig-ay4"/>
                             <constraint firstAttribute="bottom" secondItem="S4W-Rv-Uua" secondAttribute="bottom" id="bmq-8r-Rqe"/>
-                            <constraint firstItem="rYv-8P-Waa" firstAttribute="top" secondItem="DbZ-Z1-ID9" secondAttribute="top" constant="11" id="iVQ-ji-khN"/>
+                            <constraint firstItem="rYv-8P-Waa" firstAttribute="top" secondItem="DbZ-Z1-ID9" secondAttribute="top" id="iVQ-ji-khN"/>
                             <constraint firstItem="rYv-8P-Waa" firstAttribute="centerX" secondItem="DbZ-Z1-ID9" secondAttribute="centerX" id="nmy-Vg-iR5"/>
                             <constraint firstAttribute="bottom" secondItem="8Of-SG-jy5" secondAttribute="bottom" constant="12" id="yN0-5I-MhE"/>
                         </constraints>
@@ -116,21 +124,25 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="86D-gg-1jD">
-                                <rect key="frame" x="41" y="11" width="24" height="24"/>
+                            <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="86D-gg-1jD">
+                                <rect key="frame" x="28" y="0.0" width="50" height="50"/>
                                 <animations/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="24" id="EdG-7a-ELZ"/>
-                                    <constraint firstAttribute="width" constant="24" id="M3G-MS-gPi"/>
+                                    <constraint firstAttribute="height" constant="50" id="EdG-7a-ELZ"/>
+                                    <constraint firstAttribute="width" constant="50" id="M3G-MS-gPi"/>
                                 </constraints>
+                                <inset key="contentEdgeInsets" minX="0.0" minY="-10" maxX="0.0" maxY="0.0"/>
                                 <state key="normal" image="my_icon_record.png"/>
+                                <connections>
+                                    <action selector="clickAction:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="HQ6-JD-mU5"/>
+                                </connections>
                             </button>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="5ih-UO-6xY" secondAttribute="bottom" id="gwO-9a-4hc"/>
-                            <constraint firstItem="86D-gg-1jD" firstAttribute="top" secondItem="Bos-vy-tsa" secondAttribute="top" constant="11" id="jJO-Kb-fOc"/>
+                            <constraint firstItem="86D-gg-1jD" firstAttribute="top" secondItem="Bos-vy-tsa" secondAttribute="top" id="jJO-Kb-fOc"/>
                             <constraint firstItem="5ih-UO-6xY" firstAttribute="centerX" secondItem="Bos-vy-tsa" secondAttribute="centerX" id="qNJ-AE-pjZ"/>
                             <constraint firstItem="86D-gg-1jD" firstAttribute="centerX" secondItem="Bos-vy-tsa" secondAttribute="centerX" id="uus-Jl-51a"/>
                         </constraints>

@@ -23,10 +23,10 @@
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="优惠券" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="y0R-ZE-c6f">
-                        <rect key="frame" x="40" y="15" width="60" height="16"/>
+                        <rect key="frame" x="40" y="15" width="45" height="16"/>
                         <animations/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="60" id="bc1-B9-8Ak"/>
+                            <constraint firstAttribute="width" constant="45" id="bc1-B9-8Ak"/>
                             <constraint firstAttribute="height" constant="16" id="xYL-wa-eTa"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
@@ -68,7 +68,9 @@
             <connections>
                 <outlet property="orderCouponImg" destination="4db-Z1-Vh1" id="Ttc-i5-8wz"/>
                 <outlet property="orderCouponScrollView" destination="xH0-tZ-1G1" id="JnB-JP-I9b"/>
+                <outlet property="orderCouponsScrollViewLayoutWidth" destination="vOb-d7-21Q" id="OAe-kv-cVg"/>
             </connections>
+            <point key="canvasLocation" x="256" y="367"/>
         </tableViewCell>
     </objects>
     <resources>

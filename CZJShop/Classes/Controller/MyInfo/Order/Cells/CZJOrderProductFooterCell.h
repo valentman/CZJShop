@@ -9,5 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface CZJOrderProductFooterCell : CZJTableViewCell
-
+@property (weak, nonatomic) IBOutlet UILabel *transportPriceLabel;
+@property (weak, nonatomic) IBOutlet UILabel *totalLabel;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *transportPriceLayoutWidth;
 @end

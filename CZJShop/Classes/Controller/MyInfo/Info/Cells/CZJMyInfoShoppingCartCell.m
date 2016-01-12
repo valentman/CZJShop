@@ -8,6 +8,10 @@
 
 #import "CZJMyInfoShoppingCartCell.h"
 
+@interface CZJMyInfoShoppingCartCell ()
+
+@end
+
 @implementation CZJMyInfoShoppingCartCell
 
 - (void)awakeFromNib {
@@ -21,4 +25,8 @@
     // Configure the view for the selected state
 }
 
+- (IBAction)clickAction:(id)sender
+{
+    [self.delegate clickMyInfoShoppingCartCell:sender];
+}
 @end

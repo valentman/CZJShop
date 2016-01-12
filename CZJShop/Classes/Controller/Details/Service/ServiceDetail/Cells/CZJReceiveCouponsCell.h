@@ -21,6 +21,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *selectBtn;
 @property (weak, nonatomic) IBOutlet UIView *couponsView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *couponsViewLeadingToSuperView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *couponsViewLayoutWidth;
 @property (weak, nonatomic) IBOutlet UILabel *useableLimitLabel;
 
 - (void)setCellIsTaken:(BOOL)taken andServiceType:(BOOL)isService;

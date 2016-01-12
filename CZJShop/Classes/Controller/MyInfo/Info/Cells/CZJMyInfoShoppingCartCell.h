@@ -8,6 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CZJMyInfoShoppingCartCell : CZJTableViewCell
+@protocol CZJMyInfoShoppingCartCellDelegate <NSObject>
 
+- (void)clickMyInfoShoppingCartCell:(id)sender;
+
+@end
+
+@interface CZJMyInfoShoppingCartCell : CZJTableViewCell
+@property (weak, nonatomic)id<CZJMyInfoShoppingCartCellDelegate> delegate;
+- (IBAction)clickAction:(id)sender;
 @end

@@ -1,18 +1,18 @@
 //
-//  CZJPersonalInfoController.m
+//  CZJMyInfoServiceFeedbackController.m
 //  CZJShop
 //
-//  Created by Joe.Pen on 1/11/16.
+//  Created by Joe.Pen on 1/12/16.
 //  Copyright © 2016 JoeP. All rights reserved.
 //
 
-#import "CZJPersonalInfoController.h"
+#import "CZJMyInfoServiceFeedbackController.h"
 
-@interface CZJPersonalInfoController ()
+@interface CZJMyInfoServiceFeedbackController ()
 
 @end
 
-@implementation CZJPersonalInfoController
+@implementation CZJMyInfoServiceFeedbackController
 
 - (void)viewDidLoad {
     [super viewDidLoad];

@@ -1,18 +1,18 @@
 //
-//  CZJPersonalInfoController.m
+//  CZJMyInfoAttentionController.m
 //  CZJShop
 //
-//  Created by Joe.Pen on 1/11/16.
+//  Created by Joe.Pen on 1/12/16.
 //  Copyright © 2016 JoeP. All rights reserved.
 //
 
-#import "CZJPersonalInfoController.h"
+#import "CZJMyInfoAttentionController.h"
 
-@interface CZJPersonalInfoController ()
+@interface CZJMyInfoAttentionController ()
 
 @end
 
-@implementation CZJPersonalInfoController
+@implementation CZJMyInfoAttentionController
 
 - (void)viewDidLoad {
     [super viewDidLoad];

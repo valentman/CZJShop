@@ -1,18 +1,18 @@
 //
-//  CZJPersonalInfoController.m
+//  CZJMyInfoWalletController.m
 //  CZJShop
 //
-//  Created by Joe.Pen on 1/11/16.
+//  Created by Joe.Pen on 1/12/16.
 //  Copyright © 2016 JoeP. All rights reserved.
 //
 
-#import "CZJPersonalInfoController.h"
+#import "CZJMyInfoWalletController.h"
 
-@interface CZJPersonalInfoController ()
+@interface CZJMyInfoWalletController ()
 
 @end
 
-@implementation CZJPersonalInfoController
+@implementation CZJMyInfoWalletController
 
 - (void)viewDidLoad {
     [super viewDidLoad];

@@ -62,6 +62,7 @@
 @property (strong, nonatomic)NSString* storeId;
 @property (strong, nonatomic)NSString* storeName;
 @property (strong, nonatomic)NSString* selectedCouponId;
+@property (assign) BOOL isSelfFlag;
 - (id)initWithDictionary:(NSDictionary*)dict;
 
 @end

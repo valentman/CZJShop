@@ -21,7 +21,8 @@
 CZJShoppingCartCellDelegate,
 CZJShoppingCartHeaderCellDelegate,
 UITableViewDataSource,
-UITableViewDelegate
+UITableViewDelegate,
+UIGestureRecognizerDelegate
 >
 {
     NSMutableArray* shoppingInfos;
@@ -59,6 +60,7 @@ UITableViewDelegate
 
 - (void)initViews
 {
+    self.navigationController.interactivePopGestureRecognizer.delegate = self;
     //tableview
     self.myTableView.delegate = self;
     self.myTableView.dataSource = self;
@@ -108,6 +110,7 @@ UITableViewDelegate
     {
         self.navigationItem.rightBarButtonItem = rightItem;
     }
+
     
     [_allChooseBtn setImage:IMAGENAMED(@"commit_btn_circle.png") forState:UIControlStateNormal];
     [_allChooseBtn setImage:IMAGENAMED(@"commit_btn_circle_sel.png") forState:UIControlStateSelected];

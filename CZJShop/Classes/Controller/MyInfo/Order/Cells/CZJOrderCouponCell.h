@@ -17,6 +17,7 @@
 @interface CZJOrderCouponCell : CZJTableViewCell
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *orderCouponImg;
 @property (weak, nonatomic) IBOutlet UIScrollView *orderCouponScrollView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *orderCouponsScrollViewLayoutWidth;
 
 - (void)setUseableCouponAry:(NSMutableArray*)useableAry;
 

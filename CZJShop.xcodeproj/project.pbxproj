@@ -383,6 +383,13 @@
 		EC8A0BB31C005C72002A2CED /* CZJGoodsRecoCellHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = EC8A0BB21C005C72002A2CED /* CZJGoodsRecoCellHeader.m */; settings = {ASSET_TAGS = (); }; };
 		EC914B111C06DB2500E973CA /* CZJGoodsRecoCollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EC914B0F1C06DB2500E973CA /* CZJGoodsRecoCollectionCell.m */; settings = {ASSET_TAGS = (); }; };
 		EC914B121C06DB2500E973CA /* CZJGoodsRecoCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EC914B101C06DB2500E973CA /* CZJGoodsRecoCollectionCell.xib */; settings = {ASSET_TAGS = (); }; };
+		EC9F1A871C44DEC8003B65F1 /* CZJMyInfoOrderListController.m in Sources */ = {isa = PBXBuildFile; fileRef = EC9F1A861C44DEC8003B65F1 /* CZJMyInfoOrderListController.m */; settings = {ASSET_TAGS = (); }; };
+		EC9F1A8A1C44DEFE003B65F1 /* CZJMyInfoWalletController.m in Sources */ = {isa = PBXBuildFile; fileRef = EC9F1A891C44DEFE003B65F1 /* CZJMyInfoWalletController.m */; settings = {ASSET_TAGS = (); }; };
+		EC9F1A8D1C44DF33003B65F1 /* CZJMyInfoAttentionController.m in Sources */ = {isa = PBXBuildFile; fileRef = EC9F1A8C1C44DF33003B65F1 /* CZJMyInfoAttentionController.m */; settings = {ASSET_TAGS = (); }; };
+		EC9F1A901C44DF5F003B65F1 /* CZJMyInfoRecordController.m in Sources */ = {isa = PBXBuildFile; fileRef = EC9F1A8F1C44DF5F003B65F1 /* CZJMyInfoRecordController.m */; settings = {ASSET_TAGS = (); }; };
+		EC9F1A931C44DF99003B65F1 /* CZJMyInfoShareController.m in Sources */ = {isa = PBXBuildFile; fileRef = EC9F1A921C44DF99003B65F1 /* CZJMyInfoShareController.m */; settings = {ASSET_TAGS = (); }; };
+		EC9F1A9C1C44E024003B65F1 /* CZJMyInfoServiceFeedbackController.m in Sources */ = {isa = PBXBuildFile; fileRef = EC9F1A9B1C44E024003B65F1 /* CZJMyInfoServiceFeedbackController.m */; settings = {ASSET_TAGS = (); }; };
+		EC9F1A9F1C44E1A1003B65F1 /* CZJMyInfoInputCodeController.m in Sources */ = {isa = PBXBuildFile; fileRef = EC9F1A9E1C44E1A1003B65F1 /* CZJMyInfoInputCodeController.m */; settings = {ASSET_TAGS = (); }; };
 		ECB4B60B1C0E8D6800925BCA /* CZJStoreMapController.m in Sources */ = {isa = PBXBuildFile; fileRef = ECB4B60A1C0E8D6800925BCA /* CZJStoreMapController.m */; settings = {ASSET_TAGS = (); }; };
 		ECB4B6151C0E94EB00925BCA /* CZJStoreCell.m in Sources */ = {isa = PBXBuildFile; fileRef = ECB4B6131C0E94EB00925BCA /* CZJStoreCell.m */; settings = {ASSET_TAGS = (); }; };
 		ECB4B6161C0E94EB00925BCA /* CZJStoreCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = ECB4B6141C0E94EB00925BCA /* CZJStoreCell.xib */; settings = {ASSET_TAGS = (); }; };
@@ -1283,6 +1290,20 @@
 		EC914B0E1C06DB2500E973CA /* CZJGoodsRecoCollectionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJGoodsRecoCollectionCell.h; sourceTree = "<group>"; };
 		EC914B0F1C06DB2500E973CA /* CZJGoodsRecoCollectionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJGoodsRecoCollectionCell.m; sourceTree = "<group>"; };
 		EC914B101C06DB2500E973CA /* CZJGoodsRecoCollectionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CZJGoodsRecoCollectionCell.xib; sourceTree = "<group>"; };
+		EC9F1A851C44DEC8003B65F1 /* CZJMyInfoOrderListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJMyInfoOrderListController.h; sourceTree = "<group>"; };
+		EC9F1A861C44DEC8003B65F1 /* CZJMyInfoOrderListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJMyInfoOrderListController.m; sourceTree = "<group>"; };
+		EC9F1A881C44DEFE003B65F1 /* CZJMyInfoWalletController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJMyInfoWalletController.h; sourceTree = "<group>"; };
+		EC9F1A891C44DEFE003B65F1 /* CZJMyInfoWalletController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJMyInfoWalletController.m; sourceTree = "<group>"; };
+		EC9F1A8B1C44DF33003B65F1 /* CZJMyInfoAttentionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJMyInfoAttentionController.h; sourceTree = "<group>"; };
+		EC9F1A8C1C44DF33003B65F1 /* CZJMyInfoAttentionController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJMyInfoAttentionController.m; sourceTree = "<group>"; };
+		EC9F1A8E1C44DF5F003B65F1 /* CZJMyInfoRecordController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJMyInfoRecordController.h; sourceTree = "<group>"; };
+		EC9F1A8F1C44DF5F003B65F1 /* CZJMyInfoRecordController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJMyInfoRecordController.m; sourceTree = "<group>"; };
+		EC9F1A911C44DF99003B65F1 /* CZJMyInfoShareController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJMyInfoShareController.h; sourceTree = "<group>"; };
+		EC9F1A921C44DF99003B65F1 /* CZJMyInfoShareController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJMyInfoShareController.m; sourceTree = "<group>"; };
+		EC9F1A9A1C44E024003B65F1 /* CZJMyInfoServiceFeedbackController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJMyInfoServiceFeedbackController.h; sourceTree = "<group>"; };
+		EC9F1A9B1C44E024003B65F1 /* CZJMyInfoServiceFeedbackController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJMyInfoServiceFeedbackController.m; sourceTree = "<group>"; };
+		EC9F1A9D1C44E1A1003B65F1 /* CZJMyInfoInputCodeController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJMyInfoInputCodeController.h; sourceTree = "<group>"; };
+		EC9F1A9E1C44E1A1003B65F1 /* CZJMyInfoInputCodeController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJMyInfoInputCodeController.m; sourceTree = "<group>"; };
 		ECB4B6091C0E8D6800925BCA /* CZJStoreMapController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJStoreMapController.h; sourceTree = "<group>"; };
 		ECB4B60A1C0E8D6800925BCA /* CZJStoreMapController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJStoreMapController.m; sourceTree = "<group>"; };
 		ECB4B6121C0E94EB00925BCA /* CZJStoreCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJStoreCell.h; sourceTree = "<group>"; };
@@ -2538,6 +2559,20 @@
 				EC3400231C437AF10063A071 /* CZJMyInfoSettingController.m */,
 				EC3400291C43A02F0063A071 /* CZJPersonalInfoController.h */,
 				EC34002A1C43A02F0063A071 /* CZJPersonalInfoController.m */,
+				EC9F1A9D1C44E1A1003B65F1 /* CZJMyInfoInputCodeController.h */,
+				EC9F1A9E1C44E1A1003B65F1 /* CZJMyInfoInputCodeController.m */,
+				EC9F1A851C44DEC8003B65F1 /* CZJMyInfoOrderListController.h */,
+				EC9F1A861C44DEC8003B65F1 /* CZJMyInfoOrderListController.m */,
+				EC9F1A881C44DEFE003B65F1 /* CZJMyInfoWalletController.h */,
+				EC9F1A891C44DEFE003B65F1 /* CZJMyInfoWalletController.m */,
+				EC9F1A8B1C44DF33003B65F1 /* CZJMyInfoAttentionController.h */,
+				EC9F1A8C1C44DF33003B65F1 /* CZJMyInfoAttentionController.m */,
+				EC9F1A8E1C44DF5F003B65F1 /* CZJMyInfoRecordController.h */,
+				EC9F1A8F1C44DF5F003B65F1 /* CZJMyInfoRecordController.m */,
+				EC9F1A911C44DF99003B65F1 /* CZJMyInfoShareController.h */,
+				EC9F1A921C44DF99003B65F1 /* CZJMyInfoShareController.m */,
+				EC9F1A9A1C44E024003B65F1 /* CZJMyInfoServiceFeedbackController.h */,
+				EC9F1A9B1C44E024003B65F1 /* CZJMyInfoServiceFeedbackController.m */,
 			);
 			path = Info;
 			sourceTree = "<group>";
@@ -4474,6 +4509,7 @@
 				ECC4DDF91C17D67B00FBD6A4 /* RegionAnnotation.m in Sources */,
 				ECC4DE3F1C17D67B00FBD6A4 /* UIActivityIndicatorView+AFNetworking.m in Sources */,
 				ECC4DE461C17D67B00FBD6A4 /* UUDatePicker.m in Sources */,
+				EC9F1A8A1C44DEFE003B65F1 /* CZJMyInfoWalletController.m in Sources */,
 				EC10E69B1BFC699000CDBFCD /* CZJErrorCodeManager.m in Sources */,
 				EC26A33C1C2A7AD500B166A3 /* CZJShoppingCartCell.m in Sources */,
 				EC0C93811C20112B002A7FF5 /* CZJEvalutionFooterCell.m in Sources */,
@@ -4498,6 +4534,7 @@
 				EC3A8F9A1C0C249F00702A86 /* CZJTableViewCell.m in Sources */,
 				EC26A3271C2A778500B166A3 /* CZJShoppingCartController.m in Sources */,
 				ECC4DE2D1C17D67B00FBD6A4 /* UIImage+WebP.m in Sources */,
+				EC9F1A9C1C44E024003B65F1 /* CZJMyInfoServiceFeedbackController.m in Sources */,
 				ECBABF6D1C3BEAF500661B85 /* UIView+Frame.m in Sources */,
 				EC3400241C437AF10063A071 /* CZJMyInfoSettingController.m in Sources */,
 				EC79821E1C24FD0A003FC433 /* CZJGoodsListFilterController.m in Sources */,
@@ -4518,6 +4555,7 @@
 				ECC4DDF41C17D67B00FBD6A4 /* CheckInstalledMapAPP.m in Sources */,
 				EC4EF4981C3A1F8600E0FA91 /* CZJChooseInstallStoreCell.m in Sources */,
 				EC7801821C251C4F002D52A5 /* CZJGoodsListFilterSubController.m in Sources */,
+				EC9F1A871C44DEC8003B65F1 /* CZJMyInfoOrderListController.m in Sources */,
 				EC5B86F21C0DBCA0008EC732 /* CZJDiscoverDetailController.m in Sources */,
 				ECC4DE4E1C17D67B00FBD6A4 /* payRequsestHandler.mm in Sources */,
 				ECC4DDE01C17D67B00FBD6A4 /* KSAutoFootRefreshView.m in Sources */,
@@ -4545,6 +4583,7 @@
 				EC10E6A11BFC6B3C00CDBFCD /* UserBaseForm.m in Sources */,
 				EC442B4C1BFEC5EB00DC6F97 /* NSDictionary+NSDictonay_Unicode.m in Sources */,
 				ECD5F1031C2D6CDF002012F7 /* CZJReceiveCouponsController.m in Sources */,
+				EC9F1A931C44DF99003B65F1 /* CZJMyInfoShareController.m in Sources */,
 				ECC4DE341C17D67B00FBD6A4 /* SKSTableViewCell.m in Sources */,
 				EC0C93721C200DD7002A7FF5 /* CZJCouponsCell.m in Sources */,
 				EC025FCD1C21036E00A8085E /* MJRefreshAutoGifFooter.m in Sources */,
@@ -4554,6 +4593,7 @@
 				ECC4DDBF1C17D67B00FBD6A4 /* EasyJSWebView.m in Sources */,
 				EC442B601BFEF5D100DC6F97 /* CZJAdBanerCell.m in Sources */,
 				EC8A0BAA1C005C07002A2CED /* CZJLimitBuyCellHeader.m in Sources */,
+				EC9F1A9F1C44E1A1003B65F1 /* CZJMyInfoInputCodeController.m in Sources */,
 				EC05C4141C3E554A00C4ABA3 /* CZJOrderTypeExpandCell.m in Sources */,
 				EC025FF21C21507000A8085E /* CALayer+Transition.m in Sources */,
 				ECC4DDB11C17D67B00FBD6A4 /* base64.m in Sources */,
@@ -4646,6 +4686,7 @@
 				EC0C936D1C2006E6002A7FF5 /* CZJDetailDescCell.m in Sources */,
 				EC2518211C225CDE00C6754A /* LSPageScrollView.m in Sources */,
 				EC4EF46D1C3A102300E0FA91 /* CZJLeaveMessageView.m in Sources */,
+				EC9F1A901C44DF5F003B65F1 /* CZJMyInfoRecordController.m in Sources */,
 				ECC4DE331C17D67B00FBD6A4 /* SKSTableView.m in Sources */,
 				EC025FD11C21036E00A8085E /* MJRefreshBackNormalFooter.m in Sources */,
 				EC5CCDB81C3CB26500D4D8B6 /* UIView+RGSize.m in Sources */,
@@ -4654,6 +4695,7 @@
 				EC04CA141C28DF7A00A90124 /* CZJLoginController.m in Sources */,
 				EC025FD91C21036E00A8085E /* UIScrollView+MJRefresh.m in Sources */,
 				EC0C937C1C201103002A7FF5 /* CZJEvalutionDescCell.m in Sources */,
+				EC9F1A8D1C44DF33003B65F1 /* CZJMyInfoAttentionController.m in Sources */,
 				ECC4DDA91C17D67B00FBD6A4 /* AFURLResponseSerialization.m in Sources */,
 				ECC4DDDF1C17D67B00FBD6A4 /* JTImageButton.m in Sources */,
 				ECC4DE481C17D67B00FBD6A4 /* VPImageCropperViewController.m in Sources */,

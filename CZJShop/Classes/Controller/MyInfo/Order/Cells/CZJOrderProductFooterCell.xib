@@ -21,7 +21,7 @@
                             <constraint firstAttribute="height" constant="21" id="CVJ-cO-LgK"/>
                             <constraint firstAttribute="width" constant="45" id="LTv-5a-1bb"/>
                         </constraints>
-                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <color key="textColor" red="0.60000002379999995" green="0.60000002379999995" blue="0.60000002379999995" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
@@ -32,7 +32,7 @@
                             <constraint firstAttribute="width" constant="42" id="RMq-v5-TJz"/>
                             <constraint firstAttribute="height" constant="21" id="wRA-uo-sn9"/>
                         </constraints>
-                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <color key="textColor" red="1" green="0.18367239930000001" blue="0.2127202181" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
@@ -47,18 +47,37 @@
                         <color key="textColor" red="1" green="0.40000000600000002" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="(满59免)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mi4-DZ-xvU">
+                        <rect key="frame" x="102" y="11" width="60" height="21"/>
+                        <animations/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="60" id="YNL-ZQ-Ct0"/>
+                            <constraint firstAttribute="height" constant="21" id="dg4-ut-ZwY"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <color key="textColor" red="0.60000002379999995" green="0.60000002379999995" blue="0.60000002379999995" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
                 <animations/>
                 <constraints>
+                    <constraint firstItem="mi4-DZ-xvU" firstAttribute="leading" secondItem="smL-wG-YvX" secondAttribute="trailing" id="083-Ix-41V"/>
                     <constraint firstItem="hMp-tX-ybk" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="KYG-Ln-iE2"/>
                     <constraint firstAttribute="trailing" secondItem="jlY-79-fpC" secondAttribute="trailing" constant="15" id="M5g-BQ-UkT"/>
+                    <constraint firstAttribute="bottom" secondItem="mi4-DZ-xvU" secondAttribute="bottom" constant="11" id="NJo-He-rQ1"/>
                     <constraint firstItem="jlY-79-fpC" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="VpQ-40-J4W"/>
                     <constraint firstItem="smL-wG-YvX" firstAttribute="leading" secondItem="hMp-tX-ybk" secondAttribute="trailing" id="WdC-dE-Kep"/>
                     <constraint firstItem="smL-wG-YvX" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="bkq-4R-nXD"/>
                     <constraint firstItem="hMp-tX-ybk" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="mvq-zb-V3k"/>
+                    <constraint firstItem="mi4-DZ-xvU" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="11" id="o0k-1F-7AM"/>
                 </constraints>
             </tableViewCellContentView>
             <animations/>
+            <connections>
+                <outlet property="totalLabel" destination="jlY-79-fpC" id="8Ip-HG-8A3"/>
+                <outlet property="transportPriceLabel" destination="smL-wG-YvX" id="op1-qq-24g"/>
+                <outlet property="transportPriceLayoutWidth" destination="RMq-v5-TJz" id="B76-AO-dux"/>
+            </connections>
         </tableViewCell>
     </objects>
 </document>

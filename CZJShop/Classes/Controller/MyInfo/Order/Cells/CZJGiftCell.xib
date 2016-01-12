@@ -53,6 +53,7 @@
                 </constraints>
             </tableViewCellContentView>
             <animations/>
+            <point key="canvasLocation" x="498" y="376"/>
         </tableViewCell>
     </objects>
     <resources>

@@ -947,7 +947,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <animations/>
                         <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
-                        <color key="separatorColor" patternImage="81BD2C5D-517C-459F-BDE5-E9DD8B67AFEF" colorSpace="pattern"/>
+                        <color key="separatorColor" patternImage="C53F3495-41E3-4AEE-B47C-34FA1F2CACA0" colorSpace="pattern"/>
                         <inset key="separatorInset" minX="15" minY="0.0" maxX="15" maxY="0.0"/>
                         <sections>
                             <tableViewSection id="t6n-nw-cfg" userLabel="Activity">
@@ -2123,7 +2123,7 @@
         <!--购物车-->
         <scene sceneID="Wl4-AM-2VH">
             <objects>
-                <viewController title="购物车" id="OyF-Un-o4h" customClass="CZJShoppingCartController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SBIDShoppingCart" title="购物车" id="OyF-Un-o4h" customClass="CZJShoppingCartController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="0UV-mf-5g7"/>
                         <viewControllerLayoutGuide type="bottom" id="QXg-VF-TP5"/>
@@ -2453,7 +2453,7 @@
         <!--服务与反馈-->
         <scene sceneID="Cuv-74-4rt">
             <objects>
-                <viewController extendedLayoutIncludesOpaqueBars="YES" hidesBottomBarWhenPushed="YES" id="KS6-SX-eDo" userLabel="服务与反馈" sceneMemberID="viewController">
+                <viewController extendedLayoutIncludesOpaqueBars="YES" hidesBottomBarWhenPushed="YES" id="KS6-SX-eDo" userLabel="服务与反馈" customClass="CZJMyInfoOrderListController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="NjJ-RQ-p7E"/>
                         <viewControllerLayoutGuide type="bottom" id="OSr-El-QO0"/>
@@ -2473,7 +2473,7 @@
         <!--我的钱包-->
         <scene sceneID="KRN-S5-QEf">
             <objects>
-                <viewController extendedLayoutIncludesOpaqueBars="YES" hidesBottomBarWhenPushed="YES" id="EDm-H6-qUd" sceneMemberID="viewController">
+                <viewController extendedLayoutIncludesOpaqueBars="YES" hidesBottomBarWhenPushed="YES" id="EDm-H6-qUd" customClass="CZJMyInfoWalletController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="kT3-l0-Q81"/>
                         <viewControllerLayoutGuide type="bottom" id="NVw-Wd-x56"/>
@@ -2493,7 +2493,7 @@
         <!--我的关注-->
         <scene sceneID="dGP-DB-yNC">
             <objects>
-                <viewController extendedLayoutIncludesOpaqueBars="YES" hidesBottomBarWhenPushed="YES" id="Ozg-m3-PPx" sceneMemberID="viewController">
+                <viewController extendedLayoutIncludesOpaqueBars="YES" hidesBottomBarWhenPushed="YES" id="Ozg-m3-PPx" customClass="CZJMyInfoAttentionController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="CKI-ZS-cjI"/>
                         <viewControllerLayoutGuide type="bottom" id="JWk-DV-ABV"/>
@@ -2513,7 +2513,7 @@
         <!--浏览记录-->
         <scene sceneID="jzL-QI-TwL">
             <objects>
-                <viewController extendedLayoutIncludesOpaqueBars="YES" hidesBottomBarWhenPushed="YES" id="Dl9-NS-4IG" sceneMemberID="viewController">
+                <viewController extendedLayoutIncludesOpaqueBars="YES" hidesBottomBarWhenPushed="YES" id="Dl9-NS-4IG" customClass="CZJMyInfoRecordController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="abI-ry-zyT"/>
                         <viewControllerLayoutGuide type="bottom" id="dte-Nt-Iqp"/>
@@ -2731,7 +2731,7 @@
         <!--服务于反馈-->
         <scene sceneID="tif-eo-DoW">
             <objects>
-                <viewController extendedLayoutIncludesOpaqueBars="YES" hidesBottomBarWhenPushed="YES" id="46R-Cu-nP2" sceneMemberID="viewController">
+                <viewController extendedLayoutIncludesOpaqueBars="YES" hidesBottomBarWhenPushed="YES" id="46R-Cu-nP2" customClass="CZJMyInfoServiceFeedbackController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="b7P-HA-YoE"/>
                         <viewControllerLayoutGuide type="bottom" id="6gB-Gm-Dcs"/>
@@ -2751,13 +2751,13 @@
         <!--个人信息-->
         <scene sceneID="hrk-iY-6DK">
             <objects>
-                <viewController id="Igy-MZ-PPb" sceneMemberID="viewController">
+                <viewController extendedLayoutIncludesOpaqueBars="YES" hidesBottomBarWhenPushed="YES" id="Igy-MZ-PPb" customClass="CZJPersonalInfoController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="YEC-7b-i03"/>
                         <viewControllerLayoutGuide type="bottom" id="hNc-fK-ZDH"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="0nO-mV-yaA">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="519"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -3277,13 +3277,13 @@
         <!--个人中心-->
         <scene sceneID="oXk-IU-XWy">
             <objects>
-                <viewController extendedLayoutIncludesOpaqueBars="YES" hidesBottomBarWhenPushed="YES" id="2Xd-fq-Mbf" userLabel="个人中心" customClass="CZJMyInformationController" sceneMemberID="viewController">
+                <viewController id="2Xd-fq-Mbf" userLabel="个人中心" customClass="CZJMyInformationController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="dkt-bQ-dSr"/>
                         <viewControllerLayoutGuide type="bottom" id="Vhr-Xh-y4l"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="McB-LI-KjF">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="519"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="gNe-Qj-4Sz">
@@ -3342,7 +3342,7 @@
         <!--分享优惠码-->
         <scene sceneID="DIc-r8-kLs">
             <objects>
-                <viewController extendedLayoutIncludesOpaqueBars="YES" hidesBottomBarWhenPushed="YES" id="2iS-Ey-dDr" sceneMemberID="viewController">
+                <viewController extendedLayoutIncludesOpaqueBars="YES" hidesBottomBarWhenPushed="YES" id="2iS-Ey-dDr" customClass="CZJMyInfoShareController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="4AC-RH-hh1"/>
                         <viewControllerLayoutGuide type="bottom" id="uDV-kc-Uux"/>
@@ -3362,7 +3362,7 @@
         <!--输入优惠码-->
         <scene sceneID="9WZ-Zv-iuM">
             <objects>
-                <viewController extendedLayoutIncludesOpaqueBars="YES" hidesBottomBarWhenPushed="YES" id="JpP-6E-tjj" sceneMemberID="viewController">
+                <viewController extendedLayoutIncludesOpaqueBars="YES" hidesBottomBarWhenPushed="YES" id="JpP-6E-tjj" customClass="CZJMyInfoInputCodeController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Wg5-xP-vXH"/>
                         <viewControllerLayoutGuide type="bottom" id="fSX-d9-88J"/>
@@ -3875,7 +3875,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="81BD2C5D-517C-459F-BDE5-E9DD8B67AFEF" width="256" height="256">
+        <image name="C53F3495-41E3-4AEE-B47C-34FA1F2CACA0" width="256" height="256">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPT5YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQrLjE3OlUkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw

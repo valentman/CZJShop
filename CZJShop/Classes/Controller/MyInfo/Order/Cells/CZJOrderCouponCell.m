@@ -49,6 +49,8 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
+    self.orderCouponsScrollViewLayoutWidth.constant = PJ_SCREEN_WIDTH - 110;
+    self.orderCouponScrollView.scrollEnabled = YES;
     // Initialization code
 }
 
@@ -60,16 +62,21 @@
 
 - (void)setUseableCouponAry:(NSMutableArray*)useableAry
 {
+    NSArray* subviews = [_orderCouponScrollView subviews];
+    for (int i = 0; i <subviews.count; i++)
+    {
+        UIView* subview = subviews[i];
+        [subview removeFromSuperview];
+    }
     for (int i  = 0; i < useableAry.count; i++) {
         float height = _orderCouponScrollView.frame.size.height;
         float width = height * 144/64;
         
-        CGRect frame = CGRectMake(0, i * (width+10), width, height);
+        CGRect frame = CGRectMake(i * (width+10), 0, width, height);
         CouponBarView* view = [[CouponBarView alloc]initWithFrame:frame AndData:useableAry[i]];
         [view setTag:i + 2000];
         
         //信息条顺序往下添加
-        
         [_orderCouponScrollView addSubview:view];
     }
 }

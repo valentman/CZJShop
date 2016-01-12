@@ -16,7 +16,8 @@
 <UITableViewDataSource,
 UITableViewDelegate,
 CZJGeneralSubCellDelegate,
-CZJMyInfoHeadCellDelegate
+CZJMyInfoHeadCellDelegate,
+CZJMyInfoShoppingCartCellDelegate
 >
 {
     NSArray* orderSubCellAry;
@@ -129,6 +130,7 @@ CZJMyInfoHeadCellDelegate
         else if (1 == indexPath.row)
         {
             CZJMyInfoShoppingCartCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJMyInfoShoppingCartCell" forIndexPath:indexPath];
+            cell.delegate = self;
             return cell;
         }
         else if (2 == indexPath.row)
@@ -308,10 +310,33 @@ CZJMyInfoHeadCellDelegate
 
 
 #pragma mark- CZJMyInfoHeadCellDelegate
-- (void)clickMyInfoHeadCell
+
+
+#pragma mark- CZJMyInfoShoppingCartCellDelegate
+- (void)clickMyInfoShoppingCartCell:(id)sender
 {
-    [self performSegueWithIdentifier:@"" sender:self];
+    UIButton* btn = (UIButton*)sender;
+    switch (btn.tag)
+    {
+        case 0:
+        {
+            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:kCZJStoryBoardFileMain bundle:nil];
+            UIViewController *shoppingcart = [storyboard instantiateViewControllerWithIdentifier:@"SBIDShoppingCart"];
+            [self.navigationController pushViewController:shoppingcart animated:true];
+        }
+            break;
+        case 1:
+            [self performSegueWithIdentifier:@"segueToMyAttention" sender:self];
+            break;
+        case 2:
+            [self performSegueWithIdentifier:@"segutToRecord" sender:self];
+            break;
+            
+        default:
+            break;
+    }
 }
+
 
 
 #pragma mark - Navigation
