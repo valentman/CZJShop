@@ -46,6 +46,9 @@
 @property(nonatomic, strong) NSString* lng;
 @property(nonatomic, strong) NSString* storeId;
 @property(nonatomic, strong) NSString* lat;
+@property(nonatomic, strong) NSString* evaluationAvg;
+@property(nonatomic, strong) NSString* setupCount;
+@property(nonatomic, strong) NSString* setupPrice;
 
 - (id)initWithDictionary:(NSDictionary*)dict;
 @end

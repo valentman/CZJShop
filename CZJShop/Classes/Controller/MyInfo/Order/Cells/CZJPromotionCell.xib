@@ -15,18 +15,18 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="优惠券:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Ts-8o-uSb">
-                        <rect key="frame" x="15" y="14" width="50" height="16"/>
+                        <rect key="frame" x="15" y="14" width="60" height="16"/>
                         <animations/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="50" id="7gy-3P-Bf5"/>
+                            <constraint firstAttribute="width" constant="60" id="7gy-3P-Bf5"/>
                             <constraint firstAttribute="height" constant="16" id="w3b-RL-JKD"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="textColor" red="0.60000002379999995" green="0.60000002379999995" blue="0.60000002379999995" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="-￥14" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mzb-lI-WLg">
-                        <rect key="frame" x="65" y="11" width="80" height="21"/>
+                        <rect key="frame" x="75" y="11" width="80" height="21"/>
                         <animations/>
                         <constraints>
                             <constraint firstAttribute="height" constant="21" id="0rN-10-Lhq"/>
@@ -37,18 +37,18 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="促销满减:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qxJ-e2-UJD">
-                        <rect key="frame" x="165" y="11" width="60" height="21"/>
+                        <rect key="frame" x="175" y="11" width="60" height="21"/>
                         <animations/>
                         <constraints>
                             <constraint firstAttribute="width" constant="60" id="GxU-UR-9Kt"/>
                             <constraint firstAttribute="height" constant="21" id="RCS-uj-DVQ"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="textColor" red="0.60000002379999995" green="0.60000002379999995" blue="0.60000002379999995" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="-￥14" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Uvo-7G-8sa">
-                        <rect key="frame" x="225" y="11" width="80" height="21"/>
+                        <rect key="frame" x="235" y="11" width="80" height="21"/>
                         <animations/>
                         <constraints>
                             <constraint firstAttribute="width" constant="80" id="1BC-QY-Idi"/>
@@ -75,6 +75,7 @@
             <connections>
                 <outlet property="nameOneLabel" destination="5Ts-8o-uSb" id="cBJ-Lz-gRV"/>
                 <outlet property="nameOneNumLabel" destination="Mzb-lI-WLg" id="RkJ-lj-dtR"/>
+                <outlet property="nameOneNumLayoutWidth" destination="7gy-3P-Bf5" id="sqq-Ib-5sw"/>
                 <outlet property="nameTwoLabel" destination="qxJ-e2-UJD" id="JTc-Lx-wHI"/>
                 <outlet property="nameTwoNumLabel" destination="Uvo-7G-8sa" id="L4e-z0-Dtb"/>
             </connections>

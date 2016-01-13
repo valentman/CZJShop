@@ -176,6 +176,11 @@ singleton_interface(CZJBaseDataManager);
                         Success:(CZJSuccessBlock)success
                            fail:(CZJFailureBlock)fail;
 
+//获取安装门店列表
+- (void)loadStoreSetupList:(NSDictionary*)postParams
+                   Success:(CZJSuccessBlock)success
+                      fail:(CZJFailureBlock)fail;
+
 //获取地址列表
 - (void)loadAddrList:(NSDictionary*)postParams
              Success:(CZJSuccessBlock)success

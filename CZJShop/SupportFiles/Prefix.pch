@@ -157,6 +157,10 @@ typedef void (^MGBasicBlock)();
 //清除背景色
 #define CLEARCOLOR [UIColor clearColor]
 
+//本项目自定义颜色
+#define CZJREDCOLOR RGB(251, 70, 78)
+#define CZJGRAYCOLOR RGB(180, 180, 180)
+
 
 
 //------------------------打印日志-------------------------

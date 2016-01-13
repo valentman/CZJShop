@@ -21,6 +21,8 @@
     // Configure the view for the selected state
 }
 
-- (IBAction)clickToChooseSetupPlaceAction:(id)sender {
+- (IBAction)clickToChooseSetupPlaceAction:(id)sender
+{
+    [self.delegate clickChooseSetupPlace:self.storeItemPid andIndexPath:self.indexPath];
 }
 @end

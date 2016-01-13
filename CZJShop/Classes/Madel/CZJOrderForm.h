@@ -15,6 +15,7 @@
 @property(strong, nonatomic)NSString* storeId;
 @property(strong, nonatomic)NSString* storeName;
 @property(strong, nonatomic)NSString* transportPrice;
+@property(strong, nonatomic)NSString* leaveMessage;
 
 - (id)initWithDictionary:(NSDictionary*)dict;
 @end
@@ -34,6 +35,7 @@
 @property(assign)BOOL setmenuFlag;
 @property(strong, nonatomic)NSString* typeId;
 @property(strong, nonatomic)NSString* vendorId;
+@property(strong, nonatomic)NSString* selectdSetupStoreName;
 
 - (id)initWithDictionary:(NSDictionary*)dict;
 @end

@@ -138,6 +138,9 @@
 @synthesize lng = _lng;
 @synthesize storeId = _storeId;
 @synthesize lat = _lat;
+@synthesize evaluationAvg = _evaluationAvg;
+@synthesize setupCount = _setupCount;
+@synthesize setupPrice = _setupPrice;
 
 -(id)initWithDictionary:(NSDictionary*)dict{
     if (self = [super init]) {
@@ -154,6 +157,9 @@
         self.lng = [dict valueForKey:@"lng"];
         self.storeId = [dict valueForKey:@"storeId"];
         self.lat = [dict valueForKey:@"lat"];
+        self.evaluationAvg = [dict valueForKey:@"evaluationAvg"];
+        self.setupCount = [dict valueForKey:@"setupCount"];
+        self.setupPrice = [dict valueForKey:@"setupPrice"];
         return self;
         
     }

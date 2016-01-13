@@ -1,3 +1,5 @@
+
+
 //
 //  CZJLeaveMessageView.h
 //  CZJShop
@@ -8,6 +10,15 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol CZJLeaveMessageViewDelegate <NSObject>
+
+- (void)clickConfirmMessage:(NSString*)message;
+
+@end
+
 @interface CZJLeaveMessageView : UIViewController
+@property (weak, nonatomic) id<CZJLeaveMessageViewDelegate> delegate;
+@property (weak, nonatomic) IBOutlet UITextView *leaveMessageTextView;
+@property (strong, nonatomic) NSString* leaveMesageStr;
 
 @end

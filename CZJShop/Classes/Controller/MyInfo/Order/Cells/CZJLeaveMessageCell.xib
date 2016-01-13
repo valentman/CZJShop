@@ -14,35 +14,67 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="55"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="留言内容" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qi9-jd-2FQ">
-                        <rect key="frame" x="15" y="25" width="290" height="15"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="留言内容" textAlignment="natural" lineBreakMode="characterWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qi9-jd-2FQ">
+                        <rect key="frame" x="15" y="15" width="290" height="15"/>
                         <animations/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="15" id="yxx-KQ-grh"/>
+                        </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YId-wV-7Fx">
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uhU-Bo-lFZ">
                         <rect key="frame" x="15" y="10" width="290" height="35"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="commit_icon_liuyan.png" translatesAutoresizingMaskIntoConstraints="NO" id="e42-fb-s7s">
+                                <rect key="frame" x="108" y="10" width="15" height="15"/>
+                                <animations/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="15" id="7aI-hc-VVR"/>
+                                    <constraint firstAttribute="width" constant="15" id="LIW-Ww-jwI"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="给卖家留言" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Q1-he-YLv">
+                                <rect key="frame" x="125" y="10" width="70" height="15"/>
+                                <animations/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="70" id="Ujf-Ob-dT1"/>
+                                    <constraint firstAttribute="height" constant="15" id="pkT-Qd-Ioc"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <color key="textColor" red="0.60000002379999995" green="0.60000002379999995" blue="0.60000002379999995" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
                         <animations/>
                         <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                        <state key="normal" title="给卖家留言" image="commit_icon_liuyan.png">
-                            <color key="titleColor" red="0.60000002379999995" green="0.60000002379999995" blue="0.60000002379999995" alpha="1" colorSpace="calibratedRGB"/>
-                        </state>
-                    </button>
+                        <constraints>
+                            <constraint firstItem="0Q1-he-YLv" firstAttribute="centerY" secondItem="uhU-Bo-lFZ" secondAttribute="centerY" id="5RG-4e-g9X"/>
+                            <constraint firstItem="0Q1-he-YLv" firstAttribute="centerX" secondItem="uhU-Bo-lFZ" secondAttribute="centerX" constant="15" id="W6N-Jf-9cW"/>
+                            <constraint firstItem="e42-fb-s7s" firstAttribute="centerX" secondItem="uhU-Bo-lFZ" secondAttribute="centerX" constant="-30" id="dqQ-ni-Zar"/>
+                            <constraint firstItem="e42-fb-s7s" firstAttribute="centerY" secondItem="uhU-Bo-lFZ" secondAttribute="centerY" id="y0Z-RX-4zY"/>
+                        </constraints>
+                    </view>
                 </subviews>
                 <animations/>
                 <constraints>
-                    <constraint firstAttribute="bottom" secondItem="Qi9-jd-2FQ" secondAttribute="bottom" constant="15" id="8I3-ci-KpY"/>
-                    <constraint firstAttribute="trailing" secondItem="YId-wV-7Fx" secondAttribute="trailing" constant="15" id="Rj2-f8-FVd"/>
-                    <constraint firstItem="YId-wV-7Fx" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="Wbt-L0-g1E"/>
+                    <constraint firstItem="Qi9-jd-2FQ" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="15" id="92o-nG-hau"/>
                     <constraint firstItem="Qi9-jd-2FQ" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="czh-Tk-8nZ"/>
-                    <constraint firstAttribute="bottom" secondItem="YId-wV-7Fx" secondAttribute="bottom" constant="10" id="hxq-WK-xjV"/>
-                    <constraint firstItem="YId-wV-7Fx" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="lhb-ey-4K8"/>
+                    <constraint firstItem="uhU-Bo-lFZ" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="hO8-2S-O3W"/>
+                    <constraint firstAttribute="bottom" secondItem="uhU-Bo-lFZ" secondAttribute="bottom" constant="10" id="swP-v6-Fzv"/>
                     <constraint firstAttribute="trailing" secondItem="Qi9-jd-2FQ" secondAttribute="trailing" constant="15" id="u8s-xs-Efb"/>
+                    <constraint firstItem="uhU-Bo-lFZ" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="wI3-U5-CBP"/>
+                    <constraint firstAttribute="trailing" secondItem="uhU-Bo-lFZ" secondAttribute="trailing" constant="15" id="x5n-2q-q15"/>
                 </constraints>
             </tableViewCellContentView>
             <animations/>
+            <connections>
+                <outlet property="leaveMessageLabel" destination="Qi9-jd-2FQ" id="EA9-6r-eDi"/>
+                <outlet property="leaveMessageLayoutHeight" destination="yxx-KQ-grh" id="kSW-hb-dOZ"/>
+                <outlet property="leaveMessageView" destination="uhU-Bo-lFZ" id="QDy-AZ-8oa"/>
+            </connections>
+            <point key="canvasLocation" x="106" y="217"/>
         </tableViewCell>
     </objects>
     <resources>

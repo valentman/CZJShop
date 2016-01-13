@@ -1,5 +1,5 @@
 //
-//  CZJPersonalInfoController.h
+//  CZJSexSelectController.h
 //  CZJShop
 //
 //  Created by Joe.Pen on 1/13/16.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CZJPersonalInfoController : UITableViewController
+@interface CZJSexSelectController : UIViewController
 
 @end

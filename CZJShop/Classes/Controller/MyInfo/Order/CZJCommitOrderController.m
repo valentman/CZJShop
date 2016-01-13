@@ -21,10 +21,13 @@
 #import "CZJLeaveMessageCell.h"
 #import "CZJOrderTypeExpandCell.h"
 #import "CZJChooseCouponController.h"
+#import "CZJChooseInstallController.h"
 #import "CZJOrderForm.h"
 #import "CZJDeliveryAddrController.h"
 #import "CZJShoppingCartForm.h"
 #import "UIImageView+WebCache.h"
+#import "CZJStoreForm.h"
+#import "CZJLeaveMessageView.h"
 
 
 @interface CZJCommitOrderController ()
@@ -33,7 +36,10 @@ UITableViewDataSource,
 UITableViewDelegate,
 CZJOrderTypeExpandCellDelegate,
 CZJDeliveryAddrControllerDelegate,
-CZJChooseCouponControllerDelegate
+CZJChooseCouponControllerDelegate,
+CZJOrderProductHeaderCellDelegate,
+CZJChooseInstallControllerDelegate,
+CZJLeaveMessageViewDelegate
 >
 {
     NSDictionary* _orderInfoDict;               //服务器返回的订单页面是数据
@@ -50,6 +56,7 @@ CZJChooseCouponControllerDelegate
     
     id touchedCell;
     NSInteger orderTotalPrice;                  //订单总额
+    NSIndexPath* _currentChooseIndexPath;       //
     
 }
 @property (weak, nonatomic) IBOutlet UITableView *myTableView;
@@ -296,6 +303,9 @@ CZJChooseCouponControllerDelegate
             if (1 == indexPath.row)
             {
                 CZJOrderTypeExpandCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJOrderTypeExpandCell" forIndexPath:indexPath];
+                [UIView animateWithDuration:0.1 delay:0 options:UIViewAnimationOptionTransitionCurlUp animations:^{
+                    cell.expandImg.transform = CGAffineTransformMakeRotation(0 * (M_PI / 180.0f));
+                } completion:nil];
                 cell.expandNameLabel.text = @"展开";
                 cell.delegate = self;
                 return cell;
@@ -401,6 +411,10 @@ CZJChooseCouponControllerDelegate
             cell.setupView.hidden = !goodsForm.setupFlag;
             cell.goodsNameLayoutWidth.constant = PJ_SCREEN_WIDTH - 68 -15 - 8 - 15;
             cell.totalPriceLabel.text = [NSString stringWithFormat:@"￥%ld",[goodsForm.itemCount integerValue] * [goodsForm.currentPrice integerValue]];
+            cell.delegate = self;
+            cell.storeItemPid = goodsForm.storeItemPid;
+            cell.selectedSetupStoreNameLabel.text = goodsForm.selectdSetupStoreName;
+            cell.indexPath = indexPath;
             return cell;
         }
         else if (indexPath.row > itemCount &&
@@ -431,6 +445,7 @@ CZJChooseCouponControllerDelegate
                 cell.nameTwoLabel.hidden = YES;
                 cell.nameTwoNumLabel.hidden = YES;
                 cell.nameOneLabel.text = @"促销满减:";
+                cell.nameOneNumLayoutWidth.constant = [CZJUtils calculateTitleSizeWithString:@"促销满减:" AndFontSize:13].width + 5;
                 cell.nameOneNumLabel.text = [NSString stringWithFormat:@"-￥%@",storeForm.fullCutPrice];
             }
             else
@@ -461,6 +476,19 @@ CZJChooseCouponControllerDelegate
         else
         {
             CZJLeaveMessageCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJLeaveMessageCell" forIndexPath:indexPath];
+            cell.leaveMessageLabel.text = @"";
+            if (![storeForm.leaveMessage isEqualToString:@""]) {
+                cell.leaveMessageView.hidden = YES;
+                CGSize size = [CZJUtils calculateStringSizeWithString:storeForm.leaveMessage Font:SYSTEMFONT(12) Width:PJ_SCREEN_WIDTH - 30];
+                cell.leaveMessageLabel.text = storeForm.leaveMessage;
+                cell.leaveMessageLayoutHeight.constant = size.height;
+                cell.frame = CGRectMake(cell.frame.origin.x, cell.frame.origin.y, cell.frame.size.width, size.height + 30);
+            }
+            else
+            {
+                cell.leaveMessageView.hidden = NO;
+            }
+
             return cell;
         }
     }
@@ -557,9 +585,24 @@ CZJChooseCouponControllerDelegate
         {
             return 30;
         }
+        else if (indexPath.row > itemCount + (isHaveFullCut ? 2 : 1) + giftCount &&
+                 indexPath.row <= itemCount + (isHaveFullCut ? 2 : 1) + giftCount + 1)
+        {
+            CZJOrderStoreForm* storeForm = (CZJOrderStoreForm*)_orderStoreAry[indexPath.section - 3];
+            CGSize size = [CZJUtils calculateStringSizeWithString:storeForm.leaveMessage Font:SYSTEMFONT(12) Width:PJ_SCREEN_WIDTH - 30];
+            if (size.height == 0)
+            {
+                return 56;
+            }
+            else
+            {
+                return  60 + size.height;
+            }
+            
+        }
         else
         {
-            return 60;
+            return 44;
         }
     }
     return 0;
@@ -572,10 +615,34 @@ CZJChooseCouponControllerDelegate
         touchedCell = [tableView cellForRowAtIndexPath:indexPath];
         [self performSegueWithIdentifier:@"segueToChooseAddr" sender:self];
     }
-    if (2 == indexPath.section && 2 == indexPath.row)
+    else if (1 == indexPath.section)
+    {
+        for ( int i = 0; i < _orderTypeAry.count; i++)
+        {
+            CZJOrderTypeForm* typeForm = _orderTypeAry[i];
+            typeForm.isSelect = NO;
+            if (i == indexPath.row)
+            {
+                typeForm.isSelect = YES;
+                _defaultOrderType = typeForm;
+            }
+        }
+        [self.myTableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationFade];
+    }
+    else if (2 == indexPath.section && 2 == indexPath.row)
     {
         [self performSegueWithIdentifier:@"segueToChooseCoupons" sender:self];
     }
+    else
+    {
+        touchedCell = [tableView cellForRowAtIndexPath:indexPath];
+        if ([touchedCell isKindOfClass:[CZJLeaveMessageCell class]])
+        {
+            _currentChooseIndexPath = indexPath;
+            [self performSegueWithIdentifier:@"segueToLeaveMessage" sender:self];
+        }
+    }
+    
 }
 
 
@@ -601,6 +668,31 @@ CZJChooseCouponControllerDelegate
     _totalPriceLabel.text = [NSString stringWithFormat:@"￥%ld",orderTotalPrice];
 }
 
+#pragma mark- CZJOrderProductHeaderCellDelegate
+- (void)clickChooseSetupPlace:(id)sender andIndexPath:(NSIndexPath*)indexPath
+{
+    [self performSegueWithIdentifier:@"segueToChooseInstallStore" sender:sender];
+    _currentChooseIndexPath = indexPath;
+}
+
+#pragma mark- CZJChooseInstallControllerDelegate
+- (void)clickSelectInstallStore:(id)sender
+{
+    CZJNearbyStoreForm* nearByStoreForm = (CZJNearbyStoreForm*)sender;
+    CZJOrderStoreForm* storeForm = (CZJOrderStoreForm*)_orderStoreAry[_currentChooseIndexPath.section - 3];
+    CZJOrderGoodsForm* goodsForm = storeForm.items[_currentChooseIndexPath.row - 1];
+    goodsForm.selectdSetupStoreName = nearByStoreForm.name;
+    [self.myTableView reloadSections:[NSIndexSet indexSetWithIndex:_currentChooseIndexPath.section] withRowAnimation:UITableViewRowAnimationFade];
+}
+
+#pragma mark- CZJLeaveMessageViewDelegate
+- (void)clickConfirmMessage:(NSString*)message
+{
+    CZJOrderStoreForm* storeForm = (CZJOrderStoreForm*)_orderStoreAry[_currentChooseIndexPath.section - 3];
+    storeForm.leaveMessage = message;
+    [self.myTableView reloadSections:[NSIndexSet indexSetWithIndex:_currentChooseIndexPath.section] withRowAnimation:UITableViewRowAnimationFade];
+}
+
 
 #pragma mark - Navigation
 // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -621,9 +713,20 @@ CZJChooseCouponControllerDelegate
             deliveryCon.currentAddrId = ((CZJDeliveryAddrCell*)touchedCell).addrForm.addrId;   
         }
     }
-    
+    if ([segue.identifier isEqualToString:@"segueToChooseInstallStore"])
+    {
+        CZJChooseInstallController* installCon = (CZJChooseInstallController*)segue.destinationViewController;
+        installCon.storeItemPid = (NSString*)sender;
+        installCon.delegate = self;
+    }
+    if ([segue.identifier isEqualToString:@"segueToLeaveMessage"])
+    {
+        CZJLeaveMessageView* leaveMessage = (CZJLeaveMessageView*)segue.destinationViewController;
+        CZJOrderStoreForm* storeForm = (CZJOrderStoreForm*)_orderStoreAry[_currentChooseIndexPath.section - 3];
+        leaveMessage.leaveMesageStr =  storeForm.leaveMessage;
+        leaveMessage.delegate = self;
+    }
 }
-
 
 - (IBAction)goToSettleAction:(id)sender {
 }

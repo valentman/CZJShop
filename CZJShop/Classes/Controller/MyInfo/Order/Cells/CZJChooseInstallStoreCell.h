@@ -17,5 +17,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *setupNumLabel;
 @property (weak, nonatomic) IBOutlet UILabel *otherLabel;
 @property (weak, nonatomic) IBOutlet UIButton *selectBtn;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *storeAddrLayoutWidth;
+
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *storeAddrLayoutHeight;
 
 @end

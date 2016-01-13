@@ -37,6 +37,7 @@
             CZJOrderGoodsForm* form = [[CZJOrderGoodsForm alloc]initWithDictionary:dict];
             [self.items addObject:form];
         }
+        self.leaveMessage = @"";
         return self;
     }
     return nil;
@@ -62,6 +63,7 @@
         self.storeItemPid = [dict valueForKey:@"storeItemPid"];
         self.typeId = [dict valueForKey:@"typeId"];
         self.vendorId = [dict valueForKey:@"vendorId"];
+        self.selectdSetupStoreName = @"选择安装门店";
         return self;
     }
     return nil;

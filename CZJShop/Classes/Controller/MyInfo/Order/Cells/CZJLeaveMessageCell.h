@@ -9,5 +9,9 @@
 #import <UIKit/UIKit.h>
 
 @interface CZJLeaveMessageCell : CZJTableViewCell
+@property (weak, nonatomic) IBOutlet UIView *leaveMessageView;
+@property (weak, nonatomic) IBOutlet UILabel *leaveMessageLabel;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *leaveMessageLayoutHeight;
+
 
 @end

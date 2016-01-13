@@ -14,4 +14,5 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *nameOneNumLabel;
 @property (weak, nonatomic) IBOutlet UILabel *nameTwoNumLabel;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *nameOneNumLayoutWidth;
 @end
