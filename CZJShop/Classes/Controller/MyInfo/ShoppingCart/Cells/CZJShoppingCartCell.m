@@ -79,8 +79,7 @@
         self.goodPrice.text = [NSString stringWithFormat:@"￥%@", shoppingGoodsInfo.currentPrice];
         self.choosedCount = [shoppingGoodsInfo.itemCount integerValue];
         
-        _changeView = [[WLZ_ChangeCountView alloc] initWithFrame:CGRectMake(20, 8 , 120, 35) chooseCount:1 totalCount: 99];
-        self.changeView.numberFD.text = [NSString stringWithFormat:@"%ld", self.choosedCount];
+        [self.changeView initWithFrame:CGRectMake(20, 8 , 120, 35) chooseCount:1 totalCount: 99].numberFD.text = [NSString stringWithFormat:@"%ld", self.choosedCount];
         [self.changeView.subButton addTarget:self action:@selector(subButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
         [self.changeView.addButton addTarget:self action:@selector(addButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     }

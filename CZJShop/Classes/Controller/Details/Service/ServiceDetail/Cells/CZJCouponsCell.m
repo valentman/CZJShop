@@ -34,9 +34,8 @@
     for (int i = 0; i<count; i++)
     {
         CZJCouponForm* couponForm = couponsAry[i];
-        NSString* couponname = couponForm.name;
-        CGSize couponSize = [CZJUtils calculateTitleSizeWithString:couponname WithFont:SYSTEMFONT(12)];
-        int _width = couponSize.width < 50 ? 50 : couponSize.width;
+//        NSString* couponname = couponForm.name;
+//        CGSize couponSize = [CZJUtils calculateTitleSizeWithString:couponname WithFont:SYSTEMFONT(12)];
         CGRect rect = CGRectMake(location, 8, 100, 30);
         location += 100 + 5;
         CZJCouponView* view = [[CZJCouponView alloc]initWithFrame:rect];

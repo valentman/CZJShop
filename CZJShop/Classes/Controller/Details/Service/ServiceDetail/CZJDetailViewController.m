@@ -104,10 +104,9 @@ CZJNaviagtionBarViewDelegate
     CGRect mainViewBounds = self.navigationController.navigationBar.bounds;
     CGRect viewBounds = CGRectMake(0, 0, mainViewBounds.size.width, 52);
     [self.detailNaviBarView initWithFrame:viewBounds AndType:CZJNaviBarViewTypeDetail].delegate = self;
-    [self.detailNaviBarView setBackgroundColor:RGBA(239, 239, 239, 0)];
     
     //背景触摸层
-    _backgroundView.backgroundColor = RGBACOLOR(100, 240, 240, 0);
+    _backgroundView.backgroundColor = RGBA(100, 240, 240, 0);
     UIGestureRecognizer *gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapBackground:)];
     [_backgroundView addGestureRecognizer:gesture];
     _backgroundView.hidden = YES;
@@ -742,7 +741,7 @@ CZJNaviagtionBarViewDelegate
     
     if (1001 == scrollView.tag && contentOffsetY <=0)
     {
-        [self.detailNaviBarView setBackgroundColor:RGBA(239, 239, 239, 0)];
+        [self.detailNaviBarView setBackgroundColor:CZJNAVIBARBGCOLORALPHA(0)];
     }
     else
     {
@@ -751,7 +750,7 @@ CZJNaviagtionBarViewDelegate
         {
             alphaValue = 1;
         }
-        [self.detailNaviBarView setBackgroundColor:RGBA(239, 239, 239, alphaValue)];
+        [self.detailNaviBarView setBackgroundColor:CZJNAVIBARBGCOLORALPHA(alphaValue)];
     }
 
 }

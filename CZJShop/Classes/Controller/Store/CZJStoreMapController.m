@@ -25,7 +25,10 @@
 #define kDefaultCalloutViewMargin       -8
 #define MAPKEY @"dd2b9e1576489ef636cdda90c74cbdbe"
 
-@interface CZJStoreMapController ()<MAMapViewDelegate,AMapSearchDelegate>
+@interface CZJStoreMapController ()
+<MAMapViewDelegate,
+UIGestureRecognizerDelegate,
+AMapSearchDelegate>
 {
     MAMapView *_mapView;
     UIButton *_locationBtn;//定位按钮
@@ -60,6 +63,9 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [self getAroundMerchantData];
     });
+    
+    self.navigationController.interactivePopGestureRecognizer.delegate = self;
+    self.navigationController.interactivePopGestureRecognizer.enabled = YES;
 }
 
 - (void)viewDidLoad {
@@ -87,10 +93,9 @@
 
 -(void)setNav{
     UIButton *backBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    
-    backBtn.frame = CGRectMake(15, 20, 30, 30);
+    backBtn.frame = CGRectMake(15, 40, 44, 44);
     [backBtn addTarget:self action:@selector(OnBackBtn:) forControlEvents:UIControlEventTouchUpInside];
-    [backBtn setImage:[UIImage imageNamed:@"back"] forState:UIControlStateNormal];
+    [backBtn setImage:[UIImage imageNamed:@"prodetail_btn_back"] forState:UIControlStateNormal];
     [self.view addSubview:backBtn];
 }
 

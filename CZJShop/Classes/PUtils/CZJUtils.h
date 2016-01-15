@@ -65,6 +65,7 @@
 + (void)printData:(id)data;
 + (NSString*)getExplicitServerAPIURLPathWithSuffix:(NSString*)urlStr;
 + (BOOL)isTimeCrossOneDay;
++ (BOOL)isTimeCrossFiveMin:(int)intervalMin;
 + (void)printClassMethodList:(id)target;
 + (CGSize)calculateTitleSizeWithString:(NSString *)string WithFont:(UIFont*)font;
 + (CGSize)calculateTitleSizeWithString:(NSString *)string AndFontSize:(CGFloat)fontSize;        //计算一定FontSize的字符串的长宽

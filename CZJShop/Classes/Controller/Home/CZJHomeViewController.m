@@ -46,7 +46,6 @@
 @property (strong, nonatomic) IBOutlet PullTableView *homeTableView;
 @property (weak, nonatomic) IBOutlet UIButton *btnToTop;
 @property (strong, nonatomic) CZJNaviagtionBarView *navibarView;
-@property (nonatomic, strong) UIView* statusBarBgView;
 @property (nonatomic, strong) UIWindow *window;
 
 - (IBAction)tapToTop:(id)sender;
@@ -117,9 +116,6 @@
     _navibarView = [[CZJNaviagtionBarView alloc]initWithFrame:mainViewBounds AndType:CZJNaviBarViewTypeHome];
     _navibarView.delegate = self;
     [self.navigationController.navigationBar addSubview:_navibarView];
-    CGRect statusviewbound = CGRectMake(0, -20, mainViewBounds.size.width, 20);
-    _statusBarBgView = [[UIView alloc]initWithFrame:statusviewbound];
-    [self.navigationController.navigationBar addSubview:_statusBarBgView];
 }
 
 
@@ -163,7 +159,7 @@
 {
     //TabBarItem选中颜色设置及右上角标记设置
     [self.tabBarController.tabBar setTintColor:RGB(240, 16, 34)];
-    NSArray *items = self.tabBarController.tabBar.items;
+//    NSArray *items = self.tabBarController.tabBar.items;
 //    [[items objectAtIndex:eTabBarItemShop] setBadgeValue:@"1"];
 }
 
@@ -196,6 +192,7 @@
                 
             case CZJHomeGetDataFromServerTypeTwo:
             {
+                self.page++;
                 DLog(@"Get Goods Data From Server Success...");
                 [self.homeTableView reloadData];
                 if (self.homeTableView.pullTableIsRefreshing == YES)
@@ -261,7 +258,12 @@
 
 - (void)loadMoreTable
 {
-    self.page++;
+    srand((unsigned)time(0));
+    if ([CZJUtils isTimeCrossFiveMin:5] && 1 == self.page)
+    {
+        int randNum = rand()%900000+100000;
+        [USER_DEFAULT setObject:@(randNum) forKey:kUserDefaultRandomCode];
+    }
     [self getHomeDataFromServer:CZJHomeGetDataFromServerTypeTwo];
 }
 
@@ -274,16 +276,13 @@
     if (contentOffsetY < 0) {
         [UIView animateWithDuration:0.2f animations:^{
             [_navibarView setAlpha:0.0];
-            [_statusBarBgView setAlpha:0.0];
         }];
         [_navibarView setBackgroundColor:RGBA(235, 35, 38, 0)];
-        [_statusBarBgView setBackgroundColor:RGBA(235, 35, 38, 0)];
     }
     else
     {
         [UIView animateWithDuration:0.2f animations:^{
             [_navibarView setAlpha:1.0];
-            [_statusBarBgView setAlpha:1.0];
         }];
 
         float alphaValue = contentOffsetY * 0.5 / 200;
@@ -292,7 +291,6 @@
             alphaValue = 0.7;
         }
         [_navibarView setBackgroundColor:RGBA(235, 20, 20, alphaValue)];
-        [_statusBarBgView setBackgroundColor:RGBA(235, 20, 20, alphaValue)];
     }
     if (contentOffsetY > 600) {
         self.btnToTop.hidden = NO;
@@ -600,10 +598,10 @@
 -(void)showActivityHtmlWithUrl:(NSString*)url
 {
     return;
-    _curUrl = url;
-    _htmlType =  eActivityHtml;
-    _webViewTitle = @"活动详情";
-    [self performSegueWithIdentifier:@"pushToServiceDetail" sender:self];
+//    _curUrl = url;
+//    _htmlType =  eActivityHtml;
+//    _webViewTitle = @"活动详情";
+//    [self performSegueWithIdentifier:@"pushToServiceDetail" sender:self];
 }
 
 

@@ -38,7 +38,7 @@
     self.navigationController.navigationBarHidden = YES;
     CGRect mainViewBounds = self.navigationController.navigationBar.bounds;
     [self.naviBarView initWithFrame:mainViewBounds AndType:CZJNaviBarViewTypeCategory].delegate = self;
-    [self.naviBarView setBackgroundColor:UIColorFromRGB(0xF3F4F6)];
+    
 
     
     //固定数据
@@ -83,8 +83,7 @@
             _goodsTypeId = info.ID;
             [self performSegueWithIdentifier:@"segueToGoodsList" sender:self];
         }
-    }];
-    _multiView.isRecordLastScroll=YES;
+    }].isRecordLastScroll=YES;
     
 }
 

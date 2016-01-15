@@ -9,5 +9,9 @@
 #import <UIKit/UIKit.h>
 
 @interface CZJStoreDescribeCell : UITableViewCell
+@property (weak, nonatomic) IBOutlet UILabel *envirmentScoreLabel;
+@property (weak, nonatomic) IBOutlet UILabel *describeScoreLabel;
+@property (weak, nonatomic) IBOutlet UILabel *serviceScoreLabel;
+@property (weak, nonatomic) IBOutlet UILabel *deliveryScoreLabel;
 
 @end

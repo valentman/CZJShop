@@ -84,7 +84,7 @@
     cell.layer.borderColor = (__bridge CGColorRef _Nullable)([UIColor lightGrayColor]);
     cell.backgroundColor = [UIColor redColor];
     
-    int index = indexPath.row;
+    NSInteger index = indexPath.row;
     NSString* _imgString = ((SpecialRecommendForm*)_specialRecommendDatas[index]).img;
     [cell initSpecialRecoCollectionViewCellWithData:_imgString];
     return cell;

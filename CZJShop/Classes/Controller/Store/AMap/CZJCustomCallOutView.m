@@ -54,21 +54,21 @@
     //标题
     _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(kPortraitMargin*2+kImageWidth, kPortraitMargin, kTitleWidth, kTitleHeight)];
     _titleLabel.font = [UIFont boldSystemFontOfSize:14];
-    _titleLabel.textColor = RGBACOLOR(51, 51, 51, 1);
+    _titleLabel.textColor = RGBA(51, 51, 51, 1);
     _titleLabel.text = @"titletitletitletitle";
     [self addSubview:_titleLabel];
     
     _subtitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(kPortraitMargin * 2 + kImageWidth, kPortraitMargin + kTitleHeight -2,
                                                                kTitleWidth, kTitleHeight)];
     _subtitleLabel.font = [UIFont systemFontOfSize:12];
-    _subtitleLabel.textColor = RGBACOLOR(153, 153, 153, 1);
+    _subtitleLabel.textColor = RGBA(153, 153, 153, 1);
     _subtitleLabel.text = @"subtitleLabelsubtitleLabelsubtitleLabel";
     [self addSubview:_subtitleLabel];
     
     _thrLabel = [[UILabel alloc] initWithFrame:CGRectMake(kPortraitMargin * 2 + kImageWidth, kPortraitMargin + kTitleHeight * 2 - 4,
                                                           kTitleWidth, kTitleHeight)];
     _thrLabel.font = [UIFont systemFontOfSize:12];
-    _thrLabel.textColor = RGBACOLOR(153, 153, 153, 1);
+    _thrLabel.textColor = RGBA(153, 153, 153, 1);
     _thrLabel.text = @"subtitleLabelsubtitleLabelsubtitleLabel";
     [self addSubview:_thrLabel];
 }

@@ -8,7 +8,7 @@
 
 #import "CZJScanQRController.h"
 
-@interface CZJScanQRController ()
+@interface CZJScanQRController ()<AVCaptureMetadataOutputObjectsDelegate>
 @property(nonatomic) BOOL dragDown;
 
 - (IBAction)openTorch:(id)sender;

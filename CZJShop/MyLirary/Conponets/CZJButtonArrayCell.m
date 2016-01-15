@@ -38,7 +38,7 @@
         [btn setTitleColor:[UIColor whiteColor]forState:UIControlStateSelected];
         btn.tag = i;
         [btn.layer setMasksToBounds:YES];//设置按钮的圆角半径不会被遮挡
-        btn.layer.borderColor = [RGBACOLOR(200, 200, 200, 1) CGColor];
+        btn.layer.borderColor = [RGBA(200, 200, 200, 1) CGColor];
         btn.layer.borderWidth = 0.5;
         btn.layer.cornerRadius = 5.0;
         btn.backgroundColor = [UIColor whiteColor];

@@ -14,7 +14,6 @@
 #import "MXPullDownCollectionViewCell.h"
 #import "CZJProvinceForm.h"
 #define kMXPullDownCollectionViewCell @"MXPullDownCollectionViewCell"
-#define kMXPullDownBGColor  RGB(239, 239, 239)
 
 
 @implementation MXPullDownMenu
@@ -151,7 +150,7 @@
         
         //TableView
         _tableView = [self creatTableViewAtPosition:CGPointMake(0, self.frame.origin.y + self.frame.size.height)];//
-        _tableView.tintColor = RGBACOLOR(239, 0, 25, 1);
+        _tableView.tintColor = RGBA(239, 0, 25, 1);
         _tableView.dataSource = self;
         _tableView.delegate = self;
         _selelctIndexPath = [NSIndexPath indexPathForRow:0 inSection:0];
@@ -163,13 +162,13 @@
         _subCollectionView.backgroundColor = [UIColor whiteColor];
         
         // 设置menu, 并添加手势
-        self.backgroundColor = kMXPullDownBGColor;
+        self.backgroundColor = CZJNAVIBARBGCOLOR;
         UIGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapMenu:)];
         [self addGestureRecognizer:tapGesture];
         
         // 创建背景
         _backGroundView = [[UIView alloc] initWithFrame:CGRectMake(0,self.frame.origin.y + self.frame.size.height + 20, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT)];
-        _backGroundView.backgroundColor = RGBACOLOR(100, 240, 240, 0);
+        _backGroundView.backgroundColor = RGBA(100, 240, 240, 0);
         UIGestureRecognizer *gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapBackGround:)];
         [_backGroundView addGestureRecognizer:gesture];
         
@@ -266,7 +265,7 @@
     if (0 == _currentSelectedMenudIndex &&
         CZJMXPullDownMenuTypeGoods != _menuType)
     {
-        cell.backgroundColor = kMXPullDownBGColor;
+        cell.backgroundColor = CZJNAVIBARBGCOLOR;
     }
 }
 
@@ -343,7 +342,7 @@
         [cell setSelectionStyle:UITableViewCellSelectionStyleBlue];
     }
 
-    cell.backgroundColor = kMXPullDownBGColor;
+    cell.backgroundColor = CZJNAVIBARBGCOLOR;
     
     if (_selectIndex == indexPath.row &&
         0 == _currentSelectedMenudIndex)
@@ -607,7 +606,7 @@
     
     tableView.frame = CGRectMake(point.x, point.y, self.frame.size.width, 0);
     tableView.rowHeight = 36;
-    tableView.backgroundColor = kMXPullDownBGColor;
+    tableView.backgroundColor = CZJNAVIBARBGCOLOR;
     tableView.tableFooterView=[[UIView alloc] init];
     
     return tableView;
@@ -650,7 +649,6 @@
     {
         if (CZJMXPullDownMenuTypeGoods == _menuType)
         {
-            NSString* str = [[_array objectAtIndex:_currentSelectedMenudIndex] objectAtIndex:row];
             title.string = [[_array objectAtIndex:_currentSelectedMenudIndex] objectAtIndex:row];
         }
         else

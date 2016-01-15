@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CZJStoreCell : UITableViewCell
+@interface CZJStoreCell : CZJTableViewCell
 @property (weak, nonatomic) IBOutlet UIImageView *storeCellImageView;
 @property (weak, nonatomic) IBOutlet UILabel *storeName;
 @property (weak, nonatomic) IBOutlet UILabel *dealCount;

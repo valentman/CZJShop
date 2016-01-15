@@ -35,6 +35,7 @@
 
 #pragma mark- AppDelegate
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    
     //-------------------1.版本更新检测------------------
     NSMutableDictionary* versionCheck_info = [CZJUtils readDataFromPlistWithName:kCZJPlistFileCheckVersion];
     if (versionCheck_info && versionCheck_info.count > 0)
@@ -206,7 +207,6 @@
     [NSDictionary jr_swizzleMethod:@selector(description) withMethod:@selector(my_description) error:nil];
     
     [KMCGeigerCounter sharedGeigerCounter].enabled = YES;
-
 
     return YES;
 }

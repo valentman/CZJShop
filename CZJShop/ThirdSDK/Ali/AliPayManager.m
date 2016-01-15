@@ -19,7 +19,7 @@
     
     NSString *sourceStr = @"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     NSMutableString *resultStr = [[NSMutableString alloc] init];
-    srand(time(0));
+    srand((unsigned)time(0));
     for (int i = 0; i < kNumber; i++)
     {
         unsigned index = rand() % [sourceStr length];

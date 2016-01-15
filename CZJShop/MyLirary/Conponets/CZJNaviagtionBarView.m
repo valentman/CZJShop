@@ -30,6 +30,7 @@
 {
     if (self == [super initWithFrame:bounds]) {
         _selfBounds = bounds;
+        
         [self initWithButtonsWithType:type];
         [self setTag:type];
         return self;
@@ -52,13 +53,20 @@
     }
 }
 
+- (void)setBackgroundColor:(UIColor *)backgroundColor
+{
+    [VIEWWITHTAG(self, 2001) setBackgroundColor:backgroundColor];
+    [super setBackgroundColor:backgroundColor];
+}
 
 - (void)initWithButtonsWithType:(CZJNaviBarViewType)type
 {
     //状态栏颜色
     CGRect statusviewbound = CGRectMake(0, -20, _selfBounds.size.width, 20);
     UIView* _statusBarBgView = [[UIView alloc]initWithFrame:statusviewbound];
-    [self  addSubview:_statusBarBgView];
+    [_statusBarBgView setTag:2001];
+    [self addSubview:_statusBarBgView];
+//    [self setBackgroundColor:CZJNAVIBARBGCOLOR];
     
     //初始化数据
     NSString* shopBtnImageName = @"all_btn_shopping";
@@ -113,7 +121,6 @@
     
     _btnShopBadgeLabel = [[UILabel alloc]initWithFrame:CGRectMake(25, 0, 16, 16)];
     _btnShopBadgeLabel.textColor = [UIColor whiteColor];
-    
     NSString* shoppingCartCount = [USER_DEFAULT valueForKey:kUserDefaultShoppingCartCount];
     if ([shoppingCartCount intValue]<= 0)
     {
@@ -139,6 +146,11 @@
     [_btnArrange setTag:CZJButtonTypeNaviArrange];
     [_btnArrange setHidden:YES];
 
+    //标题
+    _mainTitleLabel = [[UILabel alloc]initWithFrame:CGRectMake((PJ_SCREEN_WIDTH - 80) * 0.5, 14, 80, 16)];
+    _mainTitleLabel.font = BOLDSYSTEMFONT(20);
+    _mainTitleLabel.textAlignment = NSTextAlignmentCenter;
+    _mainTitleLabel.hidden = YES;
     
     switch (type) {
         case CZJNaviBarViewTypeCategory:
@@ -149,11 +161,11 @@
             shopBtnImageName = @"btn_shopping";
             [_btnShop setBackgroundImage:[UIImage imageNamed:shopBtnImageName] forState:UIControlStateNormal];
             [_btnScan setBackgroundImage:[UIImage imageNamed:saoyisaoBtnImageName] forState:UIControlStateNormal];
-            [_statusBarBgView setBackgroundColor:UIColorFromRGB(0xF3F4F6)];
             break;
             
         case CZJNaviBarViewTypeHome:
             //导航栏添加扫一扫
+            [self setBackgroundColor:CLEARCOLOR];
             [_btnScan setHidden:NO];
             [_btnShop setHidden:NO];
             break;
@@ -164,7 +176,13 @@
             [_btnShop setHidden:NO];
             shopBtnImageName = @"btn_shopping";
             [_btnShop setBackgroundImage:[UIImage imageNamed:shopBtnImageName] forState:UIControlStateNormal];
-            [_statusBarBgView setBackgroundColor:RGB(239, 239, 239)];
+            break;
+            
+        case CZJNaviBarViewTypeStoreDetail:
+            [self setBackgroundColor:CLEARCOLOR];
+            [_btnBack setHidden:NO];
+            [_btnArrange setHidden:NO];
+            [_btnArrange setBackgroundImage:[UIImage imageNamed:@"prodetail_btn_morenor"] forState:UIControlStateNormal];
             break;
             
         case CZJNaviBarViewTypeDetail:
@@ -195,6 +213,14 @@
             [_btnArrange setHidden:NO];
             break;
             
+        case CZJNaviBarViewTypeMain:
+            _customSearchBar.hidden = YES;
+            _mainTitleLabel.hidden = NO;
+            _btnMore.hidden = NO;
+            [_btnMore setBackgroundImage:IMAGENAMED(@"shop_btn_map") forState:UIControlStateNormal];
+            [_btnMore setTag:CZJButtonTypeMap];
+            break;
+        
         default:
             break;
     }
@@ -205,6 +231,7 @@
     [self addSubview:_btnBack];
     [self addSubview:_btnMore];
     [self addSubview:_btnArrange];
+    [self addSubview:_mainTitleLabel];
 }
 
 

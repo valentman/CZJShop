@@ -54,7 +54,7 @@
 - (void)imagePlayerView:(ImagePlayerView *)imagePlayerView didTapAtIndex:(NSInteger)index
 {
     NSLog(@"did tap index = %d", (int)index);
-    ActivityForm* tmp = [_bannerDatas objectAtIndex:index];
+//    ActivityForm* tmp = [_bannerDatas objectAtIndex:index];
     //    [self.delegate showActivityHtmlWithUrl:tmp.url];
 }
 @end

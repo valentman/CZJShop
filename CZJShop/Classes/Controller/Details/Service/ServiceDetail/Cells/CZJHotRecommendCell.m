@@ -27,9 +27,8 @@
 {
     self.isInit = YES;
     NSMutableArray* hotRecoCells = [NSMutableArray array];
-    int cellHeight;
-    int cellWidth;
-    NSArray *nib = [[NSBundle mainBundle]loadNibNamed:@"CZJHotRecoCell" owner:self options:nil];
+    __block int cellHeight = 0;
+    __block int cellWidth = 0;
     //得到第一个UIView
     for (CZJStoreServiceForm* form in hotRecommends)
     {

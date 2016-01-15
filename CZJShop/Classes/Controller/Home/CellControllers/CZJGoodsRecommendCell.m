@@ -61,7 +61,7 @@
 
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     CZJGoodsRecoCollectionCell *cell=[collectionView dequeueReusableCellWithReuseIdentifier:kCZJCollectionCellReuseIdGoodReco forIndexPath:indexPath];
-    DLog(@"%@",cell);
+//    DLog(@"%@",cell);
     GoodsRecommendForm * form;
     form = _goodsRecommendDatas[indexPath.row];
     

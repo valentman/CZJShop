@@ -128,7 +128,6 @@
     }
     CGRect mainViewBounds = self.navigationController.navigationBar.bounds;
     [self.navigationBar initWithFrame:mainViewBounds AndType:CZJNaviBarViewTypeBack].delegate = self;
-    self.navigationBar.backgroundColor = RGB(239, 239, 239);
 }
 
 - (void)getStoreServiceListDataFromServer
@@ -394,7 +393,7 @@
 
 
 - (void)tableView:(UITableView *)tableView willDisplayFooterView:(UIView *)view forSection:(NSInteger)section{
-    self.serviceTableView.tintColor = RGBACOLOR(230, 230, 230, 1.0f);
+    self.serviceTableView.tintColor = RGBA(230, 230, 230, 1.0f);
 }
 
 
@@ -529,7 +528,6 @@
 {
     //更新参数，重新请求数据刷新
     NSString* typeid = [USER_DEFAULT valueForKey:kUserDefaultServiceTypeID];
-    NSString* servicePlace = [USER_DEFAULT valueForKey:kUserDefaultServicePlace];
     [storePostParams setValue:typeid forKey:@"typeId"];
     _getdataType = CZJHomeGetDataFromServerTypeOne;
     [self getStoreServiceListDataFromServer];

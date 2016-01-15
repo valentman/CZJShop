@@ -27,8 +27,8 @@ static NSString* schema=@"Alipay";
         //支付宝为了用户体验，会把截屏放在支付的后面当背景，可选项。当然也可以用其他的自己生成的UIImage，比如[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Default@2x" ofType:@"png"]]
         UIImage *screenShot= [self screenshot];
         //获取到fromAppUrlScheme，来设置截屏。
-        NSString *linkStr=[self urlDecode:[link substringFromIndex:NSMaxRange([link rangeOfString:@"?"])]];
-        NSDictionary *linkDic=[NSJSONSerialization JSONObjectWithData:[linkStr dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingAllowFragments error:nil];
+//        NSString *linkStr=[self urlDecode:[link substringFromIndex:NSMaxRange([link rangeOfString:@"?"])]];
+//        NSDictionary *linkDic=[NSJSONSerialization JSONObjectWithData:[linkStr dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingAllowFragments error:nil];
         NSData *udObject = [NSKeyedArchiver archivedDataWithRootObject:@{@"image_data" :UIImagePNGRepresentation(screenShot),@"scheme" :@"CheZhiJian"}];
         [[UIPasteboard generalPasteboard] setData:udObject forPasteboardType:@"com.alipay.alipayClient.screenImage"];
         //END 设置截屏(可以不设置,注释掉这块代码即可。)。

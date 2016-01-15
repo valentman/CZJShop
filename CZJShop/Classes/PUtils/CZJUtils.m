@@ -280,11 +280,11 @@
 }
 
 + (void)setSCforTableView:(UITableView *)tableView{
-    tableView.separatorColor = RGBACOLOR(230.0f, 230.0f, 230.0f, 1.0f);
+    tableView.separatorColor = RGBA(230.0f, 230.0f, 230.0f, 1.0f);
 }
 
 + (void)setExtraCellLineHidden: (UITableView *)tableView{
-    tableView.separatorColor = RGBACOLOR(230.0f, 230.0f, 230.0f, 1.0f);
+    tableView.separatorColor = RGBA(230.0f, 230.0f, 230.0f, 1.0f);
     
     UIView *view =[ [UIView alloc]init];
     view.backgroundColor = [UIColor colorWithRed:240/255.0f green:240/255.0f blue:240/255.0f alpha:1.0];
@@ -414,14 +414,14 @@ void backLastView(id sender, SEL _cmd)
     UILabel* lab = [[UILabel alloc] initWithFrame:CGRectMake(0, 80, PJ_SCREEN_WIDTH, 24)];
     lab.textAlignment = NSTextAlignmentCenter;
     lab.font = [UIFont boldSystemFontOfSize:14];
-    lab.textColor = RGBACOLOR(51, 51, 51, 1);
+    lab.textColor = RGBA(51, 51, 51, 1);
     lab.text = @"网络异常，请确认当前网络是否连接";
     [view addSubview:lab];
     
     UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake((PJ_SCREEN_WIDTH - 60)/2, 104, 60, 44)];
     button.titleLabel.font = [UIFont systemFontOfSize:14];
     [button setTitle:@"重新加载" forState:UIControlStateNormal];
-    [button setTitleColor:RGBACOLOR(255, 0, 0, 255) forState:UIControlStateNormal];
+    [button setTitleColor:RGBA(255, 0, 0, 255) forState:UIControlStateNormal];
     [button addTarget:target action:buttonSel forControlEvents:UIControlEventTouchUpInside];
     [view addSubview:button];
     
@@ -466,17 +466,31 @@ void backLastView(id sender, SEL _cmd)
 {//判断俩次启动相隔时长
     
     UInt64 currentTime = [[NSDate date] timeIntervalSince1970];     //当前时间
-    UInt64 lastUpdateTime = [[USER_DEFAULT valueForKey:kUserDefaultTime] longLongValue];   //上次更新时间
+    UInt64 lastUpdateTime = [[USER_DEFAULT valueForKey:kUserDefaultTimeDay] longLongValue];   //上次更新时间
     UInt64 intervalTime = currentTime - lastUpdateTime;
-    if (0 == currentTime ||
+    if (0 == lastUpdateTime ||
         intervalTime > 86400)
     {
-        [USER_DEFAULT setValue:[NSString stringWithFormat:@"%llu",currentTime] forKey:kUserDefaultTime];
+        [USER_DEFAULT setValue:[NSString stringWithFormat:@"%llu",currentTime] forKey:kUserDefaultTimeDay];
         return YES;
     }
     return NO;
 }
 
+
++ (BOOL)isTimeCrossFiveMin:(int)intervalMin
+{
+    UInt64 currentTime = [[NSDate date] timeIntervalSince1970];     //当前时间
+    UInt64 lastUpdateTime = [[USER_DEFAULT valueForKey:kUserDefaultTimeMin] longLongValue];   //上次更新时间
+    UInt64 intervalTime = currentTime - lastUpdateTime;
+    if (0 == lastUpdateTime ||
+        intervalTime > intervalMin*60)
+    {
+        [USER_DEFAULT setValue:[NSString stringWithFormat:@"%llu",currentTime] forKey:kUserDefaultTimeMin];
+        return YES;
+    }
+    return NO;
+}
 
 + (void)printClassMethodList:(id)target
 {

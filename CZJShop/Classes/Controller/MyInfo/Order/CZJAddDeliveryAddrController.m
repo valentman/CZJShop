@@ -70,7 +70,7 @@
 
 - (IBAction)locationAction:(id)sender {
     [GKHpickerAddressView shareInstancePickerAddressByctrl:self block:^(UIViewController *ctrl, NSString *addressName) {
-            _selectedAddAry = [addressName componentsSeparatedByString:@" "];
+            _selectedAddAry = [[addressName componentsSeparatedByString:@" "] mutableCopy];
             _chooseAddrLabel.text = addressName;
         }];
 }
@@ -93,7 +93,6 @@
                                        @"mobile" : self.phoneNumTextField.text,
                                        @"addr" : self.detailedAddrTextField.text
                                        } mutableCopy];
-    CZJAddrForm* addrForm = [[CZJAddrForm alloc]init];
 
 
     if (!_addrForm) {

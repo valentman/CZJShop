@@ -47,7 +47,8 @@ typedef NS_ENUM(NSUInteger, CZJButtonType) {
     CZJButtonTypeSearchBar,                 //导航栏上搜索按钮
     CZJButtonTypeNaviBarBack,               //导航栏上返回上一页按钮
     CZJButtonTypeNaviBarMore,               //导航栏上详情界面更多按钮
-    CZJButtonTypeNaviArrange                //导航栏上列表排列按钮
+    CZJButtonTypeNaviArrange,                //导航栏上列表排列按钮
+    CZJButtonTypeMap
 };
 
 typedef NS_ENUM (NSInteger, CZJHomeGetDataFromServerType)
@@ -58,11 +59,13 @@ typedef NS_ENUM (NSInteger, CZJHomeGetDataFromServerType)
 
 typedef NS_ENUM(NSInteger, CZJNaviBarViewType)
 {
-    CZJNaviBarViewTypeHome = 100,           //主页导航栏
+    CZJNaviBarViewTypeHome = 100,       //主页导航栏
     CZJNaviBarViewTypeBack,             //一般界面带返回按钮导航栏
     CZJNaviBarViewTypeCategory,         //分类界面导航栏
     CZJNaviBarViewTypeDetail,           //详情界面导航栏
-    CZJNaviBarViewTypeGoodsList         //商品列表界面导航栏
+    CZJNaviBarViewTypeStoreDetail,      //门店详情导航栏
+    CZJNaviBarViewTypeGoodsList,        //商品列表界面导航栏
+    CZJNaviBarViewTypeMain
 };
 
 typedef NS_ENUM(NSInteger, CZJViewMoveOrientation)

@@ -126,6 +126,7 @@
 		EC1E43DF1C40A214006CC23C /* KMCGeigerCounterTick.aiff in Resources */ = {isa = PBXBuildFile; fileRef = EC1E43DD1C40A214006CC23C /* KMCGeigerCounterTick.aiff */; settings = {ASSET_TAGS = (); }; };
 		EC1E43E61C40A76F006CC23C /* UIScrollView+SVInfiniteScrolling.m in Sources */ = {isa = PBXBuildFile; fileRef = EC1E43E31C40A76F006CC23C /* UIScrollView+SVInfiniteScrolling.m */; settings = {ASSET_TAGS = (); }; };
 		EC1E43E71C40A76F006CC23C /* UIScrollView+SVPullToRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = EC1E43E51C40A76F006CC23C /* UIScrollView+SVPullToRefresh.m */; settings = {ASSET_TAGS = (); }; };
+		EC2471A61C473AFB00B81BA9 /* CZJSexSelectController.m in Sources */ = {isa = PBXBuildFile; fileRef = EC2471A51C473AFB00B81BA9 /* CZJSexSelectController.m */; settings = {ASSET_TAGS = (); }; };
 		EC2518211C225CDE00C6754A /* LSPageScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = EC2518201C225CDE00C6754A /* LSPageScrollView.m */; settings = {ASSET_TAGS = (); }; };
 		EC2518251C22959300C6754A /* CZJEvalutionDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EC2518231C22959300C6754A /* CZJEvalutionDetailCell.m */; settings = {ASSET_TAGS = (); }; };
 		EC2518261C22959300C6754A /* CZJEvalutionDetailCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EC2518241C22959300C6754A /* CZJEvalutionDetailCell.xib */; settings = {ASSET_TAGS = (); }; };
@@ -343,6 +344,7 @@
 		EC4EF4C51C3A561400E0FA91 /* add_btn_edit@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = EC4EF4BF1C3A561400E0FA91 /* add_btn_edit@3x.png */; settings = {ASSET_TAGS = (); }; };
 		EC4EF4C61C3A561400E0FA91 /* add_icon_gou@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EC4EF4C01C3A561400E0FA91 /* add_icon_gou@2x.png */; settings = {ASSET_TAGS = (); }; };
 		EC4EF4C71C3A561400E0FA91 /* add_icon_gou@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = EC4EF4C11C3A561400E0FA91 /* add_icon_gou@3x.png */; settings = {ASSET_TAGS = (); }; };
+		EC583A031C48D4AF001401FC /* CZJStoreDetailForm.m in Sources */ = {isa = PBXBuildFile; fileRef = EC583A021C48D4AF001401FC /* CZJStoreDetailForm.m */; settings = {ASSET_TAGS = (); }; };
 		EC5B86D81C0D3295008EC732 /* CZJDiscoverController.m in Sources */ = {isa = PBXBuildFile; fileRef = EC5B86D71C0D3295008EC732 /* CZJDiscoverController.m */; settings = {ASSET_TAGS = (); }; };
 		EC5B86E21C0D3315008EC732 /* find_icon_activity@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EC5B86DA1C0D3315008EC732 /* find_icon_activity@2x.png */; settings = {ASSET_TAGS = (); }; };
 		EC5B86E31C0D3315008EC732 /* find_icon_activity@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = EC5B86DB1C0D3315008EC732 /* find_icon_activity@3x.png */; settings = {ASSET_TAGS = (); }; };
@@ -365,7 +367,6 @@
 		EC5EEB5C1C45DC1100EEA368 /* CZJStoreDescribeTwoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EC5EEB551C45DC1100EEA368 /* CZJStoreDescribeTwoCell.xib */; settings = {ASSET_TAGS = (); }; };
 		EC5EEB5D1C45DC1100EEA368 /* CZJStoreDetailHeadCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EC5EEB571C45DC1100EEA368 /* CZJStoreDetailHeadCell.m */; settings = {ASSET_TAGS = (); }; };
 		EC5EEB5E1C45DC1100EEA368 /* CZJStoreDetailHeadCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EC5EEB581C45DC1100EEA368 /* CZJStoreDetailHeadCell.xib */; settings = {ASSET_TAGS = (); }; };
-		EC5EEB611C464C5700EEA368 /* CZJSexSelectController.m in Sources */ = {isa = PBXBuildFile; fileRef = EC5EEB601C464C5700EEA368 /* CZJSexSelectController.m */; settings = {ASSET_TAGS = (); }; };
 		EC5EEB671C46572900EEA368 /* CZJPersonalInfoController.m in Sources */ = {isa = PBXBuildFile; fileRef = EC5EEB661C46572900EEA368 /* CZJPersonalInfoController.m */; settings = {ASSET_TAGS = (); }; };
 		EC5F75E21C0593860073CE04 /* CZJMiaoShaCollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EC5F75E01C0593860073CE04 /* CZJMiaoShaCollectionCell.m */; settings = {ASSET_TAGS = (); }; };
 		EC5F75E31C0593860073CE04 /* CZJMiaoShaCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EC5F75E11C0593860073CE04 /* CZJMiaoShaCollectionCell.xib */; settings = {ASSET_TAGS = (); }; };
@@ -969,6 +970,8 @@
 		EC1E43E31C40A76F006CC23C /* UIScrollView+SVInfiniteScrolling.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+SVInfiniteScrolling.m"; sourceTree = "<group>"; };
 		EC1E43E41C40A76F006CC23C /* UIScrollView+SVPullToRefresh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+SVPullToRefresh.h"; sourceTree = "<group>"; };
 		EC1E43E51C40A76F006CC23C /* UIScrollView+SVPullToRefresh.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+SVPullToRefresh.m"; sourceTree = "<group>"; };
+		EC2471A41C473AFB00B81BA9 /* CZJSexSelectController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJSexSelectController.h; sourceTree = "<group>"; };
+		EC2471A51C473AFB00B81BA9 /* CZJSexSelectController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJSexSelectController.m; sourceTree = "<group>"; };
 		EC25181F1C225CDE00C6754A /* LSPageScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LSPageScrollView.h; sourceTree = "<group>"; };
 		EC2518201C225CDE00C6754A /* LSPageScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LSPageScrollView.m; sourceTree = "<group>"; };
 		EC2518221C22959300C6754A /* CZJEvalutionDetailCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJEvalutionDetailCell.h; sourceTree = "<group>"; };
@@ -1242,6 +1245,8 @@
 		EC4EF4BF1C3A561400E0FA91 /* add_btn_edit@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "add_btn_edit@3x.png"; sourceTree = "<group>"; };
 		EC4EF4C01C3A561400E0FA91 /* add_icon_gou@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "add_icon_gou@2x.png"; sourceTree = "<group>"; };
 		EC4EF4C11C3A561400E0FA91 /* add_icon_gou@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "add_icon_gou@3x.png"; sourceTree = "<group>"; };
+		EC583A011C48D4AF001401FC /* CZJStoreDetailForm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJStoreDetailForm.h; sourceTree = "<group>"; };
+		EC583A021C48D4AF001401FC /* CZJStoreDetailForm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJStoreDetailForm.m; sourceTree = "<group>"; };
 		EC5B86D61C0D3295008EC732 /* CZJDiscoverController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJDiscoverController.h; sourceTree = "<group>"; };
 		EC5B86D71C0D3295008EC732 /* CZJDiscoverController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJDiscoverController.m; sourceTree = "<group>"; };
 		EC5B86DA1C0D3315008EC732 /* find_icon_activity@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "find_icon_activity@2x.png"; sourceTree = "<group>"; };
@@ -1273,8 +1278,6 @@
 		EC5EEB561C45DC1100EEA368 /* CZJStoreDetailHeadCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJStoreDetailHeadCell.h; sourceTree = "<group>"; };
 		EC5EEB571C45DC1100EEA368 /* CZJStoreDetailHeadCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJStoreDetailHeadCell.m; sourceTree = "<group>"; };
 		EC5EEB581C45DC1100EEA368 /* CZJStoreDetailHeadCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CZJStoreDetailHeadCell.xib; sourceTree = "<group>"; };
-		EC5EEB5F1C464C5700EEA368 /* CZJSexSelectController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJSexSelectController.h; sourceTree = "<group>"; };
-		EC5EEB601C464C5700EEA368 /* CZJSexSelectController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJSexSelectController.m; sourceTree = "<group>"; };
 		EC5EEB651C46572900EEA368 /* CZJPersonalInfoController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJPersonalInfoController.h; sourceTree = "<group>"; };
 		EC5EEB661C46572900EEA368 /* CZJPersonalInfoController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJPersonalInfoController.m; sourceTree = "<group>"; };
 		EC5F75DF1C0593860073CE04 /* CZJMiaoShaCollectionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJMiaoShaCollectionCell.h; sourceTree = "<group>"; };
@@ -2200,12 +2203,12 @@
 			children = (
 				EC28E2871C15214B003423F9 /* AMap */,
 				ECB4B60C1C0E94A400925BCA /* CellController */,
-				ECB4B6091C0E8D6800925BCA /* CZJStoreMapController.h */,
-				ECB4B60A1C0E8D6800925BCA /* CZJStoreMapController.m */,
 				ECFFB9511C103CC500811C2E /* CZJStoreViewController.h */,
 				ECFFB9521C103CC500811C2E /* CZJStoreViewController.m */,
 				EC5EEB4D1C45DC0800EEA368 /* CZJStoreDetailController.h */,
 				EC5EEB4E1C45DC0800EEA368 /* CZJStoreDetailController.m */,
+				ECB4B6091C0E8D6800925BCA /* CZJStoreMapController.h */,
+				ECB4B60A1C0E8D6800925BCA /* CZJStoreMapController.m */,
 			);
 			path = Store;
 			sourceTree = "<group>";
@@ -2235,6 +2238,8 @@
 				EC26A3121C2A486A00B166A3 /* CZJShoppingCartForm.m */,
 				EC05C4161C3E5B5400C4ABA3 /* CZJOrderForm.h */,
 				EC05C4171C3E629A00C4ABA3 /* CZJOrderForm.m */,
+				EC583A011C48D4AF001401FC /* CZJStoreDetailForm.h */,
+				EC583A021C48D4AF001401FC /* CZJStoreDetailForm.m */,
 			);
 			name = Madel;
 			path = Classes/Madel;
@@ -2576,10 +2581,10 @@
 			isa = PBXGroup;
 			children = (
 				EC34000D1C4344300063A071 /* Cells */,
-				EC5EEB651C46572900EEA368 /* CZJPersonalInfoController.h */,
-				EC5EEB661C46572900EEA368 /* CZJPersonalInfoController.m */,
 				EC34000A1C4343890063A071 /* CZJMyInformationController.h */,
 				EC34000B1C4343890063A071 /* CZJMyInformationController.m */,
+				EC5EEB651C46572900EEA368 /* CZJPersonalInfoController.h */,
+				EC5EEB661C46572900EEA368 /* CZJPersonalInfoController.m */,
 				EC3400221C437AF10063A071 /* CZJMyInfoSettingController.h */,
 				EC3400231C437AF10063A071 /* CZJMyInfoSettingController.m */,
 				EC9F1A9D1C44E1A1003B65F1 /* CZJMyInfoInputCodeController.h */,
@@ -2596,8 +2601,8 @@
 				EC9F1A921C44DF99003B65F1 /* CZJMyInfoShareController.m */,
 				EC9F1A9A1C44E024003B65F1 /* CZJMyInfoServiceFeedbackController.h */,
 				EC9F1A9B1C44E024003B65F1 /* CZJMyInfoServiceFeedbackController.m */,
-				EC5EEB5F1C464C5700EEA368 /* CZJSexSelectController.h */,
-				EC5EEB601C464C5700EEA368 /* CZJSexSelectController.m */,
+				EC2471A41C473AFB00B81BA9 /* CZJSexSelectController.h */,
+				EC2471A51C473AFB00B81BA9 /* CZJSexSelectController.m */,
 			);
 			path = Info;
 			sourceTree = "<group>";
@@ -2856,15 +2861,15 @@
 		ECB4B60C1C0E94A400925BCA /* CellController */ = {
 			isa = PBXGroup;
 			children = (
+				EC5EEB561C45DC1100EEA368 /* CZJStoreDetailHeadCell.h */,
+				EC5EEB571C45DC1100EEA368 /* CZJStoreDetailHeadCell.m */,
+				EC5EEB581C45DC1100EEA368 /* CZJStoreDetailHeadCell.xib */,
 				EC5EEB501C45DC1100EEA368 /* CZJStoreDescribeCell.h */,
 				EC5EEB511C45DC1100EEA368 /* CZJStoreDescribeCell.m */,
 				EC5EEB521C45DC1100EEA368 /* CZJStoreDescribeCell.xib */,
 				EC5EEB531C45DC1100EEA368 /* CZJStoreDescribeTwoCell.h */,
 				EC5EEB541C45DC1100EEA368 /* CZJStoreDescribeTwoCell.m */,
 				EC5EEB551C45DC1100EEA368 /* CZJStoreDescribeTwoCell.xib */,
-				EC5EEB561C45DC1100EEA368 /* CZJStoreDetailHeadCell.h */,
-				EC5EEB571C45DC1100EEA368 /* CZJStoreDetailHeadCell.m */,
-				EC5EEB581C45DC1100EEA368 /* CZJStoreDetailHeadCell.xib */,
 				ECB4B6121C0E94EB00925BCA /* CZJStoreCell.h */,
 				ECB4B6131C0E94EB00925BCA /* CZJStoreCell.m */,
 				ECB4B6141C0E94EB00925BCA /* CZJStoreCell.xib */,
@@ -4639,6 +4644,7 @@
 				EC5EEB591C45DC1100EEA368 /* CZJStoreDescribeCell.m in Sources */,
 				ECC4DE281C17D67B00FBD6A4 /* SDWebImageManager.m in Sources */,
 				ECC4DDE81C17D67B00FBD6A4 /* LJWKeyboardToolBar.m in Sources */,
+				EC583A031C48D4AF001401FC /* CZJStoreDetailForm.m in Sources */,
 				ECC4DE0C1C17D67B00FBD6A4 /* NSObject+MJCoding.m in Sources */,
 				EC393F7C1C2E288500B17228 /* CZJReceiveCouponsCell.m in Sources */,
 				ECC4DDFA1C17D67B00FBD6A4 /* RegionAnnotationView.m in Sources */,
@@ -4686,8 +4692,8 @@
 				EC4EF46A1C3A0FA400E0FA91 /* CZJChooseCouponController.m in Sources */,
 				ECC4DE1F1C17D67B00FBD6A4 /* OpenShare.m in Sources */,
 				ECC4DDBB1C17D67B00FBD6A4 /* AnimatedGif.m in Sources */,
+				EC2471A61C473AFB00B81BA9 /* CZJSexSelectController.m in Sources */,
 				ECFA85D41C1BD3C3009F9177 /* CZJFilterBaseController.m in Sources */,
-				EC5EEB611C464C5700EEA368 /* CZJSexSelectController.m in Sources */,
 				ECC4DDCF1C17D67B00FBD6A4 /* FDAlertView.m in Sources */,
 				EC10E6881BFC24C800CDBFCD /* CZJUtils.m in Sources */,
 				EC4EF4641C3A0F5900E0FA91 /* CZJDeliveryAddrController.m in Sources */,

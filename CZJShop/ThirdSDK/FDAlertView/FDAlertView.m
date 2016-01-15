@@ -20,8 +20,6 @@
 #define SPACE_SMALL 5
 #define MESSAGE_LINE_SPACE 5
 
-#define RGBA(R, G, B, A) [UIColor colorWithRed:R / 255.0 green:G / 255.0 blue:B / 255.0 alpha:A]
-
 @interface FDAlertView ()
 
 @property (strong, nonatomic) UIView *backgroundView;

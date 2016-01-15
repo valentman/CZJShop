@@ -49,12 +49,15 @@ singleton_interface(CZJBaseDataManager);
 
 -(void)getSomeInfoSuccess:(CZJSuccessBlock)success;
 
+//-------------------------首页数据------------------------------
 //获取首页数据
 - (void)showHomeType:(CZJHomeGetDataFromServerType)dataType
                 page:(int)page
              Success:(CZJSuccessBlock)success
                 fail:(CZJFailureBlock)fail;
 
+
+//-------------------------分类数据------------------------------
 //获取分类数据
 - (void)showCategoryTypeId:(NSString*)typeId
                    success:(CZJSuccessBlock)success
@@ -77,16 +80,6 @@ singleton_interface(CZJBaseDataManager);
                           success:(CZJSuccessBlock)success
                              fail:(CZJFailureBlock)failure;
 
-//获取门店数据
-- (void)showStoreWithParams:(NSDictionary*)postParams
-                       type:(CZJHomeGetDataFromServerType)type
-                    success:(CZJSuccessBlock)success
-                       fail:(CZJFailureBlock)failure;
-
-//获取发现数据
-- (void)showDiscoverWithBlocksuccess:(CZJSuccessBlock)success
-                                fail:(CZJFailureBlock)fail;
-
 //获取服务列表数据
 - (void)showSeverciceList:(NSDictionary*)postParams
                      type:(CZJHomeGetDataFromServerType)type
@@ -101,6 +94,7 @@ singleton_interface(CZJBaseDataManager);
                         BrandName:(NSString*)brandName
                           Success:(CZJGeneralBlock)success
                              fail:(CZJFailureBlock)fail;
+
 //获取汽车车型信息列表
 - (void)loadCarModelSeriesId:(NSString*)seriesId
                      Success:(CZJGeneralBlock)success
@@ -111,6 +105,7 @@ singleton_interface(CZJBaseDataManager);
             AndStoreItemPid:(NSString*)storeItemPid
                     Success:(CZJGeneralBlock)success
                        fail:(CZJFailureBlock)fail;
+
 //获取详情界面热门推荐列表
 - (void)loadDetailHotRecommendWithType:(CZJDetailType)type
                             andStoreId:(NSString*)storeId
@@ -145,6 +140,51 @@ singleton_interface(CZJBaseDataManager);
                         Success:(CZJGeneralBlock)success
                            fail:(CZJFailureBlock)fail;
 
+
+//-------------------------门店数据------------------------------
+//获取门店数据
+- (void)showStoreWithParams:(NSDictionary*)postParams
+                       type:(CZJHomeGetDataFromServerType)type
+                    success:(CZJSuccessBlock)success
+                       fail:(CZJFailureBlock)failure;
+
+//门店信息详情
+- (void)loadStoreInfo:(NSDictionary*)postParams
+                success:(CZJSuccessBlock)success
+                   fail:(CZJFailureBlock)failure;
+
+//门店服务商品详情
+- (void)loadStoreDetail:(NSDictionary*)postParams
+                success:(CZJSuccessBlock)success
+                   fail:(CZJFailureBlock)failure;
+
+//关注门店
+- (void)attentionStore:(NSDictionary*)postParams;
+
+//取消关注门店
+- (void)cancleAttentionStore:(NSDictionary*)postParams;
+
+//关注商品
+- (void)attentionGoods:(NSDictionary*)postParams;
+
+//取消关注商品
+- (void)cancleAttentionGoods:(NSDictionary*)postParams;
+
+//其他门店列表
+- (void)loadOtherStoreList:(NSDictionary*)postParams
+                   success:(CZJSuccessBlock)success
+                      fail:(CZJFailureBlock)failure;
+
+
+
+//-------------------------发现数据------------------------------
+//获取发现数据
+- (void)showDiscoverWithBlocksuccess:(CZJSuccessBlock)success
+                                fail:(CZJFailureBlock)fail;
+
+
+
+//-------------------------订单数据------------------------------
 //获取购物车信息
 - (void)loadShoppingCart:(NSDictionary*)postParams
                     type:(CZJHomeGetDataFromServerType)type
@@ -206,5 +246,8 @@ singleton_interface(CZJBaseDataManager);
                Success:(CZJSuccessBlock)success
                   fail:(CZJFailureBlock)fail;
 
+//通用
+- (void)generalPost:(NSDictionary*)postParams
+       andServerAPI:(NSString*)api;
 
 @end

@@ -27,7 +27,8 @@ UITableViewDelegate,
 UITableViewDataSource,
 UICollectionViewDataSource,
 UICollectionViewDelegate,
-CZJNaviagtionBarViewDelegate
+CZJNaviagtionBarViewDelegate,
+CZJFilterControllerDelegate
 >
 {
     CZJHomeGetDataFromServerType _getdataType;
@@ -90,7 +91,7 @@ CZJNaviagtionBarViewDelegate
     self.navigationController.navigationBarHidden = YES;
     CGRect mainViewBounds = self.navigationController.navigationBar.bounds;
     [self.topNaviBarView initWithFrame:mainViewBounds AndType:CZJNaviBarViewTypeGoodsList].delegate = self;
-    [self.topNaviBarView setBackgroundColor:UIColorFromRGB(0xF3F4F6)];
+    [self.topNaviBarView setBackgroundColor:CZJNAVIBARBGCOLOR];
     
     //下拉菜单筛选条件初始
     NSArray* sortTypes = @[@"综合排序", @"销量", @"人气", @"评论",@"附近"];
@@ -247,7 +248,7 @@ CZJNaviagtionBarViewDelegate
     NSString* rmb = @"￥";
     cell.productName.text = form.itemName;
     cell.productPrice.text = [rmb stringByAppendingString:form.currentPrice];
-    cell.iconImageView.backgroundColor=UIColorFromRGB(0xF8FCF8);
+    cell.iconImageView.backgroundColor= CZJNAVIBARBGCOLOR;
     [cell.iconImageView sd_setImageWithURL:[NSURL URLWithString:form.itemImg] placeholderImage:nil];
     return cell;
 }

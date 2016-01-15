@@ -68,13 +68,13 @@
     //用来得到具体的时差，是为了统一成北京时间
     unsigned int unitFlags = NSYearCalendarUnit| NSMonthCalendarUnit| NSDayCalendarUnit| NSHourCalendarUnit| NSMinuteCalendarUnit| NSSecondCalendarUnit;
     NSDateComponents *d = [cal components:unitFlags fromDate:today toDate:todate options:0];
-    NSString *fen = [NSString stringWithFormat:@"%d", [d minute]];
+    NSString *fen = [NSString stringWithFormat:@"%ld", [d minute]];
     if([d minute] < 10) {
-        fen = [NSString stringWithFormat:@"0%d",[d minute]];
+        fen = [NSString stringWithFormat:@"0%ld",[d minute]];
     }
-    NSString *miao = [NSString stringWithFormat:@"%d", [d second]];
+    NSString *miao = [NSString stringWithFormat:@"%ld", [d second]];
     if([d second] < 10) {
-        miao = [NSString stringWithFormat:@"0%d",[d second]];
+        miao = [NSString stringWithFormat:@"0%ld",[d second]];
     }
     
     if([d second] > 0) {

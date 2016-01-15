@@ -107,7 +107,7 @@ static NSTimeInterval const kNormalFrameDuration = 1.0 / kHardwareFramesPerSecon
     // printf("%ld \t%f \t%f\n", self.frameNumber % 60, [NSDate date].timeIntervalSince1970 * 60, displayLink.timestamp * 60);
 
     CFTimeInterval currentFrameTime = displayLink.timestamp;
-    CFTimeInterval frameDuration = currentFrameTime - [self lastFrameTime];
+//    CFTimeInterval frameDuration = currentFrameTime - [self lastFrameTime];
 
     // Frames should be even multiples of kNormalFrameDuration.
     // If a frame takes two frame durations, we dropped at least one, so click.

@@ -23,8 +23,10 @@
 @property(nullable, strong, nonatomic)UIButton* btnArrange;                         //列表排列样式按钮
 @property(nullable, strong, nonatomic)UILabel* btnShopBadgeLabel;
 @property(nullable, strong, nonatomic)UISearchBar* customSearchBar;                 //搜索栏
+@property(nullable, strong, nonatomic)UILabel* mainTitleLabel;                      //正中标题
+
 @property(nullable,nonatomic,weak) id<CZJNaviagtionBarViewDelegate> delegate;
 - (nullable instancetype)initWithFrame:(CGRect)bounds AndType:(CZJNaviBarViewType)type;
 - (void)refreshShopBadgeLabel;
-
+- (void)setBackgroundColor:(nullable UIColor *)backgroundColor;
 @end

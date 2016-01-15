@@ -15,12 +15,16 @@
 #import "CZJStoreCell.h"
 #import "UIImageView+WebCache.h"
 #import "CCLocationManager.h"
+#import "CZJStoreDetailController.h"
+#import "CZJNaviagtionBarView.h"
 
 @interface CZJStoreViewController ()
 <
-    PullTableViewDelegate,
-    FDAlertViewDelegate,
-    MXPullDownMenuDelegate
+PullTableViewDelegate,
+MXPullDownMenuDelegate,
+CZJNaviagtionBarViewDelegate,
+UITableViewDataSource,
+UITableViewDelegate
 >
 {
     NSMutableArray* _storeArys;
@@ -42,6 +46,7 @@
 @property (nonatomic,retain)NSString* curLocationCityName;
 @property (assign, nonatomic)NSInteger page;
 
+@property (weak, nonatomic) IBOutlet CZJNaviagtionBarView *my;
 @end
 
 @implementation CZJStoreViewController
@@ -107,6 +112,12 @@
     
     UINib *nib=[UINib nibWithNibName:@"CZJStoreCell" bundle:nil];
     [self.storeTableView registerNib:nib forCellReuseIdentifier:@"CZJStoreCell"];
+    
+    self.navigationController.navigationBarHidden = YES;
+    CGRect mainViewBounds = self.navigationController.navigationBar.bounds;
+    [self.my initWithFrame:mainViewBounds AndType:CZJNaviBarViewTypeMain].delegate = self;
+    self.my.mainTitleLabel.text = @"门店";
+    [self.my setBackgroundColor:CZJNAVIBARBGCOLORALPHA(0)];
 }
 
 - (void)getStoreDataFromServer
@@ -313,10 +324,16 @@
     return cout;
 }
 
+#pragma mark-UITableViewDelegate
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return 104;
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    CZJNearbyStoreForm* storeForm = (CZJNearbyStoreForm*)_sortedStoreArys[indexPath.row];
+    [self performSegueWithIdentifier:@"segueToStoreDetail" sender:storeForm];
+}
 
 #pragma mark -  MXPullDownMenuDelegate
 //距离最近筛选
@@ -376,8 +393,23 @@ NSInteger compareSales(CZJNearbyStoreForm* obj1, CZJNearbyStoreForm* obj2,void* 
     [self getStoreDataFromServer];
 }
 
+
+#pragma mark- CZJNaviagtionBarViewDelegate
+- (void)clickEventCallBack:(nullable id)sender
+{
+    [self performSegueWithIdentifier:@"segueToNearby" sender:nil];
+}
+
+
 #pragma mark - Navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"segueToStoreDetail"])
+    {
+        CZJNearbyStoreForm* storeForm = (CZJNearbyStoreForm*)sender;
+        CZJStoreDetailController* storeDetail = segue.destinationViewController;
+        storeDetail.storeId = storeForm.storeId;
+    }
 }
 
 

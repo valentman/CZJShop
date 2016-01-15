@@ -11,6 +11,7 @@
 @implementation CZJStoreCell
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
     // Initialization code
 }
 
