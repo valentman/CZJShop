@@ -78,4 +78,5 @@
 + (void)removeShoppintCartViewFromCurrent:(UIViewController*)target ;
 
 + (void)performBlock:(CZJGeneralBlock)block afterDelay:(NSTimeInterval)delay;                        //延迟执行Block
++ (id)getXibViewByName:(NSString*)xibName;
 @end

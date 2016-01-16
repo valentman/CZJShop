@@ -120,7 +120,7 @@
         [self.scrollView insertSubview:photoV atIndex:0];
         [_subViewList replaceObjectAtIndex:index withObject:photoV];
     }else{
-        PhotoView *photoV = (PhotoView *)currentPhotoView;
+//        PhotoView *photoV = (PhotoView *)currentPhotoView;
     }
     
 }

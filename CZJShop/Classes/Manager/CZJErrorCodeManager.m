@@ -73,7 +73,13 @@ singleton_implementation(CZJErrorCodeManager)
 - (void)ShowNetError{
     FDAlertView *alert = [[FDAlertView alloc] initWithTitle:kCZJTitle icon:nil message:kCZJMessageNet delegate:self buttonTitles:kCZJConfirmTitle,nil];
     [alert setMessageColor:[UIColor redColor] fontSize:0];
-    [alert show];
+    [alert setTag:9010];
+    UIView* view = VIEWWITHTAG([[UIApplication sharedApplication] keyWindow], 9010);
+    if (view == nil)
+    {
+        [alert show];
+    }
+    
 }
 
 

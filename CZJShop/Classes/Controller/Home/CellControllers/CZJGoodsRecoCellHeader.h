@@ -9,5 +9,9 @@
 #import <UIKit/UIKit.h>
 
 @interface CZJGoodsRecoCellHeader : UITableViewCell
+@property (weak, nonatomic) IBOutlet UILabel *recoMenuLabel;
+@property (weak, nonatomic) IBOutlet UILabel *recoLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *recoImg;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *recoViewLayoutWidth;
 
 @end

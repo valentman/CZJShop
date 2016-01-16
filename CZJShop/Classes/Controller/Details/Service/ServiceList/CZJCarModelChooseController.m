@@ -13,6 +13,10 @@ static NSString *CarModelCellIdentifierID = @"CarModelCellIdentifierID";
 
 
 @interface CZJCarModelChooseController ()
+<
+UITableViewDataSource,
+UITableViewDelegate
+>
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) UIImageView *curCarBrandLogo;
 @property (nonatomic, strong) UIImageView *nextArrowImg;

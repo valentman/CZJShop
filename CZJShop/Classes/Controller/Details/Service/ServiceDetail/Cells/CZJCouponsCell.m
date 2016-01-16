@@ -12,6 +12,7 @@
 @implementation CZJCouponsCell
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
     // Initialization code
     couponsAry = [NSArray array];
 }

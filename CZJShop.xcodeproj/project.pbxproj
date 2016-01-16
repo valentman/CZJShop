@@ -223,6 +223,8 @@
 		EC2A315D1C128CBA00622767 /* shop_icon_location@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = EC2A315B1C128CBA00622767 /* shop_icon_location@3x.png */; settings = {ASSET_TAGS = (); }; };
 		EC2C433C1C3FB827007C0D40 /* CZJOrderCouponHeaderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EC2C433A1C3FB827007C0D40 /* CZJOrderCouponHeaderCell.m */; settings = {ASSET_TAGS = (); }; };
 		EC2C433D1C3FB827007C0D40 /* CZJOrderCouponHeaderCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EC2C433B1C3FB827007C0D40 /* CZJOrderCouponHeaderCell.xib */; settings = {ASSET_TAGS = (); }; };
+		EC303D241C4A1C62008B5A8C /* CZJStoreDetailMenuCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EC303D221C4A1C62008B5A8C /* CZJStoreDetailMenuCell.m */; settings = {ASSET_TAGS = (); }; };
+		EC303D251C4A1C62008B5A8C /* CZJStoreDetailMenuCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EC303D231C4A1C62008B5A8C /* CZJStoreDetailMenuCell.xib */; settings = {ASSET_TAGS = (); }; };
 		EC3400001C433D5A0063A071 /* my_icon_tuihuo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EC34FFDE1C433D5A0063A071 /* my_icon_tuihuo@2x.png */; settings = {ASSET_TAGS = (); }; };
 		EC3400011C433D5A0063A071 /* my_icon_tuihuo@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = EC34FFDF1C433D5A0063A071 /* my_icon_tuihuo@3x.png */; settings = {ASSET_TAGS = (); }; };
 		EC3400021C433D5A0063A071 /* my_icon_wallet@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EC34FFE01C433D5A0063A071 /* my_icon_wallet@2x.png */; settings = {ASSET_TAGS = (); }; };
@@ -1087,6 +1089,9 @@
 		EC2C43391C3FB827007C0D40 /* CZJOrderCouponHeaderCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJOrderCouponHeaderCell.h; sourceTree = "<group>"; };
 		EC2C433A1C3FB827007C0D40 /* CZJOrderCouponHeaderCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJOrderCouponHeaderCell.m; sourceTree = "<group>"; };
 		EC2C433B1C3FB827007C0D40 /* CZJOrderCouponHeaderCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CZJOrderCouponHeaderCell.xib; sourceTree = "<group>"; };
+		EC303D211C4A1C62008B5A8C /* CZJStoreDetailMenuCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJStoreDetailMenuCell.h; sourceTree = "<group>"; };
+		EC303D221C4A1C62008B5A8C /* CZJStoreDetailMenuCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJStoreDetailMenuCell.m; sourceTree = "<group>"; };
+		EC303D231C4A1C62008B5A8C /* CZJStoreDetailMenuCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CZJStoreDetailMenuCell.xib; sourceTree = "<group>"; };
 		EC34000A1C4343890063A071 /* CZJMyInformationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJMyInformationController.h; sourceTree = "<group>"; };
 		EC34000B1C4343890063A071 /* CZJMyInformationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJMyInformationController.m; sourceTree = "<group>"; };
 		EC34000E1C43444D0063A071 /* CZJMyInfoHeadCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJMyInfoHeadCell.h; sourceTree = "<group>"; };
@@ -2873,6 +2878,9 @@
 				ECB4B6121C0E94EB00925BCA /* CZJStoreCell.h */,
 				ECB4B6131C0E94EB00925BCA /* CZJStoreCell.m */,
 				ECB4B6141C0E94EB00925BCA /* CZJStoreCell.xib */,
+				EC303D211C4A1C62008B5A8C /* CZJStoreDetailMenuCell.h */,
+				EC303D221C4A1C62008B5A8C /* CZJStoreDetailMenuCell.m */,
+				EC303D231C4A1C62008B5A8C /* CZJStoreDetailMenuCell.xib */,
 			);
 			path = CellController;
 			sourceTree = "<group>";
@@ -4473,6 +4481,7 @@
 				EC0F00401C326D9300F124F8 /* shop_icon_goods@3x.png in Resources */,
 				EC34FFFC1C433D5A0063A071 /* my_icon_shop@2x.png in Resources */,
 				ECC4DE491C17D67B00FBD6A4 /* WebViewJavascriptBridge.js.txt in Resources */,
+				EC303D251C4A1C62008B5A8C /* CZJStoreDetailMenuCell.xib in Resources */,
 				EC442B611BFEF5D100DC6F97 /* CZJAdBanerCell.xib in Resources */,
 				ECDB5DD41BFADB0500882BB2 /* Main.storyboard in Resources */,
 				EC0F00391C326D9300F124F8 /* shop_btn_other@2x.png in Resources */,
@@ -4746,6 +4755,7 @@
 				ECC4DDA91C17D67B00FBD6A4 /* AFURLResponseSerialization.m in Sources */,
 				ECC4DDDF1C17D67B00FBD6A4 /* JTImageButton.m in Sources */,
 				ECC4DE481C17D67B00FBD6A4 /* VPImageCropperViewController.m in Sources */,
+				EC303D241C4A1C62008B5A8C /* CZJStoreDetailMenuCell.m in Sources */,
 				ECC4DDED1C17D67B00FBD6A4 /* LXActivity.m in Sources */,
 				EC4EF47A1C3A1B1100E0FA91 /* CZJOrderTypeCell.m in Sources */,
 				ECC4DDAA1C17D67B00FBD6A4 /* AFURLSessionManager.m in Sources */,

@@ -641,4 +641,10 @@ void backLastView(id sender, SEL _cmd)
     dispatch_after(popTime, dispatch_get_main_queue(), block);
 }
 
++ (id)getXibViewByName:(NSString*)xibName
+{
+    NSArray *nib = [[NSBundle mainBundle]loadNibNamed:xibName owner:self options:nil];
+    return [nib objectAtIndex:0];
+}
+
 @end

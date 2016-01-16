@@ -172,6 +172,12 @@
                 </constraints>
             </tableViewCellContentView>
             <animations/>
+            <connections>
+                <outlet property="goodsLabel" destination="How-HF-dQb" id="BFH-7M-iq5"/>
+                <outlet property="promotionLabel" destination="aaY-XP-5qy" id="feY-ya-9ea"/>
+                <outlet property="serviceLabel" destination="CCH-UB-we3" id="0PV-R1-aXc"/>
+                <outlet property="setMenuLabel" destination="K00-Te-I3u" id="Vhl-Ta-hie"/>
+            </connections>
             <point key="canvasLocation" x="282" y="349"/>
         </tableViewCell>
     </objects>

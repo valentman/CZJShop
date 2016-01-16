@@ -448,7 +448,6 @@ CZJNaviagtionBarViewDelegate
             {
                 [cell initWithCouponDatas:_couponForms];
             }
-            [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
             return cell;
         }
             break;

@@ -11,10 +11,17 @@
 #import "CZJStoreDetailHeadCell.h"
 #import "CZJStoreDescribeTwoCell.h"
 #import "CZJStoreDescribeCell.h"
+#import "CZJGoodsRecommendCell.h"
+#import "CZJGoodsRecoCellHeader.h"
+#import "CZJStoreDetailMenuCell.h"
+#import "CZJCouponsCell.h"
+#import "CZJAdBanerCell.h"
 #import "CZJBaseDataManager.h"
 #import "UIImageView+WebCache.h"
 #import "CZJShoppingCartForm.h"
 #import "CZJStoreDetailForm.h"
+#import "CZJDetailForm.h"
+#import "HomeForm.h"
 
 @interface CZJStoreDetailController ()
 <
@@ -75,28 +82,29 @@ UITableViewDelegate
     
     NSArray* nibArys = @[@"CZJStoreDetailHeadCell",
                          @"CZJStoreDescribeCell",
-                         @"CZJStoreDescribeTwoCell"
+                         @"CZJStoreDescribeTwoCell",
+                         @"CZJGoodsRecommendCell",
+                         @"CZJAdBanerCell",
+                         @"CZJCouponsCell",
+                         @"CZJGoodsRecoCellHeader",
+                         @"CZJStoreDetailMenuCell"
                          ];
     
     for (id cells in nibArys) {
         UINib *nib=[UINib nibWithNibName:cells bundle:nil];
         [self.myTableView registerNib:nib forCellReuseIdentifier:cells];
     }
-    self.myTableView.delegate = self;
-    self.myTableView.dataSource = self;
+
     self.myTableView.tableFooterView = [[UIView alloc]init];
     self.automaticallyAdjustsScrollViewInsets = NO;
     
+    self.topView = [CZJUtils getXibViewByName:@"CZJStoreDetailMenuCell"];
     self.topView.hidden = YES;
 }
 
 
 - (void)viewDidAppear:(BOOL)animated
 {
-    UIView* view = VIEWWITHTAG(self.myTableView, 500);
-    CGRect frame = view.frame;
-    DLog(@"offset:%f",frame.origin.y);
-    [self.myTableView setContentOffset:CGPointMake(0, frame.origin.y - 64)];
 }
 
 - (void)getStoreDetailDataFromServer
@@ -109,11 +117,18 @@ UITableViewDelegate
                              @"storeCityId" : @"469"};
     [CZJBaseDataInstance loadStoreInfo:@{@"storeId" : self.storeId} success:^(id json) {
         [self dealWithData:json];
+        self.myTableView.delegate = self;
+        self.myTableView.dataSource = self;
         [self.myTableView reloadData];
 
     } fail:nil];
     
     [CZJBaseDataInstance loadStoreDetail:params success:^(id json) {
+        CZJGeneralBlock block = ^()
+        {
+            [self dealWithGoodsServiceData:json];
+        };
+        [CZJUtils performBlock:block afterDelay:0.5];
         
     } fail:nil];
 }
@@ -139,7 +154,7 @@ UITableViewDelegate
     NSArray* couponsTmpAry = [dict valueForKey:@"coupons"];
     for (int i = 0; i < couponsTmpAry.count; i++)
     {
-        CZJShoppingCouponsForm* form = [[CZJShoppingCouponsForm alloc]initWithDictionary:couponsTmpAry[i]];
+        CZJCouponForm* form = [[CZJCouponForm alloc]initWithDictionary:couponsTmpAry[i]];
         [_couponsArray addObject:form];
     }
     NSArray* goodTypesTmpAry = [dict valueForKey:@"goodsTypes"];
@@ -166,10 +181,27 @@ UITableViewDelegate
     [_serviceAndGoodsArray removeAllObjects];
      NSDictionary* dict = [CZJUtils DataFromJson:json];
     NSArray* goodsTmpAry = [dict valueForKey:@"msg"];
+    NSMutableArray* serviceGoodsTmpAry = [NSMutableArray array];
     for (int i = 0; i < goodsTmpAry.count; i++)
     {
-        CZJSToreDetailGoodsAndServiceForm* form = [[CZJSToreDetailGoodsAndServiceForm alloc]initWithDictionary:goodsTmpAry[i]];
-        [_serviceAndGoodsArray addObject:form];
+        GoodsRecommendForm* form = [[GoodsRecommendForm alloc]initWithDictionary:goodsTmpAry[i]];
+        [serviceGoodsTmpAry addObject:form];
+    }
+    float count = (float)serviceGoodsTmpAry.count;
+    float count2 = ceilf(count/2);
+    [_serviceAndGoodsArray removeAllObjects];
+    for (int i  = 0; i < count2; i++)
+    {
+        NSMutableArray* array = [NSMutableArray array];
+        [_serviceAndGoodsArray addObject:array];
+    }
+    for (int i = 0; i < count; i++) {
+        int index = i / 2;
+        [_serviceAndGoodsArray[index] addObject:serviceGoodsTmpAry[i]];
+    }
+    if (_serviceAndGoodsArray.count > 0)
+    {
+        [self.myTableView reloadSections:[NSIndexSet indexSetWithIndex:5] withRowAnimation:UITableViewRowAnimationFade];
     }
     
 }
@@ -206,25 +238,109 @@ UITableViewDelegate
     }
     if (4 == section)
     {
-        if (_recommendArray.count > 0)
-        {
-            return _recommendArray.count/2 + 1;
-        }
-        
+        return ceilf(_recommendArray.count/2) > 0 ? ceilf(_recommendArray.count/2) + 1 : 0;
     }
     if (5 == section)
     {
-        return _serviceAndGoodsArray.count/2 + 2;
+        return _serviceAndGoodsArray.count > 0 ? _serviceAndGoodsArray.count + 2 : 0;
     }
     return 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (0 == indexPath.row)
+    if (0 == indexPath.section)
     {
-        CZJStoreDetailHeadCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJStoreDetailHeadCell" forIndexPath:indexPath];
+        if (0 == indexPath.row)
+        {
+            CZJStoreDetailHeadCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJStoreDetailHeadCell" forIndexPath:indexPath];
+            cell.storeAddrLabel.text = _storeDetailForm.storeAddr;
+            cell.storeNameLabel.text = _storeDetailForm.storeName;
+            cell.attentionCountLabel.text = _storeDetailForm.attentionCount;
+            [cell.attentionBtn setImage:IMAGENAMED(_storeDetailForm.attentionFlag ? @"shop_icon_guanzhu_sel" : @"shop_icon_guanzhu") forState:UIControlStateNormal];
+            return cell;
+        }
+        if (1 == indexPath.row)
+        {
+            CZJStoreDescribeCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJStoreDescribeCell" forIndexPath:indexPath];
+            cell.envirmentScoreLabel.text = _storeDetailForm.environmentScore;
+            cell.describeScoreLabel.text = _storeDetailForm.descScore;
+            cell.deliveryScoreLabel.text = _storeDetailForm.deliveryScore;
+            cell.serviceScoreLabel.text = _storeDetailForm.serviceScore;
+            return cell;
+        }
+        if (2 == indexPath.row)
+        {
+            CZJStoreDescribeTwoCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJStoreDescribeTwoCell" forIndexPath:indexPath];
+            cell.serviceLabel.text = _storeDetailForm.serviceCount;
+            cell.promotionLabel.text = _storeDetailForm.promotionCount;
+            cell.setMenuLabel.text = _storeDetailForm.setmenuCount;
+            cell.goodsLabel.text = _storeDetailForm.goodsCount;
+            return cell;
+        }
+    }
+    if (1 == indexPath.section && 0 == indexPath.row)
+    {//领券
+        CZJCouponsCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CZJCouponsCell" forIndexPath:indexPath];
+        if (cell && _couponsArray.count > 0 && !cell.isInit)
+        {
+            [cell initWithCouponDatas:_couponsArray];
+        }
         return cell;
+    }
+    if (2 == indexPath.section && 0 == indexPath.row)
+    {//广告一
+        CZJAdBanerCell *cell = (CZJAdBanerCell*)[tableView dequeueReusableCellWithIdentifier:@"CZJAdBanerCell" forIndexPath:indexPath];
+        [cell initBannerOneWithDatas:_bannerOneArray];
+        return cell;
+    }
+    if (3 == indexPath.section)
+    {//广告二
+        CZJAdBanerCell *cell = (CZJAdBanerCell*)[tableView dequeueReusableCellWithIdentifier:@"CZJAdBanerCell" forIndexPath:indexPath];
+        [cell initBannerWithImg:_imgsArray[indexPath.row]];
+        return cell;
+    }
+    if (4 == indexPath.section)
+    {//推荐商品或服务
+        if (0 == indexPath.row)
+        {
+            CZJGoodsRecoCellHeader* headerView = [tableView dequeueReusableCellWithIdentifier:@"CZJGoodsRecoCellHeader" forIndexPath:indexPath];
+            headerView.backgroundColor = [UIColor clearColor];
+            headerView.backgroundView.backgroundColor = [UIColor clearColor];
+            headerView.recoImg.hidden = YES;
+            headerView.recoLabel.hidden = YES;
+            headerView.recoMenuLabel.hidden = NO;
+            return headerView;
+        }
+    }
+    if (5 == indexPath.section)
+    {
+        if (0 == indexPath.row)
+        {
+            CZJGoodsRecoCellHeader* headerView = [tableView dequeueReusableCellWithIdentifier:@"CZJGoodsRecoCellHeader" forIndexPath:indexPath];
+            headerView.backgroundColor = [UIColor clearColor];
+            headerView.backgroundView.backgroundColor = [UIColor clearColor];
+            headerView.recoImg.hidden = YES;
+            headerView.recoLabel.hidden = YES;
+            headerView.recoMenuLabel.hidden = NO;
+            headerView.recoMenuLabel.text = @"服务和商品";
+            headerView.recoViewLayoutWidth.constant = [CZJUtils calculateTitleSizeWithString:@"服务和商品" WithFont:headerView.recoMenuLabel.font].width;
+            return headerView;
+        }
+        else if (1 == indexPath.row)
+        {
+            CZJStoreDetailMenuCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJStoreDetailMenuCell" forIndexPath:indexPath];
+            [cell setTag:500];
+            return cell;
+        }
+        else
+        {
+            CZJGoodsRecommendCell* cell = (CZJGoodsRecommendCell*)[tableView dequeueReusableCellWithIdentifier:@"CZJGoodsRecommendCell" forIndexPath:indexPath];
+            if (cell && _serviceAndGoodsArray.count > 0) {
+                [cell initGoodsRecommendWithDatas:_serviceAndGoodsArray[indexPath.row - 2]];
+            }
+            return cell;
+        }
     }
     return nil;
 }
@@ -232,6 +348,59 @@ UITableViewDelegate
 #pragma mark-UITableViewDelegate
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (0 == indexPath.section)
+    {
+        if (0 == indexPath.row)
+        {
+            return 180;
+        }
+        if (1 == indexPath.row)
+        {
+            return 60;
+        }
+        if (2 == indexPath.row)
+        {
+            return 139;
+        }
+    }
+    if (1 == indexPath.section)
+    {
+        return 50;
+    }
+    if (2 == indexPath.section)
+    {
+        return 100;
+    }
+    if (3 == indexPath.section)
+    {
+        return 150;
+    }
+    if (4 == indexPath.section)
+    {
+        if (0 == indexPath.row)
+        {
+            return 35;
+        }
+        if (1 == indexPath.row)
+        {
+            return 245;
+        }
+    }
+    if (5 == indexPath.section)
+    {
+        if (0 == indexPath.row)
+        {
+            return 35;
+        }
+        else if (1 == indexPath.row)
+        {
+            return 44;
+        }
+        else
+        {
+            return 245;
+        }
+    }
     return 180;
 }
 
@@ -242,22 +411,11 @@ UITableViewDelegate
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    if (2 == section) {
-        return 44;
-    }
     return 0;
 }
 
 - (nullable UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    if (2 == section)
-    {
-        UIView* headerView = [[UIView alloc]initWithSize:CGSizeMake(PJ_SCREEN_WIDTH, 44)];
-        [headerView setBackgroundColor:[UIColor lightGrayColor]];
-        [headerView setTag:500];
-        
-        return headerView;
-    }
     return nil;
 };
 

@@ -32,8 +32,8 @@
     //得到第一个UIView
     for (CZJStoreServiceForm* form in hotRecommends)
     {
-        NSArray *nib = [[NSBundle mainBundle]loadNibNamed:@"CZJHotRecoCell" owner:self options:nil];
-        CZJHotRecoCell* cell = [nib objectAtIndex:0];
+//        NSArray *nib = [[NSBundle mainBundle]loadNibNamed:@"CZJHotRecoCell" owner:self options:nil];
+        CZJHotRecoCell* cell = [CZJUtils getXibViewByName:@"CZJHotRecoCell"];
         ;
         [cell.hotRecoImage sd_setImageWithURL:[NSURL URLWithString:form.itemImg] placeholderImage:nil];
         

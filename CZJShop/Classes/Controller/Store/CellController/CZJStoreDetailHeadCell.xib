@@ -27,25 +27,17 @@
                             <constraint firstAttribute="height" constant="56" id="rXR-hf-EG3"/>
                         </constraints>
                     </imageView>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zqZ-AG-f0y">
-                        <rect key="frame" x="198" y="119" width="61" height="61"/>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="clip" translatesAutoresizingMaskIntoConstraints="NO" id="GKz-Bi-YEW">
+                        <rect key="frame" x="253" y="129" width="67" height="40"/>
                         <animations/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="61" id="Cre-gf-Q1s"/>
-                            <constraint firstAttribute="height" constant="61" id="Fg6-b9-vWp"/>
+                            <constraint firstAttribute="height" constant="40" id="AtJ-RJ-G9O"/>
+                            <constraint firstAttribute="width" constant="67" id="Gwy-OH-mmx"/>
                         </constraints>
-                        <state key="normal" title="Button">
-                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                        </state>
-                    </button>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GKz-Bi-YEW">
-                        <rect key="frame" x="259" y="119" width="61" height="61"/>
-                        <animations/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="61" id="AtJ-RJ-G9O"/>
-                            <constraint firstAttribute="width" constant="61" id="Gwy-OH-mmx"/>
-                        </constraints>
-                        <state key="normal" title="Button">
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                        <inset key="titleEdgeInsets" minX="-15" minY="30" maxX="10" maxY="0.0"/>
+                        <inset key="imageEdgeInsets" minX="20" minY="-10" maxX="0.0" maxY="0.0"/>
+                        <state key="normal" title="关注店铺" image="shop_icon_guanzhu.png">
                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
                     </button>
@@ -71,31 +63,62 @@
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="已关注" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W3q-nB-W3o">
+                        <rect key="frame" x="203" y="153" width="50" height="18"/>
+                        <animations/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="50" id="nLM-Fs-T7d"/>
+                            <constraint firstAttribute="height" constant="18" id="yAl-cT-MLL"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="关注数" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k1R-LA-qPR">
+                        <rect key="frame" x="188" y="135" width="80" height="18"/>
+                        <animations/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="18" id="4gf-zz-oXd"/>
+                            <constraint firstAttribute="width" constant="80" id="fgY-Ih-seN"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
                 <animations/>
                 <constraints>
                     <constraint firstAttribute="trailing" secondItem="ZHI-Tc-0gz" secondAttribute="trailing" id="1SH-0K-8SD"/>
+                    <constraint firstItem="W3q-nB-W3o" firstAttribute="top" secondItem="k1R-LA-qPR" secondAttribute="bottom" id="5O5-dz-mCq"/>
+                    <constraint firstItem="k1R-LA-qPR" firstAttribute="centerX" secondItem="W3q-nB-W3o" secondAttribute="centerX" id="5ei-KQ-rF7"/>
                     <constraint firstAttribute="bottom" secondItem="cgD-Zo-vx3" secondAttribute="bottom" constant="14" id="AKW-ee-Nt6"/>
-                    <constraint firstItem="GKz-Bi-YEW" firstAttribute="leading" secondItem="zqZ-AG-f0y" secondAttribute="trailing" id="BC1-id-OPW"/>
                     <constraint firstAttribute="bottom" secondItem="ZHI-Tc-0gz" secondAttribute="bottom" id="HeA-JI-XYG"/>
-                    <constraint firstAttribute="bottom" secondItem="GKz-Bi-YEW" secondAttribute="bottom" constant="-1" id="MRO-x3-vVy"/>
+                    <constraint firstAttribute="bottom" secondItem="GKz-Bi-YEW" secondAttribute="bottom" constant="10" id="MRO-x3-vVy"/>
                     <constraint firstItem="ZHI-Tc-0gz" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="Zyx-9L-C3r"/>
                     <constraint firstItem="cgD-Zo-vx3" firstAttribute="leading" secondItem="2x7-Qh-D2x" secondAttribute="trailing" constant="8" id="cJA-Df-PmP"/>
                     <constraint firstItem="2x7-Qh-D2x" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="eb4-cc-bRZ"/>
                     <constraint firstAttribute="bottom" secondItem="2x7-Qh-D2x" secondAttribute="bottom" constant="14" id="fQb-7O-YI0"/>
+                    <constraint firstItem="GKz-Bi-YEW" firstAttribute="leading" secondItem="W3q-nB-W3o" secondAttribute="trailing" id="j0u-Rg-nzc"/>
                     <constraint firstItem="ZHI-Tc-0gz" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="peD-lP-HZb"/>
+                    <constraint firstAttribute="bottom" secondItem="W3q-nB-W3o" secondAttribute="bottom" constant="8" id="qzb-wb-021"/>
                     <constraint firstItem="cgD-Zo-vx3" firstAttribute="top" secondItem="qkD-Va-iri" secondAttribute="bottom" constant="15" id="srW-uE-Hch"/>
                     <constraint firstAttribute="trailing" secondItem="GKz-Bi-YEW" secondAttribute="trailing" id="tIV-OR-SDa"/>
                     <constraint firstItem="qkD-Va-iri" firstAttribute="leading" secondItem="2x7-Qh-D2x" secondAttribute="trailing" constant="8" id="utd-iv-EPW"/>
-                    <constraint firstAttribute="bottom" secondItem="zqZ-AG-f0y" secondAttribute="bottom" constant="-1" id="vJ3-L6-VAz"/>
                 </constraints>
             </tableViewCellContentView>
             <animations/>
-            <point key="canvasLocation" x="182" y="422"/>
+            <connections>
+                <outlet property="attentionBtn" destination="GKz-Bi-YEW" id="Nwz-fn-np4"/>
+                <outlet property="attentionCountLabel" destination="k1R-LA-qPR" id="EoE-30-fIj"/>
+                <outlet property="storeAddrLabel" destination="cgD-Zo-vx3" id="l0x-F6-a7b"/>
+                <outlet property="storeNameLabel" destination="qkD-Va-iri" id="3GV-PO-I01"/>
+            </connections>
+            <point key="canvasLocation" x="224" y="365"/>
         </tableViewCell>
     </objects>
     <resources>
         <image name="home_banner01.png" width="375" height="200"/>
         <image name="my_icon_head.png" width="74" height="74"/>
+        <image name="shop_icon_guanzhu.png" width="18" height="16"/>
     </resources>
 </document>

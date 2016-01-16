@@ -117,7 +117,6 @@ UITableViewDelegate
     CGRect mainViewBounds = self.navigationController.navigationBar.bounds;
     [self.my initWithFrame:mainViewBounds AndType:CZJNaviBarViewTypeMain].delegate = self;
     self.my.mainTitleLabel.text = @"门店";
-    [self.my setBackgroundColor:CZJNAVIBARBGCOLORALPHA(0)];
 }
 
 - (void)getStoreDataFromServer

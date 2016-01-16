@@ -32,6 +32,12 @@
     [self loadImageData];
 }
 
+- (void)initBannerWithImg:(NSString*)img
+{
+    [_imageArray addObject:img];
+    [self loadImageData];
+}
+
 - (void)loadImageData{
     self.adBannerImageView.imagePlayerViewDelegate = self;
     self.adBannerImageView.scrollInterval = 5.0f;

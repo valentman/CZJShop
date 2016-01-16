@@ -123,9 +123,10 @@
 @interface GoodsRecommendForm : NSObject
 @property(nonatomic, strong) NSString* storeItemPid;
 @property(nonatomic, strong) NSString* itemType;
-@property(nonatomic, strong) NSString* name;
-@property(nonatomic, strong) NSString* img;
+@property(nonatomic, strong) NSString* itemName;
+@property(nonatomic, strong) NSString* itemImg;
 @property(nonatomic, strong) NSString* currentPrice;
+@property(nonatomic, strong) NSString* originalPrice;
 
 -(id)initWithDictionary:(NSDictionary*)dictionary;
 

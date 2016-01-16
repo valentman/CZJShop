@@ -966,8 +966,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="pam-Y9-Dqi">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="519"/>
+                            <tableView contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="pam-Y9-Dqi">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="469"/>
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </tableView>
@@ -1137,7 +1137,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Tna-ez-Ixg" customClass="MXPullDownMenu">
                                 <rect key="frame" x="0.0" y="66" width="320" height="44"/>
                                 <animations/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="0.40000000000000002" green="0.59999999999999998" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="gLY-7a-4AR"/>
                                 </constraints>
@@ -1155,10 +1155,10 @@
                             <constraint firstAttribute="trailing" secondItem="f0H-hb-wJs" secondAttribute="trailing" id="eQh-gi-Y82"/>
                             <constraint firstAttribute="trailing" secondItem="pam-Y9-Dqi" secondAttribute="trailing" id="hnC-f4-a4i"/>
                             <constraint firstItem="Tna-ez-Ixg" firstAttribute="top" secondItem="f0H-hb-wJs" secondAttribute="bottom" id="p9B-br-6VE"/>
-                            <constraint firstItem="afz-i7-4nX" firstAttribute="top" secondItem="pam-Y9-Dqi" secondAttribute="bottom" id="pS2-CT-oZd"/>
+                            <constraint firstItem="pam-Y9-Dqi" firstAttribute="top" secondItem="MCh-kf-W4c" secondAttribute="top" id="pah-OY-nM1"/>
+                            <constraint firstItem="B0A-XB-6zK" firstAttribute="top" secondItem="pam-Y9-Dqi" secondAttribute="bottom" id="uaD-X2-PhM"/>
                             <constraint firstItem="Tna-ez-Ixg" firstAttribute="leading" secondItem="MCh-kf-W4c" secondAttribute="leading" id="wuT-5H-eif"/>
                             <constraint firstItem="f0H-hb-wJs" firstAttribute="leading" secondItem="MCh-kf-W4c" secondAttribute="leading" id="wxA-ZK-SWA"/>
-                            <constraint firstItem="pam-Y9-Dqi" firstAttribute="top" secondItem="MCh-kf-W4c" secondAttribute="top" id="zhE-Dd-zdd"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="jOj-Oj-bDM"/>
@@ -1182,7 +1182,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <animations/>
                         <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
-                        <color key="separatorColor" patternImage="1289B40C-9B9A-44DF-8B35-51B5FB3C6726" colorSpace="pattern"/>
+                        <color key="separatorColor" patternImage="AADAC73A-CC29-45CA-8431-E90DF3538358" colorSpace="pattern"/>
                         <inset key="separatorInset" minX="15" minY="0.0" maxX="15" maxY="0.0"/>
                         <sections>
                             <tableViewSection id="t6n-nw-cfg" userLabel="Activity">
@@ -4413,7 +4413,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="1289B40C-9B9A-44DF-8B35-51B5FB3C6726" width="256" height="256">
+        <image name="AADAC73A-CC29-45CA-8431-E90DF3538358" width="256" height="256">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPT5YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQrLjE3OlUkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw
@@ -8891,10 +8891,10 @@ AAAAAAAEDtA
         <image name="shop_icon_location.png" width="24" height="24"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="daW-vB-UlX"/>
+        <segue reference="lKt-0d-hD3"/>
+        <segue reference="IN0-Kp-x1L"/>
         <segue reference="rmV-te-JFO"/>
-        <segue reference="88D-z9-9MA"/>
-        <segue reference="Yrw-VN-Mar"/>
+        <segue reference="daW-vB-UlX"/>
         <segue reference="lel-ft-RgU"/>
         <segue reference="Syl-A6-LlG"/>
     </inferredMetricsTieBreakers>

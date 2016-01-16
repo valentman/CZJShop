@@ -40,6 +40,10 @@
 
 
 @interface CZJChooseProductTypeController ()
+<
+UITableViewDelegate,
+UITableViewDataSource
+>
 {
     NSMutableDictionary* _params;
     NSMutableArray* _items;

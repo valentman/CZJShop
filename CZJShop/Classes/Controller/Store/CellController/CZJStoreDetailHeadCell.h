@@ -9,5 +9,9 @@
 #import <UIKit/UIKit.h>
 
 @interface CZJStoreDetailHeadCell : UITableViewCell
+@property (weak, nonatomic) IBOutlet UILabel *storeNameLabel;
+@property (weak, nonatomic) IBOutlet UILabel *storeAddrLabel;
+@property (weak, nonatomic) IBOutlet UIButton *attentionBtn;
+@property (weak, nonatomic) IBOutlet UILabel *attentionCountLabel;
 
 @end

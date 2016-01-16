@@ -66,10 +66,10 @@
     form = _goodsRecommendDatas[indexPath.row];
     
     NSString* rmb = @"￥";
-    cell.productName.text = form.name;
+    cell.productName.text = form.itemName;
     cell.productPrice.text = [rmb stringByAppendingString:form.currentPrice];
     cell.iconImageView.backgroundColor=UIColorFromRGB(0xF8FCF8);
-    [cell.iconImageView sd_setImageWithURL:[NSURL URLWithString:form.img] placeholderImage:nil];
+    [cell.iconImageView sd_setImageWithURL:[NSURL URLWithString:form.itemImg] placeholderImage:nil];
     return cell;
 }
 @end

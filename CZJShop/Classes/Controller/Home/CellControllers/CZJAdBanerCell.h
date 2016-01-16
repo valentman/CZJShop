@@ -17,4 +17,5 @@
 @property (weak, nonatomic) IBOutlet ImagePlayerView *adBannerImageView;
 
 - (void)initBannerOneWithDatas:(NSArray*)datas;
+- (void)initBannerWithImg:(NSString*)img;
 @end

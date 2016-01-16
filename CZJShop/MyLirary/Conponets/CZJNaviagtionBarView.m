@@ -66,7 +66,7 @@
     UIView* _statusBarBgView = [[UIView alloc]initWithFrame:statusviewbound];
     [_statusBarBgView setTag:2001];
     [self addSubview:_statusBarBgView];
-//    [self setBackgroundColor:CZJNAVIBARBGCOLOR];
+    [self setBackgroundColor:CZJNAVIBARBGCOLOR];
     
     //初始化数据
     NSString* shopBtnImageName = @"all_btn_shopping";

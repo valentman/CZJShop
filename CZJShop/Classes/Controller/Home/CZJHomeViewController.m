@@ -73,6 +73,7 @@
 {
     [((CZJCarInfoCell*)[self.homeTableView dequeueReusableCellWithIdentifier:@"CZJCarInfoCell"]).autoScrollTimer setFireDate:[NSDate distantPast]];
     [_navibarView refreshShopBadgeLabel];
+    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -88,6 +89,7 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
     [((CZJCarInfoCell*)[self.homeTableView dequeueReusableCellWithIdentifier:@"CZJCarInfoCell"]).autoScrollTimer setFireDate:[NSDate distantFuture]];
+    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
 }
 
 - (void)propertysInit
@@ -433,13 +435,11 @@
             else
             {
                 CZJGoodsRecommendCell* cell = (CZJGoodsRecommendCell*)[tableView dequeueReusableCellWithIdentifier:@"CZJGoodsRecommendCell" forIndexPath:indexPath];
-                DLog(@"%@",cell);
                 if (cell && _goodsRecommentArray.count > 0) {
                     [cell initGoodsRecommendWithDatas:_goodsRecommentArray[indexPath.row - 1]];
                 }
                 return cell;
             }
-            
         }
             break;
             
@@ -497,9 +497,9 @@
         }
             break;
         case 3:{
-            _htmlType = eRecommandHtml;
-            GoodsRecommendForm* rFrom = [_brandRecommentArray objectAtIndex:indexPath.row];
-            _webViewTitle = @"服务详情";
+//            _htmlType = eRecommandHtml;
+//            GoodsRecommendForm* rFrom = [_brandRecommentArray objectAtIndex:indexPath.row];
+//            _webViewTitle = @"服务详情";
 //            [self performSegueWithIdentifier:@"showWebViewID" sender:self];
         }
             break;

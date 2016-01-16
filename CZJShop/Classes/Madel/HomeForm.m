@@ -402,19 +402,14 @@
 
 //---------------------推荐商品---------------------
 @implementation GoodsRecommendForm
-@synthesize storeItemPid;
-@synthesize itemType;
-@synthesize name;
-@synthesize img;
-@synthesize currentPrice;
-
 -(id)initWithDictionary:(NSDictionary*)dictionary{
     if (self = [super init]) {
         self.storeItemPid = [dictionary valueForKey:@"storeItemPid"];
         self.itemType = [dictionary valueForKey:@"itemType"];
-        self.name = [dictionary valueForKey:@"name"];
-        self.img = [dictionary valueForKey:@"img"];
+        self.itemName = [dictionary valueForKey:@"itemName"];
+        self.itemImg = [dictionary valueForKey:@"itemImg"];
         self.currentPrice = [dictionary valueForKey:@"currentPrice"];
+        self.originalPrice = [dictionary valueForKey:@"originalPrice"];
         return self;
     }
     return nil;
