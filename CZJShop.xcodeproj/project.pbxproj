@@ -221,6 +221,7 @@
 		EC28E2DA1C152F72003423F9 /* libicucore.A.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = EC28E2D91C152F72003423F9 /* libicucore.A.tbd */; };
 		EC2A315C1C128CBA00622767 /* shop_icon_location@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EC2A315A1C128CB900622767 /* shop_icon_location@2x.png */; settings = {ASSET_TAGS = (); }; };
 		EC2A315D1C128CBA00622767 /* shop_icon_location@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = EC2A315B1C128CBA00622767 /* shop_icon_location@3x.png */; settings = {ASSET_TAGS = (); }; };
+		EC2B968D1C4DE607004C60FB /* CZJOtherStoreListController.m in Sources */ = {isa = PBXBuildFile; fileRef = EC2B968C1C4DE607004C60FB /* CZJOtherStoreListController.m */; settings = {ASSET_TAGS = (); }; };
 		EC2C433C1C3FB827007C0D40 /* CZJOrderCouponHeaderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EC2C433A1C3FB827007C0D40 /* CZJOrderCouponHeaderCell.m */; settings = {ASSET_TAGS = (); }; };
 		EC2C433D1C3FB827007C0D40 /* CZJOrderCouponHeaderCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EC2C433B1C3FB827007C0D40 /* CZJOrderCouponHeaderCell.xib */; settings = {ASSET_TAGS = (); }; };
 		EC303D241C4A1C62008B5A8C /* CZJStoreDetailMenuCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EC303D221C4A1C62008B5A8C /* CZJStoreDetailMenuCell.m */; settings = {ASSET_TAGS = (); }; };
@@ -1086,6 +1087,8 @@
 		EC28E2D91C152F72003423F9 /* libicucore.A.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libicucore.A.tbd; path = usr/lib/libicucore.A.tbd; sourceTree = SDKROOT; };
 		EC2A315A1C128CB900622767 /* shop_icon_location@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "shop_icon_location@2x.png"; sourceTree = "<group>"; };
 		EC2A315B1C128CBA00622767 /* shop_icon_location@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "shop_icon_location@3x.png"; sourceTree = "<group>"; };
+		EC2B968B1C4DE607004C60FB /* CZJOtherStoreListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJOtherStoreListController.h; sourceTree = "<group>"; };
+		EC2B968C1C4DE607004C60FB /* CZJOtherStoreListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJOtherStoreListController.m; sourceTree = "<group>"; };
 		EC2C43391C3FB827007C0D40 /* CZJOrderCouponHeaderCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJOrderCouponHeaderCell.h; sourceTree = "<group>"; };
 		EC2C433A1C3FB827007C0D40 /* CZJOrderCouponHeaderCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJOrderCouponHeaderCell.m; sourceTree = "<group>"; };
 		EC2C433B1C3FB827007C0D40 /* CZJOrderCouponHeaderCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CZJOrderCouponHeaderCell.xib; sourceTree = "<group>"; };
@@ -2214,6 +2217,8 @@
 				EC5EEB4E1C45DC0800EEA368 /* CZJStoreDetailController.m */,
 				ECB4B6091C0E8D6800925BCA /* CZJStoreMapController.h */,
 				ECB4B60A1C0E8D6800925BCA /* CZJStoreMapController.m */,
+				EC2B968B1C4DE607004C60FB /* CZJOtherStoreListController.h */,
+				EC2B968C1C4DE607004C60FB /* CZJOtherStoreListController.m */,
 			);
 			path = Store;
 			sourceTree = "<group>";
@@ -4818,6 +4823,7 @@
 				EC8A0BB31C005C72002A2CED /* CZJGoodsRecoCellHeader.m in Sources */,
 				EC6ACCD81C30E15F00832B55 /* CZJChooseTypeHeaderCell.m in Sources */,
 				ECC4DE141C17D67B00FBD6A4 /* MultilevelTableViewCell.m in Sources */,
+				EC2B968D1C4DE607004C60FB /* CZJOtherStoreListController.m in Sources */,
 				EC914B111C06DB2500E973CA /* CZJGoodsRecoCollectionCell.m in Sources */,
 				EC0C93681C2002B2002A7FF5 /* CZJDetailPicShowCell.m in Sources */,
 				EC4EF4931C3A1F5400E0FA91 /* CZJDeliveryAddrListCell.m in Sources */,

@@ -548,14 +548,17 @@ void backLastView(id sender, SEL _cmd)
     return attri;
 }
 
-+ (void)showLoginView:(CZJViewController*)target
++ (UIViewController*)getViewControllerFromStoryboard:(NSString*)storyboardName andVCName:(NSString*)vcName
 {
     //获取storyboard: 通过bundle根据storyboard的名字来获取我们的storyboard,
-    UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
-    
+    UIStoryboard *story = [UIStoryboard storyboardWithName:storyboardName bundle:[NSBundle mainBundle]];
+    return [story instantiateViewControllerWithIdentifier:vcName];
+}
+
++ (void)showLoginView:(CZJViewController*)target
+{
     //由storyboard根据LoginView获取到登录界面
-    UINavigationController *loginView = [story instantiateViewControllerWithIdentifier:@"LoginView"];
-    
+    UINavigationController* loginView = (UINavigationController*)[self getViewControllerFromStoryboard:@"Main" andVCName:@"LoginView"];
     
     //把loginView加入到当前navigationController中
     UIWindow *window = [[UIWindow alloc] initWithFrame:CGRectMake(0, PJ_SCREEN_HEIGHT, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT)];
@@ -576,12 +579,8 @@ void backLastView(id sender, SEL _cmd)
 
 + (void)showShoppingCartView:(CZJViewController*)target  andNaviBar:(CZJNaviagtionBarView*)naviBar
 {
-    //获取storyboard: 通过bundle根据storyboard的名字来获取我们的storyboard,
-    UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
-    
     //由storyboard根据LoginView获取到登录界面
-    UINavigationController *shopping = [story instantiateViewControllerWithIdentifier:@"ShoppingCart"];
-    
+    UINavigationController *shopping = (UINavigationController*)[self getViewControllerFromStoryboard:@"Main" andVCName:@"ShoppingCart"];
     
     //把loginView加入到当前navigationController中
     UIWindow *window = [[UIWindow alloc] initWithFrame:CGRectMake(PJ_SCREEN_WIDTH, 0, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT)];
@@ -645,6 +644,19 @@ void backLastView(id sender, SEL _cmd)
 {
     NSArray *nib = [[NSBundle mainBundle]loadNibNamed:xibName owner:self options:nil];
     return [nib objectAtIndex:0];
+}
+
++ (void)callHotLine:(NSString*)phoneNum AndTarget:(id)target
+{
+    /*  第一种调用拨打电话的方式
+    NSMutableString * str=[[NSMutableString alloc] initWithFormat:@"tel:%@",phoneNum];
+    UIWebView * callWebview = [[UIWebView alloc] init];
+    [callWebview loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:str]]];
+    [target addSubview:callWebview];
+     */
+    
+    NSMutableString * str=[[NSMutableString alloc] initWithFormat:@"telprompt://%@",phoneNum];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
 }
 
 @end

@@ -15,6 +15,19 @@
 
 - (void)awakeFromNib {
     // Initialization code
+    [super awakeFromNib];
+    self.collectionView.dataSource = self;
+    self.collectionView.delegate = self;
+    
+    CGRect rect = self.frame;
+    self.collectionViewLayout.itemSize = CGSizeMake((PJ_SCREEN_WIDTH-29) / 2, rect.size.height - 9);
+    self.collectionViewLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
+    self.collectionViewLayout.minimumLineSpacing = 9;
+    UIEdgeInsets sectionset = UIEdgeInsetsMake(0, 10, 9, 10);
+    self.collectionViewLayout.sectionInset = sectionset;
+    
+    UINib *nib=[UINib nibWithNibName:kCZJCollectionCellReuseIdGoodReco bundle:nil];
+    [self.collectionView registerNib: nib forCellWithReuseIdentifier:kCZJCollectionCellReuseIdGoodReco];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -26,19 +39,6 @@
 - (void)initGoodsRecommendWithDatas:(NSArray*)datas
 {
     _goodsRecommendDatas = datas;
-    
-    self.collectionView.dataSource = self;
-    self.collectionView.delegate = self;
-
-    CGRect rect = self.frame;
-    self.collectionViewLayout.itemSize = CGSizeMake((PJ_SCREEN_WIDTH-29) / 2, rect.size.height - 9);
-    self.collectionViewLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
-    self.collectionViewLayout.minimumLineSpacing = 9;
-    UIEdgeInsets sectionset = UIEdgeInsetsMake(0, 10, 9, 10);
-    self.collectionViewLayout.sectionInset = sectionset;
-    
-    UINib *nib=[UINib nibWithNibName:kCZJCollectionCellReuseIdGoodReco bundle:nil];
-    [self.collectionView registerNib: nib forCellWithReuseIdentifier:kCZJCollectionCellReuseIdGoodReco];
     [self.collectionView reloadData];
 }
 
@@ -61,7 +61,6 @@
 
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     CZJGoodsRecoCollectionCell *cell=[collectionView dequeueReusableCellWithReuseIdentifier:kCZJCollectionCellReuseIdGoodReco forIndexPath:indexPath];
-//    DLog(@"%@",cell);
     GoodsRecommendForm * form;
     form = _goodsRecommendDatas[indexPath.row];
     

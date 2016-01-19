@@ -297,6 +297,7 @@ UITableViewDelegate
 #pragma mark - Table view data source
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    TICK;
     CZJStoreCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJStoreCell" forIndexPath:indexPath];
     CZJNearbyStoreForm* storeForm = (CZJNearbyStoreForm*)_sortedStoreArys[indexPath.row];
     cell.storeName.text = storeForm.name;
@@ -305,6 +306,7 @@ UITableViewDelegate
     cell.storeLocation.text = storeForm.addr;
     cell.feedbackRate.text = storeForm.star;
     [cell.storeCellImageView sd_setImageWithURL:[NSURL URLWithString:storeForm.homeImg] placeholderImage:nil];
+    TOCK;
     return cell;
     
 }

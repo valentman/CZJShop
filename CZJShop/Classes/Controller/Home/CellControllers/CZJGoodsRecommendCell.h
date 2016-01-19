@@ -10,7 +10,7 @@
 
 
 
-@interface CZJGoodsRecommendCell : UITableViewCell<UICollectionViewDelegate,UICollectionViewDataSource>
+@interface CZJGoodsRecommendCell : CZJTableViewCell<UICollectionViewDelegate,UICollectionViewDataSource>
 {
     NSArray* _goodsRecommendDatas;
 }

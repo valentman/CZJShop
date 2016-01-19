@@ -72,6 +72,8 @@
 + (CGSize)calculateStringSizeWithString:(NSString*)string Font:(UIFont*)font Width:(CGFloat)width;
 + (NSMutableAttributedString*)stringWithDeleteLine:(NSString*)string;                           //返回带删除线的字符串
 
+
++ (UIViewController*)getViewControllerFromStoryboard:(NSString*)storyboardName andVCName:(NSString*)vcName;
 + (void)showLoginView:(UIViewController*)target;
 + (void)removeLoginViewFromCurrent:(UIViewController*)target;
 + (void)showShoppingCartView:(UIViewController*)target andNaviBar:(UIView*)naviBar;
@@ -79,4 +81,5 @@
 
 + (void)performBlock:(CZJGeneralBlock)block afterDelay:(NSTimeInterval)delay;                        //延迟执行Block
 + (id)getXibViewByName:(NSString*)xibName;
++ (void)callHotLine:(NSString*)phoneNum AndTarget:(id)target;
 @end

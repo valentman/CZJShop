@@ -53,7 +53,7 @@
                         <color key="textColor" red="0.50196081400000003" green="0.50196081400000003" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="serve_icon_shop.png" translatesAutoresizingMaskIntoConstraints="NO" id="lrg-t3-wOT">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="serve_icon_shop.png" translatesAutoresizingMaskIntoConstraints="NO" id="lrg-t3-wOT">
                         <rect key="frame" x="249" y="58" width="56" height="13"/>
                         <animations/>
                     </imageView>

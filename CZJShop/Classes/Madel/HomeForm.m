@@ -31,8 +31,8 @@
             GoodsRecommendForm* tmp_ser = [[GoodsRecommendForm alloc] initWithDictionary:obj];
             [_goodRecommentForms addObject:tmp_ser];
         }
-        int count = (int)_goodRecommentForms.count;
-        int count2 = count/2;
+        float count = (int)_goodRecommentForms.count;
+        float count2 = ceilf(count/2);
         [_goodRecommendFromGroupedAry removeAllObjects];
         for (int i  = 0; i < count2; i++)
         {

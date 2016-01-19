@@ -957,7 +957,7 @@
         <!--门店详情-->
         <scene sceneID="Cua-S3-U8u">
             <objects>
-                <viewController title="门店详情" extendedLayoutIncludesOpaqueBars="YES" hidesBottomBarWhenPushed="YES" id="Jgg-hs-Gk0" userLabel="门店详情" customClass="CZJStoreDetailController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="storeDetailVC" title="门店详情" extendedLayoutIncludesOpaqueBars="YES" hidesBottomBarWhenPushed="YES" id="Jgg-hs-Gk0" userLabel="门店详情" customClass="CZJStoreDetailController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="OPV-56-mpC"/>
                         <viewControllerLayoutGuide type="bottom" id="afz-i7-4nX"/>
@@ -982,6 +982,9 @@
                                                 <animations/>
                                                 <inset key="contentEdgeInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="15"/>
                                                 <state key="normal" image="shop_btn_other.png"/>
+                                                <connections>
+                                                    <segue destination="5bW-NY-e2I" kind="push" identifier="segueToStoreList" id="6Fc-Dt-NgQ"/>
+                                                </connections>
                                             </button>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="查看网店" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="0.0" translatesAutoresizingMaskIntoConstraints="NO" id="4ft-Jl-oea">
                                                 <rect key="frame" x="0.0" y="32" width="80" height="15"/>
@@ -1014,6 +1017,9 @@
                                                 <animations/>
                                                 <inset key="contentEdgeInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="15"/>
                                                 <state key="normal" image="shop_btn_navigation.png"/>
+                                                <connections>
+                                                    <action selector="callNaviAction:" destination="Jgg-hs-Gk0" eventType="touchUpInside" id="qb0-Ab-ZXE"/>
+                                                </connections>
                                             </button>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="导航" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="0.0" translatesAutoresizingMaskIntoConstraints="NO" id="XBg-4c-D2T">
                                                 <rect key="frame" x="0.0" y="32" width="80" height="15"/>
@@ -1078,6 +1084,9 @@
                                                 <animations/>
                                                 <inset key="contentEdgeInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="15"/>
                                                 <state key="normal" image="shop_btn_call.png"/>
+                                                <connections>
+                                                    <action selector="callAction:" destination="Jgg-hs-Gk0" eventType="touchUpInside" id="bF0-vV-cbl"/>
+                                                </connections>
                                             </button>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="电话联系" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="80" translatesAutoresizingMaskIntoConstraints="NO" id="Vwa-kz-tss">
                                                 <rect key="frame" x="0.0" y="32" width="80" height="15"/>
@@ -1134,7 +1143,7 @@
                                     <constraint firstAttribute="height" constant="46" id="ac1-9V-XJ6"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Tna-ez-Ixg" customClass="MXPullDownMenu">
+                            <view alpha="0.5" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Tna-ez-Ixg" customClass="MXPullDownMenu">
                                 <rect key="frame" x="0.0" y="66" width="320" height="44"/>
                                 <animations/>
                                 <color key="backgroundColor" red="0.40000000000000002" green="0.59999999999999998" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -1166,12 +1175,62 @@
                         <outlet property="buttomView" destination="B0A-XB-6zK" id="ROz-D0-epN"/>
                         <outlet property="myTableView" destination="pam-Y9-Dqi" id="qj3-sQ-juh"/>
                         <outlet property="naviBarView" destination="f0H-hb-wJs" id="h2r-dR-mRK"/>
-                        <outlet property="topView" destination="Tna-ez-Ixg" id="ITU-iT-aQ9"/>
+                        <outlet property="topView" destination="Tna-ez-Ixg" id="TPy-R8-48x"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PfU-7I-Uow" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1602" y="551"/>
+        </scene>
+        <!--Other Store List Controller-->
+        <scene sceneID="dJt-KB-3kl">
+            <objects>
+                <viewController id="5bW-NY-e2I" customClass="CZJOtherStoreListController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="3UM-g3-ZO5"/>
+                        <viewControllerLayoutGuide type="bottom" id="DTy-la-Jy7"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Xwg-mH-R2M">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="519"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="prJ-oq-rEw" customClass="CZJNaviagtionBarView">
+                                <rect key="frame" x="0.0" y="20" width="320" height="46"/>
+                                <animations/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="46" id="baG-uq-dkP"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="46" id="tXw-SE-m2p"/>
+                                </constraints>
+                            </view>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="j6f-ll-Bgu">
+                                <rect key="frame" x="0.0" y="66" width="320" height="453"/>
+                                <animations/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </tableView>
+                        </subviews>
+                        <animations/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="prJ-oq-rEw" secondAttribute="trailing" id="CEm-hn-5DV"/>
+                            <constraint firstItem="j6f-ll-Bgu" firstAttribute="leading" secondItem="Xwg-mH-R2M" secondAttribute="leading" id="EnS-Yq-5o5"/>
+                            <constraint firstItem="DTy-la-Jy7" firstAttribute="top" secondItem="j6f-ll-Bgu" secondAttribute="bottom" id="H4S-Jp-7Yh"/>
+                            <constraint firstItem="prJ-oq-rEw" firstAttribute="leading" secondItem="Xwg-mH-R2M" secondAttribute="leading" id="Qfi-gz-BTl"/>
+                            <constraint firstItem="prJ-oq-rEw" firstAttribute="top" secondItem="3UM-g3-ZO5" secondAttribute="bottom" id="aZF-hf-er7"/>
+                            <constraint firstItem="j6f-ll-Bgu" firstAttribute="top" secondItem="prJ-oq-rEw" secondAttribute="bottom" id="nJy-bZ-mL1"/>
+                            <constraint firstAttribute="trailing" secondItem="j6f-ll-Bgu" secondAttribute="trailing" id="sOl-On-CV2"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="W0K-6n-omU"/>
+                    <connections>
+                        <outlet property="naviBarView" destination="prJ-oq-rEw" id="5pQ-TD-CzV"/>
+                        <outlet property="storeTableView" destination="j6f-ll-Bgu" id="o3u-w1-s8l"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ae6-sD-faY" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1975" y="551"/>
         </scene>
         <!--发现-->
         <scene sceneID="IMb-3M-78S">
@@ -1182,7 +1241,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <animations/>
                         <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
-                        <color key="separatorColor" patternImage="AADAC73A-CC29-45CA-8431-E90DF3538358" colorSpace="pattern"/>
+                        <color key="separatorColor" patternImage="39700BDA-23FC-45D8-9EC3-7DE271A95841" colorSpace="pattern"/>
                         <inset key="separatorInset" minX="15" minY="0.0" maxX="15" maxY="0.0"/>
                         <sections>
                             <tableViewSection id="t6n-nw-cfg" userLabel="Activity">
@@ -4413,7 +4472,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="AADAC73A-CC29-45CA-8431-E90DF3538358" width="256" height="256">
+        <image name="39700BDA-23FC-45D8-9EC3-7DE271A95841" width="256" height="256">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPT5YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQrLjE3OlUkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw

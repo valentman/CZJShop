@@ -914,6 +914,7 @@ singleton_implementation(CZJBaseDataManager);
     CZJSuccessBlock successBlock = ^(id json){
         if ([self showAlertView:json])
         {
+            success(json);
         }
     };
     
@@ -1323,6 +1324,7 @@ singleton_implementation(CZJBaseDataManager);
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params setValuesForKeysWithDictionary:self.params];
+    [params setValuesForKeysWithDictionary:postParams];
     
     [CZJNetWorkInstance postJSONWithUrl:api
                              parameters:params

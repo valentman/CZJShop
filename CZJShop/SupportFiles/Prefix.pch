@@ -76,10 +76,6 @@ typedef void (^MGBasicBlock)();
 //当前语言
 #define CURRENTLANGUAGE           ([[NSLocale preferredLanguages] objectAtIndex:0])
 
-//成对出现，显示一段程序运行时间
-#define TICK   NSDate *startTime = [NSDate date]
-#define TOCK   NSLog(@"Time: %f", -[startTime timeIntervalSinceNow])
-
 
 //-------------------获取设备系统数据----------------------
 //获取屏幕 宽度、高度、宽高比
@@ -165,7 +161,7 @@ typedef void (^MGBasicBlock)();
 
 
 
-//------------------------打印日志-------------------------
+//------------------------调试-------------------------
 //DEBUG模式下 打印日志,当前行
 #ifdef DEBUG
 #define DLog(fmt, ...) NSLog((@"^_^%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
@@ -208,6 +204,10 @@ do {                                                                      \
 ULog(xx, ##__VA_ARGS__); \
 } \
 } ((void)0)
+
+//成对出现，显示一段程序运行时间
+#define TICK   NSDate *startTime = [NSDate date]
+#define TOCK   NSLog(@"Time: %f", -[startTime timeIntervalSinceNow])
 
 
 //-------------------------其他-----------------------------

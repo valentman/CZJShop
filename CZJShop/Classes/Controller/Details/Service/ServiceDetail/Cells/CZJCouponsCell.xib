@@ -25,11 +25,23 @@
                         <color key="textColor" red="0.50196081400000003" green="0.50196081400000003" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="all_arrow_next.png" translatesAutoresizingMaskIntoConstraints="NO" id="8sx-1i-RwD">
+                        <rect key="frame" x="300" y="18" width="5" height="10"/>
+                        <animations/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="5" id="HkE-a9-XYd"/>
+                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="10" id="ay9-1l-40n"/>
+                            <constraint firstAttribute="height" constant="10" id="b5C-Tz-iA1"/>
+                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="5" id="jEB-iO-Oga"/>
+                        </constraints>
+                    </imageView>
                 </subviews>
                 <animations/>
                 <constraints>
                     <constraint firstItem="dsN-eo-QTX" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="6wd-c1-enS"/>
                     <constraint firstItem="dsN-eo-QTX" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="13" id="HU5-hR-r9K"/>
+                    <constraint firstAttribute="trailing" secondItem="8sx-1i-RwD" secondAttribute="trailing" constant="15" id="QEY-in-mJh"/>
+                    <constraint firstItem="8sx-1i-RwD" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="chX-QU-brG"/>
                 </constraints>
             </tableViewCellContentView>
             <animations/>
@@ -39,4 +51,7 @@
             <point key="canvasLocation" x="56" y="307"/>
         </tableViewCell>
     </objects>
+    <resources>
+        <image name="all_arrow_next.png" width="6" height="11"/>
+    </resources>
 </document>

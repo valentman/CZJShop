@@ -15,7 +15,7 @@
     if (self = [super init])
     {
         self.attentionCount = [dict valueForKey:@"attentionCount"];
-        self.attentionFlag = [dict valueForKey:@"attentionFlag"];
+        self.attentionFlag = [[dict valueForKey:@"attentionFlag"]boolValue];
         self.cityId = [dict valueForKey:@"cityId"];
         self.companyId = [dict valueForKey:@"companyId"];
         self.contactAccount = [dict valueForKey:@"contactAccount"];

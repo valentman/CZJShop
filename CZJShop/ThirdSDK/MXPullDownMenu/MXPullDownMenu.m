@@ -78,12 +78,18 @@
             case CZJMXPullDownMenuTypeNone:
                 
                 break;
+                
             case CZJMXPullDownMenuTypeStore:
-                 _viewContentHeight = PJ_SCREEN_HEIGHT - StatusBar_HEIGHT - NavigationBar_HEIGHT - self.frame.size.height - Tabbar_HEIGHT;
+                 _viewContentHeight = PJ_SCREEN_HEIGHT - StatusBar_HEIGHT - NavigationBar_HEIGHT - self.frame.size.height - Tabbar_HEIGHT - 200;
                 break;
+                
             case CZJMXPullDownMenuTypeService:
             case CZJMXPullDownMenuTypeGoods:
-                 _viewContentHeight = PJ_SCREEN_HEIGHT - StatusBar_HEIGHT - NavigationBar_HEIGHT - self.frame.size.height;
+                 _viewContentHeight = PJ_SCREEN_HEIGHT - StatusBar_HEIGHT - NavigationBar_HEIGHT - self.frame.size.height - Tabbar_HEIGHT - 200;
+                break;
+                
+            case CZJMXPullDownMenuTypeStoreDetail:
+                _viewContentHeight = PJ_SCREEN_HEIGHT - StatusBar_HEIGHT - NavigationBar_HEIGHT - self.frame.size.height - Tabbar_HEIGHT - 200;
                 break;
                 
             default:
@@ -102,6 +108,7 @@
                 case CZJMXPullDownMenuTypeGoods:
                     title = [self creatTextLayerWithNSString:_array[i][0] withColor:_menuColor andPosition:position];
                     break;
+                    
                 case CZJMXPullDownMenuTypeStore:
                 case CZJMXPullDownMenuTypeService:
                     if (0 == i) {
@@ -113,6 +120,8 @@
                         title = [self creatTextLayerWithNSString:_array[i][0] withColor:_menuColor andPosition:position];
                     }
                     break;
+                    
+                case CZJMXPullDownMenuTypeStoreDetail:
                 default:
                     title = [self creatTextLayerWithNSString:_array[i][0] withColor:_menuColor andPosition:position];
                     break;
@@ -231,8 +240,6 @@
         [self animateIdicator:_indicators[_currentSelectedMenudIndex] background:_backGroundView tableView:_tableView title:_titles[_currentSelectedMenudIndex] forward:NO complecte:^{
             _currentSelectedMenudIndex = tapIndex;
             _show = NO;
-            
-            
         }];
         
     } else {
@@ -513,7 +520,7 @@
     } else {
         title.foregroundColor = _menuColor.CGColor;
     }
-    CGSize size = [self calculateTitleSizeWithString:title.string];
+    CGSize size = [CZJUtils calculateTitleSizeWithString:title.string AndFontSize:15];
     CGFloat sizeWidth = (size.width < (self.frame.size.width / _numOfMenu) - 25) ? size.width : self.frame.size.width / _numOfMenu - 25;
     title.bounds = CGRectMake(0, 0, sizeWidth, size.height);
     
@@ -583,7 +590,7 @@
 - (CATextLayer *)creatTextLayerWithNSString:(NSString *)string withColor:(UIColor *)color andPosition:(CGPoint)point
 {
     
-    CGSize size = [self calculateTitleSizeWithString:string];
+    CGSize size = [CZJUtils calculateTitleSizeWithString:string AndFontSize:15];
     
     CATextLayer *layer = [CATextLayer new];
     CGFloat sizeWidth = (size.width < (self.frame.size.width / _numOfMenu) - 25) ? size.width : self.frame.size.width / _numOfMenu - 25;
@@ -603,7 +610,9 @@
 - (UITableView *)creatTableViewAtPosition:(CGPoint)point
 {
     UITableView *tableView = [UITableView new];
-    
+    if (_menuType == CZJMXPullDownMenuTypeStoreDetail)
+    {
+    }
     tableView.frame = CGRectMake(point.x, point.y, self.frame.size.width, 0);
     tableView.rowHeight = 36;
     tableView.backgroundColor = CZJNAVIBARBGCOLOR;
@@ -629,15 +638,6 @@
 
 
 #pragma mark - otherMethods
-
-- (CGSize)calculateTitleSizeWithString:(NSString *)string
-{
-    CGFloat fontSize = 15.0;
-    NSDictionary *dic = @{NSFontAttributeName: [UIFont systemFontOfSize:fontSize]};
-    CGSize size = [string boundingRectWithSize:CGSizeMake(280, 0) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:dic context:nil].size;
-    return size;
-}
-
 - (void)confiMenuWithSelectRow:(NSInteger)row
 {
     CATextLayer *title = (CATextLayer *)_titles[_currentSelectedMenudIndex];

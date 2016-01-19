@@ -141,6 +141,7 @@
 @synthesize evaluationAvg = _evaluationAvg;
 @synthesize setupCount = _setupCount;
 @synthesize setupPrice = _setupPrice;
+@synthesize type = _type;
 
 -(id)initWithDictionary:(NSDictionary*)dict{
     if (self = [super init]) {
@@ -160,6 +161,7 @@
         self.evaluationAvg = [dict valueForKey:@"evaluationAvg"];
         self.setupCount = [dict valueForKey:@"setupCount"];
         self.setupPrice = [dict valueForKey:@"setupPrice"];
+        self.type = [dict valueForKey:@"type"];
         return self;
         
     }

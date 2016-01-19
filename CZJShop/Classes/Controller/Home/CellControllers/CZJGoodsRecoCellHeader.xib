@@ -57,7 +57,7 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rKv-xt-YKG">
                     <rect key="frame" x="20" y="17" width="95" height="1"/>
                     <animations/>
-                    <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
+                    <color key="backgroundColor" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="1" id="M7w-uS-mIH"/>
                     </constraints>
@@ -65,7 +65,7 @@
                 <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ee7-6B-fCj">
                     <rect key="frame" x="205" y="17" width="95" height="1"/>
                     <animations/>
-                    <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
+                    <color key="backgroundColor" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="1" id="VSs-vZ-9B1"/>
                     </constraints>
@@ -76,9 +76,8 @@
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="Ee7-6B-fCj" secondAttribute="trailing" constant="20" id="4ZP-td-IUk"/>
                 <constraint firstItem="85U-Li-Spc" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="5AA-tD-iCl"/>
-                <constraint firstItem="rKv-xt-YKG" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="17" id="8JB-Vp-D0w"/>
-                <constraint firstItem="Ee7-6B-fCj" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="17" id="94m-Sm-LxH"/>
                 <constraint firstItem="Ee7-6B-fCj" firstAttribute="leading" secondItem="85U-Li-Spc" secondAttribute="trailing" constant="10" id="Dwf-Zb-7YR"/>
+                <constraint firstItem="Ee7-6B-fCj" firstAttribute="centerY" secondItem="85U-Li-Spc" secondAttribute="centerY" id="NGl-eN-7MG"/>
                 <constraint firstItem="85U-Li-Spc" firstAttribute="leading" secondItem="rKv-xt-YKG" secondAttribute="trailing" constant="10" id="fku-im-e42"/>
                 <constraint firstItem="rKv-xt-YKG" firstAttribute="centerY" secondItem="85U-Li-Spc" secondAttribute="centerY" id="kp8-Gp-5Wc"/>
                 <constraint firstAttribute="leading" secondItem="rKv-xt-YKG" secondAttribute="leading" constant="-20" id="pvR-sZ-zkl"/>
@@ -94,6 +93,8 @@
                 <outlet property="recoLabel" destination="mlV-KQ-Vlp" id="JQd-e1-W0x"/>
                 <outlet property="recoMenuLabel" destination="iFn-90-Ol4" id="hIW-M3-vbm"/>
                 <outlet property="recoViewLayoutWidth" destination="2v4-jm-ClT" id="NdC-EW-rxV"/>
+                <outlet property="viewOneheight" destination="M7w-uS-mIH" id="3N8-lq-6Mk"/>
+                <outlet property="viewTowHeight" destination="VSs-vZ-9B1" id="exa-y1-R0n"/>
             </connections>
         </view>
     </objects>

@@ -49,6 +49,7 @@
 @property(nonatomic, strong) NSString* evaluationAvg;
 @property(nonatomic, strong) NSString* setupCount;
 @property(nonatomic, strong) NSString* setupPrice;
+@property(nonatomic, strong) NSString* type;
 
 - (id)initWithDictionary:(NSDictionary*)dict;
 @end

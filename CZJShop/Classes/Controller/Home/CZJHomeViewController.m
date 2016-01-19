@@ -313,7 +313,7 @@
         case 0:
         {//ad广告展示
             CZJActivityCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CZJActivityCell" forIndexPath:indexPath];
-            if (_activityArray.count > 0) {
+            if (_activityArray.count > 0 && !cell.isInit) {
                 [cell someMethodNeedUse:indexPath DataModel:_activityArray];
                 cell.delegate = self;
             }
@@ -436,7 +436,9 @@
             {
                 CZJGoodsRecommendCell* cell = (CZJGoodsRecommendCell*)[tableView dequeueReusableCellWithIdentifier:@"CZJGoodsRecommendCell" forIndexPath:indexPath];
                 if (cell && _goodsRecommentArray.count > 0) {
+                    TICK;
                     [cell initGoodsRecommendWithDatas:_goodsRecommentArray[indexPath.row - 1]];
+                    TOCK;
                 }
                 return cell;
             }

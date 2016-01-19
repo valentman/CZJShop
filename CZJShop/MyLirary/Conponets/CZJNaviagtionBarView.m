@@ -110,6 +110,7 @@
     [_btnMore addTarget:self action:@selector(clickButton:) forControlEvents:UIControlEventTouchUpInside];
     [_btnMore setTag:CZJButtonTypeNaviBarMore];
     [_btnMore setHidden:YES];
+
     
     //5.购物车按钮
     CGRect btnShopRect = CGRectMake(CGRectGetMaxX(_selfBounds) - 44, 0, 44, 44);
@@ -181,13 +182,27 @@
         case CZJNaviBarViewTypeStoreDetail:
             [self setBackgroundColor:CLEARCOLOR];
             [_btnBack setHidden:NO];
-            [_btnArrange setHidden:NO];
-            [_btnArrange setBackgroundImage:[UIImage imageNamed:@"prodetail_btn_morenor"] forState:UIControlStateNormal];
+            [_btnMore setHidden:NO];
+            
+            btnBackRect =  CGRectMake(14, 2, 40, 40);
+            _btnBack.frame = btnBackRect;
+            [_btnBack setBackgroundImage:[UIImage imageNamed:@"prodetail_btn_back"] forState:UIControlStateNormal];
+            
+            btnMoreRect = CGRectMake(CGRectGetMaxX(_selfBounds) - 54, 2, 40, 40);
+            _btnMore.frame = btnMoreRect;
+            [_btnMore setBackgroundImage:[UIImage imageNamed:@"prodetail_btn_more"] forState:UIControlStateNormal];
+            
+            searchaBarRect = CGRectMake(CGRectGetMinX(_selfBounds) + 54,
+                                        (CGRectGetMaxY(_selfBounds) - 40) / 2 ,
+                                        _selfBounds.size.width - (54 * 2),
+                                        40);
+            _customSearchBar.frame = searchaBarRect;
             break;
             
         case CZJNaviBarViewTypeDetail:
             //详情界面返回按钮，购物车，更多按钮，且图片和位置都不同
             //只有详情界面不需要导航栏
+            [self setBackgroundColor:CLEARCOLOR];
             [_btnBack setHidden:NO];
             [_btnShop setHidden:NO];
             [_btnMore setHidden:NO];
@@ -197,7 +212,7 @@
              _btnBack.frame = btnBackRect;
             [_btnBack setBackgroundImage:[UIImage imageNamed:@"prodetail_btn_back"] forState:UIControlStateNormal];
            
-            btnMoreRect = CGRectMake(CGRectGetMaxX(_selfBounds) - 58, 2, 40, 40);
+            btnMoreRect = CGRectMake(CGRectGetMaxX(_selfBounds) - 54, 2, 40, 40);
             _btnMore.frame = btnMoreRect;
             [_btnMore setBackgroundImage:[UIImage imageNamed:@"prodetail_btn_more"] forState:UIControlStateNormal];
 
@@ -220,7 +235,13 @@
             [_btnMore setBackgroundImage:IMAGENAMED(@"shop_btn_map") forState:UIControlStateNormal];
             [_btnMore setTag:CZJButtonTypeMap];
             break;
-        
+            
+        case CZJNaviBarViewTypeGeneral:
+            _customSearchBar.hidden = YES;
+            _mainTitleLabel.hidden = NO;
+            _btnBack.hidden = NO;
+            break;
+            
         default:
             break;
     }

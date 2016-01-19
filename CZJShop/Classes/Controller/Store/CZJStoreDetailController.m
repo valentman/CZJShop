@@ -6,6 +6,7 @@
 //  Copyright (c) 2016年 JoeP. All rights reserved.
 //
 
+#import <MapKit/MapKit.h>
 #import "CZJStoreDetailController.h"
 #import "CZJNaviagtionBarView.h"
 #import "CZJStoreDetailHeadCell.h"
@@ -22,13 +23,26 @@
 #import "CZJStoreDetailForm.h"
 #import "CZJDetailForm.h"
 #import "HomeForm.h"
+#import "CheckInstalledMapAPP.h"
+#import "LocationChange.h"
+#import "CZJOtherStoreListController.h"
+#import "NIDropDown.h"
+#import "WyzAlbumViewController.h"
+#import "CZJReceiveCouponsController.h"
+#import "MXPullDownMenu.h"
 
 @interface CZJStoreDetailController ()
 <
+MXPullDownMenuDelegate,
+CZJStoreDetailHeadCellDelegate,
+CZJImageViewTouchDelegate,
+NIDropDownDelegate,
 CZJNaviagtionBarViewDelegate,
 UIGestureRecognizerDelegate,
 UITableViewDataSource,
-UITableViewDelegate
+UITableViewDelegate,
+UIActionSheetDelegate,
+MKMapViewDelegate
 >
 {
     NSMutableArray* _activityArray;     //活动数据
@@ -42,12 +56,21 @@ UITableViewDelegate
     
     CZJStoreDetailForm* _storeDetailForm;
     float lastContentOffsetY;
+    CGRect popViewRect;
+    
+    NIDropDown *dropDown;
 }
 @property (strong, nonatomic) IBOutlet CZJNaviagtionBarView *naviBarView;
 @property (weak, nonatomic) IBOutlet UITableView *myTableView;
 @property (weak, nonatomic) IBOutlet UIView *buttomView;
-@property (weak, nonatomic) IBOutlet UIView* topView;
+@property (weak, nonatomic) IBOutlet MXPullDownMenu* topView;
+@property (strong, nonatomic) UIView *backgroundView;
+@property(nonatomic,assign) CLLocationCoordinate2D naviCoordsGd;
+@property(nonatomic,assign) CLLocationCoordinate2D naviCoordsBd;
+@property(nonatomic,assign) CLLocationCoordinate2D nowCoords;
 
+- (IBAction)callAction:(id)sender;
+- (IBAction)callNaviAction:(id)sender;
 @end
 
 @implementation CZJStoreDetailController
@@ -97,14 +120,32 @@ UITableViewDelegate
 
     self.myTableView.tableFooterView = [[UIView alloc]init];
     self.automaticallyAdjustsScrollViewInsets = NO;
+    self.myTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
-    self.topView = [CZJUtils getXibViewByName:@"CZJStoreDetailMenuCell"];
-    self.topView.hidden = YES;
+//    self.topView = [CZJUtils getXibViewByName:@"CZJStoreDetailMenuCell"];
+//    self.topView.hidden = YES;
+    
+    //背景触摸层
+    _backgroundView = [[UIView alloc]initWithFrame:self.view.bounds];
+    _backgroundView.backgroundColor = RGBA(100, 240, 240, 0);
+    UIGestureRecognizer *gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapBackground:)];
+    [_backgroundView addGestureRecognizer:gesture];
+    _backgroundView.hidden = YES;
+    [self.view addSubview:_backgroundView];
+    
+    //下拉菜单筛选条件初始
+    NSArray* sortTypes = @[@"全部", @"服务", @"商品", @"套餐",@"促销"];
+    NSArray* filterTypes = @[@"销量"];
+    NSArray* latestTypes = @[@"最新"];
+    NSArray* storeTypes = @[@"价格"];
+    NSArray* menuArray = @[sortTypes,filterTypes,latestTypes,storeTypes];
+    [self.topView initWithArray:menuArray AndType:CZJMXPullDownMenuTypeStoreDetail WithFrame:self.topView.frame].delegate = self;
 }
 
 
-- (void)viewDidAppear:(BOOL)animated
+- (void)viewWillDisappear:(BOOL)animated
 {
+    
 }
 
 - (void)getStoreDetailDataFromServer
@@ -258,6 +299,14 @@ UITableViewDelegate
             cell.storeNameLabel.text = _storeDetailForm.storeName;
             cell.attentionCountLabel.text = _storeDetailForm.attentionCount;
             [cell.attentionBtn setImage:IMAGENAMED(_storeDetailForm.attentionFlag ? @"shop_icon_guanzhu_sel" : @"shop_icon_guanzhu") forState:UIControlStateNormal];
+            cell.headImgLayoutWidth.constant = 0;
+            cell.storeNameLayoutWidth.constant = [CZJUtils calculateStringSizeWithString:_storeDetailForm.storeName Font:SYSTEMFONT(16) Width:200].width;
+            cell.delegate = self;
+            cell.attentionDelegate = self;
+            if (!cell.isInit && _imgsArray.count > 0) {
+                [cell someMethodNeedUse:indexPath DataModel:[@[_imgsArray.firstObject]mutableCopy]];
+            }
+            
             return cell;
         }
         if (1 == indexPath.row)
@@ -310,6 +359,7 @@ UITableViewDelegate
             headerView.recoImg.hidden = YES;
             headerView.recoLabel.hidden = YES;
             headerView.recoMenuLabel.hidden = NO;
+            headerView.recoMenuLabel.text = @"爆款专区";
             return headerView;
         }
     }
@@ -352,7 +402,7 @@ UITableViewDelegate
     {
         if (0 == indexPath.row)
         {
-            return 180;
+            return 280;
         }
         if (1 == indexPath.row)
         {
@@ -379,7 +429,7 @@ UITableViewDelegate
     {
         if (0 == indexPath.row)
         {
-            return 35;
+            return 50;
         }
         if (1 == indexPath.row)
         {
@@ -390,7 +440,7 @@ UITableViewDelegate
     {
         if (0 == indexPath.row)
         {
-            return 35;
+            return 50;
         }
         else if (1 == indexPath.row)
         {
@@ -406,13 +456,75 @@ UITableViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
+    if (1 == indexPath.section)
+    {
+        popViewRect = CGRectMake(0, PJ_SCREEN_HEIGHT, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - 200);
+        UIWindow *window = [[UIWindow alloc] initWithFrame:popViewRect];
+        window.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:1.0];
+        window.windowLevel = UIWindowLevelNormal;
+        window.hidden = NO;
+        [window makeKeyAndVisible];
+        
+        CZJReceiveCouponsController *receiveCouponsController = [[CZJReceiveCouponsController alloc] init];
+        window.rootViewController = receiveCouponsController;
+        self.window = window;
+        
+        UIView *view = [[UIView alloc] initWithFrame:self.view.bounds];
+        view.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.5];
+        UITapGestureRecognizer *tap  = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapAction)];
+        [view addGestureRecognizer:tap];
+        [self.view addSubview:view];
+        self.upView = view;
+        self.upView.alpha = 0.0;
+        [UIView animateWithDuration:0.5 animations:^{
+            self.window.frame =  CGRectMake(0, 200, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - 200);
+            self.upView.alpha = 1.0;
+        } completion:nil];
+        self.navigationController.interactivePopGestureRecognizer.enabled = NO;
+        
+        __weak typeof(self) weak = self;
+        [receiveCouponsController setCancleBarItemHandle:^{
+            [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+                weak.window.frame = popViewRect;
+                self.upView.alpha = 0.0;
+            } completion:^(BOOL finished) {
+                if (finished) {
+                    [weak.upView removeFromSuperview];
+                    [weak.window resignKeyWindow];
+                    weak.window  = nil;
+                    weak.upView = nil;
+                    weak.navigationController.interactivePopGestureRecognizer.enabled = YES;
+                }
+            }];
+        }];
+    }
+}
+
+- (void)tapAction{
+    [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+        self.window.frame = popViewRect;
+        self.upView.alpha = 0.0;
+    } completion:^(BOOL finished) {
+        if (finished) {
+            [self.upView removeFromSuperview];
+            [self.window resignKeyWindow];
+            self.window  = nil;
+            self.upView = nil;
+            self.navigationController.interactivePopGestureRecognizer.enabled = YES;
+        }
+    }];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 0;
+    if (0 == section ||
+        3 == section)
+    {
+        return 0;
+    }
+    return 10;
 }
+
 
 - (nullable UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
@@ -433,28 +545,23 @@ UITableViewDelegate
     UIView* view = VIEWWITHTAG(self.myTableView, 500);
     CGRect frame = view.frame;
     DLog(@"frame:%f, contentOffsetY:%f",frame.origin.y, contentOffsetY);
-    if ((contentOffsetY <= frame.origin.y - 64 && isDraggingDown)||
-        (contentOffsetY >= frame.origin.y - 64 && !isDraggingDown))
+    if ((contentOffsetY <= frame.origin.y - 66 && isDraggingDown)||
+        (contentOffsetY >= frame.origin.y - 66 && !isDraggingDown))
     {
         self.topView.hidden = isDraggingDown;
     }
     
-    if (contentOffsetY < 0) {
-        [UIView animateWithDuration:0.2f animations:^{
-            [_naviBarView setAlpha:0.0];
-        }];
-        [_naviBarView setBackgroundColor:CZJNAVIBARBGCOLORALPHA(0)];
-    }
-    else
+    if (contentOffsetY > 0)
     {
-        [UIView animateWithDuration:0.2f animations:^{
-            [_naviBarView setAlpha:1.0];
-        }];
-        
-        float alphaValue = contentOffsetY * 0.5 / 200;
-        if (alphaValue > 0.7)
+        float alphaValue = contentOffsetY * 0.5 / 300;
+        if (alphaValue > 1)
         {
-            alphaValue = 0.7;
+            alphaValue = 1;
+            _naviBarView.customSearchBar.hidden = NO;
+        }
+        else
+        {
+            _naviBarView.customSearchBar.hidden = YES;
         }
         [_naviBarView setBackgroundColor:CZJNAVIBARBGCOLORALPHA(alphaValue)];
     }
@@ -470,20 +577,223 @@ UITableViewDelegate
             [self.navigationController popViewControllerAnimated:true];
             break;
             
+        case CZJButtonTypeSearchBar:
+            
+            break;
+            
+        case CZJButtonTypeNaviBarMore:
+        {
+            NSArray * arr = [[NSArray alloc] init];
+            arr = [NSArray arrayWithObjects:@{@"消息" : @"prodetail_icon_msg"}, @{@"首页":@"prodetail_icon_home"}, @{@"分享" :@"prodetail_icon_share"},nil];
+            if(dropDown == nil) {
+                CGRect rect = CGRectMake(PJ_SCREEN_WIDTH - 120 - 14, StatusBar_HEIGHT + 78, 120, 150);
+                _backgroundView.hidden = NO;
+                dropDown = [[NIDropDown alloc]showDropDown:_backgroundView Frame:rect WithObjects:arr];
+                dropDown.delegate = self;
+            }
+        }
+            break;
         default:
             break;
     }
     
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (void)tapBackground:(UITapGestureRecognizer *)paramSender
+{
+    if (dropDown)
+    {
+        _backgroundView.hidden = YES;
+        [dropDown hideDropDown:paramSender];
+        dropDown = nil;
+    }
 }
-*/
+
+- (void)animateBackGroundView:(UIView *)view show:(BOOL)show complete:(void(^)())complete
+{
+    if (show) {
+        [UIView animateWithDuration:0.5 animations:^{
+            view.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.3];
+        }];
+        
+    } else {
+        [UIView animateWithDuration:0.5 animations:^{
+            view.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.0];
+        } completion:^(BOOL finished) {
+        }];
+    }
+    complete();
+}
+
+#pragma mark- NIDropDownDelegate
+- (void) niDropDownDelegateMethod:(NSString*)btnStr
+{
+    if ([btnStr isEqualToString:@"消息"])
+    {
+        DLog(@"消息");
+    }
+    if ([btnStr isEqualToString:@"首页"])
+    {
+        DLog(@"首页");
+    }
+    if ([btnStr isEqualToString:@"分享"])
+    {
+        DLog(@"分享");
+    }
+}
+
+
+#pragma mark- CZJImageTouchViewDelegate
+- (void)showDetailInfoWithIndex:(NSInteger)index
+{
+    WyzAlbumViewController *wyzAlbumVC = [[WyzAlbumViewController alloc]init];
+    wyzAlbumVC.currentIndex =index;//这个参数表示当前图片的index，默认是0
+    //用url
+    wyzAlbumVC.imgArr = _imgsArray;
+    //进入动画
+    [self presentViewController:wyzAlbumVC animated:YES completion:^{
+    }];
+}
+
+
+#pragma mark- CZJStoreDetailHeadCellDelegate
+- (void)clickAttentionButton:(id)sender
+{
+    CZJStoreDetailHeadCell* cell = (CZJStoreDetailHeadCell*)sender;
+    _storeDetailForm.attentionFlag = !_storeDetailForm.attentionFlag;
+    if (_storeDetailForm.attentionFlag) {
+        [CZJBaseDataInstance attentionStore:@{@"storeId" : _storeDetailForm.storeId}];
+        _storeDetailForm.attentionCount = [NSString stringWithFormat:@"%ld",[_storeDetailForm.attentionCount integerValue] + 1];
+    }
+    else
+    {
+        [CZJBaseDataInstance cancleAttentionStore:@{@"storeId" : _storeDetailForm.storeId}];
+        _storeDetailForm.attentionCount = [NSString stringWithFormat:@"%ld",[_storeDetailForm.attentionCount integerValue] - 1];
+    }
+    [self.myTableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
+}
+
+
+#pragma mark- Actions
+- (IBAction)callAction:(id)sender {
+    [CZJUtils callHotLine:_storeDetailForm.hotline AndTarget:self.view];
+    
+}
+
+
+- (IBAction)callNaviAction:(id)sender {
+    NSArray *appListArr = [CheckInstalledMapAPP checkHasOwnApp];
+    NSString *sheetTitle = [NSString stringWithFormat:@"导航到 %@",_storeDetailForm.storeAddr];
+    
+    UIActionSheet *sheet;
+    if ([appListArr count] == 2) {
+        sheet = [[UIActionSheet alloc] initWithTitle:sheetTitle delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:appListArr[0],appListArr[1], nil];
+    }else if ([appListArr count] == 3){
+        sheet = [[UIActionSheet alloc] initWithTitle:sheetTitle delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:appListArr[0],appListArr[1],appListArr[2], nil];
+    }else if ([appListArr count] == 4){
+        sheet = [[UIActionSheet alloc] initWithTitle:sheetTitle delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:appListArr[0],appListArr[1],appListArr[2],appListArr[3], nil];
+    }else if ([appListArr count] == 5){
+        sheet = [[UIActionSheet alloc] initWithTitle:sheetTitle delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:appListArr[0],appListArr[1],appListArr[2],appListArr[3],appListArr[4], nil];
+    }
+    sheet.actionSheetStyle = UIActionSheetStyleBlackOpaque;
+    [sheet showInView:self.view];
+}
+
+
+-(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
+    
+    NSString *btnTitle = [actionSheet buttonTitleAtIndex:buttonIndex];
+    if (buttonIndex == 0) {
+        if (IOS_VERSION < 6) {//ios6 调用goole网页地图
+            NSString *urlString = [[NSString alloc]
+                                   initWithFormat:@"http://maps.google.com/maps?saddr=&daddr=%.8f,%.8f&dirfl=d",self.naviCoordsGd.latitude,self.naviCoordsGd.longitude];
+            
+            NSURL *aURL = [NSURL URLWithString:urlString];
+            [[UIApplication sharedApplication] openURL:aURL];
+        }else{//ios7 跳转apple map
+            CLLocationCoordinate2D to;
+            
+            to.latitude = [_storeDetailForm.lat floatValue];
+            to.longitude = [_storeDetailForm.lng floatValue];
+            MKMapItem *currentLocation = [MKMapItem mapItemForCurrentLocation];
+            MKMapItem *toLocation = [[MKMapItem alloc] initWithPlacemark:[[MKPlacemark alloc] initWithCoordinate:to addressDictionary:nil]];
+            
+            toLocation.name = _storeDetailForm.storeAddr;
+            [MKMapItem openMapsWithItems:[NSArray arrayWithObjects:currentLocation, toLocation, nil] launchOptions:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:MKLaunchOptionsDirectionsModeDriving, [NSNumber numberWithBool:YES], nil] forKeys:[NSArray arrayWithObjects:MKLaunchOptionsDirectionsModeKey, MKLaunchOptionsShowsTrafficKey, nil]]];
+        }
+    }
+    if ([btnTitle isEqualToString:@"google地图"]) {
+//        NSString *urlStr = [NSString stringWithFormat:@"comgooglemaps://?saddr=%.8f,%.8f&daddr=%.8f,%.8f&directionsmode=transit",self.nowCoords.latitude,self.nowCoords.longitude,self.naviCoordsGd.latitude,self.naviCoordsGd.longitude];
+//        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlStr]];
+    }else if ([btnTitle isEqualToString:@"高德地图"]){
+        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"iosamap://navi?sourceApplication=broker&backScheme=openbroker2&poiname=%@&poiid=BGVIS&lat=%.8f&lon=%.8f&dev=1&style=2",_storeDetailForm.storeAddr,self.naviCoordsGd.latitude,self.naviCoordsGd.longitude]];
+        [[UIApplication sharedApplication] openURL:url];
+        
+    }else if ([btnTitle isEqualToString:@"百度地图"]){
+        double bdNowLat,bdNowLon;
+        bd_encrypt(self.nowCoords.latitude, self.nowCoords.longitude, &bdNowLat, &bdNowLon);
+        
+        NSString *stringURL = [NSString stringWithFormat:@"baidumap://map/direction?origin=%.8f,%.8f&destination=%.8f,%.8f&&mode=driving",bdNowLat,bdNowLon,self.naviCoordsBd.latitude,self.naviCoordsBd.longitude];
+        NSURL *url = [NSURL URLWithString:stringURL];
+        [[UIApplication sharedApplication] openURL:url];
+    }else if ([btnTitle isEqualToString:@"显示路线"]){
+//        [self drawRout];
+    }
+}
+
+#pragma mark MKMapViewDelegate -user location定位变化
+-(void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation{
+    self.nowCoords = [userLocation coordinate];
+    //放大地图到自身的经纬度位置。
+//    self.userRegion = MKCoordinateRegionMakeWithDistance(self.nowCoords, 200, 200);
+//    
+//    if (self.mapType != RegionNavi) {
+//        if (self.updateInt >= 1) {
+//            return;
+//        }
+//        [self showAnnotation:userLocation.location coord:self.nowCoords];
+//        [self.regionMapView setRegion:self.userRegion animated:NO];
+//    }
+}
+//-(void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated{
+//    if (self.mapType == RegionNavi) {
+//        return;
+//    }
+//    if (ISIOS7) {
+//        if ([mapView.annotations count]) {
+//            [mapView removeAnnotations:mapView.annotations];
+//        }
+//    }
+//    
+//    if (self.updateInt == 0){
+//        return;
+//    }
+//    self.centerCoordinate = mapView.region.center;
+//    
+//    CLLocation *loc = [[CLLocation alloc] initWithLatitude:self.centerCoordinate.latitude longitude:self.centerCoordinate.longitude];
+//    
+//    [self showAnnotation:loc coord:centerCoordinate];
+//}
+//- (void)mapView:(MKMapView *)mapView regionWillChangeAnimated:(BOOL)animated{
+//    if (self.mapType == RegionNavi) {
+//        return;
+//    }
+//    if (ISIOS7) {
+//        if ([mapView.annotations count]) {
+//            [mapView removeAnnotations:mapView.annotations];
+//        }
+//    }
+//}
+
+#pragma mark - Navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"segueToStoreList"])
+    {
+        CZJOtherStoreListController* vc = segue.destinationViewController;
+        vc.storeID = _storeDetailForm.storeId;
+        vc.companyId = _storeDetailForm.companyId;
+    }
+}
 
 @end

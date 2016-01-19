@@ -26,6 +26,7 @@
 - (void)initBannerOneWithDatas:(NSArray*)datas
 {
     _bannerDatas = datas;
+    [_imageArray removeAllObjects];
     for (BannerForm* tmp in _bannerDatas) {
         [_imageArray addObject:tmp.img];
     }
@@ -34,22 +35,24 @@
 
 - (void)initBannerWithImg:(NSString*)img
 {
+    [_imageArray removeAllObjects];
     [_imageArray addObject:img];
     [self loadImageData];
+    self.adBannerImageView.hidePageControl = YES;
 }
 
 - (void)loadImageData{
     self.adBannerImageView.imagePlayerViewDelegate = self;
     self.adBannerImageView.scrollInterval = 5.0f;
     self.adBannerImageView.pageControlPosition = ICPageControlPosition_BottomCenter;
-    self.adBannerImageView.hidePageControl = NO;
+    self.adBannerImageView.hidePageControl = _imageArray.count <= 1;
     [self.adBannerImageView reloadData];
 }
 
 #pragma mark - ImagePlayerViewDelegate
 - (NSInteger)numberOfItems
 {
-    return _bannerDatas.count;
+    return _imageArray.count;
 }
 
 - (void)imagePlayerView:(ImagePlayerView *)imagePlayerView loadImageForImageView:(UIImageView *)imageView index:(NSInteger)index
