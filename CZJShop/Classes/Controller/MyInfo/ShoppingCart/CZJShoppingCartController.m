@@ -193,6 +193,7 @@ UIGestureRecognizerDelegate
 {
     [((CZJNaviagtionBarView*)self.delegate) refreshShopBadgeLabel];
     [self.delegate didCancel:self];
+    [self.navigationController popViewControllerAnimated:true];
 }
 
 

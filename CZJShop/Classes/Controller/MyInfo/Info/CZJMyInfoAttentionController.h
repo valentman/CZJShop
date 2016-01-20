@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CZJMyInfoAttentionController : UIViewController
+@interface CZJMyInfoAttentionController : CZJViewController
 
 @end

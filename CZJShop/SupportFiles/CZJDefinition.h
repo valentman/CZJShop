@@ -75,6 +75,7 @@ static NSString *const kCZJServerAPIGetAddrList = @"chezhu/loadAddrsV2.do";     
 static NSString *const kCZJServerAPIRemoveAddr = @"chezhu/removeAddrV2.do";                         //删除地址 (id)
 static NSString *const kCZJServerAPISetDefaultAddr = @"chezhu/setDftAddrV2.do";                     //设置默认地址 (id)
 static NSString *const kCZJServerAPIUpdateAddr = @"chezhu/updateAddrV2.do";                         //修改地址
+static NSString *const kCZJServerAPISubmitOrder = @"saveOrderV2.do";                                //提交订单
 
 
 //门店详情接口组
@@ -86,7 +87,21 @@ static NSString *const kCZJServerAPIAttentaionGoods = @"chezhu/attentionGoods.do
 static NSString *const kCZJServerAPICancleAttentionGoods = @"chezhu/cancelAttentionGoods.do";       //取消关注商品(storeId)
 static NSString *const kCZJServerAPILoadOtherStoreList = @"chezhu/loadOtherStores.do";              //其他门店列表(companyId/storeId)
 
-
+//我的个人中心接口组
+static NSString *const kCZJServerAPIGetServiceTypeList = @"loadServiceTypes.do";                    //得到服务分类
+static NSString *const kCZJServerAPIGetUserInfo = @"showMy.do";                                     //获取用户详情
+static NSString *const kCZJServerAPIUploadHeadPic = @"uploadHeadPic.do";                            //上传头像
+static NSString *const kCZJServerAPIUpdateUserInfo = @"updatePersonal.do";                          //修改用户信息
+static NSString *const kCZJServerAPIAddCar = @"addCar.do";                                          //添加车辆
+static NSString *const kCZJServerAPIGetCarlist = @"showCars.do";                                    //获取爱车列表
+static NSString *const kCZJServerAPIRemoveCar= @"removeCar.do";                                     //移除爱车
+static NSString *const kCZJServerAPISetDefaultCar = @"setDftCar.do";                                //设置默认车辆
+static NSString *const kCZJServerAPILoadFilterCarBrands = @"loadCarBrands.do";                      //获取筛选的汽车品牌
+static NSString *const kCZJServerAPIMyScanList = @"loadVisits.do";                                  //获取浏览记录
+static NSString *const kCZJServerAPIClearScanList = @"emptyVisits.do";                              //清空浏览记录
+static NSString *const kCZJServerAPISearch = @"suggest.do";                                         //搜索
+static NSString *const kCZJServerAPIGetAttentionList = @"loadAttentions.do";                        //获取关注列表
+static NSString *const kCZJServerAPIRemoveAttentions = @"deleteAttentions.do";                      //取消关注列表("type", type)
 
 
 

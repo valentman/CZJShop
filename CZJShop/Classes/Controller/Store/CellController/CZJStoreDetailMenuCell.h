@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CZJStoreDetailMenuCell : UITableViewCell
+@interface CZJStoreDetailMenuCell : CZJTableViewCell
 
 @end

@@ -122,8 +122,7 @@ MKMapViewDelegate
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.myTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
-//    self.topView = [CZJUtils getXibViewByName:@"CZJStoreDetailMenuCell"];
-//    self.topView.hidden = YES;
+    self.topView.hidden = YES;
     
     //背景触摸层
     _backgroundView = [[UIView alloc]initWithFrame:self.view.bounds];
@@ -201,13 +200,16 @@ MKMapViewDelegate
     NSArray* goodTypesTmpAry = [dict valueForKey:@"goodsTypes"];
     for (int i = 0; i < goodTypesTmpAry.count; i++)
     {
-        
+        CZJStoreDetailTypesForm* form = [[CZJStoreDetailTypesForm alloc]initWithDictionary:goodTypesTmpAry[i]];
+        [_goodsTypesArray addObject:form];
+        CZJBaseDataInstance.goodsTypesAry = _goodsTypesArray;
     }
     NSArray* serviceTypesTmpAry = [dict valueForKey:@"serviceTypes"];
     for (int i = 0; i < serviceTypesTmpAry.count; i++)
     {
         CZJStoreDetailTypesForm* form = [[CZJStoreDetailTypesForm alloc]initWithDictionary:serviceTypesTmpAry[i]];
         [_serviceTypesArray addObject:form];
+        CZJBaseDataInstance.serviceTypesAry = _serviceTypesArray;
     }
     NSArray* recommendTmpAry = [dict valueForKey:@"recommends"];
     for (int i = 0; i < recommendTmpAry.count; i++)
@@ -545,25 +547,26 @@ MKMapViewDelegate
     UIView* view = VIEWWITHTAG(self.myTableView, 500);
     CGRect frame = view.frame;
     DLog(@"frame:%f, contentOffsetY:%f",frame.origin.y, contentOffsetY);
-    if ((contentOffsetY <= frame.origin.y - 66 && isDraggingDown)||
-        (contentOffsetY >= frame.origin.y - 66 && !isDraggingDown))
+    if (view &&
+        ((contentOffsetY <= frame.origin.y - 66 && isDraggingDown)||
+        (contentOffsetY >= frame.origin.y - 66 && !isDraggingDown)))
     {
         self.topView.hidden = isDraggingDown;
     }
     
     if (contentOffsetY > 0)
     {
-        float alphaValue = contentOffsetY * 0.5 / 300;
+        float alphaValue = contentOffsetY / 300;
         if (alphaValue > 1)
         {
             alphaValue = 1;
-            _naviBarView.customSearchBar.hidden = NO;
+            self.naviBarView.customSearchBar.hidden = NO;
         }
         else
         {
-            _naviBarView.customSearchBar.hidden = YES;
+            self.naviBarView.customSearchBar.hidden = YES;
         }
-        [_naviBarView setBackgroundColor:CZJNAVIBARBGCOLORALPHA(alphaValue)];
+        [self.naviBarView setBackgroundColor:CZJNAVIBARBGCOLORALPHA(alphaValue)];
     }
 }
 
@@ -659,7 +662,6 @@ MKMapViewDelegate
 #pragma mark- CZJStoreDetailHeadCellDelegate
 - (void)clickAttentionButton:(id)sender
 {
-    CZJStoreDetailHeadCell* cell = (CZJStoreDetailHeadCell*)sender;
     _storeDetailForm.attentionFlag = !_storeDetailForm.attentionFlag;
     if (_storeDetailForm.attentionFlag) {
         [CZJBaseDataInstance attentionStore:@{@"storeId" : _storeDetailForm.storeId}];
@@ -673,6 +675,17 @@ MKMapViewDelegate
     [self.myTableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
 }
 
+
+#pragma mark- MXPullDownMenuDelegate
+- (void)pullDownMenuDidSelectFiliterButton
+{
+    
+}
+
+- (void)pullDownMenu:(MXPullDownMenu*)pullDownMenu didSelectCityName:(NSString*)cityName
+{
+    DLog(@"%@",cityName);
+}
 
 #pragma mark- Actions
 - (IBAction)callAction:(id)sender {

@@ -82,4 +82,5 @@
 + (void)performBlock:(CZJGeneralBlock)block afterDelay:(NSTimeInterval)delay;                        //延迟执行Block
 + (id)getXibViewByName:(NSString*)xibName;
 + (void)callHotLine:(NSString*)phoneNum AndTarget:(id)target;
++ (CATextLayer *)creatTextLayerWithNSString:(NSString *)string withColor:(UIColor *)color andPosition:(CGPoint)point andNumOfMenu:(int)_numOfMenu;
 @end

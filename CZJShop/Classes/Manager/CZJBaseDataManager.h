@@ -28,6 +28,8 @@
     NSMutableDictionary* _discoverForms;            //发现信息
     NSMutableArray* _orderStoreCouponAry;           //订单结算页面可用优惠券列表
     
+    NSMutableArray* _goodsTypesAry;
+    NSMutableArray* _serviceTypesAry;
     NSMutableDictionary *_params;                   //post参数字典
 }
 //--------------------服务器返回数据对象模型----------------------------
@@ -39,6 +41,9 @@
 @property (nonatomic, retain) CZJShoppingCartForm* shoppingCartForm;
 @property (nonatomic, retain) NSMutableDictionary* discoverForms;
 @property (nonatomic, retain) NSMutableArray* orderStoreCouponAry;
+
+@property (nonatomic, retain) NSMutableArray* goodsTypesAry;
+@property (nonatomic, retain) NSMutableArray* serviceTypesAry;
 //-------------------------本地数据对象------------------------------
 @property (nonatomic, assign) CLLocationCoordinate2D curLocation;
 @property (nonatomic) NSMutableDictionary *params;
@@ -211,6 +216,12 @@ singleton_interface(CZJBaseDataManager);
                 Success:(CZJSuccessBlock)success
                    fail:(CZJFailureBlock)fail;
 
+//提交订单
+- (void)submitOrder:(NSDictionary*)postParams
+            Success:(CZJSuccessBlock)success
+               fail:(CZJFailureBlock)fail;
+
+
 //获取可用优惠券列表
 - (void)loadUseableCouponsList:(NSDictionary*)postParams
                         Success:(CZJSuccessBlock)success
@@ -249,5 +260,77 @@ singleton_interface(CZJBaseDataManager);
 //通用
 - (void)generalPost:(NSDictionary*)postParams
        andServerAPI:(NSString*)api;
+
+
+//-------------------------个人信息中心------------------------------
+//获取用户信息详情
+- (void)getUserInfo:(NSDictionary*)postParams
+            Success:(CZJSuccessBlock)success
+               fail:(CZJFailureBlock)fail;
+
+//上传用户头像
+- (void)uploadUserHeadPic:(NSDictionary*)postParams
+                  Success:(CZJSuccessBlock)success
+                     fail:(CZJFailureBlock)fail;
+
+//修改用户信息
+- (void)updateUserInfo:(NSDictionary*)postParams
+               Success:(CZJSuccessBlock)success
+                  fail:(CZJFailureBlock)fail;
+
+//添加车辆
+- (void)addMyCar:(NSDictionary*)postParams
+         Success:(CZJSuccessBlock)success
+            fail:(CZJFailureBlock)fail;
+
+//获取爱车列表
+- (void)getMyCarList:(NSDictionary*)postParams
+             Success:(CZJSuccessBlock)success
+                fail:(CZJFailureBlock)fail;
+
+//移除爱车
+- (void)removeMyCar:(NSDictionary*)postParams
+            Success:(CZJSuccessBlock)success
+               fail:(CZJFailureBlock)fail;
+
+//设置默认车辆
+- (void)setDefaultCar:(NSDictionary*)postParams
+              Success:(CZJSuccessBlock)success
+                 fail:(CZJFailureBlock)fail;
+
+//获取筛选的汽车品牌
+- (void)loadFilterCarBrandsList:(NSDictionary*)postParams
+                        Success:(CZJSuccessBlock)success
+                           fail:(CZJFailureBlock)fail;
+
+//获取浏览记录
+- (void)loadScanList:(NSDictionary*)postParams
+             Success:(CZJSuccessBlock)success
+                fail:(CZJFailureBlock)fail;
+
+//清空浏览记录
+- (void)clearScanList:(NSDictionary*)postParams
+              Success:(CZJSuccessBlock)success
+                 fail:(CZJFailureBlock)fail;
+
+//搜索
+- (void)searchAnything:(NSDictionary*)postParams
+               Success:(CZJSuccessBlock)success
+                  fail:(CZJFailureBlock)fail;
+
+//获取服务分类
+- (void)loadServiceType:(NSDictionary*)postParams
+                Success:(CZJSuccessBlock)success
+                   fail:(CZJFailureBlock)fail;
+
+//获取关注列表
+- (void)loadMyAttentionList:(NSDictionary*)postParams
+                    success:(CZJSuccessBlock)success
+                       fail:(CZJFailureBlock)fail;
+
+//取消关注列表
+- (void)cancleAttentionList:(NSDictionary*)postParams
+                    Success:(CZJSuccessBlock)success
+                       fail:(CZJFailureBlock)fail;
 
 @end

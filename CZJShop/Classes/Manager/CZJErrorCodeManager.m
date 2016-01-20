@@ -71,6 +71,7 @@ singleton_implementation(CZJErrorCodeManager)
 }
 
 - (void)ShowNetError{
+    return;
     FDAlertView *alert = [[FDAlertView alloc] initWithTitle:kCZJTitle icon:nil message:kCZJMessageNet delegate:self buttonTitles:kCZJConfirmTitle,nil];
     [alert setMessageColor:[UIColor redColor] fontSize:0];
     [alert setTag:9010];

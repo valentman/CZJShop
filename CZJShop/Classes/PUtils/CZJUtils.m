@@ -659,4 +659,23 @@ void backLastView(id sender, SEL _cmd)
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
 }
 
++ (CATextLayer *)creatTextLayerWithNSString:(NSString *)string withColor:(UIColor *)color andPosition:(CGPoint)point andNumOfMenu:(int)_numOfMenu
+{
+    
+    CGSize size = [self calculateTitleSizeWithString:string AndFontSize:15];
+    
+    CATextLayer *layer = [CATextLayer new];
+    CGFloat sizeWidth = (size.width < (PJ_SCREEN_WIDTH / _numOfMenu) - 25) ? size.width : PJ_SCREEN_WIDTH / _numOfMenu - 25;
+    layer.bounds = CGRectMake(0, 0, sizeWidth, size.height);
+    layer.string = string;
+    layer.fontSize = 15.0;
+    layer.alignmentMode = kCAAlignmentCenter;
+    layer.foregroundColor = color.CGColor;
+    layer.contentsScale = [[UIScreen mainScreen] scale];
+    
+    layer.position = point;
+    
+    return layer;
+}
+
 @end

@@ -90,7 +90,7 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    [_naviBarView refreshShopBadgeLabel];
+    [self.naviBarView refreshShopBadgeLabel];
 }
 
 

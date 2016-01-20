@@ -7,9 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CZJNaviagtionBarView.h"
+
 
 @interface CZJViewController : UIViewController<CZJViewControllerDelegate>
 
 @property (nonatomic, strong) UIWindow *window;
 @property (nonatomic, strong) UIView *upView;
+@property (nonatomic, strong) CZJNaviagtionBarView* naviBarView;
+
+- (void)addCZJNaviBarView;
 @end

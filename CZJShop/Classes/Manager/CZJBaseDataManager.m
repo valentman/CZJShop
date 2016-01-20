@@ -30,7 +30,8 @@
 @synthesize goodsForm = _goodsForm;
 @synthesize shoppingCartForm = _shoppingCartForm;
 @synthesize discoverForms = _discoverForms;
-
+@synthesize goodsTypesAry = _goodsTypesAry;
+@synthesize serviceTypesAry = _serviceTypesAry;
 
 
 #pragma mark- implement
@@ -43,6 +44,8 @@ singleton_implementation(CZJBaseDataManager);
         _params = [NSMutableDictionary alloc];
         _discoverForms = [NSMutableDictionary dictionary];
         _orderStoreCouponAry = [NSMutableArray array];
+        _serviceTypesAry = [NSMutableArray array];
+        _goodsTypesAry = [NSMutableArray array];
         
         //固定请求参数确定
         NSDictionary* _tmpparams = @{@"chezhuId" : nil == [CZJLoginModelInstance cheZhuId] ? @"0" : [CZJLoginModelInstance cheZhuId],
@@ -1114,6 +1117,32 @@ singleton_implementation(CZJBaseDataManager);
                                    fail:failBlock];
 }
 
+- (void)submitOrder:(NSDictionary*)postParams
+            Success:(CZJSuccessBlock)success
+               fail:(CZJFailureBlock)fail
+{
+    CZJSuccessBlock successBlock = ^(id json)
+    {
+        if ([self showAlertView:json])
+        {
+        }
+        success(json);
+    };
+    
+    CZJFailureBlock failBlock = ^(){
+        [[CZJErrorCodeManager sharedCZJErrorCodeManager] ShowNetError];
+    };
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [params setValuesForKeysWithDictionary:_params];
+    [params setValuesForKeysWithDictionary:postParams];
+    
+    [CZJNetWorkInstance postJSONWithUrl:kCZJServerAPISubmitOrder
+                             parameters:params
+                                success:successBlock
+                                   fail:failBlock];
+}
+
 - (void)loadUseableCouponsList:(NSDictionary*)postParams
                         Success:(CZJSuccessBlock)success
                            fail:(CZJFailureBlock)fail
@@ -1331,4 +1360,372 @@ singleton_implementation(CZJBaseDataManager);
                                 success:successBlock
                                    fail:failBlock];
 }
+
+
+
+//获取用户信息详情
+- (void)getUserInfo:(NSDictionary*)postParams
+            Success:(CZJSuccessBlock)success
+               fail:(CZJFailureBlock)fail
+{
+    CZJSuccessBlock successBlock = ^(id json){
+        if ([self showAlertView:json])
+        {
+            success(json);
+        }
+    };
+    
+    CZJFailureBlock failBlock = ^(){
+        [[CZJErrorCodeManager sharedCZJErrorCodeManager] ShowNetError];
+    };
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [params setValuesForKeysWithDictionary:self.params];
+    [params setValuesForKeysWithDictionary:postParams];
+    
+    [CZJNetWorkInstance postJSONWithUrl:kCZJServerAPIGetUserInfo
+                             parameters:params
+                                success:successBlock
+                                   fail:failBlock];
+}
+
+//上传用户头像
+- (void)uploadUserHeadPic:(NSDictionary*)postParams
+                  Success:(CZJSuccessBlock)success
+                     fail:(CZJFailureBlock)fail
+{
+    CZJSuccessBlock successBlock = ^(id json){
+        if ([self showAlertView:json])
+        {
+            success(json);
+        }
+    };
+    
+    CZJFailureBlock failBlock = ^(){
+        [[CZJErrorCodeManager sharedCZJErrorCodeManager] ShowNetError];
+    };
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [params setValuesForKeysWithDictionary:self.params];
+    [params setValuesForKeysWithDictionary:postParams];
+    
+    [CZJNetWorkInstance postJSONWithUrl:kCZJServerAPIUploadHeadPic
+                             parameters:params
+                                success:successBlock
+                                   fail:failBlock];
+}
+
+//修改用户信息
+- (void)updateUserInfo:(NSDictionary*)postParams
+               Success:(CZJSuccessBlock)success
+                  fail:(CZJFailureBlock)fail
+{
+    CZJSuccessBlock successBlock = ^(id json){
+        if ([self showAlertView:json])
+        {
+            success(json);
+        }
+    };
+    
+    CZJFailureBlock failBlock = ^(){
+        [[CZJErrorCodeManager sharedCZJErrorCodeManager] ShowNetError];
+    };
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [params setValuesForKeysWithDictionary:self.params];
+    [params setValuesForKeysWithDictionary:postParams];
+    
+    [CZJNetWorkInstance postJSONWithUrl:kCZJServerAPIUpdateUserInfo
+                             parameters:params
+                                success:successBlock
+                                   fail:failBlock];
+}
+
+//添加车辆
+- (void)addMyCar:(NSDictionary*)postParams
+         Success:(CZJSuccessBlock)success
+            fail:(CZJFailureBlock)fail
+{
+    CZJSuccessBlock successBlock = ^(id json){
+        if ([self showAlertView:json])
+        {
+            success(json);
+        }
+    };
+    
+    CZJFailureBlock failBlock = ^(){
+        [[CZJErrorCodeManager sharedCZJErrorCodeManager] ShowNetError];
+    };
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [params setValuesForKeysWithDictionary:self.params];
+    [params setValuesForKeysWithDictionary:postParams];
+    
+    [CZJNetWorkInstance postJSONWithUrl:kCZJServerAPIAddCar
+                             parameters:params
+                                success:successBlock
+                                   fail:failBlock];
+}
+
+//获取爱车列表
+- (void)getMyCarList:(NSDictionary*)postParams
+             Success:(CZJSuccessBlock)success
+                fail:(CZJFailureBlock)fail
+{
+    CZJSuccessBlock successBlock = ^(id json){
+        if ([self showAlertView:json])
+        {
+            success(json);
+        }
+    };
+    
+    CZJFailureBlock failBlock = ^(){
+        [[CZJErrorCodeManager sharedCZJErrorCodeManager] ShowNetError];
+    };
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [params setValuesForKeysWithDictionary:self.params];
+    [params setValuesForKeysWithDictionary:postParams];
+    
+    [CZJNetWorkInstance postJSONWithUrl:kCZJServerAPIGetCarlist
+                             parameters:params
+                                success:successBlock
+                                   fail:failBlock];
+}
+
+//移除爱车
+- (void)removeMyCar:(NSDictionary*)postParams
+            Success:(CZJSuccessBlock)success
+               fail:(CZJFailureBlock)fail
+{
+    CZJSuccessBlock successBlock = ^(id json){
+        if ([self showAlertView:json])
+        {
+            success(json);
+        }
+    };
+    
+    CZJFailureBlock failBlock = ^(){
+        [[CZJErrorCodeManager sharedCZJErrorCodeManager] ShowNetError];
+    };
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [params setValuesForKeysWithDictionary:self.params];
+    [params setValuesForKeysWithDictionary:postParams];
+    
+    [CZJNetWorkInstance postJSONWithUrl:kCZJServerAPIRemoveCar
+                             parameters:params
+                                success:successBlock
+                                   fail:failBlock];
+}
+
+//设置默认车辆
+- (void)setDefaultCar:(NSDictionary*)postParams
+              Success:(CZJSuccessBlock)success
+                 fail:(CZJFailureBlock)fail
+{
+    CZJSuccessBlock successBlock = ^(id json){
+        if ([self showAlertView:json])
+        {
+            success(json);
+        }
+    };
+    
+    CZJFailureBlock failBlock = ^(){
+        [[CZJErrorCodeManager sharedCZJErrorCodeManager] ShowNetError];
+    };
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [params setValuesForKeysWithDictionary:self.params];
+    [params setValuesForKeysWithDictionary:postParams];
+    
+    [CZJNetWorkInstance postJSONWithUrl:kCZJServerAPISetDefaultCar
+                             parameters:params
+                                success:successBlock
+                                   fail:failBlock];
+}
+
+//获取筛选的汽车品牌
+- (void)loadFilterCarBrandsList:(NSDictionary*)postParams
+                        Success:(CZJSuccessBlock)success
+                           fail:(CZJFailureBlock)fail
+{
+    CZJSuccessBlock successBlock = ^(id json){
+        if ([self showAlertView:json])
+        {
+            success(json);
+        }
+    };
+    
+    CZJFailureBlock failBlock = ^(){
+        [[CZJErrorCodeManager sharedCZJErrorCodeManager] ShowNetError];
+    };
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [params setValuesForKeysWithDictionary:self.params];
+    [params setValuesForKeysWithDictionary:postParams];
+    
+    [CZJNetWorkInstance postJSONWithUrl:kCZJServerAPILoadFilterCarBrands
+                             parameters:params
+                                success:successBlock
+                                   fail:failBlock];
+}
+
+//获取浏览记录
+- (void)loadScanList:(NSDictionary*)postParams
+             Success:(CZJSuccessBlock)success
+                fail:(CZJFailureBlock)fail
+{
+    CZJSuccessBlock successBlock = ^(id json){
+        if ([self showAlertView:json])
+        {
+            success(json);
+        }
+    };
+    
+    CZJFailureBlock failBlock = ^(){
+        [[CZJErrorCodeManager sharedCZJErrorCodeManager] ShowNetError];
+    };
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [params setValuesForKeysWithDictionary:self.params];
+    [params setValuesForKeysWithDictionary:postParams];
+    
+    [CZJNetWorkInstance postJSONWithUrl:kCZJServerAPIMyScanList
+                             parameters:params
+                                success:successBlock
+                                   fail:failBlock];
+}
+
+//清空浏览记录
+- (void)clearScanList:(NSDictionary*)postParams
+              Success:(CZJSuccessBlock)success
+                 fail:(CZJFailureBlock)fail
+{
+    CZJSuccessBlock successBlock = ^(id json){
+        if ([self showAlertView:json])
+        {
+            success(json);
+        }
+    };
+    
+    CZJFailureBlock failBlock = ^(){
+        [[CZJErrorCodeManager sharedCZJErrorCodeManager] ShowNetError];
+    };
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [params setValuesForKeysWithDictionary:self.params];
+    [params setValuesForKeysWithDictionary:postParams];
+    
+    [CZJNetWorkInstance postJSONWithUrl:kCZJServerAPIClearScanList
+                             parameters:params
+                                success:successBlock
+                                   fail:failBlock];
+}
+
+//搜索
+- (void)searchAnything:(NSDictionary*)postParams
+               Success:(CZJSuccessBlock)success
+                  fail:(CZJFailureBlock)fail
+{
+    CZJSuccessBlock successBlock = ^(id json){
+        if ([self showAlertView:json])
+        {
+            success(json);
+        }
+    };
+    
+    CZJFailureBlock failBlock = ^(){
+        [[CZJErrorCodeManager sharedCZJErrorCodeManager] ShowNetError];
+    };
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [params setValuesForKeysWithDictionary:self.params];
+    [params setValuesForKeysWithDictionary:postParams];
+    
+    [CZJNetWorkInstance postJSONWithUrl:kCZJServerAPISearch
+                             parameters:params
+                                success:successBlock
+                                   fail:failBlock];
+}
+
+//获取服务分类
+- (void)loadServiceType:(NSDictionary*)postParams
+                Success:(CZJSuccessBlock)success
+                   fail:(CZJFailureBlock)fail
+{
+    CZJSuccessBlock successBlock = ^(id json){
+        if ([self showAlertView:json])
+        {
+            success(json);
+        }
+    };
+    
+    CZJFailureBlock failBlock = ^(){
+        [[CZJErrorCodeManager sharedCZJErrorCodeManager] ShowNetError];
+    };
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [params setValuesForKeysWithDictionary:self.params];
+    [params setValuesForKeysWithDictionary:postParams];
+    
+    [CZJNetWorkInstance postJSONWithUrl:kCZJServerAPIGetServiceTypeList
+                             parameters:params
+                                success:successBlock
+                                   fail:failBlock];
+}
+
+//获取关注列表
+- (void)loadMyAttentionList:(NSDictionary*)postParams
+                    success:(CZJSuccessBlock)success
+                       fail:(CZJFailureBlock)fail
+{
+    CZJSuccessBlock successBlock = ^(id json){
+        if ([self showAlertView:json])
+        {
+        }
+        success(json);
+    };
+    
+    CZJFailureBlock failBlock = ^(){
+        [[CZJErrorCodeManager sharedCZJErrorCodeManager] ShowNetError];
+    };
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [params setValuesForKeysWithDictionary:self.params];
+    [params setValuesForKeysWithDictionary:postParams];
+    
+    [CZJNetWorkInstance postJSONWithUrl:kCZJServerAPIGetAttentionList
+                             parameters:params
+                                success:successBlock
+                                   fail:failBlock];
+}
+
+//取消关注列表
+- (void)cancleAttentionList:(NSDictionary*)postParams
+                    Success:(CZJSuccessBlock)success
+                       fail:(CZJFailureBlock)fail
+{
+    CZJSuccessBlock successBlock = ^(id json){
+        if ([self showAlertView:json])
+        {
+            success(json);
+        }
+    };
+    
+    CZJFailureBlock failBlock = ^(){
+        [[CZJErrorCodeManager sharedCZJErrorCodeManager] ShowNetError];
+    };
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [params setValuesForKeysWithDictionary:self.params];
+    [params setValuesForKeysWithDictionary:postParams];
+    
+    [CZJNetWorkInstance postJSONWithUrl:kCZJServerAPIRemoveAttentions
+                             parameters:params
+                                success:successBlock
+                                   fail:failBlock];
+}
+
+
 @end

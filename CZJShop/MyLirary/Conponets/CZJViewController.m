@@ -24,6 +24,12 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)addCZJNaviBarView
+{
+    self.navigationController.navigationBarHidden = YES;
+    _naviBarView = [[CZJNaviagtionBarView alloc]initWithFrame:CGRectMake(0, 20, PJ_SCREEN_WIDTH, 44) AndType:CZJNaviBarViewTypeGeneral];
+    [self.view addSubview:_naviBarView];
+}
 /*
 #pragma mark - Navigation
 

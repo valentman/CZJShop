@@ -279,7 +279,7 @@
     
     if (CZJButtonTypeHomeShopping == touchBt.tag)
     {
-        if ([USER_DEFAULT valueForKey:kCZJIsUserHaveLogined])
+        if ([USER_DEFAULT boolForKey:kCZJIsUserHaveLogined])
         {
             [CZJUtils showShoppingCartView:(UIViewController*)_delegate andNaviBar:self];
         }

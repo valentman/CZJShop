@@ -69,20 +69,24 @@ NSString * const LXDSegmentControlIndexKey = @"LXDSegmentControlIndexKey";
  */
 - (void)setupItems
 {
-    if (_configuration.controlType == LXDSegmentControlTypeSelectBlock) {
+    if (_configuration.controlType == LXDSegmentControlTypeSelectBlock)
+    {
         [self addSubview: self.slideBlock];
     }
     [_configuration.items enumerateObjectsUsingBlock: ^(NSString * _Nonnull itemTitle, NSUInteger idx, BOOL * _Nonnull stop) {
         UIButton * item = [self segmentItemWithIndex: idx];
         [item setTitle: itemTitle forState: UIControlStateNormal];
-        item.layer.borderWidth = .5f;
-        item.layer.borderColor = [[UIColor lightGrayColor]CGColor];
-        UIEdgeInsets myedges = UIEdgeInsetsMake(5, 25, 5, 25);
-        item.titleEdgeInsets = myedges;
-        item.titleLabel.lineBreakMode = NSLineBreakByCharWrapping;
-        item.titleLabel.numberOfLines = 2;
-        item.titleLabel.textAlignment = NSTextAlignmentCenter;
-        item.titleLabel.font = SYSTEMFONT(13);
+        if (_configuration.controlType == LXDSegmentControlTypeSelectBlock)
+        {
+            item.layer.borderWidth = .5f;
+            item.layer.borderColor = [[UIColor lightGrayColor]CGColor];
+            UIEdgeInsets myedges = UIEdgeInsetsMake(5, 25, 5, 25);
+            item.titleEdgeInsets = myedges;
+            item.titleLabel.lineBreakMode = NSLineBreakByCharWrapping;
+            item.titleLabel.numberOfLines = 2;
+            item.titleLabel.textAlignment = NSTextAlignmentCenter;
+            item.titleLabel.font = SYSTEMFONT(13);
+        }
         [self addSubview: item];
         if (idx == 0) { [self clickSegmentItem: item]; }
     }];
@@ -162,6 +166,7 @@ NSString * const LXDSegmentControlIndexKey = @"LXDSegmentControlIndexKey";
     if (segmentItem == _currentItem) { return; }
     [self.lock lock];
     
+    self.currentItem = segmentItem;
     NSUInteger index = segmentItem.tag - BUTTONINITTAG;
     [self changeAssociateViewWithIndex: segmentItem];
     [self callbackWithIndex: index];

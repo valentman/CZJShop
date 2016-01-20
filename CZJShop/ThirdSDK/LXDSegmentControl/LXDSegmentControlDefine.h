@@ -9,7 +9,7 @@
 #ifndef LXDSegmentControlDefine_h
 #define LXDSegmentControlDefine_h
 
-#define SMALLSCALE 0.75f
+#define SMALLSCALE 0.8f
 #define INITSCALE 1.f
 #define BIGSCALE 1.25f
 #define CLEAR_COLOR [UIColor clearColor]

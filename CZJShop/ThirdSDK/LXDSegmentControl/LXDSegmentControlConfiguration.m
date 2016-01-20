@@ -107,8 +107,8 @@
  */
 - (void)scaleTitleConfiguration
 {
-    self.itemNormalScale = SMALLSCALE;
-    self.itemSelectScale = BIGSCALE;
+    self.itemNormalScale = self.itemSelectScale = SMALLSCALE;;
+    self.itemSelectScale = INITSCALE;
     self.backgroundColor = CLEAR_COLOR;
     self.itemBackgroundColor = CLEAR_COLOR;
     self.itemSelectedColor = CLEAR_COLOR;

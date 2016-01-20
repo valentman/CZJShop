@@ -47,14 +47,14 @@ typedef NS_ENUM(NSInteger, CZJMXPullDownMenuType)
 
 @end
 
-@interface MXPullDownMenu : UIView< UITableViewDelegate,
-                                    UITableViewDataSource,
-                                    UICollectionViewDataSource,
-                                    UICollectionViewDelegate>
-
+@interface MXPullDownMenu : UIView
+< UITableViewDelegate,
+UITableViewDataSource,
+UICollectionViewDataSource,
+UICollectionViewDelegate
+>
 - (MXPullDownMenu *)initWithArray:(NSArray *)array AndType:(CZJMXPullDownMenuType)menutype WithFrame:(CGRect)frame;
 - (void)confiMenuWithSelectRow:(NSInteger)row;
-- (void)setCurrentSelectedMenudIndex:(int)index;
 - (void)registNotification;
 - (void)removeNotificationObserve;
 @property (nonatomic) id<MXPullDownMenuDelegate> delegate;
