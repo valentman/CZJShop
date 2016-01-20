@@ -57,9 +57,7 @@
 #pragma mark- InitSection
 
 - (void)viewDidLoad {
-    DLog();
     [super viewDidLoad];
-    
     [self propertysInit];
     [self dealWithInitNavigationBar];
     [self dealWithInitTableView];
@@ -128,7 +126,7 @@
     self.homeTableView.delegate = self;
     self.homeTableView.dataSource = self;
     [self.homeTableView setDelegate:self];
-    [self.homeTableView setBackgroundColor:RGB(239, 239, 239)];
+    [self.homeTableView setBackgroundColor:CZJNAVIBARBGCOLOR];
     self.homeTableView.showsVerticalScrollIndicator = NO;
     self.homeTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.homeTableView.rowHeight = UITableViewAutomaticDimension;
@@ -160,7 +158,7 @@
 - (void)dealWithInitTabbar
 {
     //TabBarItem选中颜色设置及右上角标记设置
-    [self.tabBarController.tabBar setTintColor:RGB(240, 16, 34)];
+    [self.tabBarController.tabBar setTintColor:RGB(235, 20, 20)];
 //    NSArray *items = self.tabBarController.tabBar.items;
 //    [[items objectAtIndex:eTabBarItemShop] setBadgeValue:@"1"];
 }
@@ -176,35 +174,20 @@
     CZJSuccessBlock successBlock = ^(id json){
         
         [self dealWithArray];
+        [self.homeTableView reloadData];
+        if (self.homeTableView.pullTableIsRefreshing == YES)
+        {
+            self.homeTableView.pullLastRefreshDate = [NSDate date];
+        }
+        self.homeTableView.pullTableIsLoadingMore = NO;
+        self.homeTableView.pullTableIsRefreshing = NO;
+        
         switch (dataType) {
             case CZJHomeGetDataFromServerTypeOne:
-            {
-                DLog(@"Get Home Data From Server Success...");
-                _isFirst = YES;
-                [self.homeTableView reloadData];
-                
-                if (self.homeTableView.pullTableIsRefreshing == YES)
-                {
-                    self.homeTableView.pullLastRefreshDate = [NSDate date];
-                }
-                self.homeTableView.pullTableIsLoadingMore = NO;
-                self.homeTableView.pullTableIsRefreshing = NO;
-            }
                 break;
                 
             case CZJHomeGetDataFromServerTypeTwo:
-            {
                 self.page++;
-                DLog(@"Get Goods Data From Server Success...");
-                [self.homeTableView reloadData];
-                if (self.homeTableView.pullTableIsRefreshing == YES)
-                {
-                    self.homeTableView.pullLastRefreshDate = [NSDate date];
-                }
-                self.homeTableView.pullTableIsLoadingMore = NO;
-                self.homeTableView.pullTableIsRefreshing = NO;
-                
-            }
                 break;
                 
             default:
@@ -294,14 +277,15 @@
         }
         [_navibarView setBackgroundColor:RGBA(235, 20, 20, alphaValue)];
     }
-    if (contentOffsetY > 600) {
+    
+    if (contentOffsetY > 600)
+    {
         self.btnToTop.hidden = NO;
     }
     else
     {
         self.btnToTop.hidden = YES;
     }
-    
 }
 
 
@@ -313,7 +297,8 @@
         case 0:
         {//ad广告展示
             CZJActivityCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CZJActivityCell" forIndexPath:indexPath];
-            if (_activityArray.count > 0 && !cell.isInit) {
+            if (_activityArray.count > 0 && !cell.isInit)
+            {
                 [cell someMethodNeedUse:indexPath DataModel:_activityArray];
                 cell.delegate = self;
             }
@@ -324,7 +309,8 @@
         case 1:
         {//服务列表
             CZJServiceCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJServiceCell" forIndexPath:indexPath];
-            if (cell && _serviceArray.count > 0 && !cell.isInit) {
+            if (cell && _serviceArray.count > 0 && !cell.isInit)
+            {
                 [cell initServiceCellWithDatas:_serviceArray];
                 cell.delegate = self;
             }
@@ -349,7 +335,8 @@
         {//秒杀数据
             if (1 == indexPath.row) {
                 CZJMiaoShaCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CZJMiaoShaCell" forIndexPath:indexPath];
-                if (cell && _miaoShaArray.count > 0 && !cell.isInit) {
+                if (cell && _miaoShaArray.count > 0 && !cell.isInit)
+                {
                     [cell initMiaoShaInfoWithData:_miaoShaArray];
                 }
                 [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
@@ -363,6 +350,7 @@
             }
         }
             break;
+            
         case 4:
         {//广告栏一
             CZJAdBanerCell *cell = (CZJAdBanerCell*)[tableView dequeueReusableCellWithIdentifier:@"CZJAdBanerCell" forIndexPath:indexPath];
@@ -370,52 +358,67 @@
             return cell;
         }
             break;
+            
         case 5:
         {//限量购买
-            if (0 == indexPath.row) {
+            if (0 == indexPath.row)
+            {
                 CZJLimitBuyCellHeader* headerView = [tableView dequeueReusableCellWithIdentifier:@"CZJLimitBuyCellHeader" forIndexPath:indexPath];
                 return headerView;
             }
             else if (1 == indexPath.row)
             {
                 CZJLimitBuyCell *cell = (CZJLimitBuyCell*)[tableView dequeueReusableCellWithIdentifier:@"CZJLimitBuyCell" forIndexPath:indexPath];
-                [cell initLimitBuyWithDatas:_limitBuyArray];
+                if (cell && _limitBuyArray.count > 0 && !cell.isInit)
+                {
+                    [cell initLimitBuyWithDatas:_limitBuyArray];
+                }
                 return cell;
             }
             
         }
             break;
+            
         case 6:
         {//品牌推荐
-            if (0 == indexPath.row) {
+            if (0 == indexPath.row)
+            {
                 CZJBrandRecoCellHeader* headerView = [tableView dequeueReusableCellWithIdentifier:@"CZJBrandRecoCellHeader" forIndexPath:indexPath];
                 return headerView;
             }
-            if (1 == indexPath.row) {
+            if (1 == indexPath.row)
+            {
                 CZJBrandRecommendCell *cell = (CZJBrandRecommendCell*)[tableView dequeueReusableCellWithIdentifier:@"CZJBrandRecommendCell" forIndexPath:indexPath];
-                if (cell && _brandRecommentArray.count > 0 && !cell.isInit) {
+                if (cell && _brandRecommentArray.count > 0 && !cell.isInit)
+                {
                     [cell initBrandRecommendWithDatas:_brandRecommentArray];
                 }
                 return cell;
             }
         }
             break;
+            
         case 7:
         {//广告条二
             CZJAdBanerPlusCell *cell = (CZJAdBanerPlusCell*)[tableView dequeueReusableCellWithIdentifier:@"CZJAdBanerPlusCell" forIndexPath:indexPath];
+            
             [cell initBannerTwoWithDatas:_bannerTwoArray];
             return cell;
         }
             break;
+            
         case 8:
         {//特别推荐
-            if (0 == indexPath.row) {
+            if (0 == indexPath.row)
+            {
                 CZJSpecialRecoCellHeader* headerView = [tableView dequeueReusableCellWithIdentifier:@"CZJSpecialRecoCellHeader" forIndexPath:indexPath];
                 return headerView;
             }
-            else if (1 == indexPath.row) {
+            else if (1 == indexPath.row)
+            {
                 CZJSpecialRecommendCell *cell = (CZJSpecialRecommendCell*)[tableView dequeueReusableCellWithIdentifier:@"CZJSpecialRecommendCell" forIndexPath:indexPath];
-                if (cell && _specialRecommentArray.count > 0 && !cell.isInit) {
+                if (cell && _specialRecommentArray.count > 0 && !cell.isInit)
+                {
                     [cell initSpecialRecommendWithDatas:_specialRecommentArray];
                 }
                 
@@ -426,7 +429,8 @@
             
         case 9:
         {
-            if (0 == indexPath.row) {
+            if (0 == indexPath.row)
+            {
                 CZJGoodsRecoCellHeader* headerView = [tableView dequeueReusableCellWithIdentifier:@"CZJGoodsRecoCellHeader" forIndexPath:indexPath];
                 headerView.backgroundColor = [UIColor clearColor];
                 headerView.backgroundView.backgroundColor = [UIColor clearColor];
@@ -435,10 +439,9 @@
             else
             {
                 CZJGoodsRecommendCell* cell = (CZJGoodsRecommendCell*)[tableView dequeueReusableCellWithIdentifier:@"CZJGoodsRecommendCell" forIndexPath:indexPath];
-                if (cell && _goodsRecommentArray.count > 0) {
-                    TICK;
+                if (cell && _goodsRecommentArray.count > 0)
+                {
                     [cell initGoodsRecommendWithDatas:_goodsRecommentArray[indexPath.row - 1]];
-                    TOCK;
                 }
                 return cell;
             }
@@ -453,11 +456,13 @@
     
 }
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
     return 10;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
     //广告条和汽车头条可能没有信息数据，则返回0
     if ((_bannerOneArray.count == 0 && section == 4)||
         (_bannerTwoArray.count == 0 && section == 7)||
@@ -476,7 +481,8 @@
     if (3 == section ||
         5 == section ||
         6 == section ||
-        8 == section) {
+        8 == section)
+    {
         return 2;
     }
     return 1;
@@ -485,7 +491,8 @@
 #pragma mark - TableView Delegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    switch (indexPath.section) {
+    switch (indexPath.section)
+    {
         case 0:{
             
         }
@@ -499,10 +506,7 @@
         }
             break;
         case 3:{
-//            _htmlType = eRecommandHtml;
-//            GoodsRecommendForm* rFrom = [_brandRecommentArray objectAtIndex:indexPath.row];
-//            _webViewTitle = @"服务详情";
-//            [self performSegueWithIdentifier:@"showWebViewID" sender:self];
+
         }
             break;
         default:
@@ -578,11 +582,11 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
-    if (2 == section ||
-        3 == section ||
-        5 == section ||
-        6 == section){
-        return 7;
+    if ((_carInfoArray.count == 0 && section == 2)||
+        (_miaoShaArray.count == 0 && section == 3)||
+        (_limitBuyArray.count == 0 && section == 5)||
+        (_brandRecommentArray.count == 0 && section == 6)){
+        return 15;
     }
 
     return 0;
