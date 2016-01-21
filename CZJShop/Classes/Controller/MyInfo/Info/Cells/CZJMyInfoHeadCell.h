@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "UserBaseForm.h"
 
 @protocol CZJMyInfoHeadCellDelegate <NSObject>
 - (void)clickMyInfoHeadCell;
@@ -15,4 +16,6 @@
 @interface CZJMyInfoHeadCell : CZJTableViewCell
 @property(weak, nonatomic)id<CZJMyInfoHeadCellDelegate> delegate;
 
+
+- (void)setUserPersonalInfo:(UserBaseForm*)userinfo;
 @end

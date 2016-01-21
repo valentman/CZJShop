@@ -285,7 +285,7 @@
         }
         else
         {
-            [CZJUtils showLoginView:(UIViewController*)_delegate];
+            [CZJUtils showLoginView:(UIViewController*)_delegate andNaviBar:self];
         }
     }
     
@@ -301,10 +301,15 @@
     if ([controller isKindOfClass: [CZJLoginController class]] )
     {
         [CZJUtils removeLoginViewFromCurrent:(UIViewController*)_delegate];
+        [self refreshShopBadgeLabel];
     }
     else if ([controller isKindOfClass: [CZJShoppingCartController class]])
     {
         [CZJUtils removeShoppintCartViewFromCurrent:(UIViewController*)_delegate];
+    }
+    if ([self.delegate respondsToSelector:@selector(removeShoppingOrLoginView:)])
+    {
+        [self.delegate removeShoppingOrLoginView:self];
     }
 }
 

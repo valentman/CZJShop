@@ -10,6 +10,7 @@
 #import "CZJLoginModelManager.h"
 #import "LJWKeyboardHandlerHeaders.h"
 #import "ServiceProtocol.h"
+#import "CZJBaseDataManager.h"
 
 #define kLoginColorRed RGB(255, 102, 102)
 #define kPhoneNum 1000
@@ -222,6 +223,24 @@ FDAlertViewDelegate
 
 - (IBAction)confirmLoginAction:(id)sender
 {
+    CZJSuccessBlock successBlock = ^(id json){
+        NSDictionary* dict = [CZJUtils DataFromJson:json];
+        if ([[dict valueForKey:@"code"] integerValue] != 0)
+        {
+            [self showAlert:[dict valueForKey:@"msg"]];
+        }
+        [self.confirmBtn setEnabled:YES];
+        [self.confirmBtn setBackgroundColor:kLoginColorRed];
+        [CZJBaseDataInstance loadShoppingCartCount:nil Success:^(id json){
+            [self exitOutAction:nil];
+        } fail:nil];
+    };
+    CZJFailureBlock failure = ^{
+        NSLog(@"login fail");
+        
+        [self.confirmBtn setEnabled:YES];
+        [self.confirmBtn setBackgroundColor:kLoginColorRed];
+    };
     //验证码登录
     if (isLoginWithCode &&
         self.phoneNumTextField.text.length == 11 &&
@@ -229,20 +248,6 @@ FDAlertViewDelegate
     {
         [self.confirmBtn setEnabled:NO];
         [self.confirmBtn setBackgroundColor:[UIColor lightGrayColor]];
-        CZJSuccessBlock successBlock = ^(id json){
-            NSDictionary* dict = [CZJUtils DataFromJson:json];
-            if ([[dict valueForKey:@"code"] integerValue] != 0)
-            {
-                [self showAlert:[dict valueForKey:@"msg"]];
-            }
-            [self.confirmBtn setEnabled:YES];
-            [self.confirmBtn setBackgroundColor:kLoginColorRed];
-        };
-        CZJFailureBlock failure = ^{
-            NSLog(@"login fail");
-            [self.confirmBtn setEnabled:YES];
-            [self.confirmBtn setBackgroundColor:kLoginColorRed];
-        };
         [CZJLoginModelInstance loginWithAuthCode:self.codeTextField.text
                                      mobilePhone:self.phoneNumTextField.text
                                          success:successBlock
@@ -255,21 +260,7 @@ FDAlertViewDelegate
     {
         [self.confirmBtn setEnabled:NO];
         [self.confirmBtn setBackgroundColor:[UIColor lightGrayColor]];
-        CZJSuccessBlock successBlock = ^(id json){
-            NSDictionary* dict = [CZJUtils DataFromJson:json];
-            if ([[dict valueForKey:@"code"] integerValue] != 0)
-            {
-                [self showAlert:[dict valueForKey:@"msg"]];
-            }
-            [self.confirmBtn setEnabled:YES];
-            [self.confirmBtn setBackgroundColor:kLoginColorRed];
-        };
-        CZJFailureBlock failure = ^{
-            NSLog(@"login fail");
-            
-            [self.confirmBtn setEnabled:YES];
-            [self.confirmBtn setBackgroundColor:kLoginColorRed];
-        };
+        
         [CZJLoginModelInstance loginWithPassword:self.pwdTextField.text
                                      mobilePhone:self.phoneNumTextField.text
                                          success:successBlock

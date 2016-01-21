@@ -67,6 +67,43 @@ singleton_implementation(CZJNetworkManager)
 
 }
 
+//本可返回AFHTTPRequestOperation *op =
+
+- (void)uploadImageWithUrl:(NSString *)urlStr
+                     Image:(UIImage *)image
+                Parameters:(id)parameters
+                   success:(void (^)(id json))success
+                   failure:(void (^)())failure {
+    
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    // 设置返回类型
+    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html",@"text/plain", nil];
+    
+    // 设置请求格式
+    //manager.requestSerializer = [AFJSONRequestSerializer serializer];
+    
+    // 设置返回格式
+    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+    
+    NSString* path =  [self getPath:urlStr];
+    
+    [manager POST:path parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+        NSData *imageData = UIImageJPEGRepresentation(image, 1);
+        
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        formatter.dateFormat = @"yyyyMMddHHmmss";
+        //        NSString *str = [formatter stringFromDate:[NSDate date]];
+        //        NSString *fileName = [NSString stringWithFormat:@"%@.jpg", str];
+        
+        // 上传图片，以文件流的格式
+        [formData appendPartWithFileData:imageData name:@"file" fileName:@"file.jpg" mimeType:@"image/jpeg"];
+    } success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        success(responseObject);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        failure(error);
+    }];
+}
+
 - (void)postJSONWithUrl:(NSString *)urlStr
              parameters:(id)parameters
                 success:(void (^)(id responseObject))success
@@ -199,41 +236,6 @@ singleton_implementation(CZJNetworkManager)
     NSLog(@"Written: %d",[imageData writeToFile:path atomically:YES]);
 }
 
-//本可返回AFHTTPRequestOperation *op =
 
-- (void)uploadImageWithUrl:(NSString *)urlStr
-                     Image:(UIImage *)image
-                Parameters:(id)parameters
-                   success:(void (^)(id json))success
-                   failure:(void (^)())failure {
-    
-    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    // 设置返回类型
-    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html",@"text/plain", nil];
-    
-    // 设置请求格式
-    //manager.requestSerializer = [AFJSONRequestSerializer serializer];
-    
-    // 设置返回格式
-    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
-    
-    NSString* path =  [self getPath:urlStr];
-    
-    [manager POST:path parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
-        NSData *imageData = UIImageJPEGRepresentation(image, 1);
-        
-        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-        formatter.dateFormat = @"yyyyMMddHHmmss";
-//        NSString *str = [formatter stringFromDate:[NSDate date]];
-//        NSString *fileName = [NSString stringWithFormat:@"%@.jpg", str];
-        
-        // 上传图片，以文件流的格式
-        [formData appendPartWithFileData:imageData name:@"file" fileName:@"file.jpg" mimeType:@"image/jpeg"];
-    } success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        success(responseObject);
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        failure(error);
-    }];
-}
 
 @end

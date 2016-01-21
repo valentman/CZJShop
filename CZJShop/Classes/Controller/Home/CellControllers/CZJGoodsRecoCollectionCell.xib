@@ -57,6 +57,11 @@
                 <constraint firstAttribute="bottom" secondItem="IBm-2p-YCp" secondAttribute="bottom" constant="2" id="eA5-5R-5LW"/>
                 <constraint firstItem="iyg-4Z-LIt" firstAttribute="centerX" secondItem="Wp9-ap-mAA" secondAttribute="centerX" id="oZw-Vc-7V9"/>
             </constraints>
+            <userDefinedRuntimeAttributes>
+                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                    <integer key="value" value="5"/>
+                </userDefinedRuntimeAttribute>
+            </userDefinedRuntimeAttributes>
             <connections>
                 <outlet property="iconImageView" destination="Wp9-ap-mAA" id="MDT-AQ-6mr"/>
                 <outlet property="productName" destination="iyg-4Z-LIt" id="5LQ-b0-g6N"/>

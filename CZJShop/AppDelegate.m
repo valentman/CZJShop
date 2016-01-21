@@ -60,6 +60,7 @@
     //------------------3.登录设置----------------
     [CZJLoginModelInstance loginWithDefaultInfoSuccess:^
     {
+        [CZJBaseDataInstance loadShoppingCartCount:nil Success:nil fail:nil];
         if ([USER_DEFAULT valueForKey:kCZJUserName])
         {
             [USER_DEFAULT setObject:@"" forKey:kCZJUserName];
@@ -82,40 +83,21 @@
     }];
     
     
-    
     //--------------------4.初始化定位-------------------
     if (IS_IOS8)
     {
-        [[CCLocationManager shareLocation] getLocationCoordinate:^(CLLocationCoordinate2D locationCorrrdinate)
-        {
+        [[CCLocationManager shareLocation] getLocationCoordinate:^(CLLocationCoordinate2D locationCorrrdinate) {
             [CZJBaseDataInstance setCurLocation:locationCorrrdinate];
         }];
     }
     else if (IS_IOS7)
     {
-        [[ZXLocationManager sharedZXLocationManager] getLocationCoordinate:^(CLLocationCoordinate2D coord)
-        {
+        [[ZXLocationManager sharedZXLocationManager] getLocationCoordinate:^(CLLocationCoordinate2D coord) {
             [CZJBaseDataInstance setCurLocation:coord];
         }];
     }
-    
-    if (CZJBaseDataInstance.curLocation.latitude == 0 &&
-        CZJBaseDataInstance.curLocation.longitude == 0)
-    {
-        if (IS_IOS8)
-        {
-            [[CCLocationManager shareLocation] getLocationCoordinate:^(CLLocationCoordinate2D locationCorrrdinate) {
-                DLog(@"%f", locationCorrrdinate.latitude);
-            }];
-        }
-        else if (IS_IOS7)
-        {
-            [[ZXLocationManager sharedZXLocationManager] getLocationCoordinate:^(CLLocationCoordinate2D coord) {
-                [CZJBaseDataInstance setCurLocation:coord];
-            }];
-        }
-    }
-    
+
+
     
     //--------------------5.推送注册中心-----------------
     [XGPush startApp:kCZJPushServerAppId appKey:kCZJPushServerAppKey];
@@ -188,11 +170,10 @@
         storyboardId = kCZJStoryBoardIDHomeView;
     }
 
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:kCZJStoryBoardFileMain bundle:nil];
-    UIViewController *initViewController = [storyboard instantiateViewControllerWithIdentifier:storyboardId];
+    UIViewController *_CZJRootViewController = [CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:storyboardId];
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    self.window.rootViewController = initViewController;
+    self.window.rootViewController = _CZJRootViewController;
     [self.window makeKeyAndVisible];
     
     

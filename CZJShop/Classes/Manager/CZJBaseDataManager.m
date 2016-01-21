@@ -20,6 +20,7 @@
 #import "CZJGoodsForm.h"
 #import "CZJShoppingCartForm.h"
 #import "CZJOrderForm.h"
+#import "UserBaseForm.h"
 @implementation CZJBaseDataManager
 #pragma mark- synthesize
 @synthesize curLocation =  _curLocation;
@@ -177,12 +178,7 @@ singleton_implementation(CZJBaseDataManager);
         fail();
     };
     
-    LocationBlock locationHander = ^(CLLocationCoordinate2D locationCorrrdinate){
-        [_params setObject:@(locationCorrrdinate.longitude) forKey:@"lng"];
-        [_params setObject:@(locationCorrrdinate.latitude) forKey:@"lat"];
-        if (CZJHomeGetDataFromServerTypeOne == 0) {
-            [self setCurLocation:locationCorrrdinate];
-        }
+    CZJGeneralBlock loadHomeBlock = ^{
         NSString* explicitUrl = @"";
         NSMutableDictionary *params = [NSMutableDictionary dictionary];
         switch (dataType) {
@@ -206,31 +202,30 @@ singleton_implementation(CZJBaseDataManager);
             default:
                 break;
         }
-
+        
         [CZJNetWorkInstance postJSONWithUrl:explicitUrl
                                  parameters:params
                                     success:successBlock
                                        fail:failBlock];
     };
+    [CZJUtils performBlock:loadHomeBlock afterDelay:0];
+    
     //定位服务开启与否的各种情况
-    BOOL isFlag = YES;
-    if([CLLocationManager locationServicesEnabled] && [CLLocationManager authorizationStatus] != kCLAuthorizationStatusDenied)
-    {
-        isFlag= NO;
-    }
-    if (isFlag)
-    {
-        _curLocation.latitude = 0;
-        _curLocation.longitude = 0;
-    }
-    else if (IS_IOS8)
-    {
-        [[CCLocationManager shareLocation] getLocationCoordinate:locationHander];
-    }
-    else if (IS_IOS7)
-    {
-        [[ZXLocationManager sharedZXLocationManager] getLocationCoordinate:locationHander];
-    }
+//    LocationBlock locationHander = ^(CLLocationCoordinate2D locationCorrrdinate){
+//        [_params setObject:@(locationCorrrdinate.longitude) forKey:@"lng"];
+//        [_params setObject:@(locationCorrrdinate.latitude) forKey:@"lat"];
+//        if (CZJHomeGetDataFromServerTypeOne == 0) {
+//            [self setCurLocation:locationCorrrdinate];
+//        }
+//    };
+//    if (IS_IOS8)
+//    {
+//        [[CCLocationManager shareLocation] getLocationCoordinate:locationHander];
+//    }
+//    else if (IS_IOS7)
+//    {
+//        [[ZXLocationManager sharedZXLocationManager] getLocationCoordinate:locationHander];
+//    }
 }
 
 
@@ -1020,6 +1015,10 @@ singleton_implementation(CZJBaseDataManager);
         {
             NSDictionary* dict = [CZJUtils DataFromJson:json];
             [USER_DEFAULT setObject:[dict valueForKey:@"msg"] forKey:kUserDefaultShoppingCartCount];
+            if (success)
+            {
+                success(json);
+            }
         }
     };
     
@@ -1371,6 +1370,11 @@ singleton_implementation(CZJBaseDataManager);
     CZJSuccessBlock successBlock = ^(id json){
         if ([self showAlertView:json])
         {
+            if (!_userInfoForm)
+            {
+                _userInfoForm = [[UserBaseForm alloc]init];
+            }
+            [_userInfoForm setUserInfoWithDictionary:[CZJUtils DataFromJson:json]];
             success(json);
         }
     };
@@ -1391,6 +1395,7 @@ singleton_implementation(CZJBaseDataManager);
 
 //上传用户头像
 - (void)uploadUserHeadPic:(NSDictionary*)postParams
+                    Image:(UIImage*)image
                   Success:(CZJSuccessBlock)success
                      fail:(CZJFailureBlock)fail
 {
@@ -1409,10 +1414,11 @@ singleton_implementation(CZJBaseDataManager);
     [params setValuesForKeysWithDictionary:self.params];
     [params setValuesForKeysWithDictionary:postParams];
     
-    [CZJNetWorkInstance postJSONWithUrl:kCZJServerAPIUploadHeadPic
-                             parameters:params
-                                success:successBlock
-                                   fail:failBlock];
+    [CZJNetWorkInstance uploadImageWithUrl:kCZJServerAPIUploadHeadPic
+                                     Image:image
+                                Parameters:params
+                                   success:successBlock
+                                   failure:failBlock];
 }
 
 //修改用户信息

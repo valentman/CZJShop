@@ -1241,7 +1241,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <animations/>
                         <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
-                        <color key="separatorColor" patternImage="0668E0E5-7E71-4A4A-B73A-D24ECC06A1A7" colorSpace="pattern"/>
+                        <color key="separatorColor" patternImage="605F0F8C-1349-4435-A32E-CC49DD1D5FD2" colorSpace="pattern"/>
                         <inset key="separatorInset" minX="15" minY="0.0" maxX="15" maxY="0.0"/>
                         <sections>
                             <tableViewSection id="t6n-nw-cfg" userLabel="Activity">
@@ -1684,7 +1684,7 @@
                                             <constraint firstAttribute="height" constant="30" id="zao-iv-hCv"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits"/>
+                                        <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                     </textField>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="手机号" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bXg-Vx-8bZ">
                                         <rect key="frame" x="0.0" y="28" width="42" height="21"/>
@@ -1852,7 +1852,7 @@
                                             <constraint firstAttribute="height" constant="30" id="5qo-WK-24f"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits"/>
+                                        <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                     </textField>
                                 </subviews>
                                 <animations/>
@@ -2074,7 +2074,7 @@
                                             <constraint firstAttribute="height" constant="30" id="2kH-BI-IRN"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits"/>
+                                        <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                     </textField>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="手机号" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m8U-x8-AaD">
                                         <rect key="frame" x="0.0" y="28" width="42" height="21"/>
@@ -2180,7 +2180,7 @@
                                             <constraint firstAttribute="height" constant="30" id="utm-rv-dAQ"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits"/>
+                                        <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TUb-Rm-sj3">
                                         <rect key="frame" x="150" y="20" width="90" height="30"/>
@@ -3165,6 +3165,26 @@
             </objects>
             <point key="canvasLocation" x="294" y="3321"/>
         </scene>
+        <!--消息中心-->
+        <scene sceneID="C5N-Vh-WCL">
+            <objects>
+                <viewController title="消息中心" id="CaJ-vH-x9l" customClass="CZJMyMessageCenterController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="qfu-OB-ufB"/>
+                        <viewControllerLayoutGuide type="bottom" id="gm8-Uy-TyK"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="WjK-lW-2SY">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="519"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <animations/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="O1p-65-rMy"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="7Xv-fE-1hv" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2920" y="1869"/>
+        </scene>
         <!--服务于反馈-->
         <scene sceneID="tif-eo-DoW">
             <objects>
@@ -3189,11 +3209,12 @@
         <scene sceneID="kpy-9c-kYQ">
             <objects>
                 <tableViewController id="nVa-xf-mXn" userLabel="个人信息" customClass="CZJPersonalInfoController" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="6T3-d7-lyS">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" alwaysBounceVertical="YES" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="static" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="6T3-d7-lyS">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="519"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="sectionIndexBackgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
                         <sections>
                             <tableViewSection headerTitle="    " id="1bO-9Z-6hH">
                                 <cells>
@@ -3212,14 +3233,11 @@
                                                     <color key="textColor" red="0.60000002379999995" green="0.60000002379999995" blue="0.60000002379999995" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" image="personal_icon_head.png" translatesAutoresizingMaskIntoConstraints="NO" id="4RS-II-dJy">
-                                                    <rect key="frame" x="258" y="5" width="51" height="51"/>
-                                                    <animations/>
-                                                </imageView>
                                             </subviews>
                                             <animations/>
                                         </tableViewCellContentView>
                                         <animations/>
+                                        <color key="backgroundColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="czjcell" textLabel="Gg8-xF-MCv" detailTextLabel="2US-o2-7vA" style="IBUITableViewCellStyleValue1" id="53S-xz-Jm3">
                                         <rect key="frame" x="0.0" y="153" width="320" height="44"/>
@@ -3236,8 +3254,8 @@
                                                     <color key="textColor" red="0.60000002379999995" green="0.60000002379999995" blue="0.60000002379999995" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="输入真实姓名便于更好的联系" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="2US-o2-7vA">
-                                                    <rect key="frame" x="123" y="13" width="182" height="17"/>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="2US-o2-7vA">
+                                                    <rect key="frame" x="267" y="13" width="38" height="17"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <animations/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -3248,6 +3266,7 @@
                                             <animations/>
                                         </tableViewCellContentView>
                                         <animations/>
+                                        <color key="backgroundColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="czjcell" textLabel="U93-Q8-f3x" detailTextLabel="FQt-dr-hWG" style="IBUITableViewCellStyleValue1" id="i9w-u1-xNX">
                                         <rect key="frame" x="0.0" y="197" width="320" height="44"/>
@@ -3264,8 +3283,8 @@
                                                     <color key="textColor" red="0.60000002379999995" green="0.60000002379999995" blue="0.60000002379999995" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="15135345545" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="FQt-dr-hWG">
-                                                    <rect key="frame" x="214" y="13" width="91" height="17"/>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="FQt-dr-hWG">
+                                                    <rect key="frame" x="267" y="13" width="38" height="17"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <animations/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -3276,6 +3295,7 @@
                                             <animations/>
                                         </tableViewCellContentView>
                                         <animations/>
+                                        <color key="backgroundColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="czjcell" textLabel="0Hx-7D-pUc" detailTextLabel="Pvw-tg-GSs" style="IBUITableViewCellStyleValue1" id="9lT-8C-p91">
                                         <rect key="frame" x="0.0" y="241" width="320" height="44"/>
@@ -3304,6 +3324,7 @@
                                             <animations/>
                                         </tableViewCellContentView>
                                         <animations/>
+                                        <color key="backgroundColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
                                         <connections>
                                             <segue destination="CbJ-i4-Cbk" kind="push" id="7SV-RW-UZA"/>
                                         </connections>
@@ -4011,6 +4032,7 @@
                         <segue destination="2iS-Ey-dDr" kind="push" identifier="segueToShare" id="Okn-Sv-FJm"/>
                         <segue destination="JpP-6E-tjj" kind="push" identifier="segueToInputCode" id="8dd-b8-lDX"/>
                         <segue destination="nVa-xf-mXn" kind="push" identifier="segueToPersonalInfo" id="nay-KO-6ai"/>
+                        <segue destination="CaJ-vH-x9l" kind="push" identifier="segueToMessageCenter" id="bca-ZA-fUA"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Jf6-ck-bmu" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -4573,7 +4595,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="0668E0E5-7E71-4A4A-B73A-D24ECC06A1A7" width="256" height="256">
+        <image name="605F0F8C-1349-4435-A32E-CC49DD1D5FD2" width="256" height="256">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPT5YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQrLjE3OlUkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw
@@ -8952,7 +8974,7 @@ ohscgAWABoAJEADSIAohIl8QFE5TVElGRlJlcHJlc2VudGF0aW9ugAeACE8SAAQNHk1NACoABAAIdXiB
 AgAAAREABAAAAAIABADGARIAAwAAAAEAAQAAARUAAwAAAAEABAAAARYAAwAAAAEAgAAAARcABAAAAAIA
 BAC+ARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAQABADOh3MABwAADEgABADWAAAAAAAIAAgA
 CAAIAAIAAAACAAAAAAAIAAIACAABAAEAAQABAAAMSExpbm8CEAAAbW50clJHQiBYWVogB84AAgAJAAYA
-MQAAYWNzcE1TRlQAAAAASUVDIHNSR0IAAAAAAAAAAAAAAAEAAPbWAAEAAAAA0y1IUCAgAAAAAAAAAAAA
+MQAAYWNzcE1TRlQAAAAASUVDIHNSR0IAAAAAAAAAAAAAAAAAAPbWAAEAAAAA0y1IUCAgAAAAAAAAAAAA
 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAARY3BydAAAAVAAAAAzZGVzYwAAAYQA
 AABsd3RwdAAAAfAAAAAUYmtwdAAAAgQAAAAUclhZWgAAAhgAAAAUZ1hZWgAAAiwAAAAUYlhZWgAAAkAA
 AAAUZG1uZAAAAlQAAABwZG1kZAAAAsQAAACIdnVlZAAAA0wAAACGdmlldwAAA9QAAAAkbHVtaQAAA/gA
@@ -9038,7 +9060,6 @@ AAAAAAAEDtA
         <image name="login_icon_select.png" width="11" height="11"/>
         <image name="login_icon_select_sel.png" width="11" height="11"/>
         <image name="login_img_titlebase.png" width="15" height="32"/>
-        <image name="personal_icon_head.png" width="50" height="50"/>
         <image name="prodetail_icon_guanzhu02.png" width="20" height="20"/>
         <image name="prodetail_icon_kefu02.png" width="20" height="20"/>
         <image name="prodetail_icon_shop02.png" width="20" height="20"/>
@@ -9051,9 +9072,9 @@ AAAAAAAEDtA
         <image name="shop_icon_location.png" width="24" height="24"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="rmV-te-JFO"/>
         <segue reference="lKt-0d-hD3"/>
         <segue reference="IN0-Kp-x1L"/>
-        <segue reference="rmV-te-JFO"/>
         <segue reference="daW-vB-UlX"/>
         <segue reference="lel-ft-RgU"/>
         <segue reference="Syl-A6-LlG"/>

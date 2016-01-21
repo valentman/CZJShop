@@ -12,6 +12,7 @@
 @protocol CZJNaviagtionBarViewDelegate <NSObject>
 
 - (void)clickEventCallBack:(nullable id)sender;
+- (void)removeShoppingOrLoginView:(nullable id)sender;
 
 @end
 

@@ -40,7 +40,8 @@ singleton_implementation(CZJLoginModelManager)
     DLog(@"%@",string);
     
     NSString* msgKey = [[dict valueForKey:@"code"] stringValue];
-    if (![msgKey isEqual:@"0"]) {
+    if (![msgKey isEqual:@"0"])
+    {
         [[CZJErrorCodeManager sharedCZJErrorCodeManager] ShowErrorInfoWithErrorCode:msgKey];
         return NO;
     }
@@ -88,7 +89,6 @@ singleton_implementation(CZJLoginModelManager)
             _cheZhuId = [[dict valueForKey:@"msg"] valueForKey:@"chezhuId"];
             [CZJBaseDataInstance refreshChezhuID:_cheZhuId];
             success(json);
-            DLog(@"使用验证码登录成功");
         }
     };
     CZJFailureBlock failure = ^()
@@ -115,24 +115,25 @@ singleton_implementation(CZJLoginModelManager)
     CZJSuccessBlock successBlock = ^(id json)
     {
         if ([self showAlertView:json]) {
-            self.usrBaseForm = [[UserBaseForm alloc] initWithDictionary:[CZJUtils DataFromJson:json]];
+            self.usrBaseForm = [[UserBaseForm alloc] init];
+            [self.usrBaseForm setUserInfoWithDictionary:[CZJUtils DataFromJson:json]];
             self.usrBaseForm.cityId = self.cityId;
             self.usrBaseForm.cityName = self.cityName;
             
             _cheZhuId = self.usrBaseForm.chezhuId;
             _mobile = self.usrBaseForm.mobile;
-            if ([self saveDataToLocal:json]) {
+            if ([self saveLoginInfoDataToLocal:json]) {
                 [USER_DEFAULT setObject:[NSNumber numberWithBool:YES] forKey:kCZJIsUserHaveLogined];
             }
-
-            success(json);
             [CZJBaseDataInstance refreshChezhuID:_cheZhuId];
-            DLog(@"使用密码登录成功");
+            CZJBaseDataInstance.userInfoForm = self.usrBaseForm;
+            success(json);
         }
     };
     CZJFailureBlock failure = ^()
     {
         [[CZJErrorCodeManager sharedCZJErrorCodeManager] ShowNetError];
+        
         fail();
     };
     
@@ -180,25 +181,30 @@ singleton_implementation(CZJLoginModelManager)
 
 - (void)loginWithDefaultInfoSuccess:(void (^)())success
                                fail:(void (^)())fail{
-    NSData* loginData = [self readDataFromLocal];
+    NSData* loginData = [self readLoginInfoDataFromLocal];
+    if (!loginData)
+    {
+        return;
+    }
     NSError* error;
     NSDictionary* dict = [NSJSONSerialization JSONObjectWithData:loginData options:NSJSONReadingMutableContainers error:&error];
-    
     if (error) {
         NSLog(@"json解析失败：%@",error);
         fail();
         return;
     }
-    self.usrBaseForm = [[UserBaseForm alloc] initWithDictionary:dict];
+    self.usrBaseForm = [[UserBaseForm alloc] init];
+    [self.usrBaseForm setUserInfoWithDictionary:dict];
     self.usrBaseForm.cityId = self.cityId;
     self.usrBaseForm.cityName = self.cityName;
     _cheZhuId = self.usrBaseForm.chezhuId;
     _mobile = self.usrBaseForm.mobile;
+    CZJBaseDataInstance.userInfoForm = self.usrBaseForm;
     success();
 }
 
 
-- (BOOL)saveDataToLocal:(id)json{
+- (BOOL)saveLoginInfoDataToLocal:(id)json{
     NSString *cacheDir = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
     NSString *path = [cacheDir stringByAppendingPathComponent:@"loginInfo"];
     NSFileManager *fileManager = [NSFileManager defaultManager];
@@ -216,7 +222,7 @@ singleton_implementation(CZJLoginModelManager)
 }
 
 
-- (NSData*)readDataFromLocal{
+- (NSData*)readLoginInfoDataFromLocal{
     NSString *cacheDir = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
     NSString *path = [cacheDir stringByAppendingPathComponent:@"loginInfo"];
     NSFileManager *fileManager = [NSFileManager defaultManager];
@@ -247,41 +253,41 @@ singleton_implementation(CZJLoginModelManager)
             tmp_lng = locationCorrrdinate.longitude;
             DLog(@"%f %f",locationCorrrdinate.latitude,locationCorrrdinate.longitude);}];
     }
-    
+    CZJSuccessBlock successBlock = ^(id json){
+        if ([self showAlertView:json]) {
+            NSDictionary* dict = [CZJUtils DataFromJson:json];
+            self.cityId = [[dict valueForKey:@"msg"] valueForKey:@"cityId"];
+            self.cityName = [[dict valueForKey:@"msg"] valueForKey:@"cityName"];
+            DLog(@"login suc");
+            success(json);
+        }
+    };
+    CZJFailureBlock failure = ^(){
+        [[CZJErrorCodeManager sharedCZJErrorCodeManager] ShowNetError];
+        fail();
+    };
     NSDictionary *params = @{@"cityName" : choiceCityName};
     [[CZJNetworkManager sharedCZJNetworkManager] postJSONWithUrl:@"chezhu/loadCityIdByName.do"
                                                       parameters:params
-                                                         success:^(id json){
-                                                             if ([self showAlertView:json]) {
-                                                                 NSDictionary* dict = [CZJUtils DataFromJson:json];
-                                                                 self.cityId = [[dict valueForKey:@"msg"] valueForKey:@"cityId"];
-                                                                 self.cityName = [[dict valueForKey:@"msg"] valueForKey:@"cityName"];
-                                                                 DLog(@"login suc");
-                                                                 success(json);
-                                                             }
-                                                         }
-                                                            fail:^(){
-                                                                [[CZJErrorCodeManager sharedCZJErrorCodeManager] ShowNetError];
-                                                                fail();
-                                                            }];
+                                                         success:successBlock
+                                                            fail:failure];
 }
 
 
 -(void)loadStartPageSuccess:(void (^)(id json))success
-                       Fail:(void (^)())fail{
+                       Fail:(void (^)())fail
+{
+    CZJSuccessBlock successBlock = ^(id json){
+        if ([self showAlertView:json]) {
+            self.startPageForm = [[StartPageForm alloc] initWithDictionary:[[CZJUtils DataFromJson:json] valueForKey:@"msg"]];
+            DLog(@"login suc");
+            success(json);
+        }
+    };
     NSDictionary *params = @{};
-    [[CZJNetworkManager sharedCZJNetworkManager] postJSONWithUrl:@"chezhu/loadStartPage.do" parameters:params
-                                                         success:^(id json){
-                                                             if ([self showAlertView:json]) {
-                                                                 self.startPageForm = [[StartPageForm alloc] initWithDictionary:[[CZJUtils DataFromJson:json] valueForKey:@"msg"]];
-                                                                 DLog(@"login suc");
-                                                                 success(json);
-                                                             }
-                                                         }
-                                                            fail:^(){
-                                                                //     [self showNetError];
-                                                                fail();
-                                                            }];
+    [[CZJNetworkManager sharedCZJNetworkManager] postJSONWithUrl:@"chezhu/loadStartPage.do"
+                                                      parameters:params
+                                                         success:successBlock                                                          fail:nil];
 }
 
 @end

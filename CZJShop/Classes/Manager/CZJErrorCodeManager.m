@@ -56,14 +56,32 @@ singleton_implementation(CZJErrorCodeManager)
 
 -(void)showErrorWranAsSheetWithError:(NSString *)Error
 {
-    FDAlertView *alert = [[FDAlertView alloc] initWithTitle:kCZJTitle icon:nil message:Error delegate:self buttonTitles:kCZJConfirmTitle,nil];
-    [alert setMessageColor:[UIColor redColor] fontSize:0];
-    [alert show];
+    UIWindow *window = [[UIApplication sharedApplication] keyWindow];
+    NSArray *windowViews = [window subviews];
+    if(windowViews && [windowViews count] > 0)
+    {
+        UIView *subView = [windowViews objectAtIndex:[windowViews count]-1];
+        for(UIView *aSubView in subView.subviews)
+        {
+            [aSubView.layer removeAllAnimations];
+        }
+        [CZJUtils tipWithText:Error andView:subView];
+    }
 }
 
 -(void)showErrorDescriptionWithError:(NSString *)Error
 {
-    
+    UIWindow *window = [[UIApplication sharedApplication] keyWindow];
+    NSArray *windowViews = [window subviews];
+    if(windowViews && [windowViews count] > 0)
+    {
+        UIView *subView = [windowViews objectAtIndex:[windowViews count]-1];
+        for(UIView *aSubView in subView.subviews)
+        {
+            [aSubView.layer removeAllAnimations];
+        }
+        [CZJUtils tipWithText:Error andView:subView];
+    }
 }
 
 - (void)alertView:(FDAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {

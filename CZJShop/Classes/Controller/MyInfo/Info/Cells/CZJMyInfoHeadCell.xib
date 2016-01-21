@@ -18,7 +18,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="169"/>
                         <animations/>
                     </imageView>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ffc-NE-hbV" userLabel="未登录">
+                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ffc-NE-hbV" userLabel="未登录">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="169"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="my_icon_head.png" translatesAutoresizingMaskIntoConstraints="NO" id="QYr-dW-RDs">
@@ -50,7 +50,7 @@
                             <constraint firstItem="1vL-Ah-IXg" firstAttribute="centerX" secondItem="ffc-NE-hbV" secondAttribute="centerX" id="ziD-3x-YHr"/>
                         </constraints>
                     </view>
-                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ABF-5Y-qOp" userLabel="已登录">
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ABF-5Y-qOp" userLabel="已登录">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="169"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="my_icon_head.png" translatesAutoresizingMaskIntoConstraints="NO" id="GWr-Xv-uRo">
@@ -60,6 +60,11 @@
                                     <constraint firstAttribute="width" constant="68" id="3c2-yl-sd7"/>
                                     <constraint firstAttribute="height" constant="68" id="LN2-TS-8hn"/>
                                 </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="34"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="用户名" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l9O-3b-7et">
                                 <rect key="frame" x="117" y="63" width="200" height="21"/>
@@ -84,10 +89,10 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="会员类型" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9At-Bf-k6a">
-                                <rect key="frame" x="117" y="104" width="60" height="21"/>
+                                <rect key="frame" x="117" y="104" width="60" height="18"/>
                                 <animations/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="21" id="LBx-RQ-lAk"/>
+                                    <constraint firstAttribute="height" constant="18" id="LBx-RQ-lAk"/>
                                     <constraint firstAttribute="width" constant="60" id="a1q-n1-LbS"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="11"/>
@@ -102,10 +107,17 @@
                                     <constraint firstAttribute="height" constant="10" id="yLX-R8-StW"/>
                                 </constraints>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eMl-OS-bcz">
-                                <rect key="frame" x="260" y="33" width="31" height="31"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eMl-OS-bcz">
+                                <rect key="frame" x="274" y="35" width="31" height="31"/>
                                 <animations/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="31" id="DaO-ci-KFH"/>
+                                    <constraint firstAttribute="width" constant="31" id="K1h-fm-86q"/>
+                                </constraints>
                                 <state key="normal" image="my_icon_msg.png"/>
+                                <connections>
+                                    <action selector="messageAction:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="Qc8-Jq-nOg"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="账户设置、收货地址、车辆管理" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hae-jB-KgM">
                                 <rect key="frame" x="148" y="144" width="150" height="10"/>
@@ -125,6 +137,7 @@
                             <constraint firstAttribute="bottom" secondItem="GWr-Xv-uRo" secondAttribute="bottom" constant="38" id="Ahp-EI-zz9"/>
                             <constraint firstItem="GWr-Xv-uRo" firstAttribute="leading" secondItem="ABF-5Y-qOp" secondAttribute="leading" constant="35" id="M7R-hR-hJ8"/>
                             <constraint firstItem="xjl-0E-Qtk" firstAttribute="top" secondItem="l9O-3b-7et" secondAttribute="bottom" constant="2" id="OAn-jT-o2Q"/>
+                            <constraint firstItem="eMl-OS-bcz" firstAttribute="top" secondItem="ABF-5Y-qOp" secondAttribute="top" constant="35" id="UZq-I6-qES"/>
                             <constraint firstItem="l9O-3b-7et" firstAttribute="top" secondItem="ABF-5Y-qOp" secondAttribute="top" constant="63" id="VRN-Jo-wNm"/>
                             <constraint firstItem="oNl-WR-M3f" firstAttribute="leading" secondItem="Hae-jB-KgM" secondAttribute="trailing" constant="2" id="c0u-FR-JFG"/>
                             <constraint firstAttribute="bottom" secondItem="Hae-jB-KgM" secondAttribute="bottom" constant="15" id="cnn-x1-Ya4"/>
@@ -132,6 +145,7 @@
                             <constraint firstAttribute="trailing" secondItem="oNl-WR-M3f" secondAttribute="trailing" constant="15" id="hO4-XZ-p1M"/>
                             <constraint firstItem="9At-Bf-k6a" firstAttribute="top" secondItem="xjl-0E-Qtk" secondAttribute="bottom" constant="3" id="iRH-Rb-asx"/>
                             <constraint firstAttribute="bottom" secondItem="oNl-WR-M3f" secondAttribute="bottom" constant="15" id="q3t-0n-cX1"/>
+                            <constraint firstAttribute="trailing" secondItem="eMl-OS-bcz" secondAttribute="trailing" constant="15" id="taa-Qq-ftO"/>
                             <constraint firstItem="l9O-3b-7et" firstAttribute="leading" secondItem="GWr-Xv-uRo" secondAttribute="trailing" constant="14" id="xJi-up-g8L"/>
                             <constraint firstItem="xjl-0E-Qtk" firstAttribute="leading" secondItem="GWr-Xv-uRo" secondAttribute="trailing" constant="14" id="xKK-qt-5UX"/>
                         </constraints>
@@ -154,6 +168,15 @@
                 </constraints>
             </tableViewCellContentView>
             <animations/>
+            <connections>
+                <outlet property="haveLoginView" destination="ABF-5Y-qOp" id="ZVK-1P-hI6"/>
+                <outlet property="messageBtn" destination="eMl-OS-bcz" id="Ykw-hA-p5N"/>
+                <outlet property="unLoginView" destination="ffc-NE-hbV" id="rve-XK-Ccz"/>
+                <outlet property="userHeadImg" destination="GWr-Xv-uRo" id="XGm-1F-zJS"/>
+                <outlet property="userNameLabel" destination="l9O-3b-7et" id="keL-Kp-Pdu"/>
+                <outlet property="userPhoneLabel" destination="xjl-0E-Qtk" id="RRn-om-lST"/>
+                <outlet property="userTypeLabel" destination="9At-Bf-k6a" id="NHk-cK-4Rm"/>
+            </connections>
             <point key="canvasLocation" x="379" y="242"/>
         </tableViewCell>
     </objects>

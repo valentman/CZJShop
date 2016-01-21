@@ -12,17 +12,25 @@
 #import "CZJGeneralCell.h"
 #import "CZJGeneralSubCell.h"
 #import "CZJBaseDataManager.h"
+#import "CZJLoginController.h"
+#import "CZJShoppingCartController.h"
+#import "UserBaseForm.h"
+
 
 @interface CZJMyInformationController ()
-<UITableViewDataSource,
+<
+UITableViewDataSource,
 UITableViewDelegate,
 CZJGeneralSubCellDelegate,
 CZJMyInfoHeadCellDelegate,
-CZJMyInfoShoppingCartCellDelegate
+CZJMyInfoShoppingCartCellDelegate,
+CZJViewControllerDelegate
 >
 {
     NSArray* orderSubCellAry;           //订单cell下子项数组
     NSArray* walletSubCellAry;          //我的钱包下子项数组
+    
+    UserBaseForm* _myInfoForm;
 }
 @property (weak, nonatomic) IBOutlet UITableView *myInfoTableView;
 
@@ -56,7 +64,7 @@ CZJMyInfoShoppingCartCellDelegate
     walletSubCellAry = [NSArray array];
     NSDictionary* dict1 = @{@"title":@"待付款", @"buttonImage":@"my_icon_pay", @"budge":@"2"};
     NSDictionary* dict2 = @{@"title":@"待施工", @"buttonImage":@"my_icon_shigong", @"budge":@"50"};
-    NSDictionary* dict3 = @{@"title":@"待施工", @"buttonImage":@"my_icon_shouhuo", @"budge":@"3"};
+    NSDictionary* dict3 = @{@"title":@"待收货", @"buttonImage":@"my_icon_shouhuo", @"budge":@"3"};
     NSDictionary* dict4 = @{@"title":@"待评价", @"buttonImage":@"my_icon_recommend", @"budge":@"4"};
     NSDictionary* dict5 = @{@"title":@"退换货", @"buttonImage":@"my_icon_tuihuo", @"budge":@""};
     orderSubCellAry = @[dict1,dict2,dict3,dict4,dict5];
@@ -92,18 +100,20 @@ CZJMyInfoShoppingCartCellDelegate
     if ([USER_DEFAULT boolForKey:kCZJIsUserHaveLogined])
     {//
         [CZJBaseDataInstance getUserInfo:nil Success:^(id json) {
-            
+            _myInfoForm = CZJBaseDataInstance.userInfoForm;
+            [self.myInfoTableView reloadData];
         } fail:^{
             
         }];
     }
 
-    [self.myInfoTableView reloadData];
+    
 }
 
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    [self.myInfoTableView reloadData];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -144,6 +154,10 @@ CZJMyInfoShoppingCartCellDelegate
         {
             CZJMyInfoHeadCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJMyInfoHeadCell" forIndexPath:indexPath];
             cell.delegate = self;
+            if (_myInfoForm)
+            {
+                [cell setUserPersonalInfo:_myInfoForm];
+            }
             return cell;
         }
         else if (1 == indexPath.row)
@@ -339,6 +353,12 @@ CZJMyInfoShoppingCartCellDelegate
     {
         case 0:
         {
+            //如果没有登录则进入登录页面
+            if (![USER_DEFAULT boolForKey:kCZJIsUserHaveLogined])
+            {
+                [CZJUtils showLoginView:self andNaviBar:nil];
+                return;
+            }
             UIViewController *shoppingcart = [CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:@"SBIDShoppingCart"];
             [self.navigationController pushViewController:shoppingcart animated:true];
         }
@@ -359,17 +379,39 @@ CZJMyInfoShoppingCartCellDelegate
 #pragma mark- CZJMyInfoHeadCellDelegate
 -(void)clickMyInfoHeadCell
 {
-    
+    //消息中心
+    [self performSegueWithIdentifier:@"segueToMessageCenter" sender:self];
+}
+
+#pragma mark- CZJViewControllerDelegate
+- (void)didCancel:(id)controller
+{
+    if ([controller isKindOfClass: [CZJLoginController class]] )
+    {
+        [CZJUtils removeLoginViewFromCurrent:self];
+        [self getMyInfoDataFromServer];
+    }
+    else if ([controller isKindOfClass: [CZJShoppingCartController class]])
+    {
+        [CZJUtils removeShoppintCartViewFromCurrent:self];
+    }
 }
 
 #pragma mark - Navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+- (void)performSegueWithIdentifier:(NSString *)identifier sender:(id)sender
 {
     //如果没有登录则进入登录页面
     if (![USER_DEFAULT boolForKey:kCZJIsUserHaveLogined])
     {
-        [CZJUtils showLoginView:self];
+        [CZJUtils showLoginView:self andNaviBar:nil];
+        return;
     }
+    [super performSegueWithIdentifier:identifier sender:sender];
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+
 }
 
 

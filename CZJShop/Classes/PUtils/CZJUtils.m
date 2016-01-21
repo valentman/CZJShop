@@ -53,7 +53,7 @@
 
 
 
-#pragma mark- 数据持久化
+#pragma mark /*数据持久化
 #pragma mark NSData数据的持久化
 + (BOOL)saveNSDataToLocal:(NSData*)data{
     NSString *cacheDir = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES)[0];
@@ -100,14 +100,14 @@
 
 
 #pragma mark NSMutableArray数据的持久化
-+ (void)writeArrayToPlist:(NSMutableArray*)array withPlistName:(NSString*)plistName{
++ (BOOL)writeArrayToPlist:(NSMutableArray*)array withPlistName:(NSString*)plistName{
     NSString *plistPath = [PJDocumentsPath stringByAppendingPathComponent:plistName];
     NSFileManager *fileManager = [NSFileManager defaultManager];
     BOOL isExists = [fileManager fileExistsAtPath:plistPath];
     if (!isExists) {
         [fileManager createFileAtPath:plistPath contents:nil attributes:nil];
     }
-    [array writeToFile:plistPath atomically:YES];
+    return [array writeToFile:plistPath atomically:YES];
 }
 
 + (NSMutableArray*)readArrayFromPlistWithName:(NSString*)plistName{
@@ -123,16 +123,8 @@
 }
 
 
-#pragma mark 把可变字典数据写入本地Plist文件
-+ (void)writeDataToPlist:(NSMutableDictionary*)dict{
-    [self writeDataToPlist:dict withPlistName:@"Message.plist"];
-}
-
-+ (void)writeStarInfoDataToPlist:(NSDictionary*)dict{
-    [self writeDataToPlist:[dict mutableCopy] withPlistName:kCZJPlistFileStartInfo];
-}
-
-+ (void)writeDataToPlist:(NSMutableDictionary*)dict withPlistName:(NSString*)plistName
+#pragma mark 把可变字典数据的持久化
++ (BOOL)writeDataToPlist:(NSMutableDictionary*)dict withPlistName:(NSString*)plistName
 {
     NSError *error;
     NSString *plistPath = [PJDocumentsPath stringByAppendingPathComponent:plistName];
@@ -147,19 +139,9 @@
                                                                   options:NSPropertyListMutableContainersAndLeaves
                                                                     error:&error];
     if(plistData) {
-        [plistData writeToFile:plistPath atomically:YES];
+        return [plistData writeToFile:plistPath atomically:YES];
     }
-}
-
-
-#pragma mark 从本地Plist文件读取到可变字典
-+ (NSMutableDictionary*)readDataFromPlist{
-    return [self readDataFromPlistWithName:@"Message.plist"];
-}
-
-+ (NSMutableDictionary*)readStartInfoPlistWithPlistName
-{
-    return [self readDataFromPlistWithName:kCZJPlistFileStartInfo];
+    return NO;
 }
 
 + (NSMutableDictionary*)readDataFromPlistWithName:(NSString*)plistName
@@ -182,7 +164,19 @@
 }
 
 
-#pragma mark- 正则判断
+#pragma mark 启动页面数据的读取
++ (NSMutableDictionary*)readStartInfoPlistWithPlistName
+{
+    return [self readDataFromPlistWithName:kCZJPlistFileStartInfo];
+}
+
++ (void)writeStarInfoDataToPlist:(NSDictionary*)dict{
+    [self writeDataToPlist:[dict mutableCopy] withPlistName:kCZJPlistFileStartInfo];
+}
+#pragma mark*/
+
+
+#pragma mark 正则判断
 + (BOOL)isLicencePlate:(NSString *)plateNum{
     NSString* PhoneNum = @"^[A-Z0-9]\\d{5}";
     NSPredicate *regextestmobile = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", PhoneNum];
@@ -264,8 +258,8 @@
 }
 
 
-#pragma mark- UI组件设置
-+( UIColor *) getColor:( NSString *)hexColor
+#pragma mark UI组件设置
++( UIColor *) getColorFromString:( NSString *)hexColor
 {
     unsigned int red, green, blue;
     NSRange range;
@@ -279,7 +273,7 @@
     return [ UIColor colorWithRed :( float )(red/ 255.0f ) green :( float )(green/ 255.0f ) blue :( float )(blue/ 255.0f ) alpha : 1.0f ];
 }
 
-+ (void)setSCforTableView:(UITableView *)tableView{
++ (void)setSepratorColorforTableView:(UITableView *)tableView{
     tableView.separatorColor = RGBA(230.0f, 230.0f, 230.0f, 1.0f);
 }
 
@@ -293,21 +287,7 @@
     [tableView setTableHeaderView:view];
 }
 
-+(void)setNavigationBarStayleForTarget:(UIViewController*)target{
-    [target.navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:48/255.0
-                                                                               green:165/255.0
-                                                                                blue:193/255.0
-                                                                               alpha:0.5]];
-    
-    
-    [target.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],NSForegroundColorAttributeName,nil]];
-    
-    [target.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
-    
-    UIBarButtonItem *backItem = [[UIBarButtonItem alloc] init];
-    backItem.title = @"";
-    target.navigationItem.backBarButtonItem = backItem;
-}
+
 
 + (void)hideSearchBarViewForTarget:(UIViewController*)target
 {
@@ -370,7 +350,7 @@ void backLastView(id sender, SEL _cmd)
 }
 
 
-#pragma mark- Frames
+#pragma mark Frames
 + (float)xSizeScale{
     
     return PJ_SCREEN_WIDTH/320;
@@ -391,7 +371,7 @@ void backLastView(id sender, SEL _cmd)
 }
 
 
-#pragma mark- 提示框
+#pragma mark 提示框
 +(void)tipWithText:(NSString *)text andView:(UIView *)view
 {
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
@@ -401,7 +381,7 @@ void backLastView(id sender, SEL _cmd)
     hud.yOffset = 20.f;
     hud.removeFromSuperViewOnHide = YES;
     [hud setYOffset:PJ_SCREEN_HEIGHT/4];
-    [hud hide:YES afterDelay:1];
+    [hud hide:YES afterDelay:3];
 }
 
 + (UIView*)showInfoCanvasOnTarget:(id)target action:(SEL)buttonSel{
@@ -450,18 +430,134 @@ void backLastView(id sender, SEL _cmd)
 
 
 #pragma mark- PJoe
-+ (void)printData:(id)data
-{
-    NSDictionary* printDic = [self DataFromJson:data];
-    
-    NSLog(@"%@",[printDic description]);
-}
-
-#pragma mark- 字符串处理
+#pragma mark 字符串处理
 + (NSString*)getExplicitServerAPIURLPathWithSuffix:(NSString*)urlStr{
     return [NSString stringWithFormat:@"%@%@",kCZJServerAddr,urlStr];
 }
 
++ (CGSize)calculateTitleSizeWithString:(NSString *)string AndFontSize:(CGFloat)fontSize
+{
+    return [self calculateStringSizeWithString:string Font:SYSTEMFONT(fontSize) Width:280];
+}
+
++ (CGSize)calculateTitleSizeWithString:(NSString *)string WithFont:(UIFont*)font
+{
+    return [self calculateStringSizeWithString:string Font:font Width:280];
+}
+
++ (CGSize)calculateStringSizeWithString:(NSString*)string Font:(UIFont*)font Width:(CGFloat)width
+{
+    NSDictionary *dic = @{NSFontAttributeName: font};
+    CGSize size = [string boundingRectWithSize:CGSizeMake(width, 0) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:dic context:nil].size;
+    return size;
+}
+
++ (NSMutableAttributedString*)stringWithDeleteLine:(NSString*)string
+{
+    NSUInteger length = [string length];
+    if (0 == length) {
+        return nil;
+    }
+    NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:string];
+    [attri addAttribute:NSStrikethroughStyleAttributeName value:@(NSUnderlinePatternSolid | NSUnderlineStyleSingle) range:NSMakeRange(1, length-1)];
+    [attri addAttribute:NSStrikethroughColorAttributeName value:UIColorFromRGB(0x999999) range:NSMakeRange(1, length-1)];
+    return attri;
+}
+
+
+#pragma mark 界面控制器处理
++ (UIViewController*)getViewControllerFromStoryboard:(NSString*)storyboardName andVCName:(NSString*)vcName
+{
+    //获取storyboard: 通过bundle根据storyboard的名字来获取我们的storyboard,
+    UIStoryboard *story = [UIStoryboard storyboardWithName:storyboardName bundle:[NSBundle mainBundle]];
+    return [story instantiateViewControllerWithIdentifier:vcName];
+}
+
++ (id)getXibViewByName:(NSString*)xibName
+{
+    NSArray *nib = [[NSBundle mainBundle]loadNibNamed:xibName owner:self options:nil];
+    return [nib objectAtIndex:0];
+}
+
++ (void)showLoginView:(CZJViewController*)target andNaviBar:(CZJNaviagtionBarView*)naviBar
+{
+    //由storyboard根据LoginView获取到登录界面
+    UINavigationController* loginView = (UINavigationController*)[self getViewControllerFromStoryboard:@"Main" andVCName:@"LoginView"];
+    
+    //把loginView加入到当前navigationController中
+    UIWindow *window = [[UIWindow alloc] initWithFrame:CGRectMake(0, PJ_SCREEN_HEIGHT, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT)];
+    window.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:1.0];
+    window.windowLevel = UIWindowLevelNormal;
+    window.hidden = NO;
+    window.rootViewController = loginView;
+    target.window = window;
+    [window makeKeyAndVisible];
+    
+    [UIView animateWithDuration:0.4 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+        target.window.frame = CGRectMake(0, 0, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT);
+        ((CZJLoginController*)loginView.topViewController).delegate = naviBar ? naviBar : target;
+    } completion:^(BOOL finished) {
+        [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
+    }];
+}
+
++ (void)showShoppingCartView:(CZJViewController*)target  andNaviBar:(CZJNaviagtionBarView*)naviBar
+{
+    //由storyboard根据LoginView获取到登录界面
+    UINavigationController *shopping = (UINavigationController*)[self getViewControllerFromStoryboard:@"Main" andVCName:@"ShoppingCart"];
+    
+    //把loginView加入到当前navigationController中
+    UIWindow *window = [[UIWindow alloc] initWithFrame:CGRectMake(PJ_SCREEN_WIDTH, 0, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT)];
+    window.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:1.0];
+    window.windowLevel = UIWindowLevelNormal;
+    window.hidden = NO;
+    window.rootViewController = shopping;
+    target.window = window;
+    [window makeKeyAndVisible];
+    
+    [UIView animateWithDuration:0.4 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+        target.window.frame = CGRectMake(0, 0, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT);
+        ((CZJShoppingCartController*)shopping.topViewController).delegate = naviBar ? naviBar : target;
+    } completion:^(BOOL finished) {
+        [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
+    }];
+}
+
+
+
++ (void)removeLoginViewFromCurrent:(CZJViewController*)target
+{
+    [UIView animateWithDuration:0.4 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^
+    {
+        target.window.frame = CGRectMake(0, PJ_SCREEN_HEIGHT, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT);
+        
+    }
+    completion:^(BOOL finished)
+    {
+        if (finished) {
+            [target.window resignKeyWindow];
+            target.window  = nil;
+        }
+    }];
+}
+
++ (void)removeShoppintCartViewFromCurrent:(CZJViewController*)target
+{
+    [UIView animateWithDuration:0.4f delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^
+    {
+        target.window.frame = CGRectMake(PJ_SCREEN_WIDTH, 0, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT);
+    }
+    completion:^(BOOL finished)
+    {
+        if (finished) {
+            [target.window resignKeyWindow];
+            target.window  = nil;
+        }
+    }];
+}
+
+
+#pragma mark 其它方法
 + (BOOL)isTimeCrossOneDay
 {//判断俩次启动相隔时长
     
@@ -519,131 +615,10 @@ void backLastView(id sender, SEL _cmd)
     }
 }
 
-+ (CGSize)calculateTitleSizeWithString:(NSString *)string AndFontSize:(CGFloat)fontSize
-{
-    return [self calculateStringSizeWithString:string Font:SYSTEMFONT(fontSize) Width:280];
-}
-
-+ (CGSize)calculateTitleSizeWithString:(NSString *)string WithFont:(UIFont*)font
-{
-    return [self calculateStringSizeWithString:string Font:font Width:280];
-}
-
-+ (CGSize)calculateStringSizeWithString:(NSString*)string Font:(UIFont*)font Width:(CGFloat)width
-{
-    NSDictionary *dic = @{NSFontAttributeName: font};
-    CGSize size = [string boundingRectWithSize:CGSizeMake(width, 0) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:dic context:nil].size;
-    return size;
-}
-
-+ (NSMutableAttributedString*)stringWithDeleteLine:(NSString*)string
-{
-    NSUInteger length = [string length];
-    if (0 == length) {
-        return nil;
-    }
-    NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:string];
-    [attri addAttribute:NSStrikethroughStyleAttributeName value:@(NSUnderlinePatternSolid | NSUnderlineStyleSingle) range:NSMakeRange(1, length-1)];
-    [attri addAttribute:NSStrikethroughColorAttributeName value:UIColorFromRGB(0x999999) range:NSMakeRange(1, length-1)];
-    return attri;
-}
-
-+ (UIViewController*)getViewControllerFromStoryboard:(NSString*)storyboardName andVCName:(NSString*)vcName
-{
-    //获取storyboard: 通过bundle根据storyboard的名字来获取我们的storyboard,
-    UIStoryboard *story = [UIStoryboard storyboardWithName:storyboardName bundle:[NSBundle mainBundle]];
-    return [story instantiateViewControllerWithIdentifier:vcName];
-}
-
-+ (void)showLoginView:(CZJViewController*)target
-{
-    //由storyboard根据LoginView获取到登录界面
-    UINavigationController* loginView = (UINavigationController*)[self getViewControllerFromStoryboard:@"Main" andVCName:@"LoginView"];
-    
-    //把loginView加入到当前navigationController中
-    UIWindow *window = [[UIWindow alloc] initWithFrame:CGRectMake(0, PJ_SCREEN_HEIGHT, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT)];
-    window.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:1.0];
-    window.windowLevel = UIWindowLevelNormal;
-    window.hidden = NO;
-    window.rootViewController = loginView;
-    target.window = window;
-    [window makeKeyAndVisible];
-    
-    [UIView animateWithDuration:0.4 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
-        target.window.frame = CGRectMake(0, 0, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT);
-        ((CZJLoginController*)loginView.topViewController).delegate = target;
-    } completion:^(BOOL finished) {
-        
-    }];
-}
-
-+ (void)showShoppingCartView:(CZJViewController*)target  andNaviBar:(CZJNaviagtionBarView*)naviBar
-{
-    //由storyboard根据LoginView获取到登录界面
-    UINavigationController *shopping = (UINavigationController*)[self getViewControllerFromStoryboard:@"Main" andVCName:@"ShoppingCart"];
-    
-    //把loginView加入到当前navigationController中
-    UIWindow *window = [[UIWindow alloc] initWithFrame:CGRectMake(PJ_SCREEN_WIDTH, 0, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT)];
-    window.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:1.0];
-    window.windowLevel = UIWindowLevelNormal;
-    window.hidden = NO;
-    window.rootViewController = shopping;
-    target.window = window;
-    [window makeKeyAndVisible];
-    
-    [UIView animateWithDuration:0.4 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
-        target.window.frame = CGRectMake(0, 0, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT);
-        ((CZJShoppingCartController*)shopping.topViewController).delegate = naviBar;
-    } completion:^(BOOL finished) {
-        
-    }];
-}
-
-
-
-+ (void)removeLoginViewFromCurrent:(CZJViewController*)target
-{
-    [UIView animateWithDuration:0.4 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^
-    {
-        target.window.frame = CGRectMake(0, PJ_SCREEN_HEIGHT, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT);
-        
-    }
-    completion:^(BOOL finished)
-    {
-        if (finished) {
-            [target.window resignKeyWindow];
-            target.window  = nil;
-        }
-    }];
-
-}
-
-+ (void)removeShoppintCartViewFromCurrent:(CZJViewController*)target
-{
-    [UIView animateWithDuration:0.4f delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^
-    {
-        target.window.frame = CGRectMake(PJ_SCREEN_WIDTH, 0, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT);
-    }
-    completion:^(BOOL finished)
-    {
-        if (finished) {
-            [target.window resignKeyWindow];
-            target.window  = nil;
-        }
-    }];
-    
-}
-
 + (void)performBlock:(CZJGeneralBlock)block afterDelay:(NSTimeInterval)delay
 {
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delay * NSEC_PER_SEC));
     dispatch_after(popTime, dispatch_get_main_queue(), block);
-}
-
-+ (id)getXibViewByName:(NSString*)xibName
-{
-    NSArray *nib = [[NSBundle mainBundle]loadNibNamed:xibName owner:self options:nil];
-    return [nib objectAtIndex:0];
 }
 
 + (void)callHotLine:(NSString*)phoneNum AndTarget:(id)target

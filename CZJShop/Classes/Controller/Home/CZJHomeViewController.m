@@ -628,6 +628,11 @@
     }
 }
 
+- (void)removeShoppingOrLoginView:(nullable id)sender
+{
+    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
+}
+
 
 #pragma mark- storyboardSegue
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -646,7 +651,4 @@
 {
     [self.homeTableView setContentOffset:CGPointMake(0,0) animated:YES];
 }
-
-
-
 @end

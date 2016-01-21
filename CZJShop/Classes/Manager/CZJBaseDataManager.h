@@ -16,6 +16,7 @@
 @class CZJGoodsForm;
 @class CZJShoppingCartForm;
 @class CZJOrderStoreCouponsForm;
+@class UserBaseForm;
 
 @interface CZJBaseDataManager : NSObject
 {
@@ -25,6 +26,8 @@
     CZJGoodsForm* _goodsForm;                       //商品相关信息
     CZJStoreForm* _storeForm;                       //门店信息
     CZJShoppingCartForm* _shoppingCartForm;         //购物车信息
+    UserBaseForm* _userInfoForm;                    //我的个人信息
+    
     NSMutableDictionary* _discoverForms;            //发现信息
     NSMutableArray* _orderStoreCouponAry;           //订单结算页面可用优惠券列表
     
@@ -38,6 +41,7 @@
 @property (nonatomic, retain) CZJStoreForm* storeForm;
 @property (nonatomic, retain) CZJDetailForm* detailsForm;
 @property (nonatomic, retain) CZJGoodsForm* goodsForm;
+@property (nonatomic, retain) UserBaseForm* userInfoForm;
 @property (nonatomic, retain) CZJShoppingCartForm* shoppingCartForm;
 @property (nonatomic, retain) NSMutableDictionary* discoverForms;
 @property (nonatomic, retain) NSMutableArray* orderStoreCouponAry;
@@ -270,6 +274,7 @@ singleton_interface(CZJBaseDataManager);
 
 //上传用户头像
 - (void)uploadUserHeadPic:(NSDictionary*)postParams
+                    Image:(UIImage*)image
                   Success:(CZJSuccessBlock)success
                      fail:(CZJFailureBlock)fail;
 

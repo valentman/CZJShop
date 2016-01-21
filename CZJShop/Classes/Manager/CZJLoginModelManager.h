@@ -58,7 +58,7 @@ singleton_interface(CZJLoginModelManager)
                   success:(CZJSuccessBlock)success
                      fail:(CZJGeneralBlock)fail;
 
-//获取开始界面接口
+//引导页
 -(void)loadStartPageSuccess:(CZJSuccessBlock)success
                        Fail:(CZJGeneralBlock)fail;
 

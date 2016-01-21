@@ -660,6 +660,11 @@
 		ECC4DEFA1C17FEA900FBD6A4 /* shaixuan_icon_hot@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = ECC4DEB41C17FEA900FBD6A4 /* shaixuan_icon_hot@2x.png */; };
 		ECC4DEFB1C17FEA900FBD6A4 /* shaixuan_icon_hot@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = ECC4DEB51C17FEA900FBD6A4 /* shaixuan_icon_hot@3x.png */; };
 		ECC4DEFD1C1802E100FBD6A4 /* AMap.bundle in Resources */ = {isa = PBXBuildFile; fileRef = ECC4DEFC1C1802E100FBD6A4 /* AMap.bundle */; };
+		ECCC32A11C50AF6E008A36CB /* CZJMyMessageCenterController.m in Sources */ = {isa = PBXBuildFile; fileRef = ECCC32A01C50AF6E008A36CB /* CZJMyMessageCenterController.m */; settings = {ASSET_TAGS = (); }; };
+		ECCC32A61C50B6BC008A36CB /* errorInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = ECCC32A21C50B6BC008A36CB /* errorInfo.plist */; settings = {ASSET_TAGS = (); }; };
+		ECCC32A71C50B6BC008A36CB /* errortype.plist in Resources */ = {isa = PBXBuildFile; fileRef = ECCC32A31C50B6BC008A36CB /* errortype.plist */; settings = {ASSET_TAGS = (); }; };
+		ECCC32A81C50B6BC008A36CB /* hintInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = ECCC32A41C50B6BC008A36CB /* hintInfo.plist */; settings = {ASSET_TAGS = (); }; };
+		ECCC32A91C50B6BC008A36CB /* msgInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = ECCC32A51C50B6BC008A36CB /* msgInfo.plist */; settings = {ASSET_TAGS = (); }; };
 		ECD5F0FC1C2D66C7002012F7 /* CZJChoosedProductCell.m in Sources */ = {isa = PBXBuildFile; fileRef = ECD5F0FA1C2D66C7002012F7 /* CZJChoosedProductCell.m */; };
 		ECD5F0FD1C2D66C7002012F7 /* CZJChoosedProductCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = ECD5F0FB1C2D66C7002012F7 /* CZJChoosedProductCell.xib */; };
 		ECD5F1001C2D6C0D002012F7 /* CZJChooseProductTypeController.m in Sources */ = {isa = PBXBuildFile; fileRef = ECD5F0FF1C2D6C0D002012F7 /* CZJChooseProductTypeController.m */; };
@@ -1793,6 +1798,12 @@
 		ECC4DEB41C17FEA900FBD6A4 /* shaixuan_icon_hot@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "shaixuan_icon_hot@2x.png"; sourceTree = "<group>"; };
 		ECC4DEB51C17FEA900FBD6A4 /* shaixuan_icon_hot@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "shaixuan_icon_hot@3x.png"; sourceTree = "<group>"; };
 		ECC4DEFC1C1802E100FBD6A4 /* AMap.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = AMap.bundle; path = MAMapKit.framework/Versions/2.5.0.002286d.60159/Resources/AMap.bundle; sourceTree = "<group>"; };
+		ECCC329F1C50AF6E008A36CB /* CZJMyMessageCenterController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJMyMessageCenterController.h; sourceTree = "<group>"; };
+		ECCC32A01C50AF6E008A36CB /* CZJMyMessageCenterController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJMyMessageCenterController.m; sourceTree = "<group>"; };
+		ECCC32A21C50B6BC008A36CB /* errorInfo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = errorInfo.plist; sourceTree = "<group>"; };
+		ECCC32A31C50B6BC008A36CB /* errortype.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = errortype.plist; sourceTree = "<group>"; };
+		ECCC32A41C50B6BC008A36CB /* hintInfo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = hintInfo.plist; sourceTree = "<group>"; };
+		ECCC32A51C50B6BC008A36CB /* msgInfo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = msgInfo.plist; sourceTree = "<group>"; };
 		ECD5F0F91C2D66C7002012F7 /* CZJChoosedProductCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJChoosedProductCell.h; sourceTree = "<group>"; };
 		ECD5F0FA1C2D66C7002012F7 /* CZJChoosedProductCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJChoosedProductCell.m; sourceTree = "<group>"; };
 		ECD5F0FB1C2D66C7002012F7 /* CZJChoosedProductCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CZJChoosedProductCell.xib; sourceTree = "<group>"; };
@@ -2608,6 +2619,8 @@
 				EC9F1A9B1C44E024003B65F1 /* CZJMyInfoServiceFeedbackController.m */,
 				EC2471A41C473AFB00B81BA9 /* CZJSexSelectController.h */,
 				EC2471A51C473AFB00B81BA9 /* CZJSexSelectController.m */,
+				ECCC329F1C50AF6E008A36CB /* CZJMyMessageCenterController.h */,
+				ECCC32A01C50AF6E008A36CB /* CZJMyMessageCenterController.m */,
 			);
 			path = Info;
 			sourceTree = "<group>";
@@ -3814,6 +3827,10 @@
 		ECDB61301BFB551600882BB2 /* Configs */ = {
 			isa = PBXGroup;
 			children = (
+				ECCC32A21C50B6BC008A36CB /* errorInfo.plist */,
+				ECCC32A31C50B6BC008A36CB /* errortype.plist */,
+				ECCC32A41C50B6BC008A36CB /* hintInfo.plist */,
+				ECCC32A51C50B6BC008A36CB /* msgInfo.plist */,
 			);
 			path = Configs;
 			sourceTree = "<group>";
@@ -4175,6 +4192,7 @@
 				ECC4DEB61C17FEA900FBD6A4 /* all_arrow_down@2x.png in Resources */,
 				ECC4DEE41C17FEA900FBD6A4 /* prodetail_icon_shoplogo@2x.png in Resources */,
 				ECC4DEDF1C17FEA900FBD6A4 /* prodetail_icon_share@3x.png in Resources */,
+				ECCC32A71C50B6BC008A36CB /* errortype.plist in Resources */,
 				ECC4DE041C17D67B00FBD6A4 /* wl_map_icon_position@2x.png in Resources */,
 				EC0F003B1C326D9300F124F8 /* shop_icon_coupon_blue@2x.png in Resources */,
 				EC442B781BFEF77800DC6F97 /* CZJLimitBuyCell.xib in Resources */,
@@ -4292,6 +4310,7 @@
 				ECC4DDC91C17D67B00FBD6A4 /* grayArrow.png in Resources */,
 				ECF1FB1F1C27986800B99D93 /* login_btn_off@3x.png in Resources */,
 				ECC4DDD21C17D67B00FBD6A4 /* JRSwizzle.podspec in Resources */,
+				ECCC32A81C50B6BC008A36CB /* hintInfo.plist in Resources */,
 				ECC4DECA1C17FEA900FBD6A4 /* prodetail_icon_guanzhu01@2x.png in Resources */,
 				ECDB61621BFB551600882BB2 /* all_arrow_next@2x.png in Resources */,
 				ECDB5DE51BFADD5F00882BB2 /* LaunchScreen.xib in Resources */,
@@ -4342,6 +4361,7 @@
 				ECC4DED31C17FEA900FBD6A4 /* prodetail_icon_kefu02@3x.png in Resources */,
 				ECF1FB1C1C27986800B99D93 /* login_btn_eye_on@2x.png in Resources */,
 				EC26A2E71C2A386600B166A3 /* commit_icon_circle2_sel@2x.png in Resources */,
+				ECCC32A61C50B6BC008A36CB /* errorInfo.plist in Resources */,
 				EC26A2DB1C2A386600B166A3 /* commit_arrow_next@2x.png in Resources */,
 				EC26A2E81C2A386600B166A3 /* commit_icon_circle2_sel@3x.png in Resources */,
 				ECDE20041C23BBDF009DA3E5 /* CZJGoodsListCell.xib in Resources */,
@@ -4437,6 +4457,7 @@
 				EC2A315C1C128CBA00622767 /* shop_icon_location@2x.png in Resources */,
 				EC79821B1C24EC43003FC433 /* pro_icon_price@3x.png in Resources */,
 				ECF54EF51C34C8DF007127B7 /* CZJEvalutionDetailReplyCell.xib in Resources */,
+				ECCC32A91C50B6BC008A36CB /* msgInfo.plist in Resources */,
 				EC0F003D1C326D9300F124F8 /* shop_icon_coupon_red@2x.png in Resources */,
 				EC5EEB5C1C45DC1100EEA368 /* CZJStoreDescribeTwoCell.xib in Resources */,
 				ECB4B6301C0E976F00925BCA /* icon_star_6@3x.png in Resources */,
@@ -4816,6 +4837,7 @@
 				ECC4DDC21C17D67B00FBD6A4 /* LoadMoreTableFooterView.m in Sources */,
 				EC8A0BB31C005C72002A2CED /* CZJGoodsRecoCellHeader.m in Sources */,
 				EC6ACCD81C30E15F00832B55 /* CZJChooseTypeHeaderCell.m in Sources */,
+				ECCC32A11C50AF6E008A36CB /* CZJMyMessageCenterController.m in Sources */,
 				ECC4DE141C17D67B00FBD6A4 /* MultilevelTableViewCell.m in Sources */,
 				EC2B968D1C4DE607004C60FB /* CZJOtherStoreListController.m in Sources */,
 				EC914B111C06DB2500E973CA /* CZJGoodsRecoCollectionCell.m in Sources */,

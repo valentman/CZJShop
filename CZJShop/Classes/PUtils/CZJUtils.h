@@ -22,29 +22,27 @@
 + (NSData*)readDataFromLocal;
 
 //---------------NSMutableArray数据的持久化-----------------------
-+ (void)writeArrayToPlist:(NSMutableArray*)array withPlistName:(NSString*)plistName;
++ (BOOL)writeArrayToPlist:(NSMutableArray*)array withPlistName:(NSString*)plistName;
 + (NSMutableArray*)readArrayFromPlistWithName:(NSString*)plistName;
 
-//---------------把NSMutableDictionary写入本地Plist文件------------
-+ (void)writeDataToPlist:(NSMutableDictionary*)dict;
-+ (void)writeStarInfoDataToPlist:(NSDictionary*)dict;
-+ (void)writeDataToPlist:(NSMutableDictionary*)dict withPlistName:(NSString*)plistName;
-
-//--------------从本地Plist文件读取到NSMutableDictionary------------
-+ (NSMutableDictionary*)readDataFromPlist;
-+ (NSMutableDictionary*)readStartInfoPlistWithPlistName;
+//---------------NSMutableDictionary数据的持久化------------------
++ (BOOL)writeDataToPlist:(NSMutableDictionary*)dict withPlistName:(NSString*)plistName;
 + (NSMutableDictionary*)readDataFromPlistWithName:(NSString*)plistName;
 
-//---------------------------正则判断------------------------------
+//----------------------启动界面信息------------------------------
++ (void)writeStarInfoDataToPlist:(NSDictionary*)dict;
++ (NSMutableDictionary*)readStartInfoPlistWithPlistName;
+
+
+//-----------------------正则判断---------------------------------
 + (BOOL)isLicencePlate:(NSString *)plateNum;
 + (BOOL)isPhoneNumber:(NSString *)mobileNum;
 + (BOOL)isMobileNumber:(NSString *)mobileNum;
 
-//--------------------------UI组件设置-----------------------------
-+ (UIColor *)getColor:( NSString *)hexColor;
+//------------------------UI组件设置-----------------------------
++ (UIColor *)getColorFromString:( NSString *)hexColor;
 + (void)setExtraCellLineHidden: (UITableView *)tableView;
-+ (void)setSCforTableView:(UITableView *)tableView;
-+ (void)setNavigationBarStayleForTarget:(UIViewController*)target;
++ (void)setSepratorColorforTableView:(UITableView *)tableView;
 + (void)hideSearchBarViewForTarget:(UIViewController*)target;    //隐藏自定义搜索栏
 + (void)customizeNavigationBarForTarget:(UIViewController*)target;   //自定义导航栏返回按钮
 + (void)fullScreenGestureRecognizeForTarget:(UIViewController*)currenTarget;    //自定义全屏手势返回
@@ -62,25 +60,37 @@
 
 
 #pragma mark- PJoe
-+ (void)printData:(id)data;
+//----------------------------字符串处理--------------------------
 + (NSString*)getExplicitServerAPIURLPathWithSuffix:(NSString*)urlStr;
-+ (BOOL)isTimeCrossOneDay;
-+ (BOOL)isTimeCrossFiveMin:(int)intervalMin;
-+ (void)printClassMethodList:(id)target;
+//获取字符串的Size
 + (CGSize)calculateTitleSizeWithString:(NSString *)string WithFont:(UIFont*)font;
-+ (CGSize)calculateTitleSizeWithString:(NSString *)string AndFontSize:(CGFloat)fontSize;        //计算一定FontSize的字符串的长宽
++ (CGSize)calculateTitleSizeWithString:(NSString *)string AndFontSize:(CGFloat)fontSize;
 + (CGSize)calculateStringSizeWithString:(NSString*)string Font:(UIFont*)font Width:(CGFloat)width;
-+ (NSMutableAttributedString*)stringWithDeleteLine:(NSString*)string;                           //返回带删除线的字符串
+//返回带删除线的字符串
++ (NSMutableAttributedString*)stringWithDeleteLine:(NSString*)string;
 
-
+//----------------------------界面控制器处理--------------------------
+//从SB中获取VC
 + (UIViewController*)getViewControllerFromStoryboard:(NSString*)storyboardName andVCName:(NSString*)vcName;
-+ (void)showLoginView:(UIViewController*)target;
+//从Xib文件中获取View
++ (id)getXibViewByName:(NSString*)xibName;
+//登录界面和购物车界面的共通处理
++ (void)showLoginView:(UIViewController*)target andNaviBar:(UIView*)naviBar;
 + (void)removeLoginViewFromCurrent:(UIViewController*)target;
 + (void)showShoppingCartView:(UIViewController*)target andNaviBar:(UIView*)naviBar;
 + (void)removeShoppintCartViewFromCurrent:(UIViewController*)target ;
 
-+ (void)performBlock:(CZJGeneralBlock)block afterDelay:(NSTimeInterval)delay;                        //延迟执行Block
-+ (id)getXibViewByName:(NSString*)xibName;
+//-----------------------------其它处理方法---------------------------
+//获取时间间隔
++ (BOOL)isTimeCrossOneDay;
++ (BOOL)isTimeCrossFiveMin:(int)intervalMin;
+//延迟执行Block
++ (void)performBlock:(CZJGeneralBlock)block afterDelay:(NSTimeInterval)delay;
+//打印类所有方法和成员变量
++ (void)printClassMethodList:(id)target;
++ (void)printClassMemberVarible:(id)target;
+//调用打电话
 + (void)callHotLine:(NSString*)phoneNum AndTarget:(id)target;
+//创建字符Layer
 + (CATextLayer *)creatTextLayerWithNSString:(NSString *)string withColor:(UIColor *)color andPosition:(CGPoint)point andNumOfMenu:(int)_numOfMenu;
 @end
