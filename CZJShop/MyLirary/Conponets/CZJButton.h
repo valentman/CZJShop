@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CZJButton : UIView
+@interface CZJButton : UIButton
 
+
+- (void)setBadgeNum:(NSInteger)badgeNum;
 @end

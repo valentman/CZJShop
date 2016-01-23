@@ -225,6 +225,17 @@
 		EC2C433D1C3FB827007C0D40 /* CZJOrderCouponHeaderCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EC2C433B1C3FB827007C0D40 /* CZJOrderCouponHeaderCell.xib */; };
 		EC303D241C4A1C62008B5A8C /* CZJStoreDetailMenuCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EC303D221C4A1C62008B5A8C /* CZJStoreDetailMenuCell.m */; };
 		EC303D251C4A1C62008B5A8C /* CZJStoreDetailMenuCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EC303D231C4A1C62008B5A8C /* CZJStoreDetailMenuCell.xib */; };
+		EC32165B1C5219660037D809 /* prodetail_icon_guanzhu01_sel@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EC3216571C5219660037D809 /* prodetail_icon_guanzhu01_sel@2x.png */; settings = {ASSET_TAGS = (); }; };
+		EC32165C1C5219660037D809 /* prodetail_icon_guanzhu01_sel@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = EC3216581C5219660037D809 /* prodetail_icon_guanzhu01_sel@3x.png */; settings = {ASSET_TAGS = (); }; };
+		EC32165D1C5219660037D809 /* prodetail_icon_guanzhu02_sel@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EC3216591C5219660037D809 /* prodetail_icon_guanzhu02_sel@2x.png */; settings = {ASSET_TAGS = (); }; };
+		EC32165E1C5219660037D809 /* prodetail_icon_guanzhu02_sel@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = EC32165A1C5219660037D809 /* prodetail_icon_guanzhu02_sel@3x.png */; settings = {ASSET_TAGS = (); }; };
+		EC3216671C5226C10037D809 /* CZJStoreAttentionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EC3216651C5226C10037D809 /* CZJStoreAttentionCell.m */; settings = {ASSET_TAGS = (); }; };
+		EC3216681C5226C10037D809 /* CZJStoreAttentionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EC3216661C5226C10037D809 /* CZJStoreAttentionCell.xib */; settings = {ASSET_TAGS = (); }; };
+		EC32166C1C5226E30037D809 /* CZJGoodsAttentionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EC32166A1C5226E30037D809 /* CZJGoodsAttentionCell.m */; settings = {ASSET_TAGS = (); }; };
+		EC32166D1C5226E30037D809 /* CZJGoodsAttentionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EC32166B1C5226E30037D809 /* CZJGoodsAttentionCell.xib */; settings = {ASSET_TAGS = (); }; };
+		EC3216711C522A340037D809 /* CZJStoreAttentionHeadCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EC32166F1C522A340037D809 /* CZJStoreAttentionHeadCell.m */; settings = {ASSET_TAGS = (); }; };
+		EC3216721C522A340037D809 /* CZJStoreAttentionHeadCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EC3216701C522A340037D809 /* CZJStoreAttentionHeadCell.xib */; settings = {ASSET_TAGS = (); }; };
+		EC3216751C522D2F0037D809 /* CZJAttentionForm.m in Sources */ = {isa = PBXBuildFile; fileRef = EC3216741C522D2F0037D809 /* CZJAttentionForm.m */; settings = {ASSET_TAGS = (); }; };
 		EC3400001C433D5A0063A071 /* my_icon_tuihuo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EC34FFDE1C433D5A0063A071 /* my_icon_tuihuo@2x.png */; };
 		EC3400011C433D5A0063A071 /* my_icon_tuihuo@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = EC34FFDF1C433D5A0063A071 /* my_icon_tuihuo@3x.png */; };
 		EC3400021C433D5A0063A071 /* my_icon_wallet@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EC34FFE01C433D5A0063A071 /* my_icon_wallet@2x.png */; };
@@ -776,6 +787,13 @@
 		ECFA85CF1C1BC21D009F9177 /* default_icon_car@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = ECFA85CD1C1BC21D009F9177 /* default_icon_car@2x.png */; };
 		ECFA85D01C1BC21D009F9177 /* default_icon_car@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = ECFA85CE1C1BC21D009F9177 /* default_icon_car@3x.png */; };
 		ECFA85D41C1BD3C3009F9177 /* CZJFilterBaseController.m in Sources */ = {isa = PBXBuildFile; fileRef = ECFA85D31C1BD3C3009F9177 /* CZJFilterBaseController.m */; };
+		ECFAFA841C536C13004E1E16 /* CZJMyCarListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = ECFAFA821C536C13004E1E16 /* CZJMyCarListCell.m */; settings = {ASSET_TAGS = (); }; };
+		ECFAFA851C536C13004E1E16 /* CZJMyCarListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = ECFAFA831C536C13004E1E16 /* CZJMyCarListCell.xib */; settings = {ASSET_TAGS = (); }; };
+		ECFAFA881C536FF3004E1E16 /* CZJMyCarListController.m in Sources */ = {isa = PBXBuildFile; fileRef = ECFAFA871C536FF3004E1E16 /* CZJMyCarListController.m */; settings = {ASSET_TAGS = (); }; };
+		ECFAFA8D1C5370EB004E1E16 /* car_icon_add@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = ECFAFA891C5370EB004E1E16 /* car_icon_add@2x.png */; settings = {ASSET_TAGS = (); }; };
+		ECFAFA8E1C5370EB004E1E16 /* car_icon_add@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = ECFAFA8A1C5370EB004E1E16 /* car_icon_add@3x.png */; settings = {ASSET_TAGS = (); }; };
+		ECFAFA8F1C5370EB004E1E16 /* car_icon_angle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = ECFAFA8B1C5370EB004E1E16 /* car_icon_angle@2x.png */; settings = {ASSET_TAGS = (); }; };
+		ECFAFA901C5370EB004E1E16 /* car_icon_angle@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = ECFAFA8C1C5370EB004E1E16 /* car_icon_angle@3x.png */; settings = {ASSET_TAGS = (); }; };
 		ECFFB94D1C0FF3CE00811C2E /* CZJStoreForm.m in Sources */ = {isa = PBXBuildFile; fileRef = ECFFB94C1C0FF3CE00811C2E /* CZJStoreForm.m */; };
 		ECFFB9501C10275E00811C2E /* CZJProvinceForm.m in Sources */ = {isa = PBXBuildFile; fileRef = ECFFB94F1C10275E00811C2E /* CZJProvinceForm.m */; };
 		ECFFB9531C103CC500811C2E /* CZJStoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ECFFB9521C103CC500811C2E /* CZJStoreViewController.m */; };
@@ -1097,6 +1115,21 @@
 		EC303D211C4A1C62008B5A8C /* CZJStoreDetailMenuCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJStoreDetailMenuCell.h; sourceTree = "<group>"; };
 		EC303D221C4A1C62008B5A8C /* CZJStoreDetailMenuCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJStoreDetailMenuCell.m; sourceTree = "<group>"; };
 		EC303D231C4A1C62008B5A8C /* CZJStoreDetailMenuCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CZJStoreDetailMenuCell.xib; sourceTree = "<group>"; };
+		EC3216571C5219660037D809 /* prodetail_icon_guanzhu01_sel@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "prodetail_icon_guanzhu01_sel@2x.png"; sourceTree = "<group>"; };
+		EC3216581C5219660037D809 /* prodetail_icon_guanzhu01_sel@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "prodetail_icon_guanzhu01_sel@3x.png"; sourceTree = "<group>"; };
+		EC3216591C5219660037D809 /* prodetail_icon_guanzhu02_sel@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "prodetail_icon_guanzhu02_sel@2x.png"; sourceTree = "<group>"; };
+		EC32165A1C5219660037D809 /* prodetail_icon_guanzhu02_sel@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "prodetail_icon_guanzhu02_sel@3x.png"; sourceTree = "<group>"; };
+		EC3216641C5226C10037D809 /* CZJStoreAttentionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJStoreAttentionCell.h; sourceTree = "<group>"; };
+		EC3216651C5226C10037D809 /* CZJStoreAttentionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJStoreAttentionCell.m; sourceTree = "<group>"; };
+		EC3216661C5226C10037D809 /* CZJStoreAttentionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CZJStoreAttentionCell.xib; sourceTree = "<group>"; };
+		EC3216691C5226E30037D809 /* CZJGoodsAttentionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJGoodsAttentionCell.h; sourceTree = "<group>"; };
+		EC32166A1C5226E30037D809 /* CZJGoodsAttentionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJGoodsAttentionCell.m; sourceTree = "<group>"; };
+		EC32166B1C5226E30037D809 /* CZJGoodsAttentionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CZJGoodsAttentionCell.xib; sourceTree = "<group>"; };
+		EC32166E1C522A340037D809 /* CZJStoreAttentionHeadCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJStoreAttentionHeadCell.h; sourceTree = "<group>"; };
+		EC32166F1C522A340037D809 /* CZJStoreAttentionHeadCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJStoreAttentionHeadCell.m; sourceTree = "<group>"; };
+		EC3216701C522A340037D809 /* CZJStoreAttentionHeadCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CZJStoreAttentionHeadCell.xib; sourceTree = "<group>"; };
+		EC3216731C522D2F0037D809 /* CZJAttentionForm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJAttentionForm.h; sourceTree = "<group>"; };
+		EC3216741C522D2F0037D809 /* CZJAttentionForm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJAttentionForm.m; sourceTree = "<group>"; };
 		EC34000A1C4343890063A071 /* CZJMyInformationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJMyInformationController.h; sourceTree = "<group>"; };
 		EC34000B1C4343890063A071 /* CZJMyInformationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJMyInformationController.m; sourceTree = "<group>"; };
 		EC34000E1C43444D0063A071 /* CZJMyInfoHeadCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJMyInfoHeadCell.h; sourceTree = "<group>"; };
@@ -1933,6 +1966,15 @@
 		ECFA85CE1C1BC21D009F9177 /* default_icon_car@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "default_icon_car@3x.png"; sourceTree = "<group>"; };
 		ECFA85D21C1BD3C3009F9177 /* CZJFilterBaseController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJFilterBaseController.h; sourceTree = "<group>"; };
 		ECFA85D31C1BD3C3009F9177 /* CZJFilterBaseController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJFilterBaseController.m; sourceTree = "<group>"; };
+		ECFAFA811C536C13004E1E16 /* CZJMyCarListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJMyCarListCell.h; sourceTree = "<group>"; };
+		ECFAFA821C536C13004E1E16 /* CZJMyCarListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJMyCarListCell.m; sourceTree = "<group>"; };
+		ECFAFA831C536C13004E1E16 /* CZJMyCarListCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CZJMyCarListCell.xib; sourceTree = "<group>"; };
+		ECFAFA861C536FF3004E1E16 /* CZJMyCarListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJMyCarListController.h; sourceTree = "<group>"; };
+		ECFAFA871C536FF3004E1E16 /* CZJMyCarListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJMyCarListController.m; sourceTree = "<group>"; };
+		ECFAFA891C5370EB004E1E16 /* car_icon_add@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "car_icon_add@2x.png"; sourceTree = "<group>"; };
+		ECFAFA8A1C5370EB004E1E16 /* car_icon_add@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "car_icon_add@3x.png"; sourceTree = "<group>"; };
+		ECFAFA8B1C5370EB004E1E16 /* car_icon_angle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "car_icon_angle@2x.png"; sourceTree = "<group>"; };
+		ECFAFA8C1C5370EB004E1E16 /* car_icon_angle@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "car_icon_angle@3x.png"; sourceTree = "<group>"; };
 		ECFFB94B1C0FF3CE00811C2E /* CZJStoreForm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJStoreForm.h; sourceTree = "<group>"; };
 		ECFFB94C1C0FF3CE00811C2E /* CZJStoreForm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJStoreForm.m; sourceTree = "<group>"; };
 		ECFFB94E1C10275E00811C2E /* CZJProvinceForm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJProvinceForm.h; sourceTree = "<group>"; };
@@ -2256,6 +2298,8 @@
 				EC05C4171C3E629A00C4ABA3 /* CZJOrderForm.m */,
 				EC583A011C48D4AF001401FC /* CZJStoreDetailForm.h */,
 				EC583A021C48D4AF001401FC /* CZJStoreDetailForm.m */,
+				EC3216731C522D2F0037D809 /* CZJAttentionForm.h */,
+				EC3216741C522D2F0037D809 /* CZJAttentionForm.m */,
 			);
 			name = Madel;
 			path = Classes/Madel;
@@ -2621,6 +2665,8 @@
 				EC2471A51C473AFB00B81BA9 /* CZJSexSelectController.m */,
 				ECCC329F1C50AF6E008A36CB /* CZJMyMessageCenterController.h */,
 				ECCC32A01C50AF6E008A36CB /* CZJMyMessageCenterController.m */,
+				ECFAFA861C536FF3004E1E16 /* CZJMyCarListController.h */,
+				ECFAFA871C536FF3004E1E16 /* CZJMyCarListController.m */,
 			);
 			path = Info;
 			sourceTree = "<group>";
@@ -2640,6 +2686,18 @@
 				EC34001D1C4344D50063A071 /* CZJGeneralSubCell.h */,
 				EC34001E1C4344D50063A071 /* CZJGeneralSubCell.m */,
 				EC34001F1C4344D50063A071 /* CZJGeneralSubCell.xib */,
+				EC3216641C5226C10037D809 /* CZJStoreAttentionCell.h */,
+				EC3216651C5226C10037D809 /* CZJStoreAttentionCell.m */,
+				EC3216661C5226C10037D809 /* CZJStoreAttentionCell.xib */,
+				EC3216691C5226E30037D809 /* CZJGoodsAttentionCell.h */,
+				EC32166A1C5226E30037D809 /* CZJGoodsAttentionCell.m */,
+				EC32166B1C5226E30037D809 /* CZJGoodsAttentionCell.xib */,
+				EC32166E1C522A340037D809 /* CZJStoreAttentionHeadCell.h */,
+				EC32166F1C522A340037D809 /* CZJStoreAttentionHeadCell.m */,
+				EC3216701C522A340037D809 /* CZJStoreAttentionHeadCell.xib */,
+				ECFAFA811C536C13004E1E16 /* CZJMyCarListCell.h */,
+				ECFAFA821C536C13004E1E16 /* CZJMyCarListCell.m */,
+				ECFAFA831C536C13004E1E16 /* CZJMyCarListCell.xib */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -2647,6 +2705,10 @@
 		EC34FFC11C433D5A0063A071 /* MyInfo */ = {
 			isa = PBXGroup;
 			children = (
+				ECFAFA891C5370EB004E1E16 /* car_icon_add@2x.png */,
+				ECFAFA8A1C5370EB004E1E16 /* car_icon_add@3x.png */,
+				ECFAFA8B1C5370EB004E1E16 /* car_icon_angle@2x.png */,
+				ECFAFA8C1C5370EB004E1E16 /* car_icon_angle@3x.png */,
 				EC3400251C439FE60063A071 /* personal_icon_head@2x.png */,
 				EC3400261C439FE60063A071 /* personal_icon_head@3x.png */,
 				EC34FFC21C433D5A0063A071 /* my_icon_attention@2x.png */,
@@ -3622,6 +3684,10 @@
 		ECC4DE6F1C17FEA900FBD6A4 /* ServiceDetail */ = {
 			isa = PBXGroup;
 			children = (
+				EC3216571C5219660037D809 /* prodetail_icon_guanzhu01_sel@2x.png */,
+				EC3216581C5219660037D809 /* prodetail_icon_guanzhu01_sel@3x.png */,
+				EC3216591C5219660037D809 /* prodetail_icon_guanzhu02_sel@2x.png */,
+				EC32165A1C5219660037D809 /* prodetail_icon_guanzhu02_sel@3x.png */,
 				EC393F7E1C2E349400B17228 /* prodetail_arrow_next@2x.png */,
 				EC393F7F1C2E349400B17228 /* prodetail_arrow_next@3x.png */,
 				EC393F801C2E349400B17228 /* prodetail_icon_coupon01@2x.png */,
@@ -4174,6 +4240,7 @@
 				ECDB618A1BFB551600882BB2 /* home_icon_recommend@2x.png in Resources */,
 				EC393F8D1C2E349400B17228 /* prodetail_arrow_next@3x.png in Resources */,
 				EC26A3041C2A386600B166A3 /* commit_lable_anzhuang@3x.png in Resources */,
+				EC32165D1C5219660037D809 /* prodetail_icon_guanzhu02_sel@2x.png in Resources */,
 				ECC4DEF91C17FEA900FBD6A4 /* shaixuan_icon_gou_sel@3x.png in Resources */,
 				EC28E2CE1C152BA0003423F9 /* location_no@2x.png in Resources */,
 				EC26A2F01C2A386600B166A3 /* commit_icon_liuyan@3x.png in Resources */,
@@ -4181,6 +4248,7 @@
 				EC34FFFE1C433D5A0063A071 /* my_icon_shouhuo@2x.png in Resources */,
 				ECC4DEEC1C17FEA900FBD6A4 /* prodetail_pop_base@2x.png in Resources */,
 				ECF1FB171C27986800B99D93 /* login_btn_back@3x.png in Resources */,
+				EC32165B1C5219660037D809 /* prodetail_icon_guanzhu01_sel@2x.png in Resources */,
 				EC4EF4C71C3A561400E0FA91 /* add_icon_gou@3x.png in Resources */,
 				ECC4DDFC1C17D67B00FBD6A4 /* wl_map_icon_1@2x.png in Resources */,
 				EC0C93691C2002B2002A7FF5 /* CZJDetailPicShowCell.xib in Resources */,
@@ -4220,6 +4288,7 @@
 				ECB4B63C1C0E976F00925BCA /* shop_icon_heart@3x.png in Resources */,
 				ECC4DEC41C17FEA900FBD6A4 /* prodetail_btn_shop@2x.png in Resources */,
 				EC5B86EF1C0D346B008EC732 /* CZJDiscoverCell.xib in Resources */,
+				ECFAFA8D1C5370EB004E1E16 /* car_icon_add@2x.png in Resources */,
 				ECC4DE511C17D67B00FBD6A4 /* pop.png in Resources */,
 				EC4EF4B01C3A4E7300E0FA91 /* commit_lable_zeng@2x.png in Resources */,
 				ECC4DECE1C17FEA900FBD6A4 /* prodetail_icon_home@2x.png in Resources */,
@@ -4233,6 +4302,7 @@
 				EC5B86E81C0D3315008EC732 /* find_icon_yaoyiyao@2x.png in Resources */,
 				EC4EF4A81C3A4D8000E0FA91 /* CZJLeaveMessageCell.xib in Resources */,
 				EC26A2F61C2A386600B166A3 /* commit_icon_swich_on@3x.png in Resources */,
+				ECFAFA851C536C13004E1E16 /* CZJMyCarListCell.xib in Resources */,
 				EC26A3021C2A386600B166A3 /* commit_icon_ziying@3x.png in Resources */,
 				ECC4DEDE1C17FEA900FBD6A4 /* prodetail_icon_share@2x.png in Resources */,
 				EC0F004A1C326D9300F124F8 /* shop_icon_serve@3x.png in Resources */,
@@ -4324,6 +4394,8 @@
 				ECC4DDC51C17D67B00FBD6A4 /* blackArrow.png in Resources */,
 				EC3400211C4344D50063A071 /* CZJGeneralSubCell.xib in Resources */,
 				EC34FFF91C433D5A0063A071 /* my_icon_set@3x.png in Resources */,
+				EC32165E1C5219660037D809 /* prodetail_icon_guanzhu02_sel@3x.png in Resources */,
+				EC3216721C522A340037D809 /* CZJStoreAttentionHeadCell.xib in Resources */,
 				ECE55B101C19765700B2A441 /* all_btn_saoyisao@2x.png in Resources */,
 				ECB4B6331C0E976F00925BCA /* icon_star_9@2x.png in Resources */,
 				ECDB61631BFB551600882BB2 /* all_arrow_next@3x.png in Resources */,
@@ -4363,8 +4435,10 @@
 				EC26A2E71C2A386600B166A3 /* commit_icon_circle2_sel@2x.png in Resources */,
 				ECCC32A61C50B6BC008A36CB /* errorInfo.plist in Resources */,
 				EC26A2DB1C2A386600B166A3 /* commit_arrow_next@2x.png in Resources */,
+				EC32166D1C5226E30037D809 /* CZJGoodsAttentionCell.xib in Resources */,
 				EC26A2E81C2A386600B166A3 /* commit_icon_circle2_sel@3x.png in Resources */,
 				ECDE20041C23BBDF009DA3E5 /* CZJGoodsListCell.xib in Resources */,
+				ECFAFA8E1C5370EB004E1E16 /* car_icon_add@3x.png in Resources */,
 				ECC4DE001C17D67B00FBD6A4 /* wl_map_icon_4@2x.png in Resources */,
 				EC26A2EE1C2A386600B166A3 /* commit_icon_line@3x.png in Resources */,
 				EC0C937D1C201103002A7FF5 /* CZJEvalutionDescCell.xib in Resources */,
@@ -4382,6 +4456,7 @@
 				ECC4DEC91C17FEA900FBD6A4 /* prodetail_comment_line@3x.png in Resources */,
 				EC26A2DA1C2A386600B166A3 /* commit_arrow_down@3x.png in Resources */,
 				EC5B86E41C0D3315008EC732 /* find_icon_news@2x.png in Resources */,
+				ECFAFA901C5370EB004E1E16 /* car_icon_angle@3x.png in Resources */,
 				ECDB61701BFB551600882BB2 /* all_btn_my@2x.png in Resources */,
 				ECC4DE3C1C17D67B00FBD6A4 /* SVProgressHUD.bundle in Resources */,
 				EC26A3001C2A386600B166A3 /* commit_icon_zhifubao@3x.png in Resources */,
@@ -4452,6 +4527,7 @@
 				ECC4DEF11C17FEA900FBD6A4 /* serve_icon_shop@3x.png in Resources */,
 				ECF1FB1A1C27986800B99D93 /* login_btn_eye_off@2x.png in Resources */,
 				ECC4DEFD1C1802E100FBD6A4 /* AMap.bundle in Resources */,
+				EC32165C1C5219660037D809 /* prodetail_icon_guanzhu01_sel@3x.png in Resources */,
 				ECB4B6361C0E976F00925BCA /* icon_star_10@3x.png in Resources */,
 				ECC4DEE21C17FEA900FBD6A4 /* prodetail_icon_shop02@2x.png in Resources */,
 				EC2A315C1C128CBA00622767 /* shop_icon_location@2x.png in Resources */,
@@ -4531,6 +4607,7 @@
 				ECC4DDDD1C17D67B00FBD6A4 /* LICENSE in Resources */,
 				EC26A2E31C2A386600B166A3 /* commit_icon_anzhuang2@2x.png in Resources */,
 				EC0F003A1C326D9300F124F8 /* shop_btn_other@3x.png in Resources */,
+				ECFAFA8F1C5370EB004E1E16 /* car_icon_angle@2x.png in Resources */,
 				ECC4DE131C17D67B00FBD6A4 /* MultilevelCollectionViewCell.xib in Resources */,
 				ECC4DECB1C17FEA900FBD6A4 /* prodetail_icon_guanzhu01@3x.png in Resources */,
 				EC4EF4C41C3A561400E0FA91 /* add_btn_edit@2x.png in Resources */,
@@ -4544,6 +4621,7 @@
 				EC26A2FA1C2A386600B166A3 /* commit_icon_weixin@3x.png in Resources */,
 				EC34FFEB1C433D5A0063A071 /* my_icon_input@3x.png in Resources */,
 				EC26A2E51C2A386600B166A3 /* commit_icon_circle2@2x.png in Resources */,
+				EC3216681C5226C10037D809 /* CZJStoreAttentionCell.xib in Resources */,
 				ECC4DEBE1C17FEA900FBD6A4 /* prodetail_btn_backnor@2x.png in Resources */,
 				ECDB617A1BFB551600882BB2 /* all_btn_shopping@2x.png in Resources */,
 				EC154CF01C1EBEB50004FAF5 /* CZJCarBrandsListCellTableViewCell.xib in Resources */,
@@ -4583,6 +4661,7 @@
 				ECC4DE461C17D67B00FBD6A4 /* UUDatePicker.m in Sources */,
 				EC9F1A8A1C44DEFE003B65F1 /* CZJMyInfoWalletController.m in Sources */,
 				EC10E69B1BFC699000CDBFCD /* CZJErrorCodeManager.m in Sources */,
+				ECFAFA881C536FF3004E1E16 /* CZJMyCarListController.m in Sources */,
 				EC26A33C1C2A7AD500B166A3 /* CZJShoppingCartCell.m in Sources */,
 				EC0C93811C20112B002A7FF5 /* CZJEvalutionFooterCell.m in Sources */,
 				ECC4DE171C17D67B00FBD6A4 /* MXPullDownCollectionViewCell.m in Sources */,
@@ -4712,6 +4791,7 @@
 				EC025FDA1C21036E00A8085E /* UIView+MJExtension.m in Sources */,
 				EC0F00521C329DE800F124F8 /* CZJAfterServiceController.m in Sources */,
 				EC1D984F1C1A6D930063FBFB /* CZJButtonArrayCell.m in Sources */,
+				EC32166C1C5226E30037D809 /* CZJGoodsAttentionCell.m in Sources */,
 				ECC4DE541C17D67B00FBD6A4 /* ZHPickView.m in Sources */,
 				ECC4DE2C1C17D67B00FBD6A4 /* UIImage+MultiFormat.m in Sources */,
 				ECF54EF41C34C8DF007127B7 /* CZJEvalutionDetailReplyCell.m in Sources */,
@@ -4724,12 +4804,14 @@
 				ECC4DDBB1C17D67B00FBD6A4 /* AnimatedGif.m in Sources */,
 				EC2471A61C473AFB00B81BA9 /* CZJSexSelectController.m in Sources */,
 				ECFA85D41C1BD3C3009F9177 /* CZJFilterBaseController.m in Sources */,
+				ECFAFA841C536C13004E1E16 /* CZJMyCarListCell.m in Sources */,
 				ECC4DDCF1C17D67B00FBD6A4 /* FDAlertView.m in Sources */,
 				EC10E6881BFC24C800CDBFCD /* CZJUtils.m in Sources */,
 				EC4EF4641C3A0F5900E0FA91 /* CZJDeliveryAddrController.m in Sources */,
 				ECC4DE2F1C17D67B00FBD6A4 /* UIImageView+WebCache.m in Sources */,
 				ECC4DDE11C17D67B00FBD6A4 /* KSDefaultFootRefreshView.m in Sources */,
 				ECC4DDA71C17D67B00FBD6A4 /* AFURLConnectionOperation.m in Sources */,
+				EC3216711C522A340037D809 /* CZJStoreAttentionHeadCell.m in Sources */,
 				ECC4DDE51C17D67B00FBD6A4 /* UIScrollView+KS.m in Sources */,
 				EC10E6861BFC24C800CDBFCD /* CommonData.m in Sources */,
 				EC442B7C1BFEF7B300DC6F97 /* CZJAdBanerPlusCell.m in Sources */,
@@ -4825,11 +4907,13 @@
 				EC442B771BFEF77800DC6F97 /* CZJLimitBuyCell.m in Sources */,
 				EC025FF41C21507000A8085E /* WyzAlbumViewController.m in Sources */,
 				EC154CF81C1EBEB50004FAF5 /* CZJServiceListController.m in Sources */,
+				EC3216671C5226C10037D809 /* CZJStoreAttentionCell.m in Sources */,
 				EC4EF48E1C3A1F0A00E0FA91 /* CZJOrderProductHeaderCell.m in Sources */,
 				ECC4DE4D1C17D67B00FBD6A4 /* ApiXml.mm in Sources */,
 				EC025FC91C21036E00A8085E /* MJRefreshBackFooter.m in Sources */,
 				ECD5F0FC1C2D66C7002012F7 /* CZJChoosedProductCell.m in Sources */,
 				EC3400201C4344D50063A071 /* CZJGeneralSubCell.m in Sources */,
+				EC3216751C522D2F0037D809 /* CZJAttentionForm.m in Sources */,
 				ECDB5DCB1BFADB0500882BB2 /* main.m in Sources */,
 				ECC4DE471C17D67B00FBD6A4 /* UUDatePicker_DateModel.m in Sources */,
 				ECC4DDAB1C17D67B00FBD6A4 /* AliPayManager.m in Sources */,

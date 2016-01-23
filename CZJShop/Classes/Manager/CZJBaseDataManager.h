@@ -168,16 +168,20 @@ singleton_interface(CZJBaseDataManager);
                    fail:(CZJFailureBlock)failure;
 
 //关注门店
-- (void)attentionStore:(NSDictionary*)postParams;
+- (void)attentionStore:(NSDictionary*)postParams
+               success:(CZJSuccessBlock)success;
 
 //取消关注门店
-- (void)cancleAttentionStore:(NSDictionary*)postParams;
+- (void)cancleAttentionStore:(NSDictionary*)postParams
+               success:(CZJSuccessBlock)success;
 
 //关注商品
-- (void)attentionGoods:(NSDictionary*)postParams;
+- (void)attentionGoods:(NSDictionary*)postParams
+               success:(CZJSuccessBlock)success;
 
 //取消关注商品
-- (void)cancleAttentionGoods:(NSDictionary*)postParams;
+- (void)cancleAttentionGoods:(NSDictionary*)postParams
+               success:(CZJSuccessBlock)success;
 
 //其他门店列表
 - (void)loadOtherStoreList:(NSDictionary*)postParams
@@ -263,6 +267,7 @@ singleton_interface(CZJBaseDataManager);
 
 //通用
 - (void)generalPost:(NSDictionary*)postParams
+            success:(CZJSuccessBlock)success
        andServerAPI:(NSString*)api;
 
 

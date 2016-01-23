@@ -886,23 +886,27 @@ singleton_implementation(CZJBaseDataManager);
 }
 
 - (void)attentionStore:(NSDictionary*)postParams
+               success:(CZJSuccessBlock)success
 {
-    [self generalPost:postParams andServerAPI:kCZJServerAPIAttentionStore];
+    [self generalPost:postParams success:success andServerAPI:kCZJServerAPIAttentionStore];
 }
 
 - (void)cancleAttentionStore:(NSDictionary*)postParams
+               success:(CZJSuccessBlock)success
 {
-    [self generalPost:postParams andServerAPI:kCZJServerAPICancelAttentionStore];
+    [self generalPost:postParams success:success andServerAPI:kCZJServerAPICancelAttentionStore];
 }
 
 - (void)attentionGoods:(NSDictionary*)postParams
+               success:(CZJSuccessBlock)success
 {
-    [self generalPost:postParams andServerAPI:kCZJServerAPIAttentaionGoods];
+    [self generalPost:postParams success:success andServerAPI:kCZJServerAPIAttentaionGoods];
 }
 
 - (void)cancleAttentionGoods:(NSDictionary*)postParams
+               success:(CZJSuccessBlock)success
 {
-    [self generalPost:postParams andServerAPI:kCZJServerAPICancleAttentionGoods];
+    [self generalPost:postParams success:success andServerAPI:kCZJServerAPICancleAttentionGoods];
 }
 
 - (void)loadOtherStoreList:(NSDictionary*)postParams
@@ -1338,11 +1342,13 @@ singleton_implementation(CZJBaseDataManager);
 
 
 - (void)generalPost:(NSDictionary*)postParams
+            success:(CZJSuccessBlock)success
        andServerAPI:(NSString*)api
 {
     CZJSuccessBlock successBlock = ^(id json){
         if ([self showAlertView:json])
         {
+            success(json);
         }
     };
     

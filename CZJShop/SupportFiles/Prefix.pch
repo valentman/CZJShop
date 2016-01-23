@@ -27,6 +27,7 @@
 #import "CZJViewControllerDelegate.h"
 #import "CZJViewController.h"
 #import "UIView+Frame.h"
+#import "CZJButton.h"
 #import "UIView+RGSize.h"
 #import "NSDictionary+NSDictonay_Unicode.h"
 

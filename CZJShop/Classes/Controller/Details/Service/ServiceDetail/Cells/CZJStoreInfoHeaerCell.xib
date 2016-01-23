@@ -67,6 +67,9 @@
                                 <color key="value" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
                             </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
+                        <connections>
+                            <action selector="attentionStoreAction:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="OVE-XC-WZ8"/>
+                        </connections>
                     </button>
                 </subviews>
                 <animations/>

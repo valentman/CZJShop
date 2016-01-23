@@ -13,6 +13,8 @@
 #import "CZJLoginController.h"
 #import "CZJShoppingCartController.h"
 #import "CZJNaviagtionBarView.h"
+#import "CZJDetailViewController.h"
+#import "CZJStoreDetailController.h"
 
 @interface CZJUtils ()<UIAlertViewDelegate>
 
@@ -374,14 +376,24 @@ void backLastView(id sender, SEL _cmd)
 #pragma mark 提示框
 +(void)tipWithText:(NSString *)text andView:(UIView *)view
 {
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
-    hud.mode = MBProgressHUDModeText;
-    hud.labelText = text;
-    hud.margin = 15.f;
-    hud.yOffset = 20.f;
-    hud.removeFromSuperViewOnHide = YES;
-    [hud setYOffset:PJ_SCREEN_HEIGHT/4];
-    [hud hide:YES afterDelay:3];
+    UIWindow *window = [[UIApplication sharedApplication] keyWindow];
+    NSArray *windowViews = [window subviews];
+    if(windowViews && [windowViews count] > 0)
+    {
+        UIView *subView = [windowViews objectAtIndex:[windowViews count]-1];
+        for(UIView *aSubView in subView.subviews)
+        {
+            [aSubView.layer removeAllAnimations];
+        }
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:subView animated:YES];
+        hud.mode = MBProgressHUDModeText;
+        hud.labelText = text;
+        hud.margin = 15.f;
+        hud.yOffset = 20.f;
+        hud.removeFromSuperViewOnHide = YES;
+        [hud setYOffset:PJ_SCREEN_HEIGHT/4];
+        [hud hide:YES afterDelay:3];
+    }
 }
 
 + (UIView*)showInfoCanvasOnTarget:(id)target action:(SEL)buttonSel{
@@ -651,6 +663,25 @@ void backLastView(id sender, SEL _cmd)
     layer.position = point;
     
     return layer;
+}
+
+
++ (void)showGoodsServiceDetailView:(UINavigationController*)navi
+                        andItemPid:(NSString*)sid
+                        detailType:(CZJDetailType)detailtype
+{
+    CZJDetailViewController* detailView = (CZJDetailViewController*)[CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:@"goodsDetailSBID"];
+    detailView.storeItemPid = sid;
+    detailView.detaiViewType = detailtype;
+    [navi pushViewController:detailView animated:true];
+}
+
+
++ (void)showStoreDetailView:(UINavigationController*)navi andStoreId:(NSString*)sid
+{
+    CZJStoreDetailController* storeDetail = (CZJStoreDetailController*)[CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:@"storeDetailVC"];
+    storeDetail.storeId = sid;
+    [navi pushViewController:storeDetail animated:true];
 }
 
 @end

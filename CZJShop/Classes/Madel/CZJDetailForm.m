@@ -68,12 +68,9 @@
     if (CZJDetailTypeService == type)
     {//服务详情页面
         _purchaseCount = [dict valueForKey:@"purchaseCount"];
-        _serviceDetail = [[CZJServiceDetail alloc]initWithDictionary:[[dict valueForKey:@"msg"] valueForKey:@"goods"]];
     }
-    if (CZJDetailTypeGoods == type)
-    {//商品详情页面
-        _goodsDetail = [[CZJGoodsDetail alloc]initWithDictionary:[[dict valueForKey:@"msg"] valueForKey:@"goods"]];
-    }
+    _goodsDetail = [[CZJGoodsDetail alloc]initWithDictionary:[[dict valueForKey:@"msg"] valueForKey:@"goods"]];
+    
     //门店信息
     _storeInfo = [[CZJStoreInfoForm alloc]initWithDictionary:[[dict valueForKey:@"msg"] valueForKey:@"store"]];
     

@@ -101,7 +101,7 @@ static NSString *const kCZJServerAPIMyScanList = @"chezhu/loadVisits.do";       
 static NSString *const kCZJServerAPIClearScanList = @"chezhu/emptyVisits.do";                       //清空浏览记录
 static NSString *const kCZJServerAPISearch = @"chezhu/suggest.do";                                  //搜索
 static NSString *const kCZJServerAPIGetAttentionList = @"chezhu/loadAttentions.do";                 //获取关注列表
-static NSString *const kCZJServerAPIRemoveAttentions = @"chezhu/deleteAttentions.do";               //取消关注列表("type", type)
+static NSString *const kCZJServerAPIRemoveAttentions = @"chezhu/deleteAttentions.do";               //取消关注列表
 
 
 

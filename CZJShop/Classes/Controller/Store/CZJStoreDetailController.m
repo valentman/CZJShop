@@ -664,12 +664,16 @@ MKMapViewDelegate
 {
     _storeDetailForm.attentionFlag = !_storeDetailForm.attentionFlag;
     if (_storeDetailForm.attentionFlag) {
-        [CZJBaseDataInstance attentionStore:@{@"storeId" : _storeDetailForm.storeId}];
+        [CZJBaseDataInstance attentionStore:@{@"storeId" : _storeDetailForm.storeId} success:^(id json) {
+            
+        }];
         _storeDetailForm.attentionCount = [NSString stringWithFormat:@"%ld",[_storeDetailForm.attentionCount integerValue] + 1];
     }
     else
     {
-        [CZJBaseDataInstance cancleAttentionStore:@{@"storeId" : _storeDetailForm.storeId}];
+        [CZJBaseDataInstance cancleAttentionStore:@{@"storeId" : _storeDetailForm.storeId} success:^(id json) {
+            
+        }];
         _storeDetailForm.attentionCount = [NSString stringWithFormat:@"%ld",[_storeDetailForm.attentionCount integerValue] - 1];
     }
     [self.myTableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];

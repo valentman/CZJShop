@@ -10,9 +10,7 @@
 #import "UIImageView+WebCache.h"
 
 @interface CZJMyInfoHeadCell ()
-@property (weak, nonatomic) IBOutlet UIView *unLoginView;
-@property (weak, nonatomic) IBOutlet UIView *haveLoginView;
-@property (weak, nonatomic) IBOutlet UIButton *messageBtn;
+@property (weak, nonatomic) IBOutlet CZJButton *messageBtn;
 @property (weak, nonatomic) IBOutlet UIImageView *userHeadImg;
 @property (weak, nonatomic) IBOutlet UILabel *userNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *userPhoneLabel;
@@ -37,8 +35,6 @@
 
 - (void)setUserPersonalInfo:(UserBaseForm*)userinfo
 {
-    self.unLoginView.hidden = YES;
-    self.haveLoginView.hidden = NO;
     self.userNameLabel.text = userinfo.chezhuName;
     self.userPhoneLabel.text = userinfo.mobile;
     [self.userHeadImg sd_setImageWithURL:[NSURL URLWithString:userinfo.chezhuHeadImg] placeholderImage:IMAGENAMED(@"my_icon_head")];
@@ -49,6 +45,7 @@
     self.userTypeLabel.layer.backgroundColor = [UIColor lightGrayColor].CGColor;
     self.userTypeLabel.layer.borderWidth = 1;
     self.userTypeLabel.layer.borderColor = [UIColor whiteColor].CGColor;
+    [self.messageBtn setBadgeNum:-1];
 }
 
 - (IBAction)messageAction:(id)sender

@@ -15,7 +15,8 @@
 
 @interface CZJMyInfoHeadCell : CZJTableViewCell
 @property(weak, nonatomic)id<CZJMyInfoHeadCellDelegate> delegate;
-
+@property (weak, nonatomic) IBOutlet UIView *unLoginView;
+@property (weak, nonatomic) IBOutlet UIView *haveLoginView;
 
 - (void)setUserPersonalInfo:(UserBaseForm*)userinfo;
 @end

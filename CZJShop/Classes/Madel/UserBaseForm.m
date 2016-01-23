@@ -30,11 +30,11 @@
     self.isHaveNewMessage = [[[dictionary valueForKey:@"msg"] valueForKey:@"chezhuName"]boolValue];
     self.sex = [[dictionary valueForKey:@"msg"] valueForKey:@"sex"];
     NSString* sexual;
-    if (1 == [self.sex intValue])
+    if (2 == [self.sex intValue])
     {
         sexual = @"女";
     }
-    else if (2 == [self.sex intValue])
+    else if (1 == [self.sex intValue])
     {
         sexual = @"男";
     }
@@ -42,7 +42,7 @@
     {
         sexual = @"保密";
     }
-    [USER_DEFAULT setObject:[self.sex intValue] == 2? @"男":@"女" forKey:kUSerDefaultSexual];
+    [USER_DEFAULT setObject:sexual forKey:kUSerDefaultSexual];
     self.nopay = [[dictionary valueForKey:@"msg"] valueForKey:@"nopay"];
     self.nobuild = [[dictionary valueForKey:@"msg"] valueForKey:@"nobuild"];
     self.noreceive = [[dictionary valueForKey:@"msg"] valueForKey:@"noreceive"];

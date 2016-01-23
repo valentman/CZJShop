@@ -14,11 +14,11 @@
     NSMutableArray* titles;
     int cellType;
 }
-@property (weak, nonatomic) IBOutlet UIButton *button1;
-@property (weak, nonatomic) IBOutlet UIButton *button2;
-@property (weak, nonatomic) IBOutlet UIButton *button3;
-@property (weak, nonatomic) IBOutlet UIButton *button4;
-@property (weak, nonatomic) IBOutlet UIButton *button5;
+@property (weak, nonatomic) IBOutlet CZJButton *button1;
+@property (weak, nonatomic) IBOutlet CZJButton *button2;
+@property (weak, nonatomic) IBOutlet CZJButton *button3;
+@property (weak, nonatomic) IBOutlet CZJButton *button4;
+@property (weak, nonatomic) IBOutlet CZJButton *button5;
 
 @property (weak, nonatomic) IBOutlet UILabel *title1;
 @property (weak, nonatomic) IBOutlet UILabel *title2;
@@ -60,7 +60,7 @@
     for (int i =0; i < items.count; i++)
     {
         NSDictionary* dict = (NSDictionary*)items[i];
-        UIButton* _btn = buttons[i];
+        CZJButton* _btn = buttons[i];
         UILabel* _label = titles[i];
         _label.text = [dict valueForKey:@"title"];
         if (type == kCZJGeneralSubCellTypeWallet)
@@ -73,6 +73,7 @@
         if (type == kCZJGeneralSubCellTypeOrder)
         {
             [_btn setImage:IMAGENAMED([dict valueForKey:@"buttonImage"]) forState:UIControlStateNormal];
+            [_btn setBadgeNum:[[dict valueForKey:@"budge"] integerValue]];
         }
     }
 

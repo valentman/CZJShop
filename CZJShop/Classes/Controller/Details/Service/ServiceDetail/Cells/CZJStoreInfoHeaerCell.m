@@ -13,6 +13,8 @@
 - (void)awakeFromNib {
     // Initialization code
     _attentionStore.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    [_attentionStore setImage:IMAGENAMED(@"prodetail_icon_guanzhu01") forState:UIControlStateNormal];
+    [_attentionStore setImage:IMAGENAMED(@"prodetail_icon_guanzhu01_sel") forState:UIControlStateSelected];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -21,4 +23,7 @@
     // Configure the view for the selected state
 }
 
+- (IBAction)attentionStoreAction:(id)sender {
+    [self.delegate clickAttentionStore:self];
+}
 @end

@@ -533,10 +533,9 @@
             if (1 == indexPath.row) {
                 return 135;
             }
-           
             break;
         case 4:
-            return 50;
+            return 100;
             break;
         case 5:
             if (0 == indexPath.row) {
@@ -556,7 +555,7 @@
             break;
             
         case 7:
-            return 50;
+            return 100;
             break;
         case 8:
             if (0 == indexPath.row) {

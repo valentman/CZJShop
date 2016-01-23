@@ -40,7 +40,8 @@ UITableViewDelegate,
 UIScrollViewDelegate,
 UIGestureRecognizerDelegate,
 CZJImageViewTouchDelegate,
-CZJNaviagtionBarViewDelegate
+CZJNaviagtionBarViewDelegate,
+CZJStoreInfoHeaerCellDelegate
 >
 {
     NIDropDown *dropDown;
@@ -54,7 +55,6 @@ CZJNaviagtionBarViewDelegate
     NSMutableArray* _couponForms;                   //领券列表
     CZJStoreInfoForm* _storeInfo;                   //服务门店信息
     CZJDetailEvalInfo* _evalutionInfo;              //服务评价简介
-    CZJServiceDetail* _serviceDetail;               //服务详情信息
     CZJGoodsDetail* _goodsDetail;
     CZJChoosedProductCell* chooosedProductCell;
     
@@ -67,9 +67,12 @@ CZJNaviagtionBarViewDelegate
 @property (strong, nonatomic) UITableView* detailTableView;
 @property (weak, nonatomic) IBOutlet UIButton *addProductToShoppingCartBtn;
 @property (weak, nonatomic) IBOutlet UIView *shoppingCartView;
+@property (weak, nonatomic) IBOutlet UIButton *attentionBtn;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *borderLineLayoutHeight;
 
 
 - (IBAction)addProductToShoppingCartAction:(id)sender;
+- (IBAction)attentionAction:(id)sender;
 @end
 
 @implementation CZJDetailViewController
@@ -97,8 +100,10 @@ CZJNaviagtionBarViewDelegate
 
 - (void)initViews
 {
-    self.borderLineView.layer.borderWidth = 0.1;
+    self.borderLineLayoutHeight.constant = 0.5;
     self.borderLineView.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    [self.attentionBtn setImage:IMAGENAMED(@"prodetail_icon_guanzhu02") forState:UIControlStateNormal];
+    [self.attentionBtn setImage:IMAGENAMED(@"prodetail_icon_guanzhu02_sel") forState:UIControlStateSelected];
     
     //顶部导航栏
     CGRect mainViewBounds = self.navigationController.navigationBar.bounds;
@@ -230,23 +235,13 @@ CZJNaviagtionBarViewDelegate
 
 - (void)dealWithData
 {
-    
     _couponForms = [[CZJBaseDataInstance detailsForm] couponForms];
     _storeInfo = [[CZJBaseDataInstance detailsForm] storeInfo];
     _evalutionInfo = [[CZJBaseDataInstance detailsForm] evalutionInfo];
-    if (CZJDetailTypeGoods == self.detaiViewType)
-    {
-        _goodsDetail = [[CZJBaseDataInstance detailsForm] goodsDetail];
-        [USER_DEFAULT setObject:_goodsDetail.storeItemPid forKey:kUserDefaultDetailStoreItemPid];
-        [USER_DEFAULT setObject:_goodsDetail.itemCode forKey:kUserDefaultDetailItemCode];
-    }
-    else if (CZJDetailTypeService == self.detaiViewType)
-    {
-        _serviceDetail = [[CZJBaseDataInstance detailsForm] serviceDetail];
-        [USER_DEFAULT setObject:_serviceDetail.storeItemPid forKey:kUserDefaultDetailStoreItemPid];
-        [USER_DEFAULT setObject:_serviceDetail.itemCode forKey:kUserDefaultDetailItemCode];
-    }
-    
+    _goodsDetail = [[CZJBaseDataInstance detailsForm] goodsDetail];
+    [USER_DEFAULT setObject:_goodsDetail.storeItemPid forKey:kUserDefaultDetailStoreItemPid];
+    [USER_DEFAULT setObject:_goodsDetail.itemCode forKey:kUserDefaultDetailItemCode];
+    self.attentionBtn.selected = _goodsDetail.attentionFlag;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -361,25 +356,10 @@ CZJNaviagtionBarViewDelegate
         case 0:
         {//图片展示
             CZJDetailPicShowCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CZJDetailPicShowCell" forIndexPath:indexPath];
-            switch (self.detaiViewType)
-            {
-                case CZJDetailTypeGoods:
-                    if (_goodsDetail.imgs.count > 0 && !cell.isInit) {
-                        [cell someMethodNeedUse:indexPath DataModel:_goodsDetail.imgs];
-                        cell.delegate = self;
-                    }
-                    break;
-                case CZJDetailTypeService:
-                    if (_serviceDetail.imgs.count > 0 && !cell.isInit) {
-                        [cell someMethodNeedUse:indexPath DataModel:_serviceDetail.imgs];
-                        cell.delegate = self;
-                    }
-                    break;
-                    
-                default:
-                    break;
+            if (_goodsDetail.imgs.count > 0 && !cell.isInit) {
+                [cell someMethodNeedUse:indexPath DataModel:_goodsDetail.imgs];
+                cell.delegate = self;
             }
-            
             [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
             return cell;
         }
@@ -394,46 +374,23 @@ CZJNaviagtionBarViewDelegate
 //            [cell.goShopImage setImage:[UIImage imageNamed:@""]];
 //            cell.miaoShaLabel.text = _serviceDetail.;
 //            cell.leftTimeLabel;
-            switch (self.detaiViewType)
+            
+            NSString* priceStr = [NSString stringWithFormat:@"￥%@", _goodsDetail.originalPrice];
+            [cell.originPriceLabel setAttributedText:[CZJUtils stringWithDeleteLine:priceStr]];
+            CGSize labelSize = [CZJUtils calculateTitleSizeWithString:priceStr WithFont:BOLDSYSTEMFONT(22)];
+            cell.labelLayoutConst.constant = labelSize.width + 5;
+            cell.currentPriceLabel.text = [NSString stringWithFormat:@"￥%@", _goodsDetail.currentPrice];
+            cell.purchaseCountLabel.text = _goodsDetail.purchaseCount;
+            
+            cell.productNameLabel.text = _goodsDetail.itemName;
+            CGSize prolabelSize = [CZJUtils calculateStringSizeWithString:_goodsDetail.itemName Font:cell.productNameLabel.font Width:PJ_SCREEN_WIDTH - 45];
+            
+            cell.productNameLayoutHeight.constant = prolabelSize.height;
+            
+            if (_goodsDetail.skillFlag)
             {
-                case CZJDetailTypeGoods:
-                {
-                    NSString* priceStr = [NSString stringWithFormat:@"￥%@", _goodsDetail.originalPrice];
-                    [cell.originPriceLabel setAttributedText:[CZJUtils stringWithDeleteLine:priceStr]];
-                    CGSize labelSize = [CZJUtils calculateTitleSizeWithString:priceStr WithFont:BOLDSYSTEMFONT(22)];
-                    cell.labelLayoutConst.constant = labelSize.width + 5;
-                    cell.currentPriceLabel.text = [NSString stringWithFormat:@"￥%@", _goodsDetail.currentPrice];
-                    cell.purchaseCountLabel.text = _goodsDetail.purchaseCount;
-                    
-                    cell.productNameLabel.text = _goodsDetail.itemName;
-                    CGSize prolabelSize = [CZJUtils calculateStringSizeWithString:_goodsDetail.itemName Font:cell.productNameLabel.font Width:PJ_SCREEN_WIDTH - 45];
-
-                    cell.productNameLayoutHeight.constant = prolabelSize.height;
-
-                    if (_goodsDetail.skillFlag)
-                    {
-                        cell.miaoShaLabel.hidden = NO;
-                        cell.leftTimeLabel.hidden = NO;
-                    }
-                }
-                    break;
-                case CZJDetailTypeService:
-                {
-                    NSString* priceStr = [NSString stringWithFormat:@"￥%@", _serviceDetail.originalPrice];
-                    [cell.originPriceLabel setAttributedText:[CZJUtils stringWithDeleteLine:priceStr]];
-                    CGSize labelSize = [CZJUtils calculateTitleSizeWithString:priceStr WithFont:BOLDSYSTEMFONT(22)];
-                    cell.labelLayoutConst.constant = labelSize.width + 5;
-                    cell.currentPriceLabel.text = [NSString stringWithFormat:@"￥%@", _serviceDetail.currentPrice];
-                    cell.purchaseCountLabel.text = _serviceDetail.purchaseCount;
-                    
-                    cell.productNameLabel.text = _serviceDetail.itemName;
-                    CGSize prolabelSize = [CZJUtils calculateStringSizeWithString:_serviceDetail.itemName Font:cell.productNameLabel.font Width:PJ_SCREEN_WIDTH - 45];
-                    cell.productNameLayoutHeight.constant = prolabelSize.height;
-                }
-                    break;
-                    
-                default:
-                    break;
+                cell.miaoShaLabel.hidden = NO;
+                cell.leftTimeLabel.hidden = NO;
             }
             
             [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
@@ -513,6 +470,8 @@ CZJNaviagtionBarViewDelegate
                     cell.storeAddr.text = _storeInfo.storeAddr;
                     cell.storeAddrLayoutWidth.constant = PJ_SCREEN_WIDTH - 200;
                     cell.storeNameLayoutWidth.constant = PJ_SCREEN_WIDTH - 200;
+                    cell.attentionStore.selected = _storeInfo.attentionFlag;
+                    cell.delegate = self;
                 }
                 [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
                 return cell;
@@ -664,15 +623,7 @@ CZJNaviagtionBarViewDelegate
         case 1:
         {
             CZJDetailDescCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJDetailDescCell"];
-            NSString* itemName;
-            if (CZJDetailTypeGoods == self.detaiViewType)
-            {
-                itemName = _goodsDetail.itemName;
-            }
-            else
-            {
-                itemName = _serviceDetail.itemName;
-            }
+            NSString* itemName = _goodsDetail.itemName;
             CGSize prolabelSize = [CZJUtils calculateStringSizeWithString:itemName Font:cell.productNameLabel.font Width:PJ_SCREEN_WIDTH - 45];
             if (_goodsDetail.skillFlag)
             {
@@ -729,7 +680,29 @@ CZJNaviagtionBarViewDelegate
     return 0;
 }
 
-
+#pragma mark- CZJStoreInfoHeaerCellDelegate
+- (void)clickAttentionStore:(id)sender
+{
+    NSDictionary* params = @{@"storeId" : _storeInfo.storeId};
+    if (!_storeInfo.attentionFlag) {
+        [CZJBaseDataInstance attentionStore:params success:^(id json) {
+            _storeInfo.attentionFlag = !_storeInfo.attentionFlag;
+            _storeInfo.attentionCount = [[CZJUtils DataFromJson:json] valueForKey:@"msg"];
+            [self.detailTableView reloadSections:[NSIndexSet indexSetWithIndex:5] withRowAnimation:UITableViewRowAnimationFade];
+            [CZJUtils tipWithText:@"关注成功" andView:self.view];
+        }];
+    }
+    else
+    {
+        [CZJBaseDataInstance cancleAttentionStore:params success:^(id json) {
+            _storeInfo.attentionFlag = !_storeInfo.attentionFlag;
+            _storeInfo.attentionCount = [[CZJUtils DataFromJson:json] valueForKey:@"msg"];
+            [self.detailTableView reloadSections:[NSIndexSet indexSetWithIndex:5] withRowAnimation:UITableViewRowAnimationFade];
+            [CZJUtils tipWithText:@"取消关注" andView:self.view];
+        }];
+    }
+    
+}
 
 #pragma mark- ScrollViewDelegate
 // any offset changes
@@ -775,57 +748,30 @@ CZJNaviagtionBarViewDelegate
     WyzAlbumViewController *wyzAlbumVC = [[WyzAlbumViewController alloc]init];
     wyzAlbumVC.currentIndex =index;//这个参数表示当前图片的index，默认是0
     //用url
-    wyzAlbumVC.imgArr = _serviceDetail.imgs;
+    wyzAlbumVC.imgArr = _goodsDetail.imgs;
     //进入动画
     [self presentViewController:wyzAlbumVC animated:YES completion:^{
     }];
 }
 
+
+#pragma mark- Action
 - (IBAction)addProductToShoppingCartAction:(id)sender
 {
-    NSDictionary* pramas = [NSDictionary dictionary];
-    if (CZJDetailTypeGoods == self.detaiViewType)
-    {
-        pramas = @{
-                  @"companyId" : _goodsDetail.companyId ? _goodsDetail.companyId : @"",
-                 @"storeId" : _goodsDetail.storeId,
-                 @"storeItemPid" : _goodsDetail.storeItemPid,
-                 @"itemType" : _goodsDetail.itemType,
-                 @"itemCode" : _goodsDetail.itemCode,
-                 @"itemName" : _goodsDetail.itemName,
-                 @"itemCount" : @1,
-                 @"currentPrice" : _goodsDetail.currentPrice,
-                 @"itemImg" : _goodsDetail.itemImg,
-                 @"itemSku" : _goodsDetail.itemSku
-                 };
-    }
-    else
-    {
-        pramas = @{
-                   @"companyId" : _goodsDetail.companyId ? _goodsDetail.companyId : @"",
-                   @"storeId" : _storeInfo.storeId,
-                   @"storeItemPid" : _serviceDetail.storeItemPid,
-                   @"itemType" : _serviceDetail.itemType,
-                   @"itemCode" : _serviceDetail.itemCode,
-                   @"itemName" : _serviceDetail.itemName,
-                   @"itemCount" : @1,
-                   @"currentPrice" : _serviceDetail.currentPrice,
-                   @"itemImg" : _serviceDetail.itemImg ?  _serviceDetail.itemImg : @"",
-                   @"itemSku" : @""
-                 };
-    }
+    NSDictionary* pramas = @{
+                             @"companyId" : _goodsDetail.companyId ? _goodsDetail.companyId : @"",
+                             @"storeId" : _goodsDetail.storeId,
+                             @"storeItemPid" : _goodsDetail.storeItemPid,
+                             @"itemType" : _goodsDetail.itemType,
+                             @"itemCode" : _goodsDetail.itemCode,
+                             @"itemName" : _goodsDetail.itemName,
+                             @"itemCount" : @1,
+                             @"currentPrice" : _goodsDetail.currentPrice,
+                             @"itemImg" : _goodsDetail.itemImg,
+                             @"itemSku" : _goodsDetail.itemSku
+                             };
     
     [CZJBaseDataInstance addProductToShoppingCart:pramas Success:^{
-        NSString* imgStr;
-        if (CZJDetailTypeGoods == self.detaiViewType)
-        {
-            imgStr = _goodsDetail.itemImg ? _goodsDetail.itemImg : @"all_btn_shopping";
-        }
-        else
-        {
-            imgStr = _serviceDetail.itemImg ? _serviceDetail.itemImg : @"all_btn_shopping";
-        }
-        
         CGRect addBtnRect = [self.view convertRect:_addProductToShoppingCartBtn.frame fromView:_shoppingCartView];
         CGRect shoppingCartBtnRect = [self.view convertRect:_detailNaviBarView.btnShop.frame fromView:_detailNaviBarView];
         
@@ -853,5 +799,27 @@ CZJNaviagtionBarViewDelegate
         
     }];
     
+}
+
+- (IBAction)attentionAction:(id)sender
+{
+    _goodsDetail = [[CZJBaseDataInstance detailsForm] goodsDetail];
+    NSDictionary* params = @{@"storeItemPid" : _goodsDetail.storeItemPid,
+                             @"itemType" : _goodsDetail.itemType};
+    if (!self.attentionBtn.selected) {
+        [CZJBaseDataInstance attentionGoods:params success:^(id json) {
+            _goodsDetail.attentionFlag = !_goodsDetail.attentionFlag;
+            self.attentionBtn.selected = !self.attentionBtn.selected;
+            [CZJUtils tipWithText:@"关注成功" andView:self.view];
+        }];
+    }
+    else
+    {
+        [CZJBaseDataInstance cancleAttentionGoods:params success:^(id json) {
+            _goodsDetail.attentionFlag = !_goodsDetail.attentionFlag;
+            self.attentionBtn.selected = !self.attentionBtn.selected;
+            [CZJUtils tipWithText:@"取消关注" andView:self.view];
+        }];
+    }
 }
 @end

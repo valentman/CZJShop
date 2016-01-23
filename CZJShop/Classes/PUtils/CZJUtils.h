@@ -79,6 +79,12 @@
 + (void)removeLoginViewFromCurrent:(UIViewController*)target;
 + (void)showShoppingCartView:(UIViewController*)target andNaviBar:(UIView*)naviBar;
 + (void)removeShoppintCartViewFromCurrent:(UIViewController*)target ;
+//进入详情界面
++ (void)showStoreDetailView:(UINavigationController*)navi andStoreId:(NSString*)sid;
++ (void)showGoodsServiceDetailView:(UINavigationController*)navi
+                        andItemPid:(NSString*)sid
+                        detailType:(CZJDetailType)detailtype;
+
 
 //-----------------------------其它处理方法---------------------------
 //获取时间间隔

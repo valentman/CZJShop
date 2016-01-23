@@ -18,7 +18,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="169"/>
                         <animations/>
                     </imageView>
-                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ffc-NE-hbV" userLabel="未登录">
+                    <view opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ffc-NE-hbV">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="169"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="my_icon_head.png" translatesAutoresizingMaskIntoConstraints="NO" id="QYr-dW-RDs">
@@ -43,6 +43,7 @@
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="QYr-dW-RDs" secondAttribute="bottom" constant="38" id="Yr6-vt-1cH"/>
                             <constraint firstItem="QYr-dW-RDs" firstAttribute="centerX" secondItem="ffc-NE-hbV" secondAttribute="centerX" id="gnR-vm-xDO"/>
@@ -50,7 +51,7 @@
                             <constraint firstItem="1vL-Ah-IXg" firstAttribute="centerX" secondItem="ffc-NE-hbV" secondAttribute="centerX" id="ziD-3x-YHr"/>
                         </constraints>
                     </view>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ABF-5Y-qOp" userLabel="已登录">
+                    <view opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ABF-5Y-qOp">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="169"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="my_icon_head.png" translatesAutoresizingMaskIntoConstraints="NO" id="GWr-Xv-uRo">
@@ -107,7 +108,7 @@
                                     <constraint firstAttribute="height" constant="10" id="yLX-R8-StW"/>
                                 </constraints>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eMl-OS-bcz">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eMl-OS-bcz" customClass="CZJButton">
                                 <rect key="frame" x="274" y="35" width="31" height="31"/>
                                 <animations/>
                                 <constraints>
@@ -133,6 +134,7 @@
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="GWr-Xv-uRo" secondAttribute="bottom" constant="38" id="Ahp-EI-zz9"/>
                             <constraint firstItem="GWr-Xv-uRo" firstAttribute="leading" secondItem="ABF-5Y-qOp" secondAttribute="leading" constant="35" id="M7R-hR-hJ8"/>
@@ -170,7 +172,7 @@
             <animations/>
             <connections>
                 <outlet property="haveLoginView" destination="ABF-5Y-qOp" id="ZVK-1P-hI6"/>
-                <outlet property="messageBtn" destination="eMl-OS-bcz" id="Ykw-hA-p5N"/>
+                <outlet property="messageBtn" destination="eMl-OS-bcz" id="aJm-2v-J1b"/>
                 <outlet property="unLoginView" destination="ffc-NE-hbV" id="rve-XK-Ccz"/>
                 <outlet property="userHeadImg" destination="GWr-Xv-uRo" id="XGm-1F-zJS"/>
                 <outlet property="userNameLabel" destination="l9O-3b-7et" id="keL-Kp-Pdu"/>

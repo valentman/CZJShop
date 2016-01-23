@@ -12,6 +12,8 @@
 #import "CZJBaseDataManager.h"
 #import "VPImageCropperViewController.h"
 #import "LJWKeyboardHandlerHeaders.h"
+#import "CZJDeliveryAddrController.h"
+#import "CZJMyCarListController.h"
 
 @interface CZJPersonalInfoController ()
 <
@@ -44,13 +46,14 @@ VPImageCropperDelegate
     nameTextField = [[UITextField alloc]initWithFrame:CGRectMake(PJ_SCREEN_WIDTH - 200 - 15, 15, 200, 21)];
     nameTextField.textAlignment = NSTextAlignmentRight;
     nameTextField.font = SYSTEMFONT(14);
-    nameTextField.textColor = [UIColor lightGrayColor];
+    nameTextField.textColor = [UIColor darkTextColor];
     [nameTextField setTag:255];
     phoneNumTextField = [[UITextField alloc]initWithFrame:CGRectMake(PJ_SCREEN_WIDTH - 200 - 15, 15, 200, 21)];
     phoneNumTextField.textAlignment = NSTextAlignmentRight;
     [phoneNumTextField setTag:255];
     phoneNumTextField.font = SYSTEMFONT(14);
     phoneNumTextField.textColor = [UIColor lightGrayColor];
+    [phoneNumTextField setEnabled:false];
     
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
     [btn setTitleColor:[UIColor whiteColor]forState:UIControlStateNormal];
@@ -58,19 +61,42 @@ VPImageCropperDelegate
     btn.layer.cornerRadius = 5.0;
     btn.backgroundColor = CZJREDCOLOR;
     [btn.titleLabel setFont:[UIFont systemFontOfSize:16]];
-    [btn setTitle:@"退出登录" forState:UIControlStateNormal];
+    [btn setTitle:@"保存" forState:UIControlStateNormal];
     [btn addTarget:self action:@selector(unLogin:) forControlEvents:UIControlEventTouchUpInside];
-    btn.frame = CGRectMake(50, PJ_SCREEN_HEIGHT - 300, PJ_SCREEN_WIDTH - 100, 50);
+    btn.frame = CGRectMake(50, 5 * 44 + 61 + 15 + 50, PJ_SCREEN_WIDTH - 100, 50);
     [self.tableView addSubview:btn];
     
-    
+    self.tableView.backgroundColor = CZJNAVIBARBGCOLOR;
 }
 
 - (void)unLogin:(id)sender
 {
-    DLog(@"退出登录");
+    NSString* name = nameTextField.text;
+    NSString* sexual = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:3 inSection:0]].detailTextLabel.text;
+    NSString* sex;
+    if ([sexual isEqualToString:@"保密"]) {
+        sex = @"0";
+    }
+    if ([sexual isEqualToString:@"男"]) {
+        sex = @"1";
+    }
+    if ([sexual isEqualToString:@"女"]) {
+        sex = @"2";
+    }
+    NSDictionary* params = @{@"chezhu.name": name, @"chezhu.sex":sex};
+    CZJBaseDataInstance.userInfoForm.chezhuName = name;
+    CZJBaseDataInstance.userInfoForm.sex = sexual;
+
+    [CZJBaseDataInstance updateUserInfo:params Success:^(id json)
+     {
+         [CZJUtils tipWithText:@"修改成功" andView:self.tableView];
+         [self.navigationController popViewControllerAnimated:true];
+     }fail:nil];
+    /*
     CZJBaseDataInstance.userInfoForm = nil;
-    [USER_DEFAULT setObject:[NSNumber numberWithBool:YES] forKey:kCZJIsUserHaveLogined];
+    [CZJBaseDataInstance refreshChezhuID:nil];
+    [USER_DEFAULT setObject:[NSNumber numberWithBool:NO] forKey:kCZJIsUserHaveLogined];
+     */
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -153,6 +179,16 @@ VPImageCropperDelegate
                                                    destructiveButtonTitle:nil
                                                         otherButtonTitles:@"拍照", @"从相册中选取", nil];
         [choiceSheet showInView:self.view];
+    }
+    if (0 == indexPath.row && 1 == indexPath.section)
+    {
+        CZJDeliveryAddrController* deliveryVC = (CZJDeliveryAddrController*)[CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:@"deliveryAddrSBID"];
+        [self.navigationController pushViewController:deliveryVC animated:true];
+        
+    }
+    if (1 == indexPath.section && 1 == indexPath.row)
+    {
+//        CZJMyCarListController* carList = [CZJMyCarListController alloc]
     }
 }
 

@@ -12,7 +12,6 @@
 @protocol CZJDeliveryAddrControllerDelegate <NSObject>
 
 - (void)clickChooseAddr:(CZJAddrForm*)addForm;
-
 @end
 
 @interface CZJDeliveryAddrController : UIViewController

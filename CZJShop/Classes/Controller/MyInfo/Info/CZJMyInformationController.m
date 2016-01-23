@@ -29,8 +29,6 @@ CZJViewControllerDelegate
 {
     NSArray* orderSubCellAry;           //订单cell下子项数组
     NSArray* walletSubCellAry;          //我的钱包下子项数组
-    
-    UserBaseForm* _myInfoForm;
 }
 @property (weak, nonatomic) IBOutlet UITableView *myInfoTableView;
 
@@ -61,18 +59,19 @@ CZJViewControllerDelegate
 - (void)initDatas
 {
     orderSubCellAry  = [NSArray array];
-    walletSubCellAry = [NSArray array];
-    NSDictionary* dict1 = @{@"title":@"待付款", @"buttonImage":@"my_icon_pay", @"budge":@"2"};
-    NSDictionary* dict2 = @{@"title":@"待施工", @"buttonImage":@"my_icon_shigong", @"budge":@"50"};
-    NSDictionary* dict3 = @{@"title":@"待收货", @"buttonImage":@"my_icon_shouhuo", @"budge":@"3"};
-    NSDictionary* dict4 = @{@"title":@"待评价", @"buttonImage":@"my_icon_recommend", @"budge":@"4"};
-    NSDictionary* dict5 = @{@"title":@"退换货", @"buttonImage":@"my_icon_tuihuo", @"budge":@""};
+    NSMutableDictionary* dict1 = [@{@"title":@"待付款", @"buttonImage":@"my_icon_pay", @"budge":@"0", @"item":@"nopay"} mutableCopy];
+    NSMutableDictionary* dict2 = [@{@"title":@"待施工", @"buttonImage":@"my_icon_shigong", @"budge":@"0", @"item":@"nobuild"} mutableCopy];
+    NSMutableDictionary* dict3 = [@{@"title":@"待收货", @"buttonImage":@"my_icon_shouhuo", @"budge":@"0", @"item":@"noreceive"} mutableCopy];
+    NSMutableDictionary* dict4 = [@{@"title":@"待评价", @"buttonImage":@"my_icon_recommend", @"budge":@"0", @"item":@"noevaluate"} mutableCopy];
+    NSMutableDictionary* dict5 = [@{@"title":@"退换货", @"buttonImage":@"my_icon_tuihuo", @"budge":@"0", @"item":@""} mutableCopy];
     orderSubCellAry = @[dict1,dict2,dict3,dict4,dict5];
-    NSDictionary* dict6 = @{@"title":@"账户余额", @"buttonTitle":@"2000.00"};
-    NSDictionary* dict7 = @{@"title":@"红包", @"buttonTitle":@"20.0"};
-    NSDictionary* dict8 = @{@"title":@"积分", @"buttonTitle":@"500"};
-    NSDictionary* dict9 = @{@"title":@"优惠券", @"buttonTitle":@"5"};
-    NSDictionary* dict0 = @{@"title":@"套餐卡", @"buttonTitle":@"6"};
+    
+    walletSubCellAry = [NSArray array];
+    NSMutableDictionary* dict6 = [@{@"title":@"账户余额", @"buttonTitle":@"0.00", @"item":@"money"} mutableCopy];
+    NSMutableDictionary* dict7 = [@{@"title":@"红包", @"buttonTitle":@"0.0", @"item":@"redpacket"} mutableCopy];
+    NSMutableDictionary* dict8 = [@{@"title":@"积分", @"buttonTitle":@"0", @"item":@"point"} mutableCopy];
+    NSMutableDictionary* dict9 = [@{@"title":@"优惠券", @"buttonTitle":@"0", @"item":@"coupon"} mutableCopy];
+    NSMutableDictionary* dict0 = [@{@"title":@"套餐卡", @"buttonTitle":@"0", @"item":@"card"} mutableCopy];
     walletSubCellAry = @[dict6,dict7,dict8,dict9,dict0];
 }
 
@@ -91,6 +90,7 @@ CZJViewControllerDelegate
         [self.myInfoTableView registerNib:nib forCellReuseIdentifier:cells];
     }
     self.myInfoTableView.tableFooterView = [[UIView alloc] init];
+    self.myInfoTableView.backgroundColor = CZJNAVIBARBGCOLOR;
     self.myInfoTableView.showsVerticalScrollIndicator = NO;
     self.automaticallyAdjustsScrollViewInsets = NO;
 }
@@ -100,14 +100,35 @@ CZJViewControllerDelegate
     if ([USER_DEFAULT boolForKey:kCZJIsUserHaveLogined])
     {//
         [CZJBaseDataInstance getUserInfo:nil Success:^(id json) {
-            _myInfoForm = CZJBaseDataInstance.userInfoForm;
+            NSDictionary* dict = [[CZJUtils DataFromJson:json] valueForKey:@"msg"];
+            [self updateOrderData:dict];
             [self.myInfoTableView reloadData];
         } fail:^{
             
         }];
     }
+}
 
-    
+- (void)updateOrderData:(NSDictionary*)dict
+{
+    for (NSMutableDictionary* orderDict in orderSubCellAry)
+    {
+        NSString* itemName = [orderDict valueForKey:@"item"];
+        if (![itemName isEqualToString:@""])
+        {
+            NSString* count = [dict valueForKey:itemName];
+            [orderDict setValue:count forKey:@"budge"];
+        }
+    }
+    for (NSDictionary* walletDict in walletSubCellAry)
+    {
+        NSString* itemName = [walletDict valueForKey:@"item"];
+        if (![itemName isEqualToString:@""])
+        {
+            NSString* count = [dict valueForKey:itemName];
+            [walletDict setValue:count forKey:@"buttonTitle"];
+        }
+    }
 }
 
 
@@ -153,10 +174,13 @@ CZJViewControllerDelegate
         if (0 == indexPath.row)
         {
             CZJMyInfoHeadCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJMyInfoHeadCell" forIndexPath:indexPath];
-            cell.delegate = self;
-            if (_myInfoForm)
+            cell.unLoginView.hidden = [USER_DEFAULT boolForKey:kCZJIsUserHaveLogined];
+            cell.haveLoginView.hidden = ![USER_DEFAULT boolForKey:kCZJIsUserHaveLogined];
+            
+            if (CZJBaseDataInstance.userInfoForm && [USER_DEFAULT boolForKey:kCZJIsUserHaveLogined])
             {
-                [cell setUserPersonalInfo:_myInfoForm];
+                [cell setUserPersonalInfo:CZJBaseDataInstance.userInfoForm];
+                cell.delegate = self;
             }
             return cell;
         }
@@ -223,7 +247,7 @@ CZJViewControllerDelegate
         {
             CZJGeneralCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJGeneralCell" forIndexPath:indexPath];
             [cell.imageView setImage:IMAGENAMED(@"my_icon_serve")];
-            cell.nameLabel.text = @"服务于反馈";
+            cell.nameLabel.text = @"服务与反馈";
             return cell;
         }
         else
@@ -401,12 +425,16 @@ CZJViewControllerDelegate
 - (void)performSegueWithIdentifier:(NSString *)identifier sender:(id)sender
 {
     //如果没有登录则进入登录页面
-    if (![USER_DEFAULT boolForKey:kCZJIsUserHaveLogined])
+    if ([USER_DEFAULT boolForKey:kCZJIsUserHaveLogined] ||
+        [identifier isEqualToString:@"segueToSetting"])
+    {
+        [super performSegueWithIdentifier:identifier sender:sender];
+    }
+    else
     {
         [CZJUtils showLoginView:self andNaviBar:nil];
         return;
     }
-    [super performSegueWithIdentifier:identifier sender:sender];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
