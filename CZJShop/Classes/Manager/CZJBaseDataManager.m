@@ -33,7 +33,9 @@
 @synthesize discoverForms = _discoverForms;
 @synthesize goodsTypesAry = _goodsTypesAry;
 @synthesize serviceTypesAry = _serviceTypesAry;
-
+@synthesize carBrandForm = _carBrandForm;
+@synthesize carModealForm = _carModealForm;
+@synthesize carSerialForm = _carSerialForm;
 
 #pragma mark- implement
 singleton_implementation(CZJBaseDataManager);
@@ -1695,8 +1697,8 @@ singleton_implementation(CZJBaseDataManager);
     CZJSuccessBlock successBlock = ^(id json){
         if ([self showAlertView:json])
         {
+            success(json);
         }
-        success(json);
     };
     
     CZJFailureBlock failBlock = ^(){

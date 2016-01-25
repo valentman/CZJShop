@@ -9,6 +9,7 @@
 #import "CZJCarModelChooseController.h"
 #import "CZJBaseDataManager.h"
 #import "UIImageView+WebCache.h"
+#import "CZJAddMyCarController.h"
 static NSString *CarModelCellIdentifierID = @"CarModelCellIdentifierID";
 
 
@@ -31,9 +32,11 @@ UITableViewDelegate
 @synthesize curCarBrandName = _curCarBrandName;
 @synthesize curCarSerieName = _curCarSerieName;
 
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"选择车型";
+    self.view.backgroundColor = CZJNAVIBARBGCOLOR;
     [self initTableView];
     [CZJBaseDataInstance loadCarModelSeriesId:[NSString stringWithFormat:@"%d", self.carSeries.seriesId] Success:^()
      {
@@ -50,14 +53,16 @@ UITableViewDelegate
 
 - (void)initTableView
 {
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 60, PJ_SCREEN_WIDTH-kMGLeftSpace, PJ_SCREEN_HEIGHT)];
+    NSInteger width = PJ_SCREEN_WIDTH - (CZJCarListTypeFilter == _carlistType ? kMGLeftSpace  : 0);
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 64, width, PJ_SCREEN_HEIGHT)];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
+    self.tableView.clipsToBounds = YES;
     UIView *v = [[UIView alloc] initWithFrame:CGRectMake(0,0,320,80)];
     self.tableView.tableFooterView = v;
     [self.view addSubview:self.tableView];
     
-    self.topView = [[UIView alloc]initWithFrame:CGRectMake(0, StatusBar_HEIGHT + NavigationBar_HEIGHT, PJ_SCREEN_WIDTH, 60)];
+    self.topView = [[UIView alloc]initWithFrame:CGRectMake(0, StatusBar_HEIGHT + NavigationBar_HEIGHT, PJ_SCREEN_WIDTH, 64)];
     [self.topView setBackgroundColor:[UIColor whiteColor]];
     [self.view addSubview:self.topView];
     
@@ -109,10 +114,14 @@ UITableViewDelegate
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CarModelCellIdentifierID];
     if (!cell) {
         cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CarModelCellIdentifierID];
+        UILabel* nameLabel = [[UILabel alloc]initWithFrame:CGRectMake(50, 5, PJ_SCREEN_WIDTH - 75, 18)];
+        nameLabel.font = SYSTEMFONT(14);
+        [nameLabel setTag:1999];
+        nameLabel.textAlignment = NSTextAlignmentLeft;
+        [cell addSubview:nameLabel];
     }
     CarModelForm* obj = [_carModels objectAtIndex:indexPath.row];
-    cell.textLabel.text = obj.name;
-    cell.textLabel.font = [UIFont systemFontOfSize:14];
+    ((UILabel*)VIEWWITHTAG(cell, 1999)).text = obj.name;
     return cell;
 }
 
@@ -123,11 +132,20 @@ UITableViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     _currentSelect = [_carModels objectAtIndex:indexPath.row];
-    [USER_DEFAULT setValue:_currentSelect.name forKey:kUserDefaultChoosedCarType];
-    [self.navigationController popToRootViewControllerAnimated:YES];
-    [[NSNotificationCenter defaultCenter]postNotificationName:@"ChooseCartype" object:nil];
+    if (CZJCarListTypeGeneral == _carlistType)
+    {
+        [CZJBaseDataInstance setCarModealForm:_currentSelect];
+        CZJAddMyCarController* mycarVC = (CZJAddMyCarController*)[CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:@"addMyCarSBID"];
+        [self.navigationController pushViewController:mycarVC animated:true];
+    }
+    else if (CZJCarListTypeFilter == _carlistType)
+    {
+        [USER_DEFAULT setValue:_currentSelect.name forKey:kUserDefaultChoosedCarModelType];
+        [tableView deselectRowAtIndexPath:indexPath animated:YES];
+        [self.navigationController popToRootViewControllerAnimated:YES];
+        [[NSNotificationCenter defaultCenter]postNotificationName:@"ChooseCartype" object:nil];
+    }
 }
 
 @end

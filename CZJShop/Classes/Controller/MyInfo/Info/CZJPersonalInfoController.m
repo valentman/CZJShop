@@ -67,6 +67,7 @@ VPImageCropperDelegate
     [self.tableView addSubview:btn];
     
     self.tableView.backgroundColor = CZJNAVIBARBGCOLOR;
+    self.view.backgroundColor = CZJNAVIBARBGCOLOR;
 }
 
 - (void)unLogin:(id)sender

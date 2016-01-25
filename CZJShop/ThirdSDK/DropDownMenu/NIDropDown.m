@@ -49,9 +49,9 @@
         table.separatorColor = [UIColor grayColor];
         table.bounces = NO;
         
-        CGPoint tranglePoint = CGPointMake(table.frame.origin.x + rect.size.width - 16, table.frame.origin.y - 5);
-        trangleLayer = [self creatIndicatorWithColor:[UIColor whiteColor] andPosition:tranglePoint];
-        [self.layer addSublayer:trangleLayer];
+//        CGPoint tranglePoint = CGPointMake(table.frame.origin.x + rect.size.width - 16, table.frame.origin.y - 5);
+//        trangleLayer = [self creatIndicatorWithColor:[UIColor whiteColor] andPosition:tranglePoint];
+//        [self.layer addSublayer:trangleLayer];
         
         [UIView beginAnimations:nil context:nil];
         [UIView setAnimationDuration:0.5];
@@ -127,9 +127,10 @@
     NSString* key = [[ dict allKeys] firstObject];
     cell.textLabel.text = key;
     cell.textLabel.textColor = [UIColor blackColor];
-    
+    UIEdgeInsets sepEdge = UIEdgeInsetsMake(0, 0, 0, 10);
+    cell.separatorInset = sepEdge;
     [cell.imageView setImage:[UIImage imageNamed:[dict valueForKey:key]]];
-    
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
 

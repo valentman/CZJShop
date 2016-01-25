@@ -27,9 +27,9 @@ static NSString *CarListCellIdentifierID = @"CarListCellIdentifierID";
 
 @implementation CZJCarBrandChooseController
 
-
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     self.title = @"选择车辆";
     [self initData];
     [self initTableView];
@@ -51,9 +51,19 @@ static NSString *CarListCellIdentifierID = @"CarListCellIdentifierID";
 
 - (void)initTableView
 {
-    self.tableView = [[SKSTableView alloc] initWithFrame:CGRectMake(0,0, PJ_SCREEN_WIDTH-kMGLeftSpace, PJ_SCREEN_HEIGHT)];
+    NSInteger width = PJ_SCREEN_WIDTH - (CZJCarListTypeFilter == _carlistType ? kMGLeftSpace  : 0);
+    self.tableView = [[SKSTableView alloc] initWithFrame:CGRectMake(0,64, width, PJ_SCREEN_HEIGHT) style:UITableViewStylePlain];
     self.tableView.SKSTableViewDelegate = self;
+    self.tableView.backgroundColor = CZJNAVIBARBGCOLOR;
+    self.view.backgroundColor = CZJNAVIBARBGCOLOR;
+    [self.view addSubview:self.tableView];
     
+    UIView* topView = [[UIView alloc]initWithFrame:CGRectMake(0,-20, PJ_SCREEN_WIDTH, 64)];
+    [self.view addSubview:topView];
+    topView.backgroundColor = CZJNAVIBARBGCOLOR;
+    
+    UIView *v = [[UIView alloc] initWithFrame:CGRectMake(0,0,320,80)];
+    self.tableView.tableFooterView = v;
     [self.view addSubview:self.tableView];
 }
 
@@ -71,7 +81,18 @@ static NSString *CarListCellIdentifierID = @"CarListCellIdentifierID";
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (0 == section)
     {
-        return 1;
+        if (CZJCarListTypeFilter == _carlistType)
+        {
+            return 1;
+        }
+        else if (CZJCarListTypeGeneral == _carlistType)
+        {
+            return 0;
+        }
+        else
+        {
+            return 1;
+        }
     }
     else if (1 == section)
     {
@@ -94,9 +115,14 @@ static NSString *CarListCellIdentifierID = @"CarListCellIdentifierID";
     {
         SKSTableViewCell* cell = [[SKSTableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"SKStableCell"];
         cell.textLabel.text = @"已有车辆";
-        cell.detailTextLabel.text = ((HaveCarsForm*)_haveCars[0]).name;
-        cell.detailTextLabel.textColor  = [UIColor redColor];
-        cell.expandable = YES;
+        cell.expandable = NO;
+        if (_haveCars.count > 0)
+        {
+            cell.detailTextLabel.text = ((HaveCarsForm*)_haveCars[0]).name;
+            cell.detailTextLabel.textColor  = [UIColor redColor];
+            cell.expandable = YES;
+        }
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
     }
     else if (1 == indexPath.section)
@@ -149,10 +175,21 @@ static NSString *CarListCellIdentifierID = @"CarListCellIdentifierID";
 {
     if (0 == indexPath.section)
     {
-        return 44;
+        if (CZJCarListTypeFilter == _carlistType)
+        {
+            return 44;
+        }
+        else if (CZJCarListTypeGeneral == _carlistType)
+        {
+            return 0;
+        }
+        else
+        {
+            return 44;
+        }
     }
     else if (1 == indexPath.section)
-    {
+    {//热门车辆的排列
         return 0;
     }
     else
@@ -210,7 +247,8 @@ static NSString *CarListCellIdentifierID = @"CarListCellIdentifierID";
         NSArray*  brands = [_carBrands objectForKey:tmp_key];
         CarBrandsForm* obj = [brands objectAtIndex:indexPath.row];
         _currentSelect = obj;
-        CZJCarSeriesChooseController *svc = [[CZJCarSeriesChooseController alloc] init];
+        [CZJBaseDataInstance setCarBrandForm:obj];
+        CZJCarSeriesChooseController *svc = [[CZJCarSeriesChooseController alloc] initWithType:_carlistType];
         svc.carBrand = obj;
         [self.navigationController pushViewController:svc animated:YES];
     }
@@ -255,7 +293,8 @@ static NSString *CarListCellIdentifierID = @"CarListCellIdentifierID";
     DLog(@"%ld, %ld", indexPath.section, indexPath.row);
     [self.navigationController popToRootViewControllerAnimated:true];
     [[NSNotificationCenter defaultCenter]postNotificationName:@"ChooseCartype" object:nil];
-    [USER_DEFAULT setValue:((HaveCarsForm*)_haveCars[indexPath.row]).name forKey:kUserDefaultChoosedCarType];
+    [USER_DEFAULT setValue:((HaveCarsForm*)_haveCars[indexPath.row]).name forKey:kUserDefaultChoosedCarModelType];
+    
 }
 
 @end

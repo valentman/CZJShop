@@ -42,9 +42,7 @@
     self.userHeadImg.clipsToBounds = YES;
     self.userTypeLabel.text = userinfo.chezhuType;
     self.userTypeLabel.layer.cornerRadius = 9;
-    self.userTypeLabel.layer.backgroundColor = [UIColor lightGrayColor].CGColor;
-    self.userTypeLabel.layer.borderWidth = 1;
-    self.userTypeLabel.layer.borderColor = [UIColor whiteColor].CGColor;
+    self.userTypeLabel.layer.backgroundColor = RGBA(240, 240, 240,0.5).CGColor;
     [self.messageBtn setBadgeNum:-1];
 }
 

@@ -9,7 +9,7 @@
 #import "CZJNaviagtionBarView.h"
 #import "CZJLoginController.h"
 #import "CZJShoppingCartController.h"
-@interface CZJNaviagtionBarView ()
+@interface CZJNaviagtionBarView ()<UISearchBarDelegate>
 {
     CGRect _selfBounds;
 }
@@ -261,6 +261,7 @@
 - (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar
 {
     //这里做跳转
+    [CZJUtils showSearchView:(UIViewController*)_delegate andNaviBar:self];
     return NO;
 }
 
@@ -277,16 +278,21 @@
         [_delegate clickEventCallBack:sender];
     }
     
-    if (CZJButtonTypeHomeShopping == touchBt.tag)
-    {
-        if ([USER_DEFAULT boolForKey:kCZJIsUserHaveLogined])
-        {
-            [CZJUtils showShoppingCartView:(UIViewController*)_delegate andNaviBar:self];
-        }
-        else
-        {
-            [CZJUtils showLoginView:(UIViewController*)_delegate andNaviBar:self];
-        }
+    
+    switch (touchBt.tag) {
+        case CZJButtonTypeHomeShopping:
+            if ([USER_DEFAULT boolForKey:kCZJIsUserHaveLogined])
+            {
+                [CZJUtils showShoppingCartView:(UIViewController*)_delegate andNaviBar:self];
+            }
+            else
+            {
+                [CZJUtils showLoginView:(UIViewController*)_delegate andNaviBar:self];
+            }
+            break;
+            
+        default:
+            break;
     }
     
     CZJGeneralBlock generBlock = ^()

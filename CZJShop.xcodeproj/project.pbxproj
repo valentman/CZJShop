@@ -319,6 +319,8 @@
 		EC442B7D1BFEF7B300DC6F97 /* CZJAdBanerPlusCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EC442B7B1BFEF7B300DC6F97 /* CZJAdBanerPlusCell.xib */; };
 		EC442B811BFEF7E200DC6F97 /* CZJSpecialRecommendCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EC442B7F1BFEF7E200DC6F97 /* CZJSpecialRecommendCell.m */; };
 		EC442B821BFEF7E200DC6F97 /* CZJSpecialRecommendCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EC442B801BFEF7E200DC6F97 /* CZJSpecialRecommendCell.xib */; };
+		EC4ACB8F1C55F2EF00E3523F /* CZJAddMyCarController.m in Sources */ = {isa = PBXBuildFile; fileRef = EC4ACB8E1C55F2EF00E3523F /* CZJAddMyCarController.m */; settings = {ASSET_TAGS = (); }; };
+		EC4ACB951C562C6800E3523F /* CZJSearchController.m in Sources */ = {isa = PBXBuildFile; fileRef = EC4ACB941C562C6800E3523F /* CZJSearchController.m */; settings = {ASSET_TAGS = (); }; };
 		EC4EF4611C3A0F0800E0FA91 /* CZJCommitOrderController.m in Sources */ = {isa = PBXBuildFile; fileRef = EC4EF4601C3A0F0800E0FA91 /* CZJCommitOrderController.m */; };
 		EC4EF4641C3A0F5900E0FA91 /* CZJDeliveryAddrController.m in Sources */ = {isa = PBXBuildFile; fileRef = EC4EF4631C3A0F5900E0FA91 /* CZJDeliveryAddrController.m */; };
 		EC4EF4671C3A0F7700E0FA91 /* CZJAddDeliveryAddrController.m in Sources */ = {isa = PBXBuildFile; fileRef = EC4EF4661C3A0F7700E0FA91 /* CZJAddDeliveryAddrController.m */; };
@@ -1232,6 +1234,10 @@
 		EC442B7E1BFEF7E200DC6F97 /* CZJSpecialRecommendCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJSpecialRecommendCell.h; sourceTree = "<group>"; };
 		EC442B7F1BFEF7E200DC6F97 /* CZJSpecialRecommendCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJSpecialRecommendCell.m; sourceTree = "<group>"; };
 		EC442B801BFEF7E200DC6F97 /* CZJSpecialRecommendCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CZJSpecialRecommendCell.xib; sourceTree = "<group>"; };
+		EC4ACB8D1C55F2EF00E3523F /* CZJAddMyCarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJAddMyCarController.h; sourceTree = "<group>"; };
+		EC4ACB8E1C55F2EF00E3523F /* CZJAddMyCarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJAddMyCarController.m; sourceTree = "<group>"; };
+		EC4ACB931C562C6800E3523F /* CZJSearchController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJSearchController.h; sourceTree = "<group>"; };
+		EC4ACB941C562C6800E3523F /* CZJSearchController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJSearchController.m; sourceTree = "<group>"; };
 		EC4EF45F1C3A0F0800E0FA91 /* CZJCommitOrderController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJCommitOrderController.h; sourceTree = "<group>"; };
 		EC4EF4601C3A0F0800E0FA91 /* CZJCommitOrderController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJCommitOrderController.m; sourceTree = "<group>"; };
 		EC4EF4621C3A0F5900E0FA91 /* CZJDeliveryAddrController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJDeliveryAddrController.h; sourceTree = "<group>"; };
@@ -2667,6 +2673,8 @@
 				ECCC32A01C50AF6E008A36CB /* CZJMyMessageCenterController.m */,
 				ECFAFA861C536FF3004E1E16 /* CZJMyCarListController.h */,
 				ECFAFA871C536FF3004E1E16 /* CZJMyCarListController.m */,
+				EC4ACB8D1C55F2EF00E3523F /* CZJAddMyCarController.h */,
+				EC4ACB8E1C55F2EF00E3523F /* CZJAddMyCarController.m */,
 			);
 			path = Info;
 			sourceTree = "<group>";
@@ -4108,6 +4116,8 @@
 			children = (
 				ECFA85D21C1BD3C3009F9177 /* CZJFilterBaseController.h */,
 				ECFA85D31C1BD3C3009F9177 /* CZJFilterBaseController.m */,
+				EC4ACB931C562C6800E3523F /* CZJSearchController.h */,
+				EC4ACB941C562C6800E3523F /* CZJSearchController.m */,
 			);
 			path = BaseController;
 			sourceTree = "<group>";
@@ -4769,6 +4779,7 @@
 				EC442B811BFEF7E200DC6F97 /* CZJSpecialRecommendCell.m in Sources */,
 				EC025FD71C21036E00A8085E /* MJRefreshConst.m in Sources */,
 				EC025FCC1C21036E00A8085E /* MJRefreshHeader.m in Sources */,
+				EC4ACB8F1C55F2EF00E3523F /* CZJAddMyCarController.m in Sources */,
 				ECC4DE1A1C17D67B00FBD6A4 /* OpenShare+Alipay.m in Sources */,
 				EC025FCA1C21036E00A8085E /* MJRefreshComponent.m in Sources */,
 				ECFFB9531C103CC500811C2E /* CZJStoreViewController.m in Sources */,
@@ -4783,6 +4794,7 @@
 				ECC4DDE41C17D67B00FBD6A4 /* KSRefreshView.m in Sources */,
 				EC5EEB5B1C45DC1100EEA368 /* CZJStoreDescribeTwoCell.m in Sources */,
 				ECC4DDBE1C17D67B00FBD6A4 /* EasyJSDataFunction.m in Sources */,
+				EC4ACB951C562C6800E3523F /* CZJSearchController.m in Sources */,
 				ECC4DE401C17D67B00FBD6A4 /* UIAlertView+AFNetworking.m in Sources */,
 				ECC4DDE21C17D67B00FBD6A4 /* KSDefaultHeadRefreshView.m in Sources */,
 				EC25182C1C229BC100C6754A /* CZJUserEvalutionDetailController.m in Sources */,

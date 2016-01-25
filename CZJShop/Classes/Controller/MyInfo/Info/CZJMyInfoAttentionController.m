@@ -125,8 +125,9 @@ UITableViewDelegate
     [CZJBaseDataInstance loadMyAttentionList:params success:^(id json) {
         NSDictionary* dict = [CZJUtils DataFromJson:json];
         NSArray* tmpAry = [dict valueForKey:@"msg"];
-        for (NSDictionary* tmpDict in tmpAry)
+        for (int i = 0; i < tmpAry.count ; i++)
         {
+            NSDictionary* tmpDict = tmpAry[i];
             switch ([_currentType integerValue])
             {
                 case 0:
@@ -205,7 +206,7 @@ UITableViewDelegate
     self.selectAllBtn.selected = YES;
     for (id object in tmpArray)
     {
-        if ([_currentType isEqualToString:@"3"])
+        if ([_currentType isEqualToString:@"2"])
         {
             CZJStoreAttentionForm* form = (CZJStoreAttentionForm*)object;
             if (!form.isSelected)
@@ -247,7 +248,7 @@ UITableViewDelegate
 #pragma mark-UITableViewDataSource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    if ([_currentType isEqualToString:@"3"])
+    if ([_currentType isEqualToString:@"2"])
     {
         return tmpArray.count;
     }
@@ -256,7 +257,7 @@ UITableViewDelegate
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if ([_currentType isEqualToString:@"3"])
+    if ([_currentType isEqualToString:@"2"])
     {//门店关注列表
         return 2;
     }
@@ -265,7 +266,7 @@ UITableViewDelegate
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if ([_currentType isEqualToString:@"3"])
+    if ([_currentType isEqualToString:@"2"])
     {
         CZJStoreAttentionForm* form = tmpArray[indexPath.section];
         if (0 == indexPath.row)
@@ -312,7 +313,7 @@ UITableViewDelegate
 #pragma mark-UITableViewDelegate
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if ([_currentType isEqualToString:@"3"])
+    if ([_currentType isEqualToString:@"2"])
     {//门店关注列表
         if (0 == indexPath.row)
         {
@@ -328,7 +329,7 @@ UITableViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if ([_currentType isEqualToString:@"3"])
+    if ([_currentType isEqualToString:@"2"])
     {
         CZJStoreAttentionForm* form = tmpArray[indexPath.section];
         if (self.isEdit)
@@ -362,7 +363,7 @@ UITableViewDelegate
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    if ([_currentType isEqualToString:@"3"])
+    if ([_currentType isEqualToString:@"2"])
     {
         if (0 == section)
         {
@@ -390,10 +391,14 @@ UITableViewDelegate
         _currentType = [NSString stringWithFormat:@"%ld",index - 1];
         
     }
-    else
+    else if (0 == index)
     {
         _currentType = [NSString stringWithFormat:@"%ld",index + 1];
 
+    }
+    else
+    {
+        _currentType =[NSString stringWithFormat:@"%ld",index];
     }
     
     if (!_isServiceTouched && 0 == index)

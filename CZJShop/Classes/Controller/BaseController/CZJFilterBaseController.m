@@ -9,25 +9,41 @@
 #import "CZJFilterBaseController.h"
 
 @interface CZJFilterBaseController ()
-
 @end
 
 @implementation CZJFilterBaseController
 
+- (instancetype)initWithType:(CZJCarListType)type
+{
+    if (self = [super init])
+    {
+        self.carlistType = type;
+        return self;
+    }
+    return nil;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    //UIButton
-    UIButton *leftBtn = [[ UIButton alloc ] initWithFrame : CGRectMake(0 , 0 , 44 , 44 )];
-    [leftBtn setTitle:@"取消" forState:UIControlStateNormal];
-    [leftBtn.titleLabel setFont:[UIFont systemFontOfSize:16]];
-    [leftBtn addTarget:self action:@selector(cancelAction:) forControlEvents:UIControlEventTouchUpInside];
-    [leftBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal]; //将leftItem设置为自定义按钮
-    [leftBtn setTag:1000];
-    //UIBarButtonItem
-    UIBarButtonItem *leftItem =[[UIBarButtonItem alloc]initWithCustomView: leftBtn];
-    self.navigationItem.leftBarButtonItem = leftItem;
-    [leftItem setTag:1000];
+    if (_carlistType == CZJCarListTypeGeneral)
+    {
+        [CZJUtils customizeNavigationBarForTarget:self];
+    }
+    else
+    {
+        //UIButton
+        UIButton *leftBtn = [[ UIButton alloc ] initWithFrame : CGRectMake(0 , 0 , 44 , 44 )];
+        [leftBtn setTitle:@"取消" forState:UIControlStateNormal];
+        [leftBtn.titleLabel setFont:[UIFont systemFontOfSize:16]];
+        [leftBtn addTarget:self action:@selector(cancelAction:) forControlEvents:UIControlEventTouchUpInside];
+        [leftBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal]; //将leftItem设置为自定义按钮
+        [leftBtn setTag:1000];
+        //UIBarButtonItem
+        UIBarButtonItem *leftItem =[[UIBarButtonItem alloc]initWithCustomView: leftBtn];
+        self.navigationItem.leftBarButtonItem = leftItem;
+        [leftItem setTag:1000];
+    }
 }
 
 - (void)cancelAction:(UIBarButtonItem *)bar

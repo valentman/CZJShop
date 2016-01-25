@@ -27,9 +27,11 @@ UITableViewDataSource
 @synthesize curCarBrandLogo = _curCarBrandLogo;
 @synthesize curCarBrandName = _curCarBrandName;
 
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"选择车系";
+    self.view.backgroundColor = CZJNAVIBARBGCOLOR;
     [self initTableView];
 
 }
@@ -59,14 +61,17 @@ UITableViewDataSource
 
 - (void)initTableView
 {
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 60, PJ_SCREEN_WIDTH-kMGLeftSpace, PJ_SCREEN_HEIGHT)];
+    NSInteger width = PJ_SCREEN_WIDTH - (CZJCarListTypeFilter == _carlistType ? kMGLeftSpace  : 0);
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 64, width, PJ_SCREEN_HEIGHT)];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
+    self.tableView.clipsToBounds = YES;
+    
     UIView *v = [[UIView alloc] initWithFrame:CGRectMake(0,0,320,80)];
     self.tableView.tableFooterView = v;
     [self.view addSubview:self.tableView];
     
-    self.topView = [[UIView alloc]initWithFrame:CGRectMake(0, StatusBar_HEIGHT + NavigationBar_HEIGHT, PJ_SCREEN_WIDTH, 60)];
+    self.topView = [[UIView alloc]initWithFrame:CGRectMake(0, StatusBar_HEIGHT + NavigationBar_HEIGHT, PJ_SCREEN_WIDTH, 64)];
     [self.topView setBackgroundColor:[UIColor whiteColor]];
     [self.view addSubview:self.topView];
     
@@ -101,24 +106,19 @@ UITableViewDataSource
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CarSesCellIdentifierID];
     if (!cell) {
         cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CarSesCellIdentifierID];
+        UILabel* nameLabel = [[UILabel alloc]initWithFrame:CGRectMake(50, 5, PJ_SCREEN_WIDTH - 75, 18)];
+        [cell addSubview:nameLabel];
+        nameLabel.font = SYSTEMFONT(14);
+        [nameLabel setTag:1999];
+        nameLabel.textAlignment = NSTextAlignmentLeft;
     }
     NSString* tmp_key = [_keys objectAtIndex:indexPath.section];
     NSArray*  sess = [_carSes objectForKey:tmp_key];
     CarSeriesForm* obj = [sess objectAtIndex:indexPath.row];
-    cell.textLabel.text = obj.name;
-    cell.textLabel.font = [UIFont systemFontOfSize:14];
     
+    ((UILabel*)VIEWWITHTAG(cell, 1999)).text = obj.name;
     return cell;
 }
-
-//- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-//    NSString *sectionName = [_keys objectAtIndex:section];
-//    return sectionName;
-//}
-//
-//- (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView {
-//    return _keys;
-//}
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -133,7 +133,9 @@ UITableViewDataSource
     CarSeriesForm* obj = [sess objectAtIndex:indexPath.row];
     _currentSelect = obj;
     
-    CZJCarModelChooseController *svc = [[CZJCarModelChooseController alloc] init];
+    [CZJBaseDataInstance setCarSerialForm:obj];
+    
+    CZJCarModelChooseController *svc = [[CZJCarModelChooseController alloc] initWithType:_carlistType];
     svc.carSeries = _currentSelect;
     svc.carBrand = _carBrand;
     [self.navigationController pushViewController:svc animated:YES];

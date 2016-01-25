@@ -43,7 +43,7 @@ GKHpickerAddressView * instance;
         [instance.textfield becomeFirstResponder];
     });
     //
-    [instance getPickerData];
+    [instance getAddressPickerData];
     [instance.textfield becomeFirstResponder];
     instance.valueBlock=block;
     instance.ctrl=ctrl;
@@ -51,7 +51,7 @@ GKHpickerAddressView * instance;
     return instance;
 }
 #pragma mark - get data
-- (void)getPickerData {
+- (void)getAddressPickerData {
     NSString *path = [[NSBundle mainBundle] pathForResource:@"Address" ofType:@"plist"];
     self.pickerDic = [[NSDictionary alloc] initWithContentsOfFile:path];
     self.provinceArray = [self.pickerDic allKeys];
@@ -64,8 +64,13 @@ GKHpickerAddressView * instance;
     if (self.cityArray.count > 0) {
         self.townArray = [[self.selectedArray objectAtIndex:0] objectForKey:[self.cityArray objectAtIndex:0]];
     }
+}
+
+- (void)getCarPlateNumPikcerData
+{
     
 }
+
 -(void)createPickerView
 {
     if (self.pickerView==nil) {

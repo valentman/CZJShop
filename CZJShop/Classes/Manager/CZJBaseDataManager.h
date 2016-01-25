@@ -8,10 +8,10 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CoreLocation.h>
+#import "CZJCarForm.h"
 @class HomeForm;
 @class CZJStoreForm;
 @class CZJDiscoverForm;
-@class CZJCarForm;
 @class CZJDetailForm;
 @class CZJGoodsForm;
 @class CZJShoppingCartForm;
@@ -28,6 +28,10 @@
     CZJShoppingCartForm* _shoppingCartForm;         //购物车信息
     UserBaseForm* _userInfoForm;                    //我的个人信息
     
+    CarBrandsForm* _carBrandForm;
+    CarSeriesForm* _carSerialForm;
+    CarModelForm* _carModealForm;
+    
     NSMutableDictionary* _discoverForms;            //发现信息
     NSMutableArray* _orderStoreCouponAry;           //订单结算页面可用优惠券列表
     
@@ -43,6 +47,12 @@
 @property (nonatomic, retain) CZJGoodsForm* goodsForm;
 @property (nonatomic, retain) UserBaseForm* userInfoForm;
 @property (nonatomic, retain) CZJShoppingCartForm* shoppingCartForm;
+
+@property (nonatomic, retain) CarBrandsForm* carBrandForm;
+@property (nonatomic, retain) CarSeriesForm* carSerialForm;
+@property (nonatomic, retain) CarModelForm* carModealForm;
+
+
 @property (nonatomic, retain) NSMutableDictionary* discoverForms;
 @property (nonatomic, retain) NSMutableArray* orderStoreCouponAry;
 

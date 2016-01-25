@@ -38,7 +38,6 @@ CZJViewControllerDelegate
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self dealWithInitNavigationBar];
     [self initDatas];
     [self initViews];
     [self getMyInfoDataFromServer];
@@ -90,9 +89,9 @@ CZJViewControllerDelegate
         [self.myInfoTableView registerNib:nib forCellReuseIdentifier:cells];
     }
     self.myInfoTableView.tableFooterView = [[UIView alloc] init];
-    self.myInfoTableView.backgroundColor = CZJNAVIBARBGCOLOR;
     self.myInfoTableView.showsVerticalScrollIndicator = NO;
     self.automaticallyAdjustsScrollViewInsets = NO;
+    
 }
 
 - (void)getMyInfoDataFromServer
@@ -135,6 +134,7 @@ CZJViewControllerDelegate
 - (void)viewWillAppear:(BOOL)animated
 {
     [self.myInfoTableView reloadData];
+    [self dealWithInitNavigationBar];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -322,7 +322,7 @@ CZJViewControllerDelegate
         }
         if (2 == indexPath.row)
         {
-            segueIdentifer = @"segueToMyWallet";
+            segueIdentifer = @"segueToMyOrderList";
         }
     }
     if (1 == indexPath.section)

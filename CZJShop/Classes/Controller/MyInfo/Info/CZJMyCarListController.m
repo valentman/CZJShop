@@ -10,13 +10,20 @@
 #import "CZJMyCarListCell.h"
 #import "UIImageView+WebCache.h"
 #import "CZJBaseDataManager.h"
+#import "CZJCarBrandChooseController.h"
+
+
 @interface CZJMyCarListController ()
 <
 UITableViewDataSource,
 UITableViewDelegate
 >
+{
+    NSArray* carList;
+}
 @property (weak, nonatomic) IBOutlet UITableView *myTableView;
 
+- (IBAction)addMyCarAction:(id)sender;
 @end
 
 @implementation CZJMyCarListController
@@ -31,21 +38,34 @@ UITableViewDelegate
 - (void)initViews
 {
     [CZJUtils customizeNavigationBarForTarget:self];
+    self.navigationController.toolbar.translucent = NO;
     
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.myTableView.tableFooterView = [[UIView alloc]init];
+    self.myTableView.tableHeaderView = [[UIView alloc]init];
     UINib* nib = [UINib nibWithNibName:@"CZJMyCarListCell" bundle:nil];
     [self.myTableView registerNib:nib forCellReuseIdentifier:@"CZJMyCarListCell"];
     self.myTableView.hidden = YES;
+    self.myTableView.backgroundColor = CZJNAVIBARBGCOLOR;
+    self.view.backgroundColor = CZJNAVIBARBGCOLOR;
 }
+
 
 - (void)getCarListFromServer
 {
     [CZJBaseDataInstance getMyCarList:nil Success:^(id json) {
-        self.myTableView.hidden = NO;
-        self.myTableView.delegate = self;
-        self.myTableView.dataSource = self;
-        [self.myTableView reloadData];
+        NSDictionary* dict = [CZJUtils DataFromJson:json];
+        carList = [dict valueForKey:@"msg"];
+        if ([carList isKindOfClass:[NSArray class]])
+        {
+            if (carList.count > 0) {
+                self.myTableView.hidden = NO;
+                self.myTableView.delegate = self;
+                self.myTableView.dataSource = self;
+                [self.myTableView reloadData];
+            }
+        }
+
     } fail:^{
         
     }];
@@ -59,7 +79,15 @@ UITableViewDelegate
 #pragma mark-UITableViewDataSource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 5;
+    if ([carList isKindOfClass:[NSArray class]])
+    {
+        return carList.count;
+    }
+    else
+    {
+        return 0;
+    }
+    
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -70,9 +98,13 @@ UITableViewDelegate
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     CZJMyCarListCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJMyCarListCell" forIndexPath:indexPath];
-    [cell.brandImg sd_setImageWithURL:[NSURL URLWithString:@""] placeholderImage:nil];
-    cell.carNameLabel.text = @"奔驰迈巴赫";
-    cell.carModelLabel.text = @"W12缸顶级";
+    NSDictionary* dict = carList[indexPath.section];
+    
+    [cell.brandImg sd_setImageWithURL:[NSURL URLWithString:[dict valueForKey:@"logo"]] placeholderImage:IMAGENAMED(@"default_icon_car")];
+    NSString* carName = [NSString stringWithFormat:@"%@ %@ %@%@%@",[dict valueForKey:@"brandName"], [dict valueForKey:@"seriesName"],[dict valueForKey:@"prov"],[dict valueForKey:@"number"],[dict valueForKey:@"numberPlate"]];
+    cell.carNameLabel.text = carName;
+    cell.carModelLabel.text = [dict valueForKey:@"modelName"];
+    cell.setDefaultBtn.selected = [[dict valueForKey:@"dftFlag"] boolValue];
     return cell;
 }
 
@@ -84,7 +116,6 @@ UITableViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -92,4 +123,9 @@ UITableViewDelegate
     return 10;
 }
 
+- (IBAction)addMyCarAction:(id)sender
+{
+    CZJCarBrandChooseController *svc = [[CZJCarBrandChooseController alloc] initWithType:CZJCarListTypeGeneral];
+    [self.navigationController pushViewController:svc animated:YES];
+}
 @end

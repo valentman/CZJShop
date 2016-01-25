@@ -94,6 +94,12 @@ typedef NS_ENUM(NSInteger, CZJEvalutionType)
     CZJEvalutionTypeBad = 4
 };
 
+typedef NS_ENUM(NSInteger, CZJCarListType)
+{
+    CZJCarListTypeFilter = 0,
+    CZJCarListTypeGeneral
+};
+
 typedef void (^CZJButtonBlock)(UIButton* button);
 typedef void (^CZJSuccessBlock)(id json);
 typedef void (^CZJFailureBlock)();

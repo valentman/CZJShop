@@ -74,6 +74,8 @@
 + (UIViewController*)getViewControllerFromStoryboard:(NSString*)storyboardName andVCName:(NSString*)vcName;
 //从Xib文件中获取View
 + (id)getXibViewByName:(NSString*)xibName;
+//搜索界面
++ (void)showSearchView:(UIViewController*)target andNaviBar:(UIView*)naviBar;
 //登录界面和购物车界面的共通处理
 + (void)showLoginView:(UIViewController*)target andNaviBar:(UIView*)naviBar;
 + (void)removeLoginViewFromCurrent:(UIViewController*)target;
@@ -99,4 +101,5 @@
 + (void)callHotLine:(NSString*)phoneNum AndTarget:(id)target;
 //创建字符Layer
 + (CATextLayer *)creatTextLayerWithNSString:(NSString *)string withColor:(UIColor *)color andPosition:(CGPoint)point andNumOfMenu:(int)_numOfMenu;
++ (CAShapeLayer *)creatIndicatorWithColor:(UIColor *)color andPosition:(CGPoint)point;
 @end

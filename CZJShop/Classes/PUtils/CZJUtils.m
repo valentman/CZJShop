@@ -15,6 +15,7 @@
 #import "CZJNaviagtionBarView.h"
 #import "CZJDetailViewController.h"
 #import "CZJStoreDetailController.h"
+#import "CZJSearchController.h"
 
 @interface CZJUtils ()<UIAlertViewDelegate>
 
@@ -491,6 +492,27 @@ void backLastView(id sender, SEL _cmd)
     return [nib objectAtIndex:0];
 }
 
++ (void)showSearchView:(CZJViewController*)target andNaviBar:(CZJNaviagtionBarView*)naviBar
+{
+    UINavigationController* searchVC = (UINavigationController*)[self getViewControllerFromStoryboard:@"Main" andVCName:@"searchVCSBID"];
+    
+    //把searchVC加入到当前navigationController中
+    UIWindow *window = [[UIWindow alloc] initWithFrame:CGRectMake(PJ_SCREEN_WIDTH, 0, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT)];
+    window.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:1.0];
+    window.windowLevel = UIWindowLevelNormal;
+    window.hidden = NO;
+    window.rootViewController = searchVC;
+    target.window = window;
+    [window makeKeyAndVisible];
+    
+    [UIView animateWithDuration:0.4 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+        target.window.frame = CGRectMake(0, 0, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT);
+//        ((CZJSearchController*)searchVC.topViewController).delegate = naviBar ? naviBar : target;
+    } completion:^(BOOL finished) {
+        [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
+    }];
+}
+
 + (void)showLoginView:(CZJViewController*)target andNaviBar:(CZJNaviagtionBarView*)naviBar
 {
     //由storyboard根据LoginView获取到登录界面
@@ -684,4 +706,25 @@ void backLastView(id sender, SEL _cmd)
     [navi pushViewController:storeDetail animated:true];
 }
 
++ (CAShapeLayer *)creatIndicatorWithColor:(UIColor *)color andPosition:(CGPoint)point
+{
+    CAShapeLayer *layer = [CAShapeLayer new];
+    
+    UIBezierPath *path = [UIBezierPath new];
+    [path moveToPoint:CGPointMake(0, 0)];
+    [path addLineToPoint:CGPointMake(8, 0)];
+    [path addLineToPoint:CGPointMake(4, 5)];
+    [path closePath];
+    
+    layer.path = path.CGPath;
+    layer.lineWidth = 1.0;
+    layer.fillColor = color.CGColor;
+    
+    CGPathRef bound = CGPathCreateCopyByStrokingPath(layer.path, nil, layer.lineWidth, kCGLineCapButt, kCGLineJoinMiter, layer.miterLimit);
+    layer.bounds = CGPathGetBoundingBox(bound);
+    
+    layer.position = point;
+    
+    return layer;
+}
 @end

@@ -17,5 +17,4 @@
     id _currentSelect;
 }
 @property(nonatomic,retain)CarBrandsForm *carBrand;
-
 @end

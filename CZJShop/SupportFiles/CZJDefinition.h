@@ -11,8 +11,8 @@
 
 //----------------------------服务器接口-------------------------------
 //服务地址
-static NSString *const kCZJServerAddr = @"http://192.168.0.251:8080/appserver/";
-//static NSString *const kCZJServerAddr = @"http://101.201.197.202:8080/appserver/";
+//static NSString *const kCZJServerAddr = @"http://192.168.0.251:8080/appserver/";
+static NSString *const kCZJServerAddr = @"http://101.201.197.202:8080/appserver/";
 
 //首页接口组
 static NSString *const kCZJServerAPIShowHome = @"chezhu/showHomeV2.do";                             //获取首页数据
@@ -132,7 +132,10 @@ static NSString *const kUserDefaultTimeDay = @"userdefaultTimeDay";             
 static NSString *const kUserDefaultTimeMin = @"userdefaultTimeMin";                         //以分钟为间隔时间
 static NSString *const kUserDefaultRandomCode = @"userdefaultRandomCode";                   //随机码
 static NSString *const kUserDefaultServiceTypeID = @"userdefaultserviceyypeid";             //服务项目ID
-static NSString *const kUserDefaultChoosedCarType = @"userdefaultchoosedcar";               //筛选是选择的车型名称
+static NSString *const kUserDefaultChoosedCarBrandImg = @"userdefaultchoosedcarbrandimg";   //选择的车标图片
+static NSString *const kUserDefaultChoosedCarBrandType = @"userdefaultchoosedcarbrand";     //选择的车品牌名称
+static NSString *const kUserDefaultChoosedCarSerialType = @"userdefaultchoosedcarserial";   //选择的车系名称
+static NSString *const kUserDefaultChoosedCarModelType = @"userdefaultchoosedcarmodel";     //选择的车型名称
 static NSString *const kUserDefaultServicePlace = @"userdefaultserviceplace";               //上门服务
 static NSString *const kUserDefaultDetailStoreItemPid = @"DetailStoreItemPid";              //详情界面storeitemPid
 static NSString *const kUserDefaultDetailItemCode = @"DetailItemCode";                      //详情界面Itemcode
