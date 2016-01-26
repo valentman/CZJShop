@@ -9,6 +9,7 @@
 #import "CZJNaviagtionBarView.h"
 #import "CZJLoginController.h"
 #import "CZJShoppingCartController.h"
+#import "CZJSearchController.h"
 @interface CZJNaviagtionBarView ()<UISearchBarDelegate>
 {
     CGRect _selfBounds;
@@ -309,10 +310,16 @@
         [CZJUtils removeLoginViewFromCurrent:(UIViewController*)_delegate];
         [self refreshShopBadgeLabel];
     }
-    else if ([controller isKindOfClass: [CZJShoppingCartController class]])
+    else if ([controller isKindOfClass:[CZJShoppingCartController class]] )
     {
         [CZJUtils removeShoppintCartViewFromCurrent:(UIViewController*)_delegate];
     }
+    else if ([controller isKindOfClass:[CZJSearchController class]])
+    {
+        [CZJUtils removeSearchVCFromCurrent:(UIViewController*)_delegate];
+    }
+    
+    
     if ([self.delegate respondsToSelector:@selector(removeShoppingOrLoginView:)])
     {
         [self.delegate removeShoppingOrLoginView:self];

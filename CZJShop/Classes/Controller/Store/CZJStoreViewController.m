@@ -67,7 +67,7 @@ UITableViewDelegate
     _refreshLocationBarView.frame = CGRectMake(30, currentFrame.origin.y, currentFrame.size.width, currentFrame.size.height);
     _locationButton.tag = CZJViewMoveOrientationLeft;
     [self btnTouched:nil];
-    
+    self.navigationController.interactivePopGestureRecognizer.enabled = true;
     [_pullDownMenu registNotification];
 }
 
@@ -95,6 +95,11 @@ UITableViewDelegate
     }
     
     //参数初始化
+    if (self.searchStr)
+    {
+        [storePostParams setObject:self.searchStr forKey:@"q"];
+    }
+
     [storePostParams setObject:@"0" forKey:@"cityId"];
     [storePostParams setObject:@"0" forKey:@"storeType"];
     [storePostParams setObject:@"0" forKey:@"sortType"];

@@ -125,6 +125,8 @@ static NSString *const kCZJPlistFileCitys = @"Citys.plist";                     
 static NSString *const kCZJPlistFileCheckVersion = @"checkVersion.plist";                   //版本检测信息文件
 static NSString *const kCZJPlistFileStartInfo = @"StartInfo.plist";                         //开始界面信息文件
 static NSString *const kCZJPlistFileMessage = @"Message.plist";                             //信息管理文件
+static NSString *const kCZJPlistFileSearchHistory = @"SearchHistory.plist";                 //信息管理文件
+
 
 
 //----------------------UserDefault键名定义

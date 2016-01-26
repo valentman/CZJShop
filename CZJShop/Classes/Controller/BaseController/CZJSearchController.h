@@ -8,7 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
+
+typedef NS_ENUM(NSInteger, SearchType)
+{
+    kSearchTypeHistory = 0,
+    kSearchTypeServer
+};
 @interface CZJSearchController : CZJViewController
 @property (nonatomic, weak) id <CZJViewControllerDelegate> delegate;
-
+@property (nonatomic, weak) id parent;
 @end

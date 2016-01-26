@@ -71,7 +71,7 @@
                                         <animations/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits"/>
+                                        <textInputTraits key="textInputTraits" returnKeyType="search"/>
                                     </textField>
                                 </subviews>
                                 <animations/>
@@ -108,12 +108,12 @@
                                 </connections>
                             </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="8Gn-8d-PNB">
-                                <rect key="frame" x="0.0" y="65" width="320" height="403"/>
+                                <rect key="frame" x="0.0" y="65" width="320" height="503"/>
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Dr6-YL-N6a">
-                                <rect key="frame" x="0.0" y="468" width="320" height="100"/>
+                                <rect key="frame" x="0.0" y="568" width="320" height="100"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AMU-IA-ge6">
                                         <rect key="frame" x="50" y="30" width="220" height="40"/>
@@ -142,8 +142,8 @@
                                     <constraint firstAttribute="trailing" secondItem="AMU-IA-ge6" secondAttribute="trailing" constant="50" id="vfY-FH-unZ"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ruZ-Vx-G7S">
-                                <rect key="frame" x="0.0" y="20" width="320" height="548"/>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ruZ-Vx-G7S">
+                                <rect key="frame" x="0.0" y="10" width="320" height="548"/>
                                 <animations/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
@@ -156,15 +156,11 @@
                             <constraint firstItem="8Gn-8d-PNB" firstAttribute="top" secondItem="YRE-6K-Tre" secondAttribute="bottom" constant="5" id="3tc-g5-enZ"/>
                             <constraint firstItem="YRE-6K-Tre" firstAttribute="leading" secondItem="rIc-K8-UIk" secondAttribute="leading" constant="15" id="CUX-p9-Z2V"/>
                             <constraint firstAttribute="trailing" secondItem="8Gn-8d-PNB" secondAttribute="trailing" id="G8l-9a-SSM"/>
-                            <constraint firstItem="eqn-84-4AM" firstAttribute="top" secondItem="ruZ-Vx-G7S" secondAttribute="bottom" id="GAs-vq-cR9"/>
                             <constraint firstAttribute="trailing" secondItem="Dr6-YL-N6a" secondAttribute="trailing" id="Jqd-MQ-dIK"/>
                             <constraint firstItem="8Gn-8d-PNB" firstAttribute="leading" secondItem="rIc-K8-UIk" secondAttribute="leading" id="QpQ-zM-lor"/>
-                            <constraint firstItem="ruZ-Vx-G7S" firstAttribute="top" secondItem="LAQ-uN-HRU" secondAttribute="bottom" id="Sqv-vU-wqH"/>
-                            <constraint firstAttribute="trailing" secondItem="ruZ-Vx-G7S" secondAttribute="trailing" id="YrN-vI-84I"/>
                             <constraint firstItem="Dr6-YL-N6a" firstAttribute="top" secondItem="8Gn-8d-PNB" secondAttribute="bottom" id="ZAP-la-DiG"/>
-                            <constraint firstItem="ruZ-Vx-G7S" firstAttribute="leading" secondItem="rIc-K8-UIk" secondAttribute="leading" id="ZL3-5f-g0x"/>
                             <constraint firstItem="Dr6-YL-N6a" firstAttribute="leading" secondItem="rIc-K8-UIk" secondAttribute="leading" id="cmB-Xf-ADG"/>
-                            <constraint firstItem="eqn-84-4AM" firstAttribute="top" secondItem="Dr6-YL-N6a" secondAttribute="bottom" id="fdH-Yk-rfg"/>
+                            <constraint firstItem="eqn-84-4AM" firstAttribute="top" secondItem="Dr6-YL-N6a" secondAttribute="bottom" constant="-100" id="fdH-Yk-rfg"/>
                             <constraint firstAttribute="trailing" secondItem="KDs-fK-LZH" secondAttribute="trailing" constant="8" id="hLW-pd-C1b"/>
                             <constraint firstAttribute="trailing" secondItem="YRE-6K-Tre" secondAttribute="trailing" constant="60" id="jlC-sF-1Ip"/>
                             <constraint firstItem="KDs-fK-LZH" firstAttribute="top" secondItem="LAQ-uN-HRU" secondAttribute="bottom" constant="5" id="ohl-1Q-FhV"/>
@@ -266,7 +262,7 @@
         <!--服务列表-->
         <scene sceneID="QJs-Nv-CAB">
             <objects>
-                <viewController title="服务列表" extendedLayoutIncludesOpaqueBars="YES" hidesBottomBarWhenPushed="YES" id="4qu-mg-FqA" customClass="CZJServiceListController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="serviceListSBID" title="服务列表" extendedLayoutIncludesOpaqueBars="YES" hidesBottomBarWhenPushed="YES" id="4qu-mg-FqA" customClass="CZJServiceListController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Lv1-1C-cFu"/>
                         <viewControllerLayoutGuide type="bottom" id="dSd-Df-0Y5"/>
@@ -781,7 +777,7 @@
         <!--商品列表-->
         <scene sceneID="N5s-CG-wvS">
             <objects>
-                <viewController extendedLayoutIncludesOpaqueBars="YES" hidesBottomBarWhenPushed="YES" id="KWm-qr-OMB" userLabel="商品列表" customClass="CZJGoodsListController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="goodListSBID" extendedLayoutIncludesOpaqueBars="YES" hidesBottomBarWhenPushed="YES" id="KWm-qr-OMB" userLabel="商品列表" customClass="CZJGoodsListController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="7Od-A9-LnK"/>
                         <viewControllerLayoutGuide type="bottom" id="adt-CL-TZq"/>
@@ -959,7 +955,7 @@
         <!--门店-->
         <scene sceneID="kcJ-xZ-MOA">
             <objects>
-                <viewController id="w4i-D5-Dv6" customClass="CZJStoreViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="storeListSBID" id="w4i-D5-Dv6" customClass="CZJStoreViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="NjB-p8-Fo2"/>
                         <viewControllerLayoutGuide type="bottom" id="GEo-DF-aEm"/>
@@ -1381,7 +1377,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <animations/>
                         <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
-                        <color key="separatorColor" patternImage="7CDFB34C-99C3-4EB3-A256-D956CE12F5E1" colorSpace="pattern"/>
+                        <color key="separatorColor" patternImage="16B11B81-8E9E-4332-A78A-18012A30A29E" colorSpace="pattern"/>
                         <inset key="separatorInset" minX="15" minY="0.0" maxX="15" maxY="0.0"/>
                         <sections>
                             <tableViewSection id="t6n-nw-cfg" userLabel="Activity">
@@ -3712,8 +3708,8 @@
                                     <constraint firstAttribute="height" constant="1" id="mIW-Rb-e4S"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="C86-Ar-bfk">
-                                <rect key="frame" x="0.0" y="146" width="320" height="61"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="C86-Ar-bfk">
+                                <rect key="frame" x="0.0" y="147" width="320" height="61"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TS1-CV-U4w">
                                         <rect key="frame" x="80" y="0.0" width="1" height="61"/>
@@ -3724,7 +3720,7 @@
                                         </constraints>
                                     </view>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="33o-QK-OQm">
-                                        <rect key="frame" x="0.0" y="0.0" width="80" height="62"/>
+                                        <rect key="frame" x="0.0" y="-147" width="30" height="30"/>
                                         <animations/>
                                         <connections>
                                             <action selector="chooseCarPlateNumAction:" destination="dE4-Y7-9IX" eventType="touchUpInside" id="HZg-D1-Urq"/>
@@ -3785,8 +3781,8 @@
                                     <constraint firstItem="2oE-W3-Xj8" firstAttribute="leading" secondItem="TS1-CV-U4w" secondAttribute="trailing" constant="8" id="qg2-7W-cYd"/>
                                 </constraints>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JpU-Y2-h55">
-                                <rect key="frame" x="50" y="261" width="220" height="46"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JpU-Y2-h55">
+                                <rect key="frame" x="50" y="258" width="220" height="46"/>
                                 <animations/>
                                 <color key="backgroundColor" red="1" green="0.40000000600000002" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
@@ -5048,7 +5044,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="7CDFB34C-99C3-4EB3-A256-D956CE12F5E1" width="256" height="256">
+        <image name="16B11B81-8E9E-4332-A78A-18012A30A29E" width="256" height="256">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPT5YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQrLjE3OlUkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw
@@ -9529,10 +9525,10 @@ AAAAAAAEDtA
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="lKt-0d-hD3"/>
-        <segue reference="daW-vB-UlX"/>
         <segue reference="88D-z9-9MA"/>
         <segue reference="rmV-te-JFO"/>
-        <segue reference="lel-ft-RgU"/>
+        <segue reference="daW-vB-UlX"/>
         <segue reference="Syl-A6-LlG"/>
+        <segue reference="lel-ft-RgU"/>
     </inferredMetricsTieBreakers>
 </document>

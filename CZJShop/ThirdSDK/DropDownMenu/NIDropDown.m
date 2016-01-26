@@ -49,9 +49,9 @@
         table.separatorColor = [UIColor grayColor];
         table.bounces = NO;
         
-//        CGPoint tranglePoint = CGPointMake(table.frame.origin.x + rect.size.width - 16, table.frame.origin.y - 5);
-//        trangleLayer = [self creatIndicatorWithColor:[UIColor whiteColor] andPosition:tranglePoint];
-//        [self.layer addSublayer:trangleLayer];
+        CGPoint tranglePoint = CGPointMake(table.frame.origin.x + rect.size.width - 16, table.frame.origin.y - 5);
+        trangleLayer = [self creatIndicatorWithColor:[UIColor whiteColor] andPosition:tranglePoint];
+        [self.layer addSublayer:trangleLayer];
         
         [UIView beginAnimations:nil context:nil];
         [UIView setAnimationDuration:0.5];
@@ -86,6 +86,27 @@
     layer.position = point;
     
     return layer;
+}
+
+- (void)setTrangleLayerPositioin:(CZJLayerPositionType)pos
+{
+    CGPoint tranglePoint;
+    switch (pos)
+    {
+        case kCZJLayerPositionTypeCenter:
+            tranglePoint = CGPointMake(table.frame.origin.x + myRect.size.width*0.5 - 8, table.frame.origin.y - 5);
+            break;
+        case kCZJLayerPositionTypeLeft:
+            tranglePoint = CGPointMake(table.frame.origin.x + 16, table.frame.origin.y - 5);
+            break;
+        case kCZJLayerPositionTypeRight:
+            tranglePoint = CGPointMake(table.frame.origin.x + myRect.size.width - 16, table.frame.origin.y - 5);
+            break;
+            
+        default:
+            break;
+    }
+    trangleLayer.position = tranglePoint;
 }
 
 -(void)hideDropDown:(id)b {

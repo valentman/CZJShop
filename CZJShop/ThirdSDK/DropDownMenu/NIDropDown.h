@@ -8,6 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
+typedef NS_ENUM(NSInteger, CZJLayerPositionType)
+{
+    kCZJLayerPositionTypeCenter = 0,
+    kCZJLayerPositionTypeLeft,
+    kCZJLayerPositionTypeRight
+};
+
 @class NIDropDown;
 @protocol NIDropDownDelegate
 - (void) niDropDownDelegateMethod:(NSString*)btnStr;
@@ -19,4 +26,5 @@
 
 -(void)hideDropDown:(id)b;
 - (id)showDropDown:(id)target Frame:(CGRect)rect WithObjects:(NSArray *)arr;
+- (void)setTrangleLayerPositioin:(CZJLayerPositionType)pos;
 @end

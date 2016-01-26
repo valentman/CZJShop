@@ -76,10 +76,17 @@ CZJFilterControllerDelegate
     
     
     //post参数初始化
+    if (self.searchStr)
+    {
+        [goodsListPostParams setObject:self.searchStr forKey:@"q"];
+    }
     [goodsListPostParams setObject:@"0" forKey:@"cityId"];
     [goodsListPostParams setObject:@"0" forKey:@"storeType"];
     [goodsListPostParams setObject:@"" forKey:@"modelId"];
-    [goodsListPostParams setObject:self.typeId forKey:@"typeId"];
+    if (_typeId)
+    {
+        [goodsListPostParams setObject:self.typeId forKey:@"typeId"];
+    }
     [goodsListPostParams setObject:[NSString stringWithFormat:@"%ld",self.page] forKey:@"page"];
     
 }

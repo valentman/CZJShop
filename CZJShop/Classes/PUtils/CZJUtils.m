@@ -118,11 +118,11 @@
     
     NSFileManager *fileManager = [NSFileManager defaultManager];
     BOOL isExists = [fileManager fileExistsAtPath:plistPath];
+    NSMutableArray* array = [NSMutableArray array];
     if (isExists) {
-        NSMutableArray* array = [NSMutableArray arrayWithContentsOfFile:plistPath];
-        return array;
+        array = [NSMutableArray arrayWithContentsOfFile:plistPath];
     }
-    return nil;
+    return array;
 }
 
 
@@ -494,20 +494,21 @@ void backLastView(id sender, SEL _cmd)
 
 + (void)showSearchView:(CZJViewController*)target andNaviBar:(CZJNaviagtionBarView*)naviBar
 {
-    UINavigationController* searchVC = (UINavigationController*)[self getViewControllerFromStoryboard:@"Main" andVCName:@"searchVCSBID"];
+    CZJSearchController* searchVC = (CZJSearchController*)[self getViewControllerFromStoryboard:@"Main" andVCName:@"searchVCSBID"];
+    searchVC.parent = target;
     
     //把searchVC加入到当前navigationController中
-    UIWindow *window = [[UIWindow alloc] initWithFrame:CGRectMake(PJ_SCREEN_WIDTH, 0, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT)];
+    UIWindow *window = [[UIWindow alloc] initWithFrame:CGRectMake(0, 0, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT)];
     window.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:1.0];
     window.windowLevel = UIWindowLevelNormal;
     window.hidden = NO;
     window.rootViewController = searchVC;
     target.window = window;
     [window makeKeyAndVisible];
-    
+
     [UIView animateWithDuration:0.4 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
         target.window.frame = CGRectMake(0, 0, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT);
-//        ((CZJSearchController*)searchVC.topViewController).delegate = naviBar ? naviBar : target;
+        ((CZJSearchController*)searchVC).delegate = naviBar ? naviBar : target;
     } completion:^(BOOL finished) {
         [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
     }];
@@ -588,6 +589,13 @@ void backLastView(id sender, SEL _cmd)
             target.window  = nil;
         }
     }];
+}
+
++ (void)removeSearchVCFromCurrent:(CZJViewController*)target
+{
+    target.window.frame = CGRectMake(PJ_SCREEN_WIDTH, 0, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT);
+    [target.window resignKeyWindow];
+    target.window  = nil;
 }
 
 

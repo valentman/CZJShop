@@ -100,8 +100,14 @@
     [storePostParams setObject:@"0" forKey:@"cityId"];
     [storePostParams setObject:@"0" forKey:@"storeType"];
     [storePostParams setObject:@"" forKey:@"modelId"];
-    [storePostParams setObject:_typeId forKey:@"typeId"];
+    if (_typeId)
+    {
+        [storePostParams setObject:_typeId forKey:@"typeId"];
+    }
     [storePostParams setObject:[NSString stringWithFormat:@"%ld",self.page] forKey:@"page"];
+    if (self.searchStr) {
+        [storePostParams setObject:self.searchStr forKey:@"q"];
+    }
 }
 
 - (void)initTableViewAndPullDownMenu

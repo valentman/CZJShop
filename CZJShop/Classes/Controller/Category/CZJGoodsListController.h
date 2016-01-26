@@ -11,5 +11,6 @@
 @interface CZJGoodsListController : UIViewController
 
 @property (strong, nonatomic) NSString *typeId;
+@property (strong, nonatomic) NSString* searchStr;
 
 @end

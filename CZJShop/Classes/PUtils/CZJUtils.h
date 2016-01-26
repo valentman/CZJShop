@@ -81,6 +81,7 @@
 + (void)removeLoginViewFromCurrent:(UIViewController*)target;
 + (void)showShoppingCartView:(UIViewController*)target andNaviBar:(UIView*)naviBar;
 + (void)removeShoppintCartViewFromCurrent:(UIViewController*)target ;
++ (void)removeSearchVCFromCurrent:(UIViewController*)target;
 //进入详情界面
 + (void)showStoreDetailView:(UINavigationController*)navi andStoreId:(NSString*)sid;
 + (void)showGoodsServiceDetailView:(UINavigationController*)navi

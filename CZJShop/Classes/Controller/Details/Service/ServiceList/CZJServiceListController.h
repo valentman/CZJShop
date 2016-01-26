@@ -21,11 +21,12 @@
 @property (nonatomic, assign) EWEBTYPE curType;
 @property (nonatomic, assign) EWebHtmlType  htmlType;
 @property (retain, nonatomic) NSString* itemId;
-@property (strong, nonatomic) NSString *onlineUrl;
-@property (strong, nonatomic) NSString *navTitleName;
-@property (strong, nonatomic) NSString *typeId;
+@property (strong, nonatomic) NSString* onlineUrl;
+@property (strong, nonatomic) NSString* navTitleName;
+@property (strong, nonatomic) NSString* typeId;
 @property (assign, nonatomic) BOOL moreFlag;
 @property (assign, nonatomic) int  sortType;
 @property (weak, nonatomic) id <CZJViewControllerDelegate> delegate;
+@property (strong, nonatomic) NSString* searchStr;
 
 @end
