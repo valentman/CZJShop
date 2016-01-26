@@ -81,8 +81,6 @@
 
 - (IBAction)btnAction:(id)sender
 {
-    UIButton* btn = (UIButton*)sender;
-    DLog(@"type:%d, tag:%ld",cellType, btn.tag );
     [self.delegate clickSubCellButton:sender];
 }
 @end

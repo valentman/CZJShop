@@ -16,5 +16,5 @@
 @property (nonatomic, strong) UIView *upView;
 @property (nonatomic, strong) CZJNaviagtionBarView* naviBarView;
 
-- (void)addCZJNaviBarView;
+- (void)addCZJNaviBarView:(CZJNaviBarViewType)naviBarViewType;
 @end

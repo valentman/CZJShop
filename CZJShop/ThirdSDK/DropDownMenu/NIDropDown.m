@@ -152,6 +152,9 @@
     cell.separatorInset = sepEdge;
     [cell.imageView setImage:[UIImage imageNamed:[dict valueForKey:key]]];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    if (indexPath.row == self.list.count - 1)
+    {
+    }
     return cell;
 }
 

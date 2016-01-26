@@ -14,7 +14,7 @@
 
 @interface CZJCategoryController ()<CZJNaviagtionBarViewDelegate>
 @property (weak, nonatomic) IBOutlet MultilevelMenu *multiView;
-@property (weak, nonatomic) IBOutlet CZJNaviagtionBarView *naviBarView;
+@property (weak, nonatomic) IBOutlet CZJNaviagtionBarView *cateNaviBarView;
 @property (strong, nonatomic) NSString* serviceTypeId;
 @property (strong, nonatomic) NSString* goodsTypeId;
 
@@ -37,7 +37,7 @@
     //导航栏添加搜索栏
     self.navigationController.navigationBarHidden = YES;
     CGRect mainViewBounds = self.navigationController.navigationBar.bounds;
-    [self.naviBarView initWithFrame:mainViewBounds AndType:CZJNaviBarViewTypeCategory].delegate = self;
+    [self.cateNaviBarView initWithFrame:mainViewBounds AndType:CZJNaviBarViewTypeCategory].delegate = self;
     
 
     

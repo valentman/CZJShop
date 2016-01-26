@@ -170,8 +170,6 @@ VPImageCropperDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell* cell = [tableView cellForRowAtIndexPath:indexPath];
-     DLog(@"section:%ld, row:%ld, name:%@, detail:%@",indexPath.section,indexPath.row, cell.textLabel.text, cell.detailTextLabel.text);
     if (0 == indexPath.section && 0 == indexPath.row)
     {
         UIActionSheet *choiceSheet = [[UIActionSheet alloc] initWithTitle:nil

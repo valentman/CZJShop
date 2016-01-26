@@ -1,18 +1,18 @@
 //
-//  CZJViewController.m
+//  CZJMyOrderDetailController.m
 //  CZJShop
 //
-//  Created by Joe.Pen on 12/22/15.
-//  Copyright © 2015 JoeP. All rights reserved.
+//  Created by Joe.Pen on 1/26/16.
+//  Copyright © 2016 JoeP. All rights reserved.
 //
 
-#import "CZJViewController.h"
+#import "CZJMyOrderDetailController.h"
 
-@interface CZJViewController ()
+@interface CZJMyOrderDetailController ()
 
 @end
 
-@implementation CZJViewController
+@implementation CZJMyOrderDetailController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -24,12 +24,6 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)addCZJNaviBarView:(CZJNaviBarViewType)naviBarViewType
-{
-    self.navigationController.navigationBarHidden = YES;
-    _naviBarView = [[CZJNaviagtionBarView alloc]initWithFrame:CGRectMake(0, 20, PJ_SCREEN_WIDTH, 44) AndType:naviBarViewType];
-    [self.view addSubview:_naviBarView];
-}
 /*
 #pragma mark - Navigation
 

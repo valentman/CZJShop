@@ -58,7 +58,7 @@ UITableViewDelegate
 - (void)viewDidLoad {
     [super viewDidLoad];
     _sepratorViewHeight.constant = 0.5;
-    [self addCZJNaviBarView];
+    [self addCZJNaviBarView:CZJNaviBarViewTypeGeneral];
     [self initDatas];
     [self initViews];
 }

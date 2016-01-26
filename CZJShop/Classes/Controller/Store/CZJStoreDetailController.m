@@ -60,7 +60,7 @@ MKMapViewDelegate
     
     NIDropDown *dropDown;
 }
-@property (strong, nonatomic) IBOutlet CZJNaviagtionBarView *naviBarView;
+@property (strong, nonatomic) IBOutlet CZJNaviagtionBarView *storeNaviBarView;
 @property (weak, nonatomic) IBOutlet UITableView *myTableView;
 @property (weak, nonatomic) IBOutlet UIView *buttomView;
 @property (weak, nonatomic) IBOutlet MXPullDownMenu* topView;
@@ -99,8 +99,8 @@ MKMapViewDelegate
 {
     CGRect mainViewBounds = self.navigationController.navigationBar.bounds;
     self.navigationController.interactivePopGestureRecognizer.delegate = self;
-    [self.naviBarView initWithFrame:mainViewBounds AndType:CZJNaviBarViewTypeStoreDetail].delegate = self;
-    [self.naviBarView.customSearchBar setHidden:YES];
+    [self.storeNaviBarView initWithFrame:mainViewBounds AndType:CZJNaviBarViewTypeStoreDetail].delegate = self;
+    [self.storeNaviBarView.customSearchBar setHidden:YES];
     [self.buttomView setBackgroundColor:RGBA(255, 255, 255, 0.9)];
     
     NSArray* nibArys = @[@"CZJStoreDetailHeadCell",
