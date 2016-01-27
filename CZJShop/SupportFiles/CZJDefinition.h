@@ -11,8 +11,8 @@
 
 //----------------------------服务器接口-------------------------------
 //服务地址
-//static NSString *const kCZJServerAddr = @"http://192.168.0.251:8080/appserver/";
-static NSString *const kCZJServerAddr = @"http://101.201.197.202:8080/appserver/";
+static NSString *const kCZJServerAddr = @"http://192.168.0.251:8080/appserver/";
+//static NSString *const kCZJServerAddr = @"http://101.201.197.202:8080/appserver/";
 
 //首页接口组
 static NSString *const kCZJServerAPIShowHome = @"chezhu/showHomeV2.do";                             //获取首页数据
@@ -103,6 +103,17 @@ static NSString *const kCZJServerAPISearch = @"chezhu/suggest.do";              
 static NSString *const kCZJServerAPIGetAttentionList = @"chezhu/loadAttentions.do";                 //获取关注列表
 static NSString *const kCZJServerAPIRemoveAttentions = @"chezhu/deleteAttentions.do";               //取消关注列表
 
+//订单接口组
+static NSString *const kCZJServerAPIGetOrderList = @"chezhu/loadOrders.do";                                //获取订单列表
+//static NSString *const kCZJServerAPIOrderToPay = @"mergePay.do";                                    //订单列表去支付
+//static NSString *const kCZJServerAPIGetOrderDetail = @"loadOrder.do";                               //获取订单详情
+//static NSString *const kCZJServerAPICarCheck = @"viewCarChecks.do";                                 //车况检查
+//static NSString *const kCZJServerAPIBuildingProgress = @"viewBuildProgress.do";                     //施工进度
+//static NSString *const kCZJServerAPIExpressInfo = @"vieweExpressInfo.do";                           //物流信息
+//static NSString *const kCZJServerAPIGetReturnableOrderList = @"loadReturnItemsByOrder.do";          //获取订单可退货列表
+//static NSString *const kCZJServerAPIUploadImg = @"loadQiuniuParams.do";                             //获取气流信息
+//static NSString *const kCZJServerAPISubmitReturnOrder = @"returnOrderItem.do";                      //提交退货信息
+//static NSString *const kCZJServerAPIGetReturnedOrderList = @"loadReturnItems.do";                   //获取我的已退还货列表
 
 
 

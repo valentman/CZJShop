@@ -20,6 +20,7 @@
 
 @synthesize usrBaseForm = _usrBaseForm;
 @synthesize cheZhuId = _cheZhuId;
+@synthesize cheZhuMobile = _cheZhuMobile;
 @synthesize cityId;
 @synthesize cityName;
 
@@ -87,6 +88,7 @@ singleton_implementation(CZJLoginModelManager)
         if ([self showAlertView:json]) {
             NSDictionary* dict = [CZJUtils DataFromJson:json] ;
             _cheZhuId = [[dict valueForKey:@"msg"] valueForKey:@"chezhuId"];
+            
             [CZJBaseDataInstance refreshChezhuID:_cheZhuId];
             success(json);
         }

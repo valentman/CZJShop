@@ -7,6 +7,7 @@
 //
 
 #import "CZJMyInfoOrderListController.h"
+#import "CZJBaseDataManager.h"
 
 @interface CZJMyInfoOrderListController ()
 
@@ -16,7 +17,18 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self getOrderListFromServer];
     [CZJUtils customizeNavigationBarForTarget:self];
+}
+
+- (void)getOrderListFromServer
+{
+    NSDictionary* params = @{@"type":@"0", @"page":@"1", @"timeType":@"0"};
+    [CZJBaseDataInstance getOrderList:params Success:^(id json) {
+        
+    } fail:^{
+        
+    }];
 }
 
 - (void)didReceiveMemoryWarning {

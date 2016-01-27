@@ -126,8 +126,8 @@ singleton_implementation(CZJNetworkManager)
        parameters:parameters
           success:^(AFHTTPRequestOperation *operation, id responseObject){
                 DLog();
-                if (success){
-                    
+                if (success)
+                {
                     success(responseObject);
                 }
                 dispatch_async(dispatch_get_main_queue(), ^(){

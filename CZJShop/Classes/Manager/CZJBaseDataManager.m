@@ -53,6 +53,7 @@ singleton_implementation(CZJBaseDataManager);
         //固定请求参数确定
         NSDictionary* _tmpparams = @{@"chezhuId" : nil == [CZJLoginModelInstance cheZhuId] ? @"0" : [CZJLoginModelInstance cheZhuId],
                                      @"cityId" : nil == [CZJLoginModelInstance cityId] ? @"0" : [CZJLoginModelInstance cityId],
+                                     @"chezhuMobile" : nil == [CZJLoginModelInstance mobile] ? @"0" : [CZJLoginModelInstance mobile],
                                      @"lng" : @(_curLocation.longitude),
                                      @"lat" : @(_curLocation.latitude),
                                      @"os" : @"ios",
@@ -1130,8 +1131,8 @@ singleton_implementation(CZJBaseDataManager);
     {
         if ([self showAlertView:json])
         {
+            success(json);
         }
-        success(json);
     };
     
     CZJFailureBlock failBlock = ^(){
@@ -1160,7 +1161,7 @@ singleton_implementation(CZJBaseDataManager);
             NSArray* tmpAry = [dict valueForKey:@"msg"];
             for (NSDictionary* tmpDict in tmpAry)
             {
-                CZJOrderStoreCouponsForm* form = [[CZJOrderStoreCouponsForm alloc]initWithDictionary:tmpDict];
+                CZJOrderStoreCouponsForm* form = [CZJOrderStoreCouponsForm objectWithKeyValues: tmpDict];
                 [self.orderStoreCouponAry addObject:form];
             }
         }
@@ -1368,6 +1369,31 @@ singleton_implementation(CZJBaseDataManager);
                                    fail:failBlock];
 }
 
+
+- (void)getOrderList:(NSDictionary*)postParams
+             Success:(CZJSuccessBlock)success
+                fail:(CZJFailureBlock)fail
+{
+    CZJSuccessBlock successBlock = ^(id json){
+        if ([self showAlertView:json])
+        {
+            success(json);
+        }
+    };
+    
+    CZJFailureBlock failBlock = ^(){
+        [[CZJErrorCodeManager sharedCZJErrorCodeManager] ShowNetError];
+    };
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [params setValuesForKeysWithDictionary:self.params];
+    [params setValuesForKeysWithDictionary:postParams];
+    
+    [CZJNetWorkInstance postJSONWithUrl:kCZJServerAPIGetOrderList
+                             parameters:params
+                                success:successBlock
+                                   fail:failBlock];
+}
 
 
 //获取用户信息详情

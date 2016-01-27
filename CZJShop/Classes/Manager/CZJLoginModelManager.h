@@ -17,6 +17,7 @@
     UserBaseForm* _usrBaseForm;
 }
 @property(nonatomic,retain)NSString* cheZhuId;
+@property(nonatomic,retain)NSString* cheZhuMobile;
 @property(nonatomic,retain)NSString* mobile;
 @property(nonatomic,retain)NSString* cityId;
 @property(nonatomic,retain)NSString* cityName;

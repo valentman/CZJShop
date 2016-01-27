@@ -62,20 +62,20 @@ CZJDeliveryAddrListCellDelegate
     NSArray* tmpAry = [[CZJUtils DataFromJson:json] valueForKey:@"msg"];
     for (NSDictionary* dict in tmpAry)
     {
-        CZJAddrForm* form  = [[CZJAddrForm alloc]init];
-        form.receiver = [dict valueForKey:@"receiver"];
-        form.province = [dict valueForKey:@"province"];
-        form.city = [dict valueForKey:@"city"];
-        form.county = [dict valueForKey:@"county"];
-        form.dftFlag = [[dict valueForKey:@"dftFlag"] boolValue];
-        form.mobile = [dict valueForKey:@"mobile"];
-        form.addr = [dict valueForKey:@"addr"];
-        form.addrId = [dict valueForKey:@"id"];
-        form.isSelected = NO;
-        if ([_currentAddrId isEqualToString:form.addrId])
-        {
-            form.isSelected = YES;
-        }
+        CZJAddrForm* form  = [CZJAddrForm objectWithKeyValues:dict];
+//        form.receiver = [dict valueForKey:@"receiver"];
+//        form.province = [dict valueForKey:@"province"];
+//        form.city = [dict valueForKey:@"city"];
+//        form.county = [dict valueForKey:@"county"];
+//        form.dftFlag = [[dict valueForKey:@"dftFlag"] boolValue];
+//        form.mobile = [dict valueForKey:@"mobile"];
+//        form.addr = [dict valueForKey:@"addr"];
+//        form.addrId = [dict valueForKey:@"id"];
+//        form.isSelected = NO;
+//        if ([_currentAddrId isEqualToString:form.addrId])
+//        {
+//            form.isSelected = YES;
+//        }
         [_addrListAry addObject:form];
     }
     [self.addrListTableView reloadData];

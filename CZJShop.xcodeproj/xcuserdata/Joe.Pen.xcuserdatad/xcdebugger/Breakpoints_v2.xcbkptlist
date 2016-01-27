@@ -42,11 +42,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CZJShop/Classes/Manager/CZJBaseDataManager.m"
-            timestampString = "475405317.305619"
+            timestampString = "475583391.734922"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1464"
-            endingLineNumber = "1464"
+            startingLineNumber = "1490"
+            endingLineNumber = "1490"
             landmarkName = "-addMyCar:Success:fail:"
             landmarkType = "5">
          </BreakpointContent>
@@ -96,6 +96,86 @@
             startingLineNumber = "115"
             endingLineNumber = "115"
             landmarkName = "-tableView:numberOfRowsInSection:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CZJShop/Classes/Controller/MyInfo/myOrder/OrderList/CZJMyInfoOrderListController.m"
+            timestampString = "475554429.692471"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "27"
+            endingLineNumber = "27"
+            landmarkName = "-getOrderListFromServer"
+            landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[CZJMyInfoOrderListController getOrderListFromServer]"
+                  moduleName = "CZJShop"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/JoePen/Documents/CZJ_app_iOS_2.0/CZJShop/CZJShop/Classes/Controller/MyInfo/myOrder/OrderList/CZJMyInfoOrderListController.m"
+                  timestampString = "475585639.713479"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "27"
+                  endingLineNumber = "27"
+                  offsetFromSymbolStart = "188">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__54-[CZJMyInfoOrderListController getOrderListFromServer]_block_invoke"
+                  moduleName = "CZJShop"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/JoePen/Documents/CZJ_app_iOS_2.0/CZJShop/CZJShop/Classes/Controller/MyInfo/myOrder/OrderList/CZJMyInfoOrderListController.m"
+                  timestampString = "475585639.713615"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "27"
+                  endingLineNumber = "27"
+                  offsetFromSymbolStart = "48">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CZJShop/Classes/Manager/CZJBaseDataManager.m"
+            timestampString = "475585747.795431"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1132"
+            endingLineNumber = "1132"
+            landmarkName = "-submitOrder:Success:fail:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CZJShop/Classes/Manager/CZJBaseDataManager.m"
+            timestampString = "475585801.01693"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1378"
+            endingLineNumber = "1378"
+            landmarkName = "-getOrderList:Success:fail:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

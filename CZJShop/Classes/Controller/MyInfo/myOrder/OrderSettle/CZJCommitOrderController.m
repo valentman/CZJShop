@@ -42,13 +42,14 @@ CZJChooseInstallControllerDelegate,
 CZJLeaveMessageViewDelegate
 >
 {
-    NSDictionary* _orderInfoDict;               //服务器返回的订单页面是数据
-    NSDictionary* _addrDict;                    //收货地址
+    CZJOrderForm* _orderForm;                   //服务器返回的订单页面是数据
     CZJOrderTypeForm* _defaultOrderType;        //默认支付方式（为支付宝）
+    CZJAddrForm* _currentChooseAddr;            //当前选择地址
+    
     NSArray* _orderTypeAry;                     //支付方式（支付宝，微信，银联）
     NSMutableArray* _orderStoreAry;             //订单信息中所选商品信息列表
     NSMutableArray* _storeIdAry;                //门店ID数组
-    CZJAddrForm* _currentChooseAddr;            //当前选择地址
+    
     NSMutableArray* _useableCouponsAry;         //使用优惠券集合
     NSMutableArray* _useableStoreCouponAry;     //门店优惠券集合
     
@@ -77,8 +78,6 @@ CZJLeaveMessageViewDelegate
 
 - (void)initDatas
 {
-    _addrDict = [NSDictionary dictionary];
-    _orderInfoDict = [NSDictionary dictionary];
     _orderStoreAry = [NSMutableArray array];
     _storeIdAry = [NSMutableArray array];
     _useableCouponsAry = [NSMutableArray array];
@@ -161,12 +160,11 @@ CZJLeaveMessageViewDelegate
     DLog(@"%@",[CZJUtils JsonFromData:_settleParamsAry]);
     NSDictionary* parmas = @{@"cartsJson" : [CZJUtils JsonFromData:_settleParamsAry]};
     [CZJBaseDataInstance loadSettleOrder:parmas Success:^(id json){
-        _orderInfoDict = [[CZJUtils DataFromJson:json] valueForKey:@"msg"];
-        NSArray* tmpStoreAry = [_orderInfoDict valueForKey:@"stores"];
-        for (NSDictionary* dict in tmpStoreAry)
+        _orderForm = [[CZJOrderForm alloc]initWithDictionary:[[CZJUtils DataFromJson:json] valueForKey:@"msg"]];
+        _orderStoreAry = _orderForm.stores;
+        
+        for (CZJOrderStoreForm* form in _orderForm.stores)
         {
-            CZJOrderStoreForm* form = [[CZJOrderStoreForm alloc]initWithDictionary:dict];
-            [_orderStoreAry addObject:form];
             [_storeIdAry addObject:form.storeId];
         }
         [self.myTableView reloadData];
@@ -247,7 +245,7 @@ CZJLeaveMessageViewDelegate
             cell.contactNumLabel.text = _currentChooseAddr.mobile;
             NSString* addrStr = [NSString stringWithFormat:@"%@ %@ %@ %@",_currentChooseAddr.province,_currentChooseAddr.city,_currentChooseAddr.county,_currentChooseAddr.addr];
             CGSize addrSize = [CZJUtils calculateStringSizeWithString:addrStr Font:SYSTEMFONT(12) Width:PJ_SCREEN_WIDTH - 60];
-            cell.deliveryAddrrLayoutWidth.constant = addrSize.width + 10;
+            cell.deliveryAddrrLayoutWidth.constant = addrSize.width + 20;
             cell.deliveryAddrLabel.text = addrStr;
             if (_currentChooseAddr.dftFlag)
             {
@@ -320,7 +318,7 @@ CZJLeaveMessageViewDelegate
             [cell.redPacketImg setImage:IMAGENAMED(@"commit_icon_yue")];
             cell.redPacketNameLabel.text = @"余额";
             cell.leftLabel.text = @"可用余额";
-            cell.leftCountLabel.text = [NSString stringWithFormat:@"￥%@",[_orderInfoDict valueForKey:@"cardMoney"]];
+            cell.leftCountLabel.text = [NSString stringWithFormat:@"￥%@",_orderForm.cardMoney];
             return cell;
         }
         if (1 == indexPath.row)
@@ -329,7 +327,7 @@ CZJLeaveMessageViewDelegate
             [cell.redPacketImg setImage:IMAGENAMED(@"commit_icon_hongbao")];
             cell.redPacketNameLabel.text = @"红包";
             cell.leftLabel.text = @"可用红包";
-            cell.leftCountLabel.text = [NSString stringWithFormat:@"￥%@",[_orderInfoDict valueForKey:@"redpacket"]];
+            cell.leftCountLabel.text = [NSString stringWithFormat:@"￥%@",_orderForm.redpacket];
             return cell;
         }
         if (2 == indexPath.row)
@@ -477,10 +475,10 @@ CZJLeaveMessageViewDelegate
         {
             CZJLeaveMessageCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJLeaveMessageCell" forIndexPath:indexPath];
             cell.leaveMessageLabel.text = @"";
-            if (![storeForm.leaveMessage isEqualToString:@""]) {
+            if (![storeForm.note isEqualToString:@""]) {
                 cell.leaveMessageView.hidden = YES;
-                CGSize size = [CZJUtils calculateStringSizeWithString:storeForm.leaveMessage Font:SYSTEMFONT(12) Width:PJ_SCREEN_WIDTH - 30];
-                cell.leaveMessageLabel.text = storeForm.leaveMessage;
+                CGSize size = [CZJUtils calculateStringSizeWithString:storeForm.note Font:SYSTEMFONT(12) Width:PJ_SCREEN_WIDTH - 30];
+                cell.leaveMessageLabel.text = storeForm.note;
                 cell.leaveMessageLayoutHeight.constant = size.height;
                 cell.frame = CGRectMake(cell.frame.origin.x, cell.frame.origin.y, cell.frame.size.width, size.height + 30);
             }
@@ -589,7 +587,7 @@ CZJLeaveMessageViewDelegate
                  indexPath.row <= itemCount + (isHaveFullCut ? 2 : 1) + giftCount + 1)
         {
             CZJOrderStoreForm* storeForm = (CZJOrderStoreForm*)_orderStoreAry[indexPath.section - 3];
-            CGSize size = [CZJUtils calculateStringSizeWithString:storeForm.leaveMessage Font:SYSTEMFONT(12) Width:PJ_SCREEN_WIDTH - 30];
+            CGSize size = [CZJUtils calculateStringSizeWithString:storeForm.note Font:SYSTEMFONT(12) Width:PJ_SCREEN_WIDTH - 30];
             if (size.height == 0)
             {
                 return 56;
@@ -689,7 +687,7 @@ CZJLeaveMessageViewDelegate
 - (void)clickConfirmMessage:(NSString*)message
 {
     CZJOrderStoreForm* storeForm = (CZJOrderStoreForm*)_orderStoreAry[_currentChooseIndexPath.section - 3];
-    storeForm.leaveMessage = message;
+    storeForm.note = message;
     [self.myTableView reloadSections:[NSIndexSet indexSetWithIndex:_currentChooseIndexPath.section] withRowAnimation:UITableViewRowAnimationFade];
 }
 
@@ -723,11 +721,38 @@ CZJLeaveMessageViewDelegate
     {
         CZJLeaveMessageView* leaveMessage = (CZJLeaveMessageView*)segue.destinationViewController;
         CZJOrderStoreForm* storeForm = (CZJOrderStoreForm*)_orderStoreAry[_currentChooseIndexPath.section - 3];
-        leaveMessage.leaveMesageStr =  storeForm.leaveMessage;
+        leaveMessage.leaveMesageStr =  storeForm.note;
         leaveMessage.delegate = self;
     }
 }
 
-- (IBAction)goToSettleAction:(id)sender {
+- (IBAction)goToSettleAction:(id)sender
+{
+    NSMutableArray* _convertOrderStoreAry = [NSMutableArray array];
+    for (CZJOrderStoreForm* form in _orderStoreAry)
+    {
+        [_convertOrderStoreAry addObject: form.keyValues];
+    }
+    NSMutableDictionary* orderInfo = [@{@"redpacket":_orderForm.redpacket,
+                                        @"cardMoney":_orderForm.cardMoney,
+                                        @"stores":_convertOrderStoreAry,
+                                        @"totalMoney":[NSString stringWithFormat:@"%ld",orderTotalPrice]}
+                                      mutableCopy];
+    if (_orderForm.needAddr) {
+        if (_currentChooseAddr) {
+            [orderInfo setObject:_currentChooseAddr.keyValues forKey:@"receiver"];
+        }
+        else
+        {
+            [CZJUtils tipWithText:@"请填写收货人地址" andView:self.view];
+            return;
+        }
+    }
+    NSDictionary* params = @{@"paramJson":[CZJUtils JsonFromData:orderInfo]};
+    [CZJBaseDataInstance submitOrder:params Success:^(id json) {
+        
+    } fail:^{
+        
+    }];
 }
 @end

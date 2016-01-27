@@ -68,31 +68,41 @@
     
 }
 
-
-- (IBAction)returnGoodsAction:(id)sender {
+- (IBAction)returnGoodsAction:(id)sender
+{
 }
 
-- (IBAction)showLogisticsInfoAction:(id)sender {
+- (IBAction)showLogisticsInfoAction:(id)sender
+{
 }
 
-- (IBAction)confirmReceiveGoodsAction:(id)sender {
+- (IBAction)confirmReceiveGoodsAction:(id)sender
+{
 }
 
-- (IBAction)checkCarConditionAction:(id)sender {
+- (IBAction)checkCarConditionAction:(id)sender
+{
 }
 
-- (IBAction)showBuildProgressAction:(id)sender {
+- (IBAction)showBuildProgressAction:(id)sender
+{
 }
 
-- (IBAction)cancelOrderAction:(id)sender {
+- (IBAction)cancelOrderAction:(id)sender
+{
+    
 }
 
-- (IBAction)payAction:(id)sender {
+- (IBAction)payAction:(id)sender
+{
 }
 
-- (IBAction)cancelBuildOrderAction:(id)sender {
+- (IBAction)cancelBuildOrderAction:(id)sender
+{
+    
 }
 
-- (IBAction)goEvalutionAction:(id)sender {
+- (IBAction)goEvalutionAction:(id)sender
+{
 }
 @end

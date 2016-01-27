@@ -768,7 +768,8 @@ CZJStoreInfoHeaerCellDelegate
                              @"itemCount" : @1,
                              @"currentPrice" : _goodsDetail.currentPrice,
                              @"itemImg" : _goodsDetail.itemImg,
-                             @"itemSku" : _goodsDetail.itemSku
+                             @"itemSku" : _goodsDetail.itemSku,
+                             @"counterKey" : _goodsDetail.counterKey
                              };
     
     [CZJBaseDataInstance addProductToShoppingCart:pramas Success:^{

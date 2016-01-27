@@ -4075,14 +4075,14 @@
 			isa = PBXGroup;
 			children = (
 				ECF2DC4B1C5767F80096FF39 /* Cells */,
+				ECF2DC7C1C5767F80096FF39 /* CZJCommitOrderController.h */,
+				ECF2DC7D1C5767F80096FF39 /* CZJCommitOrderController.m */,
 				ECF2DC761C5767F80096FF39 /* CZJAddDeliveryAddrController.h */,
 				ECF2DC771C5767F80096FF39 /* CZJAddDeliveryAddrController.m */,
 				ECF2DC781C5767F80096FF39 /* CZJChooseCouponController.h */,
 				ECF2DC791C5767F80096FF39 /* CZJChooseCouponController.m */,
 				ECF2DC7A1C5767F80096FF39 /* CZJChooseInstallController.h */,
 				ECF2DC7B1C5767F80096FF39 /* CZJChooseInstallController.m */,
-				ECF2DC7C1C5767F80096FF39 /* CZJCommitOrderController.h */,
-				ECF2DC7D1C5767F80096FF39 /* CZJCommitOrderController.m */,
 				ECF2DC7E1C5767F80096FF39 /* CZJDeliveryAddrController.h */,
 				ECF2DC7F1C5767F80096FF39 /* CZJDeliveryAddrController.m */,
 				ECF2DC801C5767F80096FF39 /* CZJLeaveMessageView.h */,

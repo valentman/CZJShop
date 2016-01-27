@@ -542,6 +542,7 @@ UIGestureRecognizerDelegate
                 NSDictionary* storeDict = @{@"items" :itemsAry,
                                             @"storeName" : form.storeName,
                                             @"storeId" :form.storeId,
+                                            @"companyId" :form.companyId,
                                             @"selfFlag" : form.selfFlag ? @"true" : @"false"
                                             };
                 [_settleOrderAry addObject:storeDict];

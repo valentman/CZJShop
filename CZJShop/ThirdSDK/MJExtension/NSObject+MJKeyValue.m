@@ -278,7 +278,7 @@ static NSNumberFormatter *_numberFormatter;
             
             // 1.取出属性值
             id value = [property valueFromObject:self];
-            if (!value) return;
+//            if (!value) return;
             
             // 2.如果是模型属性
             MJType *type = property.type;

@@ -47,7 +47,6 @@
 @property(nonatomic, strong) NSString*storeItemPid;
 @property(nonatomic, strong) NSString*itemType;
 @property(nonatomic, strong) NSString*itemImg;
-
 @property(nonatomic, strong) NSString*currentPrice;
 @property(nonatomic, strong) NSString*itemCount;
 @property(nonatomic, strong) NSString*itemSku;
