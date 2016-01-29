@@ -9,14 +9,11 @@
 #import "CZJStoreViewController.h"
 #import "CZJBaseDataManager.h"
 #import "CZJStoreForm.h"
-#import "FDAlertView.h"
 #import "PullTableView.h"
 #import "MXPullDownMenu.h"
 #import "CZJStoreCell.h"
-#import "UIImageView+WebCache.h"
 #import "CCLocationManager.h"
 #import "CZJStoreDetailController.h"
-#import "CZJNaviagtionBarView.h"
 
 @interface CZJStoreViewController ()
 <
@@ -310,7 +307,7 @@ UITableViewDelegate
     cell.storeDistance.text = storeForm.distance;
     cell.storeLocation.text = storeForm.addr;
     cell.feedbackRate.text = storeForm.star;
-    [cell.storeCellImageView sd_setImageWithURL:[NSURL URLWithString:storeForm.homeImg] placeholderImage:nil];
+    [cell.storeCellImageView sd_setImageWithURL:[NSURL URLWithString:storeForm.homeImg] placeholderImage:IMAGENAMED(@"home_btn_xiche")];
     TOCK;
     return cell;
     

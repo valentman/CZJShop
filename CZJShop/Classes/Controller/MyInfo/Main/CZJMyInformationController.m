@@ -41,6 +41,7 @@ CZJViewControllerDelegate
     [self initDatas];
     [self initViews];
     [self getMyInfoDataFromServer];
+    [self dealWithInitNavigationBar];
 }
 
 - (void)dealWithInitNavigationBar
@@ -134,14 +135,15 @@ CZJViewControllerDelegate
 - (void)viewWillAppear:(BOOL)animated
 {
     [self.myInfoTableView reloadData];
-    [self dealWithInitNavigationBar];
+    
+    DLog();
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     self.navigationController.navigationBarHidden = NO;
+    DLog();
 }
-
 
 
 - (void)didReceiveMemoryWarning {

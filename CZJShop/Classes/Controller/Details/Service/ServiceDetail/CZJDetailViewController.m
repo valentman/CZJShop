@@ -7,10 +7,8 @@
 //
 
 #import "CZJDetailViewController.h"
-#import "CZJNaviagtionBarView.h"
 #import "NIDropDown.h"
 #import "CZJBaseDataManager.h"
-#import "MJRefresh.h"
 #import "CZJPageControlView.h"
 #import "CZJDetailForm.h"
 #import "CZJDetailDescCell.h"
@@ -24,17 +22,20 @@
 #import "CZJStoreInfoCell.h"
 #import "CZJHotRecommendCell.h"
 #import "WyzAlbumViewController.h"
-#import "UIImageView+WebCache.h"
 #import "CZJChooseProductTypeController.h"
 #import "CZJReceiveCouponsController.h"
-#import "UIView+Frame.h"
+#import "CZJPicDetailController.h"
+#import "CZJBuyNoticeController.h"
+#import "CZJAfterServiceController.h"
+#import "CZJApplicableCarController.h"
 
 
 #define kTagScrollView 1002
 #define kTagTableView 1001
 
 @interface CZJDetailViewController ()
-<NIDropDownDelegate,
+<
+NIDropDownDelegate,
 UITableViewDataSource,
 UITableViewDelegate,
 UIScrollViewDelegate,
@@ -64,11 +65,12 @@ CZJStoreInfoHeaerCellDelegate
 @property (weak, nonatomic) IBOutlet CZJNaviagtionBarView *detailNaviBarView;
 @property (weak, nonatomic) IBOutlet UIView *backgroundView;
 @property (weak, nonatomic) IBOutlet UIScrollView *myScrollView;
-@property (strong, nonatomic) UITableView* detailTableView;
 @property (weak, nonatomic) IBOutlet UIButton *addProductToShoppingCartBtn;
 @property (weak, nonatomic) IBOutlet UIView *shoppingCartView;
 @property (weak, nonatomic) IBOutlet UIButton *attentionBtn;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *borderLineLayoutHeight;
+
+@property (strong, nonatomic) UITableView* detailTableView;
 
 
 - (IBAction)addProductToShoppingCartAction:(id)sender;
@@ -205,10 +207,15 @@ CZJStoreInfoHeaerCellDelegate
         if (CZJDetailTypeGoods == self.detaiViewType)
         {
             [self getHotRecommendDataFromServer];
-        }
+        } 
         
         //图文详情页
-        CZJPageControlView* webVie = [[CZJPageControlView alloc]initWithFrame:CGRectMake(0, (PJ_SCREEN_HEIGHT-90), PJ_SCREEN_WIDTH, (PJ_SCREEN_HEIGHT-110))];
+        CZJPicDetailController *FController = [[CZJPicDetailController alloc]init];
+        CZJBuyNoticeController *SController = [[CZJBuyNoticeController alloc]init];
+        CZJAfterServiceController *TController = [[CZJAfterServiceController alloc]init];
+        CZJApplicableCarController *AController = [[CZJApplicableCarController alloc]init];
+        CZJPageControlView* webVie = [[CZJPageControlView alloc]initWithFrame:CGRectMake(0, (PJ_SCREEN_HEIGHT-90), PJ_SCREEN_WIDTH, (PJ_SCREEN_HEIGHT-110)) andPageIndex:kPageNotice];
+        [webVie setTitleArray:@[@"图文详情",@"购买须知",@"包装售后",@"适用车型"] andVCArray:@[FController,SController,TController,AController]];
         [self.myScrollView addSubview:webVie];
         
     };
@@ -442,7 +449,7 @@ CZJStoreInfoHeaerCellDelegate
                     cell.evalTime.text = ((CZJEvalutionsForm*)_evalutionInfo.evalList[indexPath.row - 1]).evalTime;
                     cell.evalContent.text = ((CZJEvalutionsForm*)_evalutionInfo.evalList[indexPath.row - 1]).evalDesc;
                     [cell.addtionnalImage sd_setImageWithURL:[NSURL URLWithString:((CZJEvalutionsForm*)_evalutionInfo.evalList[indexPath.row - 1]).imgs[0]]
-                                            placeholderImage:nil];
+                                            placeholderImage:IMAGENAMED(@"home_btn_xiche")];
                     [cell setStar:[((CZJEvalutionsForm*)_evalutionInfo.evalList[indexPath.row - 1]).evalStar intValue]];
                 }
                 [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
@@ -465,7 +472,7 @@ CZJStoreInfoHeaerCellDelegate
                 if (_storeInfo)
                 {
                     [cell.storeImage sd_setImageWithURL:[NSURL URLWithString:_storeInfo.logo]
-                                            placeholderImage:nil];
+                                            placeholderImage:IMAGENAMED(@"home_btn_xiche")];
                     cell.storeName.text = _storeInfo.storeName;
                     cell.storeAddr.text = _storeInfo.storeAddr;
                     cell.storeAddrLayoutWidth.constant = PJ_SCREEN_WIDTH - 200;

@@ -7,10 +7,8 @@
 //
 
 #import "CZJUserEvalutionController.h"
-#import "CZJNaviagtionBarView.h"
 #import "LXDSegmentControl.h"
 #import "PullTableView.h"
-#import "UIImageView+WebCache.h"
 #import "CZJBaseDataManager.h"
 #import "CZJDetailForm.h"
 #import "CZJEvalutionDescCell.h"
@@ -57,6 +55,7 @@ UITableViewDataSource
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    [super viewWillAppear:animated];
     [_topNaviBarView refreshShopBadgeLabel];
 }
 
@@ -158,7 +157,7 @@ UITableViewDataSource
     if (indexPath.row == 0)
     {
         CZJEvalutionDetailCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJEvalutionDetailCell" forIndexPath:indexPath];
-        [cell.evalWriteHeadImage sd_setImageWithURL:[NSURL URLWithString:form.evalHead] placeholderImage:nil];
+        [cell.evalWriteHeadImage sd_setImageWithURL:[NSURL URLWithString:form.evalHead] placeholderImage:IMAGENAMED(@"home_btn_xiche")];
         cell.evalWriterName.text = form.evalName;
         cell.evalWriteTime.text = form.evalTime;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -179,7 +178,7 @@ UITableViewDataSource
         for (int i = 0; i<count; i++)
         {
             UIImageView* image = [[UIImageView alloc]init];
-            [image sd_setImageWithURL:[NSURL URLWithString:form.imgs[i]] placeholderImage:nil];
+            [image sd_setImageWithURL:[NSURL URLWithString:form.imgs[i]] placeholderImage:IMAGENAMED(@"home_btn_xiche")];
             image.layer.cornerRadius = 2;
             image.clipsToBounds = YES;
             int divide = 4;

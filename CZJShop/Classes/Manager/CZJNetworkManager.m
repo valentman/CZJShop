@@ -121,7 +121,7 @@ singleton_implementation(CZJNetworkManager)
     manager.requestSerializer.timeoutInterval = 10.f;
     
     NSString* path =  [self getPath:urlStr];
-    DLog(@"\nServerAPI:%@, \nParameter:%@",path,[parameters description]);
+//    DLog(@"\nServerAPI:%@, \nParameter:%@",path,[parameters description]);
     [manager POST:path
        parameters:parameters
           success:^(AFHTTPRequestOperation *operation, id responseObject){

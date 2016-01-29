@@ -8,7 +8,6 @@
 
 #import "CZJMyInfoRecordController.h"
 #import "CZJBaseDataManager.h"
-#import "UIImageView+WebCache.h"
 #import "CZJGoodsAttentionCell.h"
 
 @interface CZJMyInfoRecordController ()
@@ -29,6 +28,12 @@ UITableViewDelegate
     [super viewDidLoad];
     [self initViews];
     [self getScanListFromServer];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    self.navigationController.navigationBarHidden = NO;
 }
 
 - (void)initViews
@@ -110,7 +115,7 @@ UITableViewDelegate
 {
     NSDictionary* form = scanListAry[indexPath.row];
     CZJGoodsAttentionCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJGoodsAttentionCell" forIndexPath:indexPath];
-    [cell.goodImg sd_setImageWithURL:[NSURL URLWithString:[form valueForKey:@"itemImg"]] placeholderImage:nil];
+    [cell.goodImg sd_setImageWithURL:[NSURL URLWithString:[form valueForKey:@"itemImg"]] placeholderImage:IMAGENAMED(@"home_btn_xiche")];
     
     CGSize nameSize = [CZJUtils calculateStringSizeWithString:[form valueForKey:@"itemName"] Font:SYSTEMFONT(15) Width:PJ_SCREEN_WIDTH - 116];
     cell.goodNameLabel.text = [form valueForKey:@"itemName"];

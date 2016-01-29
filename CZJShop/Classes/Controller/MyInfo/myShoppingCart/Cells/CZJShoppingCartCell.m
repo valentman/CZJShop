@@ -7,7 +7,6 @@
 //
 
 #import "CZJShoppingCartCell.h"
-#import "UIImageView+WebCache.h"
 #import "WLZ_ChangeCountView.h"
 
 @interface CZJShoppingCartCell ()
@@ -73,6 +72,7 @@
     }
     else
     {//有货
+        self.contentView.alpha = 1;
         [_goodsOnSellView setHidden:NO];
         self.soldoutLab.hidden = YES;
         _chooseBtn.enabled=YES;
@@ -83,7 +83,7 @@
         [self.changeView.subButton addTarget:self action:@selector(subButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
         [self.changeView.addButton addTarget:self action:@selector(addButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     }
-    [self.goodImage sd_setImageWithURL:[NSURL URLWithString:shoppingGoodsInfo.itemImg] placeholderImage:nil];
+    [self.goodImage sd_setImageWithURL:[NSURL URLWithString:shoppingGoodsInfo.itemImg] placeholderImage:IMAGENAMED(@"home_btn_xiche")];
     self.chooseBtn.selected = self.goodsInfoForm.isSelect;
 }
 

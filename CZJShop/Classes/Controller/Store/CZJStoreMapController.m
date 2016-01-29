@@ -14,7 +14,6 @@
 
 #import "CZJMAAroundAnnotation.h"
 #import "CZJStoreMAAroundForm.h"
-#import "MJExtension.h"
 
 #import "CZJBaseDataManager.h"
 #import "CZJStoreForm.h"

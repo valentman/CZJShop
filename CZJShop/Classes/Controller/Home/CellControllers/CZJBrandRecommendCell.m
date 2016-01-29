@@ -7,7 +7,6 @@
 //
 
 #import "CZJBrandRecommendCell.h"
-#import "UIImageView+WebCache.h"
 #import "HomeForm.h"
 
 @implementation CZJBrandRecommendCell

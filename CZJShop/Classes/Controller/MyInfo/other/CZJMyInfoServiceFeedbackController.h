@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CZJMyInfoServiceFeedbackController : UIViewController
+@interface CZJMyInfoServiceFeedbackController : CZJViewController
 
 @end

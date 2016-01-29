@@ -8,7 +8,6 @@
 
 #import "CZJCarModelChooseController.h"
 #import "CZJBaseDataManager.h"
-#import "UIImageView+WebCache.h"
 #import "CZJAddMyCarController.h"
 static NSString *CarModelCellIdentifierID = @"CarModelCellIdentifierID";
 

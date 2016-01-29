@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CZJMyMessageCenterController : UIViewController
+@interface CZJMyMessageCenterController : CZJViewController
 
 @end

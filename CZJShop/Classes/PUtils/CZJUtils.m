@@ -9,10 +9,8 @@
 #include <objc/runtime.h>
 #import "CZJUtils.h"
 #import "MBProgressHUD.h"
-#import "FDAlertView.h"
 #import "CZJLoginController.h"
 #import "CZJShoppingCartController.h"
-#import "CZJNaviagtionBarView.h"
 #import "CZJDetailViewController.h"
 #import "CZJStoreDetailController.h"
 #import "CZJSearchController.h"
@@ -312,12 +310,17 @@ void backLastView(id sender, SEL _cmd)
 
 + (void)customizeNavigationBarForTarget:(UIViewController*)target
 {
+    [self customizeNavigationBarForTarget:target hiddenButton:false];
+}
+
++ (void)customizeNavigationBarForTarget:(UIViewController *)target hiddenButton:(BOOL)hidden
+{
     SEL backToLastView = sel_registerName("backLastView:");
     class_addMethod([target class],backToLastView,(IMP)backLastView,"v@:");    //动态的给类添加一个方法
     
     //UIButton
     UIButton *leftBtn = [[ UIButton alloc ] initWithFrame : CGRectMake(- 20 , 0 , 44 , 44 )];
-    [leftBtn setBackgroundImage:[UIImage imageNamed:@"prodetail_btn_backnor"] forState:UIControlStateNormal];
+    [leftBtn setBackgroundImage:[UIImage imageNamed:hidden? @"" : @"prodetail_btn_backnor"] forState:UIControlStateNormal];
     [leftBtn addTarget:target action:backToLastView forControlEvents:UIControlEventTouchUpInside];
     [leftBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal]; //将leftItem设置为自定义按钮
     
@@ -334,7 +337,6 @@ void backLastView(id sender, SEL _cmd)
         target.navigationItem.leftBarButtonItem = leftItem;
     }
     target.navigationController.interactivePopGestureRecognizer.delegate = (id)target;
-    
 }
 
 

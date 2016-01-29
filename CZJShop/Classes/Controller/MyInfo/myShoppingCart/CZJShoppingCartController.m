@@ -11,9 +11,7 @@
 #import "CZJShoppingCartForm.h"
 #import "CZJShoppingCartCell.h"
 #import "CZJShoppingCartHeaderCell.h"
-#import "UIImageView+WebCache.h"
 #import "CZJReceiveCouponsController.h"
-#import "CZJNaviagtionBarView.h"
 #import "CZJCommitOrderController.h"
 
 @interface CZJShoppingCartController ()
@@ -114,7 +112,7 @@ UIGestureRecognizerDelegate
     
     [_allChooseBtn setImage:IMAGENAMED(@"commit_btn_circle.png") forState:UIControlStateNormal];
     [_allChooseBtn setImage:IMAGENAMED(@"commit_btn_circle_sel.png") forState:UIControlStateSelected];
-    _allChooseBtn.selected = YES;
+    _allChooseBtn.selected = NO;
 }
 
 
@@ -138,13 +136,17 @@ UIGestureRecognizerDelegate
 {
     float num = 0.00;
     for (int i=0; i<shoppingInfos.count; i++) {
-        NSArray* goodsInfos = ((CZJShoppingCartInfoForm*)shoppingInfos[i]).items;
+        CZJShoppingCartInfoForm* storeCartForm = (CZJShoppingCartInfoForm*)shoppingInfos[i];
+        storeCartForm.isSelect = NO;
+        NSArray* goodsInfos = storeCartForm.items;
         for (int j = 0; j<goodsInfos.count; j++) {
             CZJShoppingGoodsInfoForm *model = goodsInfos[j];
             NSInteger count = [model.itemCount integerValue];
             float sale = [model.currentPrice floatValue];
             if (model.isSelect && !model.off)
             {
+                _allChooseBtn.selected = YES;
+                storeCartForm.isSelect = YES;
                 num = count*sale+ num;
             }
         }
@@ -226,20 +228,32 @@ UIGestureRecognizerDelegate
 - (void)pitchOn
 {//主要作用是更新门店header的。
     self.allChooseBtn.selected = YES;
+    
     for (int i =0; i<shoppingInfos.count; i++)
     {
         CZJShoppingCartInfoForm* form = shoppingInfos[i];
         form.isSelect = YES;
-        NSArray* goodsList = form.items;
-        for (int j=0; j<goodsList.count; j++)
+        int offCount = 0;
+        for (int j=0; j<form.items.count; j++)
         {
-            CZJShoppingGoodsInfoForm *model = (CZJShoppingGoodsInfoForm *)goodsList[j];
-            if (!model.isSelect && !model.off)
-            {//如果门店子物品有一个未被选中或者不能购买，都不能算门店所有物品全选
-                form.isSelect = NO;
-                self.allChooseBtn.selected = NO;
-                break;
+            CZJShoppingGoodsInfoForm *model = (CZJShoppingGoodsInfoForm *)form.items[j];
+            if (model.off)
+            {
+                offCount++;
             }
+            else
+            {
+                if (!model.isSelect)
+                {
+                    form.isSelect = NO;
+                    self.allChooseBtn.selected = NO;
+                }
+            }
+        }
+        if (offCount == form.items.count)
+        {
+            form.isSelect = NO;
+            self.allChooseBtn.selected = NO;
         }
     }
 }
@@ -374,31 +388,33 @@ UIGestureRecognizerDelegate
     UIButton* cellAllChooseBtn = (UIButton*)sender;
     CZJShoppingCartInfoForm* form = (CZJShoppingCartInfoForm*)shoppingInfos[indexPath.section];
     NSArray* goodsList = form.items;
+    BOOL allGoodsChoosed = NO;
     for (int i =0; i<goodsList.count; i++)
     {
         CZJShoppingGoodsInfoForm *model = (CZJShoppingGoodsInfoForm *)goodsList[i];
-        if (cellAllChooseBtn.selected)
-        {
-            form.isSelect = YES;
-        }
-        else
-        {
-            form.isSelect = NO;
-        }
-        
         if (model.off)
         {
             continue;
         }
         else
         {
-            model.isSelect=cellAllChooseBtn.selected;
+            model.isSelect= !cellAllChooseBtn.selected;
+            allGoodsChoosed = YES;
         }
     }
-    
-    [self.myTableView reloadSections:[NSIndexSet indexSetWithIndex:indexPath.section] withRowAnimation:UITableViewRowAnimationFade];
-    [self calculateTotalPrice];
-    [self pitchOn];
+
+    if (allGoodsChoosed)
+    {
+        cellAllChooseBtn.selected = !cellAllChooseBtn.selected;
+        form.isSelect = cellAllChooseBtn.selected;
+        [self.myTableView reloadSections:[NSIndexSet indexSetWithIndex:indexPath.section] withRowAnimation:UITableViewRowAnimationFade];
+        [self calculateTotalPrice];
+        [self pitchOn];
+    }
+    else
+    {
+        [CZJUtils tipWithText:@"所选门店产品均无货" andView:nil];
+    }
 }
 
 - (void)clickGetCoupon:(id)sender andIndexPath:(NSIndexPath*)indexPath
@@ -525,7 +541,8 @@ UIGestureRecognizerDelegate
             NSMutableArray* goodsList = form.items;
             for (int j=0 ; j<goodsList.count; j++) {
                 CZJShoppingGoodsInfoForm *model = goodsList[j];
-                if (model.isSelect==YES && model.off != YES) {
+                if (model.isSelect==YES && model.off != YES)
+                {
                     isStoreSelected = YES;
                     NSDictionary* itemDict = @{@"itemCode" : model.itemCode,
                                                @"storeItemPid" : model.storeItemPid,
@@ -549,27 +566,56 @@ UIGestureRecognizerDelegate
             }
             
         }
-        [self performSegueWithIdentifier:@"segueToSettle" sender:nil];
+        if (_settleOrderAry.count > 0)
+        {
+            [self performSegueWithIdentifier:@"segueToSettle" sender:nil];
+        }
+        else
+        {
+            [CZJUtils tipWithText:@"您还没选择商品哦" andView:nil];
+        }
     }
 }
 
 - (IBAction)allChooseAction:(id)sender
 {
-    _allChooseBtn.selected = !_allChooseBtn.selected;
-    BOOL isSelected = _allChooseBtn.selected;
-    
+    BOOL allGoodsOff = YES;
     for (int i =0; i<shoppingInfos.count; i++) {
         CZJShoppingCartInfoForm* form = shoppingInfos[i];
-        form.isSelect = isSelected;
+        int offCount = 0;
         NSArray *goodsList = form.items;
         for (int j = 0; j<goodsList.count; j++)
         {
             CZJShoppingGoodsInfoForm *model = goodsList[j];
-            model.isSelect=isSelected;
+            if (model.off)
+            {
+                offCount++;
+            }
+            else
+            {
+                allGoodsOff = NO;
+                model.isSelect = !_allChooseBtn.selected;
+            }
+            
+        }
+        if (offCount == goodsList.count)
+        {
+            form.isSelect = NO;
+        }
+        else
+        {
+            form.isSelect = !_allChooseBtn.selected;
         }
     }
-    [self.myTableView reloadData];
-    [self calculateTotalPrice];
+    if (!allGoodsOff) {
+        _allChooseBtn.selected = !_allChooseBtn.selected;
+        [self.myTableView reloadData];
+        [self calculateTotalPrice];
+    }
+    else
+    {
+        [CZJUtils tipWithText:@"购物车商品均无货" andView:nil];
+    }
 }
 
 

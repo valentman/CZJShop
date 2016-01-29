@@ -8,7 +8,6 @@
 
 #import "CZJActivityCell.h"
 #import "HomeForm.h"
-#import "UIImageView+WebCache.h"
 #import "ImagePlayerView.h"
 
 @implementation CZJActivityCell
@@ -48,7 +47,7 @@
 
 - (void)imagePlayerView:(ImagePlayerView *)imagePlayerView loadImageForImageView:(UIImageView *)imageView index:(NSInteger)index
 {
-    [imageView sd_setImageWithURL:[_imageArray objectAtIndex:index] placeholderImage:[UIImage imageNamed:@"default_banner_img.png"]];   
+    [imageView sd_setImageWithURL:[_imageArray objectAtIndex:index] placeholderImage:[UIImage imageNamed:@"default_banner_img"]];   
 }
 
 - (void)imagePlayerView:(ImagePlayerView *)imagePlayerView didTapAtIndex:(NSInteger)index

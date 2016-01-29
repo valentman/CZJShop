@@ -7,7 +7,6 @@
 //
 
 #import "CZJDetailPicShowCell.h"
-#import "UIImageView+WebCache.h"
 #import "ImagePlayerView.h"
 
 @implementation CZJDetailPicShowCell

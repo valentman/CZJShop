@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CZJAddMyCarController : UIViewController
+@interface CZJAddMyCarController : CZJViewController
 
 @end

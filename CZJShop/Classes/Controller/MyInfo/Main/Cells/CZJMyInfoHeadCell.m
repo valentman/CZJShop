@@ -7,7 +7,6 @@
 //
 
 #import "CZJMyInfoHeadCell.h"
-#import "UIImageView+WebCache.h"
 
 @interface CZJMyInfoHeadCell ()
 @property (weak, nonatomic) IBOutlet CZJButton *messageBtn;

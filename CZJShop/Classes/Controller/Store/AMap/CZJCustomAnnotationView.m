@@ -7,7 +7,6 @@
 //
 
 #import "CZJCustomAnnotationView.h"
-#import "UIImageView+WebCache.h"
 #import "CZJStoreForm.h"
 
 #define kCalloutWidth       200.0
@@ -41,7 +40,7 @@
         //        self.calloutView.image = [UIImage imageNamed:@"bg_customReview_image_default"];
         //        NSString *imgUrl = [_jzAnnotation.jzmaaroundM.imgurl stringByReplacingOccurrencesOfString:@"w.h" withString:@"104.63"];
         NSString *imgUrl = _jzAnnotation.jzmaaroundM.homeImg;
-        [self.calloutView.imageView sd_setImageWithURL:[NSURL URLWithString:imgUrl] placeholderImage:[UIImage imageNamed:@"default_icon_shop-.png"]];
+        [self.calloutView.imageView sd_setImageWithURL:[NSURL URLWithString:imgUrl] placeholderImage:[UIImage imageNamed:@"default_icon_shop"]];
         self.calloutView.title = self.annotation.title;
         self.calloutView.subtitle = self.annotation.subtitle;
         self.calloutView.thrtitle = self.jzAnnotation.thrtitle;

@@ -25,7 +25,6 @@
 #import "CZJOrderForm.h"
 #import "CZJDeliveryAddrController.h"
 #import "CZJShoppingCartForm.h"
-#import "UIImageView+WebCache.h"
 #import "CZJStoreForm.h"
 #import "CZJLeaveMessageView.h"
 
@@ -401,7 +400,7 @@ CZJLeaveMessageViewDelegate
         {
             CZJOrderGoodsForm* goodsForm = storeForm.items[indexPath.row - 1];
             CZJOrderProductHeaderCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJOrderProductHeaderCell" forIndexPath:indexPath];
-            [cell.goodsImg sd_setImageWithURL:[NSURL URLWithString:goodsForm.itemImg] placeholderImage:nil];
+            [cell.goodsImg sd_setImageWithURL:[NSURL URLWithString:goodsForm.itemImg] placeholderImage:IMAGENAMED(@"home_btn_xiche")];
             cell.goodsNameLabel.text = goodsForm.itemName;
             cell.priceLabel.text = [NSString stringWithFormat:@"￥%@",goodsForm.currentPrice];
             cell.numLabel.text = [NSString stringWithFormat:@"×%@",goodsForm.itemCount];

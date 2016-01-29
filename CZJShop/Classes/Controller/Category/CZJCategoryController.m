@@ -8,7 +8,6 @@
 
 #import "CZJCategoryController.h"
 #import "MultilevelMenu.h"
-#import "CZJNaviagtionBarView.h"
 #import "CZJServiceListController.h"
 #import "CZJGoodsListController.h"
 

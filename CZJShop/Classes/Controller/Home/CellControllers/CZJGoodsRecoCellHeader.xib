@@ -55,7 +55,7 @@
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rKv-xt-YKG">
-                    <rect key="frame" x="20" y="17" width="95" height="1"/>
+                    <rect key="frame" x="15" y="17" width="100" height="1"/>
                     <animations/>
                     <color key="backgroundColor" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
@@ -63,7 +63,7 @@
                     </constraints>
                 </view>
                 <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ee7-6B-fCj">
-                    <rect key="frame" x="205" y="17" width="95" height="1"/>
+                    <rect key="frame" x="205" y="17" width="100" height="1"/>
                     <animations/>
                     <color key="backgroundColor" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
@@ -74,13 +74,13 @@
             <animations/>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstAttribute="trailing" secondItem="Ee7-6B-fCj" secondAttribute="trailing" constant="20" id="4ZP-td-IUk"/>
+                <constraint firstAttribute="trailing" secondItem="Ee7-6B-fCj" secondAttribute="trailing" constant="15" id="4ZP-td-IUk"/>
                 <constraint firstItem="85U-Li-Spc" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="5AA-tD-iCl"/>
                 <constraint firstItem="Ee7-6B-fCj" firstAttribute="leading" secondItem="85U-Li-Spc" secondAttribute="trailing" constant="10" id="Dwf-Zb-7YR"/>
                 <constraint firstItem="Ee7-6B-fCj" firstAttribute="centerY" secondItem="85U-Li-Spc" secondAttribute="centerY" id="NGl-eN-7MG"/>
                 <constraint firstItem="85U-Li-Spc" firstAttribute="leading" secondItem="rKv-xt-YKG" secondAttribute="trailing" constant="10" id="fku-im-e42"/>
                 <constraint firstItem="rKv-xt-YKG" firstAttribute="centerY" secondItem="85U-Li-Spc" secondAttribute="centerY" id="kp8-Gp-5Wc"/>
-                <constraint firstAttribute="leading" secondItem="rKv-xt-YKG" secondAttribute="leading" constant="-20" id="pvR-sZ-zkl"/>
+                <constraint firstAttribute="leading" secondItem="rKv-xt-YKG" secondAttribute="leading" constant="-15" id="pvR-sZ-zkl"/>
                 <constraint firstItem="85U-Li-Spc" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="x3N-4m-TVw"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>

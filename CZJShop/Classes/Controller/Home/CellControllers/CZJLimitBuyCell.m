@@ -9,7 +9,7 @@
 #import "CZJLimitBuyCell.h"
 #import "HomeForm.h"
 #import "CZJMiaoShaCollectionCell.h"
-#import "UIImageView+WebCache.h"
+
 @implementation CZJLimitBuyCell
 
 - (void)awakeFromNib {

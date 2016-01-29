@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CZJMyInfoInputCodeController : UIViewController
+@interface CZJMyInfoInputCodeController : CZJViewController
 
 @end

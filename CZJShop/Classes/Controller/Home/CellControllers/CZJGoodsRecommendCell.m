@@ -7,7 +7,6 @@
 //
 
 #import "CZJGoodsRecommendCell.h"
-#import "UIImageView+WebCache.h"
 #import "CZJGoodsRecoCollectionCell.h"
 #import "HomeForm.h"
 
@@ -16,18 +15,6 @@
 - (void)awakeFromNib {
     // Initialization code
     [super awakeFromNib];
-    self.collectionView.dataSource = self;
-    self.collectionView.delegate = self;
-    
-    CGRect rect = self.frame;
-    self.collectionViewLayout.itemSize = CGSizeMake((PJ_SCREEN_WIDTH-29) / 2, rect.size.height - 9);
-    self.collectionViewLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
-    self.collectionViewLayout.minimumLineSpacing = 9;
-    UIEdgeInsets sectionset = UIEdgeInsetsMake(0, 10, 9, 10);
-    self.collectionViewLayout.sectionInset = sectionset;
-    
-    UINib *nib=[UINib nibWithNibName:kCZJCollectionCellReuseIdGoodReco bundle:nil];
-    [self.collectionView registerNib: nib forCellWithReuseIdentifier:kCZJCollectionCellReuseIdGoodReco];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -38,37 +25,18 @@
 
 - (void)initGoodsRecommendWithDatas:(NSArray*)datas
 {
-    _goodsRecommendDatas = datas;
-    [self.collectionView reloadData];
-}
-
-
-#pragma mark---imageCollectionView--------------------------
-
--(NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionVie{
-    return 1;
-}
-
--(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
-    if (_goodsRecommendDatas.count==0) {
-        return 0;
-    }
-    return _goodsRecommendDatas.count;
-}
-
--(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
-}
-
--(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
-    CZJGoodsRecoCollectionCell *cell=[collectionView dequeueReusableCellWithReuseIdentifier:kCZJCollectionCellReuseIdGoodReco forIndexPath:indexPath];
-    GoodsRecommendForm * form;
-    form = _goodsRecommendDatas[indexPath.row];
+    GoodsRecommendForm * form = datas.firstObject;
+    [self.goodImg sd_setImageWithURL:[NSURL URLWithString:form.itemImg] placeholderImage:PNGIMAGE(@"home_btn_xiche")];
+    self.goodNameLabel.text = form.itemName;
+    self.goodPriceLabel.text = [NSString stringWithFormat:@"￥%@",form.currentPrice];
     
-    NSString* rmb = @"￥";
-    cell.productName.text = form.itemName;
-    cell.productPrice.text = [rmb stringByAppendingString:form.currentPrice];
-    cell.iconImageView.backgroundColor=UIColorFromRGB(0xF8FCF8);
-    [cell.iconImageView sd_setImageWithURL:[NSURL URLWithString:form.itemImg] placeholderImage:nil];
-    return cell;
+    if (datas.count > 1)
+    {
+        GoodsRecommendForm * form2 = datas[1];
+        [self.goodImg2 sd_setImageWithURL:[NSURL URLWithString:form2.itemImg] placeholderImage:PNGIMAGE(@"home_btn_xiche")];
+        self.goodNameLabel2.text = form2.itemName;
+        self.goodPriceLabel2.text = [NSString stringWithFormat:@"￥%@",form2.currentPrice];
+    }
 }
+
 @end

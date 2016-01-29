@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CZJRegisterController : UIViewController
+@interface CZJRegisterController : CZJViewController
 
 @end

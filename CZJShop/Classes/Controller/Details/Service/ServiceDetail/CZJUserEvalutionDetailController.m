@@ -13,9 +13,7 @@
 #import "CZJEvalutionFooterCell.h"
 #import "CZJEvalutionHeaderCell.h"
 #import "CZJEvalutionDetailReplyCell.h"
-#import "UIImageView+WebCache.h"
 #import "PullTableView.h"
-#import "CZJNaviagtionBarView.h"
 
 @interface CZJUserEvalutionDetailController ()
 <
@@ -179,7 +177,7 @@ CZJNaviagtionBarViewDelegate
         {
             CZJEvalutionDetailCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJEvalutionDetailCellHead" forIndexPath:indexPath];
 
-            [cell.evalWriteHeadImage sd_setImageWithURL:[NSURL URLWithString:form.evalHead] placeholderImage:nil];
+            [cell.evalWriteHeadImage sd_setImageWithURL:[NSURL URLWithString:form.evalHead] placeholderImage:IMAGENAMED(@"home_btn_xiche")];
             cell.evalWriterName.text = form.evalName;
             cell.evalWriteTime.text = form.evalTime;
             return cell;
@@ -200,7 +198,7 @@ CZJNaviagtionBarViewDelegate
             for (int i = 0; i<count; i++)
             {
                 UIImageView* image = [[UIImageView alloc]init];
-                [image sd_setImageWithURL:[NSURL URLWithString:form.imgs[i]] placeholderImage:nil];
+                [image sd_setImageWithURL:[NSURL URLWithString:form.imgs[i]] placeholderImage:IMAGENAMED(@"home_btn_xiche")];
                 image.layer.cornerRadius = 2;
                 image.clipsToBounds = YES;
                 int divide = 4;
@@ -251,7 +249,7 @@ CZJNaviagtionBarViewDelegate
             CZJEvalutionDetailReplyCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJEvalutionDetailReplyCell" forIndexPath:indexPath];
             NSString* replyContent = form.replyDesc;
             CGSize contentSize = [CZJUtils calculateStringSizeWithString:replyContent Font:SYSTEMFONT(13) Width:PJ_SCREEN_WIDTH - 40];
-            [cell.replyImage sd_setImageWithURL:[NSURL URLWithString:form.replyHead] placeholderImage:nil];
+            [cell.replyImage sd_setImageWithURL:[NSURL URLWithString:form.replyHead] placeholderImage:IMAGENAMED(@"home_btn_xiche")];
             cell.replyNameLabel.text = form.replyName;
             cell.replyTimeLabel.text = form.replyTime;
             cell.replyContentLabel.text = replyContent;

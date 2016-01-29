@@ -27,6 +27,8 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    DLog();
+    
     NSString* apiType;
     if (CZJDetailTypeGoods == self.detaiViewType)
     {

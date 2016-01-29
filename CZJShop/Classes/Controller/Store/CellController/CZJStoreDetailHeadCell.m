@@ -7,7 +7,6 @@
 //
 
 #import "CZJStoreDetailHeadCell.h"
-#import "UIImageView+WebCache.h"
 
 @implementation CZJStoreDetailHeadCell
 

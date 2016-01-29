@@ -8,14 +8,11 @@
 
 #import "CZJServiceListController.h"
 #import "CZJBaseDataManager.h"
-#import "CZJNaviagtionBarView.h"
 #import "CZJStoreForm.h"
-#import "FDAlertView.h"
 #import "PullTableView.h"
 #import "MXPullDownMenu.h"
 #import "CZJStoreCell.h"
 #import "CZJStoreServiceCell.h"
-#import "UIImageView+WebCache.h"
 #import "CCLocationManager.h"
 #import "CZJServiceFilterController.h"
 #import "CZJDetailViewController.h"
@@ -330,7 +327,7 @@
         cell.storeDistance.text = storeForm.distance;
         cell.storeLocation.text = storeForm.addr;
         cell.feedbackRate.text = storeForm.star;
-        [cell.storeCellImageView sd_setImageWithURL:[NSURL URLWithString:storeForm.homeImg] placeholderImage:nil];
+        [cell.storeCellImageView sd_setImageWithURL:[NSURL URLWithString:storeForm.homeImg] placeholderImage:IMAGENAMED(@"home_btn_xiche")];
         return cell;
     }
     else if ((((CZJNearbyStoreServiceListForm*)_sortedStoreArys[indexPath.section]).items.count + 1) == indexPath.row)

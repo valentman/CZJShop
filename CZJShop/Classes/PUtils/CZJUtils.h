@@ -45,6 +45,7 @@
 + (void)setSepratorColorforTableView:(UITableView *)tableView;
 + (void)hideSearchBarViewForTarget:(UIViewController*)target;    //隐藏自定义搜索栏
 + (void)customizeNavigationBarForTarget:(UIViewController*)target;   //自定义导航栏返回按钮
++ (void)customizeNavigationBarForTarget:(UIViewController *)target hiddenButton:(BOOL)hidden;
 + (void)fullScreenGestureRecognizeForTarget:(UIViewController*)currenTarget;    //自定义全屏手势返回
 
 //---------------------------UI尺寸参数----------------------------

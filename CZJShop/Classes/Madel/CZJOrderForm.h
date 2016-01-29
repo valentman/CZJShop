@@ -38,6 +38,20 @@
 - (id) initWithDictionary:(NSDictionary*)dict;
 @end
 
+
+@interface CZJOrderListForm : NSObject
+@property(strong, nonatomic)NSString* companyId;
+@property(assign, nonatomic)BOOL evaluated;
+@property(strong, nonatomic)NSMutableArray* items;
+@property(strong, nonatomic)NSString* orderMoney;
+@property(strong, nonatomic)NSString* orderNo;
+@property(strong, nonatomic)NSString* status;
+@property(assign, nonatomic)BOOL paidFlag;
+@property(strong, nonatomic)NSString* storeId;
+@property(strong, nonatomic)NSString* storeName;
+@property(strong, nonatomic)NSString* type;
+@end
+
 @interface CZJOrderGoodsForm : NSObject
 @property(strong, nonatomic)NSString* activityId;               //活动ID
 @property(strong, nonatomic)NSString* costPrice;                //成本价
@@ -60,7 +74,6 @@
 @property(strong, nonatomic)NSString* setupPrice;               //安装费
 @property(strong, nonatomic)NSString* orderItemPid;
 
-//- (id) initWithDictionary:(NSDictionary*)dict;
 @end
 
 @interface CZJOrderTypeForm : NSObject

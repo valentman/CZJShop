@@ -26,7 +26,6 @@
 
 
 //---------------------购物车列表信息---------------------
-
 @interface CZJShoppingCartInfoForm : NSObject
 @property(nonatomic, strong) NSString* storeName;
 @property(nonatomic, strong) NSMutableArray* items;

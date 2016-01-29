@@ -10,7 +10,6 @@
 #import "CZJBaseDataManager.h"
 #import "CZJChooseTypeHeaderCell.h"
 #import "CZJSerFilterTypeChooseCell.h"
-#import "UIImageView+WebCache.h"
 #import "WLZ_ChangeCountView.h"
 
 
@@ -251,7 +250,7 @@ UITableViewDataSource
         cell.productNameLabel.text = self.currentSku.skuName;
         cell.productPriceLabel.text = [NSString stringWithFormat:@"￥%@",self.currentSku.skuPrice];
         cell.productCodeLabel.text = self.currentSku.skuCode;
-        [cell.productImage sd_setImageWithURL:[NSURL URLWithString:self.currentSku.skuImg] placeholderImage:nil];
+        [cell.productImage sd_setImageWithURL:[NSURL URLWithString:self.currentSku.skuImg] placeholderImage:IMAGENAMED(@"home_btn_xiche")];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
     }

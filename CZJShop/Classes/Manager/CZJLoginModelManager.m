@@ -8,7 +8,6 @@
 
 #import "CZJLoginModelManager.h"
 #import "CZJNetworkManager.h"
-#import "CZJUtils.h"
 #import "CZJErrorCodeManager.h"
 #import "UserBaseForm.h"
 #import "ZXLocationManager.h"

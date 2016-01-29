@@ -7,9 +7,7 @@
 //
 
 #import "CZJOtherStoreListController.h"
-#import "CZJNaviagtionBarView.h"
 #import "CZJStoreCell.h"
-#import "UIImageView+WebCache.h"
 #import "CZJStoreForm.h"
 #import "CZJBaseDataManager.h"
 #import "CZJStoreDetailController.h"
@@ -84,7 +82,7 @@ CZJNaviagtionBarViewDelegate
     cell.storeDistance.text = storeForm.distance;
     cell.storeLocation.text = storeForm.addr;
     cell.feedbackRate.text = storeForm.star;
-    [cell.storeCellImageView sd_setImageWithURL:[NSURL URLWithString:storeForm.homeImg] placeholderImage:nil];
+    [cell.storeCellImageView sd_setImageWithURL:[NSURL URLWithString:storeForm.homeImg] placeholderImage:IMAGENAMED(@"home_btn_xiche")];
     TOCK;
     return cell;
     

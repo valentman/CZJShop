@@ -10,7 +10,6 @@
 #import "CZJBaseDataManager.h"
 #import "PullTableView.h"
 #import "CZJScanQRController.h"
-#import "CZJNaviagtionBarView.h"
 #import "HomeForm.h"
 #import "CZJActivityCell.h"
 #import "CZJServiceCell.h"
@@ -32,13 +31,13 @@
 #import "CZJLoginController.h"
 
 @interface CZJHomeViewController ()<
-    UISearchBarDelegate,
-    UITableViewDelegate,
-    UITableViewDataSource,
-    PullTableViewDelegate,
-    CZJNaviagtionBarViewDelegate,
-    CZJImageViewTouchDelegate,
-    CZJServiceCellDelegate
+UISearchBarDelegate,
+UITableViewDelegate,
+UITableViewDataSource,
+PullTableViewDelegate,
+CZJNaviagtionBarViewDelegate,
+CZJImageViewTouchDelegate,
+CZJServiceCellDelegate
 >
 {
     NSString* _serviceTypeId;
@@ -162,8 +161,8 @@
 {
     //TabBarItem选中颜色设置及右上角标记设置
     [self.tabBarController.tabBar setTintColor:RGB(235, 20, 20)];
-//    NSArray *items = self.tabBarController.tabBar.items;
-//    [[items objectAtIndex:eTabBarItemShop] setBadgeValue:@"1"];
+    //    NSArray *items = self.tabBarController.tabBar.items;
+    //    [[items objectAtIndex:eTabBarItemShop] setBadgeValue:@"1"];
 }
 
 
@@ -172,7 +171,7 @@
     if (_errorView) {
         [_errorView removeFromSuperview];
     }
-
+    
     //从服务器获取数据成功返回回调
     CZJSuccessBlock successBlock = ^(id json){
         
@@ -272,7 +271,7 @@
         [UIView animateWithDuration:0.2f animations:^{
             [_navibarView setAlpha:1.0];
         }];
-
+        
         float alphaValue = contentOffsetY * 0.5 / 200;
         if (alphaValue > 0.7)
         {
@@ -305,7 +304,15 @@
                 [cell someMethodNeedUse:indexPath DataModel:_activityArray];
                 cell.delegate = self;
             }
+            
+            
+            //            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell0"];
+            //            if (!cell) {
+            //                cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell0"];
+            //            }
             return cell;
+            
+            
         }
             break;
             
@@ -318,6 +325,11 @@
                 cell.delegate = self;
             }
             [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+            
+            //            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell1"];
+            //            if (!cell) {
+            //                cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell1"];
+            //            }
             return cell;
         }
             break;
@@ -330,6 +342,11 @@
                 [cell initWithCarInfoDatas:_carInfoArray];
             }
             [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+            
+            //            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell2"];
+            //            if (!cell) {
+            //                cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell2"];
+            //            }
             return cell;
         }
             break;
@@ -343,13 +360,23 @@
                     [cell initMiaoShaInfoWithData:_miaoShaArray];
                 }
                 [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+                
+                //                UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell31"];
+                //                if (!cell) {
+                //                    cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell31"];
+                //                }
                 return cell;
             }
             else if (0 == indexPath.row)
             {
-                CZJMiaoShaCellHeader* headerView = [tableView dequeueReusableCellWithIdentifier:@"CZJMiaoShaCellHeader" forIndexPath:indexPath];
-                [headerView initHeaderWithTimestamp:CZJBaseDataInstance.homeForm.serverTime];
-                return headerView;
+                CZJMiaoShaCellHeader* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJMiaoShaCellHeader" forIndexPath:indexPath];
+                [cell initHeaderWithTimestamp:CZJBaseDataInstance.homeForm.serverTime];
+                
+                //                UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell3"];
+                //                if (!cell) {
+                //                    cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell3"];
+                //                }
+                return cell;
             }
         }
             break;
@@ -358,6 +385,12 @@
         {//广告栏一
             CZJAdBanerCell *cell = (CZJAdBanerCell*)[tableView dequeueReusableCellWithIdentifier:@"CZJAdBanerCell" forIndexPath:indexPath];
             [cell initBannerOneWithDatas:_bannerOneArray];
+            
+            
+            //            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell4"];
+            //            if (!cell) {
+            //                cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell4"];
+            //            }
             return cell;
         }
             break;
@@ -366,8 +399,14 @@
         {//限量购买
             if (0 == indexPath.row)
             {
-                CZJLimitBuyCellHeader* headerView = [tableView dequeueReusableCellWithIdentifier:@"CZJLimitBuyCellHeader" forIndexPath:indexPath];
-                return headerView;
+                CZJLimitBuyCellHeader* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJLimitBuyCellHeader" forIndexPath:indexPath];
+                
+                //                UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell51"];
+                //                if (!cell) {
+                //                    cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell51"];
+                //                }
+                
+                return cell;
             }
             else if (1 == indexPath.row)
             {
@@ -376,6 +415,11 @@
                 {
                     [cell initLimitBuyWithDatas:_limitBuyArray];
                 }
+                
+                //                UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell5"];
+                //                if (!cell) {
+                //                    cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell5"];
+                //                }
                 return cell;
             }
             
@@ -386,8 +430,13 @@
         {//品牌推荐
             if (0 == indexPath.row)
             {
-                CZJBrandRecoCellHeader* headerView = [tableView dequeueReusableCellWithIdentifier:@"CZJBrandRecoCellHeader" forIndexPath:indexPath];
-                return headerView;
+                CZJBrandRecoCellHeader* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJBrandRecoCellHeader" forIndexPath:indexPath];
+                
+                //                UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell1"];
+                //                if (!cell) {
+                //                    cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell1"];
+                //                }
+                return cell;
             }
             if (1 == indexPath.row)
             {
@@ -396,6 +445,11 @@
                 {
                     [cell initBrandRecommendWithDatas:_brandRecommentArray];
                 }
+                
+                //                UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell6"];
+                //                if (!cell) {
+                //                    cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell6"];
+                //                }
                 return cell;
             }
         }
@@ -406,6 +460,10 @@
             CZJAdBanerPlusCell *cell = (CZJAdBanerPlusCell*)[tableView dequeueReusableCellWithIdentifier:@"CZJAdBanerPlusCell" forIndexPath:indexPath];
             
             [cell initBannerTwoWithDatas:_bannerTwoArray];
+            //            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell7"];
+            //            if (!cell) {
+            //                cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell7"];
+            //            }
             return cell;
         }
             break;
@@ -414,8 +472,13 @@
         {//特别推荐
             if (0 == indexPath.row)
             {
-                CZJSpecialRecoCellHeader* headerView = [tableView dequeueReusableCellWithIdentifier:@"CZJSpecialRecoCellHeader" forIndexPath:indexPath];
-                return headerView;
+                CZJSpecialRecoCellHeader* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJSpecialRecoCellHeader" forIndexPath:indexPath];
+                
+                //                UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell1"];
+                //                if (!cell) {
+                //                    cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell1"];
+                //                }
+                return cell;
             }
             else if (1 == indexPath.row)
             {
@@ -424,6 +487,10 @@
                 {
                     [cell initSpecialRecommendWithDatas:_specialRecommentArray];
                 }
+                //                UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell8"];
+                //                if (!cell) {
+                //                    cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell8"];
+                //                }
                 
                 return cell;
             }
@@ -434,17 +501,39 @@
         {
             if (0 == indexPath.row)
             {
-                CZJGoodsRecoCellHeader* headerView = [tableView dequeueReusableCellWithIdentifier:@"CZJGoodsRecoCellHeader" forIndexPath:indexPath];
-                headerView.backgroundColor = [UIColor clearColor];
-                headerView.backgroundView.backgroundColor = [UIColor clearColor];
-                return headerView;
+                CZJGoodsRecoCellHeader* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJGoodsRecoCellHeader" forIndexPath:indexPath];
+                cell.backgroundColor = [UIColor clearColor];
+                cell.backgroundView.backgroundColor = [UIColor clearColor];
+                
+                //                UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell1"];
+                //                if (!cell) {
+                //                    cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell1"];
+                //                }
+                return cell;
             }
             else
             {
                 CZJGoodsRecommendCell* cell = (CZJGoodsRecommendCell*)[tableView dequeueReusableCellWithIdentifier:@"CZJGoodsRecommendCell" forIndexPath:indexPath];
+                
+                //                                UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell9"];
+                //                                if (!cell) {
+                //                                    cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell9"];
+                //                                }
+                DLog(@"%p",cell);
                 if (cell && _goodsRecommentArray.count > 0)
                 {
-                    [cell initGoodsRecommendWithDatas:_goodsRecommentArray[indexPath.row - 1]];
+                    GoodsRecommendForm * form = ((NSArray*)_goodsRecommentArray[indexPath.row - 1]).firstObject;
+                    [cell.goodImg sd_setImageWithURL:[NSURL URLWithString:form.itemImg] placeholderImage:PNGIMAGE(@"home_btn_xiche")];
+                    cell.goodNameLabel.text = form.itemName;
+                    cell.goodPriceLabel.text = [NSString stringWithFormat:@"￥%@",form.currentPrice];
+                    
+                    if (((NSArray*)_goodsRecommentArray[indexPath.row - 1]).count > 1)
+                    {
+                        GoodsRecommendForm * form2 = _goodsRecommentArray[indexPath.row - 1][1];
+                        [cell.goodImg2 sd_setImageWithURL:[NSURL URLWithString:form2.itemImg] placeholderImage:PNGIMAGE(@"home_btn_xiche")];
+                        cell.goodNameLabel2.text = form2.itemName;
+                        cell.goodPriceLabel2.text = [NSString stringWithFormat:@"￥%@",form2.currentPrice];
+                    }
                 }
                 return cell;
             }
@@ -456,7 +545,6 @@
             break;
     }
     return nil;
-    
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -479,7 +567,7 @@
     }
     if (9 == section)
     {
-       return _goodsRecommentArray.count + 1;
+        return _goodsRecommentArray.count + 1;
     }
     if (3 == section ||
         5 == section ||
@@ -509,7 +597,7 @@
         }
             break;
         case 3:{
-
+            
         }
             break;
         default:
@@ -570,10 +658,10 @@
             break;
         case 9:
             if (0 == indexPath.row) {
-                return 35;
+                return 50;
             }
             if (1 <= indexPath.row) {
-                return 245;
+                return 260;
             }
             break;
         default:
@@ -590,7 +678,7 @@
         (_brandRecommentArray.count == 0 && section == 6)){
         return 15;
     }
-
+    
     return 0;
 }
 
@@ -606,10 +694,10 @@
 -(void)showActivityHtmlWithUrl:(NSString*)url
 {
     return;
-//    _curUrl = url;
-//    _htmlType =  eActivityHtml;
-//    _webViewTitle = @"活动详情";
-//    [self performSegueWithIdentifier:@"pushToServiceDetail" sender:self];
+    //    _curUrl = url;
+    //    _htmlType =  eActivityHtml;
+    //    _webViewTitle = @"活动详情";
+    //    [self performSegueWithIdentifier:@"pushToServiceDetail" sender:self];
 }
 
 

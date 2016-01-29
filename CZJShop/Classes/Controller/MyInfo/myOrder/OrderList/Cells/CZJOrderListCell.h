@@ -7,6 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CZJOrderForm.h"
+
 typedef NS_ENUM(NSInteger,CZJOrderType)
 {
     CZJOrderTypeAll = 0,
@@ -21,5 +23,5 @@ typedef NS_ENUM(NSInteger,CZJOrderType)
 @interface CZJOrderListCell : CZJTableViewCell
 
 
-- (void)setCellModelWithType:(CZJOrderType)type;
+- (void)setCellModelWithType:(CZJOrderListForm*)listForm andType:(CZJOrderType)orderType;
 @end

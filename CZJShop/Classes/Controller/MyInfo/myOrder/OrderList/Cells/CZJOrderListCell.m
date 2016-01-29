@@ -8,6 +8,7 @@
 
 #import "CZJOrderListCell.h"
 
+
 @interface CZJOrderListCell ()
 @property (weak, nonatomic) IBOutlet UIView *storeNameView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *storeNameViewLeading;
@@ -54,6 +55,9 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
+    self.separatorOneHeight.constant = 0.5;
+    self.separatorTwoHeight.constant = 0.5;
+    self.stateDescLabel.hidden = YES;
     // Initialization code
 }
 
@@ -63,9 +67,15 @@
     // Configure the view for the selected state
 }
 
-- (void)setCellModelWithType:(CZJOrderType)type
+- (void)setCellModelWithType:(CZJOrderListForm*)listForm andType:(CZJOrderType)orderType
 {
-    
+    if (CZJOrderTypeNoPay == orderType)
+    {
+        self.storeNameViewLeading.constant = 40;
+    }
+    self.payMoneyNumLabel.text = [NSString stringWithFormat:@"￥%@",listForm.orderMoney ];
+    self.storeNameLabel.text = listForm.storeName;
+    [self.storeTypeImg setImage:IMAGENAMED(@"commit_icon_shop")];
 }
 
 - (IBAction)returnGoodsAction:(id)sender

@@ -7,7 +7,7 @@
 //
 
 #import "CZJMiaoShaCollectionCell.h"
-#import "UIImageView+WebCache.h"
+
 
 @implementation CZJMiaoShaCollectionCell
 

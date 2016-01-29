@@ -9,7 +9,6 @@
 #import "CZJCarSeriesChooseController.h"
 #import "CZJBaseDataManager.h"
 #import "CZJCarForm.h"
-#import "UIImageView+WebCache.h"
 #import "CZJCarModelChooseController.h"
 #define CarSesCellIdentifierID  @"CarSesCellIdentifierID"
 
@@ -38,6 +37,7 @@ UITableViewDataSource
 
 - (void)viewDidAppear:(BOOL)animated
 {
+    [super viewDidAppear:animated];
     [CZJBaseDataInstance loadCarSeriesWithBrandId:self.carBrand.brandId BrandName:self.carBrand.name Success:^(){
         [self initData];
         [self.tableView reloadData];

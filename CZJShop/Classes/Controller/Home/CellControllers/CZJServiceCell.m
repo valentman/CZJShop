@@ -7,7 +7,6 @@
 //
 
 #import "CZJServiceCell.h"
-#import "UIImageView+WebCache.h"
 
 @implementation ServiceCollectionViewCell
 
@@ -18,7 +17,7 @@
     SDWebImageCompletionBlock sdimgBlock = ^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL){};
     UIImageView* image_icon = [[UIImageView alloc] initWithImage:image];
     [image_icon sd_setImageWithURL:[NSURL URLWithString:obj.img]
-                  placeholderImage:[UIImage imageNamed:@"home_btn_xiche"]
+                  placeholderImage:PNGIMAGE( @"home_btn_xiche")
                          completed:sdimgBlock];
     
     //标题

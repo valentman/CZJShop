@@ -8,7 +8,6 @@
 
 #import "CZJMyCarListController.h"
 #import "CZJMyCarListCell.h"
-#import "UIImageView+WebCache.h"
 #import "CZJBaseDataManager.h"
 #import "CZJCarBrandChooseController.h"
 

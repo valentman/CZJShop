@@ -51,7 +51,7 @@
 
 - (IBAction)allChooseAction:(id)sender
 {
-    _allChooseBtn.selected = !_allChooseBtn.selected;
+//    _allChooseBtn.selected = !_allChooseBtn.selected;
     
     if ([self.delegate respondsToSelector:@selector(clickChooseAllSection:andIndexPath:)])
     {

@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CZJMyInfoOrderListController : UIViewController
+@interface CZJMyInfoOrderListController : CZJViewController
 
 @end

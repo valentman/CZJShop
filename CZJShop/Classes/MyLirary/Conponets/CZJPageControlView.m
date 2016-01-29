@@ -7,10 +7,6 @@
 //
 
 #import "CZJPageControlView.h"
-#import "CZJPicDetailController.h"
-#import "CZJBuyNoticeController.h"
-#import "CZJAfterServiceController.h"
-#import "CZJApplicableCarController.h"
 #define BtnTag 1001
 
 @interface CZJPageControlView()
@@ -18,58 +14,53 @@
 UIPageViewControllerDelegate,
 UIScrollViewDelegate>
 {
-    
 }
-@property (nonatomic, strong)  NSArray *btnArr;
-@property(nonatomic,strong) NSMutableArray *viewControllerArray;
+/**
+ *  只需要修改的第一处
+ */
+@property (nonatomic, strong) NSArray *btnArr;
+/**
+ *  只需要修改的第二处,
+ */
+@property (nonatomic,strong) NSArray *viewControllerArray;
 @property (nonatomic, strong)UIPageViewController *pageController;
 @property (nonatomic, assign)NSInteger currentPageIndex;
 @end
 
 @implementation CZJPageControlView
-
-- (instancetype)initWithFrame:(CGRect)frame
+@synthesize btnArr = _btnArr;
+@synthesize viewControllerArray = _viewControllerArray;
+- (instancetype)initWithFrame:(CGRect)frame andPageIndex:(NSInteger)pageIndex
 {
     if (self == [super initWithFrame:frame])
     {
-        [self initMainController];
-        [self setupPageViewController];
+        _currentPageIndex = pageIndex;
         return self;
     }
     return nil;
 }
-/**
- *  只需要修改的第一处
- */
-- (NSArray *)btnArr{
-    if (!_btnArr) {
-        _btnArr =  @[@"图文详情",@"购买须知",@"包装售后",@"适用车型"];
-    }
-    return _btnArr;
-}
 
-/**
- *  只需要修改的第二处
- */
-- (NSMutableArray *)viewControllerArray{
-    if (!_viewControllerArray) {
-        _viewControllerArray =
-        _viewControllerArray = [[NSMutableArray alloc]init];
-        CZJPicDetailController *FController = [[CZJPicDetailController alloc]init];
-        CZJBuyNoticeController *SController = [[CZJBuyNoticeController alloc]init];
-        CZJAfterServiceController *TController = [[CZJAfterServiceController alloc]init];
-        CZJApplicableCarController *AController = [[CZJApplicableCarController alloc]init];
-        
-        [_viewControllerArray addObjectsFromArray:@[FController,SController,TController,AController]];
+- (void)setTitleArray:(NSArray*)titleArray andVCArray:(NSArray*)vcArray
+{
+    _btnArr = titleArray;
+    _viewControllerArray = vcArray;
+    if (_btnArr.count != 0 && _viewControllerArray != 0)
+    {
+        [self initMainController];
+        [self setupPageViewController];
     }
-    return _viewControllerArray;
+    else
+    {
+        UIAlertView* alertview = [[UIAlertView alloc]initWithTitle:@"无内容" message:@"" delegate:self cancelButtonTitle:@"确 定" otherButtonTitles:@"", nil];
+        [alertview show];
+    }
 }
 
 
 - (UIPageViewController *)pageController{
     if (!_pageController) {
         _pageController = [[UIPageViewController alloc]initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal options:nil];
-        _pageController.view.frame = CGRectMake(0, 64, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - 184);
+        _pageController.view.frame = CGRectMake(0, 64, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - 64);
         _pageController.delegate = self;
         _pageController.dataSource = self;
         
@@ -84,7 +75,7 @@ UIScrollViewDelegate>
         UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
         CGSize size = [self.btnArr[2] sizeWithAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:20]}];
         [btn setTitle:self.btnArr[i] forState:UIControlStateNormal];
-        [btn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+        [btn setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
         [btn setTitleColor:[UIColor redColor] forState:UIControlStateSelected];
         btn.titleLabel.font = [UIFont systemFontOfSize:16];
         float horiMargin = (PJ_SCREEN_WIDTH - self.btnArr.count*size.width)/5;
@@ -97,6 +88,16 @@ UIScrollViewDelegate>
         }
         [btn addTarget:self action:@selector(changeControllerClick:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:btn];
+        
+
+        if (i < self.btnArr.count - 1)
+        {
+            UIView* line = [[UIView alloc]init];
+            line.backgroundColor = [UIColor lightGrayColor];
+            CGRect lineFrame = CGRectMake(originX + size.width + 1.5*horiMargin, 25, 0.2, 10);
+            line.frame = lineFrame;
+            [self addSubview:line];
+        }
     }
 }
 
@@ -118,23 +119,48 @@ UIScrollViewDelegate>
     NSInteger tempIndex = _currentPageIndex;
     __weak typeof (self) weakSelf = self;
     NSInteger nowTemp = btn.tag - BtnTag;
-    if (nowTemp > tempIndex) {
-        for (int i = (int)tempIndex + 1; i <= nowTemp; i ++) {
-            [_pageController setViewControllers:@[[self.viewControllerArray objectAtIndex:i]] direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:^(BOOL finished) {
-                if (finished) {
-                    [weakSelf updateCurrentPageIndex:i];
-                }
-            }];
-        }
-    }else if (nowTemp < tempIndex){
-        for (int i = (int)tempIndex ; i >= nowTemp; i--) {
-            [_pageController setViewControllers:@[[self.viewControllerArray objectAtIndex:i]] direction:UIPageViewControllerNavigationDirectionReverse animated:YES completion:^(BOOL finished) {
-                if (finished) {
-                    [weakSelf updateCurrentPageIndex:i];
-                }
-            }];
-        }
+    /**
+     * 这种方式只动画滑动一个页面
+     */
+    
+    if (nowTemp > tempIndex)
+    {
+        [_pageController setViewControllers:@[[self.viewControllerArray objectAtIndex:nowTemp]] direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:^(BOOL finished) {
+            if (finished) {
+                [weakSelf updateCurrentPageIndex:nowTemp];
+            }
+        }];
     }
+    else if (nowTemp < tempIndex)
+    {
+        [_pageController setViewControllers:@[[self.viewControllerArray objectAtIndex:nowTemp]] direction:UIPageViewControllerNavigationDirectionReverse animated:YES completion:^(BOOL finished) {
+            if (finished) {
+                [weakSelf updateCurrentPageIndex:nowTemp];
+            }
+        }];
+    }
+    
+    
+    /**
+     * 这种方式有多少个页面就动画滑动多少个页面
+     */
+//    if (nowTemp > tempIndex) {
+//        for (int i = (int)tempIndex + 1; i <= nowTemp; i ++) {
+//            [_pageController setViewControllers:@[[self.viewControllerArray objectAtIndex:i]] direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:^(BOOL finished) {
+//                if (finished) {
+//                    [weakSelf updateCurrentPageIndex:i];
+//                }
+//            }];
+//        }
+//    }else if (nowTemp < tempIndex){
+//        for (int i = (int)tempIndex ; i >= nowTemp; i--) {
+//            [_pageController setViewControllers:@[[self.viewControllerArray objectAtIndex:i]] direction:UIPageViewControllerNavigationDirectionReverse animated:YES completion:^(BOOL finished) {
+//                if (finished) {
+//                    [weakSelf updateCurrentPageIndex:i];
+//                }
+//            }];
+//        }
+//    }
 }
 
 -(void)updateCurrentPageIndex:(NSInteger)newIndex
@@ -151,10 +177,9 @@ UIScrollViewDelegate>
         }
     }
 }
-#pragma mark --------Scroll协议-------
+#pragma mark- UIScrollViewDelegate
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    
     NSInteger X = _currentPageIndex;
     UIButton *btn = (UIButton *)[self viewWithTag:X+BtnTag];
     [UIView animateWithDuration:0.2 animations:^{
@@ -166,7 +191,6 @@ UIScrollViewDelegate>
 }
 
 #pragma mark - Page View Controller Data Source
-
 - (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerBeforeViewController:(UIViewController *)viewController
 {
     NSInteger index = [self indexOfController:viewController];
@@ -190,6 +214,8 @@ UIScrollViewDelegate>
     return [_viewControllerArray objectAtIndex:index];
 }
 
+
+#pragma mark- UIPageViewControllerDelegate
 -(void)pageViewController:(UIPageViewController *)pageViewController didFinishAnimating:(BOOL)finished previousViewControllers:(NSArray *)previousViewControllers transitionCompleted:(BOOL)completed
 {
     if (completed) {

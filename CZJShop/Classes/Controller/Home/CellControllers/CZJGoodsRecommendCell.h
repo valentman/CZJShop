@@ -10,13 +10,15 @@
 
 
 
-@interface CZJGoodsRecommendCell : CZJTableViewCell<UICollectionViewDelegate,UICollectionViewDataSource>
+@interface CZJGoodsRecommendCell : CZJTableViewCell
 {
-    NSArray* _goodsRecommendDatas;
 }
-
-@property (weak, nonatomic) IBOutlet UICollectionViewFlowLayout *collectionViewLayout;
-@property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
+@property (weak, nonatomic) IBOutlet UIImageView *goodImg;
+@property (weak, nonatomic) IBOutlet UILabel *goodNameLabel;
+@property (weak, nonatomic) IBOutlet UILabel *goodPriceLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *goodImg2;
+@property (weak, nonatomic) IBOutlet UILabel *goodNameLabel2;
+@property (weak, nonatomic) IBOutlet UILabel *goodPriceLabel2;
 
 - (void)initGoodsRecommendWithDatas:(NSArray*)datas;
 @end

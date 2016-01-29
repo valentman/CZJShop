@@ -100,55 +100,55 @@
 
     
     //--------------------5.推送注册中心-----------------
-    [XGPush startApp:kCZJPushServerAppId appKey:kCZJPushServerAppKey];
-    CZJGeneralBlock successBlock = ^(void)
-    {
-        //如果变成需要注册状态
-        if(![XGPush isUnRegisterStatus])
-        {
-            //iOS8推送类型注册
-        #if __IPHONE_OS_VERSION_MAX_ALLOWED >= _IPHONE80_
-            float sysVer = [[[UIDevice currentDevice] systemVersion] floatValue];
-            if(sysVer < 8){
-                [self registerPush];
-            }
-            else{
-                [self registerPushForIOS8];
-            }
-        #else
-            //iOS8之前注册push方法
-            //注册Push服务，注册后才能收到推送
-            [self registerPush];
-        #endif
-        }
-    };
-    [XGPush initForReregister:successBlock];
-    
-    //推送反馈(app不在前台运行时，点击推送激活时)
-    [XGPush handleLaunching:launchOptions];
-    
-    //推送反馈回调版本示例
-    CZJGeneralBlock _successBlock = ^(void){
-        //成功之后的处理
-        DLog(@"[XGPush]handleLaunching's successBlock");
-    };
-    
-    CZJGeneralBlock _errorBlock = ^(void){
-        //失败之后的处理
-        DLog(@"[XGPush]handleLaunching's errorBlock");
-    };
-    
-    [XGPush handleLaunching:launchOptions successCallback:_successBlock errorCallback:_errorBlock];
-    
-    DLog(@"--%@",[CZJLoginModelManager sharedCZJLoginModelManager].cityId);
-    [XGPush setTag:[CZJLoginModelManager sharedCZJLoginModelManager].cityId];
-    BOOL isLoginedIn = [USER_DEFAULT boolForKey:kCZJIsUserHaveLogined];
-    if (isLoginedIn) {
-        [CZJLoginModelInstance loginWithDefaultInfoSuccess:^()
-         {
-             [XGPush setAccount:[CZJLoginModelInstance cheZhuId]];
-         }fail:^(){}];
-    }
+//    [XGPush startApp:kCZJPushServerAppId appKey:kCZJPushServerAppKey];
+//    CZJGeneralBlock successBlock = ^(void)
+//    {
+//        //如果变成需要注册状态
+//        if(![XGPush isUnRegisterStatus])
+//        {
+//            //iOS8推送类型注册
+//        #if __IPHONE_OS_VERSION_MAX_ALLOWED >= _IPHONE80_
+//            float sysVer = [[[UIDevice currentDevice] systemVersion] floatValue];
+//            if(sysVer < 8){
+//                [self registerPush];
+//            }
+//            else{
+//                [self registerPushForIOS8];
+//            }
+//        #else
+//            //iOS8之前注册push方法
+//            //注册Push服务，注册后才能收到推送
+//            [self registerPush];
+//        #endif
+//        }
+//    };
+//    [XGPush initForReregister:successBlock];
+//    
+//    //推送反馈(app不在前台运行时，点击推送激活时)
+//    [XGPush handleLaunching:launchOptions];
+//    
+//    //推送反馈回调版本示例
+//    CZJGeneralBlock _successBlock = ^(void){
+//        //成功之后的处理
+//        DLog(@"[XGPush]handleLaunching's successBlock");
+//    };
+//    
+//    CZJGeneralBlock _errorBlock = ^(void){
+//        //失败之后的处理
+//        DLog(@"[XGPush]handleLaunching's errorBlock");
+//    };
+//    
+//    [XGPush handleLaunching:launchOptions successCallback:_successBlock errorCallback:_errorBlock];
+//    
+//    DLog(@"--%@",[CZJLoginModelManager sharedCZJLoginModelManager].cityId);
+//    [XGPush setTag:[CZJLoginModelManager sharedCZJLoginModelManager].cityId];
+//    BOOL isLoginedIn = [USER_DEFAULT boolForKey:kCZJIsUserHaveLogined];
+//    if (isLoginedIn) {
+//        [CZJLoginModelInstance loginWithDefaultInfoSuccess:^()
+//         {
+//             [XGPush setAccount:[CZJLoginModelInstance cheZhuId]];
+//         }fail:^(){}];
+//    }
     
     
     //-----------------6.判断是否启动广告页面--------------
@@ -178,10 +178,10 @@
     
     
     //---------------------7.分享设置---------------------
-    [OpenShare connectQQWithAppId:kCZJOpenShareQQAppId];
-    [OpenShare connectWeiboWithAppKey:kCZJOpenShareWeiboAppKey];
-    [OpenShare connectWeixinWithAppId:kCZJOpenShareWeixinAppId];
-    [OpenShare connectAlipay];
+//    [OpenShare connectQQWithAppId:kCZJOpenShareQQAppId];
+//    [OpenShare connectWeiboWithAppKey:kCZJOpenShareWeiboAppKey];
+//    [OpenShare connectWeixinWithAppId:kCZJOpenShareWeixinAppId];
+//    [OpenShare connectAlipay];
     
     
     //-------------------8.字典描述分类替换---------------
@@ -282,17 +282,17 @@
 //注册获取Token成功回调
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
-    CZJGeneralBlock successBlock = ^(void){
-        //成功之后的处理
-        DLog(@"[XGPush]register successBlock");
-    };
-    
-    CZJGeneralBlock errorBlock = ^(void){
-        //失败之后的处理
-        DLog(@"[XGPush]register errorBlock");
-    };
-    NSString * deviceTokenStr = [XGPush registerDevice:deviceToken successCallback:successBlock errorCallback:errorBlock];
-    DLog(@"%@",deviceTokenStr);
+//    CZJGeneralBlock successBlock = ^(void){
+//        //成功之后的处理
+//        DLog(@"[XGPush]register successBlock");
+//    };
+//    
+//    CZJGeneralBlock errorBlock = ^(void){
+//        //失败之后的处理
+//        DLog(@"[XGPush]register errorBlock");
+//    };
+//    NSString * deviceTokenStr = [XGPush registerDevice:deviceToken successCallback:successBlock errorCallback:errorBlock];
+//    DLog(@"%@",deviceTokenStr);
 }
 
 //注册获取Token失败回调

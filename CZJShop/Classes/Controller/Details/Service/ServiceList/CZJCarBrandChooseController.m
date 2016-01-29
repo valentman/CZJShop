@@ -9,7 +9,6 @@
 #import "CZJCarBrandChooseController.h"
 #import "CZJBaseDataManager.h"
 #import "CZJCarForm.h"
-#import "UIImageView+WebCache.h"
 #import "CZJCarSeriesChooseController.h"
 #import "SKSTableView.h"
 #import "SKSTableViewCell.h"

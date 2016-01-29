@@ -8,7 +8,6 @@
 
 #import <MapKit/MapKit.h>
 #import "CZJStoreDetailController.h"
-#import "CZJNaviagtionBarView.h"
 #import "CZJStoreDetailHeadCell.h"
 #import "CZJStoreDescribeTwoCell.h"
 #import "CZJStoreDescribeCell.h"
@@ -18,7 +17,6 @@
 #import "CZJCouponsCell.h"
 #import "CZJAdBanerCell.h"
 #import "CZJBaseDataManager.h"
-#import "UIImageView+WebCache.h"
 #import "CZJShoppingCartForm.h"
 #import "CZJStoreDetailForm.h"
 #import "CZJDetailForm.h"

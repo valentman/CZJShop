@@ -7,7 +7,6 @@
 //
 
 #import "CZJAddMyCarController.h"
-#import "UIImageView+WebCache.h"
 #import "CZJBaseDataManager.h"
 #import "GKHpickerAddressView.h"
 #import "CZJCarForm.h"

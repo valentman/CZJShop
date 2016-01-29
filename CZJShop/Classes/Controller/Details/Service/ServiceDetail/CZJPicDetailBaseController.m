@@ -89,7 +89,6 @@
         }
         self.myLabel.alpha = alphaValue;
     }
-
 }
 
 
@@ -99,38 +98,6 @@
     {
         [[NSNotificationCenter defaultCenter]postNotificationName:kCZJNotifiPicDetailBack object:nil];
     }
-}
-
-
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
-{
-    DLog();
-}
-
-- (void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView
-{
-    DLog();
-}
-
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
-{
-        DLog();
-//    float contentOffsetY = [scrollView contentOffset].y;
-//    if (1002 == scrollView.tag && contentOffsetY == 0)
-//    {
-//        //        self.myScrollView.scrollEnabled = NO;
-//        [self.myScrollView setContentOffset:CGPointMake(0, -20) animated:true];
-//        isButtom = NO;
-//    }
-//    if (1002 == scrollView.tag && contentOffsetY == 576) {
-//        [self.myScrollView setContentOffset:CGPointMake(0, 602) animated:true];
-//    }
-    
-}
-
-- (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView
-{
-    DLog();
 }
 
 @end

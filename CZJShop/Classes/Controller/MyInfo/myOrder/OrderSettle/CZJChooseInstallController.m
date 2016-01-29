@@ -10,7 +10,6 @@
 #import "CZJBaseDataManager.h"
 #import "CZJStoreForm.h"
 #import "CZJChooseInstallStoreCell.h"
-#import "UIImageView+WebCache.h"
 
 @interface CZJChooseInstallController ()
 <
@@ -84,7 +83,7 @@ UITableViewDelegate
 {
     CZJNearbyStoreForm* form = storeList[indexPath.row];
     CZJChooseInstallStoreCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJChooseInstallStoreCell" forIndexPath:indexPath];
-    [cell.storeImg sd_setImageWithURL:[NSURL URLWithString:form.homeImg] placeholderImage:nil];
+    [cell.storeImg sd_setImageWithURL:[NSURL URLWithString:form.homeImg] placeholderImage:IMAGENAMED(@"home_btn_xiche")];
     cell.storeNameLabel.text = form.name;
     cell.storeAddrLabel.text = form.addr;
     cell.setupNumLabel.text = form.setupCount;

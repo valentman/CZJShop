@@ -77,6 +77,13 @@
 }
 @end
 
+@implementation CZJOrderListForm
++ (NSDictionary *)objectClassInArray
+{
+    return @{@"items" : @"CZJOrderGoodsForm"};
+}
+
+@end
 
 @implementation CZJOrderGoodsForm
 - (id) init
@@ -100,6 +107,9 @@
         self.returnStatus = @"0";
         self.setupPrice = @"0";
         self.orderItemPid = @"0";
+        self.setmenuFlag = false;
+        self.setupFlag = false;
+        self.off = false;
         return self;
     }
     return nil;

@@ -7,11 +7,9 @@
 //
 
 #import "CZJPersonalInfoController.h"
-#import "UIImageView+WebCache.h"
 #import "UserBaseForm.h"
 #import "CZJBaseDataManager.h"
 #import "VPImageCropperViewController.h"
-#import "LJWKeyboardHandlerHeaders.h"
 #import "CZJDeliveryAddrController.h"
 #import "CZJMyCarListController.h"
 
@@ -102,6 +100,7 @@ VPImageCropperDelegate
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    [super viewWillAppear:animated];
     [self refreshTableView];
 }
 
@@ -118,7 +117,7 @@ VPImageCropperDelegate
                 [cell addSubview:headview];
             }
             if (isFromServer) {
-                [headview sd_setImageWithURL:[NSURL URLWithString:userinfo.chezhuHeadImg] placeholderImage:nil];
+                [headview sd_setImageWithURL:[NSURL URLWithString:userinfo.chezhuHeadImg] placeholderImage:IMAGENAMED(@"home_btn_xiche")];
             }
             
         }

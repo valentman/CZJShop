@@ -7,7 +7,6 @@
 //
 
 #import "CZJSpecialRecommendCell.h"
-#import "UIImageView+WebCache.h"
 #import "HomeForm.h"
 
 @implementation SpecialRecoCollectionViewCell
@@ -18,12 +17,11 @@
     SDWebImageCompletionBlock sdimgBlock = ^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL){};
     UIImageView* image_icon = [[UIImageView alloc] initWithImage:image];
     [image_icon sd_setImageWithURL:[NSURL URLWithString:img]
-                  placeholderImage:[UIImage imageNamed:@"home_btn_xiche"]
+                  placeholderImage:PNGIMAGE(@"home_btn_xiche")
                          completed:sdimgBlock];
     CGRect tmpRect = self.contentView.frame;
     image_icon.frame = tmpRect;
     [self.contentView addSubview:image_icon];
-    
 }
 
 @end

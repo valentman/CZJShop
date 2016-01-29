@@ -7,9 +7,7 @@
 //
 
 #import "CZJGoodsListController.h"
-#import "CZJNaviagtionBarView.h"
 #import "MXPullDownMenu.h"
-#import "UIImageView+WebCache.h"
 #import "PullTableView.h"
 #import "CZJGoodsRecoCollectionCell.h"
 #import "CZJGoodsListCell.h"
@@ -197,7 +195,7 @@ CZJFilterControllerDelegate
     cell.goodPrice.text = [rmb stringByAppendingString:goodsForm.currentPrice];
     cell.goodRate.text = goodsForm.goodEvalRate;
     cell.puchaseCount.text = goodsForm.purchaseCount;
-    [cell.goodImageView sd_setImageWithURL:[NSURL URLWithString:goodsForm.itemImg] placeholderImage:nil];
+    [cell.goodImageView sd_setImageWithURL:[NSURL URLWithString:goodsForm.itemImg] placeholderImage:IMAGENAMED(@"home_btn_xiche")];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
     
@@ -256,7 +254,7 @@ CZJFilterControllerDelegate
     cell.productName.text = form.itemName;
     cell.productPrice.text = [rmb stringByAppendingString:form.currentPrice];
     cell.iconImageView.backgroundColor= CZJNAVIBARBGCOLOR;
-    [cell.iconImageView sd_setImageWithURL:[NSURL URLWithString:form.itemImg] placeholderImage:nil];
+    [cell.iconImageView sd_setImageWithURL:[NSURL URLWithString:form.itemImg] placeholderImage:IMAGENAMED(@"home_btn_xiche")];
     return cell;
 }
 

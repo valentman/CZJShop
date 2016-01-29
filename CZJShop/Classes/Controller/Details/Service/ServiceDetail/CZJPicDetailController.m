@@ -26,7 +26,7 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    DLog(@"CZJApplicableCarController");
+    DLog();
     NSString* apiType;
     if (CZJDetailTypeGoods == self.detaiViewType)
     {

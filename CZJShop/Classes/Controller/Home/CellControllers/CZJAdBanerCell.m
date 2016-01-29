@@ -8,7 +8,6 @@
 
 #import "CZJAdBanerCell.h"
 #import "HomeForm.h"
-#import "UIImageView+WebCache.h"
 
 @implementation CZJAdBanerCell
 

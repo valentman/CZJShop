@@ -14,7 +14,6 @@
 #import "CZJGoodsAttentionCell.h"
 #import "CZJStoreAttentionCell.h"
 #import "CZJStoreAttentionHeadCell.h"
-#import "UIImageView+WebCache.h"
 #import "CZJDetailViewController.h"
 #import "CZJStoreDetailController.h"
 @interface CZJMyInfoAttentionController ()
@@ -79,7 +78,7 @@ UITableViewDelegate
 
 - (void)initViews
 {
-    [CZJUtils customizeNavigationBarForTarget:self];
+    [CZJUtils customizeNavigationBarForTarget:self hiddenButton:YES];
     //右按钮
     UIButton *rightBtn = [[ UIButton alloc ] initWithFrame : CGRectMake(PJ_SCREEN_WIDTH - 59 , 0 , 44 , 44 )];
     [rightBtn setTitle:@"编辑" forState:UIControlStateNormal];
@@ -111,8 +110,6 @@ UITableViewDelegate
     NSArray * items = @[@"服务", @"商品", @"门店"];
     LXDSegmentControlConfiguration * scale = [LXDSegmentControlConfiguration configurationWithControlType: LXDSegmentControlTypeScaleTitle items: items];
     LXDSegmentControl * scaleControl = [LXDSegmentControl segmentControlWithFrame: frame configuration: scale delegate: self];
-
-//    [self edit:nil];
     
     
      self.naviBarView.delegate = self;
@@ -272,7 +269,7 @@ UITableViewDelegate
         if (0 == indexPath.row)
         {
             CZJStoreAttentionHeadCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJStoreAttentionHeadCell" forIndexPath:indexPath];
-            [cell.storeImg sd_setImageWithURL:[NSURL URLWithString:form.homeImg] placeholderImage:nil];
+            [cell.storeImg sd_setImageWithURL:[NSURL URLWithString:form.homeImg] placeholderImage:IMAGENAMED(@"home_btn_xiche")];
             cell.storeNameLabel.text = form.name;
             CGSize attentionSize = [CZJUtils calculateTitleSizeWithString:form.attentionCount AndFontSize:14];
             cell.attentionCountLabel.text = form.attentionCount;
@@ -294,7 +291,7 @@ UITableViewDelegate
     {
         CZJGoodsAttentionForm* form = tmpArray[indexPath.row];
         CZJGoodsAttentionCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJGoodsAttentionCell" forIndexPath:indexPath];
-        [cell.goodImg sd_setImageWithURL:[NSURL URLWithString:form.itemImg] placeholderImage:nil];
+        [cell.goodImg sd_setImageWithURL:[NSURL URLWithString:form.itemImg] placeholderImage:IMAGENAMED(@"home_btn_xiche")];
         
         CGSize nameSize = [CZJUtils calculateStringSizeWithString:form.itemName Font:SYSTEMFONT(15) Width:PJ_SCREEN_WIDTH - 116];
         cell.goodNameLabel.text = form.itemName;
@@ -430,27 +427,6 @@ UITableViewDelegate
         [self.myTableView reloadData];
     }
     VIEWWITHTAG(self.naviBarView, 1999).hidden = tmpArray.count == 0 ? YES : NO;
-}
-
-#pragma mark - CZJNaviagtionBarViewDelegate
-- (void)clickEventCallBack:(nullable id)sender
-{
-    UIButton* barButton = (UIButton*)sender;
-    switch (barButton.tag) {
-        case CZJButtonTypeNaviBarMore:
-            break;
-            
-        case CZJButtonTypeNaviBarBack:
-            [self.navigationController popViewControllerAnimated:true];
-            break;
-            
-        case CZJButtonTypeHomeShopping:
-            
-            break;
-            
-        default:
-            break;
-    }
 }
 
 #pragma mark - Navigation
