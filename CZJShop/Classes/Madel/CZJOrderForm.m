@@ -64,7 +64,6 @@
         self.totalSetupPrice = [dict valueForKey:@"totalSetupPrice"] ? [dict valueForKey:@"totalSetupPrice"] : @"0";
         self.selfFlag = [dict valueForKey:@"selfFlag"] ? [dict valueForKey:@"selfFlag"] : @"";
         self.hasCoupon = [dict valueForKey:@"hasCoupon"] ? [dict valueForKey:@"hasCoupon"] : @"";
-        
         self.gifts = [dict valueForKey:@"gifts"];
         NSArray* itemsAry = [dict valueForKey:@"items"];
         for (NSDictionary* goodDict in itemsAry)
@@ -110,6 +109,7 @@
         self.setmenuFlag = false;
         self.setupFlag = false;
         self.off = false;
+        self.counterKey = @"";
         return self;
     }
     return nil;
@@ -130,4 +130,45 @@
 {
     return @{@"coupons" : @"CZJShoppingCouponsForm"};
 }
+@end
+
+
+@implementation CZJOrderDetailForm
+
++ (NSDictionary *)objectClassInArray
+{
+    return @{@"items" : @"CZJOrderGoodsForm"};
+}
+
+- (instancetype)init
+{
+    if (self = [super init])
+    {
+        self.activityId = @"";
+        self.benefitMoney = @"";
+        self.companyId = @"";
+        self.couponPrice = @"";
+        self.createTime = @"";
+        self.evaluated = @"";
+        self.fullCutPrice = @"";
+        self.items = [NSMutableArray array];
+        self.note = @"";
+        self.orderMoney = @"";
+        self.orderNo = @"";
+        self.orderPoint = @"";
+        self.orderPrice = @"";
+        self.paidFlag = @"";
+        self.receiver = nil;
+        self.setupPrice = @"";
+        self.status = @"";
+        self.storeId = @"";
+        self.storeName = @"";
+        self.timeOver = @"";
+        self.transportPrice = @"";
+        self.type = @"";
+        return self;
+    }
+    return nil;
+}
+
 @end

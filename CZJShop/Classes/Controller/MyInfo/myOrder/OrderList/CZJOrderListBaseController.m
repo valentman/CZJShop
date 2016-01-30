@@ -8,9 +8,9 @@
 
 #import "CZJOrderListBaseController.h"
 #import "CZJBaseDataManager.h"
-#import "CZJOrderForm.h"
 #import "CZJOrderListCell.h"
 #import "PullTableView.h"
+#import "CZJMyOrderDetailController.h"
 
 @interface CZJOrderListBaseController ()
 <
@@ -18,6 +18,9 @@ UITableViewDataSource,
 UITableViewDelegate,
 PullTableViewDelegate
 >
+{
+
+}
 @property (strong, nonatomic)NSMutableArray* orderList;
 @property (strong, nonatomic)PullTableView* myTableView;
 @end
@@ -34,8 +37,6 @@ PullTableViewDelegate
 - (void)viewDidDisappear:(BOOL)animated
 {
     DLog();
-//    self.myTableView = nil;
-//    _orderList = nil;
 }
 
 - (void)initViews
@@ -44,6 +45,7 @@ PullTableViewDelegate
     _myTableView = [[PullTableView alloc]initWithFrame:viewRect style:UITableViewStylePlain];
     _myTableView.backgroundColor = CZJNAVIBARBGCOLOR;
     _myTableView.tableFooterView = [[UIView alloc]init];
+    _myTableView.bounces = YES;
     [self.view addSubview:_myTableView];
     
     UINib *nib = [UINib nibWithNibName:@"CZJOrderListCell" bundle:nil];
@@ -94,7 +96,7 @@ PullTableViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
+    [self.delegate clickOneOrder:_orderList[indexPath.section]];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -126,5 +128,6 @@ PullTableViewDelegate
         scrollView.contentInset = UIEdgeInsetsMake(-sectionHeaderHeight, 0, 0, 0);
     }
 }
+
 
 @end

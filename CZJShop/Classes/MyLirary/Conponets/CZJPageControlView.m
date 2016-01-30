@@ -128,6 +128,7 @@ UIScrollViewDelegate>
         [_pageController setViewControllers:@[[self.viewControllerArray objectAtIndex:nowTemp]] direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:^(BOOL finished) {
             if (finished) {
                 [weakSelf updateCurrentPageIndex:nowTemp];
+                [[NSNotificationCenter defaultCenter]postNotificationName:kCZJNotifikOrderListType object:nil userInfo:@{@"currentIndex" : [NSString stringWithFormat:@"%ld",nowTemp]}];
             }
         }];
     }
@@ -136,6 +137,7 @@ UIScrollViewDelegate>
         [_pageController setViewControllers:@[[self.viewControllerArray objectAtIndex:nowTemp]] direction:UIPageViewControllerNavigationDirectionReverse animated:YES completion:^(BOOL finished) {
             if (finished) {
                 [weakSelf updateCurrentPageIndex:nowTemp];
+                [[NSNotificationCenter defaultCenter]postNotificationName:kCZJNotifikOrderListType object:nil userInfo:@{@"currentIndex" : [NSString stringWithFormat:@"%ld",nowTemp]}];
             }
         }];
     }
@@ -149,6 +151,10 @@ UIScrollViewDelegate>
 //            [_pageController setViewControllers:@[[self.viewControllerArray objectAtIndex:i]] direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:^(BOOL finished) {
 //                if (finished) {
 //                    [weakSelf updateCurrentPageIndex:i];
+//                    if (i == nowTemp)
+//                    {
+//                        [[NSNotificationCenter defaultCenter]postNotificationName:kCZJNotifikOrderListType object:nil userInfo:@{@"currentIndex" : [NSString stringWithFormat:@"%ld",nowTemp]}];
+//                    }
 //                }
 //            }];
 //        }
@@ -157,6 +163,10 @@ UIScrollViewDelegate>
 //            [_pageController setViewControllers:@[[self.viewControllerArray objectAtIndex:i]] direction:UIPageViewControllerNavigationDirectionReverse animated:YES completion:^(BOOL finished) {
 //                if (finished) {
 //                    [weakSelf updateCurrentPageIndex:i];
+//                    if (i == nowTemp)
+//                    {
+//                        [[NSNotificationCenter defaultCenter]postNotificationName:kCZJNotifikOrderListType object:nil userInfo:@{@"currentIndex" : [NSString stringWithFormat:@"%ld",nowTemp]}];
+//                    }
 //                }
 //            }];
 //        }
@@ -221,8 +231,8 @@ UIScrollViewDelegate>
     if (completed) {
         _currentPageIndex = [self indexOfController:[pageViewController.viewControllers lastObject]];
         [self updateCurrentPageIndex:_currentPageIndex];
+        [[NSNotificationCenter defaultCenter]postNotificationName:kCZJNotifikOrderListType object:nil userInfo:@{@"currentIndex" : [NSString stringWithFormat:@"%ld",_currentPageIndex]}];
         NSLog(@"当前界面是界面=== %ld",_currentPageIndex);
-        
     }
 }
 

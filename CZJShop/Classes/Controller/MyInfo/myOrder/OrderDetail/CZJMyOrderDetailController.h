@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface CZJMyOrderDetailController : UIViewController
-
+@property (strong,  nonatomic)NSString* orderNo;
 @end

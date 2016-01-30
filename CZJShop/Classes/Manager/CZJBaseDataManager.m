@@ -105,7 +105,7 @@ singleton_implementation(CZJBaseDataManager);
         [[CZJErrorCodeManager sharedCZJErrorCodeManager] ShowErrorInfoWithErrorCode:msgKey];
         return NO;
     }
-//    DLog(@"网络返回数据：%@", [dict description]);
+    DLog(@"网络返回数据：%@", [dict description]);
     return YES;
 }
 
@@ -1390,6 +1390,32 @@ singleton_implementation(CZJBaseDataManager);
     [params setValuesForKeysWithDictionary:postParams];
     
     [CZJNetWorkInstance postJSONWithUrl:kCZJServerAPIGetOrderList
+                             parameters:params
+                                success:successBlock
+                                   fail:failBlock];
+}
+
+
+- (void)getOrderDetail:(NSDictionary*)postParams
+               Success:(CZJSuccessBlock)success
+                  fail:(CZJFailureBlock)fail
+{
+    CZJSuccessBlock successBlock = ^(id json){
+        if ([self showAlertView:json])
+        {
+            success(json);
+        }
+    };
+    
+    CZJFailureBlock failBlock = ^(){
+        [[CZJErrorCodeManager sharedCZJErrorCodeManager] ShowNetError];
+    };
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [params setValuesForKeysWithDictionary:self.params];
+    [params setValuesForKeysWithDictionary:postParams];
+    
+    [CZJNetWorkInstance postJSONWithUrl:kCZJServerAPIGetOrderDetail
                              parameters:params
                                 success:successBlock
                                    fail:failBlock];

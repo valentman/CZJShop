@@ -29,6 +29,7 @@
 #import "CZJViewController.h"
 #import "CZJNaviagtionBarView.h"
 
+#import "CALayer+UIColor.h"
 #import "UIView+Frame.h"
 #import "UIView+RGSize.h"
 #import "UIImageView+WebCache.h"

@@ -285,6 +285,11 @@ singleton_interface(CZJBaseDataManager);
              Success:(CZJSuccessBlock)success
                 fail:(CZJFailureBlock)fail;
 
+//获取订单详情
+- (void)getOrderDetail:(NSDictionary*)postParams
+               Success:(CZJSuccessBlock)success
+                  fail:(CZJFailureBlock)fail;
+
 
 //-------------------------个人信息中心------------------------------
 //获取用户信息详情

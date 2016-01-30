@@ -9,6 +9,7 @@
 #import "CZJMyInformationController.h"
 #import "CZJMyInfoHeadCell.h"
 #import "CZJMyInfoShoppingCartCell.h"
+#import "CZJMyInfoOrderListController.h"
 #import "CZJGeneralCell.h"
 #import "CZJGeneralSubCell.h"
 #import "CZJBaseDataManager.h"
@@ -29,6 +30,7 @@ CZJViewControllerDelegate
 {
     NSArray* orderSubCellAry;           //订单cell下子项数组
     NSArray* walletSubCellAry;          //我的钱包下子项数组
+    NSInteger _currentTouchOrderListType;
 }
 @property (weak, nonatomic) IBOutlet UITableView *myInfoTableView;
 
@@ -142,6 +144,7 @@ CZJViewControllerDelegate
 - (void)viewDidAppear:(BOOL)animated
 {
     self.navigationController.navigationBarHidden = NO;
+    _currentTouchOrderListType = 0;
     DLog();
 }
 
@@ -204,6 +207,7 @@ CZJViewControllerDelegate
         else
         {
             CZJGeneralSubCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJGeneralSubCell" forIndexPath:indexPath];
+            cell.delegate = self;
             [cell setGeneralSubCell:orderSubCellAry andType:kCZJGeneralSubCellTypeOrder];
             return cell;
         }
@@ -222,6 +226,7 @@ CZJViewControllerDelegate
         else
         {
             CZJGeneralSubCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJGeneralSubCell" forIndexPath:indexPath];
+            cell.delegate = self;
             [cell setGeneralSubCell:walletSubCellAry andType:kCZJGeneralSubCellTypeWallet];
             return cell;
         }
@@ -362,9 +367,25 @@ CZJViewControllerDelegate
 }
 
 #pragma mark- CZJGeneralSubCellDelegate
-- (void)clickSubCellButton:(UIButton*)button
+- (void)clickSubCellButton:(UIButton*)button andType:(int)subType
 {
-    
+    _currentTouchOrderListType = button.tag;
+    if (kCZJGeneralSubCellTypeOrder == subType)
+    {//订单
+        if (_currentTouchOrderListType < 5)
+        {
+            [self performSegueWithIdentifier:@"segueToMyOrderList" sender:self];
+        }
+        else
+        {
+            [self performSegueWithIdentifier:@"segueToMyReturnedList" sender:self];
+        }
+    }
+    else
+    {//钱包
+        
+    }
+
 }
 
 
@@ -441,7 +462,11 @@ CZJViewControllerDelegate
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-
+    if ([segue.identifier isEqualToString:@"segueToMyOrderList"])
+    {
+        CZJMyInfoOrderListController* orderListVC = segue.destinationViewController;
+        orderListVC.orderListTypeIndex = _currentTouchOrderListType;
+    }
 }
 
 

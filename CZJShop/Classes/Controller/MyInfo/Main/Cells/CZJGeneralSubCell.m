@@ -81,6 +81,6 @@
 
 - (IBAction)btnAction:(id)sender
 {
-    [self.delegate clickSubCellButton:sender];
+    [self.delegate clickSubCellButton:sender andType:cellType];
 }
 @end

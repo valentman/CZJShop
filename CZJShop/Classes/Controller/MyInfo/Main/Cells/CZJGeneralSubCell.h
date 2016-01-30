@@ -12,7 +12,7 @@
 
 @protocol CZJGeneralSubCellDelegate <NSObject>
 
-- (void)clickSubCellButton:(UIButton*)button;
+- (void)clickSubCellButton:(UIButton*)button andType:(int)subType;
 
 @end
 

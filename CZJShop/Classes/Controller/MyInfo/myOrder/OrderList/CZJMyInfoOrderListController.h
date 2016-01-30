@@ -10,4 +10,5 @@
 
 @interface CZJMyInfoOrderListController : CZJViewController
 
+@property (assign, nonatomic)NSInteger orderListTypeIndex;
 @end

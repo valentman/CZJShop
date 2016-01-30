@@ -16,16 +16,20 @@
 #import "CZJOrderListNoBuildController.h"
 #import "CZJOrderListNoReceiveController.h"
 #import "CZJOrderListNoEvaController.h"
+#import "CZJMyOrderDetailController.h"
 
 @interface CZJMyInfoOrderListController ()
 <
-NIDropDownDelegate
+NIDropDownDelegate,
+CZJOrderListDelegate
 >
 {
     NIDropDown *dropDown;
+    CZJOrderListForm* currentTouchedOrderListForm;
 //    UIButton *rightBtn;
 }
 @property (strong, nonatomic) UIView *backgroundView;
+
 @end
 
 @implementation CZJMyInfoOrderListController
@@ -34,6 +38,25 @@ NIDropDownDelegate
     [super viewDidLoad];
     [self addCZJNaviBarView:CZJNaviBarViewTypeGeneral];
     [self initViews];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateDateIntervalButton:) name:kCZJNotifikOrderListType object:nil];
+}
+
+- (void)updateDateIntervalButton:(NSNotification*)notif
+{
+    NSString* index = [notif.userInfo objectForKey:@"currentIndex"];
+    if ([index isEqualToString:@"0"])
+    {
+        VIEWWITHTAG(self.naviBarView, 2999).hidden = NO;
+    }
+    else
+    {
+        VIEWWITHTAG(self.naviBarView, 2999).hidden = YES;
+    }
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kCZJNotifikOrderListType object:nil];
 }
 
 - (void)initViews
@@ -50,15 +73,21 @@ NIDropDownDelegate
     rightBtn.titleLabel.font = SYSTEMFONT(16);
     [self.naviBarView addSubview:rightBtn];
     [rightBtn addTarget:self action:@selector(edit:) forControlEvents:UIControlEventTouchUpInside];
+
     
     CZJOrderListAllController* allVC = [[CZJOrderListAllController alloc]init];
+    allVC.delegate = self;
     CZJOrderListNoPayController* nopayVC = [[CZJOrderListNoPayController alloc]init];
+    nopayVC.delegate = self;
     CZJOrderListNoBuildController* nobuildVC = [[CZJOrderListNoBuildController alloc]init];
+    nobuildVC.delegate = self;
     CZJOrderListNoReceiveController* noReceiveVC = [[CZJOrderListNoReceiveController alloc]init];
+    noReceiveVC.delegate =  self;
     CZJOrderListNoEvaController* noEvaVC = [[CZJOrderListNoEvaController alloc]init];
+    noEvaVC.delegate = self;
     
     CGRect pageViewFrame = CGRectMake(0, StatusBar_HEIGHT + NavigationBar_HEIGHT, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - StatusBar_HEIGHT);
-    CZJPageControlView* pageview = [[CZJPageControlView alloc]initWithFrame:pageViewFrame andPageIndex:0];
+    CZJPageControlView* pageview = [[CZJPageControlView alloc]initWithFrame:pageViewFrame andPageIndex:_orderListTypeIndex];
     [pageview setTitleArray:@[@"全部",@"待付款",@"待施工",@"待收货",@"待评价"] andVCArray:@[allVC, nopayVC, nobuildVC,noReceiveVC, noEvaVC]];
     pageview.backgroundColor = CZJNAVIBARBGCOLOR;
     [self.view addSubview:pageview];
@@ -99,16 +128,6 @@ NIDropDownDelegate
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
-
 #pragma mark- NIDropDownDelegate
 - (void) niDropDownDelegateMethod:(NSString*)btnStr
 {
@@ -118,4 +137,21 @@ NIDropDownDelegate
     [self tapBackground:nil];
 }
 
+#pragma mark -CZJOrderListDelegate
+- (void)clickOneOrder:(CZJOrderListForm *)orderListForm
+{
+    currentTouchedOrderListForm = orderListForm;
+    [self performSegueWithIdentifier:@"segueToOrderDetail" sender:self];
+}
+
+
+#pragma mark - Navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"segueToOrderDetail"])
+    {
+        CZJMyOrderDetailController* orderDetailVC = segue.destinationViewController;
+        [orderDetailVC setOrderNo:currentTouchedOrderListForm.orderNo];
+    }
+}
 @end

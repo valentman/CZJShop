@@ -7,16 +7,40 @@
 //
 
 #import "CZJMyOrderDetailController.h"
+#import "CZJBaseDataManager.h"
+#import "CZJOrderForm.h"
 
 @interface CZJMyOrderDetailController ()
-
+{
+    CZJOrderDetailForm* orderDetailForm;
+}
+@property (weak, nonatomic) IBOutlet UITableView *myTableView;
 @end
 
 @implementation CZJMyOrderDetailController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    [self initViews];
+    [self getOrderDetailFromServer];
+}
+
+- (void)initViews
+{
+    self.myTableView.tableFooterView = [[UIView alloc]init];
+    
+}
+
+- (void)getOrderDetailFromServer
+{
+    NSDictionary* params = @{@"orderNo":self.orderNo};
+    [CZJBaseDataInstance getOrderDetail:params Success:^(id json) {
+        NSDictionary* dict = [[CZJUtils DataFromJson:json] valueForKey:@"msg"];
+        orderDetailForm = [CZJOrderDetailForm objectWithKeyValues:dict];
+        
+    } fail:^{
+        
+    }];
 }
 
 - (void)didReceiveMemoryWarning {

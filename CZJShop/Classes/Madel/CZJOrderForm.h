@@ -47,6 +47,7 @@
 @property(strong, nonatomic)NSString* orderNo;
 @property(strong, nonatomic)NSString* status;
 @property(assign, nonatomic)BOOL paidFlag;
+@property(assign, nonatomic)BOOL onlineFlag;
 @property(strong, nonatomic)NSString* storeId;
 @property(strong, nonatomic)NSString* storeName;
 @property(strong, nonatomic)NSString* type;
@@ -73,6 +74,7 @@
 @property(strong, nonatomic)NSString* returnStatus;             //1等待卖家同意  2卖家已同意，请寄回商品 3等待卖家收货 4退换货成功
 @property(strong, nonatomic)NSString* setupPrice;               //安装费
 @property(strong, nonatomic)NSString* orderItemPid;
+@property(strong, nonatomic)NSString* counterKey;               //
 
 @end
 
@@ -100,4 +102,31 @@
 @property (strong, nonatomic)NSString* storeName;
 @property (strong, nonatomic)NSString* selectedCouponId;
 @property (assign) BOOL isSelfFlag;
+@end
+
+
+@interface CZJOrderDetailForm : NSObject
+@property (strong, nonatomic)NSString*  activityId;
+@property (strong, nonatomic)NSString*  benefitMoney;
+@property (strong, nonatomic)NSString*  companyId;
+@property (strong, nonatomic)NSString*  couponPrice;
+@property (strong, nonatomic)NSString*  createTime;
+@property (strong, nonatomic)NSString*  evaluated;
+@property (strong, nonatomic)NSString*  fullCutPrice;
+@property (strong, nonatomic)NSMutableArray*  items;
+@property (strong, nonatomic)NSString*  note;
+@property (strong, nonatomic)NSString*  orderMoney;
+@property (strong, nonatomic)NSString*  orderNo;
+@property (strong, nonatomic)NSString*  orderPoint;
+@property (strong, nonatomic)NSString*  orderPrice;
+@property (strong, nonatomic)NSString*  paidFlag;
+@property (strong, nonatomic)CZJAddrForm*  receiver;
+@property (strong, nonatomic)NSString*  setupPrice;
+@property (strong, nonatomic)NSString*  status;
+@property (strong, nonatomic)NSString*  storeId;
+@property (strong, nonatomic)NSString*  storeName;
+@property (strong, nonatomic)NSString*  timeOver;
+@property (strong, nonatomic)NSString*  transportPrice;
+@property (strong, nonatomic)NSString*  type;
+
 @end

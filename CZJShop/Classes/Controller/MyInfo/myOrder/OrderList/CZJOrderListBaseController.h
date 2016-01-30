@@ -7,11 +7,19 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CZJOrderForm.h"
+
+@protocol CZJOrderListDelegate <NSObject>
+
+- (void)clickOneOrder:(CZJOrderListForm*)orderListForm;
+
+@end
 
 @interface CZJOrderListBaseController : UIViewController
 {
     NSDictionary* _params;
 }
 @property (strong, nonatomic)NSDictionary* params;
+@property (weak, nonatomic)id<CZJOrderListDelegate> delegate;
 - (void)getOrderListFromServer;
 @end
