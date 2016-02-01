@@ -22,6 +22,7 @@
 <
 NIDropDownDelegate,
 CZJOrderListDelegate
+
 >
 {
     NIDropDown *dropDown;
@@ -36,7 +37,6 @@ CZJOrderListDelegate
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self addCZJNaviBarView:CZJNaviBarViewTypeGeneral];
     [self initViews];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateDateIntervalButton:) name:kCZJNotifikOrderListType object:nil];
 }
@@ -61,7 +61,10 @@ CZJOrderListDelegate
 
 - (void)initViews
 {
+    [self addCZJNaviBarView:CZJNaviBarViewTypeGeneral];
+    self.naviBarView.mainTitleLabel.text = @"我的订单";
     [CZJUtils customizeNavigationBarForTarget:self hiddenButton:YES];
+    
     //右按钮
     UIButton* rightBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     rightBtn.frame = CGRectMake(PJ_SCREEN_WIDTH - 100 , 0 , 100 , 44 );
@@ -73,7 +76,14 @@ CZJOrderListDelegate
     rightBtn.titleLabel.font = SYSTEMFONT(16);
     [self.naviBarView addSubview:rightBtn];
     [rightBtn addTarget:self action:@selector(edit:) forControlEvents:UIControlEventTouchUpInside];
-
+    if (0 == _orderListTypeIndex)
+    {
+        rightBtn.hidden = NO;
+    }
+    else
+    {
+        rightBtn.hidden = YES;
+    }
     
     CZJOrderListAllController* allVC = [[CZJOrderListAllController alloc]init];
     allVC.delegate = self;
@@ -142,6 +152,44 @@ CZJOrderListDelegate
 {
     currentTouchedOrderListForm = orderListForm;
     [self performSegueWithIdentifier:@"segueToOrderDetail" sender:self];
+}
+
+- (void)clickOrderListCellButton:(CZJOrderListCellButtonType)buttonType andOrderForm:(CZJOrderListForm*)orderListForm
+{
+    currentTouchedOrderListForm = orderListForm;
+    switch (buttonType)
+    {
+        case CZJOrderListCellBtnTypeReturnAble:
+            DLog(@"可退换货列表");
+            break;
+        case CZJOrderListCellBtnTypeConfirm:
+             DLog(@"确认收货");
+            break;
+        case CZJOrderListCellBtnTypeCheckCar:
+            [self performSegueWithIdentifier:@"segueToCarCheck" sender:self];
+            DLog(@"查看车况");
+            break;
+        case CZJOrderListCellBtnTypeShowBuildingPro:
+            [self performSegueWithIdentifier:@"segueToBuildingProgress" sender:self];
+            DLog(@"查看施工进度");
+            break;
+        case CZJOrderListCellBtnTypeCancel:
+            DLog(@"取消订单");
+            break;
+        case CZJOrderListCellBtnTypePay:
+            DLog(@"付款");
+            break;
+        case CZJOrderListCellBtnTypeGoEvaluate:
+            [self performSegueWithIdentifier:@"segueToEvaluate" sender:self];
+            DLog(@"去评价");
+            break;
+        case CZJOrderListCellBtnTypeSelectToPay:
+            DLog(@"选中未付款项");
+            break;
+            
+        default:
+            break;
+    }
 }
 
 

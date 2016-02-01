@@ -9,12 +9,27 @@
 #import "CZJMyOrderDetailController.h"
 #import "CZJBaseDataManager.h"
 #import "CZJOrderForm.h"
+#import "CZJOrderDetailCell.h"
+#import "CZJDeliveryAddrCell.h"
+
 
 @interface CZJMyOrderDetailController ()
+<
+UITableViewDataSource,
+UITableViewDelegate
+>
 {
     CZJOrderDetailForm* orderDetailForm;
 }
 @property (weak, nonatomic) IBOutlet UITableView *myTableView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *separatorViewHeight;
+
+@property (weak, nonatomic) IBOutlet UIView *buildProgressView;
+@property (weak, nonatomic) IBOutlet UIView *noReceiveView;
+@property (weak, nonatomic) IBOutlet UIView *cancelOrderView;
+@property (weak, nonatomic) IBOutlet UIView *carCheckView;
+@property (weak, nonatomic) IBOutlet UIView *goEvaluateView;
+@property (weak, nonatomic) IBOutlet UIView *returnedDetailView;
 @end
 
 @implementation CZJMyOrderDetailController
@@ -28,7 +43,22 @@
 - (void)initViews
 {
     self.myTableView.tableFooterView = [[UIView alloc]init];
+    self.myTableView.delegate = self;
+    self.myTableView.dataSource = self;
     
+    self.separatorViewHeight.constant = 0.5;
+    
+    NSArray* nibArys = @[@"CZJOrderDetailCell",
+                         @"CZJDeliveryAddrCell"
+                         ];
+    
+    for (id cells in nibArys) {
+        UINib *nib=[UINib nibWithNibName:cells bundle:nil];
+        [self.myTableView registerNib:nib forCellReuseIdentifier:cells];
+    }
+    
+    [self addCZJNaviBarView:CZJNaviBarViewTypeGeneral];
+    self.naviBarView.mainTitleLabel.text = @"订单详情";
 }
 
 - (void)getOrderDetailFromServer
@@ -37,7 +67,7 @@
     [CZJBaseDataInstance getOrderDetail:params Success:^(id json) {
         NSDictionary* dict = [[CZJUtils DataFromJson:json] valueForKey:@"msg"];
         orderDetailForm = [CZJOrderDetailForm objectWithKeyValues:dict];
-        
+        [self.myTableView reloadData];
     } fail:^{
         
     }];
@@ -48,14 +78,110 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+#pragma mark-UITableViewDataSource
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 1;
 }
-*/
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    if (0 == section)
+    {
+        return 1 + (orderDetailForm.receiver.receiver == nil ? 0 : 1);
+    }
+    if (1 == section)
+    {
+        return  4 + orderDetailForm.items.count;
+    }
+    return 3;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (0 == indexPath.section)
+    {
+        if (0 == indexPath.row)
+        {
+            CZJOrderDetailCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJOrderDetailCell" forIndexPath:indexPath];
+            cell.orderNoLabel.text = orderDetailForm.orderNo;
+            cell.orderTimeLabel.text = orderDetailForm.createTime;
+            
+            
+            
+            return cell;
+        }
+        else if (1 == indexPath.row)
+        {
+            CZJDeliveryAddrCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJDeliveryAddrCell" forIndexPath:indexPath];
+            cell.deliveryNameLabel.text = orderDetailForm.receiver.receiver;
+            cell.deliveryAddrLabel.text = orderDetailForm.receiver.addr;
+            cell.contactNumLabel.text = orderDetailForm.receiver.mobile;
+            cell.defaultLabel.hidden = YES;
+            cell.deliveryAddrLayoutLeading.constant = 41;
+            cell.commitNextArrowImg.hidden = YES;
+            return cell;
+        }
+    }
+    
+    return nil;
+}
+
+#pragma mark-UITableViewDelegate
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (0 == indexPath.section)
+    {
+        if (0 == indexPath.row)
+        {
+            return 175;
+        }
+        if (1 == indexPath.row)
+        {
+
+                return 85;
+        }
+    }
+    if (1 == indexPath.section)
+    {
+        
+    }
+    return 0;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    if (0 == section)
+    {
+        return 0;
+    }
+    return 10;
+}
+
+//去掉tableview中section的headerview粘性
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    CGFloat sectionHeaderHeight = 40;
+    if (scrollView.contentOffset.y<=sectionHeaderHeight&&scrollView.contentOffset.y>=0) {
+        scrollView.contentInset = UIEdgeInsetsMake(-scrollView.contentOffset.y, 0, 0, 0);
+    }
+    else if (scrollView.contentOffset.y>=sectionHeaderHeight) {
+        scrollView.contentInset = UIEdgeInsetsMake(-sectionHeaderHeight, 0, 0, 0);
+    }
+}
+
+
+#pragma mark - Navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    
+}
+
 
 @end

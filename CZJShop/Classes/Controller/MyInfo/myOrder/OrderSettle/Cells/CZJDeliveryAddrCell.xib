@@ -3,7 +3,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -64,7 +63,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="四川省" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Zz-UF-2Kz">
-                        <rect key="frame" x="79" y="53" width="300" height="16"/>
+                        <rect key="frame" x="81" y="53" width="300" height="16"/>
                         <animations/>
                         <constraints>
                             <constraint firstAttribute="height" constant="16" id="Q4c-tB-Rsw"/>
@@ -85,7 +84,7 @@
                     <constraint firstAttribute="trailing" secondItem="tkb-kF-Jf8" secondAttribute="trailing" constant="31" id="ZIh-rh-FBm"/>
                     <constraint firstItem="Wtm-MP-ueS" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="b9P-iv-a0k"/>
                     <constraint firstItem="W5e-ZG-uSM" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="41" id="mDU-kk-siA"/>
-                    <constraint firstItem="9Zz-UF-2Kz" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="71" id="rxd-GM-cr0"/>
+                    <constraint firstItem="9Zz-UF-2Kz" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="81" id="rxd-GM-cr0"/>
                     <constraint firstItem="Wtm-MP-ueS" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="xfb-CZ-esv"/>
                     <constraint firstAttribute="trailing" secondItem="3Es-jg-FZ5" secondAttribute="trailing" constant="15" id="yEG-O7-9Rc"/>
                     <constraint firstAttribute="bottom" secondItem="9Zz-UF-2Kz" secondAttribute="bottom" constant="15" id="yLf-NT-X5v"/>
@@ -93,6 +92,7 @@
             </tableViewCellContentView>
             <animations/>
             <connections>
+                <outlet property="commitNextArrowImg" destination="3Es-jg-FZ5" id="TeL-MG-ZsV"/>
                 <outlet property="contactNumLabel" destination="tkb-kF-Jf8" id="mlj-ls-CMa"/>
                 <outlet property="defaultLabel" destination="W5e-ZG-uSM" id="Nps-5T-7pY"/>
                 <outlet property="deliveryAddrLabel" destination="9Zz-UF-2Kz" id="k5A-Yh-X9E"/>

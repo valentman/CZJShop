@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CZJMyOrderDetailController : UIViewController
+@interface CZJMyOrderDetailController : CZJViewController
 @property (strong,  nonatomic)NSString* orderNo;
 @end

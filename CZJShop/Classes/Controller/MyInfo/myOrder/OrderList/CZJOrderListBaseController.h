@@ -8,10 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import "CZJOrderForm.h"
+#import "CZJOrderListCell.h"
 
 @protocol CZJOrderListDelegate <NSObject>
 
 - (void)clickOneOrder:(CZJOrderListForm*)orderListForm;
+- (void)clickOrderListCellButton:(CZJOrderListCellButtonType)buttonType andOrderForm:(CZJOrderListForm*)orderListForm;
 
 @end
 
@@ -21,5 +23,6 @@
 }
 @property (strong, nonatomic)NSDictionary* params;
 @property (weak, nonatomic)id<CZJOrderListDelegate> delegate;
+
 - (void)getOrderListFromServer;
 @end

@@ -10,6 +10,9 @@
 
 
 @interface CZJOrderListCell ()
+{
+    CZJOrderListForm* _currentListForm;
+}
 @property (weak, nonatomic) IBOutlet UIView *storeNameView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *storeNameViewLeading;
 @property (weak, nonatomic) IBOutlet UIView *separatorOne;
@@ -42,15 +45,22 @@
 
 @property (weak, nonatomic) IBOutlet UIButton *viewBuildingProgressBtn;
 
+//可退换货列表按钮
 - (IBAction)returnGoodsAction:(id)sender;
-- (IBAction)showLogisticsInfoAction:(id)sender;
+//确认收货按钮
 - (IBAction)confirmReceiveGoodsAction:(id)sender;
+//查看车检情况按钮
 - (IBAction)checkCarConditionAction:(id)sender;
+//查看施工进度按钮
 - (IBAction)showBuildProgressAction:(id)sender;
+//取消订单按钮
 - (IBAction)cancelOrderAction:(id)sender;
+//付款按钮
 - (IBAction)payAction:(id)sender;
-- (IBAction)cancelBuildOrderAction:(id)sender;
+//去评价按钮
 - (IBAction)goEvalutionAction:(id)sender;
+//待付款选项选择按钮
+- (IBAction)noPaySelectAction:(id)sender;
 
 
 @end
@@ -71,6 +81,7 @@
 
 - (void)setCellModelWithType:(CZJOrderListForm*)listForm andType:(CZJOrderType)orderType
 {
+    _currentListForm = listForm;
     //先全部初始化隐藏
     self.noReceiveButtomView.hidden = YES;
     self.buildingNoPaidButtomView.hidden = YES;
@@ -115,8 +126,6 @@
         self.priceLabelWidth.constant = priceSize.width + 5;
         self.numLabel.text = [NSString stringWithFormat:@"×%@",goodsForm.itemCount];
     }
-    
-    
     
     if (!listForm.paidFlag)
     {
@@ -254,39 +263,41 @@
 
 - (IBAction)returnGoodsAction:(id)sender
 {
-}
-
-- (IBAction)showLogisticsInfoAction:(id)sender
-{
+    [self.delegate clickOrderListCellAction:CZJOrderListCellBtnTypeReturnAble andOrderForm:_currentListForm];
 }
 
 - (IBAction)confirmReceiveGoodsAction:(id)sender
 {
+    [self.delegate clickOrderListCellAction:CZJOrderListCellBtnTypeConfirm andOrderForm:_currentListForm];
 }
 
 - (IBAction)checkCarConditionAction:(id)sender
 {
+    [self.delegate clickOrderListCellAction:CZJOrderListCellBtnTypeCheckCar andOrderForm:_currentListForm];
 }
 
 - (IBAction)showBuildProgressAction:(id)sender
 {
+    [self.delegate clickOrderListCellAction:CZJOrderListCellBtnTypeShowBuildingPro andOrderForm:_currentListForm];
 }
 
 - (IBAction)cancelOrderAction:(id)sender
 {
-    
+    [self.delegate clickOrderListCellAction:CZJOrderListCellBtnTypeCancel andOrderForm:_currentListForm];
 }
 
 - (IBAction)payAction:(id)sender
 {
-}
-
-- (IBAction)cancelBuildOrderAction:(id)sender
-{
-    
+    [self.delegate clickOrderListCellAction:CZJOrderListCellBtnTypePay andOrderForm:_currentListForm];
 }
 
 - (IBAction)goEvalutionAction:(id)sender
 {
+    [self.delegate clickOrderListCellAction:CZJOrderListCellBtnTypeGoEvaluate andOrderForm:_currentListForm];
+}
+
+- (IBAction)noPaySelectAction:(id)sender
+{
+    [self.delegate clickOrderListCellAction:CZJOrderListCellBtnTypeSelectToPay andOrderForm:_currentListForm];
 }
 @end

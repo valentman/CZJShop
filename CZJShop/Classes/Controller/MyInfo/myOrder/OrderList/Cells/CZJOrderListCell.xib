@@ -25,6 +25,9 @@
                         <inset key="contentEdgeInsets" minX="5" minY="0.0" maxX="0.0" maxY="0.0"/>
                         <state key="normal" image="commit_btn_circle.png"/>
                         <state key="selected" image="commit_btn_circle_sel.png"/>
+                        <connections>
+                            <action selector="noPaySelectAction:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="Bpr-e9-bwE"/>
+                        </connections>
                     </button>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YBr-jZ-2wk" userLabel="storeNameView">
                         <rect key="frame" x="0.0" y="0.0" width="220" height="46"/>
@@ -275,7 +278,7 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                                 <connections>
-                                    <action selector="checkCarConditionAction:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="A53-mv-Dlg"/>
+                                    <action selector="showBuildProgressAction:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="Eb3-Ma-ldQ"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pBS-q9-ece">
@@ -301,7 +304,7 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                                 <connections>
-                                    <action selector="showBuildProgressAction:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="afx-wZ-Vfg"/>
+                                    <action selector="payAction:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="070-yY-sgb"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -431,7 +434,7 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                                 <connections>
-                                    <action selector="showBuildProgressAction:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="oA8-oh-jFw"/>
+                                    <action selector="cancelOrderAction:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="coS-R6-LXF"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -535,7 +538,7 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                                 <connections>
-                                    <action selector="cancelBuildOrderAction:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="abI-mD-m3V"/>
+                                    <action selector="cancelOrderAction:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="ztH-eS-D42"/>
                                 </connections>
                             </button>
                         </subviews>

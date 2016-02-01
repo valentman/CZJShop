@@ -8,7 +8,6 @@
 
 #import "CZJOrderListBaseController.h"
 #import "CZJBaseDataManager.h"
-#import "CZJOrderListCell.h"
 #import "PullTableView.h"
 #import "CZJMyOrderDetailController.h"
 
@@ -16,7 +15,8 @@
 <
 UITableViewDataSource,
 UITableViewDelegate,
-PullTableViewDelegate
+PullTableViewDelegate,
+CZJOrderListCellDelegate
 >
 {
 
@@ -85,6 +85,7 @@ PullTableViewDelegate
 {
     CZJOrderListCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJOrderListCell" forIndexPath:indexPath];
     [cell setCellModelWithType:_orderList[indexPath.section] andType:[[_params valueForKey:@"type"] integerValue]];
+    cell.delegate = self;
     return cell;
 }
 
@@ -130,4 +131,9 @@ PullTableViewDelegate
 }
 
 
+#pragma mark- CZJOrderListCellDelegate
+- (void)clickOrderListCellAction:(CZJOrderListCellButtonType)buttonType andOrderForm:(CZJOrderListForm*)orderListForm
+{
+    [self.delegate clickOrderListCellButton:buttonType andOrderForm:orderListForm];
+}
 @end
