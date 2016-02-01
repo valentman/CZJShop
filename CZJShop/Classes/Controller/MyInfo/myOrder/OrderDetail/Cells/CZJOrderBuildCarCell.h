@@ -9,5 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface CZJOrderBuildCarCell : UITableViewCell
+@property (weak, nonatomic) IBOutlet UIImageView *carBrandImg;
+@property (weak, nonatomic) IBOutlet UILabel *myCarInfoLabel;
+@property (weak, nonatomic) IBOutlet UILabel *myCarModelLabel;
 
 @end

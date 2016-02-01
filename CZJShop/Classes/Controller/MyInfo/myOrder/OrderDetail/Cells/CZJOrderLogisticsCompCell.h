@@ -10,4 +10,5 @@
 
 @interface CZJOrderLogisticsCompCell : UITableViewCell
 
+@property (weak, nonatomic) IBOutlet UILabel *logisticsNoLabel;
 @end

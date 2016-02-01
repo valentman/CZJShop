@@ -68,6 +68,88 @@ UITableViewDelegate
         NSDictionary* dict = [[CZJUtils DataFromJson:json] valueForKey:@"msg"];
         orderDetailForm = [CZJOrderDetailForm objectWithKeyValues:dict];
         [self.myTableView reloadData];
+        
+        if (!orderDetailForm.paidFlag)
+        {
+            //区分是服务和商品：type==0为商品，type==1为服务
+            if (0 == [orderDetailForm.type integerValue])
+            {
+                if (0 == [orderDetailForm.status integerValue])
+                {
+                }
+                else if (1 == [orderDetailForm.status integerValue])
+                {
+                }
+                else if (2 == [orderDetailForm.status integerValue])
+                {
+                }
+                else if (3 == [orderDetailForm.status integerValue])
+                {
+                }
+                else if (4 == [orderDetailForm.status integerValue])
+                {
+                }
+            }
+            else if (1 == [orderDetailForm.type integerValue])
+            {
+                if (0 == [orderDetailForm.status integerValue])
+                {
+                }
+                else if (1 == [orderDetailForm.status integerValue])
+                {
+                }
+                else if (2 == [orderDetailForm.status integerValue])
+                {
+                }
+                else if (3 == [orderDetailForm.status integerValue])
+                {
+                }
+                else if (4 == [orderDetailForm.status integerValue])
+                {
+                }
+            }
+        }
+        else
+        {
+            if (0 == [orderDetailForm.type integerValue])
+            {
+                if (0 == [orderDetailForm.status integerValue])
+                {
+                }
+                else if (1 == [orderDetailForm.status integerValue])
+                {
+                }
+                else if (2 == [orderDetailForm.status integerValue])
+                {
+                }
+                else if (3 == [orderDetailForm.status integerValue])
+                {
+                }
+                else if (4 == [orderDetailForm.status integerValue])
+                {
+                }
+            }
+            else if (1 == [orderDetailForm.type integerValue])
+            {
+                if (0 == [orderDetailForm.status integerValue])
+                {
+                }
+                else if (1 == [orderDetailForm.status integerValue])
+                {
+                }
+                else if (2 == [orderDetailForm.status integerValue])
+                {
+                }
+                else if (3 == [orderDetailForm.status integerValue])
+                {
+                }
+                else if (4 == [orderDetailForm.status integerValue])
+                {
+                }
+            }
+        }
+
+        
     } fail:^{
         
     }];
@@ -145,7 +227,39 @@ UITableViewDelegate
     }
     if (1 == indexPath.section)
     {
+        NSInteger itemCount = orderDetailForm.items.count;
+        NSInteger giftCount = 0;
         
+        if (0 == indexPath.row)
+        {
+            return 44;
+        }
+        else if (indexPath.row > 0 &&
+                 indexPath.row <= itemCount)
+        {
+            return 108;
+
+        }
+        else if (indexPath.row > itemCount &&
+                 indexPath.row <= itemCount + 2)
+        {
+            return 44;
+        }
+        else if (indexPath.row > itemCount + 2 &&
+                 indexPath.row <= itemCount + 2 + giftCount)
+        {
+            return 30;
+        }
+        else if (indexPath.row > itemCount + 2 + giftCount &&
+                 indexPath.row <= itemCount + 2 + giftCount + 1)
+        {
+            CGSize size = [CZJUtils calculateStringSizeWithString:orderDetailForm.note Font:SYSTEMFONT(12) Width:PJ_SCREEN_WIDTH - 30];
+                return  60 + size.height;
+        }
+        else
+        {
+            return 44;
+        }
     }
     return 0;
 }

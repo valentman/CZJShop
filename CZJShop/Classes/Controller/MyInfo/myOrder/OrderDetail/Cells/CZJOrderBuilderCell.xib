@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6250" systemVersion="Mavericks" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -14,14 +14,14 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="166"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="fOl-Op-Uat">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="order_img_bj.png" translatesAutoresizingMaskIntoConstraints="NO" id="fOl-Op-Uat">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="65"/>
                         <animations/>
                         <constraints>
                             <constraint firstAttribute="height" constant="65" id="NU2-Ks-Cd7"/>
                         </constraints>
                     </imageView>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="r6T-5E-UUV">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="order_head_default.png" translatesAutoresizingMaskIntoConstraints="NO" id="r6T-5E-UUV">
                         <rect key="frame" x="126" y="40" width="69" height="69"/>
                         <animations/>
                         <constraints>
@@ -34,9 +34,13 @@
                             </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YVc-GT-tfp">
-                        <rect key="frame" x="139" y="111" width="42" height="21"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YVc-GT-tfp">
+                        <rect key="frame" x="120" y="111" width="80" height="21"/>
                         <animations/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="21" id="VUm-0L-egO"/>
+                            <constraint firstAttribute="width" constant="80" id="WGL-tF-DoY"/>
+                        </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
@@ -70,12 +74,24 @@
                     <constraint firstItem="fOl-Op-Uat" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="TZK-uZ-Q71"/>
                     <constraint firstAttribute="bottom" secondItem="tSW-Vo-aks" secondAttribute="bottom" constant="17" id="Wue-Wj-JQa"/>
                     <constraint firstItem="r6T-5E-UUV" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="hoY-jR-a4k"/>
+                    <constraint firstAttribute="centerX" secondItem="YVc-GT-tfp" secondAttribute="centerX" id="ne9-Cz-9Cc"/>
                     <constraint firstItem="I7S-po-cmQ" firstAttribute="centerY" secondItem="tSW-Vo-aks" secondAttribute="centerY" id="rEe-DL-rLO"/>
                     <constraint firstAttribute="trailing" secondItem="fOl-Op-Uat" secondAttribute="trailing" id="t5x-mt-6h2"/>
+                    <constraint firstItem="YVc-GT-tfp" firstAttribute="top" secondItem="r6T-5E-UUV" secondAttribute="bottom" constant="2" id="x0o-UI-bD7"/>
                 </constraints>
             </tableViewCellContentView>
             <animations/>
+            <connections>
+                <outlet property="builderHeadImg" destination="r6T-5E-UUV" id="iBx-8q-DM0"/>
+                <outlet property="builderNameLabel" destination="YVc-GT-tfp" id="soV-pI-5EE"/>
+                <outlet property="leftTimeLabel" destination="tSW-Vo-aks" id="QjS-d4-zOg"/>
+                <outlet property="leftTimeLabelWidth" destination="suB-eV-EAS" id="Cq8-Nt-d3Q"/>
+            </connections>
             <point key="canvasLocation" x="464" y="199"/>
         </tableViewCell>
     </objects>
+    <resources>
+        <image name="order_head_default.png" width="68" height="68"/>
+        <image name="order_img_bj.png" width="375" height="65"/>
+    </resources>
 </document>

@@ -10,4 +10,5 @@
 
 @interface CZJOrderBuildingImagesCell : UITableViewCell
 
+@property (weak, nonatomic) IBOutlet UILabel *myTitleLabel;
 @end

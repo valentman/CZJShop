@@ -573,7 +573,7 @@ CZJLeaveMessageViewDelegate
             }
         }
         else if (indexPath.row > itemCount &&
-                 indexPath.row <= (isHaveFullCut ? 2 : 1))
+                 indexPath.row <= itemCount + (isHaveFullCut ? 2 : 1))
         {
             return 44;
         }

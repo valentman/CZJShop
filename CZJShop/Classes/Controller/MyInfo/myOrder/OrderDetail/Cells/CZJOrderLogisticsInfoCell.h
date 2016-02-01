@@ -9,5 +9,9 @@
 #import <UIKit/UIKit.h>
 
 @interface CZJOrderLogisticsInfoCell : UITableViewCell
+@property (weak, nonatomic) IBOutlet UIImageView *goodImg;
+@property (weak, nonatomic) IBOutlet UILabel *logisticsStateLabel;
+@property (weak, nonatomic) IBOutlet UILabel *goodNumLabel;
+@property (weak, nonatomic) IBOutlet UILabel *logisticsLabel;
 
 @end

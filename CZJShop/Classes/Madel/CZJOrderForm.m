@@ -157,7 +157,7 @@
         self.orderNo = @"";
         self.orderPoint = @"";
         self.orderPrice = @"";
-        self.paidFlag = @"";
+        self.paidFlag = false;
         self.receiver = nil;
         self.setupPrice = @"";
         self.status = @"";
