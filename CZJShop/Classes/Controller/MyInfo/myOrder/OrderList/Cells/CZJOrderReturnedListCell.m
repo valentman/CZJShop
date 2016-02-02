@@ -1,21 +1,17 @@
 //
-//  CZJOrderEvaluateCell.m
+//  CZJOrderReturnedListCell.m
 //  CZJShop
 //
-//  Created by Joe.Pen on 2/1/16.
+//  Created by Joe.Pen on 2/2/16.
 //  Copyright © 2016 JoeP. All rights reserved.
 //
 
-#import "CZJOrderEvaluateCell.h"
+#import "CZJOrderReturnedListCell.h"
 
-@implementation CZJOrderEvaluateCell
+@implementation CZJOrderReturnedListCell
 
 - (void)awakeFromNib {
     // Initialization code
-    
-    
-    CZJStarRageView* starView = [[CZJStarRageView alloc]initWithFrame:self.starView.bounds starCount:5];;
-    [self.contentView addSubview:starView];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

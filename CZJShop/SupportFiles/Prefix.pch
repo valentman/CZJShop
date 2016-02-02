@@ -28,6 +28,7 @@
 #import "CZJViewControllerDelegate.h"
 #import "CZJViewController.h"
 #import "CZJNaviagtionBarView.h"
+#import "CZJStarRageView.h"
 
 #import "CALayer+UIColor.h"
 #import "UIView+Frame.h"

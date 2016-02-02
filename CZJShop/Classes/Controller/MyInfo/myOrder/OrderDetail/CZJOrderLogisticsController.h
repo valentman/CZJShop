@@ -10,4 +10,5 @@
 
 @interface CZJOrderLogisticsController : CZJViewController
 
+@property (strong,  nonatomic)NSString* orderNo;
 @end

@@ -14,35 +14,39 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="99"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="U0h-8N-yKJ">
-                        <rect key="frame" x="15" y="15" width="290" height="74"/>
-                        <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cOI-cz-3bn">
-                                <rect key="frame" x="10" y="8" width="270" height="15"/>
-                                <animations/>
-                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Yoq-ha-bOC">
+                        <rect key="frame" x="15" y="15" width="290" height="69"/>
                         <animations/>
-                        <color key="backgroundColor" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
-                        <constraints>
-                            <constraint firstAttribute="trailing" secondItem="cOI-cz-3bn" secondAttribute="trailing" constant="10" id="9AQ-xh-PuL"/>
-                            <constraint firstItem="cOI-cz-3bn" firstAttribute="leading" secondItem="U0h-8N-yKJ" secondAttribute="leading" constant="10" id="die-6S-Cw7"/>
-                            <constraint firstItem="cOI-cz-3bn" firstAttribute="top" secondItem="U0h-8N-yKJ" secondAttribute="top" constant="8" id="u5a-Ph-CHA"/>
-                        </constraints>
+                        <color key="backgroundColor" red="0.94117647058823528" green="0.94117647058823528" blue="0.94117647058823528" alpha="0.5" colorSpace="calibratedRGB"/>
                     </view>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cOI-cz-3bn">
+                        <rect key="frame" x="25" y="25" width="270" height="15"/>
+                        <animations/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="15" id="ATa-Ih-hKg"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                        <color key="textColor" red="0.40000000600000002" green="0.40000000600000002" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
                 <animations/>
                 <constraints>
-                    <constraint firstAttribute="trailing" secondItem="U0h-8N-yKJ" secondAttribute="trailing" constant="15" id="5UE-kf-6lW"/>
-                    <constraint firstAttribute="bottom" secondItem="U0h-8N-yKJ" secondAttribute="bottom" constant="10" id="DDp-q7-LQJ"/>
-                    <constraint firstItem="U0h-8N-yKJ" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="15" id="VzB-Nl-fks"/>
-                    <constraint firstItem="U0h-8N-yKJ" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="jyv-lp-qj7"/>
+                    <constraint firstItem="cOI-cz-3bn" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="25" id="Fhf-Rv-P4j"/>
+                    <constraint firstAttribute="trailing" secondItem="cOI-cz-3bn" secondAttribute="trailing" constant="25" id="Oil-8M-foi"/>
+                    <constraint firstItem="Yoq-ha-bOC" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="PMs-IG-7dL"/>
+                    <constraint firstAttribute="trailing" secondItem="Yoq-ha-bOC" secondAttribute="trailing" constant="15" id="cbx-Mf-emh"/>
+                    <constraint firstItem="Yoq-ha-bOC" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="15" id="dPm-Nd-eAf"/>
+                    <constraint firstAttribute="bottom" secondItem="Yoq-ha-bOC" secondAttribute="bottom" constant="15" id="ynb-7N-3wT"/>
+                    <constraint firstItem="cOI-cz-3bn" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="25" id="ze7-iw-RSt"/>
                 </constraints>
             </tableViewCellContentView>
             <animations/>
+            <connections>
+                <outlet property="commentHeight" destination="ATa-Ih-hKg" id="dCK-DT-wnR"/>
+                <outlet property="commentLabel" destination="cOI-cz-3bn" id="hKc-wW-JBM"/>
+            </connections>
         </tableViewCell>
     </objects>
 </document>

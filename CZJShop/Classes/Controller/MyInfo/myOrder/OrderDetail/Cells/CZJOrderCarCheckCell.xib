@@ -7,24 +7,13 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="KGk-i7-Jjw" customClass="CZJOrderCarCheckCell">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="46"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="46" id="KGk-i7-Jjw" customClass="CZJOrderCarCheckCell">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="100"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="45"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="99"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ycV-pf-FdX">
-                        <rect key="frame" x="25" y="15" width="150" height="15"/>
-                        <animations/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="15" id="cVz-tM-Zfh"/>
-                            <constraint firstAttribute="width" constant="150" id="s20-3f-Fhl"/>
-                        </constraints>
-                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                        <nil key="highlightedColor"/>
-                    </label>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QRc-9O-ZH6">
                         <rect key="frame" x="286" y="13" width="19" height="19"/>
                         <animations/>
@@ -35,16 +24,48 @@
                         <state key="normal" image="order_icon_gou.png"/>
                         <state key="selected" image="order_icon_chacha.png"/>
                     </button>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="characterWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="P1w-0q-xoc">
+                        <rect key="frame" x="40" y="50" width="265" height="40"/>
+                        <animations/>
+                        <color key="backgroundColor" red="0.94117647058823528" green="0.94117647058823528" blue="0.94117647058823528" alpha="0.52025862068965523" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="40" id="YdU-Al-N2t"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                        <color key="textColor" red="0.40000000600000002" green="0.40000000600000002" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ycV-pf-FdX">
+                        <rect key="frame" x="40" y="15" width="150" height="15"/>
+                        <animations/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="15" id="cVz-tM-Zfh"/>
+                            <constraint firstAttribute="width" constant="150" id="s20-3f-Fhl"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
                 <animations/>
                 <constraints>
-                    <constraint firstItem="ycV-pf-FdX" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="25" id="6Hl-3l-eGj"/>
+                    <constraint firstItem="ycV-pf-FdX" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="40" id="6Hl-3l-eGj"/>
+                    <constraint firstItem="QRc-9O-ZH6" firstAttribute="centerY" secondItem="ycV-pf-FdX" secondAttribute="centerY" id="8hB-dx-Z3e"/>
                     <constraint firstAttribute="trailing" secondItem="QRc-9O-ZH6" secondAttribute="trailing" constant="15" id="9AI-Uh-aIC"/>
-                    <constraint firstItem="ycV-pf-FdX" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="Luv-QS-kjD"/>
-                    <constraint firstItem="QRc-9O-ZH6" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="bTX-84-mnX"/>
+                    <constraint firstAttribute="trailing" secondItem="P1w-0q-xoc" secondAttribute="trailing" constant="15" id="byi-M0-fO5"/>
+                    <constraint firstItem="ycV-pf-FdX" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="15" id="qXX-fY-OSK"/>
+                    <constraint firstItem="P1w-0q-xoc" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="40" id="qzC-2N-5Os"/>
+                    <constraint firstItem="P1w-0q-xoc" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="50" id="s23-j4-kiD"/>
                 </constraints>
             </tableViewCellContentView>
             <animations/>
+            <connections>
+                <outlet property="checkBtn" destination="QRc-9O-ZH6" id="gkh-gx-kNJ"/>
+                <outlet property="itemNameLabel" destination="ycV-pf-FdX" id="10g-9f-2fh"/>
+                <outlet property="noteLabel" destination="P1w-0q-xoc" id="EhB-FK-3to"/>
+                <outlet property="noteLabelHeight" destination="YdU-Al-N2t" id="x47-a8-1w6"/>
+            </connections>
+            <point key="canvasLocation" x="40" y="260"/>
         </tableViewCell>
     </objects>
     <resources>

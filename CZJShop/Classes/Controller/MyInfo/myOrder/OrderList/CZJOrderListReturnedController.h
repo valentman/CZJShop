@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CZJOrderListReturnedController : UIViewController
+@interface CZJOrderListReturnedController : CZJViewController
 
 @end

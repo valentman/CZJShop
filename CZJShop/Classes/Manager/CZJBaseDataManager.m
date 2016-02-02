@@ -1422,6 +1422,111 @@ singleton_implementation(CZJBaseDataManager);
 }
 
 
+- (void)getOrderCarCheck:(NSDictionary*)postParams
+                 Success:(CZJSuccessBlock)success
+                    fail:(CZJFailureBlock)fail
+{
+    CZJSuccessBlock successBlock = ^(id json){
+        if ([self showAlertView:json])
+        {
+            success(json);
+        }
+    };
+    
+    CZJFailureBlock failBlock = ^(){
+        [[CZJErrorCodeManager sharedCZJErrorCodeManager] ShowNetError];
+    };
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [params setValuesForKeysWithDictionary:self.params];
+    [params setValuesForKeysWithDictionary:postParams];
+    
+    [CZJNetWorkInstance postJSONWithUrl:kCZJServerAPICarCheck
+                             parameters:params
+                                success:successBlock
+                                   fail:failBlock];
+}
+
+
+- (void)getOrderBuildProgress:(NSDictionary*)postParams
+                      Success:(CZJSuccessBlock)success
+                         fail:(CZJFailureBlock)fail
+{
+    CZJSuccessBlock successBlock = ^(id json){
+        if ([self showAlertView:json])
+        {
+            success(json);
+        }
+    };
+    
+    CZJFailureBlock failBlock = ^(){
+        [[CZJErrorCodeManager sharedCZJErrorCodeManager] ShowNetError];
+    };
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [params setValuesForKeysWithDictionary:self.params];
+    [params setValuesForKeysWithDictionary:postParams];
+    
+    [CZJNetWorkInstance postJSONWithUrl:kCZJServerAPIBuildingProgress
+                             parameters:params
+                                success:successBlock
+                                   fail:failBlock];
+}
+
+
+- (void)getReturnedOrderList:(NSDictionary*)postParams
+                     Success:(CZJSuccessBlock)success
+                        fail:(CZJFailureBlock)fail
+{
+    
+    CZJSuccessBlock successBlock = ^(id json){
+        if ([self showAlertView:json])
+        {
+            success(json);
+        }
+    };
+    
+    CZJFailureBlock failBlock = ^(){
+        [[CZJErrorCodeManager sharedCZJErrorCodeManager] ShowNetError];
+    };
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [params setValuesForKeysWithDictionary:self.params];
+    [params setValuesForKeysWithDictionary:postParams];
+    
+    [CZJNetWorkInstance postJSONWithUrl:kCZJServerAPIGetReturnedOrderList
+                             parameters:params
+                                success:successBlock
+                                   fail:failBlock];
+}
+
+
+
+- (void)getReturnableOrderList:(NSDictionary*)postParams
+                       Success:(CZJSuccessBlock)success
+                          fail:(CZJFailureBlock)fail
+{
+    CZJSuccessBlock successBlock = ^(id json){
+        if ([self showAlertView:json])
+        {
+            success(json);
+        }
+    };
+    
+    CZJFailureBlock failBlock = ^(){
+        [[CZJErrorCodeManager sharedCZJErrorCodeManager] ShowNetError];
+    };
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [params setValuesForKeysWithDictionary:self.params];
+    [params setValuesForKeysWithDictionary:postParams];
+    
+    [CZJNetWorkInstance postJSONWithUrl:kCZJServerAPIGetReturnableOrderList
+                             parameters:params
+                                success:successBlock
+                                   fail:failBlock];
+}
+
 //获取用户信息详情
 - (void)getUserInfo:(NSDictionary*)postParams
             Success:(CZJSuccessBlock)success

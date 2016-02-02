@@ -172,3 +172,29 @@
 }
 
 @end
+
+
+@implementation CZJCarDetailForm
+
+@end
+
+@implementation CZJCarCheckItemForm
+
+@end
+
+@implementation CZJCarCheckItemsForm
++ (NSDictionary *)objectClassInArray
+{
+    return @{@"items" : @"CZJCarCheckItemForm"};
+}
+@end
+
+@implementation CZJCarCheckForm
++ (NSDictionary *)objectClassInArray
+{
+    return @{@"checks" : @"CZJCarCheckItemsForm"};
+}
+@end
+
+@implementation CZJReturnedOrderListForm
+@end

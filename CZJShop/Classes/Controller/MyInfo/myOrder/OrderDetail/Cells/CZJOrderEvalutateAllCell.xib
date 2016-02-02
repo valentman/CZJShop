@@ -58,7 +58,7 @@
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nbz-h7-juS">
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nbz-h7-juS" customClass="CZJStarRageView">
                         <rect key="frame" x="155" y="84" width="150" height="22"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Dcq-s5-iFF">
@@ -129,7 +129,7 @@
                             <constraint firstItem="Dcq-s5-iFF" firstAttribute="leading" secondItem="nbz-h7-juS" secondAttribute="leading" id="sPb-xg-ycA"/>
                         </constraints>
                     </view>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2DR-Sj-bXw">
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2DR-Sj-bXw" customClass="CZJStarRageView">
                         <rect key="frame" x="155" y="121" width="150" height="22"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SA2-rP-HTq">
@@ -200,7 +200,7 @@
                             <constraint firstItem="y8x-V3-sWc" firstAttribute="leading" secondItem="hAq-Zl-0lZ" secondAttribute="trailing" constant="10" id="sqR-F0-azR"/>
                         </constraints>
                     </view>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3ss-9P-Ihu">
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3ss-9P-Ihu" customClass="CZJStarRageView">
                         <rect key="frame" x="155" y="47" width="150" height="22"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RdH-Pd-zZZ">

@@ -290,6 +290,27 @@ singleton_interface(CZJBaseDataManager);
                Success:(CZJSuccessBlock)success
                   fail:(CZJFailureBlock)fail;
 
+//车况检查
+- (void)getOrderCarCheck:(NSDictionary*)postParams
+                 Success:(CZJSuccessBlock)success
+                    fail:(CZJFailureBlock)fail;
+
+//施工进度
+- (void)getOrderBuildProgress:(NSDictionary*)postParams
+                      Success:(CZJSuccessBlock)success
+                         fail:(CZJFailureBlock)fail;
+
+//获取已退换货列表
+- (void)getReturnedOrderList:(NSDictionary*)postParams
+                     Success:(CZJSuccessBlock)success
+                        fail:(CZJFailureBlock)fail;
+
+//获取可退换货列表
+- (void)getReturnableOrderList:(NSDictionary*)postParams
+                       Success:(CZJSuccessBlock)success
+                          fail:(CZJFailureBlock)fail;
+
+
 
 //-------------------------个人信息中心------------------------------
 //获取用户信息详情

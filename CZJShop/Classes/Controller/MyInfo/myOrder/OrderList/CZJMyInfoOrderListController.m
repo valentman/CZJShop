@@ -17,6 +17,10 @@
 #import "CZJOrderListNoReceiveController.h"
 #import "CZJOrderListNoEvaController.h"
 #import "CZJMyOrderDetailController.h"
+#import "CZJOrderBuildingController.h"
+#import "CZJOrderEvaluateController.h"
+#import "CZJOrderLogisticsController.h"
+#import "CZJOrderCarCheckController.h"
 
 @interface CZJMyInfoOrderListController ()
 <
@@ -200,6 +204,21 @@ CZJOrderListDelegate
     {
         CZJMyOrderDetailController* orderDetailVC = segue.destinationViewController;
         [orderDetailVC setOrderNo:currentTouchedOrderListForm.orderNo];
+    }
+    if ([segue.identifier isEqualToString:@"segueToBuildingProgress"])
+    {
+        CZJOrderBuildingController* orderBuildProgressVC = segue.destinationViewController;
+        [orderBuildProgressVC setOrderNo:currentTouchedOrderListForm.orderNo];
+    }
+    if ([segue.identifier isEqualToString:@"segueToCarCheck"])
+    {
+        CZJOrderCarCheckController* orderCarCheckVC = segue.destinationViewController;
+        [orderCarCheckVC setOrderNo:currentTouchedOrderListForm.orderNo];
+    }
+    if ([segue.identifier isEqualToString:@"segueToEvaluate"])
+    {
+        CZJOrderEvaluateController* orderEvaluateVC = segue.destinationViewController;
+        [orderEvaluateVC setOrderNo:currentTouchedOrderListForm.orderNo];
     }
 }
 @end

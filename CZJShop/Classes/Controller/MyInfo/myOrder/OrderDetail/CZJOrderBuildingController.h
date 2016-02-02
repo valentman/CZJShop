@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface CZJOrderBuildingController : CZJViewController
+@property (strong,  nonatomic)NSString* orderNo;
 
 @end

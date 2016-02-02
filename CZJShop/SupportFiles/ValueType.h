@@ -101,6 +101,22 @@ typedef NS_ENUM(NSInteger, CZJCarListType)
     CZJCarListTypeGeneral
 };
 
+
+struct CZJMargin {
+    CGFloat horisideMargin;
+    CGFloat vertiMiddleMargin;
+};
+typedef struct CZJMargin CZJMargin;
+
+CG_INLINE CZJMargin CZJMarginMake(CGFloat horisideMargin, CGFloat vertiMiddleMargin)
+{
+    CZJMargin margin;
+    margin.horisideMargin = horisideMargin;
+    margin.vertiMiddleMargin = vertiMiddleMargin;
+    return margin;
+}
+
+
 typedef void (^CZJButtonBlock)(UIButton* button);
 typedef void (^CZJSuccessBlock)(id json);
 typedef void (^CZJFailureBlock)();

@@ -128,5 +128,41 @@
 @property (strong, nonatomic)NSString*  timeOver;
 @property (strong, nonatomic)NSString*  transportPrice;
 @property (strong, nonatomic)NSString*  type;
+@end
 
+
+#pragma mark- CarCheck
+@interface CZJCarDetailForm : NSObject
+@property (strong, nonatomic)NSString* brandName;
+@property (strong, nonatomic)NSString* modelName;
+@property (strong, nonatomic)NSString* numberPlate;
+@property (strong, nonatomic)NSString* seriesName;
+@end
+
+@interface CZJCarCheckItemForm : NSObject
+@property (strong, nonatomic)NSString* checkItem;
+@property (strong, nonatomic)NSString* checkResult;
+@property (strong, nonatomic)NSString* note;
+@end
+
+@interface CZJCarCheckItemsForm : NSObject
+@property (strong, nonatomic)NSString* checkType;
+@property (strong, nonatomic)NSMutableArray* items;
+@end
+
+@interface CZJCarCheckForm : NSObject
+@property (strong, nonatomic)CZJCarDetailForm* car;
+@property (strong, nonatomic)NSString* checkNote;
+@property (strong, nonatomic)NSMutableArray* checks;
+@property (strong, nonatomic)NSMutableArray* photos;
+@end
+
+@interface CZJReturnedOrderListForm : NSObject
+@property (strong, nonatomic)NSString* currentPrice;
+@property (strong, nonatomic)NSString* itemCount;
+@property (strong, nonatomic)NSString* itemImg;
+@property (strong, nonatomic)NSString* itemName;
+@property (strong, nonatomic)NSString* itemSku;
+@property (strong, nonatomic)NSString* orderItemPid;
+@property (strong, nonatomic)NSString* returnStatus;
 @end

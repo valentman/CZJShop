@@ -10,4 +10,5 @@
 
 @interface CZJOrderEvaluateController : CZJViewController
 
+@property (strong,  nonatomic)NSString* orderNo;
 @end

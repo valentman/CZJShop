@@ -10,4 +10,5 @@
 
 @interface CZJOrderCarCheckController : CZJViewController
 
+@property (strong,  nonatomic)NSString* orderNo;
 @end

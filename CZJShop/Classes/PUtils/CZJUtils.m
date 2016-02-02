@@ -737,4 +737,20 @@ void backLastView(id sender, SEL _cmd)
     
     return layer;
 }
+
++ (CGRect)viewFramFromDynamic:(CZJMargin)margin size:(CGSize)viewSize index:(int)index divide:(int)divide
+{
+    // 列数
+    int column = index%divide;
+    // 行数
+    int row = index/divide;
+    // 动态调整中间间距
+    CGFloat horiMiddleMargin = (PJ_SCREEN_WIDTH - divide*viewSize.width)/3;
+    
+    // 很据列数和行数算出x、y
+    int childX = column * (viewSize.width + horiMiddleMargin);
+    int childY = row * (viewSize.height + margin.vertiMiddleMargin);
+    CGRect rect = CGRectMake(childX + margin.horisideMargin, childY + margin.vertiMiddleMargin, viewSize.width, viewSize.height);
+    return rect;
+}
 @end
