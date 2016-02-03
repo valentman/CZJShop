@@ -149,7 +149,7 @@
         self.companyId = @"";
         self.couponPrice = @"";
         self.createTime = @"";
-        self.evaluated = @"";
+        self.evaluated = false;
         self.fullCutPrice = @"";
         self.items = [NSMutableArray array];
         self.note = @"";

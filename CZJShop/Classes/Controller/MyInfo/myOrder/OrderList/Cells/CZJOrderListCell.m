@@ -155,7 +155,7 @@
         {
             if (0 == [listForm.status integerValue])
             {
-                
+                self.noPayButtomView.hidden = NO;
             }
             else if (1 == [listForm.status integerValue])
             {

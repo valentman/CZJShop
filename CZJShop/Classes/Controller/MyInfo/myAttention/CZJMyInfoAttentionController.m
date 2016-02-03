@@ -62,6 +62,12 @@ UITableViewDelegate
     [self initViews];
 }
 
+- (void)viewDidDisappear:(BOOL)animated
+{
+    self.myTableView.pullTableIsRefreshing = NO;
+    self.myTableView.pullTableIsLoadingMore = NO;
+}
+
 - (void)initDatas
 {
     serviceAttentionAry = [NSMutableArray array];
@@ -173,6 +179,7 @@ UITableViewDelegate
         self.myTableView.pullDelegate = self;
         self.myTableView.dataSource = self;
         self.myTableView.delegate = self;
+        [self.myTableView setDelegate:self];
         [self.myTableView reloadData];
         VIEWWITHTAG(self.naviBarView, 1999).hidden = tmpArray.count == 0 ? YES : NO;
     } fail:^{

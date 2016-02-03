@@ -31,18 +31,19 @@ CZJOrderListCellDelegate
     [super viewDidLoad];
     _orderList = [NSMutableArray array];
     [self initViews];
-    DLog(@"主线程线程----%@",[NSThread currentThread]);
 }
 
 - (void)viewDidDisappear:(BOOL)animated
 {
-    DLog();
+    self.myTableView.pullTableIsRefreshing = NO;
+    self.myTableView.pullTableIsLoadingMore = NO;
 }
 
 - (void)initViews
 {
     CGRect viewRect = CGRectMake(0, 0, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT- 128);
     _myTableView = [[PullTableView alloc]initWithFrame:viewRect style:UITableViewStylePlain];
+    
     _myTableView.backgroundColor = CZJNAVIBARBGCOLOR;
     _myTableView.tableFooterView = [[UIView alloc]init];
     _myTableView.bounces = YES;
@@ -60,6 +61,7 @@ CZJOrderListCellDelegate
         _myTableView.delegate = self;
         _myTableView.dataSource = self;
         _myTableView.pullDelegate = self;
+        [_myTableView setDelegate:self];
         [_myTableView reloadData];
     } fail:^{
         
@@ -85,6 +87,7 @@ CZJOrderListCellDelegate
 {
     CZJOrderListCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJOrderListCell" forIndexPath:indexPath];
     [cell setCellModelWithType:_orderList[indexPath.section] andType:[[_params valueForKey:@"type"] integerValue]];
+    
     cell.delegate = self;
     return cell;
 }
@@ -121,7 +124,7 @@ CZJOrderListCellDelegate
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    CGFloat sectionHeaderHeight = 40;
+    CGFloat sectionHeaderHeight = 10;
     if (scrollView.contentOffset.y<=sectionHeaderHeight&&scrollView.contentOffset.y>=0) {
         scrollView.contentInset = UIEdgeInsetsMake(-scrollView.contentOffset.y, 0, 0, 0);
     }

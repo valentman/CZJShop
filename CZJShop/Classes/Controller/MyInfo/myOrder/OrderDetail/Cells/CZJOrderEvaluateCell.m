@@ -11,10 +11,7 @@
 @implementation CZJOrderEvaluateCell
 
 - (void)awakeFromNib {
-    // Initialization code
-    
-    
-    CZJStarRageView* starView = [[CZJStarRageView alloc]initWithFrame:self.starView.bounds starCount:5];;
+    CZJStarRageView* starView = [[CZJStarRageView alloc]initWithFrame:self.starView.frame starCount:5];;
     [self.contentView addSubview:starView];
 }
 
