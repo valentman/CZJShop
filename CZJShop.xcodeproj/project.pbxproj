@@ -344,6 +344,22 @@
 		EC5B86F21C0DBCA0008EC732 /* CZJDiscoverDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = EC5B86F11C0DBCA0008EC732 /* CZJDiscoverDetailController.m */; };
 		EC5CCDBD1C3CB27E00D4D8B6 /* Address.plist in Resources */ = {isa = PBXBuildFile; fileRef = EC5CCDBA1C3CB27E00D4D8B6 /* Address.plist */; };
 		EC5CCDBE1C3CB27E00D4D8B6 /* GKHpickerAddressView.m in Sources */ = {isa = PBXBuildFile; fileRef = EC5CCDBC1C3CB27E00D4D8B6 /* GKHpickerAddressView.m */; };
+		EC5D20EB1C62FDBA0083493B /* TYAlertController+BlurEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = EC5D20D41C62FDBA0083493B /* TYAlertController+BlurEffects.m */; settings = {ASSET_TAGS = (); }; };
+		EC5D20EC1C62FDBA0083493B /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = EC5D20D61C62FDBA0083493B /* UIImage+ImageEffects.m */; settings = {ASSET_TAGS = (); }; };
+		EC5D20ED1C62FDBA0083493B /* TYAlertController+TransitionAnimate.m in Sources */ = {isa = PBXBuildFile; fileRef = EC5D20D81C62FDBA0083493B /* TYAlertController+TransitionAnimate.m */; settings = {ASSET_TAGS = (); }; };
+		EC5D20EE1C62FDBA0083493B /* TYAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = EC5D20DA1C62FDBA0083493B /* TYAlertController.m */; settings = {ASSET_TAGS = (); }; };
+		EC5D20EF1C62FDBA0083493B /* TYAlertDropDownAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = EC5D20DC1C62FDBA0083493B /* TYAlertDropDownAnimation.m */; settings = {ASSET_TAGS = (); }; };
+		EC5D20F01C62FDBA0083493B /* TYAlertFadeAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = EC5D20DE1C62FDBA0083493B /* TYAlertFadeAnimation.m */; settings = {ASSET_TAGS = (); }; };
+		EC5D20F11C62FDBA0083493B /* TYAlertScaleFadeAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = EC5D20E01C62FDBA0083493B /* TYAlertScaleFadeAnimation.m */; settings = {ASSET_TAGS = (); }; };
+		EC5D20F21C62FDBA0083493B /* TYAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = EC5D20E21C62FDBA0083493B /* TYAlertView.m */; settings = {ASSET_TAGS = (); }; };
+		EC5D20F31C62FDBA0083493B /* TYBaseAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = EC5D20E41C62FDBA0083493B /* TYBaseAnimation.m */; settings = {ASSET_TAGS = (); }; };
+		EC5D20F41C62FDBA0083493B /* TYShowAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = EC5D20E61C62FDBA0083493B /* TYShowAlertView.m */; settings = {ASSET_TAGS = (); }; };
+		EC5D20F51C62FDBA0083493B /* UIView+TYAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = EC5D20E81C62FDBA0083493B /* UIView+TYAlertView.m */; settings = {ASSET_TAGS = (); }; };
+		EC5D20F61C62FDBA0083493B /* UIView+TYAutoLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = EC5D20EA1C62FDBA0083493B /* UIView+TYAutoLayout.m */; settings = {ASSET_TAGS = (); }; };
+		EC5D20FC1C63400A0083493B /* CZJOrderPayCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EC5D20FA1C63400A0083493B /* CZJOrderPayCell.m */; settings = {ASSET_TAGS = (); }; };
+		EC5D20FD1C63400A0083493B /* CZJOrderPayCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EC5D20FB1C63400A0083493B /* CZJOrderPayCell.xib */; settings = {ASSET_TAGS = (); }; };
+		EC5D21011C6341840083493B /* CZJOrderPayHeadCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EC5D20FF1C6341840083493B /* CZJOrderPayHeadCell.m */; settings = {ASSET_TAGS = (); }; };
+		EC5D21021C6341840083493B /* CZJOrderPayHeadCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EC5D21001C6341840083493B /* CZJOrderPayHeadCell.xib */; settings = {ASSET_TAGS = (); }; };
 		EC5EEB4F1C45DC0800EEA368 /* CZJStoreDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = EC5EEB4E1C45DC0800EEA368 /* CZJStoreDetailController.m */; };
 		EC5EEB591C45DC1100EEA368 /* CZJStoreDescribeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EC5EEB511C45DC1100EEA368 /* CZJStoreDescribeCell.m */; };
 		EC5EEB5A1C45DC1100EEA368 /* CZJStoreDescribeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EC5EEB521C45DC1100EEA368 /* CZJStoreDescribeCell.xib */; };
@@ -1342,6 +1358,35 @@
 		EC5CCDBA1C3CB27E00D4D8B6 /* Address.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Address.plist; sourceTree = "<group>"; };
 		EC5CCDBB1C3CB27E00D4D8B6 /* GKHpickerAddressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GKHpickerAddressView.h; sourceTree = "<group>"; };
 		EC5CCDBC1C3CB27E00D4D8B6 /* GKHpickerAddressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GKHpickerAddressView.m; sourceTree = "<group>"; };
+		EC5D20D31C62FDBA0083493B /* TYAlertController+BlurEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TYAlertController+BlurEffects.h"; sourceTree = "<group>"; };
+		EC5D20D41C62FDBA0083493B /* TYAlertController+BlurEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "TYAlertController+BlurEffects.m"; sourceTree = "<group>"; };
+		EC5D20D51C62FDBA0083493B /* UIImage+ImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ImageEffects.h"; sourceTree = "<group>"; };
+		EC5D20D61C62FDBA0083493B /* UIImage+ImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ImageEffects.m"; sourceTree = "<group>"; };
+		EC5D20D81C62FDBA0083493B /* TYAlertController+TransitionAnimate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "TYAlertController+TransitionAnimate.m"; sourceTree = "<group>"; };
+		EC5D20D91C62FDBA0083493B /* TYAlertController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TYAlertController.h; sourceTree = "<group>"; };
+		EC5D20DA1C62FDBA0083493B /* TYAlertController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TYAlertController.m; sourceTree = "<group>"; };
+		EC5D20DB1C62FDBA0083493B /* TYAlertDropDownAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TYAlertDropDownAnimation.h; sourceTree = "<group>"; };
+		EC5D20DC1C62FDBA0083493B /* TYAlertDropDownAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TYAlertDropDownAnimation.m; sourceTree = "<group>"; };
+		EC5D20DD1C62FDBA0083493B /* TYAlertFadeAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TYAlertFadeAnimation.h; sourceTree = "<group>"; };
+		EC5D20DE1C62FDBA0083493B /* TYAlertFadeAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TYAlertFadeAnimation.m; sourceTree = "<group>"; };
+		EC5D20DF1C62FDBA0083493B /* TYAlertScaleFadeAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TYAlertScaleFadeAnimation.h; sourceTree = "<group>"; };
+		EC5D20E01C62FDBA0083493B /* TYAlertScaleFadeAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TYAlertScaleFadeAnimation.m; sourceTree = "<group>"; };
+		EC5D20E11C62FDBA0083493B /* TYAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TYAlertView.h; sourceTree = "<group>"; };
+		EC5D20E21C62FDBA0083493B /* TYAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TYAlertView.m; sourceTree = "<group>"; };
+		EC5D20E31C62FDBA0083493B /* TYBaseAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TYBaseAnimation.h; sourceTree = "<group>"; };
+		EC5D20E41C62FDBA0083493B /* TYBaseAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TYBaseAnimation.m; sourceTree = "<group>"; };
+		EC5D20E51C62FDBA0083493B /* TYShowAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TYShowAlertView.h; sourceTree = "<group>"; };
+		EC5D20E61C62FDBA0083493B /* TYShowAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TYShowAlertView.m; sourceTree = "<group>"; };
+		EC5D20E71C62FDBA0083493B /* UIView+TYAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+TYAlertView.h"; sourceTree = "<group>"; };
+		EC5D20E81C62FDBA0083493B /* UIView+TYAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+TYAlertView.m"; sourceTree = "<group>"; };
+		EC5D20E91C62FDBA0083493B /* UIView+TYAutoLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+TYAutoLayout.h"; sourceTree = "<group>"; };
+		EC5D20EA1C62FDBA0083493B /* UIView+TYAutoLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+TYAutoLayout.m"; sourceTree = "<group>"; };
+		EC5D20F91C63400A0083493B /* CZJOrderPayCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJOrderPayCell.h; sourceTree = "<group>"; };
+		EC5D20FA1C63400A0083493B /* CZJOrderPayCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJOrderPayCell.m; sourceTree = "<group>"; };
+		EC5D20FB1C63400A0083493B /* CZJOrderPayCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CZJOrderPayCell.xib; sourceTree = "<group>"; };
+		EC5D20FE1C6341840083493B /* CZJOrderPayHeadCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJOrderPayHeadCell.h; sourceTree = "<group>"; };
+		EC5D20FF1C6341840083493B /* CZJOrderPayHeadCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJOrderPayHeadCell.m; sourceTree = "<group>"; };
+		EC5D21001C6341840083493B /* CZJOrderPayHeadCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CZJOrderPayHeadCell.xib; sourceTree = "<group>"; };
 		EC5EEB4D1C45DC0800EEA368 /* CZJStoreDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJStoreDetailController.h; sourceTree = "<group>"; };
 		EC5EEB4E1C45DC0800EEA368 /* CZJStoreDetailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJStoreDetailController.m; sourceTree = "<group>"; };
 		EC5EEB501C45DC1100EEA368 /* CZJStoreDescribeCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJStoreDescribeCell.h; sourceTree = "<group>"; };
@@ -2934,6 +2979,52 @@
 			path = GKHLocationPicker;
 			sourceTree = "<group>";
 		};
+		EC5D20D11C62FDBA0083493B /* TYAlertView */ = {
+			isa = PBXGroup;
+			children = (
+				EC5D20D21C62FDBA0083493B /* Blur Effects */,
+				EC5D20D71C62FDBA0083493B /* TYAlertController */,
+			);
+			path = TYAlertView;
+			sourceTree = "<group>";
+		};
+		EC5D20D21C62FDBA0083493B /* Blur Effects */ = {
+			isa = PBXGroup;
+			children = (
+				EC5D20D31C62FDBA0083493B /* TYAlertController+BlurEffects.h */,
+				EC5D20D41C62FDBA0083493B /* TYAlertController+BlurEffects.m */,
+				EC5D20D51C62FDBA0083493B /* UIImage+ImageEffects.h */,
+				EC5D20D61C62FDBA0083493B /* UIImage+ImageEffects.m */,
+			);
+			path = "Blur Effects";
+			sourceTree = "<group>";
+		};
+		EC5D20D71C62FDBA0083493B /* TYAlertController */ = {
+			isa = PBXGroup;
+			children = (
+				EC5D20D81C62FDBA0083493B /* TYAlertController+TransitionAnimate.m */,
+				EC5D20D91C62FDBA0083493B /* TYAlertController.h */,
+				EC5D20DA1C62FDBA0083493B /* TYAlertController.m */,
+				EC5D20DB1C62FDBA0083493B /* TYAlertDropDownAnimation.h */,
+				EC5D20DC1C62FDBA0083493B /* TYAlertDropDownAnimation.m */,
+				EC5D20DD1C62FDBA0083493B /* TYAlertFadeAnimation.h */,
+				EC5D20DE1C62FDBA0083493B /* TYAlertFadeAnimation.m */,
+				EC5D20DF1C62FDBA0083493B /* TYAlertScaleFadeAnimation.h */,
+				EC5D20E01C62FDBA0083493B /* TYAlertScaleFadeAnimation.m */,
+				EC5D20E11C62FDBA0083493B /* TYAlertView.h */,
+				EC5D20E21C62FDBA0083493B /* TYAlertView.m */,
+				EC5D20E31C62FDBA0083493B /* TYBaseAnimation.h */,
+				EC5D20E41C62FDBA0083493B /* TYBaseAnimation.m */,
+				EC5D20E51C62FDBA0083493B /* TYShowAlertView.h */,
+				EC5D20E61C62FDBA0083493B /* TYShowAlertView.m */,
+				EC5D20E71C62FDBA0083493B /* UIView+TYAlertView.h */,
+				EC5D20E81C62FDBA0083493B /* UIView+TYAlertView.m */,
+				EC5D20E91C62FDBA0083493B /* UIView+TYAutoLayout.h */,
+				EC5D20EA1C62FDBA0083493B /* UIView+TYAutoLayout.m */,
+			);
+			path = TYAlertController;
+			sourceTree = "<group>";
+		};
 		EC79820F1C24EC43003FC433 /* Goods */ = {
 			isa = PBXGroup;
 			children = (
@@ -3001,6 +3092,7 @@
 		ECC4DBDF1C17D67A00FBD6A4 /* ThirdSDK */ = {
 			isa = PBXGroup;
 			children = (
+				EC5D20D11C62FDBA0083493B /* TYAlertView */,
 				EC1E43E01C40A76F006CC23C /* SVPullToRefresh */,
 				EC1E43DA1C40A214006CC23C /* KMCGeigerCounter */,
 				EC5CCDB91C3CB27E00D4D8B6 /* GKHLocationPicker */,
@@ -4423,6 +4515,12 @@
 				EC8CB5F71C60C2D300CCE27F /* CZJOrderReturnedListCell.h */,
 				EC8CB5F81C60C2D300CCE27F /* CZJOrderReturnedListCell.m */,
 				EC8CB5F91C60C2D300CCE27F /* CZJOrderReturnedListCell.xib */,
+				EC5D20F91C63400A0083493B /* CZJOrderPayCell.h */,
+				EC5D20FA1C63400A0083493B /* CZJOrderPayCell.m */,
+				EC5D20FB1C63400A0083493B /* CZJOrderPayCell.xib */,
+				EC5D20FE1C6341840083493B /* CZJOrderPayHeadCell.h */,
+				EC5D20FF1C6341840083493B /* CZJOrderPayHeadCell.m */,
+				EC5D21001C6341840083493B /* CZJOrderPayHeadCell.xib */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -4671,6 +4769,7 @@
 				EC26A2F21C2A386600B166A3 /* commit_icon_shop@3x.png in Resources */,
 				ECC4DEE61C17FEA900FBD6A4 /* prodetail_img01@2x.png in Resources */,
 				EC0F004B1C326D9300F124F8 /* shop_icon_taocan@2x.png in Resources */,
+				EC5D21021C6341840083493B /* CZJOrderPayHeadCell.xib in Resources */,
 				EC26A2F11C2A386600B166A3 /* commit_icon_shop@2x.png in Resources */,
 				ECF8E9601C5C6DB300A98707 /* order_icon_shigong@2x.png in Resources */,
 				ECC4DED81C17FEA900FBD6A4 /* prodetail_icon_quan1@2x.png in Resources */,
@@ -4690,6 +4789,7 @@
 				EC0F00361C326D9300F124F8 /* shop_btn_kefu03@3x.png in Resources */,
 				ECC4DECF1C17FEA900FBD6A4 /* prodetail_icon_home@3x.png in Resources */,
 				EC34FFF41C433D5A0063A071 /* my_icon_record@2x.png in Resources */,
+				EC5D20FD1C63400A0083493B /* CZJOrderPayCell.xib in Resources */,
 				EC28E2D21C152BA0003423F9 /* map_icon_shop@3x.png in Resources */,
 				ECB4B6311C0E976F00925BCA /* icon_star_8@2x.png in Resources */,
 				ECF1FB191C27986800B99D93 /* login_btn_delete@3x.png in Resources */,
@@ -5077,6 +5177,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EC0223BF1C59F3B200600851 /* CZJOrderListNoPayController.m in Sources */,
+				EC5D20FC1C63400A0083493B /* CZJOrderPayCell.m in Sources */,
 				ECC4DE421C17D67B00FBD6A4 /* UIImageView+AFNetworking.m in Sources */,
 				EC4521481C5EFFE9003272C3 /* CZJOrderLogisticsCompCell.m in Sources */,
 				EC0F004F1C329D7200F124F8 /* CZJApplicableCarController.m in Sources */,
@@ -5112,6 +5213,7 @@
 				ECC4DE2B1C17D67B00FBD6A4 /* UIImage+GIF.m in Sources */,
 				ECC4DDB21C17D67B00FBD6A4 /* DataSigner.m in Sources */,
 				ECB4B60B1C0E8D6800925BCA /* CZJStoreMapController.m in Sources */,
+				EC5D20F31C62FDBA0083493B /* TYBaseAnimation.m in Sources */,
 				EC2518331C22B77500C6754A /* LXDSegmentControl.m in Sources */,
 				ECC4DDF51C17D67B00FBD6A4 /* LocationChange.m in Sources */,
 				ECC4DDC11C17D67B00FBD6A4 /* EGORefreshTableHeaderView.m in Sources */,
@@ -5197,6 +5299,7 @@
 				ECC4DDB41C17D67B00FBD6A4 /* MD5DataSigner.m in Sources */,
 				EC10E6871BFC24C800CDBFCD /* CommonUnit.m in Sources */,
 				EC0223C21C59F3C400600851 /* CZJOrderListNoBuildController.m in Sources */,
+				EC5D20EC1C62FDBA0083493B /* UIImage+ImageEffects.m in Sources */,
 				ECC4DE291C17D67B00FBD6A4 /* SDWebImagePrefetcher.m in Sources */,
 				ECC4DE451C17D67B00FBD6A4 /* UIWebView+AFNetworking.m in Sources */,
 				ECC4DDE71C17D67B00FBD6A4 /* LJWKeyboardHandler.m in Sources */,
@@ -5212,6 +5315,7 @@
 				EC025FCA1C21036E00A8085E /* MJRefreshComponent.m in Sources */,
 				EC0223B71C59C7BB00600851 /* CZJTableViewCell.m in Sources */,
 				ECF2DCAA1C5767F80096FF39 /* CZJStoreAttentionHeadCell.m in Sources */,
+				EC5D20F21C62FDBA0083493B /* TYAlertView.m in Sources */,
 				ECF2DCB61C5767F80096FF39 /* CZJSexSelectController.m in Sources */,
 				ECFFB9531C103CC500811C2E /* CZJStoreViewController.m in Sources */,
 				ECF2DCE41C5767F80096FF39 /* CZJMyInfoSettingController.m in Sources */,
@@ -5234,6 +5338,7 @@
 				EC25182C1C229BC100C6754A /* CZJUserEvalutionDetailController.m in Sources */,
 				EC442B6D1BFEF72D00DC6F97 /* CZJCarInfoCell.m in Sources */,
 				EC025FCE1C21036E00A8085E /* MJRefreshAutoNormalFooter.m in Sources */,
+				EC5D20EF1C62FDBA0083493B /* TYAlertDropDownAnimation.m in Sources */,
 				EC025FDA1C21036E00A8085E /* UIView+MJExtension.m in Sources */,
 				EC0F00521C329DE800F124F8 /* CZJAfterServiceController.m in Sources */,
 				ECC4DE541C17D67B00FBD6A4 /* ZHPickView.m in Sources */,
@@ -5265,6 +5370,7 @@
 				ECC4DE551C17D67B00FBD6A4 /* ZXLocationManager.m in Sources */,
 				EC8A0BAD1C005C34002A2CED /* CZJBrandRecoCellHeader.m in Sources */,
 				ECC4DE0E1C17D67B00FBD6A4 /* NSObject+MJProperty.m in Sources */,
+				EC5D20F11C62FDBA0083493B /* TYAlertScaleFadeAnimation.m in Sources */,
 				ECF2DCBC1C5767F80096FF39 /* CZJDeliveryAddrCell.m in Sources */,
 				EC45215F1C5F2CAC003272C3 /* CZJOrderCarCheckController.m in Sources */,
 				EC5CCDBE1C3CB27E00D4D8B6 /* GKHpickerAddressView.m in Sources */,
@@ -5323,13 +5429,18 @@
 				EC8A0BB01C005C52002A2CED /* CZJSpecialRecoCellHeader.m in Sources */,
 				ECC4DDC31C17D67B00FBD6A4 /* MessageInterceptor.m in Sources */,
 				ECC4DE2A1C17D67B00FBD6A4 /* UIButton+WebCache.m in Sources */,
+				EC5D20EE1C62FDBA0083493B /* TYAlertController.m in Sources */,
+				EC5D20ED1C62FDBA0083493B /* TYAlertController+TransitionAnimate.m in Sources */,
+				EC5D20F01C62FDBA0083493B /* TYAlertFadeAnimation.m in Sources */,
 				ECE3D6831BFDEDDE00C63712 /* CZJActivityCell.m in Sources */,
 				ECC4DDA81C17D67B00FBD6A4 /* AFURLRequestSerialization.m in Sources */,
 				EC5EEB4F1C45DC0800EEA368 /* CZJStoreDetailController.m in Sources */,
 				ECC4DE3B1C17D67B00FBD6A4 /* SVIndefiniteAnimatedView.m in Sources */,
 				ECC4DDC01C17D67B00FBD6A4 /* EasyJSWebViewProxyDelegate.m in Sources */,
 				EC154CF11C1EBEB50004FAF5 /* CZJSerFilterTypeChooseCell.m in Sources */,
+				EC5D20F51C62FDBA0083493B /* UIView+TYAlertView.m in Sources */,
 				ECC4DE211C17D67B00FBD6A4 /* MKAnnotationView+WebCache.m in Sources */,
+				EC5D20F61C62FDBA0083493B /* UIView+TYAutoLayout.m in Sources */,
 				ECC4DE4C1C17D67B00FBD6A4 /* WebViewJsBridge.m in Sources */,
 				ECF2DCAF1C5767F80096FF39 /* ServiceProtocol.m in Sources */,
 				ECC4DE0B1C17D67B00FBD6A4 /* MJType.m in Sources */,
@@ -5353,6 +5464,7 @@
 				EC4521431C5EFB23003272C3 /* CZJOrderLogisticsInfoCell.m in Sources */,
 				ECF2DCC41C5767F80096FF39 /* CZJOrderCouponCell.m in Sources */,
 				ECC4DE101C17D67B00FBD6A4 /* CollectionHeader.m in Sources */,
+				EC5D20F41C62FDBA0083493B /* TYShowAlertView.m in Sources */,
 				EC025FD01C21036E00A8085E /* MJRefreshBackGifFooter.m in Sources */,
 				EC28E2931C152318003423F9 /* CZJCustomAnnotationView.m in Sources */,
 				ECF2DCF41C5769840096FF39 /* CZJOrderDetailCell.m in Sources */,
@@ -5367,6 +5479,7 @@
 				EC025FC91C21036E00A8085E /* MJRefreshBackFooter.m in Sources */,
 				ECD5F0FC1C2D66C7002012F7 /* CZJChoosedProductCell.m in Sources */,
 				EC3216751C522D2F0037D809 /* CZJAttentionForm.m in Sources */,
+				EC5D20EB1C62FDBA0083493B /* TYAlertController+BlurEffects.m in Sources */,
 				ECDB5DCB1BFADB0500882BB2 /* main.m in Sources */,
 				ECC4DE471C17D67B00FBD6A4 /* UUDatePicker_DateModel.m in Sources */,
 				ECC4DDAB1C17D67B00FBD6A4 /* AliPayManager.m in Sources */,
@@ -5374,6 +5487,7 @@
 				ECC4DDC21C17D67B00FBD6A4 /* LoadMoreTableFooterView.m in Sources */,
 				ECF8E9351C5C5BA100A98707 /* CALayer+UIColor.m in Sources */,
 				EC8A0BB31C005C72002A2CED /* CZJGoodsRecoCellHeader.m in Sources */,
+				EC5D21011C6341840083493B /* CZJOrderPayHeadCell.m in Sources */,
 				EC6ACCD81C30E15F00832B55 /* CZJChooseTypeHeaderCell.m in Sources */,
 				EC45215C1C5F2C1E003272C3 /* CZJOrderLogisticsController.m in Sources */,
 				ECC4DE141C17D67B00FBD6A4 /* MultilevelTableViewCell.m in Sources */,

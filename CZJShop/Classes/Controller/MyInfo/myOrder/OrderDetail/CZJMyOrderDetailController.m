@@ -298,67 +298,27 @@ UITableViewDelegate
     
     if (1 == indexPath.section)
     {
-        NSInteger totalprice = 0;           //当前门店消费费用小计
-        NSInteger couponPrice = 0;          //优惠券额
+
         NSInteger itemCount = orderDetailForm.items.count;
         NSInteger giftCount = 0;            //礼品数量
-        BOOL isHaveFullCut = NO;            //是否有满减
-        BOOL isHaveCoupon = NO;             //是否有优惠券
-        CZJOrderStoreForm* storeForm;       //当前section的数据模型
-        
-//        if (_orderStoreAry.count > 0)
-//        {
-//            storeForm = (CZJOrderStoreForm*)_orderStoreAry[indexPath.section - 3];
-//            itemCount = storeForm.items.count;
-//            giftCount = storeForm.gifts.count;
-//            isHaveFullCut = [storeForm.fullCutPrice floatValue] > 0.1;
-//            for (int i = 0; i < itemCount; i++)
-//            {
-//                CZJOrderGoodsForm* form = storeForm.items[i];
-//                totalprice += [form.currentPrice integerValue] * [form.itemCount integerValue];
-//            }
-//            totalprice -= [storeForm.fullCutPrice integerValue];
-//        }
-//        if (_useableStoreCouponAry.count > 0)
-//        {
-//            for (CZJOrderStoreCouponsForm* couponForm in _useableStoreCouponAry )
-//            {
-//                if ([couponForm.storeId isEqualToString:storeForm.storeId]) {
-//                    isHaveCoupon = ![couponForm.selectedCouponId isEqualToString:@""];
-//                    for (CZJShoppingCouponsForm* shoppingForm in couponForm.coupons)
-//                    {
-//                        if ([shoppingForm.couponId isEqualToString:couponForm.selectedCouponId])
-//                        {
-//                            couponPrice = [shoppingForm.value integerValue];
-//                            totalprice -= couponPrice;
-//                            break;
-//                        }
-//                    }
-//                }
-//            }
-//        }
-        NSInteger fullcutCount = (isHaveFullCut || isHaveCoupon) ? 1 : 0;
-        if (totalprice < 59)
-        {
-            totalprice += [storeForm.transportPrice integerValue];
-        }
-        
+        BOOL isHaveFullCut = !([orderDetailForm.fullCutPrice integerValue] == 0);            //是否有满减
+        BOOL isHaveCoupon = YES;             //是否有优惠券
         
         if (0 == indexPath.row)
-        {
+        {//门店名称cell
             UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"storeHeaer"];
             if (!cell) {
                 cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"storeHeaer"];
             }
             
-            [cell.imageView setImage:IMAGENAMED(storeForm.selfFlag ? @"commit_icon_ziying" : @"commit_icon_shop")];
-            cell.textLabel.text = storeForm.storeName;
+            [cell.imageView setImage:IMAGENAMED(@"commit_icon_shop")];
+            cell.textLabel.text = orderDetailForm.storeName;
             return cell;
         }
         else if (indexPath.row > 0 &&
                  indexPath.row <= itemCount)
-        {
-            CZJOrderGoodsForm* goodsForm = storeForm.items[indexPath.row - 1];
+        {//购买物品或服务cell
+            CZJOrderGoodsForm* goodsForm = orderDetailForm.items[indexPath.row - 1];
             CZJOrderProductHeaderCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJOrderProductHeaderCell" forIndexPath:indexPath];
             [cell.goodsImg sd_setImageWithURL:[NSURL URLWithString:goodsForm.itemImg] placeholderImage:IMAGENAMED(@"home_btn_xiche")];
             cell.goodsNameLabel.text = goodsForm.itemName;
@@ -368,15 +328,14 @@ UITableViewDelegate
             cell.setupView.hidden = !goodsForm.setupFlag;
             cell.goodsNameLayoutWidth.constant = PJ_SCREEN_WIDTH - 68 -15 - 8 - 15;
             cell.totalPriceLabel.text = [NSString stringWithFormat:@"￥%ld",[goodsForm.itemCount integerValue] * [goodsForm.currentPrice integerValue]];
-            cell.delegate = self;
             cell.storeItemPid = goodsForm.storeItemPid;
             cell.selectedSetupStoreNameLabel.text = goodsForm.selectdSetupStoreName;
             cell.indexPath = indexPath;
             return cell;
         }
         else if (indexPath.row > itemCount &&
-                 indexPath.row <= itemCount + fullcutCount)
-        {
+                 indexPath.row <= itemCount + 1)
+        {//满减和优惠cell
             CZJPromotionCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJPromotionCell" forIndexPath:indexPath];
             cell.nameOneLabel.hidden = YES;
             cell.nameOneNumLabel.hidden = YES;
@@ -393,7 +352,7 @@ UITableViewDelegate
                 cell.nameTwoLabel.hidden = YES;
                 cell.nameTwoNumLabel.hidden = YES;
                 cell.nameOneLabel.text = @"优惠券:";
-                cell.nameOneNumLabel.text = [NSString stringWithFormat:@"-￥%ld", couponPrice];
+                cell.nameOneNumLabel.text = [NSString stringWithFormat:@"-￥%@", orderDetailForm.couponPrice];
             }
             else if (isHaveFullCut && !isHaveCoupon)
             {
@@ -403,39 +362,46 @@ UITableViewDelegate
                 cell.nameTwoNumLabel.hidden = YES;
                 cell.nameOneLabel.text = @"促销满减:";
                 cell.nameOneNumLayoutWidth.constant = [CZJUtils calculateTitleSizeWithString:@"促销满减:" AndFontSize:13].width + 5;
-                cell.nameOneNumLabel.text = [NSString stringWithFormat:@"-￥%@",storeForm.fullCutPrice];
+                cell.nameOneNumLabel.text = [NSString stringWithFormat:@"-￥%@",orderDetailForm.fullCutPrice];
             }
             else
             {
-                cell.nameOneNumLabel.text = [NSString stringWithFormat:@"-￥%ld",couponPrice];
-                cell.nameTwoNumLabel.text = [NSString stringWithFormat:@"-￥%@",storeForm.fullCutPrice];
+                cell.nameTwoLabel.text = @"促销满减:";
+                cell.nameOneLabel.text = @"优惠券:";
+                cell.nameOneLabel.hidden = NO;
+                cell.nameOneNumLabel.hidden = NO;
+                cell.nameTwoLabel.hidden = NO;
+                cell.nameTwoNumLabel.hidden = NO;
+                cell.nameOneNumLabel.text = [NSString stringWithFormat:@"-￥%@",orderDetailForm.couponPrice];
+                cell.nameTwoNumLabel.text = [NSString stringWithFormat:@"-￥%@",orderDetailForm.fullCutPrice];
             }
             return cell;
         }
-        else if (indexPath.row > itemCount + fullcutCount&&
-                 indexPath.row <= itemCount + fullcutCount + 1)
-        {
+        else if (indexPath.row > itemCount + 1&&
+                 indexPath.row <= itemCount + 1 + 1)
+        {//运费和总计cell
             CZJOrderProductFooterCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJOrderProductFooterCell" forIndexPath:indexPath];
-            NSString* transportPriceStr = [NSString stringWithFormat:@"￥%@",totalprice > 59 ? @"0" :storeForm.transportPrice];
+            NSString* transportPriceStr = [NSString stringWithFormat:@"+￥%@",orderDetailForm.transportPrice];
             cell.transportPriceLabel.text = transportPriceStr;
-            cell.totalLabel.text = [NSString stringWithFormat:@"￥%ld",totalprice];
+            
+            cell.totalLabel.text = [NSString stringWithFormat:@"￥%@",orderDetailForm.orderPrice];
             cell.transportPriceLayoutWidth.constant = [CZJUtils calculateTitleSizeWithString:transportPriceStr AndFontSize:14].width + 5;
             return cell;
         }
-        else if (indexPath.row > itemCount + fullcutCount + 1 &&
-                 indexPath.row <= itemCount + fullcutCount + giftCount)
-        {
+        else if (indexPath.row > itemCount + 1 + 1 &&
+                 indexPath.row <= itemCount + 1 + giftCount)
+        {//赠品cell
             CZJGiftCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJGiftCell" forIndexPath:indexPath];
             return cell;
         }
         else
-        {
+        {//留言cell
             CZJLeaveMessageCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJLeaveMessageCell" forIndexPath:indexPath];
             cell.leaveMessageLabel.text = @"";
-            if (![storeForm.note isEqualToString:@""]) {
+            if (![orderDetailForm.note isEqualToString:@""]) {
                 cell.leaveMessageView.hidden = YES;
-                CGSize size = [CZJUtils calculateStringSizeWithString:storeForm.note Font:SYSTEMFONT(12) Width:PJ_SCREEN_WIDTH - 30];
-                cell.leaveMessageLabel.text = storeForm.note;
+                CGSize size = [CZJUtils calculateStringSizeWithString:orderDetailForm.note Font:SYSTEMFONT(12) Width:PJ_SCREEN_WIDTH - 30];
+                cell.leaveMessageLabel.text = orderDetailForm.note;
                 cell.leaveMessageLayoutHeight.constant = size.height;
                 cell.frame = CGRectMake(cell.frame.origin.x, cell.frame.origin.y, cell.frame.size.width, size.height + 30);
             }

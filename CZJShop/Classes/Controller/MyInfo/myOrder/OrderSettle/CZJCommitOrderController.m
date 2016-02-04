@@ -447,6 +447,12 @@ CZJLeaveMessageViewDelegate
             }
             else
             {
+                cell.nameOneLabel.text = @"促销满减:";
+                cell.nameOneLabel.text = @"优惠券:";
+                cell.nameOneLabel.hidden = NO;
+                cell.nameOneNumLabel.hidden = NO;
+                cell.nameTwoLabel.hidden = NO;
+                cell.nameTwoNumLabel.hidden = NO;
                 cell.nameOneNumLabel.text = [NSString stringWithFormat:@"-￥%ld",couponPrice];
                 cell.nameTwoNumLabel.text = [NSString stringWithFormat:@"-￥%@",storeForm.fullCutPrice];
             }
