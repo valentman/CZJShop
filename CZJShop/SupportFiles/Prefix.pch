@@ -29,16 +29,13 @@
 #import "CZJViewController.h"
 #import "CZJNaviagtionBarView.h"
 #import "CZJStarRageView.h"
+#import "CZJTextView.h"
 
 #import "CALayer+UIColor.h"
 #import "UIView+Frame.h"
 #import "UIView+RGSize.h"
-#import "UIView+TYAlertView.h"
-#import "UIView+TYAutoLayout.h"
-#import "UIView+MJExtension.h"
 #import "UIImageView+WebCache.h"
 #import "NSDictionary+NSDictonay_Unicode.h"
-#import "TYAlertController+BlurEffects.h"
 
 #import "MJExtension.h"
 #import "MJRefresh.h"
@@ -47,8 +44,6 @@
 #import "SVProgressHUD.h"
 #import "MBProgressHUD.h"
 #import "FDAlertView.h"
-#import "TYAlertView.h"
-
 
 //----------------------临时----------------------
 typedef void (^MGBasicBlock)();

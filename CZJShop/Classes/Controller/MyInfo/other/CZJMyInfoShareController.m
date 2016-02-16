@@ -7,8 +7,20 @@
 //
 
 #import "CZJMyInfoShareController.h"
+#import "ShareMessage.h"
+#import "CommonUnit.h"
 
 @interface CZJMyInfoShareController ()
+<MFMessageComposeViewControllerDelegate>
+{
+    NSString* _messageCode;
+}
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *separatorViewHeight;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *separatorLineHeight;
+@property (weak, nonatomic) IBOutlet UIImageView *myQRCode;
+
+- (IBAction)msgShareAction:(id)sender;
+- (IBAction)appShareAction:(id)sender;
 
 @end
 
@@ -17,6 +29,97 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [CZJUtils customizeNavigationBarForTarget:self];
+    [self initViews];
+    [self erweima];
+}
+
+- (void)initViews
+{
+    self.separatorViewHeight.constant = 0.8;
+    self.separatorLineHeight.constant = 0.8;
+    
+    _messageCode = @"分享得红包，yeah~";
+    
+    
+    //UIButton
+    UIButton *leftBtn = [[ UIButton alloc ] initWithFrame : CGRectMake(- 20 , 0 , 88 , 44 )];
+    [leftBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+    [leftBtn setTitle:@"使用说明" forState:UIControlStateNormal];
+    [leftBtn addTarget:self action:@selector(introductions) forControlEvents:UIControlEventTouchUpInside];
+    [leftBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal]; //将leftItem设置为自定义按钮
+    
+    //UIBarButtonItem
+    UIBarButtonItem *rightItem =[[UIBarButtonItem alloc]initWithCustomView: leftBtn];
+    
+    self.navigationItem.rightBarButtonItem = rightItem;
+}
+
+
+- (void)erweima
+
+{
+    //二维码滤镜
+    CIFilter *filter=[CIFilter filterWithName:@"CIQRCodeGenerator"];
+    
+    //恢复滤镜的默认属性
+    [filter setDefaults];
+    
+    //将字符串转换成NSData
+    NSData *data=[@"www.baidu.comwww.baidu.com" dataUsingEncoding:NSUTF8StringEncoding];
+    
+    //通过KVO设置滤镜inputmessage数据
+    [filter setValue:data forKey:@"inputMessage"];
+    
+    //获得滤镜输出的图像
+    CIImage *outputImage=[filter outputImage];
+    
+    //将CIImage转换成UIImage,并放大显示
+    BACK(^(){
+        UIImage* tmpImag=[self createNonInterpolatedUIImageFormCIImage:outputImage withSize:180];
+        
+        MAIN(^(){
+            _myQRCode.image = tmpImag;
+            CGRect qrFram = _myQRCode.frame;
+            DLog(@"qrframe: %f",qrFram.size.width);
+            UIImageView* centerImage = [[UIImageView alloc]initWithImage:IMAGENAMED(@"icon-small-40")];
+            centerImage.layer.cornerRadius = 5;
+            centerImage.clipsToBounds = YES;
+            [centerImage setSize:CGSizeMake(40, 40)];
+            [centerImage setPosition:CGPointMake(0.5*_myQRCode.frame.size.width, 0.5* _myQRCode.frame.size.height) atAnchorPoint:CGPointMake(0.5, 0.5)];
+            [_myQRCode addSubview:centerImage];
+        });
+    });
+}
+
+//改变二维码大小
+- (UIImage *)createNonInterpolatedUIImageFormCIImage:(CIImage *)image withSize:(CGFloat) size {
+    
+    CGRect extent = CGRectIntegral(image.extent);
+    CGFloat scale = MIN(size/CGRectGetWidth(extent), size/CGRectGetHeight(extent));
+    
+    // 创建bitmap;
+    size_t width = CGRectGetWidth(extent) * scale;
+    size_t height = CGRectGetHeight(extent) * scale;
+    CGColorSpaceRef cs = CGColorSpaceCreateDeviceGray();
+    CGContextRef bitmapRef = CGBitmapContextCreate(nil, width, height, 8, 0, cs, (CGBitmapInfo)kCGImageAlphaNone);
+    CIContext *context = [CIContext contextWithOptions:nil];
+    CGImageRef bitmapImage = [context createCGImage:image fromRect:extent];
+    CGContextSetInterpolationQuality(bitmapRef, kCGInterpolationNone);
+    CGContextScaleCTM(bitmapRef, scale, scale);
+    CGContextDrawImage(bitmapRef, extent, bitmapImage);
+    
+    // 保存bitmap到图片
+    CGImageRef scaledImage = CGBitmapContextCreateImage(bitmapRef);
+    CGContextRelease(bitmapRef);
+    CGImageRelease(bitmapImage);
+    
+    return [UIImage imageWithCGImage:scaledImage];
+}
+
+
+- (void)introductions
+{
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -24,14 +127,46 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result
+{
+    [controller dismissViewControllerAnimated:NO completion:nil];//关键的一句不能为YES
+    switch (result)
+    {
+        case MessageComposeResultCancelled:
+            [CZJUtils tipWithText:@"发送取消" andView:self.view];
+            break;
+        case MessageComposeResultFailed:// send failed
+            [[CommonUnit  shareCommonUnit] showAlertViewWithContent:@"发送成功"];
+            break;
+        case MessageComposeResultSent:
+            [[CommonUnit  shareCommonUnit] showAlertViewWithContent:@"发送失败"];
+            break;
+        default:
+            break;
+    }
 }
-*/
+             
 
+- (IBAction)msgShareAction:(id)sender
+{//短信分享
+    if( [MFMessageComposeViewController canSendText] )
+    {
+        MFMessageComposeViewController * controller = [[MFMessageComposeViewController alloc]init]; //autorelease];
+        
+        controller.recipients = [NSArray array];
+        controller.body = _messageCode;
+        controller.messageComposeDelegate = self;
+        
+        [self presentViewController:controller animated:YES completion:nil];
+        
+        [[[[controller viewControllers] lastObject] navigationItem] setTitle:@"车之健"];//修改短信界面标题
+    }else{
+        [[CommonUnit  shareCommonUnit] showAlertViewWithContent:@"设备没有短信功能"];
+    }
+}
+
+- (IBAction)appShareAction:(id)sender
+{//社交分享
+    [[ShareMessage shareMessage] showPanel:self.view Type:1 WithTitle:@"车之健" AndBody:_messageCode];
+}
 @end

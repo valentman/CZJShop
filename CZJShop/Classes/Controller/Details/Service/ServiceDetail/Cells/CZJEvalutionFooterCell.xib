@@ -143,6 +143,6 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="prodetail_icon_reply" width="6" height="11"/>
+        <image name="prodetail_icon_reply" width="13" height="13"/>
     </resources>
 </document>

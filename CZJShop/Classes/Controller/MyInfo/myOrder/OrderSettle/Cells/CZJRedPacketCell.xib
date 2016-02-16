@@ -86,6 +86,7 @@
             <connections>
                 <outlet property="leftCountLabel" destination="a3U-UG-ab6" id="FG0-Kg-CpS"/>
                 <outlet property="leftLabel" destination="9lK-KK-hlm" id="XGj-t6-3va"/>
+                <outlet property="redBackWidth" destination="JPo-oE-BCg" id="TyN-c4-qRP"/>
                 <outlet property="redPacketImg" destination="Kce-9v-6nc" id="nXE-Tc-1BX"/>
                 <outlet property="redPacketNameLabel" destination="X6r-c6-l10" id="O3Z-Qd-mDm"/>
                 <outlet property="selectBtn" destination="fGk-hR-5sT" id="Vpw-jL-sB5"/>

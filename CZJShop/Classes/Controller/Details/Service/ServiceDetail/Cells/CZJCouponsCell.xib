@@ -30,28 +30,43 @@
                         <animations/>
                         <constraints>
                             <constraint firstAttribute="width" constant="5" id="HkE-a9-XYd"/>
-                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="10" id="ay9-1l-40n"/>
                             <constraint firstAttribute="height" constant="10" id="b5C-Tz-iA1"/>
-                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="5" id="jEB-iO-Oga"/>
                         </constraints>
                     </imageView>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="we5-Rl-N3A">
+                        <rect key="frame" x="270" y="3" width="40" height="40"/>
+                        <animations/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="40" id="LP2-GQ-zik"/>
+                            <constraint firstAttribute="height" constant="40" id="tvv-Rh-5Ey"/>
+                        </constraints>
+                        <state key="normal" title="Button" image="commit_icon_swich_on.png"/>
+                        <state key="selected" image="commit_icon_swich_off.png"/>
+                    </button>
                 </subviews>
                 <animations/>
                 <constraints>
                     <constraint firstItem="dsN-eo-QTX" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="6wd-c1-enS"/>
-                    <constraint firstItem="dsN-eo-QTX" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="13" id="HU5-hR-r9K"/>
+                    <constraint firstItem="dsN-eo-QTX" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="Oub-nd-Cku"/>
                     <constraint firstAttribute="trailing" secondItem="8sx-1i-RwD" secondAttribute="trailing" constant="15" id="QEY-in-mJh"/>
                     <constraint firstItem="8sx-1i-RwD" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="chX-QU-brG"/>
+                    <constraint firstAttribute="trailing" secondItem="we5-Rl-N3A" secondAttribute="trailing" constant="10" id="fNG-Ck-9wx"/>
+                    <constraint firstItem="we5-Rl-N3A" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="fgf-nu-3DQ"/>
                 </constraints>
             </tableViewCellContentView>
             <animations/>
             <connections>
+                <outlet property="arrowImg" destination="8sx-1i-RwD" id="gCn-Ue-tfZ"/>
+                <outlet property="chooseButton" destination="we5-Rl-N3A" id="Evn-OI-e9W"/>
                 <outlet property="couponNameLabel" destination="dsN-eo-QTX" id="O0a-3L-UpN"/>
+                <outlet property="coupontNameWidth" destination="YvX-6c-wmD" id="j7h-Ac-yf4"/>
             </connections>
-            <point key="canvasLocation" x="56" y="307"/>
+            <point key="canvasLocation" x="100" y="301"/>
         </tableViewCell>
     </objects>
     <resources>
         <image name="all_arrow_next.png" width="6" height="11"/>
+        <image name="commit_icon_swich_off.png" width="45" height="45"/>
+        <image name="commit_icon_swich_on.png" width="45" height="45"/>
     </resources>
 </document>

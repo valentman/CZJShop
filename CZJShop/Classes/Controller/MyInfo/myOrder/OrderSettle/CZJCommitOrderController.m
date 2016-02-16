@@ -317,7 +317,7 @@ CZJLeaveMessageViewDelegate
             [cell.redPacketImg setImage:IMAGENAMED(@"commit_icon_yue")];
             cell.redPacketNameLabel.text = @"余额";
             cell.leftLabel.text = @"可用余额";
-            cell.leftCountLabel.text = [NSString stringWithFormat:@"￥%@",_orderForm.cardMoney];
+            cell.leftCountLabel.text = [NSString stringWithFormat:@"￥%.1f",[_orderForm.cardMoney floatValue]];
             return cell;
         }
         if (1 == indexPath.row)
@@ -326,7 +326,9 @@ CZJLeaveMessageViewDelegate
             [cell.redPacketImg setImage:IMAGENAMED(@"commit_icon_hongbao")];
             cell.redPacketNameLabel.text = @"红包";
             cell.leftLabel.text = @"可用红包";
-            cell.leftCountLabel.text = [NSString stringWithFormat:@"￥%@",_orderForm.redpacket];
+            NSString* redcount = [NSString stringWithFormat:@"￥%.1f",[_orderForm.redpacket floatValue]];
+            cell.leftCountLabel.text = redcount;
+            cell.redBackWidth.constant = [CZJUtils calculateStringSizeWithString:redcount Font:SYSTEMFONT(13) Width:200].width + 10;
             return cell;
         }
         if (2 == indexPath.row)
@@ -447,12 +449,6 @@ CZJLeaveMessageViewDelegate
             }
             else
             {
-                cell.nameOneLabel.text = @"促销满减:";
-                cell.nameOneLabel.text = @"优惠券:";
-                cell.nameOneLabel.hidden = NO;
-                cell.nameOneNumLabel.hidden = NO;
-                cell.nameTwoLabel.hidden = NO;
-                cell.nameTwoNumLabel.hidden = NO;
                 cell.nameOneNumLabel.text = [NSString stringWithFormat:@"-￥%ld",couponPrice];
                 cell.nameTwoNumLabel.text = [NSString stringWithFormat:@"-￥%@",storeForm.fullCutPrice];
             }

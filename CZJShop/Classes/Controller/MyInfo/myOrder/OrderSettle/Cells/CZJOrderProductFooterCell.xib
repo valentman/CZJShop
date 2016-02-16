@@ -73,6 +73,7 @@
             </tableViewCellContentView>
             <animations/>
             <connections>
+                <outlet property="fullCutLabel" destination="mi4-DZ-xvU" id="Qaa-pb-L5Z"/>
                 <outlet property="totalLabel" destination="jlY-79-fpC" id="8Ip-HG-8A3"/>
                 <outlet property="transportPriceLabel" destination="smL-wG-YvX" id="op1-qq-24g"/>
                 <outlet property="transportPriceLayoutWidth" destination="RMq-v5-TJz" id="B76-AO-dux"/>

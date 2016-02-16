@@ -14,6 +14,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *leftLabel;
 @property (weak, nonatomic) IBOutlet UILabel *leftCountLabel;
 @property (weak, nonatomic) IBOutlet UIButton *selectBtn;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *redBackWidth;
 
 - (IBAction)selectAction:(id)sender;
 @end

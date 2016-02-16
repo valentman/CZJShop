@@ -8,33 +8,28 @@
 
 #import "LXActivity.h"
 
-#define ZX_SCREEN_BOUNDS [[UIScreen mainScreen] bounds]
-#define ZX_SCREEN_WIDTH  ZX_SCREEN_BOUNDS.size.width
-#define ZX_SCREEN_HEIGHT ZX_SCREEN_BOUNDS.size.height
-
+//系统
 #define WINDOW_COLOR                            [UIColor colorWithRed:0 green:0 blue:0 alpha:0.2]
 #define ACTIONSHEET_BACKGROUNDCOLOR             [UIColor colorWithRed:238/255.00f green:238/255.00f blue:238/255.00f alpha:1.0]
 #define ANIMATE_DURATION                        0.25f
-
-#define CORNER_RADIUS                           0
+#define DIVIDENUMBER                            3
+//分享按钮
+#define CORNER_RADIUS                           35
 #define SHAREBUTTON_BORDER_WIDTH                0.5f
-#define SHAREBUTTON_BORDER_COLOR                [UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.8].CGColor
-#define SHAREBUTTONTITLE_FONT                   [UIFont fontWithName:@"Helvetica Neue" size:18]
-
-#define CANCEL_BUTTON_COLOR                     [UIColor colorWithRed:255/255.00f green:255/255.00f blue:255/255.00f alpha:1]
-
-#define SHAREBUTTON_WIDTH                       50
-#define SHAREBUTTON_HEIGHT                      50
-#define SHAREBUTTON_INTERVAL_WIDTH              (ZX_SCREEN_WIDTH - SHAREBUTTON_WIDTH * 4)/5.0f
+#define SHAREBUTTON_BORDER_COLOR                [UIColor colorWithRed:0.8f green:0.8f blue:0.8f alpha:0.8].CGColor
+#define SHAREBUTTON_WIDTH                       70
+#define SHAREBUTTON_HEIGHT                      70
+#define SHAREBUTTON_INTERVAL_WIDTH              (PJ_SCREEN_WIDTH - SHAREBUTTON_WIDTH * 3)/4.0f
 #define SHAREBUTTON_INTERVAL_HEIGHT             35
 
-#define SHARETITLE_WIDTH                        50
+//分享按钮标题
+#define SHARETITLE_WIDTH                        70
 #define SHARETITLE_HEIGHT                       20
-#define SHARETITLE_INTERVAL_WIDTH               (ZX_SCREEN_WIDTH - SHAREBUTTON_WIDTH * 4)/5.0f
+#define SHARETITLE_INTERVAL_WIDTH               (PJ_SCREEN_WIDTH - SHAREBUTTON_WIDTH * 3)/4.0f
 #define SHARETITLE_INTERVAL_HEIGHT              SHAREBUTTON_WIDTH+SHAREBUTTON_INTERVAL_HEIGHT
-#define SHARETITLE_FONT                         [UIFont fontWithName:@"Helvetica Neue" size:14]
 
-#define TITLE_INTERVAL_HEIGHT                   10
+//总标题
+#define TITLE_INTERVAL_HEIGHT                   20
 #define TITLE_HEIGHT                            20
 #define TITLE_INTERVAL_WIDTH                    30
 #define TITLE_WIDTH                             260
@@ -42,13 +37,15 @@
 #define SHADOW_OFFSET                           CGSizeMake(0, 0.8f)
 #define TITLE_NUMBER_LINES                      2
 
-#define BUTTON_INTERVAL_HEIGHT                  0
-#define BUTTON_HEIGHT                           40
-#define BUTTON_INTERVAL_WIDTH                   0
-#define BUTTON_WIDTH                            ZX_SCREEN_WIDTH
+//取消按钮
+#define BUTTON_INTERVAL_HEIGHT                  8
+#define BUTTON_HEIGHT                           44
+#define BUTTON_INTERVAL_WIDTH                   15
+#define BUTTON_WIDTH                            44
 #define BUTTONTITLE_FONT                        [UIFont fontWithName:@"HelveticaNeue-Bold" size:18]
 #define BUTTON_BORDER_WIDTH                     0.2f
 #define BUTTON_BORDER_COLOR                     [UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.8].CGColor
+#define CANCEL_BUTTON_COLOR                     [UIColor colorWithRed:255/255.00f green:255/255.00f blue:255/255.00f alpha:1]
 
 
 @interface UIImage (custom)
@@ -125,8 +122,6 @@
 
 - (void)showInView:(UIView *)view
 {
-//    [[UIApplication sharedApplication].keyWindow.rootViewController.view addSubview:self];
-    
     UIViewController *appRootVC = [UIApplication sharedApplication].keyWindow.rootViewController;
     UIViewController *topVC = appRootVC;
     while (topVC.presentedViewController) {
@@ -145,7 +140,7 @@
     self.isHadCancelButton = NO;
     
     //初始化LXACtionView的高度为0
-    self.LXActivityHeight = 0;
+    self.LXActivityHeight = 20;
     
     //初始化IndexNumber为0;
     self.postionIndexNumber = 0;
@@ -166,19 +161,27 @@
         titleLabel.textColor = [UIColor grayColor];
         self.LXActivityHeight = self.LXActivityHeight + 2*TITLE_INTERVAL_HEIGHT+TITLE_HEIGHT;
         [self.backGroundView addSubview:titleLabel];
+        
+        UIView* separatorView = [[UIView alloc]initWithFrame:CGRectMake(0, 60, PJ_SCREEN_WIDTH, SHAREBUTTON_BORDER_WIDTH)];
+        separatorView.backgroundColor = [UIColor lightGrayColor];
+        [self.backGroundView addSubview:separatorView];
+        
     }
     
     if (shareButtonImagesNameArray) {
         if (shareButtonImagesNameArray.count > 0) {
             self.isHadShareButton = YES;
             for (int i = 1; i < shareButtonImagesNameArray.count+1; i++) {
-                //计算出行数，与列数
-                int column = (int)ceil((float)(i)/4); //行
-                int line = (i)%4; //列
+                //计算出行数，与列
+                int column = (int)ceil((float)(i)/DIVIDENUMBER); //行
+                int line = (i)%DIVIDENUMBER; //列
                 if (line == 0) {
-                    line = 4;
+                    line = DIVIDENUMBER;
                 }
                 UIButton *shareButton = [self creatShareButtonWithColumn:column andLine:line];
+                shareButton.layer.cornerRadius = CORNER_RADIUS;
+                shareButton.layer.borderWidth = SHAREBUTTON_BORDER_WIDTH;
+                shareButton.layer.borderColor = SHAREBUTTON_BORDER_COLOR;
                 shareButton.tag = self.postionIndexNumber;
                 [shareButton addTarget:self action:@selector(didClickOnImageIndex:) forControlEvents:UIControlEventTouchUpInside];
                 
@@ -201,14 +204,15 @@
         if (shareButtonTitlesArray.count > 0 && shareButtonImagesNameArray.count > 0) {
             for (int j = 1; j < shareButtonTitlesArray.count+1; j++) {
                 //计算出行数，与列数
-                int column = (int)ceil((float)(j)/4); //行
-                int line = (j)%4; //列
+                int column = (int)ceil((float)(j)/DIVIDENUMBER); //行
+                int line = (j)%DIVIDENUMBER; //列
                 if (line == 0) {
-                    line = 4;
+                    line = DIVIDENUMBER;
                 }
                 UILabel *shareLabel = [self creatShareLabelWithColumn:column andLine:line];
                 shareLabel.text = [shareButtonTitlesArray objectAtIndex:j-1];
                 shareLabel.textAlignment = NSTextAlignmentCenter;
+                shareLabel.font = SYSTEMFONT(14);
                 //有Title的时候
                 if (self.isHadTitle == YES) {
                     [shareLabel setFrame:CGRectMake(SHARETITLE_INTERVAL_WIDTH+((line-1)*(SHARETITLE_INTERVAL_WIDTH+SHARETITLE_WIDTH)), self.LXActivityHeight+SHAREBUTTON_HEIGHT+((column-1)*(SHARETITLE_INTERVAL_HEIGHT)), SHARETITLE_WIDTH, SHARETITLE_HEIGHT)];
@@ -232,21 +236,24 @@
     
     if (cancelButtonTitle) {
         self.isHadCancelButton = YES;
-        UIButton *cancelButton = [self creatCancelButtonWith:cancelButtonTitle];
+        UIButton *cancelButton = [cancelButtonTitle isEqualToString:@""] ? [self creatCancelButtonWith] : [self creatCancelButtonWith:cancelButtonTitle];
         cancelButton.tag = self.postionIndexNumber;
         [cancelButton addTarget:self action:@selector(didClickOnImageIndex:) forControlEvents:UIControlEventTouchUpInside];
         
-        //当没title destructionButton otherbuttons时
-        if (self.isHadTitle == NO && self.isHadShareButton == NO) {
-            self.LXActivityHeight = self.LXActivityHeight + cancelButton.frame.size.height+(2*BUTTON_INTERVAL_HEIGHT);
+        //
+        if (![cancelButtonTitle isEqualToString:@""]) {
+            //当没title destructionButton otherbuttons时
+            if (self.isHadTitle == NO && self.isHadShareButton == NO) {
+                self.LXActivityHeight = self.LXActivityHeight + cancelButton.frame.size.height+(2*BUTTON_INTERVAL_HEIGHT);
+            }
+            //当有title或destructionButton或otherbuttons时
+            if (self.isHadTitle == YES || self.isHadShareButton == YES) {
+                [cancelButton setFrame:CGRectMake(cancelButton.frame.origin.x, self.LXActivityHeight, cancelButton.frame.size.width, cancelButton.frame.size.height)];
+                self.LXActivityHeight = self.LXActivityHeight + cancelButton.frame.size.height+BUTTON_INTERVAL_HEIGHT;
+            }
         }
-        //当有title或destructionButton或otherbuttons时
-        if (self.isHadTitle == YES || self.isHadShareButton == YES) {
-            [cancelButton setFrame:CGRectMake(cancelButton.frame.origin.x, self.LXActivityHeight, cancelButton.frame.size.width, cancelButton.frame.size.height)];
-            self.LXActivityHeight = self.LXActivityHeight + cancelButton.frame.size.height+BUTTON_INTERVAL_HEIGHT;
-        }
+
         [self.backGroundView addSubview:cancelButton];
-        
         self.postionIndexNumber++;
     }
     
@@ -254,6 +261,15 @@
         [self.backGroundView setFrame:CGRectMake(0, [UIScreen mainScreen].bounds.size.height-self.LXActivityHeight, [UIScreen mainScreen].bounds.size.width, self.LXActivityHeight)];
     } completion:^(BOOL finished) {
     }];
+}
+
+
+- (UIButton *)creatCancelButtonWith
+{
+    UIButton *cancelButton = [[UIButton alloc] initWithFrame:CGRectMake(PJ_SCREEN_WIDTH - BUTTON_WIDTH- BUTTON_INTERVAL_WIDTH, BUTTON_INTERVAL_HEIGHT, BUTTON_WIDTH, BUTTON_HEIGHT)];
+    [cancelButton setImage:IMAGENAMED(@"login_btn_off") forState:UIControlStateNormal];
+    
+    return cancelButton;
 }
 
 
@@ -295,12 +311,11 @@
 
 - (UILabel *)creatTitleLabelWith:(NSString *)title
 {
-    UILabel *titlelabel = [[UILabel alloc] initWithFrame:CGRectMake(TITLE_INTERVAL_WIDTH, TITLE_INTERVAL_HEIGHT, TITLE_WIDTH, TITLE_HEIGHT)];
+    UILabel *titlelabel = [[UILabel alloc] initWithFrame:CGRectMake((PJ_SCREEN_WIDTH - TITLE_WIDTH) / 2, TITLE_INTERVAL_HEIGHT, TITLE_WIDTH, TITLE_HEIGHT)];
     titlelabel.backgroundColor = [UIColor clearColor];
     titlelabel.textAlignment = NSTextAlignmentCenter;
-//    titlelabel.shadowColor = [UIColor blackColor];
     titlelabel.shadowOffset = SHADOW_OFFSET;
-    titlelabel.font = SHARETITLE_FONT;
+    titlelabel.font = SYSTEMFONT(16);
     titlelabel.text = title;
     titlelabel.textColor = [UIColor whiteColor];
     titlelabel.numberOfLines = TITLE_NUMBER_LINES;

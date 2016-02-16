@@ -18,6 +18,9 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *orderCouponImg;
 @property (weak, nonatomic) IBOutlet UIScrollView *orderCouponScrollView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *orderCouponsScrollViewLayoutWidth;
+@property (weak, nonatomic) IBOutlet UILabel *contentNameLabel;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *contentNamelabelWidth;
+@property (weak, nonatomic) IBOutlet UIImageView *contentImg;
 
 - (void)setUseableCouponAry:(NSMutableArray*)useableAry;
 

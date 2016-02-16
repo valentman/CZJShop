@@ -13,6 +13,9 @@
     NSArray* couponsAry;
 }
 @property (weak, nonatomic) IBOutlet UILabel *couponNameLabel;
+@property (weak, nonatomic) IBOutlet UIButton *chooseButton;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *coupontNameWidth;
+@property (weak, nonatomic) IBOutlet UIImageView *arrowImg;
 
 
 - (void)initWithCouponDatas:(NSArray*)coupons;

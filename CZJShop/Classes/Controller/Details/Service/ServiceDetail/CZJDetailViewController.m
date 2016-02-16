@@ -444,13 +444,15 @@ CZJStoreInfoHeaerCellDelegate
             else if (1 == indexPath.row)
             {
                 CZJEvalutionDescCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJEvalutionDescCell" forIndexPath:indexPath];
-                if (_evalutionInfo) {
-                    cell.evalWriter.text = ((CZJEvalutionsForm*)_evalutionInfo.evalList[indexPath.row - 1]).evalName;
-                    cell.evalTime.text = ((CZJEvalutionsForm*)_evalutionInfo.evalList[indexPath.row - 1]).evalTime;
-                    cell.evalContent.text = ((CZJEvalutionsForm*)_evalutionInfo.evalList[indexPath.row - 1]).evalDesc;
-                    [cell.addtionnalImage sd_setImageWithURL:[NSURL URLWithString:((CZJEvalutionsForm*)_evalutionInfo.evalList[indexPath.row - 1]).imgs[0]]
+                if (_evalutionInfo.evalList.count > 0)
+                {
+                    CZJEvalutionsForm* evalutionForm  = (CZJEvalutionsForm*)_evalutionInfo.evalList[indexPath.row - 1];
+                    cell.evalWriter.text = evalutionForm.evalName;
+                    cell.evalTime.text = evalutionForm.evalTime;
+                    cell.evalContent.text = evalutionForm.evalDesc;
+                    [cell.addtionnalImage sd_setImageWithURL:[NSURL URLWithString:evalutionForm.imgs[0]]
                                             placeholderImage:IMAGENAMED(@"home_btn_xiche")];
-                    [cell setStar:[((CZJEvalutionsForm*)_evalutionInfo.evalList[indexPath.row - 1]).evalStar intValue]];
+                    [cell setStar:[evalutionForm.evalStar intValue]];
                 }
                 [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
                 return cell;

@@ -310,26 +310,6 @@ singleton_interface(CZJBaseDataManager);
                        Success:(CZJSuccessBlock)success
                           fail:(CZJFailureBlock)fail;
 
-//订单列表去支付
-- (void)mergeOrderToSettle:(NSDictionary*)postParams
-                   Success:(CZJSuccessBlock)success
-                      fail:(CZJFailureBlock)fail;
-
-//获取物流信息
-- (void)getExpressInfo:(NSDictionary*)postParams
-               Success:(CZJSuccessBlock)success
-                  fail:(CZJFailureBlock)fail;
-
-//获取图片气流信息
-- (void)uploadImg:(NSDictionary*)postParams
-          Success:(CZJSuccessBlock)success
-             fail:(CZJFailureBlock)fail;
-
-//提交退货信息
-- (void)submitReturnOrder:(NSDictionary*)postParams
-                  Success:(CZJSuccessBlock)success
-                     fail:(CZJFailureBlock)fail;
-
 
 
 //-------------------------个人信息中心------------------------------

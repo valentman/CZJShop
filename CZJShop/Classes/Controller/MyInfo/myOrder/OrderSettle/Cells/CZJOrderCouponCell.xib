@@ -66,6 +66,9 @@
                 <constraint firstItem="gRC-Fn-b5T" firstAttribute="centerY" secondItem="KGk-i7-Jjw" secondAttribute="centerY" id="4db-Z1-Vh1"/>
             </constraints>
             <connections>
+                <outlet property="contentImg" destination="lWj-63-eoe" id="ZbJ-kZ-FnN"/>
+                <outlet property="contentNameLabel" destination="y0R-ZE-c6f" id="87I-Qj-wrC"/>
+                <outlet property="contentNamelabelWidth" destination="bc1-B9-8Ak" id="SFS-Pn-TXi"/>
                 <outlet property="orderCouponImg" destination="4db-Z1-Vh1" id="Ttc-i5-8wz"/>
                 <outlet property="orderCouponScrollView" destination="xH0-tZ-1G1" id="JnB-JP-I9b"/>
                 <outlet property="orderCouponsScrollViewLayoutWidth" destination="vOb-d7-21Q" id="OAe-kv-cVg"/>

@@ -105,14 +105,14 @@ static NSString *const kCZJServerAPIRemoveAttentions = @"chezhu/deleteAttentions
 
 //订单接口组
 static NSString *const kCZJServerAPIGetOrderList = @"chezhu/loadOrders.do";                                //获取订单列表
-static NSString *const kCZJServerAPIOrderToPay = @"chezhu/mergePay.do";                                    //订单列表去支付
+//static NSString *const kCZJServerAPIOrderToPay = @"chezhu/mergePay.do";                                    //订单列表去支付
 static NSString *const kCZJServerAPIGetOrderDetail = @"chezhu/loadOrder.do";                               //获取订单详情
 static NSString *const kCZJServerAPICarCheck = @"chezhu/viewCarChecks.do";                                 //车况检查
 static NSString *const kCZJServerAPIBuildingProgress = @"chezhu/viewBuildProgress.do";                     //施工进度
-static NSString *const kCZJServerAPIExpressInfo = @"chezhu/vieweExpressInfo.do";                           //物流信息
+//static NSString *const kCZJServerAPIExpressInfo = @"chezhu/vieweExpressInfo.do";                           //物流信息
 static NSString *const kCZJServerAPIGetReturnableOrderList = @"chezhu/loadReturnItemsByOrder.do";          //获取订单可退货列表
-static NSString *const kCZJServerAPIUploadImg = @"chezhu/loadQiuniuParams.do";                             //获取气流信息
-static NSString *const kCZJServerAPISubmitReturnOrder = @"chezhu/returnOrderItem.do";                      //提交退货信息
+//static NSString *const kCZJServerAPIUploadImg = @"chezhu/loadQiuniuParams.do";                             //获取气流信息
+//static NSString *const kCZJServerAPISubmitReturnOrder = @"chezhu/returnOrderItem.do";                      //提交退货信息
 static NSString *const kCZJServerAPIGetReturnedOrderList = @"chezhu/loadReturnItems.do";                   //获取我的已退还货列表
 
 

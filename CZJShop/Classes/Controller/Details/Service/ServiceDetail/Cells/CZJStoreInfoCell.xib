@@ -162,6 +162,6 @@
     </objects>
     <resources>
         <image name="prodetail_icon_kefu01" width="22" height="22"/>
-        <image name="prodetail_icon_shop01" width="22" height="22"/>
+        <image name="prodetail_icon_shop01" width="13" height="13"/>
     </resources>
 </document>
