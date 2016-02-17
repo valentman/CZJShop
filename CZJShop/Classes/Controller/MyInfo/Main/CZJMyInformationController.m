@@ -221,7 +221,7 @@ CZJViewControllerDelegate
             cell.imageView.image = IMAGENAMED(@"");
             [cell.imageView setImage:IMAGENAMED(@"my_icon_wallet")];
             cell.nameLabel.text = @"我的钱包";
-            
+            cell.arrowImg.hidden = YES;
             return cell;
         }
         else
@@ -337,7 +337,7 @@ CZJViewControllerDelegate
     {
         if (0 == indexPath.row)
         {
-            segueIdentifer = @"segueToMyWallet";
+//            segueIdentifer = @"segueToMyWallet";
         }
     }
     if (indexPath.section == 2)
@@ -384,9 +384,34 @@ CZJViewControllerDelegate
     }
     else
     {//钱包
-        
+        NSString* segueId = @"";
+        switch (_currentTouchOrderListType)
+        {
+            case 1:
+                segueId = @"segueToBalance";
+                break;
+                
+            case 2:
+                segueId = @"segueToRedPacket";
+                break;
+                
+            case 3:
+                segueId = @"";
+                break;
+                
+            case 4:
+                segueId = @"segueToCoupon";
+                break;
+                
+            case 5:
+                segueId = @"segueToCard";
+                break;
+                
+            default:
+                break;
+        }
+        [self performSegueWithIdentifier:segueId sender:self];
     }
-
 }
 
 

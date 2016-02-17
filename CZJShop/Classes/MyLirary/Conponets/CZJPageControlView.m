@@ -73,7 +73,7 @@ UIScrollViewDelegate>
 -(void)initMainController{
     for (int i = 0; i < self.btnArr.count; i ++) {
         UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-        CGSize size = [self.btnArr[2] sizeWithAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:20]}];
+        CGSize size = [self.btnArr[i] sizeWithAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:20]}];
         [btn setTitle:self.btnArr[i] forState:UIControlStateNormal];
         [btn setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
         [btn setTitleColor:[UIColor redColor] forState:UIControlStateSelected];

@@ -14,18 +14,18 @@
 #define ANIMATE_DURATION                        0.25f
 #define DIVIDENUMBER                            3
 //分享按钮
-#define CORNER_RADIUS                           35
+#define CORNER_RADIUS                           30
 #define SHAREBUTTON_BORDER_WIDTH                0.5f
 #define SHAREBUTTON_BORDER_COLOR                [UIColor colorWithRed:0.8f green:0.8f blue:0.8f alpha:0.8].CGColor
-#define SHAREBUTTON_WIDTH                       70
-#define SHAREBUTTON_HEIGHT                      70
+#define SHAREBUTTON_WIDTH                       60
+#define SHAREBUTTON_HEIGHT                      60
 #define SHAREBUTTON_INTERVAL_WIDTH              (PJ_SCREEN_WIDTH - SHAREBUTTON_WIDTH * 3)/4.0f
 #define SHAREBUTTON_INTERVAL_HEIGHT             35
 
 //分享按钮标题
 #define SHARETITLE_WIDTH                        70
 #define SHARETITLE_HEIGHT                       20
-#define SHARETITLE_INTERVAL_WIDTH               (PJ_SCREEN_WIDTH - SHAREBUTTON_WIDTH * 3)/4.0f
+#define SHARETITLE_INTERVAL_WIDTH               (PJ_SCREEN_WIDTH - SHARETITLE_WIDTH * 3)/4.0f
 #define SHARETITLE_INTERVAL_HEIGHT              SHAREBUTTON_WIDTH+SHAREBUTTON_INTERVAL_HEIGHT
 
 //总标题

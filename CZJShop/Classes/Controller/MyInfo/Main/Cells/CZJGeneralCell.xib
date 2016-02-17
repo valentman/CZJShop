@@ -67,6 +67,7 @@
             </tableViewCellContentView>
             <animations/>
             <connections>
+                <outlet property="arrowImg" destination="DLh-vG-E1W" id="dvB-kd-iGI"/>
                 <outlet property="detailLabel" destination="EI7-FV-nYW" id="1xP-1Q-47B"/>
                 <outlet property="headImgView" destination="aRY-co-kF7" id="pmE-5I-GEX"/>
                 <outlet property="nameLabel" destination="NBw-VK-z46" id="32p-lm-ELl"/>

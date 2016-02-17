@@ -1,22 +1,23 @@
 //
-//  CZJMyInfoWalletController.m
+//  CZJMyWalletPointController.m
 //  CZJShop
 //
-//  Created by Joe.Pen on 1/12/16.
+//  Created by Joe.Pen on 2/17/16.
 //  Copyright © 2016 JoeP. All rights reserved.
 //
 
-#import "CZJMyInfoWalletController.h"
+#import "CZJMyWalletPointController.h"
 
-@interface CZJMyInfoWalletController ()
+@interface CZJMyWalletPointController ()
 
 @end
 
-@implementation CZJMyInfoWalletController
+@implementation CZJMyWalletPointController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     [CZJUtils customizeNavigationBarForTarget:self];
+    // Do any additional setup after loading the view.
 }
 
 - (void)didReceiveMemoryWarning {
