@@ -29,6 +29,7 @@
 #import "CZJServiceListController.h"
 #import "CZJShoppingCartController.h"
 #import "CZJLoginController.h"
+#import "CZJDetailViewController.h"
 
 @interface CZJHomeViewController ()<
 UISearchBarDelegate,
@@ -37,10 +38,12 @@ UITableViewDataSource,
 PullTableViewDelegate,
 CZJNaviagtionBarViewDelegate,
 CZJImageViewTouchDelegate,
-CZJServiceCellDelegate
+CZJServiceCellDelegate,
+CZJGoodsRecommendCellDelegate
 >
 {
     NSString* _serviceTypeId;
+    NSString* _touchedStoreItemPid;
 }
 @property (strong, nonatomic) IBOutlet PullTableView *homeTableView;
 @property (weak, nonatomic) IBOutlet UIButton *btnToTop;
@@ -70,19 +73,18 @@ CZJServiceCellDelegate
 {
     [((CZJCarInfoCell*)[self.homeTableView dequeueReusableCellWithIdentifier:@"CZJCarInfoCell"]).autoScrollTimer setFireDate:[NSDate distantPast]];
     [_navibarView refreshShopBadgeLabel];
-    _navibarView.hidden = YES;
+    _navibarView.hidden = NO;
     self.navigationController.navigationBarHidden = NO;
     [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
-    
-    [self.homeTableView setContentOffset:CGPointMake(0,0) animated:NO];
+//    [self.homeTableView setContentOffset:CGPointMake(0,0) animated:NO];
     self.isJumpToAnotherView = YES;
-    [UIView animateWithDuration:0.5 animations:^{
-        _navibarView.hidden = NO;
-    }];
+//    [UIView animateWithDuration:0.5 animations:^{
+//        _navibarView.hidden = NO;
+//    }];
     
 }
 
@@ -111,13 +113,12 @@ CZJServiceCellDelegate
     [navigationBarAppearance setBackgroundImage:[UIImage imageNamed:@"nav_bargound"] forBarMetrics:UIBarMetricsDefault];
     self.navigationController.toolbar.translucent = NO;
     self.navigationController.navigationBar.shadowImage =[UIImage imageNamed:@"nav_bargound"];
-    
+    self.navigationController.navigationBarHidden = YES;
     
     //导航栏添加搜索栏
-    CGRect mainViewBounds = self.navigationController.navigationBar.bounds;
-    _navibarView = [[CZJNaviagtionBarView alloc]initWithFrame:mainViewBounds AndType:CZJNaviBarViewTypeHome];
+    _navibarView = [[CZJNaviagtionBarView alloc]initWithFrame:CGRectMake(0, 20, PJ_SCREEN_WIDTH, 44) AndType:CZJNaviBarViewTypeHome];
     _navibarView.delegate = self;
-    [self.navigationController.navigationBar addSubview:_navibarView];
+    [self.view addSubview:_navibarView];
 }
 
 
@@ -514,26 +515,11 @@ CZJServiceCellDelegate
             else
             {
                 CZJGoodsRecommendCell* cell = (CZJGoodsRecommendCell*)[tableView dequeueReusableCellWithIdentifier:@"CZJGoodsRecommendCell" forIndexPath:indexPath];
-                
-                //                                UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell9"];
-                //                                if (!cell) {
-                //                                    cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell9"];
-                //                                }
-                DLog(@"%p",cell);
+                cell.delegate = self;
                 if (cell && _goodsRecommentArray.count > 0)
                 {
-                    GoodsRecommendForm * form = ((NSArray*)_goodsRecommentArray[indexPath.row - 1]).firstObject;
-                    [cell.goodImg sd_setImageWithURL:[NSURL URLWithString:form.itemImg] placeholderImage:PNGIMAGE(@"home_btn_xiche")];
-                    cell.goodNameLabel.text = form.itemName;
-                    cell.goodPriceLabel.text = [NSString stringWithFormat:@"￥%@",form.currentPrice];
-                    
-                    if (((NSArray*)_goodsRecommentArray[indexPath.row - 1]).count > 1)
-                    {
-                        GoodsRecommendForm * form2 = _goodsRecommentArray[indexPath.row - 1][1];
-                        [cell.goodImg2 sd_setImageWithURL:[NSURL URLWithString:form2.itemImg] placeholderImage:PNGIMAGE(@"home_btn_xiche")];
-                        cell.goodNameLabel2.text = form2.itemName;
-                        cell.goodPriceLabel2.text = [NSString stringWithFormat:@"￥%@",form2.currentPrice];
-                    }
+                    [cell initGoodsRecommendWithDatas:_goodsRecommentArray[indexPath.row - 1]];
+
                 }
                 return cell;
             }
@@ -724,6 +710,14 @@ CZJServiceCellDelegate
 }
 
 
+#pragma mark- CZJGoodsRecommendCellDelegate
+- (void)clickRecommendCellWithID:(NSString*)itemID
+{
+    _touchedStoreItemPid = itemID;
+    [self performSegueWithIdentifier:@"segueToGoodsDetail" sender:self];
+}
+
+
 #pragma mark- storyboardSegue
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
@@ -733,6 +727,12 @@ CZJServiceCellDelegate
         detailInfo.title = @"";
         detailInfo.navTitleName = @"";
         detailInfo.typeId = _serviceTypeId;
+    }
+    if ([segue.identifier isEqualToString:@"segueToGoodsDetail"])
+    {
+        CZJDetailViewController* detailVC = segue.destinationViewController;
+        detailVC.storeItemPid = _touchedStoreItemPid;
+        detailVC.detaiViewType = CZJDetailTypeGoods;
     }
 }
 

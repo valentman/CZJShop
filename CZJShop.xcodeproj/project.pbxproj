@@ -331,6 +331,9 @@
 		EC4521591C5F2BF7003272C3 /* CZJOrderBuildingController.m in Sources */ = {isa = PBXBuildFile; fileRef = EC4521581C5F2BF7003272C3 /* CZJOrderBuildingController.m */; settings = {ASSET_TAGS = (); }; };
 		EC45215C1C5F2C1E003272C3 /* CZJOrderLogisticsController.m in Sources */ = {isa = PBXBuildFile; fileRef = EC45215B1C5F2C1E003272C3 /* CZJOrderLogisticsController.m */; settings = {ASSET_TAGS = (); }; };
 		EC45215F1C5F2CAC003272C3 /* CZJOrderCarCheckController.m in Sources */ = {isa = PBXBuildFile; fileRef = EC45215E1C5F2CAC003272C3 /* CZJOrderCarCheckController.m */; settings = {ASSET_TAGS = (); }; };
+		EC4997091C756DEA007B0936 /* CZJMyCardInfoForm.m in Sources */ = {isa = PBXBuildFile; fileRef = EC4997081C756DEA007B0936 /* CZJMyCardInfoForm.m */; settings = {ASSET_TAGS = (); }; };
+		EC49970D1C75AA60007B0936 /* CZJMyWalletCardItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EC49970B1C75AA60007B0936 /* CZJMyWalletCardItemCell.m */; settings = {ASSET_TAGS = (); }; };
+		EC49970E1C75AA60007B0936 /* CZJMyWalletCardItemCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EC49970C1C75AA60007B0936 /* CZJMyWalletCardItemCell.xib */; settings = {ASSET_TAGS = (); }; };
 		EC4ACB951C562C6800E3523F /* CZJSearchController.m in Sources */ = {isa = PBXBuildFile; fileRef = EC4ACB941C562C6800E3523F /* CZJSearchController.m */; settings = {ASSET_TAGS = (); }; };
 		EC4EF4B01C3A4E7300E0FA91 /* commit_lable_zeng@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EC4EF4AE1C3A4E7300E0FA91 /* commit_lable_zeng@2x.png */; };
 		EC4EF4B11C3A4E7300E0FA91 /* commit_lable_zeng@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = EC4EF4AF1C3A4E7300E0FA91 /* commit_lable_zeng@3x.png */; };
@@ -1387,6 +1390,11 @@
 		EC45215B1C5F2C1E003272C3 /* CZJOrderLogisticsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJOrderLogisticsController.m; sourceTree = "<group>"; };
 		EC45215D1C5F2CAC003272C3 /* CZJOrderCarCheckController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJOrderCarCheckController.h; sourceTree = "<group>"; };
 		EC45215E1C5F2CAC003272C3 /* CZJOrderCarCheckController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJOrderCarCheckController.m; sourceTree = "<group>"; };
+		EC4997071C756DEA007B0936 /* CZJMyCardInfoForm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJMyCardInfoForm.h; sourceTree = "<group>"; };
+		EC4997081C756DEA007B0936 /* CZJMyCardInfoForm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJMyCardInfoForm.m; sourceTree = "<group>"; };
+		EC49970A1C75AA60007B0936 /* CZJMyWalletCardItemCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJMyWalletCardItemCell.h; sourceTree = "<group>"; };
+		EC49970B1C75AA60007B0936 /* CZJMyWalletCardItemCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJMyWalletCardItemCell.m; sourceTree = "<group>"; };
+		EC49970C1C75AA60007B0936 /* CZJMyWalletCardItemCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CZJMyWalletCardItemCell.xib; sourceTree = "<group>"; };
 		EC4ACB931C562C6800E3523F /* CZJSearchController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJSearchController.h; sourceTree = "<group>"; };
 		EC4ACB941C562C6800E3523F /* CZJSearchController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJSearchController.m; sourceTree = "<group>"; };
 		EC4EF4AE1C3A4E7300E0FA91 /* commit_lable_zeng@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "commit_lable_zeng@2x.png"; sourceTree = "<group>"; };
@@ -2630,6 +2638,8 @@
 				EC583A021C48D4AF001401FC /* CZJStoreDetailForm.m */,
 				EC3216731C522D2F0037D809 /* CZJAttentionForm.h */,
 				EC3216741C522D2F0037D809 /* CZJAttentionForm.m */,
+				EC4997071C756DEA007B0936 /* CZJMyCardInfoForm.h */,
+				EC4997081C756DEA007B0936 /* CZJMyCardInfoForm.m */,
 			);
 			name = Madel;
 			path = Classes/Madel;
@@ -2816,6 +2826,9 @@
 				EC1FE8041C746E0200318505 /* CZJMyWalletCardCell.h */,
 				EC1FE8051C746E0200318505 /* CZJMyWalletCardCell.m */,
 				EC1FE8061C746E0200318505 /* CZJMyWalletCardCell.xib */,
+				EC49970A1C75AA60007B0936 /* CZJMyWalletCardItemCell.h */,
+				EC49970B1C75AA60007B0936 /* CZJMyWalletCardItemCell.m */,
+				EC49970C1C75AA60007B0936 /* CZJMyWalletCardItemCell.xib */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -4839,6 +4852,7 @@
 				EC26A2F01C2A386600B166A3 /* commit_icon_liuyan@3x.png in Resources */,
 				EC442B5C1BFEF5B100DC6F97 /* CZJMiaoShaCell.xib in Resources */,
 				EC4521531C5F0CF0003272C3 /* CZJOrderEvalutateAllCell.xib in Resources */,
+				EC49970E1C75AA60007B0936 /* CZJMyWalletCardItemCell.xib in Resources */,
 				EC34FFFE1C433D5A0063A071 /* my_icon_shouhuo@2x.png in Resources */,
 				ECC4DEEC1C17FEA900FBD6A4 /* prodetail_pop_base@2x.png in Resources */,
 				ECF1FB171C27986800B99D93 /* login_btn_back@3x.png in Resources */,
@@ -5397,6 +5411,7 @@
 				EC1FE7FA1C7412B400318505 /* CZJMyWalletRechargeController.m in Sources */,
 				EC442B651BFEF61000DC6F97 /* CZJBrandRecommendCell.m in Sources */,
 				ECF2DCCC1C5767F80096FF39 /* CZJOrderTypeCell.m in Sources */,
+				EC49970D1C75AA60007B0936 /* CZJMyWalletCardItemCell.m in Sources */,
 				ECC4DE1B1C17D67B00FBD6A4 /* OpenShare+QQ.m in Sources */,
 				EC154CF21C1EBEB50004FAF5 /* CZJStoreServiceCell.m in Sources */,
 				ECC4DDA41C17D67B00FBD6A4 /* AFHTTPSessionManager.m in Sources */,
@@ -5542,6 +5557,7 @@
 				EC0223B81C59C7BB00600851 /* CZJViewController.m in Sources */,
 				ECF2DCD91C5767F80096FF39 /* CZJLeaveMessageView.m in Sources */,
 				EC025FD11C21036E00A8085E /* MJRefreshBackNormalFooter.m in Sources */,
+				EC4997091C756DEA007B0936 /* CZJMyCardInfoForm.m in Sources */,
 				ECF2DCCE1C5767F80096FF39 /* CZJOrderTypeExpandCell.m in Sources */,
 				ECF2DCA61C5767F80096FF39 /* CZJGoodsAttentionCell.m in Sources */,
 				ECC4DE201C17D67B00FBD6A4 /* PlaceholderTextView.m in Sources */,

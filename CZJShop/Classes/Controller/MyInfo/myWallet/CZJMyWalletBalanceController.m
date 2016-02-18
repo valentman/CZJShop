@@ -7,8 +7,11 @@
 //
 
 #import "CZJMyWalletBalanceController.h"
+#import "CZJBaseDataManager.h"
 
 @interface CZJMyWalletBalanceController ()
+@property (weak, nonatomic) IBOutlet UILabel *balanceLabel;
+@property (weak, nonatomic) IBOutlet UILabel *notificationLabel;
 
 @end
 
@@ -17,22 +20,20 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [CZJUtils customizeNavigationBarForTarget:self];
-    // Do any additional setup after loading the view.
+    [self getBalanceDataFromServer];
+}
+
+- (void)getBalanceDataFromServer
+{
+    [CZJBaseDataInstance generalPost:nil success:^(id json) {
+        NSDictionary* dict = [[CZJUtils DataFromJson:json] valueForKey:@"msg"];
+        self.balanceLabel.text = [dict valueForKey:@"money"];
+        self.notificationLabel.text = [dict valueForKey:@"title"];
+    } andServerAPI:kCZJServerAPIGetBalanceInfo];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

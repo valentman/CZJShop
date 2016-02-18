@@ -275,11 +275,6 @@ singleton_interface(CZJBaseDataManager);
                Success:(CZJSuccessBlock)success
                   fail:(CZJFailureBlock)fail;
 
-//通用
-- (void)generalPost:(NSDictionary*)postParams
-            success:(CZJSuccessBlock)success
-       andServerAPI:(NSString*)api;
-
 //获取订单列表
 - (void)getOrderList:(NSDictionary*)postParams
              Success:(CZJSuccessBlock)success
@@ -383,5 +378,10 @@ singleton_interface(CZJBaseDataManager);
 - (void)cancleAttentionList:(NSDictionary*)postParams
                     Success:(CZJSuccessBlock)success
                        fail:(CZJFailureBlock)fail;
+
+//通用
+- (void)generalPost:(NSDictionary*)postParams
+            success:(CZJSuccessBlock)success
+       andServerAPI:(NSString*)api;
 
 @end

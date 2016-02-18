@@ -7,12 +7,17 @@
 //
 
 #import "CZJMyWalletCardController.h"
+#import "CZJMyWalletCardDetailController.h"
 #import "CZJPageControlView.h"
 #import "PullTableView.h"
 #import "CZJMyWalletCardCell.h"
+#import "CZJBaseDataManager.h"
+#import "CZJMyCardInfoForm.h"
 
-@interface CZJMyWalletCardController ()
-
+@interface CZJMyWalletCardController ()<CZJMyWalletCardListCellDelegate>
+{
+    CZJMyCardInfoForm* cardForm;
+}
 @end
 
 @implementation CZJMyWalletCardController
@@ -27,6 +32,8 @@
 {
     CZJMyWalletCardUnUsedController* unUsed = [[CZJMyWalletCardUnUsedController alloc]init];
     CZJMyWalletCardUsedController* used = [[CZJMyWalletCardUsedController alloc]init];
+    unUsed.delegate = self;
+    used.delegate = self;
     CGRect pageViewFrame = CGRectMake(0, StatusBar_HEIGHT + NavigationBar_HEIGHT, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - StatusBar_HEIGHT);
     CZJPageControlView* pageview = [[CZJPageControlView alloc]initWithFrame:pageViewFrame andPageIndex:0];
     [pageview setTitleArray:@[@"未用完",@"已用完"] andVCArray:@[unUsed, used]];
@@ -38,6 +45,17 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)clickCardWithData:(id)data
+{
+    cardForm = data;
+    [self performSegueWithIdentifier:@"segueToCardDetail" sender:self];
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    CZJMyWalletCardDetailController* detailController = segue.destinationViewController;
+    detailController.cardInfoForm = cardForm;
+}
 @end
 
 
@@ -51,7 +69,7 @@ PullTableViewDelegate
 {
     
 }
-@property (strong, nonatomic)NSMutableArray* cardList;
+@property (strong, nonatomic)NSArray* cardList;
 @property (strong, nonatomic)PullTableView* myTableView;
 @end
 @implementation CZJMyWalletCardListBaseController
@@ -75,6 +93,7 @@ PullTableViewDelegate
     
     _myTableView.backgroundColor = CZJNAVIBARBGCOLOR;
     _myTableView.tableFooterView = [[UIView alloc]init];
+    _myTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     _myTableView.bounces = YES;
     [self.view addSubview:_myTableView];
     
@@ -84,6 +103,14 @@ PullTableViewDelegate
 
 - (void)getCardListFromServer
 {
+    [CZJBaseDataInstance generalPost:_params success:^(id json) {
+        NSArray* dict = [[CZJUtils DataFromJson:json]valueForKey:@"msg"];
+        _cardList = [CZJMyCardInfoForm objectArrayWithKeyValuesArray:dict];
+        self.myTableView.dataSource = self;
+        self.myTableView.delegate = self;
+        self.myTableView.pullDelegate = self;
+        [self.myTableView reloadData];
+    } andServerAPI:kCZJServerAPIShowCardList];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -93,32 +120,52 @@ PullTableViewDelegate
 #pragma mark-UITableViewDataSource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return _cardList.count;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 1;
+    return _cardList.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return nil;
+    CZJMyCardInfoForm* form = (CZJMyCardInfoForm*)_cardList[indexPath.row];
+    CZJMyWalletCardCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJMyWalletCardCell" forIndexPath:indexPath];
+    cell.storeNameLabel.text = form.storeName;
+    cell.cardTypeLabel.text = form.setmenuName;
+    if (form.items.count > 0)
+    {
+        CZJMyCardDetailInfoForm* cardDetailForm = form.items[0];
+        CGSize labelSize = [CZJUtils calculateStringSizeWithString:cardDetailForm.itemName Font:SYSTEMFONT(11) Width:200];
+        cell.itemNameLabelWidth.constant = labelSize.width + 5;
+        cell.itemNameLabel.text = cardDetailForm.itemName;
+        cell.totalTimeLabel.text = cardDetailForm.itemOriginal;
+        cell.leftTimeLabel.text = cardDetailForm.itemCount;
+    }
+    cell.tintColor = [UIColor grayColor];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    return cell;
 }
 
 #pragma mark-UITableViewDelegate
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 216;
+    CZJMyCardInfoForm* form = (CZJMyCardInfoForm*)_cardList[indexPath.row];
+    if (form.items.count > 0)
+    {
+        return 201;
+    }
+    return 161;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (0 == section)
+    CZJMyCardInfoForm* form = (CZJMyCardInfoForm*)_cardList[indexPath.row];
+    if ([self.delegate respondsToSelector:@selector(clickCardWithData:)])
     {
-        return 0;
+        [self.delegate clickCardWithData:form];
     }
-    return 10;
 }
 
 #pragma mark- pullTableviewDelegate
@@ -143,7 +190,7 @@ PullTableViewDelegate
 
 - (void)getCardUnUsedListFromServer
 {
-    _params = @{@"type":@"0", @"page":@"1", @"timeType":@"0"};
+    _params = @{@"type":@"0", @"page":@"1"};
     [super getCardListFromServer];
 }
 
@@ -162,7 +209,7 @@ PullTableViewDelegate
 
 - (void)getCardUsedListFromServer
 {
-    _params = @{@"type":@"0", @"page":@"1", @"timeType":@"0"};
+    _params = @{@"type":@"1", @"page":@"1"};
     [super getCardListFromServer];
 }
 

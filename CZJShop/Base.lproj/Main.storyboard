@@ -249,11 +249,13 @@
                     <navigationItem key="navigationItem" id="uAb-W1-j1N">
                         <nil key="title"/>
                     </navigationItem>
+                    <nil key="simulatedTopBarMetrics"/>
                     <connections>
                         <outlet property="btnToTop" destination="uqa-Om-H4U" id="g3g-jh-UXQ"/>
                         <outlet property="homeTableView" destination="lzx-ew-YE2" id="45d-3C-ILq"/>
                         <segue destination="JDR-c0-7Zy" kind="push" identifier="pushToScanQR" id="IN0-Kp-x1L"/>
                         <segue destination="4qu-mg-FqA" kind="push" identifier="pushToServiceDetail" id="lKt-0d-hD3"/>
+                        <segue destination="dUa-jS-kGh" kind="push" identifier="segueToGoodsDetail" id="RNI-E0-Cnx"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PPT-ue-qYX" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1378,7 +1380,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <animations/>
                         <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
-                        <color key="separatorColor" patternImage="CF093903-6111-46FE-848A-7430071C6437" colorSpace="pattern"/>
+                        <color key="separatorColor" patternImage="358514ED-7512-4DE1-B2A9-777289B8C2F6" colorSpace="pattern"/>
                         <inset key="separatorInset" minX="15" minY="0.0" maxX="15" maxY="0.0"/>
                         <sections>
                             <tableViewSection id="t6n-nw-cfg" userLabel="Activity">
@@ -3946,7 +3948,7 @@
             </objects>
             <point key="canvasLocation" x="4510" y="1869"/>
         </scene>
-        <!--My Wallet Card Detail Controller-->
+        <!--套餐卡详情-->
         <scene sceneID="rc8-kf-Dqa">
             <objects>
                 <viewController extendedLayoutIncludesOpaqueBars="YES" hidesBottomBarWhenPushed="YES" id="Szt-id-GaI" customClass="CZJMyWalletCardDetailController" sceneMemberID="viewController">
@@ -3957,10 +3959,25 @@
                     <view key="view" contentMode="scaleToFill" id="gCl-t8-wM5">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NNm-oO-uBy">
+                                <rect key="frame" x="160" y="20" width="1" height="499"/>
+                                <animations/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="1" id="Oz6-he-LLk"/>
+                                </constraints>
+                            </view>
+                        </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="NNm-oO-uBy" firstAttribute="top" secondItem="3d0-mx-Rxz" secondAttribute="bottom" id="5OM-MU-g43"/>
+                            <constraint firstItem="OfU-kP-39U" firstAttribute="top" secondItem="NNm-oO-uBy" secondAttribute="bottom" id="Ra8-S2-hjf"/>
+                            <constraint firstItem="NNm-oO-uBy" firstAttribute="centerX" secondItem="gCl-t8-wM5" secondAttribute="centerX" id="tii-bX-nYS"/>
+                        </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="Z03-rd-aNP"/>
+                    <navigationItem key="navigationItem" title="套餐卡详情" id="Z03-rd-aNP"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yrn-61-j2f" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -4348,6 +4365,10 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Qgf-BW-NDo"/>
+                    <connections>
+                        <outlet property="balanceLabel" destination="Jwu-cM-yxJ" id="h7l-sT-A1E"/>
+                        <outlet property="notificationLabel" destination="Rh5-MF-Ujx" id="d8Z-3K-LfD"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5kh-a9-Uaa" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -6911,7 +6932,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="CF093903-6111-46FE-848A-7430071C6437" width="256" height="256">
+        <image name="358514ED-7512-4DE1-B2A9-777289B8C2F6" width="256" height="256">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPT5YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQrLjE3OlUkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw
@@ -11398,11 +11419,11 @@ AAAAAAAEDtA
         <image name="yue_img_bj.png" width="375" height="289"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="88D-z9-9MA"/>
-        <segue reference="rmV-te-JFO"/>
         <segue reference="Yrw-VN-Mar"/>
-        <segue reference="daW-vB-UlX"/>
-        <segue reference="B1X-5g-nhm"/>
+        <segue reference="rmV-te-JFO"/>
+        <segue reference="RNI-E0-Cnx"/>
+        <segue reference="IN0-Kp-x1L"/>
         <segue reference="lel-ft-RgU"/>
+        <segue reference="B1X-5g-nhm"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CZJHomeViewController : UIViewController
+@interface CZJHomeViewController : CZJViewController
 {
     NSMutableArray* _activityArray;  //活动数据
     NSMutableArray* _serviceArray;   //服务列表

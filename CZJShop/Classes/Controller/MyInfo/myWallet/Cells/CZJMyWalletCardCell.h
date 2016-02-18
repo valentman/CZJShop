@@ -7,7 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "CZJMyCardInfoForm.h"
 @interface CZJMyWalletCardCell : UITableViewCell
+@property (weak, nonatomic) IBOutlet UILabel *storeNameLabel;
+@property (weak, nonatomic) IBOutlet UILabel *cardTypeLabel;
+@property (weak, nonatomic) IBOutlet UILabel *itemNameLabel;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *itemNameLabelWidth;
+@property (weak, nonatomic) IBOutlet UILabel *totalTimeLabel;
+@property (weak, nonatomic) IBOutlet UILabel *leftTimeLabel;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *separatorViewHeight;
+
+
+- (void)setCardCellWithCardDetailInfo:(CZJMyCardInfoForm*)cardInfo;
 
 @end

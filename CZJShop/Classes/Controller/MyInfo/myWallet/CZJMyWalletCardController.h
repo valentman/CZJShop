@@ -13,11 +13,18 @@
 @end
 
 
+@protocol CZJMyWalletCardListCellDelegate <NSObject>
+
+- (void)clickCardWithData:(id)data;
+
+@end
+
 @interface CZJMyWalletCardListBaseController : UIViewController
 {
     NSDictionary* _params;
 }
 @property (strong, nonatomic)NSDictionary* params;
+@property (weak, nonatomic) id<CZJMyWalletCardListCellDelegate> delegate;
 
 - (void)getCardListFromServer;
 @end

@@ -9,6 +9,7 @@
 #import "CZJMyWalletRechargeController.h"
 #import "CZJOrderForm.h"
 #import "CZJOrderTypeCell.h"
+#import "CZJBaseDataManager.h"
 
 @interface CZJMyWalletRechargeController ()
 <
@@ -114,7 +115,10 @@ UITableViewDelegate
 
 - (IBAction)confirmAction:(id)sender
 {
-    
+    NSDictionary* params = @{};
+    [CZJBaseDataInstance generalPost:params success:^(id json) {
+        
+    } andServerAPI:kCZJServerAPIRecharge];
 }
 
 - (IBAction)numberChooseAction:(id)sender

@@ -112,6 +112,7 @@
                 <outlet property="goodModelLabel" destination="CXi-zf-pDG" id="dxK-eA-bd2"/>
                 <outlet property="goodNameLabel" destination="euz-Sa-uRf" id="t1n-Kh-w2X"/>
                 <outlet property="goodPriceLabel" destination="0S3-bi-Wqr" id="xEz-Qk-8mr"/>
+                <outlet property="returnBtn" destination="mQ2-0s-s2o" id="9Ye-Fh-dFq"/>
                 <outlet property="returnStateLabel" destination="p7r-O5-ezh" id="Kdq-mR-8de"/>
             </connections>
         </tableViewCell>

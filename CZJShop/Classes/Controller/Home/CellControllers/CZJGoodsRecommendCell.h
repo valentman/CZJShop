@@ -8,7 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol CZJGoodsRecommendCellDelegate <NSObject>
 
+- (void)clickRecommendCellWithID:(NSString*)itemID;
+
+@end
 
 @interface CZJGoodsRecommendCell : CZJTableViewCell
 {
@@ -19,6 +23,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView *goodImg2;
 @property (weak, nonatomic) IBOutlet UILabel *goodNameLabel2;
 @property (weak, nonatomic) IBOutlet UILabel *goodPriceLabel2;
+@property (weak, nonatomic) id<CZJGoodsRecommendCellDelegate> delegate;
 
 - (void)initGoodsRecommendWithDatas:(NSArray*)datas;
 @end

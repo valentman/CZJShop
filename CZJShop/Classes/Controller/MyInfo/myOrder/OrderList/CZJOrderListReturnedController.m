@@ -87,6 +87,7 @@ UITableViewDataSource
 {
     CZJReturnedOrderListForm* form = (CZJReturnedOrderListForm*)returnedOrderListAry[indexPath.row];
     CZJOrderReturnedListCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJOrderReturnedListCell" forIndexPath:indexPath];
+    cell.returnBtn.hidden = YES;
     cell.goodNameLabel.text = form.itemName;
     cell.goodModelLabel.text = form.itemSku;
     cell.goodPriceLabel.text = [NSString stringWithFormat:@"￥%@",form.currentPrice];

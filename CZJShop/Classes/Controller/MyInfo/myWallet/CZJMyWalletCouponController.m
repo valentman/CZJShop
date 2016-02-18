@@ -10,6 +10,8 @@
 #import "CZJPageControlView.h"
 #import "PullTableView.h"
 #import "CZJReceiveCouponsCell.h"
+#import "CZJBaseDataManager.h"
+#import "CZJShoppingCartForm.h"
 
 @interface CZJMyWalletCouponController ()
 
@@ -51,7 +53,7 @@ PullTableViewDelegate
 {
     
 }
-@property (strong, nonatomic)NSMutableArray* couponList;
+@property (strong, nonatomic)NSArray* couponList;
 @property (strong, nonatomic)PullTableView* myTableView;
 @end
 @implementation CZJMyWalletCouponListBaseController
@@ -75,6 +77,7 @@ PullTableViewDelegate
     
     _myTableView.backgroundColor = CZJNAVIBARBGCOLOR;
     _myTableView.tableFooterView = [[UIView alloc]init];
+    _myTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     _myTableView.bounces = YES;
     [self.view addSubview:_myTableView];
     
@@ -84,6 +87,14 @@ PullTableViewDelegate
 
 - (void)getCouponListFromServer
 {
+    [CZJBaseDataInstance generalPost:_params success:^(id json) {
+        NSArray* dict = [[CZJUtils DataFromJson:json] valueForKey:@"msg"];
+        _couponList = [CZJShoppingCouponsForm objectArrayWithKeyValuesArray:dict];
+        self.myTableView.delegate = self;
+        self.myTableView.dataSource = self;
+        self.myTableView.pullDelegate = self;
+        [self.myTableView reloadData];
+    } andServerAPI:kCZJServerAPIShowCouponsList];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -93,49 +104,49 @@ PullTableViewDelegate
 #pragma mark-UITableViewDataSource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return _couponList.count;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 1;
+    return _couponList.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     CZJReceiveCouponsCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJReceiveCouponsCell" forIndexPath:indexPath];
-//    cell.couponsViewLayoutWidth.constant = PJ_SCREEN_WIDTH - 40;
-//    CZJShoppingCouponsForm* couponForm = (CZJShoppingCouponsForm*)_storeCoupons[indexPath.row - 1];
-//    NSString* priceStri = [NSString stringWithFormat:@"￥%@",couponForm.value];
-//    CGSize priceSize = [CZJUtils calculateTitleSizeWithString:priceStri WithFont:SYSTEMFONT(40)];
-//    cell.couponPriceLabelLayout.constant = priceSize.width + 5;
-//    cell.couponPriceLabel.text = priceStri;
-//    
-//    NSString* storeNameStr = couponForm.storeName;
-//    int width = PJ_SCREEN_WIDTH - 40 - 80 - priceSize.width - 10;
-//    CGSize storeNameSize = [storeNameStr boundingRectWithSize:CGSizeMake(width, 0) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName: BOLDSYSTEMFONT(15)} context:nil].size;
-//    cell.storeNameLabelLayoutheight.constant = storeNameSize.height;
-//    cell.storeNameLabelLayoutWidth.constant = width;
-//    cell.storeNameLabel.text = storeNameStr;
-//    cell.receiveTimeLabel.text = couponForm.validEndTime;
-//    cell.useableLimitLabel.text = couponForm.name;
-//    
-//    
-//    NSString* bgImgStr;
-//    if ([couponForm.type integerValue] == 3)
-//    {
-//        bgImgStr = @"coupon_icon_base_blue";
-//    }
-//    else
-//    {
-//        bgImgStr = @"coupon_icon_base_red";
-//    }
-//    [cell.couponBgImg setImage:IMAGENAMED(bgImgStr)];
-//    cell.couponPriceLabel.textColor = [UIColor redColor];
-//    cell.storeNameLabel.textColor = [UIColor redColor];
-//    [UIView animateWithDuration:1.0 delay:0.1 options:UIViewAnimationOptionCurveLinear animations:^{
-//        cell.couponsViewLeadingToSuperView.constant = [storeCouponForm.selectedCouponId isEqualToString:couponForm.couponId] ? 40 : 20;
-//    } completion:nil];
+    cell.selectBtn.hidden = YES;
+    cell.receivedImg.hidden = YES;
+    
+    cell.couponsViewLayoutWidth.constant = PJ_SCREEN_WIDTH - 40;
+    CZJShoppingCouponsForm* couponForm = (CZJShoppingCouponsForm*)_couponList[indexPath.section];
+    NSString* priceStri = [NSString stringWithFormat:@"￥%.f",[couponForm.value floatValue]];
+    CGSize priceSize = [CZJUtils calculateTitleSizeWithString:priceStri WithFont:SYSTEMFONT(44)];
+    cell.couponPriceLabelLayout.constant = priceSize.width + 5;
+    cell.couponPriceLabel.text = priceStri;
+
+    NSString* storeNameStr = couponForm.storeName;
+    int width = PJ_SCREEN_WIDTH - 40 - 80 - priceSize.width - 50;
+    CGSize storeNameSize = [CZJUtils calculateStringSizeWithString:storeNameStr Font:SYSTEMFONT(15) Width:width];
+    cell.storeNameLabelLayoutheight.constant = storeNameSize.height;
+    cell.storeNameLabelLayoutWidth.constant = width;
+    cell.storeNameLabel.text = storeNameStr;
+    cell.receiveTimeLabel.text = couponForm.validEndTime;
+    cell.useableLimitLabel.text = [NSString stringWithFormat:@"满%@可用",couponForm.validMoney];
+    cell.backgroundColor = CLEARCOLOR;
+    
+    NSString* bgImgStr;
+    if ([couponForm.type integerValue] == 3)
+    {
+        bgImgStr = @"coupon_icon_base_blue";
+    }
+    else
+    {
+        bgImgStr = @"coupon_icon_base_red";
+    }
+    [cell.couponBgImg setImage:IMAGENAMED(bgImgStr)];
+    cell.couponPriceLabel.textColor = CZJREDCOLOR;
+    cell.storeNameLabel.textColor = CZJREDCOLOR;
     
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
@@ -144,7 +155,7 @@ PullTableViewDelegate
 #pragma mark-UITableViewDelegate
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 140;
+    return 160;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -178,7 +189,7 @@ PullTableViewDelegate
 
 - (void)getCouponUnUsedListFromServer
 {
-    _params = @{@"type":@"0", @"page":@"1", @"timeType":@"0"};
+    _params = @{@"type":@"0", @"page":@"1"};
     [super getCouponListFromServer];
 }
 
@@ -196,7 +207,7 @@ PullTableViewDelegate
 
 - (void)getCouponUsedListFromServer
 {
-    _params = @{@"type":@"0", @"page":@"1", @"timeType":@"0"};
+    _params = @{@"type":@"1", @"page":@"1"};
     [super getCouponListFromServer];
 }
 
@@ -214,7 +225,7 @@ PullTableViewDelegate
 
 - (void)getCouponOutOfTimeListFromServer
 {
-    _params = @{@"type":@"0", @"page":@"1", @"timeType":@"0"};
+    _params = @{@"type":@"2", @"page":@"1"};
     [super getCouponListFromServer];
 }
 

@@ -76,10 +76,8 @@
     
     //------------------------------------初始化按钮组------------------------------------
     //1.搜索栏按钮
-    CGRect searchaBarRect = CGRectMake(CGRectGetMinX(_selfBounds) + 44,
-                                       (CGRectGetMaxY(_selfBounds) - 40) / 2 ,
-                                       _selfBounds.size.width - (44 * 2),
-                                       40);
+    CGRect searchaBarRect = CGRectMake(CGRectGetMinX(_selfBounds) + 44, 2 ,
+                                       _selfBounds.size.width - (44 * 2), 40);
     _customSearchBar = [[UISearchBar alloc] initWithFrame:searchaBarRect];
     _customSearchBar.delegate = self;
     _customSearchBar.backgroundColor = CLEARCOLOR;

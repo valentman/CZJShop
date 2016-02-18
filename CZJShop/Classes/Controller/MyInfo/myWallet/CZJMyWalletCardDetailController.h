@@ -7,7 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CZJMyCardInfoForm.h"
 
 @interface CZJMyWalletCardDetailController : UIViewController
+@property (strong, nonatomic)CZJMyCardInfoForm* cardInfoForm;
 
 @end

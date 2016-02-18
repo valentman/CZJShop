@@ -51,6 +51,9 @@ UITableViewDataSource
 - (void)getRedPacketInfoFromSever
 {
     NSDictionary* params = @{};
+//    [CZJBaseDataInstance generalPost:params success:^(id json) {
+//        
+//    } andServerAPI:nil];
     [self.myTableView reloadData];
     
 }
