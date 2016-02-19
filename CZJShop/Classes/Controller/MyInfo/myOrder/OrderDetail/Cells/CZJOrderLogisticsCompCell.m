@@ -11,7 +11,7 @@
 @implementation CZJOrderLogisticsCompCell
 
 - (void)awakeFromNib {
-    // Initialization code
+    self.spatatorWidth.constant = 0.5;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

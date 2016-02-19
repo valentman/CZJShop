@@ -11,4 +11,5 @@
 @interface CZJOrderLogisticsCompCell : UITableViewCell
 
 @property (weak, nonatomic) IBOutlet UILabel *logisticsNoLabel;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *spatatorWidth;
 @end

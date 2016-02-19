@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface CZJOrderListReturnedController : CZJViewController
-
+@property (assign, nonatomic)CZJReturnListType returnListType;
+@property (strong,  nonatomic)NSString* orderNo;
 @end

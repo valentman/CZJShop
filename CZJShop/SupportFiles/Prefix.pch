@@ -254,6 +254,8 @@ ULog(xx, ##__VA_ARGS__); \
 #define degreesToRadian(x) (M_PI * (x) / 180.0)
 #define radianToDegrees(radian) (radian*180.0)/(M_PI)
 
+#define HiddenCellSeparator UIEdgeInsetsMake(46, PJ_SCREEN_WIDTH, 0, 0);
+
 
 //------------------------单例宏---------------------------
 //@interface

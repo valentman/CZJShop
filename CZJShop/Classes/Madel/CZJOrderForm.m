@@ -101,6 +101,7 @@
         self.storeItemPid = @"0";
         self.typeId = @"";
         self.vendorId = @"";
+        self.setupStoreName = @"";
         self.selectdSetupStoreName = @"";
         self.setupStoreId = @"0";
         self.returnStatus = @"0";

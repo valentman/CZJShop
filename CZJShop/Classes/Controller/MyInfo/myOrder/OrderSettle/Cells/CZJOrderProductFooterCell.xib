@@ -36,12 +36,23 @@
                         <color key="textColor" red="1" green="0.18367239930000001" blue="0.2127202181" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="安装费:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OXX-Jf-MBh">
+                        <rect key="frame" x="135" y="11" width="50" height="21"/>
+                        <animations/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="21" id="HPL-AH-z3p"/>
+                            <constraint firstAttribute="width" constant="50" id="oUT-Cu-jiE"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <color key="textColor" red="0.60000002379999995" green="0.60000002379999995" blue="0.60000002379999995" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="￥2343" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jlY-79-fpC">
-                        <rect key="frame" x="205" y="11" width="100" height="21"/>
+                        <rect key="frame" x="245" y="11" width="60" height="21"/>
                         <animations/>
                         <constraints>
                             <constraint firstAttribute="height" constant="21" id="177-e9-Bh7"/>
-                            <constraint firstAttribute="width" constant="100" id="Lwr-mZ-S3N"/>
+                            <constraint firstAttribute="width" constant="60" id="Lwr-mZ-S3N"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <color key="textColor" red="1" green="0.40000000600000002" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
@@ -58,15 +69,30 @@
                         <color key="textColor" red="0.60000002379999995" green="0.60000002379999995" blue="0.60000002379999995" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="+￥14" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iAy-KY-WWQ">
+                        <rect key="frame" x="185" y="11" width="42" height="21"/>
+                        <animations/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="42" id="Jna-1k-bdZ"/>
+                            <constraint firstAttribute="height" constant="21" id="MaS-zD-Bh9"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <color key="textColor" red="1" green="0.18367239930000001" blue="0.2127202181" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
                 <animations/>
                 <constraints>
                     <constraint firstItem="mi4-DZ-xvU" firstAttribute="leading" secondItem="smL-wG-YvX" secondAttribute="trailing" id="083-Ix-41V"/>
+                    <constraint firstItem="iAy-KY-WWQ" firstAttribute="centerY" secondItem="OXX-Jf-MBh" secondAttribute="centerY" id="4CK-Ue-ieu"/>
                     <constraint firstItem="hMp-tX-ybk" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="KYG-Ln-iE2"/>
+                    <constraint firstItem="OXX-Jf-MBh" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="LY1-hn-FEZ"/>
                     <constraint firstAttribute="trailing" secondItem="jlY-79-fpC" secondAttribute="trailing" constant="15" id="M5g-BQ-UkT"/>
+                    <constraint firstItem="OXX-Jf-MBh" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="VRZ-8e-Yv5"/>
                     <constraint firstItem="jlY-79-fpC" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="VpQ-40-J4W"/>
                     <constraint firstItem="smL-wG-YvX" firstAttribute="leading" secondItem="hMp-tX-ybk" secondAttribute="trailing" id="WdC-dE-Kep"/>
                     <constraint firstItem="smL-wG-YvX" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="bkq-4R-nXD"/>
+                    <constraint firstItem="iAy-KY-WWQ" firstAttribute="leading" secondItem="OXX-Jf-MBh" secondAttribute="trailing" id="f35-ss-hb0"/>
                     <constraint firstItem="hMp-tX-ybk" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="mvq-zb-V3k"/>
                     <constraint firstItem="mi4-DZ-xvU" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="11" id="o0k-1F-7AM"/>
                 </constraints>
@@ -74,7 +100,11 @@
             <animations/>
             <connections>
                 <outlet property="fullCutLabel" destination="mi4-DZ-xvU" id="Qaa-pb-L5Z"/>
+                <outlet property="setupLabel" destination="OXX-Jf-MBh" id="bvq-sW-KLn"/>
+                <outlet property="setupPriceLabel" destination="iAy-KY-WWQ" id="7kV-hs-Whb"/>
+                <outlet property="setupPriceLayoutWidth" destination="Jna-1k-bdZ" id="g16-mk-Pff"/>
                 <outlet property="totalLabel" destination="jlY-79-fpC" id="8Ip-HG-8A3"/>
+                <outlet property="totalPriceLayoutWidth" destination="Lwr-mZ-S3N" id="RCv-Qw-KYF"/>
                 <outlet property="transportPriceLabel" destination="smL-wG-YvX" id="op1-qq-24g"/>
                 <outlet property="transportPriceLayoutWidth" destination="RMq-v5-TJz" id="B76-AO-dux"/>
             </connections>

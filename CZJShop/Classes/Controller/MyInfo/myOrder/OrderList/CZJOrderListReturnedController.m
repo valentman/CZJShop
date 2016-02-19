@@ -58,12 +58,23 @@ UITableViewDataSource
 
 - (void)getReturnedOrderListFromServer
 {
-    [CZJBaseDataInstance getReturnedOrderList:nil Success:^(id json) {
+    NSString* api;
+    NSDictionary* params;
+    if (CZJReturnListTypeReturnable == self.returnListType)
+    {
+        api = kCZJServerAPIGetReturnableOrderList;
+        params = @{@"orderNo":self.orderNo};
+    }
+    else
+    {
+        api = kCZJServerAPIGetReturnedOrderList;
+    }
+    
+    [CZJBaseDataInstance generalPost:params success:^(id json) {
         returnedOrderListAry = [CZJReturnedOrderListForm objectArrayWithKeyValuesArray:[[CZJUtils DataFromJson:json] valueForKey:@"msg"]];
         [self.myTableView reloadData];
-    } fail:^{
-        
-    }];
+    } andServerAPI:api];
+
 }
 
 - (void)didReceiveMemoryWarning {
@@ -87,17 +98,26 @@ UITableViewDataSource
 {
     CZJReturnedOrderListForm* form = (CZJReturnedOrderListForm*)returnedOrderListAry[indexPath.row];
     CZJOrderReturnedListCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJOrderReturnedListCell" forIndexPath:indexPath];
-    cell.returnBtn.hidden = YES;
     cell.goodNameLabel.text = form.itemName;
     cell.goodModelLabel.text = form.itemSku;
     cell.goodPriceLabel.text = [NSString stringWithFormat:@"￥%@",form.currentPrice];
     [cell.goodImg sd_setImageWithURL:[NSURL URLWithString:form.itemImg] placeholderImage:IMAGENAMED(@"")];
-    NSString* statestr = @"卖家已同意，请寄回商品";
-    if (1 == [form.returnStatus integerValue] )
+    
+    if (CZJReturnListTypeReturnable == self.returnListType)
     {
-        statestr = @"卖家已同意，请寄回商品";
+        cell.returnStateLabel.hidden = YES;
     }
-    cell.returnStateLabel.text = statestr;
+    if (CZJReturnListTypeReturned == self.returnListType)
+    {
+        cell.returnBtn.hidden = YES;
+        NSString* statestr = @"卖家已同意，请寄回商品";
+        if (1 == [form.returnStatus integerValue] )
+        {
+            statestr = @"卖家已同意，请寄回商品";
+        }
+        cell.returnStateLabel.text = statestr;
+    }
+    
     return cell;
 }
 

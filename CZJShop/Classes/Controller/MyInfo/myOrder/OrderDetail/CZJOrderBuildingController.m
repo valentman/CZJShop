@@ -99,10 +99,13 @@ UITableViewDelegate
     {
         CZJOrderBuilderCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJOrderBuilderCell" forIndexPath:indexPath];
         cell.builderNameLabel.text = [builderData valueForKey:@"builder"];
+        cell.buildingLabel.hidden = YES;
+        
         [cell.builderHeadImg sd_setImageWithURL:[NSURL URLWithString:[builderData valueForKey:@"head"]] placeholderImage:IMAGENAMED(@"order_head_default.png")];
         CGSize size = [CZJUtils calculateTitleSizeWithString:[builderData valueForKey:@"useTime"] AndFontSize:12];
-        cell.leftTimeLabelWidth.constant = size.width + 10;
-        cell.leftTimeLabel.text = [builderData valueForKey:@"useTime"];
+        cell.leftTimeLabelWidth.constant = size.width + 40;
+        cell.leftTimeLabel.text = [NSString stringWithFormat:@"已用时%@",[builderData valueForKey:@"useTime"]];
+        cell.separatorInset = HiddenCellSeparator;
         return cell;
     }
     if (2 == indexPath.section)
@@ -111,6 +114,7 @@ UITableViewDelegate
         {
             CZJOrderBuildingImagesCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJOrderBuildingImagesCell" forIndexPath:indexPath];
             cell.myTitleLabel.text = @"施工图片";
+            cell.separatorInset = HiddenCellSeparator;
             return cell;
         }
         else
@@ -133,6 +137,7 @@ UITableViewDelegate
                 textlabel.textColor = [UIColor lightGrayColor];
                 textlabel.font = SYSTEMFONT(12);
             }
+            cell.separatorInset = HiddenCellSeparator;
             return cell;
         }
         
@@ -162,8 +167,12 @@ UITableViewDelegate
         }
         if (1 == indexPath.row)
         {
+            if (((NSArray*)[builderData valueForKey:@"photos"]).count > 0)
+            {
+                return 100;
+            }
             //动态调整的
-            return 100;
+            return 44;
         }
     }
     return 0;

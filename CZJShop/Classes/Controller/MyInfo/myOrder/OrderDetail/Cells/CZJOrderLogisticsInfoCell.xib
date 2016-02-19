@@ -15,7 +15,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="物流状态:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="V8v-kJ-5Ol">
-                        <rect key="frame" x="117" y="29" width="60" height="15"/>
+                        <rect key="frame" x="108" y="25" width="60" height="15"/>
                         <animations/>
                         <constraints>
                             <constraint firstAttribute="width" constant="60" id="oK3-8V-GLm"/>
@@ -25,30 +25,30 @@
                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d42-5j-clh">
-                        <rect key="frame" x="177" y="29" width="42" height="15"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="配送中" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d42-5j-clh">
+                        <rect key="frame" x="168" y="25" width="100" height="15"/>
                         <animations/>
                         <constraints>
                             <constraint firstAttribute="height" constant="15" id="CE6-4d-YnU"/>
-                            <constraint firstAttribute="width" constant="42" id="NoM-XF-Gel"/>
+                            <constraint firstAttribute="width" constant="100" id="NoM-XF-Gel"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sVq-JM-LTi">
-                        <rect key="frame" x="177" y="46" width="42" height="15"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1件商品" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sVq-JM-LTi">
+                        <rect key="frame" x="168" y="48" width="100" height="15"/>
                         <animations/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="42" id="QJQ-D7-VmP"/>
+                            <constraint firstAttribute="width" constant="100" id="QJQ-D7-VmP"/>
                             <constraint firstAttribute="height" constant="15" id="rQb-yp-7YD"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="承运快递:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YiJ-BI-cOp">
-                        <rect key="frame" x="117" y="63" width="60" height="15"/>
+                        <rect key="frame" x="108" y="71" width="60" height="15"/>
                         <animations/>
                         <constraints>
                             <constraint firstAttribute="height" constant="15" id="6bP-8Q-pOg"/>
@@ -58,27 +58,28 @@
                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Qs-il-GCU">
-                        <rect key="frame" x="177" y="63" width="42" height="15"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="顺丰快递" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Qs-il-GCU">
+                        <rect key="frame" x="168" y="71" width="100" height="15"/>
                         <animations/>
                         <constraints>
                             <constraint firstAttribute="height" constant="15" id="Gym-MB-PgK"/>
-                            <constraint firstAttribute="width" constant="42" id="pnV-5X-DY9"/>
+                            <constraint firstAttribute="width" constant="100" id="pnV-5X-DY9"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="dw5-oD-H0O">
                         <rect key="frame" x="15" y="15" width="78" height="78"/>
                         <animations/>
+                        <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="78" id="6p0-ld-z9W"/>
                             <constraint firstAttribute="width" constant="78" id="wkL-jx-CRI"/>
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="商品数量:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="56a-vH-dxA">
-                        <rect key="frame" x="117" y="46" width="60" height="15"/>
+                        <rect key="frame" x="108" y="48" width="60" height="15"/>
                         <animations/>
                         <constraints>
                             <constraint firstAttribute="width" constant="60" id="OmK-pR-Qq3"/>
@@ -91,20 +92,20 @@
                 </subviews>
                 <animations/>
                 <constraints>
-                    <constraint firstItem="8Qs-il-GCU" firstAttribute="top" secondItem="sVq-JM-LTi" secondAttribute="bottom" constant="2" id="0mq-IN-Juj"/>
-                    <constraint firstItem="56a-vH-dxA" firstAttribute="leading" secondItem="dw5-oD-H0O" secondAttribute="trailing" constant="24" id="3N5-Yn-R4E"/>
-                    <constraint firstItem="d42-5j-clh" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="29" id="6j9-OC-Shm"/>
+                    <constraint firstItem="8Qs-il-GCU" firstAttribute="top" secondItem="sVq-JM-LTi" secondAttribute="bottom" constant="8" id="0mq-IN-Juj"/>
+                    <constraint firstItem="56a-vH-dxA" firstAttribute="leading" secondItem="dw5-oD-H0O" secondAttribute="trailing" constant="15" id="3N5-Yn-R4E"/>
+                    <constraint firstItem="d42-5j-clh" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="25" id="6j9-OC-Shm"/>
                     <constraint firstItem="dw5-oD-H0O" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="7ea-rq-7ih"/>
                     <constraint firstItem="sVq-JM-LTi" firstAttribute="leading" secondItem="56a-vH-dxA" secondAttribute="trailing" id="IZe-H9-nEa"/>
-                    <constraint firstItem="YiJ-BI-cOp" firstAttribute="top" secondItem="56a-vH-dxA" secondAttribute="bottom" constant="2" id="LSZ-tf-GZS"/>
-                    <constraint firstItem="56a-vH-dxA" firstAttribute="top" secondItem="V8v-kJ-5Ol" secondAttribute="bottom" constant="2" id="LTu-Sg-tt6"/>
-                    <constraint firstItem="V8v-kJ-5Ol" firstAttribute="leading" secondItem="dw5-oD-H0O" secondAttribute="trailing" constant="24" id="Tmb-28-kYO"/>
-                    <constraint firstItem="YiJ-BI-cOp" firstAttribute="leading" secondItem="dw5-oD-H0O" secondAttribute="trailing" constant="24" id="ggu-Cg-SkZ"/>
+                    <constraint firstItem="YiJ-BI-cOp" firstAttribute="top" secondItem="56a-vH-dxA" secondAttribute="bottom" constant="8" id="LSZ-tf-GZS"/>
+                    <constraint firstItem="56a-vH-dxA" firstAttribute="top" secondItem="V8v-kJ-5Ol" secondAttribute="bottom" constant="8" id="LTu-Sg-tt6"/>
+                    <constraint firstItem="V8v-kJ-5Ol" firstAttribute="leading" secondItem="dw5-oD-H0O" secondAttribute="trailing" constant="15" id="Tmb-28-kYO"/>
+                    <constraint firstItem="YiJ-BI-cOp" firstAttribute="leading" secondItem="dw5-oD-H0O" secondAttribute="trailing" constant="15" id="ggu-Cg-SkZ"/>
                     <constraint firstItem="8Qs-il-GCU" firstAttribute="leading" secondItem="YiJ-BI-cOp" secondAttribute="trailing" id="iyK-RI-pzx"/>
                     <constraint firstItem="d42-5j-clh" firstAttribute="leading" secondItem="V8v-kJ-5Ol" secondAttribute="trailing" id="k02-zj-0N8"/>
                     <constraint firstItem="dw5-oD-H0O" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="pg1-uv-Jew"/>
-                    <constraint firstItem="V8v-kJ-5Ol" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="29" id="sEz-iR-VKE"/>
-                    <constraint firstItem="sVq-JM-LTi" firstAttribute="top" secondItem="d42-5j-clh" secondAttribute="bottom" constant="2" id="vkP-wE-MF7"/>
+                    <constraint firstItem="V8v-kJ-5Ol" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="25" id="sEz-iR-VKE"/>
+                    <constraint firstItem="sVq-JM-LTi" firstAttribute="top" secondItem="d42-5j-clh" secondAttribute="bottom" constant="8" id="vkP-wE-MF7"/>
                 </constraints>
             </tableViewCellContentView>
             <animations/>
@@ -114,7 +115,7 @@
                 <outlet property="logisticsLabel" destination="8Qs-il-GCU" id="UAq-fH-x7k"/>
                 <outlet property="logisticsStateLabel" destination="d42-5j-clh" id="WEk-ES-m8G"/>
             </connections>
-            <point key="canvasLocation" x="228" y="379.5"/>
+            <point key="canvasLocation" x="234" y="379.5"/>
         </tableViewCell>
     </objects>
 </document>

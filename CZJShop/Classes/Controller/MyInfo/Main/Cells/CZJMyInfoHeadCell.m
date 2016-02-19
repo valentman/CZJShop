@@ -48,6 +48,7 @@
 - (IBAction)messageAction:(id)sender
 {
     //消息中心
-    [self.delegate clickMyInfoHeadCell];
+    [self.delegate clickMyInfoHeadCell:sender];
 }
+
 @end

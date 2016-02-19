@@ -95,11 +95,20 @@ typedef NS_ENUM(NSInteger, CZJEvalutionType)
     CZJEvalutionTypeBad = 4
 };
 
+//退换货列表类型（可退换货，已退换货）
+typedef NS_ENUM(NSInteger, CZJReturnListType)
+{
+    CZJReturnListTypeReturned = 0,
+    CZJReturnListTypeReturnable
+};
+
 typedef NS_ENUM(NSInteger, CZJCarListType)
 {
     CZJCarListTypeFilter = 0,
     CZJCarListTypeGeneral
 };
+
+
 
 
 struct CZJMargin {

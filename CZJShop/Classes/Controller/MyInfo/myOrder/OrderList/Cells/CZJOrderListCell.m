@@ -44,6 +44,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *numLabel;
 
 @property (weak, nonatomic) IBOutlet UIButton *viewBuildingProgressBtn;
+@property (weak, nonatomic) IBOutlet UIImageView *completeImg;
 
 //可退换货列表按钮
 - (IBAction)returnGoodsAction:(id)sender;
@@ -191,7 +192,21 @@
             }
             else if (3 == [listForm.status integerValue])
             {
-                
+                self.stateDescLabel.hidden = NO;
+                self.stateDescLabel.text = @"已施工";
+                if (CZJOrderTypeAll == orderType)
+                {
+                    self.buildingNoPaidButtomView.hidden = NO;
+                }
+                if (CZJOrderTypeNoPay == orderType)
+                {
+                    self.buildingNoPaidButtomView.hidden = NO;
+                    self.viewBuildingProgressBtn.hidden = YES;
+                }
+                if (CZJOrderTypeNoBuild == orderType)
+                {
+                    self.buildingPaidButtomView.hidden = NO;
+                }
             }
         }
     }
@@ -205,6 +220,9 @@
             }
             else if (1 == [listForm.status integerValue])
             {
+                self.noBuildButtomView.hidden = NO;
+                self.stateDescLabel.hidden = NO;
+                self.stateDescLabel.text = @"待出库";
                 
             }
             else if (2 == [listForm.status integerValue])
@@ -256,6 +274,12 @@
             else if (3 == [listForm.status integerValue])
             {
                 
+            }
+            else if (4 == [listForm.status integerValue])
+            {
+                self.stateDescLabel.hidden = YES;
+                self.completeImg.hidden = NO;
+                [self.completeImg setImage:IMAGENAMED(@"order_icon_wancheng")];
             }
         }
     }

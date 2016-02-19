@@ -48,7 +48,6 @@ CZJGoodsRecommendCellDelegate
 @property (strong, nonatomic) IBOutlet PullTableView *homeTableView;
 @property (weak, nonatomic) IBOutlet UIButton *btnToTop;
 @property (strong, nonatomic) CZJNaviagtionBarView *navibarView;
-@property (nonatomic, strong) UIWindow *window;
 
 - (IBAction)tapToTop:(id)sender;
 @end
@@ -74,7 +73,7 @@ CZJGoodsRecommendCellDelegate
     [((CZJCarInfoCell*)[self.homeTableView dequeueReusableCellWithIdentifier:@"CZJCarInfoCell"]).autoScrollTimer setFireDate:[NSDate distantPast]];
     [_navibarView refreshShopBadgeLabel];
     _navibarView.hidden = NO;
-    self.navigationController.navigationBarHidden = NO;
+//    self.navigationController.navigationBarHidden = NO;
     [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
 }
 
@@ -82,10 +81,6 @@ CZJGoodsRecommendCellDelegate
 {
 //    [self.homeTableView setContentOffset:CGPointMake(0,0) animated:NO];
     self.isJumpToAnotherView = YES;
-//    [UIView animateWithDuration:0.5 animations:^{
-//        _navibarView.hidden = NO;
-//    }];
-    
 }
 
 - (void)viewWillDisappear:(BOOL)animated

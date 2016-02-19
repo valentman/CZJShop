@@ -170,6 +170,7 @@
             </tableViewCellContentView>
             <animations/>
             <connections>
+                <outlet property="arrowImg" destination="5N4-2P-ecq" id="h1X-NG-4aX"/>
                 <outlet property="goodsImg" destination="eO7-ot-DV8" id="SoV-Ia-Vo7"/>
                 <outlet property="goodsNameLabel" destination="Xwq-Ry-jA3" id="ypI-vZ-RzI"/>
                 <outlet property="goodsNameLayoutWidth" destination="LlB-Di-mrU" id="Byk-6k-IRu"/>
@@ -179,6 +180,7 @@
                 <outlet property="priceLabel" destination="8BE-NF-3xH" id="b60-op-uG5"/>
                 <outlet property="selectedSetupStoreNameLabel" destination="rkh-VT-G7J" id="6iO-iI-5j1"/>
                 <outlet property="setupView" destination="3by-wL-fPa" id="wS9-mc-utO"/>
+                <outlet property="storeNameLabelTailing" destination="wl9-g8-weZ" id="jeU-ij-t8u"/>
                 <outlet property="totalPriceLabel" destination="xNv-DC-hi0" id="v8D-F0-FVX"/>
             </connections>
         </tableViewCell>

@@ -83,7 +83,7 @@ CZJStoreInfoHeaerCellDelegate
 - (void)viewDidLoad {
     [super viewDidLoad];
     [CZJUtils hideSearchBarViewForTarget:self];
-    [CZJUtils customizeNavigationBarForTarget:self];
+//    [CZJUtils customizeNavigationBarForTarget:self];
     
     [self initDatas];
     [self initViews];

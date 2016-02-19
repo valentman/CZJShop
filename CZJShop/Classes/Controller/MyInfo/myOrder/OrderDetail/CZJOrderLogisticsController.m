@@ -9,8 +9,13 @@
 #import "CZJOrderLogisticsController.h"
 #import "CZJOrderLogisticsCompCell.h"
 #import "CZJOrderLogisticsInfoCell.h"
+#import "CZJBaseDataManager.h"
 
 @interface CZJOrderLogisticsController ()
+<
+UITableViewDataSource,
+UITableViewDelegate
+>
 
 @property (weak, nonatomic) IBOutlet UITableView *myTableView;
 @end
@@ -20,6 +25,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self initViews];
+    [self getLogisticInfoFromServer];
 }
 
 - (void)initViews
@@ -27,6 +33,14 @@
     [self addCZJNaviBarView:CZJNaviBarViewTypeGeneral];
     self.naviBarView.mainTitleLabel.text = @"物流信息";
     
+    self.myTableView.tableFooterView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, PJ_SCREEN_WIDTH, 10)];
+    self.myTableView.delegate = self;
+    self.myTableView.dataSource = self;
+    self.myTableView.clipsToBounds = NO;
+    self.myTableView.showsVerticalScrollIndicator = NO;
+    self.automaticallyAdjustsScrollViewInsets = NO;
+    self.myTableView.backgroundColor = CLEARCOLOR;
+    self.view.backgroundColor = CZJNAVIBARGRAYBG;
     NSArray* nibArys = @[@"CZJOrderLogisticsInfoCell",
                          @"CZJOrderLogisticsCompCell"
                          ];
@@ -34,6 +48,17 @@
         UINib *nib=[UINib nibWithNibName:cells bundle:nil];
         [self.myTableView registerNib:nib forCellReuseIdentifier:cells];
     }
+    
+}
+
+- (void)getLogisticInfoFromServer
+{
+    NSDictionary* params = @{};
+    [CZJBaseDataInstance generalPost:nil success:^(id json) {
+        
+        
+        [self.myTableView reloadData];
+    } andServerAPI:kCZJServerAPIGET_LOGISTICSINFO];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -45,7 +70,7 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     //动态
-    return 1;
+    return 5;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -58,11 +83,13 @@
     if (0 == indexPath.row)
     {
         CZJOrderLogisticsInfoCell* cell =  [tableView dequeueReusableCellWithIdentifier:@"CZJOrderLogisticsInfoCell" forIndexPath:indexPath];
+        cell.separatorInset = UIEdgeInsetsMake(109, 20, 0, 20);
         return cell;
     }
     if (1 == indexPath.row)
     {
         CZJOrderLogisticsCompCell* cell =  [tableView dequeueReusableCellWithIdentifier:@"CZJOrderLogisticsCompCell" forIndexPath:indexPath];
+        cell.separatorInset = HiddenCellSeparator;
         return cell;
     }
     return nil;
@@ -71,6 +98,14 @@
 #pragma mark-UITableViewDelegate
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (0 == indexPath.row)
+    {
+        return 109;
+    }
+    if (1 == indexPath.row)
+    {
+        return 61;
+    }
     return 0;
 }
 

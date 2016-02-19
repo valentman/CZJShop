@@ -10,7 +10,7 @@
 #import "UserBaseForm.h"
 
 @protocol CZJMyInfoHeadCellDelegate <NSObject>
-- (void)clickMyInfoHeadCell;
+- (void)clickMyInfoHeadCell:(id)sender;
 @end
 
 @interface CZJMyInfoHeadCell : CZJTableViewCell

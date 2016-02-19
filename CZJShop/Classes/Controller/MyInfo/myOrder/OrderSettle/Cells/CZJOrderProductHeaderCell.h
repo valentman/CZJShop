@@ -16,6 +16,7 @@
 
 @interface CZJOrderProductHeaderCell : CZJTableViewCell
 @property (weak, nonatomic) IBOutlet UIImageView *needSetupImg;
+@property (weak, nonatomic) IBOutlet UIImageView *arrowImg;
 @property (weak, nonatomic) IBOutlet UILabel *selectedSetupStoreNameLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *goodsImg;
 @property (weak, nonatomic) IBOutlet UILabel *goodsNameLabel;
@@ -28,6 +29,7 @@
 @property (weak, nonatomic) id<CZJOrderProductHeaderCellDelegate> delegate;
 @property (strong, nonatomic)NSString* storeItemPid;
 @property (strong, nonatomic)NSIndexPath* indexPath;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *storeNameLabelTailing;
 
 - (IBAction)clickToChooseSetupPlaceAction:(id)sender;
 @end

@@ -70,6 +70,7 @@
 @property(strong, nonatomic)NSString* typeId;
 @property(strong, nonatomic)NSString* vendorId;                 //供应商ID
 @property(strong, nonatomic)NSString* selectdSetupStoreName;    //安装门店名字
+@property(strong, nonatomic)NSString* setupStoreName;           //安装门店名字
 @property(strong, nonatomic)NSString* setupStoreId;             //安装门店ID
 @property(strong, nonatomic)NSString* returnStatus;             //1等待卖家同意  2卖家已同意，请寄回商品 3等待卖家收货 4退换货成功
 @property(strong, nonatomic)NSString* setupPrice;               //安装费

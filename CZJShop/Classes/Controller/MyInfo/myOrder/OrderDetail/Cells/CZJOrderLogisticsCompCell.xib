@@ -15,7 +15,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rry-oV-q1y">
-                        <rect key="frame" x="100" y="0.0" width="1" height="60"/>
+                        <rect key="frame" x="110" y="0.0" width="1" height="60"/>
                         <animations/>
                         <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
@@ -23,42 +23,43 @@
                         </constraints>
                     </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="快递单号" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jaj-ZU-rbT">
-                        <rect key="frame" x="37" y="22" width="50" height="15"/>
+                        <rect key="frame" x="0.0" y="22" width="90" height="15"/>
                         <animations/>
                         <constraints>
                             <constraint firstAttribute="height" constant="15" id="s51-Qr-ham"/>
-                            <constraint firstAttribute="width" constant="50" id="zrX-Xe-vlW"/>
+                            <constraint firstAttribute="width" constant="90" id="zrX-Xe-vlW"/>
                         </constraints>
-                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="快递单号" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KU8-ja-mPp">
-                        <rect key="frame" x="116" y="22" width="189" height="15"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12345789987655433" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KU8-ja-mPp">
+                        <rect key="frame" x="131" y="22" width="169" height="15"/>
                         <animations/>
                         <constraints>
                             <constraint firstAttribute="height" constant="15" id="4Ne-Wi-Nyf"/>
                         </constraints>
-                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
                 <animations/>
                 <constraints>
                     <constraint firstAttribute="bottom" secondItem="rry-oV-q1y" secondAttribute="bottom" id="582-d4-I5i"/>
-                    <constraint firstAttribute="trailing" secondItem="KU8-ja-mPp" secondAttribute="trailing" constant="15" id="F7G-sA-P6e"/>
+                    <constraint firstAttribute="trailing" secondItem="KU8-ja-mPp" secondAttribute="trailing" constant="20" id="F7G-sA-P6e"/>
                     <constraint firstItem="rry-oV-q1y" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="Mse-PH-7hj"/>
-                    <constraint firstItem="rry-oV-q1y" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="100" id="W5d-Pd-Fef"/>
+                    <constraint firstItem="rry-oV-q1y" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="110" id="W5d-Pd-Fef"/>
                     <constraint firstItem="KU8-ja-mPp" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="byI-Bf-gpr"/>
                     <constraint firstItem="Jaj-ZU-rbT" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="oEw-nF-gfE"/>
-                    <constraint firstItem="KU8-ja-mPp" firstAttribute="leading" secondItem="rry-oV-q1y" secondAttribute="trailing" constant="15" id="y2l-Sk-bsw"/>
-                    <constraint firstItem="Jaj-ZU-rbT" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="37" id="zbj-zN-1De"/>
+                    <constraint firstItem="KU8-ja-mPp" firstAttribute="leading" secondItem="rry-oV-q1y" secondAttribute="trailing" constant="20" id="y2l-Sk-bsw"/>
+                    <constraint firstItem="Jaj-ZU-rbT" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="zbj-zN-1De"/>
                 </constraints>
             </tableViewCellContentView>
             <animations/>
             <connections>
                 <outlet property="logisticsNoLabel" destination="KU8-ja-mPp" id="tI9-PD-sls"/>
+                <outlet property="spatatorWidth" destination="vOz-4s-qzD" id="xye-Vc-hSx"/>
             </connections>
             <point key="canvasLocation" x="228" y="379.5"/>
         </tableViewCell>

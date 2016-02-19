@@ -53,15 +53,8 @@ UITableViewDelegate
 
 - (void)getEvalutatableOrderFromServer
 {
-    NSDictionary* params = @{@"orderNo":self.orderNo};
-    [CZJBaseDataInstance getReturnableOrderList:params Success:^(id json) {
-        evaluateGoodsAry = [CZJReturnedOrderListForm objectArrayWithKeyValuesArray:[[CZJUtils DataFromJson:json] valueForKey:@"msg"]];
-        self.myTableView.delegate = self;
-        self.myTableView.dataSource = self;
-        [self.myTableView reloadData];
-    } fail:^{
-        
-    }];
+    
+
 }
 
 - (void)didReceiveMemoryWarning {

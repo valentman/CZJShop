@@ -21,6 +21,7 @@
 #import "CZJOrderEvaluateController.h"
 #import "CZJOrderLogisticsController.h"
 #import "CZJOrderCarCheckController.h"
+#import "CZJOrderListReturnedController.h"
 
 @interface CZJMyInfoOrderListController ()
 <
@@ -34,6 +35,7 @@ CZJOrderListDelegate
 //    UIButton *rightBtn;
 }
 @property (strong, nonatomic) UIView *backgroundView;
+@property (weak, nonatomic) IBOutlet UIView *settlePanelView;
 
 @end
 
@@ -56,6 +58,12 @@ CZJOrderListDelegate
     {
         VIEWWITHTAG(self.naviBarView, 2999).hidden = YES;
     }
+    
+    [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        [self.settlePanelView setPosition:CGPointMake(0, PJ_SCREEN_HEIGHT - ([index isEqualToString:@"1"] ? 50 : 0)) atAnchorPoint:CGPointZero];
+    } completion:^(BOOL finished) {
+        
+    }];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -165,6 +173,7 @@ CZJOrderListDelegate
     {
         case CZJOrderListCellBtnTypeReturnAble:
             DLog(@"可退换货列表");
+            [self performSegueWithIdentifier:@"segueToMyReturnableList" sender:self];
             break;
         case CZJOrderListCellBtnTypeConfirm:
              DLog(@"确认收货");
@@ -219,6 +228,12 @@ CZJOrderListDelegate
     {
         CZJOrderEvaluateController* orderEvaluateVC = segue.destinationViewController;
         [orderEvaluateVC setOrderNo:currentTouchedOrderListForm.orderNo];
+    }
+    if ([segue.identifier isEqualToString:@"segueToMyReturnableList"])
+    {
+        CZJOrderListReturnedController* returnList = segue.destinationViewController;
+        returnList.returnListType = CZJReturnListTypeReturnable;
+        returnList.orderNo = currentTouchedOrderListForm.orderNo;
     }
 }
 @end

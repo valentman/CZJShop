@@ -16,6 +16,7 @@
 #import "CZJLoginController.h"
 #import "CZJShoppingCartController.h"
 #import "UserBaseForm.h"
+#import "CZJOrderListReturnedController.h"
 
 
 @interface CZJMyInformationController ()
@@ -56,6 +57,27 @@ CZJViewControllerDelegate
     [navigationBarAppearance setBackgroundImage:[UIImage imageNamed:@"nav_bargound"] forBarMetrics:UIBarMetricsDefault];
     self.navigationController.toolbar.translucent = NO;
     self.navigationController.navigationBar.shadowImage =[UIImage imageNamed:@"nav_bargound"];
+    
+}
+
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    self.navigationController.navigationBarHidden = NO;
+}
+
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [self.myInfoTableView reloadData];
+    DLog();
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    self.navigationController.navigationBarHidden = YES;
+    _currentTouchOrderListType = 0;
+    DLog();
 }
 
 - (void)initDatas
@@ -135,21 +157,6 @@ CZJViewControllerDelegate
 }
 
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    [self.myInfoTableView reloadData];
-    
-    DLog();
-}
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    self.navigationController.navigationBarHidden = NO;
-    _currentTouchOrderListType = 0;
-    DLog();
-}
-
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
@@ -188,6 +195,7 @@ CZJViewControllerDelegate
                 [cell setUserPersonalInfo:CZJBaseDataInstance.userInfoForm];
                 cell.delegate = self;
             }
+            cell.separatorInset = UIEdgeInsetsMake(46, PJ_SCREEN_WIDTH, 0, 0);
             return cell;
         }
         else if (1 == indexPath.row)
@@ -263,6 +271,7 @@ CZJViewControllerDelegate
             CZJGeneralCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJGeneralCell" forIndexPath:indexPath];
             [cell.imageView setImage:IMAGENAMED(@"my_icon_set")];
             cell.nameLabel.text = @"设置";
+            cell.separatorInset = UIEdgeInsetsMake(46, PJ_SCREEN_WIDTH, 0, 0);
             return cell;
         }
     }
@@ -337,7 +346,6 @@ CZJViewControllerDelegate
     {
         if (0 == indexPath.row)
         {
-//            segueIdentifer = @"segueToMyWallet";
         }
     }
     if (indexPath.section == 2)
@@ -437,10 +445,12 @@ CZJViewControllerDelegate
         }
             break;
         case 1:
+            //我的关注
             [self performSegueWithIdentifier:@"segueToMyAttention" sender:self];
             break;
         case 2:
-            [self performSegueWithIdentifier:@"segutToRecord" sender:self];
+            //我的评价
+            [self performSegueWithIdentifier:@"segueToMyEvaluation" sender:self];
             break;
             
         default:
@@ -450,10 +460,20 @@ CZJViewControllerDelegate
 
 
 #pragma mark- CZJMyInfoHeadCellDelegate
--(void)clickMyInfoHeadCell
+-(void)clickMyInfoHeadCell:(id)sender
 {
-    //消息中心
-    [self performSegueWithIdentifier:@"segueToMessageCenter" sender:self];
+    if (0 == ((UIButton*)sender).tag)
+    {
+        //消息中心
+        [self performSegueWithIdentifier:@"segueToMessageCenter" sender:self];
+    }
+    else
+    {
+        //浏览记录
+        [self performSegueWithIdentifier:@"segutToRecord" sender:self];
+    }
+    
+    
 }
 
 #pragma mark- CZJViewControllerDelegate
@@ -492,6 +512,12 @@ CZJViewControllerDelegate
     {
         CZJMyInfoOrderListController* orderListVC = segue.destinationViewController;
         orderListVC.orderListTypeIndex = _currentTouchOrderListType;
+    }
+    
+    if ([segue.identifier isEqualToString:@"segueToMyReturnedList"])
+    {
+        CZJOrderListReturnedController* returnList = segue.destinationViewController;
+        returnList.returnListType = CZJReturnListTypeReturned;
     }
 }
 

@@ -133,6 +133,8 @@
 		EC1E43DF1C40A214006CC23C /* KMCGeigerCounterTick.aiff in Resources */ = {isa = PBXBuildFile; fileRef = EC1E43DD1C40A214006CC23C /* KMCGeigerCounterTick.aiff */; };
 		EC1E43E61C40A76F006CC23C /* UIScrollView+SVInfiniteScrolling.m in Sources */ = {isa = PBXBuildFile; fileRef = EC1E43E31C40A76F006CC23C /* UIScrollView+SVInfiniteScrolling.m */; };
 		EC1E43E71C40A76F006CC23C /* UIScrollView+SVPullToRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = EC1E43E51C40A76F006CC23C /* UIScrollView+SVPullToRefresh.m */; };
+		EC1FBA481C76B879005F26A8 /* CZJMyEvaluationController.m in Sources */ = {isa = PBXBuildFile; fileRef = EC1FBA471C76B879005F26A8 /* CZJMyEvaluationController.m */; settings = {ASSET_TAGS = (); }; };
+		EC1FBA4B1C76B945005F26A8 /* CZJAddMyEvalutionController.m in Sources */ = {isa = PBXBuildFile; fileRef = EC1FBA4A1C76B945005F26A8 /* CZJAddMyEvalutionController.m */; settings = {ASSET_TAGS = (); }; };
 		EC1FE7EB1C74121500318505 /* CZJMyWalletBalanceController.m in Sources */ = {isa = PBXBuildFile; fileRef = EC1FE7EA1C74121500318505 /* CZJMyWalletBalanceController.m */; settings = {ASSET_TAGS = (); }; };
 		EC1FE7EE1C74122F00318505 /* CZJMyWalletRedpacketController.m in Sources */ = {isa = PBXBuildFile; fileRef = EC1FE7ED1C74122F00318505 /* CZJMyWalletRedpacketController.m */; settings = {ASSET_TAGS = (); }; };
 		EC1FE7F11C74124400318505 /* CZJMyWalletPointController.m in Sources */ = {isa = PBXBuildFile; fileRef = EC1FE7F01C74124400318505 /* CZJMyWalletPointController.m */; settings = {ASSET_TAGS = (); }; };
@@ -1144,6 +1146,10 @@
 		EC1E43E31C40A76F006CC23C /* UIScrollView+SVInfiniteScrolling.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+SVInfiniteScrolling.m"; sourceTree = "<group>"; };
 		EC1E43E41C40A76F006CC23C /* UIScrollView+SVPullToRefresh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+SVPullToRefresh.h"; sourceTree = "<group>"; };
 		EC1E43E51C40A76F006CC23C /* UIScrollView+SVPullToRefresh.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+SVPullToRefresh.m"; sourceTree = "<group>"; };
+		EC1FBA461C76B879005F26A8 /* CZJMyEvaluationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJMyEvaluationController.h; sourceTree = "<group>"; };
+		EC1FBA471C76B879005F26A8 /* CZJMyEvaluationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJMyEvaluationController.m; sourceTree = "<group>"; };
+		EC1FBA491C76B945005F26A8 /* CZJAddMyEvalutionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJAddMyEvalutionController.h; sourceTree = "<group>"; };
+		EC1FBA4A1C76B945005F26A8 /* CZJAddMyEvalutionController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJAddMyEvalutionController.m; sourceTree = "<group>"; };
 		EC1FE7E91C74121500318505 /* CZJMyWalletBalanceController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJMyWalletBalanceController.h; sourceTree = "<group>"; };
 		EC1FE7EA1C74121500318505 /* CZJMyWalletBalanceController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJMyWalletBalanceController.m; sourceTree = "<group>"; };
 		EC1FE7EC1C74122F00318505 /* CZJMyWalletRedpacketController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJMyWalletRedpacketController.h; sourceTree = "<group>"; };
@@ -4620,6 +4626,10 @@
 				ECD3D42F1C7306B300C230BE /* CZJOpinioFeedbackController.m */,
 				ECD3D4341C73206500C230BE /* CZJMyInfoAboutUsController.h */,
 				ECD3D4351C73206500C230BE /* CZJMyInfoAboutUsController.m */,
+				EC1FBA461C76B879005F26A8 /* CZJMyEvaluationController.h */,
+				EC1FBA471C76B879005F26A8 /* CZJMyEvaluationController.m */,
+				EC1FBA491C76B945005F26A8 /* CZJAddMyEvalutionController.h */,
+				EC1FBA4A1C76B945005F26A8 /* CZJAddMyEvalutionController.m */,
 			);
 			path = other;
 			sourceTree = "<group>";
@@ -5534,6 +5544,7 @@
 				EC5CCDBE1C3CB27E00D4D8B6 /* GKHpickerAddressView.m in Sources */,
 				ECFFB9501C10275E00811C2E /* CZJProvinceForm.m in Sources */,
 				EC442B721BFEF73F00DC6F97 /* CZJGoodsRecommendCell.m in Sources */,
+				EC1FBA4B1C76B945005F26A8 /* CZJAddMyEvalutionController.m in Sources */,
 				ECC4DDB81C17D67B00FBD6A4 /* RSADataVerifier.m in Sources */,
 				ECF2DCDB1C5767F80096FF39 /* CZJShoppingCartCell.m in Sources */,
 				EC1E43E71C40A76F006CC23C /* UIScrollView+SVPullToRefresh.m in Sources */,
@@ -5654,6 +5665,7 @@
 				EC28E28D1C1521EF003423F9 /* CZJStoreMAAroundForm.m in Sources */,
 				EC1E43E61C40A76F006CC23C /* UIScrollView+SVInfiniteScrolling.m in Sources */,
 				EC1FE7F41C74125A00318505 /* CZJMyWalletCouponController.m in Sources */,
+				EC1FBA481C76B879005F26A8 /* CZJMyEvaluationController.m in Sources */,
 				EC025FE01C213B4C00A8085E /* CZJPicDetailController.m in Sources */,
 				EC5B86EE1C0D346B008EC732 /* CZJDiscoverCell.m in Sources */,
 				ECC4DDA31C17D67B00FBD6A4 /* AFHTTPRequestOperationManager.m in Sources */,
