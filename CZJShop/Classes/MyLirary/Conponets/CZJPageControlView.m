@@ -42,6 +42,7 @@ UIScrollViewDelegate>
 
 - (void)setTitleArray:(NSArray*)titleArray andVCArray:(NSArray*)vcArray
 {
+    
     _btnArr = titleArray;
     _viewControllerArray = vcArray;
     if (_btnArr.count != 0 && _viewControllerArray != 0)

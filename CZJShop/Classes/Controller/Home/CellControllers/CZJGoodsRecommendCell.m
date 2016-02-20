@@ -64,7 +64,7 @@
     }
     else
     {
-        storeItemID = [NSString stringWithFormat:@"%@",itemOneId];
+        storeItemID = [NSString stringWithFormat:@"%@",itemTwoId];
     }
     if (![storeItemID isEqualToString:@""])
     {

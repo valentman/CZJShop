@@ -17,6 +17,7 @@
 @class CZJShoppingCartForm;
 @class CZJOrderStoreCouponsForm;
 @class UserBaseForm;
+@class CZJGoodsDetailForm;
 
 @interface CZJBaseDataManager : NSObject
 {

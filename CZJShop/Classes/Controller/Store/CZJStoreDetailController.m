@@ -28,6 +28,7 @@
 #import "WyzAlbumViewController.h"
 #import "CZJReceiveCouponsController.h"
 #import "MXPullDownMenu.h"
+#import "CZJGoodsDetailForm.h"
 
 @interface CZJStoreDetailController ()
 <
@@ -192,8 +193,8 @@ MKMapViewDelegate
     NSArray* couponsTmpAry = [dict valueForKey:@"coupons"];
     for (int i = 0; i < couponsTmpAry.count; i++)
     {
-        CZJCouponForm* form = [[CZJCouponForm alloc]initWithDictionary:couponsTmpAry[i]];
-        [_couponsArray addObject:form];
+//        CZJCouponForm* form = [[CZJCouponForm alloc]initWithDictionary:couponsTmpAry[i]];
+//        [_couponsArray addObject:form];
     }
     NSArray* goodTypesTmpAry = [dict valueForKey:@"goodsTypes"];
     for (int i = 0; i < goodTypesTmpAry.count; i++)

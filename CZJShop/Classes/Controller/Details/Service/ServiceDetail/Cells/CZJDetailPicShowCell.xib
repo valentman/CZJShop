@@ -14,18 +14,26 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="374"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="all_btn_shop.png" translatesAutoresizingMaskIntoConstraints="NO" id="FYE-ZK-dtg">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="374"/>
+                        <animations/>
+                    </imageView>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xZu-hJ-ZQ0" customClass="ImagePlayerView">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="374"/>
                         <animations/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </view>
                 </subviews>
                 <animations/>
                 <constraints>
+                    <constraint firstItem="FYE-ZK-dtg" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="0t0-oL-gCL"/>
                     <constraint firstAttribute="bottom" secondItem="xZu-hJ-ZQ0" secondAttribute="bottom" id="2jN-zG-0Ar"/>
+                    <constraint firstAttribute="trailing" secondItem="FYE-ZK-dtg" secondAttribute="trailing" id="3hM-hI-Uu0"/>
                     <constraint firstItem="xZu-hJ-ZQ0" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="6WI-29-k2c"/>
                     <constraint firstItem="xZu-hJ-ZQ0" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="GFR-K9-DcM"/>
                     <constraint firstAttribute="trailing" secondItem="xZu-hJ-ZQ0" secondAttribute="trailing" id="lAe-U2-KfI"/>
+                    <constraint firstAttribute="bottom" secondItem="FYE-ZK-dtg" secondAttribute="bottom" id="sTt-n6-WxH"/>
+                    <constraint firstItem="FYE-ZK-dtg" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="wpu-Pa-Nl0"/>
                 </constraints>
             </tableViewCellContentView>
             <animations/>
@@ -34,4 +42,7 @@
             </connections>
         </tableViewCell>
     </objects>
+    <resources>
+        <image name="all_btn_shop.png" width="22" height="22"/>
+    </resources>
 </document>

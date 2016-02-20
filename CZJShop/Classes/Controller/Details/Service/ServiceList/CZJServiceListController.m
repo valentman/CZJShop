@@ -16,6 +16,7 @@
 #import "CCLocationManager.h"
 #import "CZJServiceFilterController.h"
 #import "CZJDetailViewController.h"
+#import "CZJStoreDetailController.h"
 
 @interface CZJServiceListController ()<
     UITableViewDataSource,
@@ -407,13 +408,13 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (0 == indexPath.row)
+    if (0 == indexPath.row ||
+        (((CZJNearbyStoreServiceListForm*)_sortedStoreArys[indexPath.section]).items.count + 1) == indexPath.row)
     {//门店详情
-        
-    }
-    else if ((((CZJNearbyStoreServiceListForm*)_sortedStoreArys[indexPath.section]).items.count + 1) == indexPath.row)
-    {//查看更多服务
-        
+        CZJNearbyStoreServiceListForm* storeForm = (CZJNearbyStoreServiceListForm*)_sortedStoreArys[indexPath.section];
+        CZJStoreDetailController* storeDetail = (CZJStoreDetailController*)[CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:@"storeDetailVC"];
+        storeDetail.storeId = storeForm.storeId;
+        [self.navigationController pushViewController:storeDetail animated:YES];
     }
     else
     {//服务详情

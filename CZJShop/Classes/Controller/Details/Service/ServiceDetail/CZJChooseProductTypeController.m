@@ -139,8 +139,8 @@ UITableViewDataSource
         NSArray* tmpItems = [[dict valueForKey:@"msg"] valueForKey:@"items"];
         for (NSDictionary* dicts in tmpItems)
         {
-            CZJGoodsSKU* sku = [[CZJGoodsSKU alloc]initWithDictionary:dicts];
-            [_items addObject:sku];
+//            CZJGoodsSKU* sku = [[CZJGoodsSKU alloc]initWithDictionary:dicts];
+//            [_items addObject:sku];
         }
         _labels = [[dict valueForKey:@"msg"] valueForKey:@"labels"];
         NSArray* skus = [[dict valueForKey:@"msg"] valueForKey:@"skus"];

@@ -230,6 +230,7 @@
 		EC28E2D21C152BA0003423F9 /* map_icon_shop@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = EC28E2C31C152BA0003423F9 /* map_icon_shop@3x.png */; };
 		EC28E2D81C152F21003423F9 /* libstdc++.6.0.9.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = EC28E2D71C152F21003423F9 /* libstdc++.6.0.9.tbd */; };
 		EC28E2DA1C152F72003423F9 /* libicucore.A.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = EC28E2D91C152F72003423F9 /* libicucore.A.tbd */; };
+		EC296B141C7807DF00D9D473 /* CZJGoodsDetailForm.m in Sources */ = {isa = PBXBuildFile; fileRef = EC296B131C7807DF00D9D473 /* CZJGoodsDetailForm.m */; settings = {ASSET_TAGS = (); }; };
 		EC2A315C1C128CBA00622767 /* shop_icon_location@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EC2A315A1C128CB900622767 /* shop_icon_location@2x.png */; };
 		EC2A315D1C128CBA00622767 /* shop_icon_location@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = EC2A315B1C128CBA00622767 /* shop_icon_location@3x.png */; };
 		EC2B968D1C4DE607004C60FB /* CZJOtherStoreListController.m in Sources */ = {isa = PBXBuildFile; fileRef = EC2B968C1C4DE607004C60FB /* CZJOtherStoreListController.m */; };
@@ -1266,6 +1267,8 @@
 		EC28E2C31C152BA0003423F9 /* map_icon_shop@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "map_icon_shop@3x.png"; sourceTree = "<group>"; };
 		EC28E2D71C152F21003423F9 /* libstdc++.6.0.9.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.6.0.9.tbd"; path = "usr/lib/libstdc++.6.0.9.tbd"; sourceTree = SDKROOT; };
 		EC28E2D91C152F72003423F9 /* libicucore.A.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libicucore.A.tbd; path = usr/lib/libicucore.A.tbd; sourceTree = SDKROOT; };
+		EC296B121C7807DF00D9D473 /* CZJGoodsDetailForm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJGoodsDetailForm.h; sourceTree = "<group>"; };
+		EC296B131C7807DF00D9D473 /* CZJGoodsDetailForm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJGoodsDetailForm.m; sourceTree = "<group>"; };
 		EC2A315A1C128CB900622767 /* shop_icon_location@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "shop_icon_location@2x.png"; sourceTree = "<group>"; };
 		EC2A315B1C128CBA00622767 /* shop_icon_location@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "shop_icon_location@3x.png"; sourceTree = "<group>"; };
 		EC2B968B1C4DE607004C60FB /* CZJOtherStoreListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJOtherStoreListController.h; sourceTree = "<group>"; };
@@ -2646,6 +2649,8 @@
 				EC3216741C522D2F0037D809 /* CZJAttentionForm.m */,
 				EC4997071C756DEA007B0936 /* CZJMyCardInfoForm.h */,
 				EC4997081C756DEA007B0936 /* CZJMyCardInfoForm.m */,
+				EC296B121C7807DF00D9D473 /* CZJGoodsDetailForm.h */,
+				EC296B131C7807DF00D9D473 /* CZJGoodsDetailForm.m */,
 			);
 			name = Madel;
 			path = Classes/Madel;
@@ -5670,6 +5675,7 @@
 				EC5B86EE1C0D346B008EC732 /* CZJDiscoverCell.m in Sources */,
 				ECC4DDA31C17D67B00FBD6A4 /* AFHTTPRequestOperationManager.m in Sources */,
 				ECC4DE1C1C17D67B00FBD6A4 /* OpenShare+Renren.m in Sources */,
+				EC296B141C7807DF00D9D473 /* CZJGoodsDetailForm.m in Sources */,
 				ECC4DE301C17D67B00FBD6A4 /* UIView+WebCacheOperation.m in Sources */,
 				EC154CF41C1EBEB50004FAF5 /* CZJCarBrandChooseController.m in Sources */,
 				ECF2DCC21C5767F80096FF39 /* CZJLeaveMessageCell.m in Sources */,

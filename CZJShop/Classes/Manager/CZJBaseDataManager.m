@@ -530,16 +530,6 @@ singleton_implementation(CZJBaseDataManager);
     {
         if ([self showAlertView:json])
         {
-            NSDictionary* dict = [CZJUtils DataFromJson:json];
-            if (_detailsForm)
-            {
-                [_detailsForm setNewDictionary:dict WithType:type];
-            }
-            else
-            {
-                _detailsForm = [[CZJDetailForm alloc] initWithDictionary:dict];
-                [_detailsForm setNewDictionary:dict WithType:type];
-            }
             success(json);
         }
     };
@@ -580,7 +570,7 @@ singleton_implementation(CZJBaseDataManager);
             NSDictionary* dict = [CZJUtils DataFromJson:json];
             if (_detailsForm)
             {
-                [_detailsForm setNewRecommendDictionary:dict WithType:type];
+//                [_detailsForm setNewRecommendDictionary:dict WithType:type];
             }
             success(json);
         }
@@ -715,17 +705,17 @@ singleton_implementation(CZJBaseDataManager);
             {
                 if (CZJHomeGetDataFromServerTypeOne == type)
                 {
-                    [_detailsForm setEvalutionInfoWithDictionary:dict WitySegType:segType];
+//                    [_detailsForm setEvalutionInfoWithDictionary:dict WitySegType:segType];
                 }
                 else if ( CZJHomeGetDataFromServerTypeTwo == type)
                 {
-                    [_detailsForm appendEvalutionInfoWithDictionary:dict WitySegType:segType];
+//                    [_detailsForm appendEvalutionInfoWithDictionary:dict WitySegType:segType];
                 }
             }
             else
             {
-                _detailsForm = [[CZJDetailForm alloc] initWithDictionary:dict];
-                [_detailsForm setEvalutionInfoWithDictionary:dict WitySegType:segType];
+//                _detailsForm = [[CZJDetailForm alloc] initWithDictionary:dict];
+//                [_detailsForm setEvalutionInfoWithDictionary:dict WitySegType:segType];
             }
             success(json);
         }
@@ -761,17 +751,17 @@ singleton_implementation(CZJBaseDataManager);
                 
                 if (CZJHomeGetDataFromServerTypeOne == type)
                 {
-                    [_detailsForm setEvalutionReplyWithDictionary:dict];
+//                    [_detailsForm setEvalutionReplyWithDictionary:dict];
                 }
                 else if ( CZJHomeGetDataFromServerTypeTwo == type)
                 {
-                    [_detailsForm appendEvalutionReplyWithDictionary:dict];
+//                    [_detailsForm appendEvalutionReplyWithDictionary:dict];
                 }
             }
             else
             {
-                _detailsForm = [[CZJDetailForm alloc] initWithDictionary:dict];
-                [_detailsForm setEvalutionReplyWithDictionary:dict];
+//                _detailsForm = [[CZJDetailForm alloc] initWithDictionary:dict];
+//                [_detailsForm setEvalutionReplyWithDictionary:dict];
             }
             success(json);
         }
