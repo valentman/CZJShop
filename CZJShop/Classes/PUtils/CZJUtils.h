@@ -71,6 +71,8 @@
 + (NSMutableAttributedString*)stringWithDeleteLine:(NSString*)string;
 
 //----------------------------界面控制器处理--------------------------
++ (void)showMyWindowOnTarget:(UIViewController*)target withSeletor:(SEL)mySelector;
++ (UIWindow*)getMyWindowWithVC:(UIViewController*)myViewController withFrame:(CGRect)rect;
 //从SB中获取VC
 + (UIViewController*)getViewControllerFromStoryboard:(NSString*)storyboardName andVCName:(NSString*)vcName;
 //从Xib文件中获取View
@@ -105,4 +107,6 @@
 + (CATextLayer *)creatTextLayerWithNSString:(NSString *)string withColor:(UIColor *)color andPosition:(CGPoint)point andNumOfMenu:(int)_numOfMenu;
 + (CAShapeLayer *)creatIndicatorWithColor:(UIColor *)color andPosition:(CGPoint)point;
 + (CGRect)viewFramFromDynamic:(CZJMargin)margin size:(CGSize)viewSize index:(int)index divide:(int)divide;
+//获取系统网络状态
++ (void)reachability;
 @end

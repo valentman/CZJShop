@@ -21,6 +21,7 @@
 #import "CZJStoreInfoHeaerCell.h"
 #import "CZJStoreInfoCell.h"
 #import "CZJHotRecommendCell.h"
+#import "CZJOrderTypeExpandCell.h"
 #import "WyzAlbumViewController.h"
 #import "CZJChooseProductTypeController.h"
 #import "CZJReceiveCouponsController.h"
@@ -30,6 +31,7 @@
 #import "CZJApplicableCarController.h"
 #import "CZJGoodsDetailForm.h"
 #import "CZJStoreForm.h"
+#import "CZJCommitOrderController.h"
 
 
 #define kTagScrollView 1002
@@ -64,6 +66,8 @@ CZJStoreInfoHeaerCellDelegate
     CZJChoosedProductCell* chooosedProductCell;     //已选商品cell，定义成成员变量是为了方便传值
 
     CGRect popViewRect;                             //弹窗的位置
+    
+    NSMutableArray* _settleOrderAry;
 }
 @property (weak, nonatomic) IBOutlet UIScrollView *myScrollView;
 @property (weak, nonatomic) IBOutlet UIView *borderLineView;
@@ -93,13 +97,15 @@ CZJStoreInfoHeaerCellDelegate
 - (void)viewDidLoad {
     [super viewDidLoad];
     [CZJUtils hideSearchBarViewForTarget:self];
+    [CZJUtils customizeNavigationBarForTarget:self];
     [self addCZJNaviBarView:CZJNaviBarViewTypeDetail];
     [self initDatas];
     [self initViews];
     [CZJUtils performBlock:^{
+        [SVProgressHUD show];
+        [SVProgressHUD setBackgroundColor:CLEARCOLOR];
         [self getDataFromServer];
     } afterDelay:0.5];
-    
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -111,6 +117,8 @@ CZJStoreInfoHeaerCellDelegate
 {
     [self registNotification];
     self.navigationController.interactivePopGestureRecognizer.delegate = self;
+    self.navigationController.navigationBarHidden = YES;
+
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -123,6 +131,7 @@ CZJStoreInfoHeaerCellDelegate
 {
     _recommendServiceForms = [NSArray array];
     _couponForms = [NSArray array];
+    _settleOrderAry = [NSMutableArray array];
 }
 
 - (void)initViews
@@ -138,26 +147,24 @@ CZJStoreInfoHeaerCellDelegate
     [_backgroundView addGestureRecognizer:gesture];
     _backgroundView.hidden = YES;
     
-    
-    
     //背景Scrollview
-//    self.myScrollView.frame = CGRectMake(0, 10, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT-20 -50);
-    self.myScrollView.contentSize = CGSizeMake(PJ_SCREEN_WIDTH, (PJ_SCREEN_HEIGHT-90)*2);
+    self.myScrollView.contentSize = CGSizeMake(PJ_SCREEN_WIDTH, (PJ_SCREEN_HEIGHT-50)*2 - 64);
     self.myScrollView.pagingEnabled = YES;
     self.myScrollView.scrollEnabled = NO;
     self.myScrollView.delegate = self;
     self.myScrollView.tag = kTagScrollView;
     self.myScrollView.showsVerticalScrollIndicator = NO;
-    self.myScrollView.backgroundColor = [UIColor blueColor];
+    self.myScrollView.backgroundColor = [UIColor whiteColor];
     
     
     //详情TableView
-    _detailTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, -20, PJ_SCREEN_WIDTH, (PJ_SCREEN_HEIGHT-50)) style:UITableViewStylePlain];
+    _detailTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, PJ_SCREEN_WIDTH, (PJ_SCREEN_HEIGHT-50)) style:UITableViewStylePlain];
     _detailTableView.delegate = self;
     _detailTableView.dataSource = self;
     _detailTableView.showsVerticalScrollIndicator = NO;
-    _detailTableView.backgroundColor = [UIColor grayColor];
-    _detailTableView.clipsToBounds = NO;
+    _detailTableView.backgroundColor = [UIColor whiteColor];
+    _detailTableView.clipsToBounds = YES;
+    self.automaticallyAdjustsScrollViewInsets = NO;
     NSArray* nibArys = @[ @"CZJDetailDescCell",
                           @"CZJDetailPicShowCell",
                           @"CZJChoosedProductCell",
@@ -168,34 +175,18 @@ CZJStoreInfoHeaerCellDelegate
                           @"CZJStoreInfoCell",
                           @"CZJHotRecommendCell",
                           @"CZJStoreInfoHeaerCell",
+                          @"CZJOrderTypeExpandCell"
                           ];
     
     for (id cells in nibArys) {
         UINib *nib=[UINib nibWithNibName:cells bundle:nil];
         [self.detailTableView registerNib:nib forCellReuseIdentifier:cells];
     }
-    
-    
-    //设置UITableView 上拉加载
-    _detailTableView.footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
-        //上拉，执行对应的操作---改变底层滚动视图的滚动到对应位置
-        //设置动画效果
-        [UIView animateWithDuration:0.5 delay:0.0 options:UIViewAnimationOptionLayoutSubviews animations:^{
-            if (!isButtom) {
-                tableViewContentSizeHeight= self.detailTableView.contentOffset.y;
-                isButtom = YES;
-                DLog(@"offset:%f", tableViewContentSizeHeight);
-            }
-        } completion:^(BOOL finished) {
-            //结束加载
-            [_detailTableView.footer endRefreshing];
-        }];
-    }];
+
     _detailTableView.tag = kTagTableView;
     self.detailTableView.tableFooterView = [[UIView alloc] init];
     [self.myScrollView addSubview:_detailTableView];
     [self.detailTableView reloadData];
-
 }
 
 - (void)registNotification
@@ -236,6 +227,8 @@ CZJStoreInfoHeaerCellDelegate
         
         [self dealWithData];
         [self.detailTableView reloadData];
+        tableViewContentSizeHeight = self.detailTableView.mj_contentH - self.detailTableView.mj_h;
+        DLog(@"contentSize:%f, frameSize:%f, offset:%f",self.detailTableView.mj_contentH,tableViewContentSizeHeight);
         
         if (CZJDetailTypeGoods == self.detaiViewType)
         {
@@ -244,14 +237,19 @@ CZJStoreInfoHeaerCellDelegate
         
         //图文详情页
         CZJPicDetailController *FController = [[CZJPicDetailController alloc]init];
+        FController.detaiViewType = self.detaiViewType;
         CZJBuyNoticeController *SController = [[CZJBuyNoticeController alloc]init];
+        SController.detaiViewType = self.detaiViewType;
         CZJAfterServiceController *TController = [[CZJAfterServiceController alloc]init];
+        TController.detaiViewType = self.detaiViewType;
         CZJApplicableCarController *AController = [[CZJApplicableCarController alloc]init];
+        AController.detaiViewType = self.detaiViewType;
         
-        CZJPageControlView* webVie = [[CZJPageControlView alloc]initWithFrame:CGRectMake(0, (PJ_SCREEN_HEIGHT-90), PJ_SCREEN_WIDTH, (PJ_SCREEN_HEIGHT-110)) andPageIndex:kPageNotice];
+        CZJPageControlView* webVie = [[CZJPageControlView alloc]initWithFrame:CGRectMake(0, (PJ_SCREEN_HEIGHT-50), PJ_SCREEN_WIDTH, (PJ_SCREEN_HEIGHT-114)) andPageIndex:kPagePicDetail];
         
         [webVie setTitleArray:@[@"图文详情",@"购买须知",@"包装售后",@"适用车型"] andVCArray:@[FController,SController,TController,AController]];
         [self.myScrollView addSubview:webVie];
+        [SVProgressHUD dismiss];
     };
     
     [CZJBaseDataInstance loadDetailsWithType:self.detaiViewType
@@ -290,86 +288,10 @@ CZJStoreInfoHeaerCellDelegate
     [super didReceiveMemoryWarning];
 }
 
-#pragma mark- CZJNaviBarViewDelegate
-- (void)clickEventCallBack:(id)sender
-{
-    UIButton* barButton = (UIButton*)sender;
-    switch (barButton.tag) {
-        case CZJButtonTypeNaviBarMore:
-        {
-            NSArray * arr = @[@{@"消息" : @"prodetail_icon_msg"},
-                              @{@"首页":@"prodetail_icon_home"},
-                              @{@"分享" :@"prodetail_icon_share"}];
-            if(dropDown == nil) {
-                CGRect rect = CGRectMake(PJ_SCREEN_WIDTH - 120 - 14, StatusBar_HEIGHT + 78, 120, 150);
-                _backgroundView.hidden = NO;
-                dropDown = [[NIDropDown alloc]showDropDown:_backgroundView Frame:rect WithObjects:arr];
-                dropDown.delegate = self;
-            }
-        }
-            break;
-            
-        case CZJButtonTypeNaviBarBack:
-            [self.navigationController popViewControllerAnimated:true];
-            break;
-            
-        case CZJButtonTypeHomeShopping:
-            
-            break;
-            
-        default:
-            break;
-    }
-}
-
-- (void)tapBackground:(UITapGestureRecognizer *)paramSender
-{
-    if (dropDown)
-    {
-        _backgroundView.hidden = YES;
-        [dropDown hideDropDown:paramSender];
-        dropDown = nil;
-    }
-}
-
-- (void)animateBackGroundView:(UIView *)view show:(BOOL)show complete:(void(^)())complete
-{
-    if (show) {
-        [UIView animateWithDuration:0.5 animations:^{
-            view.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.3];
-        }];
-        
-    } else {
-        [UIView animateWithDuration:0.5 animations:^{
-            view.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.0];
-        } completion:^(BOOL finished) {
-        }];
-    }
-    complete();
-}
-
-#pragma mark- NIDropDownDelegate
-- (void) niDropDownDelegateMethod:(NSString*)btnStr
-{
-    if ([btnStr isEqualToString:@"消息"])
-    {
-        DLog(@"消息");
-    }
-    if ([btnStr isEqualToString:@"首页"])
-    {
-        DLog(@"首页");
-    }
-    if ([btnStr isEqualToString:@"分享"])
-    {
-        DLog(@"分享");
-    }
-}
-
-
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 2 + (goodsDetailForm == nil ? 0 : 5);
+    return 3 + (goodsDetailForm == nil ? 0 : 5);
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -413,7 +335,7 @@ CZJStoreInfoHeaerCellDelegate
             CZJDetailDescCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJDetailDescCell" forIndexPath:indexPath];
             cell.miaoShaLabel.hidden = YES;
             cell.leftTimeLabel.hidden = YES;
-            
+            cell.goShopImage.hidden = !goodsDetailForm.goods.goHouseFlag;
 //            [cell.goShopImage setImage:[UIImage imageNamed:@""]];
 //            cell.miaoShaLabel.text = _serviceDetail.;
 //            cell.leftTimeLabel;
@@ -549,6 +471,15 @@ CZJStoreInfoHeaerCellDelegate
             }
             
             [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+            cell.separatorInset = HiddenCellSeparator;
+            return cell;
+        }
+        case 7:
+        {//热门推荐
+            CZJOrderTypeExpandCell *cell = (CZJOrderTypeExpandCell*)[tableView dequeueReusableCellWithIdentifier:@"CZJOrderTypeExpandCell" forIndexPath:indexPath];
+            [cell setCellType:CZJCellTypeDetail];
+            [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+            cell.separatorInset = HiddenCellSeparator;
             return cell;
         }
             
@@ -562,105 +493,6 @@ CZJStoreInfoHeaerCellDelegate
 
 
 #pragma mark - TableView Delegate
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (2 == indexPath.section)
-    {
-        popViewRect = CGRectMake(0, PJ_SCREEN_HEIGHT, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - 200);
-        UIWindow *window = [[UIWindow alloc] initWithFrame:popViewRect];
-        window.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:1.0];
-        window.windowLevel = UIWindowLevelNormal;
-        window.hidden = NO;
-        [window makeKeyAndVisible];
-        
-        CZJReceiveCouponsController *receiveCouponsController = [[CZJReceiveCouponsController alloc] init];
-        window.rootViewController = receiveCouponsController;
-        self.window = window;
-        
-        UIView *view = [[UIView alloc] initWithFrame:self.view.bounds];
-        view.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.5];
-        UITapGestureRecognizer *tap  = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapAction)];
-        [view addGestureRecognizer:tap];
-        [self.view addSubview:view];
-        self.upView = view;
-        self.upView.alpha = 0.0;
-        [UIView animateWithDuration:0.5 animations:^{
-            self.window.frame =  CGRectMake(0, 200, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - 200);
-            self.upView.alpha = 1.0;
-        } completion:nil];
-        self.navigationController.interactivePopGestureRecognizer.enabled = NO;
-        
-        __weak typeof(self) weak = self;
-        [receiveCouponsController setCancleBarItemHandle:^{
-            [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
-                weak.window.frame = popViewRect;
-                self.upView.alpha = 0.0;
-            } completion:^(BOOL finished) {
-                if (finished) {
-                    [weak.upView removeFromSuperview];
-                    [weak.window resignKeyWindow];
-                    weak.window  = nil;
-                    weak.upView = nil;
-                    weak.navigationController.interactivePopGestureRecognizer.enabled = YES;
-                }
-            }];
-        }];
-    }
-    if (3 == indexPath.section)
-    {
-        popViewRect =  CGRectMake(PJ_SCREEN_WIDTH, 0, PJ_SCREEN_WIDTH-50, PJ_SCREEN_HEIGHT);
-        UIWindow *window = [[UIWindow alloc] initWithFrame:popViewRect];
-        window.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:1.0];
-        window.windowLevel = UIWindowLevelNormal;
-        window.hidden = NO;
-        [window makeKeyAndVisible];
-        
-        CZJChooseProductTypeController *chooseProductTypeController = [[CZJChooseProductTypeController alloc] init];
-        window.rootViewController = chooseProductTypeController;
-        self.window = window;
-        chooseProductTypeController.counterKey = chooosedProductCell.counterKey;
-        chooseProductTypeController.storeItemPid = chooosedProductCell.storeItemPid;
-        chooseProductTypeController.currentSku = chooosedProductCell.sku;
-        if (chooseProductTypeController.counterKey &&
-            chooseProductTypeController.storeItemPid)
-        {
-            [chooseProductTypeController getSKUDataFromServer];
-        }
-        
-        
-        UIView *view = [[UIView alloc] initWithFrame:self.view.bounds];
-        view.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.5];
-        UITapGestureRecognizer *tap  = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapAction)];
-        [view addGestureRecognizer:tap];
-        [self.view addSubview:view];
-        self.upView = view;
-        self.upView.alpha = 0.0;
-        [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
-            self.window.frame = CGRectMake(50, 0, PJ_SCREEN_WIDTH-50, PJ_SCREEN_HEIGHT);
-            self.upView.alpha = 1.0;
-        } completion:nil];
-        self.navigationController.interactivePopGestureRecognizer.enabled = NO;
-    }
-    if (4 == indexPath.section && 2 ==indexPath.row)
-    {
-        [self performSegueWithIdentifier:@"segueToUserEvalution" sender:self];
-    }
-}
-
-- (void)tapAction{
-    [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
-        self.window.frame = popViewRect;
-        self.upView.alpha = 0.0;
-    } completion:^(BOOL finished) {
-        if (finished) {
-            [self.upView removeFromSuperview];
-            [self.window resignKeyWindow];
-            self.window  = nil;
-            self.upView = nil;
-            self.navigationController.interactivePopGestureRecognizer.enabled = YES;
-        }
-    }];
-}
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
@@ -717,18 +549,198 @@ CZJStoreInfoHeaerCellDelegate
             return 404;
             break;
             
+        case 7:
+            return 46;
+            break;
+            
         default:
-            return 200;
+            return 46;
             break;
     }
     return 0;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    if (0 == section ||
+        1 == section ||
+        2 == section ||
+        3 == section)
+    {
+        return 0;
+    }
+    return 10;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
     return 0;
 }
 
-#pragma mark- CZJStoreInfoHeaerCellDelegate
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (2 == indexPath.section)
+    {
+        popViewRect = CGRectMake(0, PJ_SCREEN_HEIGHT, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - 200);
+        CZJReceiveCouponsController *receiveCouponsController = [[CZJReceiveCouponsController alloc] init];
+        self.window = [CZJUtils getMyWindowWithVC:receiveCouponsController withFrame:popViewRect];
+        
+        [CZJUtils showMyWindowOnTarget:self withSeletor:@selector(tapAction)];
+        
+//        UIView *view = [[UIView alloc] initWithFrame:self.view.bounds];
+//        view.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.5];
+//        UITapGestureRecognizer *tap  = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapAction)];
+//        [view addGestureRecognizer:tap];
+//        [self.view addSubview:view];
+//        self.upView = view;
+//        self.upView.alpha = 0.0;
+//        [UIView animateWithDuration:0.5 animations:^{
+//            self.window.frame =  CGRectMake(0, 200, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - 200);
+//            self.upView.alpha = 1.0;
+//        } completion:nil];
+//        self.navigationController.interactivePopGestureRecognizer.enabled = NO;
+        
+        __weak typeof(self) weak = self;
+        [receiveCouponsController setCancleBarItemHandle:^{
+            [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+                weak.window.frame = popViewRect;
+                weak.upView.alpha = 0.0;
+            } completion:^(BOOL finished) {
+                if (finished) {
+                    [weak.upView removeFromSuperview];
+                    [weak.window resignKeyWindow];
+                    weak.window  = nil;
+                    weak.upView = nil;
+                    weak.navigationController.interactivePopGestureRecognizer.enabled = YES;
+                }
+            }];
+        }];
+    }
+    if (3 == indexPath.section)
+    {
+        popViewRect =  CGRectMake(PJ_SCREEN_WIDTH, 0, PJ_SCREEN_WIDTH-50, PJ_SCREEN_HEIGHT);
+        
+        CZJChooseProductTypeController *chooseProductTypeController = [[CZJChooseProductTypeController alloc] init];
+        chooseProductTypeController.counterKey = chooosedProductCell.counterKey;
+        chooseProductTypeController.storeItemPid = chooosedProductCell.storeItemPid;
+        chooseProductTypeController.currentSku = chooosedProductCell.sku;
+        if (chooseProductTypeController.counterKey &&
+            chooseProductTypeController.storeItemPid)
+        {
+            [chooseProductTypeController getSKUDataFromServer];
+        }
+        self.window = [CZJUtils getMyWindowWithVC:chooseProductTypeController withFrame:popViewRect];
+        
+        UIView *view = [[UIView alloc] initWithFrame:self.view.bounds];
+        view.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.5];
+        UITapGestureRecognizer *tap  = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapAction)];
+        [view addGestureRecognizer:tap];
+        [self.view addSubview:view];
+        self.upView = view;
+        self.upView.alpha = 0.0;
+        [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+            self.window.frame = CGRectMake(50, 0, PJ_SCREEN_WIDTH-50, PJ_SCREEN_HEIGHT);
+            self.upView.alpha = 1.0;
+        } completion:nil];
+        self.navigationController.interactivePopGestureRecognizer.enabled = NO;
+    }
+    if (4 == indexPath.section && 2 ==indexPath.row)
+    {
+        [self performSegueWithIdentifier:@"segueToUserEvalution" sender:self];
+    }
+}
+
+- (void)tapAction{
+    [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+        self.window.frame = popViewRect;
+        self.upView.alpha = 0.0;
+    } completion:^(BOOL finished) {
+        if (finished) {
+            [self.upView removeFromSuperview];
+            [self.window resignKeyWindow];
+            self.window  = nil;
+            self.upView = nil;
+            self.navigationController.interactivePopGestureRecognizer.enabled = YES;
+        }
+    }];
+}
+
+
+
+#pragma mark- CZJNaviBarViewDelegate(导航栏三个按钮的代理回调)
+- (void)clickEventCallBack:(id)sender
+{
+    UIButton* barButton = (UIButton*)sender;
+    switch (barButton.tag) {
+        case CZJButtonTypeNaviBarMore:
+        {
+            NSArray * arr = @[@{@"消息" : @"prodetail_icon_msg"},
+                              @{@"首页":@"prodetail_icon_home"},
+                              @{@"分享" :@"prodetail_icon_share"}];
+            if(dropDown == nil) {
+                CGRect rect = CGRectMake(PJ_SCREEN_WIDTH - 120 - 14, StatusBar_HEIGHT + 78, 120, 150);
+                _backgroundView.hidden = NO;
+                dropDown = [[NIDropDown alloc]showDropDown:_backgroundView Frame:rect WithObjects:arr];
+                dropDown.delegate = self;
+            }
+        }
+            break;
+            
+        case CZJButtonTypeNaviBarBack:
+            [self.navigationController popViewControllerAnimated:true];
+            break;
+            
+        case CZJButtonTypeHomeShopping:
+            
+            break;
+            
+        default:
+            break;
+    }
+}
+
+- (void)tapBackground:(UITapGestureRecognizer *)paramSender
+{
+    if (dropDown)
+    {
+        _backgroundView.hidden = YES;
+        [dropDown hideDropDown:paramSender];
+        dropDown = nil;
+    }
+}
+
+- (void)animateBackGroundView:(UIView *)view show:(BOOL)show complete:(void(^)())complete
+{
+    if (show) {
+        [UIView animateWithDuration:0.5 animations:^{
+            view.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.3];
+        }];
+        
+    } else {
+        [UIView animateWithDuration:0.5 animations:^{
+            view.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.0];
+        } completion:^(BOOL finished) {
+        }];
+    }
+    complete();
+}
+
+
+#pragma mark- NIDropDownDelegate(更多按钮弹出框回调)
+- (void) niDropDownDelegateMethod:(NSString*)btnStr
+{
+    if ([btnStr isEqualToString:@"消息"])
+    {
+    }
+    if ([btnStr isEqualToString:@"首页"])
+    {
+    }
+    if ([btnStr isEqualToString:@"分享"])
+    {
+    }
+}
+
+
+#pragma mark- CZJStoreInfoHeaerCellDelegate(关注店铺回调)
 - (void)clickAttentionStore:(id)sender
 {
     NSDictionary* params = @{@"storeId" : _storeInfo.storeId};
@@ -749,48 +761,56 @@ CZJStoreInfoHeaerCellDelegate
             [CZJUtils tipWithText:@"取消关注" andView:self.view];
         }];
     }
-    
 }
 
+
 #pragma mark- ScrollViewDelegate
-// any offset changes
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     float contentOffsetY = [scrollView contentOffset].y;
-//    DLog(@"tag:%ld, %f",scrollView.tag, contentOffsetY);
-    
-    if (1001 == scrollView.tag && contentOffsetY <=0)
+//    DLog(@"%f",contentOffsetY);
+    if (kTagTableView == scrollView.tag && contentOffsetY <=0)
     {
         [self.naviBarView setBackgroundColor:CZJNAVIBARBGCOLORALPHA(0)];
-        [self.naviBarView setBackgroundColor:[UIColor redColor]];
     }
-    else
+    else if (kTagTableView == scrollView.tag && contentOffsetY > 0)
     {
-        float alphaValue = contentOffsetY / 100;
+        float alphaValue = contentOffsetY / 300;
         if (alphaValue > 1)
         {
             alphaValue = 1;
         }
         [self.naviBarView setBackgroundColor:CZJNAVIBARBGCOLORALPHA(alphaValue)];
     }
+    
+    //去掉tableview中section的headerview粘性
+    CGFloat sectionHeaderHeight = 40;
+    if (scrollView.contentOffset.y<=sectionHeaderHeight&&scrollView.contentOffset.y>=0) {
+        scrollView.contentInset = UIEdgeInsetsMake(-scrollView.contentOffset.y, 0, 0, 0);
+    }
+    else if (scrollView.contentOffset.y>=sectionHeaderHeight) {
+        scrollView.contentInset = UIEdgeInsetsMake(-sectionHeaderHeight, 0, 0, 0);
+    }
+    
+    if (scrollView.tag ==kTagTableView && contentOffsetY > tableViewContentSizeHeight) {
+        isButtom = YES;
+    }
 }
 
-// called on finger up if the user dragged. velocity is in points/millisecond. targetContentOffset may be changed to adjust where the scroll view comes to rest
 - (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset NS_AVAILABLE_IOS(5_0)
 {
     float contentOffsetY = [scrollView contentOffset].y;
-    DLog(@"tag:%ld, %f",scrollView.tag, contentOffsetY);
-    
-    if (isButtom && kTagTableView == scrollView.tag && contentOffsetY >= tableViewContentSizeHeight + 50)
+
+    if (isButtom && kTagTableView == scrollView.tag && contentOffsetY >= tableViewContentSizeHeight + 30)
     {
-        [self.myScrollView setContentOffset:CGPointMake(0, (PJ_SCREEN_HEIGHT-134)) animated:true];
+        [self.myScrollView setContentOffset:CGPointMake(0, (PJ_SCREEN_HEIGHT-114)) animated:true];
         isButtom = NO;
     }
-    DLog(@"velocity.y:%f, offset:%f",velocity.y, targetContentOffset->y);
+//    DLog(@"velocity.y:%f, offset:%f",velocity.y, targetContentOffset->y);
 }
 
 
-#pragma mark- CZJImageTouchViewDelegate
+#pragma mark- CZJImageTouchViewDelegate(顶部图片预览回调)
 - (void)showDetailInfoWithIndex:(NSInteger)index
 {
     WyzAlbumViewController *wyzAlbumVC = [[WyzAlbumViewController alloc]init];
@@ -798,13 +818,36 @@ CZJStoreInfoHeaerCellDelegate
     //用url
     wyzAlbumVC.imgArr = _goodsDetail.imgs;
     //进入动画
-    [self presentViewController:wyzAlbumVC animated:YES completion:^{
+    [self presentViewController:wyzAlbumVC animated:YES completion:^
+    {
     }];
 }
 
 
 #pragma mark- Action
-- (IBAction)immediatelyBuyAction:(id)sender {
+- (IBAction)immediatelyBuyAction:(id)sender
+{
+    NSDictionary* itemDict = @{@"itemCode" : goodsDetailForm.goods.itemCode,
+                               @"storeItemPid" : goodsDetailForm.goods.storeItemPid,
+                               @"itemImg" : goodsDetailForm.goods.itemImg,
+                               @"itemName" : goodsDetailForm.goods.itemName,
+                               @"itemSku" : goodsDetailForm.goods.itemSku,
+                               @"itemType" : goodsDetailForm.goods.itemType,
+                               @"itemCount" : @"1",
+                               };
+
+    NSArray* itemAry = @[itemDict];
+    NSDictionary* storeDict = @{@"items" :itemAry,
+                                @"storeName" : goodsDetailForm.store.storeName,
+                                @"storeId" :goodsDetailForm.store.storeId,
+                                @"companyId" :goodsDetailForm.store.companyId,
+                                @"selfFlag" : goodsDetailForm.goods.selfFlag ? @"true" : @"false"
+                                };
+    [_settleOrderAry addObject:storeDict];
+    CZJCommitOrderController* settleOrder = (CZJCommitOrderController*)[CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:@"SBIDCommitSettle"];
+    settleOrder.settleParamsAry = _settleOrderAry;
+    [self.navigationController pushViewController:settleOrder animated:true];
+    [CZJUtils tipWithText:@"结算成功" andView:nil];
 }
 
 - (IBAction)addProductToShoppingCartAction:(id)sender
@@ -853,13 +896,15 @@ CZJStoreInfoHeaerCellDelegate
     
 }
 
+
 - (IBAction)attentionAction:(id)sender
 {
-//    _goodsDetail = goodsDetailForm.goods;
     NSDictionary* params = @{@"storeItemPid" : _goodsDetail.storeItemPid,
                              @"itemType" : _goodsDetail.itemType};
-    if (!self.attentionBtn.selected) {
-        [CZJBaseDataInstance attentionGoods:params success:^(id json) {
+    if (!self.attentionBtn.selected)
+    {
+        [CZJBaseDataInstance attentionGoods:params success:^(id json)
+        {
             _goodsDetail.attentionFlag = !_goodsDetail.attentionFlag;
             self.attentionBtn.selected = !self.attentionBtn.selected;
             [CZJUtils tipWithText:@"关注成功" andView:self.view];
@@ -867,7 +912,8 @@ CZJStoreInfoHeaerCellDelegate
     }
     else
     {
-        [CZJBaseDataInstance cancleAttentionGoods:params success:^(id json) {
+        [CZJBaseDataInstance cancleAttentionGoods:params success:^(id json)
+        {
             _goodsDetail.attentionFlag = !_goodsDetail.attentionFlag;
             self.attentionBtn.selected = !self.attentionBtn.selected;
             [CZJUtils tipWithText:@"取消关注" andView:self.view];
@@ -875,9 +921,14 @@ CZJStoreInfoHeaerCellDelegate
     }
 }
 
-- (IBAction)contactServiceAction:(id)sender {
+- (IBAction)contactServiceAction:(id)sender
+{
+    
 }
 
-- (IBAction)storeAction:(id)sender {
+- (IBAction)storeAction:(id)sender
+{
+    
 }
+
 @end

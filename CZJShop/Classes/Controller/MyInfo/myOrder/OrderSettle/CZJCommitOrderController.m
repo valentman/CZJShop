@@ -75,6 +75,11 @@ CZJLeaveMessageViewDelegate
     [self getSettleDataFromServer];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    self.navigationController.navigationBarHidden = NO;
+}
+
 - (void)initDatas
 {
     _orderStoreAry = [NSMutableArray array];
@@ -132,7 +137,8 @@ CZJLeaveMessageViewDelegate
 {
     self.myTableView.delegate = self;
     self.myTableView.dataSource = self;
-    
+    self.myTableView.backgroundColor = CLEARCOLOR;
+    self.view.backgroundColor = CZJNAVIBARGRAYBG;
     NSArray* nibArys = @[@"CZJAddDeliveryAddrCell",
                          @"CZJDeliveryAddrCell",
                          @"CZJOrderTypeCell",
@@ -252,7 +258,7 @@ CZJLeaveMessageViewDelegate
                 cell.defaultLabel.layer.backgroundColor = [[UIColor redColor]CGColor];
                 cell.defaultLabel.layer.cornerRadius = 3;
                 cell.defaultLabel.textColor = [UIColor whiteColor];
-                cell.deliveryAddrLayoutLeading.constant = 70;
+                cell.deliveryAddrLayoutLeading.constant = 80;
             }
             else
             {
@@ -276,6 +282,7 @@ CZJLeaveMessageViewDelegate
             {
                 CZJOrderTypeExpandCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJOrderTypeExpandCell" forIndexPath:indexPath];
                 cell.expandNameLabel.text = @"收起";
+                [cell setCellType:CZJCellTypeExpand];
                 [UIView animateWithDuration:0.1 delay:0 options:UIViewAnimationOptionTransitionCurlUp animations:^{
                     cell.expandImg.transform = CGAffineTransformMakeRotation(180 * (M_PI / 180.0f));
                 } completion:nil];
@@ -304,6 +311,7 @@ CZJLeaveMessageViewDelegate
                     cell.expandImg.transform = CGAffineTransformMakeRotation(0 * (M_PI / 180.0f));
                 } completion:nil];
                 cell.expandNameLabel.text = @"展开";
+                [cell setCellType:CZJCellTypeExpand];
                 cell.delegate = self;
                 return cell;
             }
@@ -487,7 +495,7 @@ CZJLeaveMessageViewDelegate
             {
                 cell.leaveMessageView.hidden = NO;
             }
-
+            cell.separatorInset = HiddenCellSeparator;
             return cell;
         }
     }
@@ -645,6 +653,18 @@ CZJLeaveMessageViewDelegate
 }
 
 
+//去掉tableview中section的headerview粘性
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    CGFloat sectionHeaderHeight = 40;
+    if (scrollView.contentOffset.y<=sectionHeaderHeight&&scrollView.contentOffset.y>=0) {
+        scrollView.contentInset = UIEdgeInsetsMake(-scrollView.contentOffset.y, 0, 0, 0);
+    }
+    else if (scrollView.contentOffset.y>=sectionHeaderHeight) {
+        scrollView.contentInset = UIEdgeInsetsMake(-sectionHeaderHeight, 0, 0, 0);
+    }
+}
+
 #pragma mark- CZJOrderTypeExpandCellDelegate
 - (void)clickToExpandOrderType
 {
@@ -709,7 +729,8 @@ CZJLeaveMessageViewDelegate
         deliveryCon.delegate = self;
         if ([touchedCell isKindOfClass:[CZJDeliveryAddrCell class]])
         {
-            deliveryCon.currentAddrId = ((CZJDeliveryAddrCell*)touchedCell).addrForm.addrId;   
+            CZJAddrForm* addform = ((CZJDeliveryAddrCell*)touchedCell).addrForm;
+            deliveryCon.currentAddrId = addform.addrId;
         }
     }
     if ([segue.identifier isEqualToString:@"segueToChooseInstallStore"])

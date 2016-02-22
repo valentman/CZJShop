@@ -21,6 +21,7 @@
 #import "CZJDefinition.h"
 #import "ValueType.h"
 #import "CommonData.h"
+#import "AFNetworking.h"
 
 #import "CZJUtils.h"
 #import "CZJButton.h"
@@ -166,6 +167,10 @@ typedef void (^MGBasicBlock)();
 
 //清除背景色
 #define CLEARCOLOR [UIColor clearColor]
+#define WHITECOLOR [UIColor whiteColor]
+#define BLACKCOLOR [UIColor blackColor]
+#define BLUECOLOR  [UIColor blueColor]
+#define REDCOLOR   [UIColor redColor]
 
 //本项目自定义颜色
 #define CZJREDCOLOR RGB(251, 70, 78)

@@ -36,6 +36,7 @@ CZJDeliveryAddrListCellDelegate
     _addrListAry = [NSMutableArray array];
     self.addrListTableView.delegate = self;
     self.addrListTableView.dataSource = self;
+    self.addrListTableView.backgroundColor = CLEARCOLOR;
     UINib* nib = [UINib nibWithNibName:@"CZJDeliveryAddrListCell" bundle:nil];
     [self.addrListTableView registerNib:nib forCellReuseIdentifier:@"CZJDeliveryAddrListCell"];
     self.addrListTableView.tableFooterView = [[UIView alloc] init];
@@ -63,19 +64,6 @@ CZJDeliveryAddrListCellDelegate
     for (NSDictionary* dict in tmpAry)
     {
         CZJAddrForm* form  = [CZJAddrForm objectWithKeyValues:dict];
-//        form.receiver = [dict valueForKey:@"receiver"];
-//        form.province = [dict valueForKey:@"province"];
-//        form.city = [dict valueForKey:@"city"];
-//        form.county = [dict valueForKey:@"county"];
-//        form.dftFlag = [[dict valueForKey:@"dftFlag"] boolValue];
-//        form.mobile = [dict valueForKey:@"mobile"];
-//        form.addr = [dict valueForKey:@"addr"];
-//        form.addrId = [dict valueForKey:@"id"];
-//        form.isSelected = NO;
-//        if ([_currentAddrId isEqualToString:form.addrId])
-//        {
-//            form.isSelected = YES;
-//        }
         [_addrListAry addObject:form];
     }
     [self.addrListTableView reloadData];
@@ -109,8 +97,11 @@ CZJDeliveryAddrListCellDelegate
     cell.deliveryAddrLabel.text = addrStr;
     cell.setDefaultBtn.selected = form.dftFlag;
     cell.chooseedBtn.selected = [_currentAddrId isEqualToString:form.addrId];
+    cell.layer.borderWidth = [_currentAddrId isEqualToString:form.addrId] ? 0.5 : 0;
+    cell.layer.borderColor = CZJREDCOLOR.CGColor;
     cell.indexPath = indexPath;
     cell.delegate = self;
+    cell.separatorInset = HiddenCellSeparator;
     return cell;
 }
 

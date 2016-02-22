@@ -27,7 +27,7 @@ UIGestureRecognizerDelegate
     NSInteger _selectedCount;
     NSMutableArray* _settleOrderAry;
 }
-@property (weak, nonatomic) IBOutlet PullTableView *myTableView;
+@property (weak, nonatomic) IBOutlet UITableView *myTableView;
 @property (weak, nonatomic) IBOutlet UIButton *settleBtn;
 @property (weak, nonatomic) IBOutlet UIButton *allChooseBtn;
 @property (weak, nonatomic) IBOutlet UILabel *allChooseLabel;
@@ -60,15 +60,25 @@ UIGestureRecognizerDelegate
 {
     self.navigationController.interactivePopGestureRecognizer.delegate = self;
     //tableview
+    self.myTableView.tableFooterView = [[UIView alloc]init];
     self.myTableView.delegate = self;
     self.myTableView.dataSource = self;
+    self.myTableView.backgroundColor = CZJNAVIBARGRAYBG;
+    self.automaticallyAdjustsScrollViewInsets = NO;
     UINib* nib1 = [UINib nibWithNibName:@"CZJShoppingCartCell" bundle:nil];
     UINib* nib2 = [UINib nibWithNibName:@"CZJShoppingCartHeaderCell" bundle:nil];
     [self.myTableView registerNib:nib1 forCellReuseIdentifier:@"CZJShoppingCartCell"];
     [self.myTableView registerNib:nib2 forCellReuseIdentifier:@"CZJShoppingCartHeaderCell"];
-    self.automaticallyAdjustsScrollViewInsets = NO;
+    self.myTableView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^(){
+        [UIView animateWithDuration:0.5 delay:0.0 options:UIViewAnimationOptionLayoutSubviews animations:^{
+            
+        } completion:^(BOOL finished) {
+            //结束加载
+            [self.myTableView.header endRefreshing];
+        }];
+    }];
 
-    
+
     //自定义导航栏左右按钮
     //左按钮
     UIButton *leftBtn = [[ UIButton alloc ] initWithFrame : CGRectMake(- 20 , 0 , 44 , 44 )];
@@ -87,16 +97,14 @@ UIGestureRecognizerDelegate
         self.navigationItem.leftBarButtonItem = leftItem;
     }
     
-    
-    
     //右按钮
     UIButton *rightBtn = [[ UIButton alloc ] initWithFrame : CGRectMake(0 , 0 , 44 , 44 )];
     [rightBtn setTitle:@"编辑" forState:UIControlStateNormal];
     [rightBtn setTitle:@"完成" forState:UIControlStateSelected];
     [rightBtn addTarget:self action:@selector(edit:) forControlEvents:UIControlEventTouchUpInside];
-    [rightBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+    [rightBtn setTitleColor:BLACKCOLOR forState:UIControlStateNormal];
     [rightBtn setSelected:NO];
-    rightBtn.titleLabel.font = SYSTEMFONT(16);
+    rightBtn.titleLabel.font = SYSTEMFONT(18);
     UIBarButtonItem *rightItem =[[UIBarButtonItem alloc]initWithCustomView: rightBtn];
     if ((IS_IOS7 ? 20 : 0))
     {
@@ -295,6 +303,7 @@ UIGestureRecognizerDelegate
             [cell setModels:goodsInfo];
         }
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.separatorInset = HiddenCellSeparator;
         return cell;
     }
     return nil;
@@ -316,8 +325,8 @@ UIGestureRecognizerDelegate
     
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
-    return 0;
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    return 10;
 }
 
 -(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -362,6 +371,27 @@ UIGestureRecognizerDelegate
             //删除失败
         }];
     }
+}
+
+//去掉tableview中section的headerview粘性
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    CGFloat sectionHeaderHeight = 40;
+    if (scrollView.contentOffset.y<=sectionHeaderHeight&&scrollView.contentOffset.y>=0) {
+        scrollView.contentInset = UIEdgeInsetsMake(-scrollView.contentOffset.y, 0, 0, 0);
+    }
+    else if (scrollView.contentOffset.y>=sectionHeaderHeight) {
+        scrollView.contentInset = UIEdgeInsetsMake(-sectionHeaderHeight, 0, 0, 0);
+    }
+}
+
+#pragma mark- PullTableViewDelegate
+- (void)pullTableViewDidTriggerRefresh:(PullTableView*)pullTableView
+{
+}
+
+- (void)pullTableViewDidTriggerLoadMore:(PullTableView*)pullTableView
+{
 }
 
 

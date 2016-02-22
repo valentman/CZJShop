@@ -80,7 +80,7 @@ typedef NS_ENUM(NSInteger, CZJViewMoveOrientation)
 //详情类型（商品详情、服务详情）
 typedef NS_ENUM(NSInteger, CZJDetailType)
 {
-    CZJDetailTypeService,
+    CZJDetailTypeService = 101,
     CZJDetailTypeGoods,
     CZJDetailTypeStore
 };
@@ -108,7 +108,12 @@ typedef NS_ENUM(NSInteger, CZJCarListType)
     CZJCarListTypeGeneral
 };
 
-
+//CEll类型（订单页面展开Cell，详情界面上拉图文详情Cell）
+typedef NS_ENUM(NSInteger, CZJCellType)
+{
+    CZJCellTypeDetail = 100,
+    CZJCellTypeExpand
+};
 
 
 struct CZJMargin {

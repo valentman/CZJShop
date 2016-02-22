@@ -9,7 +9,11 @@
 #import "CZJPicDetailBaseController.h"
 #import "UIScrollView+EmptyDataSet.h"
 
-@interface CZJPicDetailBaseController ()<UIScrollViewDelegate>
+@interface CZJPicDetailBaseController ()
+<
+UIScrollViewDelegate,
+UIWebViewDelegate
+>
 {
     BOOL _isBack;
 }
@@ -22,7 +26,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.myWebView = [[UIWebView alloc]initWithFrame:self.view.bounds];
+    self.myWebView = [[UIWebView alloc]initWithFrame:CGRectMake(0, 0, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - 64 - 50 - 50)];
+    self.myWebView.delegate = self;
     [self.view addSubview:_myWebView];
     _myWebView.scrollView.delegate = self;
     

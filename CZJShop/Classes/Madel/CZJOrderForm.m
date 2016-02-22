@@ -123,6 +123,11 @@
 
 
 @implementation CZJAddrForm
++ (NSDictionary *)replacedKeyFromPropertyName{
+    return @{
+             @"addrId" : @"id",
+             };
+}
 @end
 
 

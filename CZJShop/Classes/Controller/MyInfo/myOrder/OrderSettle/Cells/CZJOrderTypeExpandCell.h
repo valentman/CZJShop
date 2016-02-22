@@ -18,6 +18,13 @@
 @property (weak, nonatomic) IBOutlet UILabel *expandNameLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *expandImg;
 @property (weak, nonatomic) id<CZJOrderTypeExpandCellDelegate> delegate;
+@property (weak, nonatomic) IBOutlet UIView *detailView;
+@property (weak, nonatomic) IBOutlet UIView *expandView;
+@property (weak, nonatomic) IBOutlet UIImageView *detailImg;
+@property (weak, nonatomic) IBOutlet UILabel *detailNameLabel;
+
+
+- (void)setCellType:(CZJCellType)cellType;
 - (IBAction)clickAction:(id)sender;
 
 @end

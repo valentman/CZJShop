@@ -36,6 +36,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
     [CZJUtils customizeNavigationBarForTarget:self];
     _selectedAddAry = [NSMutableArray array];
     _saveBtn.layer.cornerRadius = 5;

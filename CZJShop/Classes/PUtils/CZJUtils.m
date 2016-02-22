@@ -15,6 +15,7 @@
 #import "CZJStoreDetailController.h"
 #import "CZJSearchController.h"
 
+
 @interface CZJUtils ()<UIAlertViewDelegate>
 
 @end
@@ -481,6 +482,34 @@ void backLastView(id sender, SEL _cmd)
 
 
 #pragma mark 界面控制器处理
++ (void)showMyWindowOnTarget:(CZJViewController*)target withSeletor:(SEL)mySelector
+{
+    UIView *view = [[UIView alloc] initWithFrame:target.view.bounds];
+    view.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.5];
+    UITapGestureRecognizer *tap  = [[UITapGestureRecognizer alloc] initWithTarget:self action:mySelector];
+    [view addGestureRecognizer:tap];
+    [target.view addSubview:view];
+    target.upView = view;
+    target.upView.alpha = 0.0;
+    [UIView animateWithDuration:0.5 animations:^{
+        target.window.frame =  CGRectMake(0, 200, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - 200);
+        target.upView.alpha = 1.0;
+    } completion:nil];
+    target.navigationController.interactivePopGestureRecognizer.enabled = NO;
+}
+
+
++ (UIWindow*)getMyWindowWithVC:(UIViewController*)myViewController withFrame:(CGRect)rect
+{
+    UIWindow *myWindow = [[UIWindow alloc] initWithFrame:rect];
+    myWindow.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:1.0];
+    myWindow.windowLevel = UIWindowLevelNormal;
+    myWindow.hidden = NO;
+    myWindow.rootViewController = myViewController;
+    [myWindow makeKeyAndVisible];
+    return myWindow;
+}
+
 + (UIViewController*)getViewControllerFromStoryboard:(NSString*)storyboardName andVCName:(NSString*)vcName
 {
     //获取storyboard: 通过bundle根据storyboard的名字来获取我们的storyboard,
@@ -752,5 +781,37 @@ void backLastView(id sender, SEL _cmd)
     int childY = row * (viewSize.height + margin.vertiMiddleMargin);
     CGRect rect = CGRectMake(childX + margin.horisideMargin, childY + margin.vertiMiddleMargin, viewSize.width, viewSize.height);
     return rect;
+}
+
++ (void)reachability
+{
+    // 连接状态回调处理
+    [[AFNetworkReachabilityManager sharedManager] setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status)
+     {
+         switch (status)
+         {
+             case AFNetworkReachabilityStatusUnknown:
+                 DLog(@"未知状态");
+                 // 回调处理
+                 break;
+             case AFNetworkReachabilityStatusNotReachable:
+                 
+                 DLog(@"无网络");
+                 // 回调处理
+                 break;
+             case AFNetworkReachabilityStatusReachableViaWWAN:
+                 DLog(@"有3G");
+                 // 回调处理
+                 break;
+             case AFNetworkReachabilityStatusReachableViaWiFi:
+                 DLog(@"Wifi状态");
+                 // 回调处理
+                 break;
+             default:
+                 break;
+         }
+     }];
+    // 检测网络连接状态
+    [[AFNetworkReachabilityManager sharedManager] startMonitoring];
 }
 @end

@@ -187,7 +187,9 @@
     //-------------------8.字典描述分类替换---------------
     [NSDictionary jr_swizzleMethod:@selector(description) withMethod:@selector(my_description) error:nil];
     
-    [KMCGeigerCounter sharedGeigerCounter].enabled = YES;
+    [KMCGeigerCounter sharedGeigerCounter].enabled = false;
+    
+    [CZJUtils reachability];
 
     return YES;
 }

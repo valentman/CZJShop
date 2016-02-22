@@ -55,12 +55,24 @@
     
     if (self.state != MJRefreshStateIdle || !self.automaticallyRefresh || self.mj_y == 0) return;
     
-    if (_scrollView.mj_insetT + _scrollView.mj_contentH > _scrollView.mj_h) { // 内容超过一个屏幕
+    if (_scrollView.mj_insetT + _scrollView.mj_contentH > _scrollView.mj_h)
+    { // 内容超过一个屏幕
         // 这里的_scrollView.mj_contentH替换掉self.mj_y更为合理
-        if (_scrollView.mj_offsetY >= _scrollView.mj_contentH - _scrollView.mj_h + self.mj_h * self.appearencePercentTriggerAutoRefresh + _scrollView.mj_insetB - self.mj_h) {
+        float mjOffsetY = _scrollView.mj_offsetY;
+        float mjContentH = _scrollView.mj_contentH;
+        float mjH = _scrollView.mj_h;
+        float selmjH = self.mj_h;
+        float appref  = self.appearencePercentTriggerAutoRefresh;
+        float mjInset = _scrollView.mj_insetB;
+        float resutl = mjContentH - mjH + selmjH * appref + mjInset - selmjH;
+        DLog(@"mjOffsetY:%f mjContentH:%f mjH:%f selmjH:%f appref:%f mjInset:%f resutl:%f",mjOffsetY,mjContentH,mjH,selmjH,appref,mjInset,resutl);
+        if (mjOffsetY >= resutl)
+        {
+            DLog(@"mjOffsetY:%f mjContentH:%f mjH:%f selmjH:%f appref:%f mjInset:%f resutl:%f",mjOffsetY,mjContentH,mjH,selmjH,appref,mjInset,resutl);
             // 防止手松开时连续调用
             CGPoint old = [change[@"old"] CGPointValue];
             CGPoint new = [change[@"new"] CGPointValue];
+            DLog(@"oldY:%f, newY:%f",old.y, new.y);
             if (new.y <= old.y) return;
             
             // 当底部刷新控件完全出现时，才刷新

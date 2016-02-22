@@ -16,7 +16,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *itemTypes;
 @property (weak, nonatomic) IBOutlet UILabel *goodPrice;
 @property (weak, nonatomic) IBOutlet UILabel *totalPrice;
-@property (weak, nonatomic) IBOutlet WLZ_ChangeCountView *changeView;
+@property (strong, nonatomic) WLZ_ChangeCountView *changeView;
 @property (weak, nonatomic) IBOutlet UILabel *soldoutLab;
 @property (weak, nonatomic) IBOutlet UIView *goodsOnSellView;
 
@@ -79,12 +79,18 @@
         self.goodPrice.text = [NSString stringWithFormat:@"￥%@", shoppingGoodsInfo.currentPrice];
         self.choosedCount = [shoppingGoodsInfo.itemCount integerValue];
         
-        [self.changeView initWithFrame:CGRectMake(20, 8 , 120, 35) chooseCount:1 totalCount: 99].numberFD.text = [NSString stringWithFormat:@"%ld", self.choosedCount];
+        //加减数量控件
+        self.changeView = [[WLZ_ChangeCountView alloc]initWithFrame:CGRectMake(PJ_SCREEN_WIDTH - 125, 70 , 90, 30) chooseCount:1 totalCount: 99];
+        self.changeView.layer.cornerRadius = 3;
+        [self.contentView addSubview:self.changeView];
+        self.changeView.numberFD.text = [NSString stringWithFormat:@"%ld", self.choosedCount];
         [self.changeView.subButton addTarget:self action:@selector(subButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
         [self.changeView.addButton addTarget:self action:@selector(addButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     }
     [self.goodImage sd_setImageWithURL:[NSURL URLWithString:shoppingGoodsInfo.itemImg] placeholderImage:IMAGENAMED(@"home_btn_xiche")];
     self.chooseBtn.selected = self.goodsInfoForm.isSelect;
+    
+    [self calculatePriceNumber];
 }
 
 //加
@@ -93,6 +99,7 @@
     ++self.choosedCount ;
     if (self.choosedCount > 1) {
         _changeView.subButton.enabled=YES;
+        _changeView.subButton.titleLabel.alpha = 1.0f;
     }
     
     if(self.choosedCount>=99)
@@ -100,6 +107,7 @@
         [SVProgressHUD showErrorWithStatus:@"最多支持购买99个"];
         self.choosedCount  = 99;
         _changeView.addButton.enabled = NO;
+        _changeView.addButton.titleLabel.alpha = 0.5f;
     }
     
     _changeView.numberFD.text=[NSString stringWithFormat:@"%zi",self.choosedCount];
@@ -117,10 +125,12 @@
     if (self.choosedCount <= 1) {
         self.choosedCount= 1;
         _changeView.subButton.enabled=NO;
+        _changeView.subButton.titleLabel.alpha = 0.5f;
     }
     else
     {
         _changeView.addButton.enabled=YES;
+        _changeView.addButton.titleLabel.alpha = 1.0f;
         
     }
     _changeView.numberFD.text=[NSString stringWithFormat:@"%zi",self.choosedCount];

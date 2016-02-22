@@ -8,6 +8,7 @@
 
 #import "CZJViewController.h"
 
+
 @interface CZJViewController ()<CZJNaviagtionBarViewDelegate>
 
 @end
@@ -16,6 +17,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self checkNetWorkStatus];
     // Do any additional setup after loading the view.
 }
 
@@ -51,5 +53,37 @@
         default:
             break;
     }
+}
+
+- (void)checkNetWorkStatus
+{
+    [[AFNetworkReachabilityManager sharedManager] setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status)
+     {
+         switch (status)
+         {
+             case AFNetworkReachabilityStatusUnknown:
+                 DLog(@"未知网络状态");
+                 break;
+             case AFNetworkReachabilityStatusNotReachable:
+                 [CZJUtils tipWithText:@"请检查网络设置，确保连接网络" andView:nil];
+                 break;
+             case AFNetworkReachabilityStatusReachableViaWWAN:
+                 DLog(@"手机自有网络连接");
+                 break;
+             case AFNetworkReachabilityStatusReachableViaWiFi:
+                 DLog(@"Wifi连接");
+                 break;
+             default:
+                 break;
+         }
+     }];
+    
+    [[AFNetworkReachabilityManager sharedManager] startMonitoring];
+    
+}
+
+- (void)netWorkStatusChanged:(id)noti
+{
+    
 }
 @end
