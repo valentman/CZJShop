@@ -58,7 +58,7 @@ UITableViewDelegate
     feedback.orderTypeName = @"意见反馈";
     feedback.orderTypeImg = @"my_icon_serve";
     
-    cellArray = @[onlineService,phoneAsk,feedback];     //目前只支持的三个支付方式
+    cellArray = @[onlineService,phoneAsk,feedback];
     
     [self.myTableView reloadData];
 }

@@ -135,6 +135,12 @@
 		EC1E43E71C40A76F006CC23C /* UIScrollView+SVPullToRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = EC1E43E51C40A76F006CC23C /* UIScrollView+SVPullToRefresh.m */; };
 		EC1FBA481C76B879005F26A8 /* CZJMyEvaluationController.m in Sources */ = {isa = PBXBuildFile; fileRef = EC1FBA471C76B879005F26A8 /* CZJMyEvaluationController.m */; settings = {ASSET_TAGS = (); }; };
 		EC1FBA4B1C76B945005F26A8 /* CZJAddMyEvalutionController.m in Sources */ = {isa = PBXBuildFile; fileRef = EC1FBA4A1C76B945005F26A8 /* CZJAddMyEvalutionController.m */; settings = {ASSET_TAGS = (); }; };
+		EC1FD2371C7C343C00954D1E /* CZJPopPayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EC1FD2311C7C343C00954D1E /* CZJPopPayViewController.m */; settings = {ASSET_TAGS = (); }; };
+		EC1FD23C1C7C55C700954D1E /* CZJOrderListPayCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EC1FD23A1C7C55C700954D1E /* CZJOrderListPayCell.m */; settings = {ASSET_TAGS = (); }; };
+		EC1FD23D1C7C55C700954D1E /* CZJOrderListPayCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EC1FD23B1C7C55C700954D1E /* CZJOrderListPayCell.xib */; settings = {ASSET_TAGS = (); }; };
+		EC1FD23F1C7C5D0000954D1E /* PaymentType.plist in Resources */ = {isa = PBXBuildFile; fileRef = EC1FD23E1C7C5D0000954D1E /* PaymentType.plist */; settings = {ASSET_TAGS = (); }; };
+		EC1FD2431C7C85A900954D1E /* CZJOrderListNoPayButtomView.m in Sources */ = {isa = PBXBuildFile; fileRef = EC1FD2411C7C85A900954D1E /* CZJOrderListNoPayButtomView.m */; settings = {ASSET_TAGS = (); }; };
+		EC1FD2441C7C85A900954D1E /* CZJOrderListNoPayButtomView.xib in Resources */ = {isa = PBXBuildFile; fileRef = EC1FD2421C7C85A900954D1E /* CZJOrderListNoPayButtomView.xib */; settings = {ASSET_TAGS = (); }; };
 		EC1FE7EB1C74121500318505 /* CZJMyWalletBalanceController.m in Sources */ = {isa = PBXBuildFile; fileRef = EC1FE7EA1C74121500318505 /* CZJMyWalletBalanceController.m */; settings = {ASSET_TAGS = (); }; };
 		EC1FE7EE1C74122F00318505 /* CZJMyWalletRedpacketController.m in Sources */ = {isa = PBXBuildFile; fileRef = EC1FE7ED1C74122F00318505 /* CZJMyWalletRedpacketController.m */; settings = {ASSET_TAGS = (); }; };
 		EC1FE7F11C74124400318505 /* CZJMyWalletPointController.m in Sources */ = {isa = PBXBuildFile; fileRef = EC1FE7F01C74124400318505 /* CZJMyWalletPointController.m */; settings = {ASSET_TAGS = (); }; };
@@ -1151,6 +1157,15 @@
 		EC1FBA471C76B879005F26A8 /* CZJMyEvaluationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJMyEvaluationController.m; sourceTree = "<group>"; };
 		EC1FBA491C76B945005F26A8 /* CZJAddMyEvalutionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJAddMyEvalutionController.h; sourceTree = "<group>"; };
 		EC1FBA4A1C76B945005F26A8 /* CZJAddMyEvalutionController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJAddMyEvalutionController.m; sourceTree = "<group>"; };
+		EC1FD2301C7C343C00954D1E /* CZJPopPayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJPopPayViewController.h; sourceTree = "<group>"; };
+		EC1FD2311C7C343C00954D1E /* CZJPopPayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJPopPayViewController.m; sourceTree = "<group>"; };
+		EC1FD2391C7C55C700954D1E /* CZJOrderListPayCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJOrderListPayCell.h; sourceTree = "<group>"; };
+		EC1FD23A1C7C55C700954D1E /* CZJOrderListPayCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJOrderListPayCell.m; sourceTree = "<group>"; };
+		EC1FD23B1C7C55C700954D1E /* CZJOrderListPayCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CZJOrderListPayCell.xib; sourceTree = "<group>"; };
+		EC1FD23E1C7C5D0000954D1E /* PaymentType.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = PaymentType.plist; sourceTree = "<group>"; };
+		EC1FD2401C7C85A900954D1E /* CZJOrderListNoPayButtomView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJOrderListNoPayButtomView.h; sourceTree = "<group>"; };
+		EC1FD2411C7C85A900954D1E /* CZJOrderListNoPayButtomView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJOrderListNoPayButtomView.m; sourceTree = "<group>"; };
+		EC1FD2421C7C85A900954D1E /* CZJOrderListNoPayButtomView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CZJOrderListNoPayButtomView.xib; sourceTree = "<group>"; };
 		EC1FE7E91C74121500318505 /* CZJMyWalletBalanceController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJMyWalletBalanceController.h; sourceTree = "<group>"; };
 		EC1FE7EA1C74121500318505 /* CZJMyWalletBalanceController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJMyWalletBalanceController.m; sourceTree = "<group>"; };
 		EC1FE7EC1C74122F00318505 /* CZJMyWalletRedpacketController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJMyWalletRedpacketController.h; sourceTree = "<group>"; };
@@ -4053,6 +4068,7 @@
 				ECDB5DCA1BFADB0500882BB2 /* main.m */,
 				ECDB5F9A1BFB22C600882BB2 /* Prefix.pch */,
 				ECDB5F9B1BFB22C600882BB2 /* ValueType.h */,
+				EC1FD23E1C7C5D0000954D1E /* PaymentType.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -4471,6 +4487,8 @@
 			isa = PBXGroup;
 			children = (
 				ECF2DCE61C5768E00096FF39 /* Cells */,
+				EC1FD2301C7C343C00954D1E /* CZJPopPayViewController.h */,
+				EC1FD2311C7C343C00954D1E /* CZJPopPayViewController.m */,
 				ECF2DC481C5767F80096FF39 /* CZJMyInfoOrderListController.h */,
 				ECF2DC491C5767F80096FF39 /* CZJMyInfoOrderListController.m */,
 				EC43DFDB1C5B63F600B3C412 /* CZJOrderListBaseController.h */,
@@ -4648,6 +4666,12 @@
 				EC8CB5F71C60C2D300CCE27F /* CZJOrderReturnedListCell.h */,
 				EC8CB5F81C60C2D300CCE27F /* CZJOrderReturnedListCell.m */,
 				EC8CB5F91C60C2D300CCE27F /* CZJOrderReturnedListCell.xib */,
+				EC1FD2391C7C55C700954D1E /* CZJOrderListPayCell.h */,
+				EC1FD23A1C7C55C700954D1E /* CZJOrderListPayCell.m */,
+				EC1FD23B1C7C55C700954D1E /* CZJOrderListPayCell.xib */,
+				EC1FD2401C7C85A900954D1E /* CZJOrderListNoPayButtomView.h */,
+				EC1FD2411C7C85A900954D1E /* CZJOrderListNoPayButtomView.m */,
+				EC1FD2421C7C85A900954D1E /* CZJOrderListNoPayButtomView.xib */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -4827,10 +4851,12 @@
 				ECF8E9661C5C6DB300A98707 /* order_icon_wancheng@2x.png in Resources */,
 				EC26A2FF1C2A386600B166A3 /* commit_icon_zhifubao@2x.png in Resources */,
 				ECF2DCA91C5767F80096FF39 /* CZJStoreAttentionCell.xib in Resources */,
+				EC1FD2441C7C85A900954D1E /* CZJOrderListNoPayButtomView.xib in Resources */,
 				ECC4DEC71C17FEA900FBD6A4 /* prodetail_btn_shopnor@3x.png in Resources */,
 				ECC4DEE01C17FEA900FBD6A4 /* prodetail_icon_shop01@2x.png in Resources */,
 				EC26A3061C2A386600B166A3 /* coupon_icon_base_blue@3x.png in Resources */,
 				EC45214E1C5F08CB003272C3 /* CZJOrderEvaluateCell.xib in Resources */,
+				EC1FD23D1C7C55C700954D1E /* CZJOrderListPayCell.xib in Resources */,
 				EC26A30F1C2A386600B166A3 /* coupon_icon_red@2x.png in Resources */,
 				ECDB616A1BFB551600882BB2 /* all_btn_discovery_sel@2x.png in Resources */,
 				ECB4B63A1C0E976F00925BCA /* shop_btn_map@3x.png in Resources */,
@@ -4992,6 +5018,7 @@
 				EC0F003C1C326D9300F124F8 /* shop_icon_coupon_blue@3x.png in Resources */,
 				ECC4DDFD1C17D67B00FBD6A4 /* wl_map_icon_1_press.png in Resources */,
 				ECF8E9591C5C6DB300A98707 /* order_icon_greendot@3x.png in Resources */,
+				EC1FD23F1C7C5D0000954D1E /* PaymentType.plist in Resources */,
 				ECC4DEEB1C17FEA900FBD6A4 /* prodetail_img_head@3x.png in Resources */,
 				EC0C93731C200DD7002A7FF5 /* CZJCouponsCell.xib in Resources */,
 				EC2518261C22959300C6754A /* CZJEvalutionDetailCell.xib in Resources */,
@@ -5348,6 +5375,7 @@
 			files = (
 				EC0223BF1C59F3B200600851 /* CZJOrderListNoPayController.m in Sources */,
 				ECC4DE421C17D67B00FBD6A4 /* UIImageView+AFNetworking.m in Sources */,
+				EC1FD2431C7C85A900954D1E /* CZJOrderListNoPayButtomView.m in Sources */,
 				EC4521481C5EFFE9003272C3 /* CZJOrderLogisticsCompCell.m in Sources */,
 				EC0F004F1C329D7200F124F8 /* CZJApplicableCarController.m in Sources */,
 				ECC4DE241C17D67B00FBD6A4 /* SDWebImageCompat.m in Sources */,
@@ -5395,6 +5423,7 @@
 				ECC4DE431C17D67B00FBD6A4 /* UIProgressView+AFNetworking.m in Sources */,
 				ECC4DDC41C17D67B00FBD6A4 /* PullTableView.m in Sources */,
 				ECF2DCD41C5767F80096FF39 /* CZJAddDeliveryAddrController.m in Sources */,
+				EC1FD23C1C7C55C700954D1E /* CZJOrderListPayCell.m in Sources */,
 				EC4521591C5F2BF7003272C3 /* CZJOrderBuildingController.m in Sources */,
 				EC025FC81C21036E00A8085E /* MJRefreshAutoFooter.m in Sources */,
 				ECF2DCDD1C5767F80096FF39 /* CZJShoppingCartHeaderCell.m in Sources */,
@@ -5546,6 +5575,7 @@
 				ECC4DE0E1C17D67B00FBD6A4 /* NSObject+MJProperty.m in Sources */,
 				ECF2DCBC1C5767F80096FF39 /* CZJDeliveryAddrCell.m in Sources */,
 				EC45215F1C5F2CAC003272C3 /* CZJOrderCarCheckController.m in Sources */,
+				EC1FD2371C7C343C00954D1E /* CZJPopPayViewController.m in Sources */,
 				EC5CCDBE1C3CB27E00D4D8B6 /* GKHpickerAddressView.m in Sources */,
 				ECFFB9501C10275E00811C2E /* CZJProvinceForm.m in Sources */,
 				EC442B721BFEF73F00DC6F97 /* CZJGoodsRecommendCell.m in Sources */,

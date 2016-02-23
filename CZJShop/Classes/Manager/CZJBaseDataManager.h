@@ -39,6 +39,9 @@
     NSMutableArray* _goodsTypesAry;
     NSMutableArray* _serviceTypesAry;
     NSMutableDictionary *_params;                   //post参数字典
+    
+    //固定数据
+    NSArray* _orderPaymentTypeAry;           //支付方式数组（暂时固定为三个支付方式）
 }
 //--------------------服务器返回数据对象模型----------------------------
 @property (nonatomic, retain) HomeForm* homeForm;
@@ -59,6 +62,7 @@
 
 @property (nonatomic, retain) NSMutableArray* goodsTypesAry;
 @property (nonatomic, retain) NSMutableArray* serviceTypesAry;
+@property (nonatomic, retain) NSArray* orderPaymentTypeAry;
 //-------------------------本地数据对象------------------------------
 @property (nonatomic, assign) CLLocationCoordinate2D curLocation;
 @property (nonatomic) NSMutableDictionary *params;

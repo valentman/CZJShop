@@ -8,21 +8,20 @@
 
 #import "CZJOrderListBaseController.h"
 #import "CZJBaseDataManager.h"
-#import "PullTableView.h"
 #import "CZJMyOrderDetailController.h"
+
 
 @interface CZJOrderListBaseController ()
 <
 UITableViewDataSource,
 UITableViewDelegate,
-PullTableViewDelegate,
 CZJOrderListCellDelegate
 >
 {
-
+    float totalToPay;
 }
 @property (strong, nonatomic)NSMutableArray* orderList;
-@property (strong, nonatomic)PullTableView* myTableView;
+@property (strong, nonatomic)UITableView* myTableView;
 @end
 
 @implementation CZJOrderListBaseController
@@ -33,39 +32,60 @@ CZJOrderListCellDelegate
     [self initViews];
 }
 
-- (void)viewDidDisappear:(BOOL)animated
-{
-    self.myTableView.pullTableIsRefreshing = NO;
-    self.myTableView.pullTableIsLoadingMore = NO;
-}
-
 - (void)initViews
 {
     CGRect viewRect = CGRectMake(0, 0, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT- 128);
-    _myTableView = [[PullTableView alloc]initWithFrame:viewRect style:UITableViewStylePlain];
+    if ([[_params valueForKey:@"type"] isEqualToString:@"1"])
+    {
+        viewRect = CGRectMake(0, 0, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT- 128 - 60);
+        CGRect buttomRect = CGRectMake(0, PJ_SCREEN_HEIGHT- 128 - 60, PJ_SCREEN_WIDTH,60);
+        _noPayButtomView = [CZJUtils getXibViewByName:@"CZJOrderListNoPayButtomView"];
+        _noPayButtomView.frame = buttomRect;
+        [self.view addSubview:_noPayButtomView];
+        [_noPayButtomView.allChooseBtn addTarget:self action:@selector(chooseAllActioin:) forControlEvents:UIControlEventTouchUpInside];
+        [_noPayButtomView.goToPayBtn addTarget:self action:@selector(buttomViewGoToPay:) forControlEvents:UIControlEventTouchUpInside];
+    }
     
+    _myTableView = [[UITableView alloc]initWithFrame:viewRect style:UITableViewStylePlain];
     _myTableView.backgroundColor = CZJNAVIBARBGCOLOR;
     _myTableView.tableFooterView = [[UIView alloc]init];
     _myTableView.bounces = YES;
     [self.view addSubview:_myTableView];
-    
     UINib *nib = [UINib nibWithNibName:@"CZJOrderListCell" bundle:nil];
     [_myTableView registerNib:nib forCellReuseIdentifier:@"CZJOrderListCell"];
+    
+
 }
 
 - (void)getOrderListFromServer
 {
     [CZJBaseDataInstance getOrderList:_params Success:^(id json) {
-        DLog(@"请求网络返回");
         _orderList = [[CZJOrderListForm objectArrayWithKeyValuesArray:[[CZJUtils DataFromJson:json] valueForKey:@"msg" ]] mutableCopy];
         _myTableView.delegate = self;
         _myTableView.dataSource = self;
-        _myTableView.pullDelegate = self;
-        [_myTableView setDelegate:self];
         [_myTableView reloadData];
     } fail:^{
         
     }];
+}
+
+- (void)buttomViewGoToPay:(id)sender
+{
+    
+}
+
+- (void)chooseAllActioin:(id)sender
+{
+    UIButton* allchooseBtn =(UIButton*)sender;
+    allchooseBtn.selected = !allchooseBtn.selected;
+    totalToPay = 0;
+    for (CZJOrderListForm* cellForm in _orderList)
+    {
+        totalToPay += [cellForm.orderMoney floatValue] * (allchooseBtn.selected ? 1 : 0);;
+        cellForm.isSelected = allchooseBtn.selected;
+    }
+    _noPayButtomView.totalLabel.text = [NSString stringWithFormat:@"￥%.1f",totalToPay];
+    [self.myTableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -87,7 +107,6 @@ CZJOrderListCellDelegate
 {
     CZJOrderListCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJOrderListCell" forIndexPath:indexPath];
     [cell setCellModelWithType:_orderList[indexPath.section] andType:[[_params valueForKey:@"type"] integerValue]];
-    
     cell.delegate = self;
     return cell;
 }
@@ -112,16 +131,6 @@ CZJOrderListCellDelegate
     return 10;
 }
 
-#pragma mark- pullTableviewDelegate
-- (void)pullTableViewDidTriggerRefresh:(PullTableView*)pullTableView
-{
-}
-
-- (void)pullTableViewDidTriggerLoadMore:(PullTableView*)pullTableView
-{
-    
-}
-
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     CGFloat sectionHeaderHeight = 10;
@@ -137,6 +146,30 @@ CZJOrderListCellDelegate
 #pragma mark- CZJOrderListCellDelegate
 - (void)clickOrderListCellAction:(CZJOrderListCellButtonType)buttonType andOrderForm:(CZJOrderListForm*)orderListForm
 {
-    [self.delegate clickOrderListCellButton:buttonType andOrderForm:orderListForm];
+    [self.delegate clickOrderListCellButton:nil
+                              andButtonType:buttonType
+                               andOrderForm:orderListForm];
+}
+
+- (void)clickPaySelectButton:(UIButton*)btn andOrderForm:(CZJOrderListForm*)orderListForm
+{
+    BOOL allChoose = YES;
+    for (CZJOrderListForm* cellForm in _orderList)
+    {
+        if ([cellForm.orderNo isEqualToString:orderListForm.orderNo])
+        {
+            cellForm.isSelected = btn.selected;
+        }
+        if (!cellForm.isSelected)
+        {
+            allChoose = NO;
+        }
+    }
+    _noPayButtomView.allChooseBtn.selected = allChoose;
+    totalToPay += [orderListForm.orderMoney floatValue] * (btn.selected ? 1 : -1);
+    _noPayButtomView.totalLabel.text = [NSString stringWithFormat:@"￥%.1f",totalToPay];
+    [self.delegate clickOrderListCellButton:btn
+                              andButtonType:CZJOrderListCellBtnTypeSelectToPay
+                               andOrderForm:orderListForm];
 }
 @end

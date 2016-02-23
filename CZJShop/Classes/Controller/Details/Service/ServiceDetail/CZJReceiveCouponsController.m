@@ -20,8 +20,7 @@ UITableViewDelegate
     NSMutableArray* _coupons;
     NSMutableDictionary* _params;
 }
-@property (nonatomic, strong)UITableView *tableView;
-@property (nonatomic, strong)UIButton *exitBt;
+
 @property (nonatomic, strong)NSMutableArray* coupons;
 @end
 
@@ -30,14 +29,13 @@ UITableViewDelegate
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.coupons = [NSMutableArray array];
-    
     [self initView];
     [self getCouponsDataFromServer];
 }
 
 - (void)initView
 {
+    //弹出框顶部标题
     UILabel* title = [[UILabel alloc]initWithFrame:CGRectMake(PJ_SCREEN_WIDTH/2 - 50, 15, 100, 21)];
     title.font=[UIFont systemFontOfSize:15];
     title.textColor=[UIColor blackColor];
@@ -45,15 +43,18 @@ UITableViewDelegate
     title.textAlignment = NSTextAlignmentCenter;
     [self.view addSubview:title];
     
-    _exitBt = [[UIButton alloc]initWithFrame:CGRectMake(PJ_SCREEN_WIDTH - 44, 5, 44, 44)];
-    [_exitBt addTarget:self action:@selector(clickSelect:) forControlEvents:UIControlEventTouchUpInside];
+    //右上角叉叉退出按钮
+    UIButton* _exitBt = [[UIButton alloc]initWithFrame:CGRectMake(PJ_SCREEN_WIDTH - 44, 5, 44, 44)];
+    [_exitBt addTarget:self action:@selector(exitTouch:) forControlEvents:UIControlEventTouchUpInside];
     [_exitBt setImage:IMAGENAMED(@"prodetail_icon_off") forState:UIControlStateNormal];
     [self.view addSubview:_exitBt];
     
-    
+    //底部分割线
     UIView* line = [[UIView alloc]initWithFrame:CGRectMake(0, 50, PJ_SCREEN_WIDTH, 0.5)];
     line.backgroundColor = [UIColor grayColor];
     [self.view addSubview:line];
+    
+    //添加TableView
     [self.view addSubview:self.tableView];
     UINib* nib = [UINib nibWithNibName:@"CZJReceiveCouponsCell" bundle:nil];
     [self.tableView registerNib:nib forCellReuseIdentifier:@"CZJReceiveCouponsCell"];
@@ -61,8 +62,7 @@ UITableViewDelegate
 
 - (void)getCouponsDataFromServer
 {
-    CZJSuccessBlock successBlock = ^(id json)
-    {
+    CZJSuccessBlock successBlock = ^(id json){
         _coupons = [[CZJBaseDataInstance shoppingCartForm] shoppingCouponsList];
         [self.tableView reloadData];
     };
@@ -78,11 +78,12 @@ UITableViewDelegate
 
 - (void)setCouponsAry:(NSMutableArray*)coupons
 {
+    self.coupons = [NSMutableArray array];
     self.coupons = coupons;
 }
 
 
-- (void)clickSelect:(id)sender
+- (void)exitTouch:(id)sender
 {
     if(self.basicBlock)self.basicBlock();
 }

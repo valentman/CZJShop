@@ -10,6 +10,7 @@
 #import "CZJFilterBaseController.h"
 @interface CZJReceiveCouponsController : CZJFilterBaseController
 @property (nonatomic, copy) MGBasicBlock basicBlock;
+@property (nonatomic, strong)UITableView *tableView;
 
 - (void)setCancleBarItemHandle:(CZJGeneralBlock)basicBlock;
 - (void)setCouponsAry:(NSMutableArray*)coupons;

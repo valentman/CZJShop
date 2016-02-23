@@ -91,13 +91,15 @@
     self.noEvalutionButtomView.hidden = YES;
     self.buildingPaidButtomView.hidden = YES;
     self.buildingNoPaidButtomViews.hidden = YES;
-    
+    self.completeImg.hidden = YES;
     self.noEvalutionContentView.hidden = YES;
     self.normalContentView.hidden = YES;
+    
     //通用
     if (CZJOrderTypeNoPay == orderType)
     {
         self.storeNameViewLeading.constant = 40;
+        self.selectBtn.selected = listForm.isSelected;
     }
     self.payMoneyNumLabel.text = [NSString stringWithFormat:@"￥%@",listForm.orderMoney ];
     self.storeNameLabel.text = listForm.storeName;
@@ -194,6 +196,7 @@
             {
                 self.stateDescLabel.hidden = NO;
                 self.stateDescLabel.text = @"已施工";
+                self.completeImg.hidden = YES;
                 if (CZJOrderTypeAll == orderType)
                 {
                     self.buildingNoPaidButtomView.hidden = NO;
@@ -255,7 +258,6 @@
                 self.noBuildButtomView.hidden = NO;
                 self.stateDescLabel.hidden = NO;
                 self.stateDescLabel.text = @"待施工(等门店)";
-                
             }
             else if (2 == [listForm.status integerValue])
             {
@@ -278,6 +280,7 @@
             else if (4 == [listForm.status integerValue])
             {
                 self.stateDescLabel.hidden = YES;
+                self.stateDescLabel.text = @"";
                 self.completeImg.hidden = NO;
                 [self.completeImg setImage:IMAGENAMED(@"order_icon_wancheng")];
             }
@@ -322,6 +325,7 @@
 
 - (IBAction)noPaySelectAction:(id)sender
 {
-    [self.delegate clickOrderListCellAction:CZJOrderListCellBtnTypeSelectToPay andOrderForm:_currentListForm];
+    ((UIButton*)sender).selected = !((UIButton*)sender).selected;
+    [self.delegate clickPaySelectButton:sender andOrderForm:_currentListForm];
 }
 @end

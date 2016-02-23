@@ -113,8 +113,8 @@
 }
 
 + (NSMutableArray*)readArrayFromPlistWithName:(NSString*)plistName{
-    NSString *plistPath = [PJDocumentsPath stringByAppendingPathComponent:plistName];
-    
+//    NSString *plistPath = [PJDocumentsPath stringByAppendingPathComponent:plistName];
+    NSString *plistPath = [[NSBundle mainBundle] pathForResource:plistName ofType:@"plist"];
     NSFileManager *fileManager = [NSFileManager defaultManager];
     BOOL isExists = [fileManager fileExistsAtPath:plistPath];
     NSMutableArray* array = [NSMutableArray array];
@@ -165,6 +165,24 @@
     return nil;
 }
 
++ (NSMutableDictionary*)readPlistDataFromBundleDirectory:(NSString*)plistName
+{
+    NSError *error;
+    NSPropertyListFormat format;
+    NSString *plistPath = [[NSBundle mainBundle] pathForResource:plistName ofType:@"plist"];
+    
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    BOOL isExists = [fileManager fileExistsAtPath:plistPath];
+    if (isExists) {
+        NSData *plistXML = [[NSFileManager defaultManager] contentsAtPath:plistPath];
+        NSMutableDictionary* dic =[NSPropertyListSerialization propertyListWithData:plistXML
+                                                                            options:NSPropertyListMutableContainersAndLeaves
+                                                                             format:&format
+                                                                              error:&error];
+        return dic;
+    }
+    return nil;
+}
 
 #pragma mark 启动页面数据的读取
 + (NSMutableDictionary*)readStartInfoPlistWithPlistName
@@ -482,33 +500,61 @@ void backLastView(id sender, SEL _cmd)
 
 
 #pragma mark 界面控制器处理
-+ (void)showMyWindowOnTarget:(CZJViewController*)target withSeletor:(SEL)mySelector
+/**
+ * @target              当前视图控制器，承载弹窗视图控制器
+ * @myViewController    弹窗视图控制器
+ */
++ (void)showMyWindowOnTarget:(CZJViewController*)target withMyVC:(UIViewController*)myViewController
 {
-    UIView *view = [[UIView alloc] initWithFrame:target.view.bounds];
-    view.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.5];
-    UITapGestureRecognizer *tap  = [[UITapGestureRecognizer alloc] initWithTarget:self action:mySelector];
-    [view addGestureRecognizer:tap];
-    [target.view addSubview:view];
-    target.upView = view;
-    target.upView.alpha = 0.0;
-    [UIView animateWithDuration:0.5 animations:^{
-        target.window.frame =  CGRectMake(0, 200, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - 200);
-        target.upView.alpha = 1.0;
-    } completion:nil];
-    target.navigationController.interactivePopGestureRecognizer.enabled = NO;
-}
-
-
-+ (UIWindow*)getMyWindowWithVC:(UIViewController*)myViewController withFrame:(CGRect)rect
-{
-    UIWindow *myWindow = [[UIWindow alloc] initWithFrame:rect];
+    //初始化一个自定义弹窗视图
+    UIWindow *myWindow = [[UIWindow alloc] initWithFrame:target.popWindowInitialRect];
     myWindow.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:1.0];
     myWindow.windowLevel = UIWindowLevelNormal;
     myWindow.hidden = NO;
     myWindow.rootViewController = myViewController;
     [myWindow makeKeyAndVisible];
-    return myWindow;
+    target.window = myWindow;
+    
+    //动态给当前视图控制器添加点击回调函数（隐藏弹窗视图）
+    SEL dismissPopview = sel_registerName("tapToHidePopViewAction:");
+    class_addMethod([target class],dismissPopview,(IMP)tapToHidePopViewAction,"v@:");
+    
+    //当前视图控制器的upView上添加手势监测
+    UIView *view = [[UIView alloc] initWithFrame:target.view.bounds];
+    view.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.5];
+    UITapGestureRecognizer *tap  = [[UITapGestureRecognizer alloc] initWithTarget:target action:dismissPopview];
+    [view addGestureRecognizer:tap];
+    [target.view addSubview:view];
+    target.upView = view;
+    target.upView.alpha = 0.0;
+    
+    //动画出现弹窗视图
+    [UIView animateWithDuration:0.5 animations:^{
+        
+        target.window.frame =  target.popWindowDestineRect;
+        target.upView.alpha = 1.0;
+    } completion:nil];
+    target.navigationController.interactivePopGestureRecognizer.enabled = NO;
 }
+
+void tapToHidePopViewAction(id sender, SEL _cmd)
+{
+    //此为当前视图控制器，这是upView上手势的回调函数，已动态添加到当前视图控制器
+    CZJViewController* target = ((CZJViewController*)sender);
+    [UIView animateWithDuration:0.5 animations:^{
+        target.window.frame = target.popWindowInitialRect;
+        target.upView.alpha = 0.0;
+    } completion:^(BOOL finished) {
+        if (finished) {
+            [target.upView removeFromSuperview];
+            [target.window resignKeyWindow];
+            target.window  = nil;
+            target.upView = nil;
+            target.navigationController.interactivePopGestureRecognizer.enabled = YES;
+        }
+    }];
+}
+
 
 + (UIViewController*)getViewControllerFromStoryboard:(NSString*)storyboardName andVCName:(NSString*)vcName
 {
@@ -767,6 +813,12 @@ void backLastView(id sender, SEL _cmd)
     return layer;
 }
 
+/**
+ * @margin
+ * @viewSize
+ * @index
+ * @divide
+ */
 + (CGRect)viewFramFromDynamic:(CZJMargin)margin size:(CGSize)viewSize index:(int)index divide:(int)divide
 {
     // 列数
@@ -783,35 +835,4 @@ void backLastView(id sender, SEL _cmd)
     return rect;
 }
 
-+ (void)reachability
-{
-    // 连接状态回调处理
-    [[AFNetworkReachabilityManager sharedManager] setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status)
-     {
-         switch (status)
-         {
-             case AFNetworkReachabilityStatusUnknown:
-                 DLog(@"未知状态");
-                 // 回调处理
-                 break;
-             case AFNetworkReachabilityStatusNotReachable:
-                 
-                 DLog(@"无网络");
-                 // 回调处理
-                 break;
-             case AFNetworkReachabilityStatusReachableViaWWAN:
-                 DLog(@"有3G");
-                 // 回调处理
-                 break;
-             case AFNetworkReachabilityStatusReachableViaWiFi:
-                 DLog(@"Wifi状态");
-                 // 回调处理
-                 break;
-             default:
-                 break;
-         }
-     }];
-    // 检测网络连接状态
-    [[AFNetworkReachabilityManager sharedManager] startMonitoring];
-}
 @end

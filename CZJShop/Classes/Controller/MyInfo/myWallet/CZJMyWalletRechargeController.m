@@ -38,19 +38,7 @@ UITableViewDelegate
 
 - (void)initViews
 {
-    CZJOrderTypeForm* zhifubao = [[CZJOrderTypeForm alloc]init];
-    zhifubao.orderTypeName = @"支付宝";
-    zhifubao.orderTypeImg = @"commit_icon_zhifubao";
-    zhifubao.isSelect = YES;
-    CZJOrderTypeForm* weixin = [[CZJOrderTypeForm alloc]init];
-    weixin.orderTypeName = @"微信支付";
-    weixin.orderTypeImg = @"commit_icon_weixin";
-    weixin.isSelect = NO;
-    CZJOrderTypeForm* uniCard = [[CZJOrderTypeForm alloc]init];
-    uniCard.orderTypeName = @"银联支付";
-    uniCard.orderTypeImg = @"commit_icon_yinlian";
-    uniCard.isSelect = NO;
-    _orderTypeAry = @[zhifubao,weixin,uniCard];
+    _orderTypeAry = CZJBaseDataInstance.orderPaymentTypeAry;
     
     self.myTableView.tableFooterView = [[UIView alloc]init];
     self.myTableView.delegate = self;

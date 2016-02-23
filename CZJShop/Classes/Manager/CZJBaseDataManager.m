@@ -36,6 +36,7 @@
 @synthesize carBrandForm = _carBrandForm;
 @synthesize carModealForm = _carModealForm;
 @synthesize carSerialForm = _carSerialForm;
+@synthesize orderPaymentTypeAry = _orderPaymentTypeAry;
 
 #pragma mark- implement
 singleton_implementation(CZJBaseDataManager);
@@ -49,7 +50,7 @@ singleton_implementation(CZJBaseDataManager);
         _orderStoreCouponAry = [NSMutableArray array];
         _serviceTypesAry = [NSMutableArray array];
         _goodsTypesAry = [NSMutableArray array];
-        
+        _orderPaymentTypeAry = [NSArray array];
         //固定请求参数确定
         NSDictionary* _tmpparams = @{@"chezhuId" : nil == [CZJLoginModelInstance cheZhuId] ? @"0" : [CZJLoginModelInstance cheZhuId],
                                      @"cityId" : nil == [CZJLoginModelInstance cityId] ? @"0" : [CZJLoginModelInstance cityId],
@@ -61,9 +62,25 @@ singleton_implementation(CZJBaseDataManager);
                                      };
         _params = [_tmpparams mutableCopy];
         [self loadAreaInfos];
+        
+        NSArray* dict = [CZJUtils readArrayFromPlistWithName:@"PaymentType"];
+        _orderPaymentTypeAry = [CZJOrderTypeForm objectArrayWithKeyValuesArray:dict];
         return self;
     }
     return nil;
+}
+
+- (NSArray*)orderPaymentTypeAry
+{
+    for (CZJOrderTypeForm* form in _orderPaymentTypeAry)
+    {
+        form.isSelect = NO;
+        if ([form.orderTypeName isEqualToString:@"支付宝"])
+        {
+            form.isSelect = YES;
+        }
+    }
+    return _orderPaymentTypeAry;
 }
 
 - (void)refreshChezhuID:(NSString*)chezhuID

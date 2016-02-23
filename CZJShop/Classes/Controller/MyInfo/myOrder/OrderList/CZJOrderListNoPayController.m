@@ -15,6 +15,7 @@
 @implementation CZJOrderListNoPayController
 
 - (void)viewDidLoad {
+    _params = @{@"type":@"1", @"page":@"1", @"timeType":@"0"};
     [super viewDidLoad];
     [CZJUtils performBlock:^{
         [self getOrderListFromServer];
@@ -23,7 +24,7 @@
 
 - (void)getOrderListFromServer
 {
-    _params = @{@"type":@"1", @"page":@"1", @"timeType":@"0"};
+    
     [super getOrderListFromServer];
 }
 

@@ -22,16 +22,18 @@
 #import "CZJOrderLogisticsController.h"
 #import "CZJOrderCarCheckController.h"
 #import "CZJOrderListReturnedController.h"
+#import "CZJPopPayViewController.h"
 
 @interface CZJMyInfoOrderListController ()
 <
 NIDropDownDelegate,
-CZJOrderListDelegate
-
+CZJOrderListDelegate,
+CZJPopPayViewDelegate
 >
 {
     NIDropDown *dropDown;
     CZJOrderListForm* currentTouchedOrderListForm;
+    
 //    UIButton *rightBtn;
 }
 @property (strong, nonatomic) UIView *backgroundView;
@@ -147,15 +149,12 @@ CZJOrderListDelegate
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 #pragma mark- NIDropDownDelegate
 - (void) niDropDownDelegateMethod:(NSString*)btnStr
 {
-//    [rightBtn setTitle:btnStr forState:UIControlStateNormal];
     [((UIButton*)VIEWWITHTAG(self.naviBarView, 2999)) setTitle:btnStr forState:UIControlStateNormal];
-    DLog(@"%@",btnStr);
     [self tapBackground:nil];
 }
 
@@ -166,13 +165,14 @@ CZJOrderListDelegate
     [self performSegueWithIdentifier:@"segueToOrderDetail" sender:self];
 }
 
-- (void)clickOrderListCellButton:(CZJOrderListCellButtonType)buttonType andOrderForm:(CZJOrderListForm*)orderListForm
+- (void)clickOrderListCellButton:(UIButton*)sender
+                   andButtonType:(CZJOrderListCellButtonType)buttonType
+                    andOrderForm:(CZJOrderListForm*)orderListForm
 {
     currentTouchedOrderListForm = orderListForm;
     switch (buttonType)
     {
         case CZJOrderListCellBtnTypeReturnAble:
-            DLog(@"可退换货列表");
             [self performSegueWithIdentifier:@"segueToMyReturnableList" sender:self];
             break;
         case CZJOrderListCellBtnTypeConfirm:
@@ -180,24 +180,45 @@ CZJOrderListDelegate
             break;
         case CZJOrderListCellBtnTypeCheckCar:
             [self performSegueWithIdentifier:@"segueToCarCheck" sender:self];
-            DLog(@"查看车况");
             break;
         case CZJOrderListCellBtnTypeShowBuildingPro:
             [self performSegueWithIdentifier:@"segueToBuildingProgress" sender:self];
-            DLog(@"查看施工进度");
             break;
         case CZJOrderListCellBtnTypeCancel:
             DLog(@"取消订单");
             break;
         case CZJOrderListCellBtnTypePay:
-            DLog(@"付款");
+        {
+            CZJPopPayViewController* payPopView = [[CZJPopPayViewController alloc]init];
+            payPopView.delegate = self;
+            payPopView.orderMoney = [currentTouchedOrderListForm.orderMoney floatValue];
+            
+            self.popWindowInitialRect = VERTICALHIDERECT(320);
+            self.popWindowDestineRect = VERTICALSHOWRECT(320);
+            [CZJUtils showMyWindowOnTarget:self withMyVC:payPopView];
+            __weak typeof(self) weak = self;
+            [payPopView setCancleBarItemHandle:^{
+                [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+                    weak.window.frame = self.popWindowInitialRect;
+                    weak.upView.alpha = 0.0;
+                } completion:^(BOOL finished) {
+                    if (finished) {
+                        [weak.upView removeFromSuperview];
+                        [weak.window resignKeyWindow];
+                        weak.window  = nil;
+                        weak.upView = nil;
+                        weak.navigationController.interactivePopGestureRecognizer.enabled = YES;
+                    }
+                }];
+            }];
+        }
             break;
         case CZJOrderListCellBtnTypeGoEvaluate:
             [self performSegueWithIdentifier:@"segueToEvaluate" sender:self];
-            DLog(@"去评价");
             break;
         case CZJOrderListCellBtnTypeSelectToPay:
-            DLog(@"选中未付款项");
+//            totalToPay += [orderListForm.orderMoney floatValue] * (sender.selected ? 1 : -1);
+//            DLog(@"选中未付款项:%.1f",totalToPay);
             break;
             
         default:
@@ -205,6 +226,13 @@ CZJOrderListDelegate
     }
 }
 
+
+
+#pragma mark- CZJPopPayViewDelegate
+- (void)payViewToPay:(id)sender
+{
+    
+}
 
 #pragma mark - Navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender

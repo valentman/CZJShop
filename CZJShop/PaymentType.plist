@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<dict>
+		<key>orderTypeName</key>
+		<string>支付宝</string>
+		<key>orderTypeImg</key>
+		<string>commit_icon_zhifubao</string>
+		<key>isSelect</key>
+		<true/>
+	</dict>
+	<dict>
+		<key>orderTypeName</key>
+		<string>微信支付</string>
+		<key>orderTypeImg</key>
+		<string>commit_icon_weixin</string>
+		<key>isSelect</key>
+		<false/>
+	</dict>
+	<dict>
+		<key>orderTypeName</key>
+		<string>银联支付</string>
+		<key>orderTypeImg</key>
+		<string>commit_icon_yinlian</string>
+		<key>isSelect</key>
+		<false/>
+	</dict>
+</array>
+</plist>

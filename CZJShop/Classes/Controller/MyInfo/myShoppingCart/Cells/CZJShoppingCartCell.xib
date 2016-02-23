@@ -50,8 +50,8 @@
                                 <color key="textColor" red="1" green="0.40000000600000002" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LCq-ot-diV">
-                                <rect key="frame" x="139" y="25" width="162" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LCq-ot-diV">
+                                <rect key="frame" x="139" y="25" width="161" height="21"/>
                                 <animations/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="zn8-mJ-9hh"/>
@@ -68,6 +68,9 @@
                             <constraint firstItem="0uq-q2-dAM" firstAttribute="leading" secondItem="zYO-cg-9bv" secondAttribute="leading" id="9QE-6x-qYR"/>
                             <constraint firstAttribute="bottom" secondItem="mCG-Ic-38M" secondAttribute="bottom" constant="15" id="HGA-yd-Kfd"/>
                             <constraint firstItem="mCG-Ic-38M" firstAttribute="leading" secondItem="0uq-q2-dAM" secondAttribute="trailing" id="Jmv-Dp-4j0"/>
+                            <constraint firstItem="LCq-ot-diV" firstAttribute="leading" secondItem="ABD-9Z-EeN" secondAttribute="leading" constant="139" id="RKR-Jb-8gB"/>
+                            <constraint firstAttribute="trailing" secondItem="LCq-ot-diV" secondAttribute="trailing" constant="20" id="Zem-vP-ScY"/>
+                            <constraint firstItem="LCq-ot-diV" firstAttribute="top" secondItem="ABD-9Z-EeN" secondAttribute="top" constant="25" id="fzz-Hi-PQQ"/>
                             <constraint firstAttribute="bottom" secondItem="zYO-cg-9bv" secondAttribute="bottom" constant="40" id="l6e-4U-mkg"/>
                             <constraint firstItem="zYO-cg-9bv" firstAttribute="leading" secondItem="ABD-9Z-EeN" secondAttribute="leading" constant="139" id="mDv-tl-EqM"/>
                         </constraints>

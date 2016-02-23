@@ -99,6 +99,16 @@ typedef void (^MGBasicBlock)();
 #define PJ_SCREEN_HEIGHT PJ_SCREEN_BOUNDS.size.height
 #define PJ_SCREEN_ASPECTRATIO PJ_SCREEN_WIDTH/PJ_SCREEN_HEIGHT
 #define ORIGINAL_MAX_WIDTH 640.0f
+#define ZERORECT CGRectMake(0, 0, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT)
+
+#define VERTICALSHOWRECT(height) CGRectMake(0, PJ_SCREEN_HEIGHT - height, PJ_SCREEN_WIDTH, height)
+#define VERTICALHIDERECT(height) CGRectMake(0, PJ_SCREEN_HEIGHT, PJ_SCREEN_WIDTH, height)
+#define HORIZONSHOWRECT(width) CGRectMake(PJ_SCREEN_WIDTH - width, 0, width, PJ_SCREEN_HEIGHT)
+#define HORIZONHIDERECT(width) CGRectMake(PJ_SCREEN_WIDTH, 0, width, PJ_SCREEN_HEIGHT)
+
+#define ZEROVERTICALHIDERECT VERTICALHIDERECT(0)
+#define ZEROHORIZONHIDERECT HORIZONSHOWRECT(0)
+
 //NavBar高度
 //ios7以上视图中包含状态栏预留的高度
 #define kHeightInViewForStatus (IS_IOS7?20:0)
@@ -260,6 +270,7 @@ ULog(xx, ##__VA_ARGS__); \
 #define radianToDegrees(radian) (radian*180.0)/(M_PI)
 
 #define HiddenCellSeparator UIEdgeInsetsMake(46, PJ_SCREEN_WIDTH, 0, 0);
+#define IndentCellSeparator(num) UIEdgeInsetsMake(0, num, 0, num);
 
 
 //------------------------单例宏---------------------------

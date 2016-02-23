@@ -143,6 +143,7 @@ UIGestureRecognizerDelegate
 - (void)calculateTotalPrice
 {
     float num = 0.00;
+    BOOL allChoose = YES;
     for (int i=0; i<shoppingInfos.count; i++) {
         CZJShoppingCartInfoForm* storeCartForm = (CZJShoppingCartInfoForm*)shoppingInfos[i];
         storeCartForm.isSelect = NO;
@@ -153,12 +154,16 @@ UIGestureRecognizerDelegate
             float sale = [model.currentPrice floatValue];
             if (model.isSelect && !model.off)
             {
-                _allChooseBtn.selected = YES;
                 storeCartForm.isSelect = YES;
                 num = count*sale+ num;
             }
+            else
+            {
+                allChoose = NO;
+            }
         }
     }
+    _allChooseBtn.selected = allChoose;
     self.addUpNumLabel.text = [NSString stringWithFormat:@"￥%.2f",num];
     [self calculateSelectdCount];
 }
@@ -194,7 +199,6 @@ UIGestureRecognizerDelegate
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 
@@ -326,6 +330,10 @@ UIGestureRecognizerDelegate
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    if (0 == section)
+    {
+        return 0;
+    }
     return 10;
 }
 

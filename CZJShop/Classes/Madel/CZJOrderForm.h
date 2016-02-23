@@ -48,6 +48,7 @@
 @property(strong, nonatomic)NSString* status;
 @property(assign, nonatomic)BOOL paidFlag;
 @property(assign, nonatomic)BOOL onlineFlag;
+@property(assign, nonatomic)BOOL isSelected;
 @property(strong, nonatomic)NSString* storeId;
 @property(strong, nonatomic)NSString* storeName;
 @property(strong, nonatomic)NSString* type;

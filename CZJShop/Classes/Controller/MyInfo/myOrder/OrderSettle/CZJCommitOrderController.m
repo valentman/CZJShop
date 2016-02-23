@@ -38,7 +38,8 @@ CZJDeliveryAddrControllerDelegate,
 CZJChooseCouponControllerDelegate,
 CZJOrderProductHeaderCellDelegate,
 CZJChooseInstallControllerDelegate,
-CZJLeaveMessageViewDelegate
+CZJLeaveMessageViewDelegate,
+CZJRedPacketCellDelegate
 >
 {
     CZJOrderForm* _orderForm;                   //服务器返回的订单页面是数据
@@ -55,7 +56,8 @@ CZJLeaveMessageViewDelegate
     BOOL isOrderTypeExpand;                     //支付方式是否展开
     
     id touchedCell;
-    NSInteger orderTotalPrice;                  //订单总额
+    float orderTotalPrice;                  //初始订单结算额
+    float orderFinalPrice;                  //经过使用余额和红包之后的订单结算额
     NSIndexPath* _currentChooseIndexPath;       //
     
 }
@@ -72,6 +74,7 @@ CZJLeaveMessageViewDelegate
     [CZJUtils customizeNavigationBarForTarget:self];
     [self initDatas];
     [self initViews];
+    [SVProgressHUD show];
     [self getSettleDataFromServer];
 }
 
@@ -86,20 +89,8 @@ CZJLeaveMessageViewDelegate
     _storeIdAry = [NSMutableArray array];
     _useableCouponsAry = [NSMutableArray array];
     orderTotalPrice = 0;
-    CZJOrderTypeForm* zhifubao = [[CZJOrderTypeForm alloc]init];
-    zhifubao.orderTypeName = @"支付宝";
-    zhifubao.orderTypeImg = @"commit_icon_zhifubao";
-    zhifubao.isSelect = YES;
-    CZJOrderTypeForm* weixin = [[CZJOrderTypeForm alloc]init];
-    weixin.orderTypeName = @"微信支付";
-    weixin.orderTypeImg = @"commit_icon_weixin";
-    weixin.isSelect = NO;
-    CZJOrderTypeForm* uniCard = [[CZJOrderTypeForm alloc]init];
-    uniCard.orderTypeName = @"银联支付";
-    uniCard.orderTypeImg = @"commit_icon_yinlian";
-    uniCard.isSelect = NO;
 
-    _orderTypeAry = @[zhifubao,weixin,uniCard];     //目前只支持的三个支付方式
+    _orderTypeAry = CZJBaseDataInstance.orderPaymentTypeAry;
     for (CZJOrderTypeForm* form in _orderTypeAry)
     {
         if (form.isSelect)
@@ -162,18 +153,23 @@ CZJLeaveMessageViewDelegate
 
 - (void)getSettleDataFromServer
 {
-    DLog(@"%@",[CZJUtils JsonFromData:_settleParamsAry]);
     NSDictionary* parmas = @{@"cartsJson" : [CZJUtils JsonFromData:_settleParamsAry]};
     [CZJBaseDataInstance loadSettleOrder:parmas Success:^(id json){
-        _orderForm = [[CZJOrderForm alloc]initWithDictionary:[[CZJUtils DataFromJson:json] valueForKey:@"msg"]];
+        [SVProgressHUD dismiss];
+        _orderForm  = [CZJOrderForm objectWithKeyValues:[[CZJUtils DataFromJson:json] valueForKey:@"msg"]];
         _orderStoreAry = _orderForm.stores;
-        
+        [self.myTableView reloadData];
         for (CZJOrderStoreForm* form in _orderForm.stores)
         {
             [_storeIdAry addObject:form.storeId];
+            for (CZJOrderGoodsForm* goodsForm in form.items)
+            {
+                orderTotalPrice += [goodsForm.itemCount floatValue]*[goodsForm.currentPrice floatValue];
+            }
+            orderTotalPrice += [form.transportPrice floatValue];
         }
-        [self.myTableView reloadData];
-        _totalPriceLabel.text = [NSString stringWithFormat:@"￥%ld",orderTotalPrice];
+        orderFinalPrice = orderTotalPrice;
+        _totalPriceLabel.text = [NSString stringWithFormat:@"￥%.1f",orderFinalPrice];
     } fail:^{
         
     }];
@@ -326,6 +322,7 @@ CZJLeaveMessageViewDelegate
             cell.redPacketNameLabel.text = @"余额";
             cell.leftLabel.text = @"可用余额";
             cell.leftCountLabel.text = [NSString stringWithFormat:@"￥%.1f",[_orderForm.cardMoney floatValue]];
+            cell.delegate = self;
             return cell;
         }
         if (1 == indexPath.row)
@@ -337,6 +334,7 @@ CZJLeaveMessageViewDelegate
             NSString* redcount = [NSString stringWithFormat:@"￥%.1f",[_orderForm.redpacket floatValue]];
             cell.leftCountLabel.text = redcount;
             cell.redBackWidth.constant = [CZJUtils calculateStringSizeWithString:redcount Font:SYSTEMFONT(13) Width:200].width + 10;
+            cell.delegate = self;
             return cell;
         }
         if (2 == indexPath.row)
@@ -348,8 +346,8 @@ CZJLeaveMessageViewDelegate
     }
     else
     {
-        NSInteger totalprice = 0;           //当前门店消费费用小计
-        NSInteger couponPrice = 0;          //优惠券额
+        float totalprice = 0;           //当前门店消费费用小计
+        float couponPrice = 0;          //优惠券额
         NSInteger itemCount = 0;            //商品数量
         NSInteger giftCount = 0;            //礼品数量
         BOOL isHaveFullCut = NO;            //是否有满减
@@ -417,7 +415,7 @@ CZJLeaveMessageViewDelegate
             cell.goodsTypeLabel.text = goodsForm.itemSku;
             cell.setupView.hidden = !goodsForm.setupFlag;
             cell.goodsNameLayoutWidth.constant = PJ_SCREEN_WIDTH - 68 -15 - 8 - 15;
-            cell.totalPriceLabel.text = [NSString stringWithFormat:@"￥%ld",[goodsForm.itemCount integerValue] * [goodsForm.currentPrice integerValue]];
+            cell.totalPriceLabel.text = [NSString stringWithFormat:@"￥%.1f",[goodsForm.itemCount integerValue] * [goodsForm.currentPrice floatValue]];
             cell.delegate = self;
             cell.storeItemPid = goodsForm.storeItemPid;
             cell.selectedSetupStoreNameLabel.text = goodsForm.selectdSetupStoreName;
@@ -443,7 +441,7 @@ CZJLeaveMessageViewDelegate
                 cell.nameTwoLabel.hidden = YES;
                 cell.nameTwoNumLabel.hidden = YES;
                 cell.nameOneLabel.text = @"优惠券:";
-                cell.nameOneNumLabel.text = [NSString stringWithFormat:@"-￥%ld", couponPrice];
+                cell.nameOneNumLabel.text = [NSString stringWithFormat:@"-￥%.1f", couponPrice];
             }
             else if (isHaveFullCut && !isHaveCoupon)
             {
@@ -457,8 +455,8 @@ CZJLeaveMessageViewDelegate
             }
             else
             {
-                cell.nameOneNumLabel.text = [NSString stringWithFormat:@"-￥%ld",couponPrice];
-                cell.nameTwoNumLabel.text = [NSString stringWithFormat:@"-￥%@",storeForm.fullCutPrice];
+                cell.nameOneNumLabel.text = [NSString stringWithFormat:@"-￥%.1f",couponPrice];
+                cell.nameTwoNumLabel.text = [NSString stringWithFormat:@"-￥%.1f",[storeForm.fullCutPrice floatValue]];
             }
             return cell;
         }
@@ -468,10 +466,9 @@ CZJLeaveMessageViewDelegate
             CZJOrderProductFooterCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJOrderProductFooterCell" forIndexPath:indexPath];
             NSString* transportPriceStr = [NSString stringWithFormat:@"￥%@",totalprice > 59 ? @"0" :storeForm.transportPrice];
             cell.transportPriceLabel.text = transportPriceStr;
-            cell.totalLabel.text = [NSString stringWithFormat:@"￥%ld",totalprice];
+            cell.totalLabel.text = [NSString stringWithFormat:@"￥%.1f",totalprice];
             cell.transportPriceLayoutWidth.constant = [CZJUtils calculateTitleSizeWithString:transportPriceStr AndFontSize:14].width + 5;
-            orderTotalPrice += totalprice;
-            _totalPriceLabel.text = [NSString stringWithFormat:@"￥%ld",orderTotalPrice];
+            
             return cell;
         }
         else if (indexPath.row > itemCount + fullcutCount + 1 &&
@@ -679,12 +676,51 @@ CZJLeaveMessageViewDelegate
     [self.myTableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationFade];
 }
 
+#pragma mark- CZJRedPacketCellDelegate
+- (void)clickToUseRedPacketCallBack:(id)sender andName:(NSString *)typeName
+{
+    float useableCount = 0;
+    if ([typeName isEqualToString:@"余额"])
+    {
+        useableCount = [_orderForm.cardMoney floatValue];
+    }
+    if ([typeName isEqualToString:@"红包"])
+    {
+        useableCount = [_orderForm.redpacket floatValue];
+
+    }
+    if (useableCount > orderTotalPrice)
+    {
+        if (((UIButton*)sender).selected)
+        {
+            orderFinalPrice = 0;
+        }
+        else
+        {
+            orderFinalPrice = orderTotalPrice;
+        }
+    }
+    else
+    {
+        if (((UIButton*)sender).selected)
+        {
+            orderFinalPrice = orderTotalPrice - useableCount;
+        }
+        else
+        {
+            orderFinalPrice += useableCount;
+        }
+        
+    }
+    _totalPriceLabel.text = [NSString stringWithFormat:@"￥%.1f",orderFinalPrice];
+}
+
 #pragma mark- CZJChooseCouponControllerDelegate
 - (void)clickToConfirmUse
 {
     [self getUsableCouponList];
     [self.myTableView reloadData];
-    _totalPriceLabel.text = [NSString stringWithFormat:@"￥%ld",orderTotalPrice];
+    _totalPriceLabel.text = [NSString stringWithFormat:@"￥%.1f",orderFinalPrice];
 }
 
 #pragma mark- CZJOrderProductHeaderCellDelegate

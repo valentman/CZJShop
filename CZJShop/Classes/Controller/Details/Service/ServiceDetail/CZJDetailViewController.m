@@ -64,8 +64,6 @@ CZJStoreInfoHeaerCellDelegate
     NSArray* _recommendServiceForms;                //推荐服务列表
     
     CZJChoosedProductCell* chooosedProductCell;     //已选商品cell，定义成成员变量是为了方便传值
-
-    CGRect popViewRect;                             //弹窗的位置
     
     NSMutableArray* _settleOrderAry;
 }
@@ -580,29 +578,15 @@ CZJStoreInfoHeaerCellDelegate
 {
     if (2 == indexPath.section)
     {
-        popViewRect = CGRectMake(0, PJ_SCREEN_HEIGHT, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - 200);
+        self.popWindowInitialRect = CGRectMake(0, PJ_SCREEN_HEIGHT, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - 200);
+        self.popWindowDestineRect = CGRectMake(0, 200, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - 200);
         CZJReceiveCouponsController *receiveCouponsController = [[CZJReceiveCouponsController alloc] init];
-        self.window = [CZJUtils getMyWindowWithVC:receiveCouponsController withFrame:popViewRect];
-        
-        [CZJUtils showMyWindowOnTarget:self withSeletor:@selector(tapAction)];
-        
-//        UIView *view = [[UIView alloc] initWithFrame:self.view.bounds];
-//        view.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.5];
-//        UITapGestureRecognizer *tap  = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapAction)];
-//        [view addGestureRecognizer:tap];
-//        [self.view addSubview:view];
-//        self.upView = view;
-//        self.upView.alpha = 0.0;
-//        [UIView animateWithDuration:0.5 animations:^{
-//            self.window.frame =  CGRectMake(0, 200, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - 200);
-//            self.upView.alpha = 1.0;
-//        } completion:nil];
-//        self.navigationController.interactivePopGestureRecognizer.enabled = NO;
+        [CZJUtils showMyWindowOnTarget:self withMyVC:receiveCouponsController];
         
         __weak typeof(self) weak = self;
         [receiveCouponsController setCancleBarItemHandle:^{
             [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
-                weak.window.frame = popViewRect;
+                weak.window.frame = self.popWindowInitialRect;
                 weak.upView.alpha = 0.0;
             } completion:^(BOOL finished) {
                 if (finished) {
@@ -617,8 +601,8 @@ CZJStoreInfoHeaerCellDelegate
     }
     if (3 == indexPath.section)
     {
-        popViewRect =  CGRectMake(PJ_SCREEN_WIDTH, 0, PJ_SCREEN_WIDTH-50, PJ_SCREEN_HEIGHT);
-        
+        self.popWindowInitialRect =  CGRectMake(PJ_SCREEN_WIDTH, 0, PJ_SCREEN_WIDTH-50, PJ_SCREEN_HEIGHT);
+        self.popWindowDestineRect = CGRectMake(50, 0, PJ_SCREEN_WIDTH-50, PJ_SCREEN_HEIGHT);
         CZJChooseProductTypeController *chooseProductTypeController = [[CZJChooseProductTypeController alloc] init];
         chooseProductTypeController.counterKey = chooosedProductCell.counterKey;
         chooseProductTypeController.storeItemPid = chooosedProductCell.storeItemPid;
@@ -628,42 +612,13 @@ CZJStoreInfoHeaerCellDelegate
         {
             [chooseProductTypeController getSKUDataFromServer];
         }
-        self.window = [CZJUtils getMyWindowWithVC:chooseProductTypeController withFrame:popViewRect];
-        
-        UIView *view = [[UIView alloc] initWithFrame:self.view.bounds];
-        view.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.5];
-        UITapGestureRecognizer *tap  = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapAction)];
-        [view addGestureRecognizer:tap];
-        [self.view addSubview:view];
-        self.upView = view;
-        self.upView.alpha = 0.0;
-        [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
-            self.window.frame = CGRectMake(50, 0, PJ_SCREEN_WIDTH-50, PJ_SCREEN_HEIGHT);
-            self.upView.alpha = 1.0;
-        } completion:nil];
-        self.navigationController.interactivePopGestureRecognizer.enabled = NO;
+        [CZJUtils showMyWindowOnTarget:self withMyVC:chooseProductTypeController];
     }
     if (4 == indexPath.section && 2 ==indexPath.row)
     {
         [self performSegueWithIdentifier:@"segueToUserEvalution" sender:self];
     }
 }
-
-- (void)tapAction{
-    [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
-        self.window.frame = popViewRect;
-        self.upView.alpha = 0.0;
-    } completion:^(BOOL finished) {
-        if (finished) {
-            [self.upView removeFromSuperview];
-            [self.window resignKeyWindow];
-            self.window  = nil;
-            self.upView = nil;
-            self.navigationController.interactivePopGestureRecognizer.enabled = YES;
-        }
-    }];
-}
-
 
 
 #pragma mark- CZJNaviBarViewDelegate(导航栏三个按钮的代理回调)

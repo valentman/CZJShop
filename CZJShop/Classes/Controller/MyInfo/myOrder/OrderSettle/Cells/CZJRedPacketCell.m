@@ -25,5 +25,9 @@
 
 - (IBAction)selectAction:(id)sender {
     _selectBtn.selected = !_selectBtn.selected;
+    if ([self.delegate respondsToSelector:@selector(clickToUseRedPacketCallBack:andName:)])
+    {
+        [self.delegate clickToUseRedPacketCallBack:_selectBtn andName:self.leftLabel.text];
+    }
 }
 @end

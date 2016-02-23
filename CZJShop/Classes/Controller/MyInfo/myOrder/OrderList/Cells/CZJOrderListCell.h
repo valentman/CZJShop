@@ -34,6 +34,7 @@ typedef NS_ENUM(NSInteger,CZJOrderListCellButtonType)
 
 @protocol CZJOrderListCellDelegate <NSObject>
 
+- (void)clickPaySelectButton:(UIButton*)btn andOrderForm:(CZJOrderListForm*)orderListForm;
 - (void)clickOrderListCellAction:(CZJOrderListCellButtonType)buttonType andOrderForm:(CZJOrderListForm*)orderListForm;
 @end
 

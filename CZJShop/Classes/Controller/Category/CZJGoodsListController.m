@@ -341,7 +341,6 @@ CZJFilterControllerDelegate
             self.navigationController.interactivePopGestureRecognizer.enabled = YES;
         }
     }];
-
 }
 
 
