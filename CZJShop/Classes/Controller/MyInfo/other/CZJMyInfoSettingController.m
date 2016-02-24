@@ -8,6 +8,7 @@
 
 #import "CZJMyInfoSettingController.h"
 #import "CZJCouponsCell.h"
+#import "CZJBaseDataManager.h"
 
 @interface CZJMyInfoSettingController ()
 <
@@ -126,5 +127,9 @@ UITableViewDataSource
 
 - (IBAction)exitLoginAction:(id)sender
 {
+    [USER_DEFAULT setObject:[NSNumber numberWithBool:NO] forKey:kCZJIsUserHaveLogined];
+    [CZJBaseDataInstance refreshChezhuID:@""];
+    CZJBaseDataInstance.userInfoForm = nil;
+    [self.navigationController popViewControllerAnimated:YES];
 }
 @end

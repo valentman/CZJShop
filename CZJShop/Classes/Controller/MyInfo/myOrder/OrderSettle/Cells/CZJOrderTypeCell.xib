@@ -59,7 +59,7 @@
                 <outlet property="orderTypeNameLabel" destination="Qvy-O0-opK" id="NvI-te-dFw"/>
                 <outlet property="selectedBtn" destination="pEx-cD-1Cy" id="4gV-oh-z0Z"/>
             </connections>
-            <point key="canvasLocation" x="225" y="351"/>
+            <point key="canvasLocation" x="515" y="282"/>
         </tableViewCell>
     </objects>
     <resources>

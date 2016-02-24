@@ -9,7 +9,6 @@
 #import "CZJServiceListController.h"
 #import "CZJBaseDataManager.h"
 #import "CZJStoreForm.h"
-#import "PullTableView.h"
 #import "MXPullDownMenu.h"
 #import "CZJStoreCell.h"
 #import "CZJStoreServiceCell.h"
@@ -21,7 +20,6 @@
 @interface CZJServiceListController ()<
     UITableViewDataSource,
     UITableViewDelegate,
-    PullTableViewDelegate,
     MXPullDownMenuDelegate,
     CZJNaviagtionBarViewDelegate,
     CZJFilterControllerDelegate
@@ -35,7 +33,7 @@
     float lastY;
 }
 @property (weak, nonatomic) IBOutlet MXPullDownMenu *pullDownMenu;
-@property (weak, nonatomic) IBOutlet PullTableView *serviceTableView;
+@property (weak, nonatomic) IBOutlet UITableView *serviceTableView;
 @property (weak, nonatomic) IBOutlet CZJNaviagtionBarView *navigationBar;
 @property (weak, nonatomic) IBOutlet UIView *refreshLocationBarView;
 @property (weak, nonatomic) IBOutlet UILabel *locationNameLabel;
@@ -102,7 +100,7 @@
     {
         [storePostParams setObject:_typeId forKey:@"typeId"];
     }
-    [storePostParams setObject:[NSString stringWithFormat:@"%ld",self.page] forKey:@"page"];
+    [storePostParams setObject:[NSString stringWithFormat:@"%ld",(long)self.page] forKey:@"page"];
     if (self.searchStr) {
         [storePostParams setObject:self.searchStr forKey:@"q"];
     }
@@ -111,11 +109,22 @@
 - (void)initTableViewAndPullDownMenu
 {
     //门店服务列表
-    self.serviceTableView.pullDelegate = self;
     self.serviceTableView.dataSource = self;
     self.serviceTableView.delegate = self;
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.serviceTableView.tableFooterView = [[UIView alloc] init];
+    
+    self.serviceTableView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        _getdataType = CZJHomeGetDataFromServerTypeOne;
+        [self getStoreServiceListDataFromServer];
+        self.page = 1;
+    }];
+    
+    self.serviceTableView.footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^(){
+        _getdataType = CZJHomeGetDataFromServerTypeTwo;
+        self.page++;
+        [self getStoreServiceListDataFromServer];;
+    }];
     
     UINib *nib=[UINib nibWithNibName:@"CZJStoreCell" bundle:nil];
     [self.serviceTableView registerNib:nib forCellReuseIdentifier:@"CZJStoreCell"];
@@ -139,14 +148,9 @@
     DLog(@"storeparameters:%@", [storePostParams description]);
     CZJSuccessBlock successBlock = ^(id json) {
         [self dealWithArray];
+        [self.serviceTableView.header endRefreshing];
+        [self.serviceTableView.footer endRefreshing];
         [self.serviceTableView reloadData];
-        
-        if (self.serviceTableView.pullTableIsRefreshing == YES)
-        {
-            self.serviceTableView.pullLastRefreshDate = [NSDate date];
-        }
-        self.serviceTableView.pullTableIsLoadingMore = NO;
-        self.serviceTableView.pullTableIsRefreshing = NO;
     };
     
     [CZJBaseDataInstance showSeverciceList:storePostParams
@@ -287,34 +291,6 @@
 }
 
 
-#pragma mark- PullTableViewDelegate
-- (void)pullTableViewDidTriggerRefresh:(PullTableView*)pullTableView
-{
-    _getdataType = CZJHomeGetDataFromServerTypeOne;
-    [self getStoreServiceListDataFromServer];
-    self.page = 1;
-}
-
-- (void)pullTableViewDidTriggerLoadMore:(PullTableView*)pullTableView
-{
-    _getdataType = CZJHomeGetDataFromServerTypeTwo;
-    self.page++;
-    [self getStoreServiceListDataFromServer];;
-}
-
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView
-{
-    
-    float contentOffsetY = [scrollView contentOffset].y;
-    
-    DLog(@"%f",contentOffsetY - lastY);
-//    CGRect rect = _pullDownMenu.frame;
-//    if (rect.origin.y <= 20 || (contentOffsetY - lastY) > 0) {
-//        _pullDownMenu.frame = CGRectMake(rect.origin.x, rect.origin.y - contentOffsetY + lastY, rect.size.width, rect.size.height);
-//    }
-    lastY = contentOffsetY;
-}
-
 
 #pragma mark - Table view data source
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -401,8 +377,12 @@
 }
 
 
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
-    return 14;
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    if (0 == section)
+    {
+        return 0;
+    }
+    return 10;
 }
 
 
@@ -424,6 +404,22 @@
     }
 
 }
+
+//去掉tableview中section的headerview粘性
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    CGFloat sectionHeaderHeight = 40;
+    if (scrollView.contentOffset.y<=sectionHeaderHeight&&scrollView.contentOffset.y>=0) {
+        scrollView.contentInset = UIEdgeInsetsMake(-scrollView.contentOffset.y, 0, 0, 0);
+    }
+    else if (scrollView.contentOffset.y>=sectionHeaderHeight) {
+        scrollView.contentInset = UIEdgeInsetsMake(-sectionHeaderHeight, 0, 0, 0);
+    }
+    float contentOffsetY = [scrollView contentOffset].y;
+    DLog(@"%f",contentOffsetY - lastY);
+    lastY = contentOffsetY;
+}
+
 
 
 #pragma mark- CZJNavigationBarViewDelegate

@@ -23,6 +23,8 @@
 #import "CZJOrderCarCheckController.h"
 #import "CZJOrderListReturnedController.h"
 #import "CZJPopPayViewController.h"
+#import "CZJAlertViewController.h"
+#import "CZJSBAlertView.h"
 
 @interface CZJMyInfoOrderListController ()
 <
@@ -176,6 +178,7 @@ CZJPopPayViewDelegate
             [self performSegueWithIdentifier:@"segueToMyReturnableList" sender:self];
             break;
         case CZJOrderListCellBtnTypeConfirm:
+            [self showCZJAlertView:@"你要想好哦，确认收货就不能退款了哦"];
              DLog(@"确认收货");
             break;
         case CZJOrderListCellBtnTypeCheckCar:
@@ -185,40 +188,14 @@ CZJPopPayViewDelegate
             [self performSegueWithIdentifier:@"segueToBuildingProgress" sender:self];
             break;
         case CZJOrderListCellBtnTypeCancel:
+            [self showCZJAlertView:@"确定取消该订单"];
             DLog(@"取消订单");
             break;
         case CZJOrderListCellBtnTypePay:
-        {
-            CZJPopPayViewController* payPopView = [[CZJPopPayViewController alloc]init];
-            payPopView.delegate = self;
-            payPopView.orderMoney = [currentTouchedOrderListForm.orderMoney floatValue];
-            
-            self.popWindowInitialRect = VERTICALHIDERECT(320);
-            self.popWindowDestineRect = VERTICALSHOWRECT(320);
-            [CZJUtils showMyWindowOnTarget:self withMyVC:payPopView];
-            __weak typeof(self) weak = self;
-            [payPopView setCancleBarItemHandle:^{
-                [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
-                    weak.window.frame = self.popWindowInitialRect;
-                    weak.upView.alpha = 0.0;
-                } completion:^(BOOL finished) {
-                    if (finished) {
-                        [weak.upView removeFromSuperview];
-                        [weak.window resignKeyWindow];
-                        weak.window  = nil;
-                        weak.upView = nil;
-                        weak.navigationController.interactivePopGestureRecognizer.enabled = YES;
-                    }
-                }];
-            }];
-        }
+            [self showPopPayView:[currentTouchedOrderListForm.orderMoney floatValue]];
             break;
         case CZJOrderListCellBtnTypeGoEvaluate:
             [self performSegueWithIdentifier:@"segueToEvaluate" sender:self];
-            break;
-        case CZJOrderListCellBtnTypeSelectToPay:
-//            totalToPay += [orderListForm.orderMoney floatValue] * (sender.selected ? 1 : -1);
-//            DLog(@"选中未付款项:%.1f",totalToPay);
             break;
             
         default:
@@ -226,7 +203,59 @@ CZJPopPayViewDelegate
     }
 }
 
+- (void)showPopPayView:(float)orderMoney
+{
+    CZJPopPayViewController* payPopView = [[CZJPopPayViewController alloc]init];
+    payPopView.delegate = self;
+    payPopView.orderMoney = orderMoney;
+    
+    self.popWindowInitialRect = VERTICALHIDERECT(320);
+    self.popWindowDestineRect = VERTICALSHOWRECT(320);
+    [CZJUtils showMyWindowOnTarget:self withMyVC:payPopView];
+    __weak typeof(self) weak = self;
+    [payPopView setCancleBarItemHandle:^{
+        [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+            weak.window.frame = self.popWindowInitialRect;
+            weak.upView.alpha = 0.0;
+        } completion:^(BOOL finished) {
+            if (finished) {
+                [weak.upView removeFromSuperview];
+                [weak.window resignKeyWindow];
+                weak.window  = nil;
+                weak.upView = nil;
+                weak.navigationController.interactivePopGestureRecognizer.enabled = YES;
+            }
+        }];
+    }];
+}
 
+- (void)showCZJAlertView:(NSString*)promptStr
+{
+    CZJSBAlertView* alertViewVC = [[CZJSBAlertView alloc]init];
+    self.popWindowInitialRect = ZEROVERTICALHIDERECT;
+    self.popWindowDestineRect = ZERORECT;
+    self.windowAlpha = 0;
+    [CZJUtils showMyWindowOnTarget:self withMyVC:alertViewVC];
+    alertViewVC.popView.descLabel.text = promptStr;
+    [alertViewVC.popView.cancelBtn addTarget:self action:@selector(hideWindow) forControlEvents:UIControlEventTouchUpInside];
+}
+
+- (void)hideWindow
+{
+    [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+        self.window.frame = self.popWindowInitialRect;
+        self.windowAlpha = 1.0f;
+        self.upView.alpha = 0.0;
+    } completion:^(BOOL finished) {
+        if (finished) {
+            [self.upView removeFromSuperview];
+            [self.window resignKeyWindow];
+            self.window  = nil;
+            self.upView = nil;
+            self.navigationController.interactivePopGestureRecognizer.enabled = YES;
+        }
+    }];
+}
 
 #pragma mark- CZJPopPayViewDelegate
 - (void)payViewToPay:(id)sender

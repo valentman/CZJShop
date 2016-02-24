@@ -123,7 +123,7 @@ static NSString *const kCZJServerAPIShowCouponsList = @"chezhu/showCoupons.do"; 
 static NSString *const kCZJServerAPIShowCardList = @"chezhu/loadSetmenus.do";                              // 套餐卡列表
 static NSString *const kCZJServerAPIGetBalanceInfo = @"chezhu/loadChargeInfo.do";                          // 获取余额详情
 static NSString *const kCZJServerAPIRecharge = @"chezhu/charge.do";                                        // 充值
-//static NSString *const kCZJServerAPIMyEvalutions = @"chezhu/loadMyEvaluations.do";                         // 获取我的评价列表
+static NSString *const kCZJServerAPIMyEvalutions = @"chezhu/loadMyEvaluations.do";                         // 获取我的评价列表
 //static NSString *const kCZJServerAPIAddEvalution = @"chezhu/evalAdd.do";                                   // 追加评论
 //static NSString *const kCZJServerAPIReplyEvalution = @"chezhu/evalReply.do";                               // 回复
 

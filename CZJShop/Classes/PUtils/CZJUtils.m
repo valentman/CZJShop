@@ -508,7 +508,7 @@ void backLastView(id sender, SEL _cmd)
 {
     //初始化一个自定义弹窗视图
     UIWindow *myWindow = [[UIWindow alloc] initWithFrame:target.popWindowInitialRect];
-    myWindow.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:1.0];
+    myWindow.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:target.windowAlpha];
     myWindow.windowLevel = UIWindowLevelNormal;
     myWindow.hidden = NO;
     myWindow.rootViewController = myViewController;
@@ -543,6 +543,7 @@ void tapToHidePopViewAction(id sender, SEL _cmd)
     CZJViewController* target = ((CZJViewController*)sender);
     [UIView animateWithDuration:0.5 animations:^{
         target.window.frame = target.popWindowInitialRect;
+        target.windowAlpha = 1.0f;
         target.upView.alpha = 0.0;
     } completion:^(BOOL finished) {
         if (finished) {

@@ -47,7 +47,7 @@ CZJGoodsRecommendCellDelegate
 }
 @property (strong, nonatomic) IBOutlet PullTableView *homeTableView;
 @property (weak, nonatomic) IBOutlet UIButton *btnToTop;
-@property (strong, nonatomic) CZJNaviagtionBarView *navibarView;
+//@property (strong, nonatomic) CZJNaviagtionBarView *navibarView;
 
 - (IBAction)tapToTop:(id)sender;
 @end
@@ -71,8 +71,8 @@ CZJGoodsRecommendCellDelegate
 - (void)viewWillAppear:(BOOL)animated
 {
     [((CZJCarInfoCell*)[self.homeTableView dequeueReusableCellWithIdentifier:@"CZJCarInfoCell"]).autoScrollTimer setFireDate:[NSDate distantPast]];
-    [_navibarView refreshShopBadgeLabel];
-    _navibarView.hidden = NO;
+    [self.naviBarView refreshShopBadgeLabel];
+    self.naviBarView.hidden = NO;
     [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
 
 }
@@ -110,9 +110,7 @@ CZJGoodsRecommendCellDelegate
     self.navigationController.navigationBarHidden = YES;
     
     //导航栏添加搜索栏
-    _navibarView = [[CZJNaviagtionBarView alloc]initWithFrame:CGRectMake(0, 20, PJ_SCREEN_WIDTH, 44) AndType:CZJNaviBarViewTypeHome];
-    _navibarView.delegate = self;
-    [self.view addSubview:_navibarView];
+    [self addCZJNaviBarView:CZJNaviBarViewTypeHome];
 }
 
 
@@ -257,14 +255,14 @@ CZJGoodsRecommendCellDelegate
     float contentOffsetY = [scrollView contentOffset].y;
     if (contentOffsetY < 0) {
         [UIView animateWithDuration:0.2f animations:^{
-            [_navibarView setAlpha:0.0];
+            [self.naviBarView setAlpha:0.0];
         }];
-        [_navibarView setBackgroundColor:RGBA(235, 35, 38, 0)];
+        [self.naviBarView setBackgroundColor:RGBA(235, 35, 38, 0)];
     }
     else
     {
         [UIView animateWithDuration:0.2f animations:^{
-            [_navibarView setAlpha:1.0];
+            [self.naviBarView setAlpha:1.0];
         }];
         
         float alphaValue = contentOffsetY * 0.5 / 200;
@@ -272,7 +270,7 @@ CZJGoodsRecommendCellDelegate
         {
             alphaValue = 0.7;
         }
-        [_navibarView setBackgroundColor:RGBA(235, 20, 20, alphaValue)];
+        [self.naviBarView setBackgroundColor:RGBA(235, 20, 20, alphaValue)];
     }
     
     if (contentOffsetY > 600)
@@ -299,12 +297,6 @@ CZJGoodsRecommendCellDelegate
                 [cell someMethodNeedUse:indexPath DataModel:_activityArray];
                 cell.delegate = self;
             }
-            
-            
-            //            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell0"];
-            //            if (!cell) {
-            //                cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell0"];
-            //            }
             return cell;
             
             

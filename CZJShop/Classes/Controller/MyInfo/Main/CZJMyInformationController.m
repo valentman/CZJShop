@@ -418,7 +418,10 @@ CZJViewControllerDelegate
             default:
                 break;
         }
-        [self performSegueWithIdentifier:segueId sender:self];
+        if (![segueId isEqualToString:@""])
+        {
+            [self performSegueWithIdentifier:segueId sender:self];
+        }
     }
 }
 

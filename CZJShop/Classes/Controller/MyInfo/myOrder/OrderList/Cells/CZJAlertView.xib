@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="KGk-i7-Jjw" customClass="CZJAlertView">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="170"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="169"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tyR-yG-7DZ">
+                        <rect key="frame" x="60" y="0.0" width="200" height="169"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TyP-yu-15e">
+                                <rect key="frame" x="20" y="105" width="70" height="50"/>
+                                <animations/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="BRX-LI-lt7"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <state key="normal" title="取消">
+                                    <color key="titleColor" red="0.29803922770000002" green="0.29803922770000002" blue="0.29803922770000002" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="3"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
+                                        <real key="value" value="0.5"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="layer.borderColorWithUIColor">
+                                        <color key="value" red="0.7019608021" green="0.7019608021" blue="0.7019608021" alpha="1" colorSpace="calibratedRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GP2-kg-zjs">
+                                <rect key="frame" x="110" y="105" width="70" height="50"/>
+                                <animations/>
+                                <color key="backgroundColor" red="1" green="0.40000000600000002" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="quD-7W-bug"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <state key="normal" title="确定">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="3"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="characterWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7ss-y3-ZDh">
+                                <rect key="frame" x="20" y="15" width="160" height="50"/>
+                                <animations/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="mae-9K-zHU"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <color key="textColor" red="0.29803922770000002" green="0.29803922770000002" blue="0.29803922770000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <animations/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="TyP-yu-15e" firstAttribute="leading" secondItem="tyR-yG-7DZ" secondAttribute="leading" constant="20" id="32b-6s-bqL"/>
+                            <constraint firstItem="GP2-kg-zjs" firstAttribute="width" secondItem="TyP-yu-15e" secondAttribute="width" id="4Gb-bt-orS"/>
+                            <constraint firstItem="GP2-kg-zjs" firstAttribute="height" secondItem="TyP-yu-15e" secondAttribute="height" id="5Z9-X1-y95"/>
+                            <constraint firstItem="GP2-kg-zjs" firstAttribute="leading" secondItem="TyP-yu-15e" secondAttribute="trailing" constant="20" id="Eny-m5-WGu"/>
+                            <constraint firstItem="TyP-yu-15e" firstAttribute="leading" secondItem="tyR-yG-7DZ" secondAttribute="leading" constant="20" id="Jl0-jj-ZrH"/>
+                            <constraint firstAttribute="trailing" secondItem="GP2-kg-zjs" secondAttribute="trailing" constant="20" id="LnH-dN-bgx"/>
+                            <constraint firstAttribute="bottom" secondItem="TyP-yu-15e" secondAttribute="bottom" constant="14" id="Q2y-3N-6sa"/>
+                            <constraint firstAttribute="bottom" secondItem="TyP-yu-15e" secondAttribute="bottom" constant="14" id="VEy-2Z-Zrc"/>
+                            <constraint firstAttribute="trailing" secondItem="GP2-kg-zjs" secondAttribute="trailing" constant="20" id="VKA-S2-kQk"/>
+                            <constraint firstItem="GP2-kg-zjs" firstAttribute="width" secondItem="TyP-yu-15e" secondAttribute="width" id="YiE-wE-o0D"/>
+                            <constraint firstItem="7ss-y3-ZDh" firstAttribute="leading" secondItem="tyR-yG-7DZ" secondAttribute="leading" constant="20" id="b3g-Za-Qwh"/>
+                            <constraint firstAttribute="bottom" secondItem="GP2-kg-zjs" secondAttribute="bottom" constant="14" id="cHY-Rg-60a"/>
+                            <constraint firstItem="GP2-kg-zjs" firstAttribute="centerY" secondItem="TyP-yu-15e" secondAttribute="centerY" id="gKw-zH-4UQ"/>
+                            <constraint firstItem="GP2-kg-zjs" firstAttribute="width" secondItem="TyP-yu-15e" secondAttribute="width" id="i7h-eC-aH1"/>
+                            <constraint firstAttribute="trailing" secondItem="7ss-y3-ZDh" secondAttribute="trailing" constant="20" id="lXi-i3-he9"/>
+                            <constraint firstItem="7ss-y3-ZDh" firstAttribute="top" secondItem="tyR-yG-7DZ" secondAttribute="top" constant="15" id="nlk-m4-TPj"/>
+                            <constraint firstItem="GP2-kg-zjs" firstAttribute="leading" secondItem="TyP-yu-15e" secondAttribute="trailing" constant="20" id="v6m-eq-arf"/>
+                        </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                <integer key="value" value="5"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="32b-6s-bqL"/>
+                                <exclude reference="Q2y-3N-6sa"/>
+                                <exclude reference="5Z9-X1-y95"/>
+                                <exclude reference="LnH-dN-bgx"/>
+                                <exclude reference="YiE-wE-o0D"/>
+                                <exclude reference="gKw-zH-4UQ"/>
+                                <exclude reference="i7h-eC-aH1"/>
+                                <exclude reference="v6m-eq-arf"/>
+                            </mask>
+                        </variation>
+                    </view>
+                </subviews>
+                <animations/>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                <constraints>
+                    <constraint firstAttribute="trailing" secondItem="tyR-yG-7DZ" secondAttribute="trailing" constant="60" id="7sT-78-eBk"/>
+                    <constraint firstItem="tyR-yG-7DZ" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="60" id="QIG-JC-CiL"/>
+                    <constraint firstAttribute="bottom" secondItem="tyR-yG-7DZ" secondAttribute="bottom" id="SAf-VS-DaA"/>
+                    <constraint firstItem="tyR-yG-7DZ" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="nXj-rI-NBc"/>
+                </constraints>
+            </tableViewCellContentView>
+            <animations/>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <connections>
+                <outlet property="cancelBtn" destination="TyP-yu-15e" id="ZjC-zf-lo6"/>
+                <outlet property="confirmBtn" destination="GP2-kg-zjs" id="43o-2y-KXV"/>
+                <outlet property="descLabel" destination="7ss-y3-ZDh" id="Paw-5v-aOe"/>
+            </connections>
+            <point key="canvasLocation" x="372" y="342"/>
+        </tableViewCell>
+    </objects>
+</document>

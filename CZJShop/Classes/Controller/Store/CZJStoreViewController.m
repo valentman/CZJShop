@@ -84,7 +84,7 @@ UITableViewDelegate
     
     //下拉菜单筛选条件初始
     NSArray* sortTypes = @[@"默认排序", @"距离最近", @"评分最高", @"销量最高"];
-    NSArray* storeTypes = @[@"全部项目",@"一站式", @"快修块保", @"装饰美容" , @"维修厂"];
+    NSArray* storeTypes = @[@"全部分类",@"一站式", @"快修快保", @"装饰美容" , @"维修厂"];
     if ([CZJBaseDataInstance storeForm].provinceForms &&
         [CZJBaseDataInstance storeForm].provinceForms.count > 0) {
         NSArray* menuArray = @[[CZJBaseDataInstance storeForm].provinceForms, sortTypes,storeTypes];

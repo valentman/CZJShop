@@ -71,7 +71,14 @@ CZJOrderListCellDelegate
 
 - (void)buttomViewGoToPay:(id)sender
 {
-    
+    if ([self.delegate respondsToSelector:@selector(showPopPayView:)])
+    {
+        if (0 == totalToPay) {
+            [CZJUtils tipWithText:@"请选择商品" andView:nil];
+            return;
+        }
+        [self.delegate showPopPayView:totalToPay];
+    }
 }
 
 - (void)chooseAllActioin:(id)sender

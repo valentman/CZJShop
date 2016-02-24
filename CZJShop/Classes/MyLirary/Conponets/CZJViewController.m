@@ -17,7 +17,13 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self initDatas];
     [self checkNetWorkStatus];
+}
+
+- (void)initDatas
+{
+    self.windowAlpha = 1.0f;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -81,6 +87,7 @@
      }];
     
     [[AFNetworkReachabilityManager sharedManager] startMonitoring];
-    
 }
+
+
 @end

@@ -85,10 +85,7 @@ singleton_implementation(CZJLoginModelManager)
     CZJSuccessBlock successBlock = ^(id json)
     {
         if ([self showAlertView:json]) {
-            NSDictionary* dict = [CZJUtils DataFromJson:json] ;
-            _cheZhuId = [[dict valueForKey:@"msg"] valueForKey:@"chezhuId"];
-            
-            [CZJBaseDataInstance refreshChezhuID:_cheZhuId];
+            [self loginSuccess:json];
             success(json);
         }
     };
@@ -116,18 +113,7 @@ singleton_implementation(CZJLoginModelManager)
     CZJSuccessBlock successBlock = ^(id json)
     {
         if ([self showAlertView:json]) {
-            self.usrBaseForm = [[UserBaseForm alloc] init];
-            [self.usrBaseForm setUserInfoWithDictionary:[CZJUtils DataFromJson:json]];
-            self.usrBaseForm.cityId = self.cityId;
-            self.usrBaseForm.cityName = self.cityName;
-            
-            _cheZhuId = self.usrBaseForm.chezhuId;
-            _mobile = self.usrBaseForm.mobile;
-            if ([self saveLoginInfoDataToLocal:json]) {
-                [USER_DEFAULT setObject:[NSNumber numberWithBool:YES] forKey:kCZJIsUserHaveLogined];
-            }
-            [CZJBaseDataInstance refreshChezhuID:_cheZhuId];
-            CZJBaseDataInstance.userInfoForm = self.usrBaseForm;
+            [self loginSuccess:json];
             success(json);
         }
     };
@@ -144,6 +130,21 @@ singleton_implementation(CZJLoginModelManager)
                                    fail:failure];
 }
 
+- (void)loginSuccess:(id)json
+{
+    self.usrBaseForm = [[UserBaseForm alloc] init];
+    [self.usrBaseForm setUserInfoWithDictionary:[CZJUtils DataFromJson:json]];
+    self.usrBaseForm.cityId = self.cityId;
+    self.usrBaseForm.cityName = self.cityName;
+    
+    _cheZhuId = self.usrBaseForm.chezhuId;
+    _mobile = self.usrBaseForm.mobile;
+    if ([self saveLoginInfoDataToLocal:json]) {
+        [USER_DEFAULT setObject:[NSNumber numberWithBool:YES] forKey:kCZJIsUserHaveLogined];
+    }
+    [CZJBaseDataInstance refreshChezhuID:_cheZhuId];
+    CZJBaseDataInstance.userInfoForm = self.usrBaseForm;
+}
 
 - (void)setPassword:(NSString*)pwd
         mobliePhone:(NSString*)phoneNum

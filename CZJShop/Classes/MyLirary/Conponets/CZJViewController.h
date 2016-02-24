@@ -20,6 +20,8 @@
 @property (nonatomic, assign) CGRect popWindowInitialRect;
 /* 弹出窗口动画后的最终位置 */
 @property (nonatomic, assign) CGRect popWindowDestineRect;
+/* 当有背景透明需求的时候，在这里设置 (默认为1)*/
+@property (nonatomic, assign) CGFloat windowAlpha;
 /* 弹出窗口 */
 @property (nonatomic, strong) UIWindow *window;
 /* 背景View

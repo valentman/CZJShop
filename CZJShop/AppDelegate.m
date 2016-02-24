@@ -188,7 +188,7 @@
     [NSDictionary jr_swizzleMethod:@selector(description) withMethod:@selector(my_description) error:nil];
     
     //-------------------9.开启帧数显示---------------
-    [KMCGeigerCounter sharedGeigerCounter].enabled = YES;
+    [KMCGeigerCounter sharedGeigerCounter].enabled = NO;
 
     return YES;
 }

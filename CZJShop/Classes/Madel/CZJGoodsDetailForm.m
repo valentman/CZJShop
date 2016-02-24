@@ -17,11 +17,15 @@
 @implementation CZJStoreInfoForm
 @end
 
+
 @implementation CZJDetailEvalInfo
 + (NSDictionary *)objectClassInArray
 {
     return @{@"evalList" : @"CZJEvalutionsForm"};
 }
+@end
+
+@implementation CZJCouponForm
 @end
 
 @implementation CZJGoodsDetailForm

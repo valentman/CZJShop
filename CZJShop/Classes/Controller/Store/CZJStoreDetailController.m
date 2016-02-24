@@ -59,7 +59,7 @@ MKMapViewDelegate
     
     NIDropDown *dropDown;
 }
-@property (strong, nonatomic) IBOutlet CZJNaviagtionBarView *storeNaviBarView;
+
 @property (weak, nonatomic) IBOutlet UITableView *myTableView;
 @property (weak, nonatomic) IBOutlet UIView *buttomView;
 @property (weak, nonatomic) IBOutlet MXPullDownMenu* topView;
@@ -96,11 +96,11 @@ MKMapViewDelegate
 
 - (void)initViews
 {
-    CGRect mainViewBounds = self.navigationController.navigationBar.bounds;
     self.navigationController.interactivePopGestureRecognizer.delegate = self;
-    [self.storeNaviBarView initWithFrame:mainViewBounds AndType:CZJNaviBarViewTypeStoreDetail].delegate = self;
-    [self.storeNaviBarView.customSearchBar setHidden:YES];
+    [self addCZJNaviBarView:CZJNaviBarViewTypeStoreDetail];
+    [self.naviBarView.customSearchBar setHidden:YES];
     [self.buttomView setBackgroundColor:RGBA(255, 255, 255, 0.9)];
+    self.topView.hidden = YES;
     
     NSArray* nibArys = @[@"CZJStoreDetailHeadCell",
                          @"CZJStoreDescribeCell",
@@ -111,7 +111,6 @@ MKMapViewDelegate
                          @"CZJGoodsRecoCellHeader",
                          @"CZJStoreDetailMenuCell"
                          ];
-    
     for (id cells in nibArys) {
         UINib *nib=[UINib nibWithNibName:cells bundle:nil];
         [self.myTableView registerNib:nib forCellReuseIdentifier:cells];
@@ -121,7 +120,6 @@ MKMapViewDelegate
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.myTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
-    self.topView.hidden = YES;
     
     //背景触摸层
     _backgroundView = [[UIView alloc]initWithFrame:self.view.bounds];
@@ -193,8 +191,7 @@ MKMapViewDelegate
     NSArray* couponsTmpAry = [dict valueForKey:@"coupons"];
     for (int i = 0; i < couponsTmpAry.count; i++)
     {
-//        CZJCouponForm* form = [[CZJCouponForm alloc]initWithDictionary:couponsTmpAry[i]];
-//        [_couponsArray addObject:form];
+        _couponsArray = [[CZJCouponForm objectArrayWithKeyValuesArray:couponsTmpAry] mutableCopy];
     }
     NSArray* goodTypesTmpAry = [dict valueForKey:@"goodsTypes"];
     for (int i = 0; i < goodTypesTmpAry.count; i++)
@@ -243,14 +240,14 @@ MKMapViewDelegate
     }
     if (_serviceAndGoodsArray.count > 0)
     {
-        [self.myTableView reloadSections:[NSIndexSet indexSetWithIndex:5] withRowAnimation:UITableViewRowAnimationFade];
+        [self.myTableView reloadData];
+//        [self.myTableView reloadSections:[NSIndexSet indexSetWithIndex:5] withRowAnimation:UITableViewRowAnimationFade];
     }
     
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 
@@ -534,26 +531,26 @@ MKMapViewDelegate
 
 
 #pragma mark- ScrollViewDelegate
-// any offset changes
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     float contentOffsetY = [scrollView contentOffset].y;
     bool isDraggingDown = (lastContentOffsetY - contentOffsetY) > 0 ;
     lastContentOffsetY = contentOffsetY;
-    
-    
 
     UIView* view = VIEWWITHTAG(self.myTableView, 500);
     CGRect frame = view.frame;
-    DLog(@"frame:%f, contentOffsetY:%f",frame.origin.y, contentOffsetY);
     if (view &&
-        ((contentOffsetY <= frame.origin.y - 66 && isDraggingDown)||
-        (contentOffsetY >= frame.origin.y - 66 && !isDraggingDown)))
+        ((contentOffsetY <= frame.origin.y - 64 && isDraggingDown)||
+        (contentOffsetY >= frame.origin.y - 64 && !isDraggingDown)))
     {
         self.topView.hidden = isDraggingDown;
     }
-    
-    if (contentOffsetY > 0)
+
+    if (contentOffsetY <=0)
+    {
+        [self.naviBarView setBackgroundColor:CZJNAVIBARBGCOLORALPHA(0)];
+    }
+    else if (contentOffsetY > 0)
     {
         float alphaValue = contentOffsetY / 300;
         if (alphaValue > 1)
@@ -565,6 +562,7 @@ MKMapViewDelegate
         {
             self.naviBarView.customSearchBar.hidden = YES;
         }
+
         [self.naviBarView setBackgroundColor:CZJNAVIBARBGCOLORALPHA(alphaValue)];
     }
 }

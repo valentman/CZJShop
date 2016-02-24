@@ -120,6 +120,7 @@
                 <outlet property="goToPayBtn" destination="q8M-ZZ-4n7" id="nGc-IM-xcE"/>
                 <outlet property="totalLabel" destination="Vpp-uL-qqs" id="0EY-Gk-z6M"/>
             </connections>
+            <point key="canvasLocation" x="159" y="183"/>
         </tableViewCell>
     </objects>
     <resources>
