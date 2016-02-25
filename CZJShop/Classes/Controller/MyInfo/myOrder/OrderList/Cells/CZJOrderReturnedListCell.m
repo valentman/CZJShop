@@ -11,6 +11,7 @@
 @implementation CZJOrderReturnedListCell
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
     // Initialization code
 }
 

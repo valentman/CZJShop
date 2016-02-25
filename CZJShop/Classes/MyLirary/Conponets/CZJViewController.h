@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "CZJNaviagtionBarView.h"
-
+#import "CZJSBAlertView.h"
 
 @interface CZJViewController : UIViewController<CZJViewControllerDelegate>
 
@@ -33,4 +33,7 @@
 @property (nonatomic, strong) CZJNaviagtionBarView* naviBarView;
 
 - (void)addCZJNaviBarView:(CZJNaviBarViewType)naviBarViewType;
+
+- (void)showCZJAlertView:(NSString*)promptStr andHandler:(CZJGeneralBlock)confirmBlock;
+- (void)hideWindow;
 @end

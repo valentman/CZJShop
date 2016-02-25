@@ -11,7 +11,7 @@
 @implementation CZJOrderEvalutateAllCell
 
 - (void)awakeFromNib {
-    
+    [super awakeFromNib];
     CZJStarRageView* descstarView = [[CZJStarRageView alloc]initWithFrame:CGRectMake((PJ_SCREEN_WIDTH - self.descView.frame.size.width - 15), self.descView.frame.origin.y, self.descView.frame.size.width, self.descView.frame.size.height) starCount:5];
     [self.contentView addSubview:descstarView];
 

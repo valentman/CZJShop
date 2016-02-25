@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CZJOrderEvaluateCell : UITableViewCell
+@interface CZJOrderEvaluateCell : CZJTableViewCell
 @property (weak, nonatomic) IBOutlet UILabel *goodsNameLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *goodsImg;
 @property (weak, nonatomic) IBOutlet UIView *starView;

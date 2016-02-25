@@ -46,11 +46,6 @@
 #import "MBProgressHUD.h"
 #import "FDAlertView.h"
 
-//----------------------临时----------------------
-typedef void (^MGBasicBlock)();
-#define kMGLeftSpace 50
-
-
 //-------------------------系统---------------------------
 //检查系统版本
 #define SYSTEM_VERSION_EQUAL_TO(v)                  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedSame)
@@ -181,6 +176,8 @@ typedef void (^MGBasicBlock)();
 #define BLACKCOLOR [UIColor blackColor]
 #define BLUECOLOR  [UIColor blueColor]
 #define REDCOLOR   [UIColor redColor]
+#define GRAYCOLOR  [UIColor grayColor]
+#define LIGHTGRAYCOLOR [UIColor lightGrayColor]
 
 //本项目自定义颜色
 #define CZJREDCOLOR RGB(251, 70, 78)

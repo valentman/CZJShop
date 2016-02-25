@@ -18,7 +18,8 @@ static NSString *const kCZJServerAddr = @"http://192.168.0.251:8080/appserver/";
 static NSString *const kCZJServerAPIShowHome = @"chezhu/showHomeV2.do";                             //获取首页数据
 static NSString *const kCZJServerAPIGetRecoGoods = @"chezhu/showRecommendGoods.do";                 //获取首页推荐商品
 //static NSString *const kCZJServerAPIActivityCenter = @"chezhu/showActivityCenter.do";               //获取活动中心信息
-//static NSString *const kCZJServerAPICarInfo = @"chezhu/URLshowCarNews.do";                          //获取汽车资讯
+//static NSString *const kCZJServerAPICarInfo = @"chezhu/showCarNews.do";                             //获取汽车资讯
+//static NSString *const kCZJServerAPIGetCityIdByName = @"chezhu/loadCityIdByNameV2.do";            //获取汽车资讯
 static NSString *const kCZJServerAPILoadCarBrands = @"chezhu/loadCarBrandsV2.do";                   //获取汽车品牌列表
 static NSString *const kCZJServerAPILoadCarSeries = @"chezhu/loadCarSeries.do";                     //获取汽车品牌车系列表
 static NSString *const kCZJServerAPILoadCarModels = @"chezhu/loadCarModels.do";                     //获取汽车品牌车系列表
@@ -31,23 +32,22 @@ static NSString *const kCZJServerAPICommentsList = @"chezhu/loadEvaluations.do";
 static NSString *const kCZJServerAPIReplyList = @"chezhu/loadEvalReplys.do";                        //获取回复列表
 
 //分类接口组
-static NSString *const kCZJServerAPIGetCategoryData= @"chezhu/loadGoodsSubTypes.do";                //获取分类信息
+static NSString *const kCZJServerAPIGetCategoryData = @"chezhu/loadGoodsSubTypes.do";               //获取分类信息
 static NSString *const kCZJServerAPIGoodsList = @"chezhu/searchGoods.do";                           //获取商品列表
 static NSString *const kCZJServerAPIGoodsDetail = @"chezhu/showGoodsDetail.do";                     //获取商品图文详情
 static NSString *const kCZJServerAPIGoodsSKU = @"chezhu/loadGoodsSkus.do";                          //获取的sku数据
-static NSString *const kCZJServerAPIGoodsHotReco = @"chezhu/loadStoreRecommends.do";                //获取商品热门推荐
 static NSString *const kCZJServerAPIGoodsFilterList = @"chezhu/loadGoodsTypeAttrs.do";              //获取筛选列表
-static NSString *const kCZJServerAPIGoodsPriceList = @"chezhu/loadGoodsTypePrices.do";              //获取商品价格列表
 static NSString *const kCZJServerAPIGoodsBrandsList = @"chezhu/loadGoodsTypeBrands.do";             //获取商品品牌列表
+static NSString *const kCZJServerAPIGoodsPriceList = @"chezhu/loadGoodsTypePrices.do";              //获取商品价格列表
 static NSString *const kCZJServerAPIGoodsPicDetails = @"chezhu/showGoodsPicDetail.do";              //获取商品图文详情
 static NSString *const kCZJServerAPIGoodsBuyNoteDetail = @"chezhu/showGoodsNoteDetail.do";          //获取商品购买须知详情
 static NSString *const kCZJServerAPIGoodsAfterSaleDetail = @"chezhu/showGoodsAfterSale.do";         //获取商品售后详情
 static NSString *const kCZJServerAPIGoodsCarModelList = @"chezhu/showGoodsCarModels.do";            //获取商品适用车型
 
 //门店接口组
+static NSString *const kCZJServerAPIGoodsHotReco = @"chezhu/loadStoreRecommends.do";                //获取商品热门推荐
 static NSString *const kCZJServerAPIGetNearbyStores = @"chezhu/loadStores.do";                      //获取附近门店列表
 static NSString *const kCZJServerAPIGetCitys = @"chezhu/loadO2oCitys.do";                           //获取城市列表
-//static NSString *const kCZJServerAPIGetNearbyStoresMap = @"chezhu/loadMapStores.do";                //获取附近门店地图列表
 static NSString *const kCZJServerAPIGetServiceList = @"chezhu/searchServiceItemV2.do";              //获取附近门店服务列表
 //static NSString *const kCZJServerAPILoadServiceTypes = @"chezhu/loadServiceTypes.do";               //得到服务分类
 
@@ -104,26 +104,29 @@ static NSString *const kCZJServerAPIGetAttentionList = @"chezhu/loadAttentions.d
 static NSString *const kCZJServerAPIRemoveAttentions = @"chezhu/deleteAttentions.do";               //取消关注列表
 
 //订单接口组
-static NSString *const kCZJServerAPIGetOrderList = @"chezhu/loadOrders.do";                          //获取订单列表
+static NSString *const kCZJServerAPIGetOrderList = @"chezhu/loadOrders.do";                         //获取订单列表
 //static NSString *const kCZJServerAPIOrderToPay = @"chezhu/mergePay.do";                              //订单列表去支付
 static NSString *const kCZJServerAPIGetOrderDetail = @"chezhu/loadOrder.do";                        //获取订单详情
-static NSString *const kCZJServerAPICarCheck = @"chezhu/viewCarChecks.do";                           //车况检查
-static NSString *const kCZJServerAPIBuildingProgress = @"chezhu/viewBuildProgress.do";               //施工进度
+static NSString *const kCZJServerAPICarCheck = @"chezhu/viewCarChecks.do";                          //车况检查
+static NSString *const kCZJServerAPIBuildingProgress = @"chezhu/viewBuildProgress.do";              //施工进度
 //static NSString *const kCZJServerAPIExpressInfo = @"chezhu/vieweExpressInfo.do";                   //物流信息
-static NSString *const kCZJServerAPIGET_LOGISTICSINFO = @"chezhu/viewExpressNo.do";                 // 获取物流信息
-static NSString *const kCZJServerAPIGetReturnableOrderList = @"chezhu/loadReturnItemsByOrder.do";     //获取订单可退货列表
+static NSString *const kCZJServerAPIGetReturnableOrderList = @"chezhu/loadReturnItemsByOrder.do";   //获取订单可退货列表
 //static NSString *const kCZJServerAPIUploadImg = @"chezhu/loadQiuniuParams.do";                       //获取气流信息
 //static NSString *const kCZJServerAPISubmitReturnOrder = @"chezhu/returnOrderItem.do";               //提交退货信息
-static NSString *const kCZJServerAPIGetReturnedOrderList = @"chezhu/loadReturnItems.do";              //获取我的已退还货列表
-//static NSString *const kCZJServerAPIReceiveGoods = @"chezhu/confirmOrderReceive.do";                           // 收货
-//static NSString *const kCZJServerAPICancelReturnOrder = @"chezhu/cancelReturnOrderItem.do";                    // 取消退换货
+static NSString *const kCZJServerAPIGetReturnedOrderList = @"chezhu/loadReturnItems.do";            //获取我的已退还货列表
+static NSString *const kCZJServerAPIGetMyReturnedOrderDetail = @"chezhu/loadOrderItem.do";          // 获取我的退货详情
+static NSString *const kCZJServerAPISubmitComment = @"chezhu/evalGoods.do";                         // 提交评价
+static NSString *const kCZJServerAPICancelOrder = @"chezhu/cancelOrder.do";                         // 取消订单
+static NSString *const kCZJServerAPIGET_LOGISTICSINFO = @"chezhu/viewExpressNo.do";                 // 获取物流信息
+static NSString *const kCZJServerAPIReceiveGoods = @"chezhu/confirmOrderReceive.do";                // 收货
+static NSString *const kCZJServerAPICancelReturnOrder = @"chezhu/cancelReturnOrderItem.do";         // 取消退换货
 
 //个人中心其他接口组
-static NSString *const kCZJServerAPIShowCouponsList = @"chezhu/showCoupons.do";                            // 优惠券列表
-static NSString *const kCZJServerAPIShowCardList = @"chezhu/loadSetmenus.do";                              // 套餐卡列表
-static NSString *const kCZJServerAPIGetBalanceInfo = @"chezhu/loadChargeInfo.do";                          // 获取余额详情
-static NSString *const kCZJServerAPIRecharge = @"chezhu/charge.do";                                        // 充值
-static NSString *const kCZJServerAPIMyEvalutions = @"chezhu/loadMyEvaluations.do";                         // 获取我的评价列表
+static NSString *const kCZJServerAPIShowCouponsList = @"chezhu/showCoupons.do";                     // 优惠券列表
+static NSString *const kCZJServerAPIShowCardList = @"chezhu/loadSetmenus.do";                       // 套餐卡列表
+static NSString *const kCZJServerAPIGetBalanceInfo = @"chezhu/loadChargeInfo.do";                   // 获取余额详情
+static NSString *const kCZJServerAPIRecharge = @"chezhu/charge.do";                                 // 充值
+static NSString *const kCZJServerAPIMyEvalutions = @"chezhu/loadMyEvaluations.do";                  // 获取我的评价列表
 //static NSString *const kCZJServerAPIAddEvalution = @"chezhu/evalAdd.do";                                   // 追加评论
 //static NSString *const kCZJServerAPIReplyEvalution = @"chezhu/evalReply.do";                               // 回复
 

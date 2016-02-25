@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CZJOrderReturnedListCell : UITableViewCell
+@interface CZJOrderReturnedListCell : CZJTableViewCell
 @property (weak, nonatomic) IBOutlet UIImageView *goodImg;
 @property (weak, nonatomic) IBOutlet UILabel *goodNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *goodModelLabel;

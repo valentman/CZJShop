@@ -18,7 +18,6 @@ UITableViewDataSource,
 UITableViewDelegate
 >
 {
-    NSArray* evaluateGoodsAry;
 }
 @property (strong, nonatomic)UITableView* myTableView;
 @end
@@ -28,7 +27,6 @@ UITableViewDelegate
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self initViews];
-    [self getEvalutatableOrderFromServer];
 }
 
 - (void)initViews
@@ -38,35 +36,31 @@ UITableViewDelegate
     
     self.myTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 64, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - StatusBar_HEIGHT - NavigationBar_HEIGHT) style:UITableViewStylePlain];
     self.myTableView.tableFooterView = [[UIView alloc]init];
+    self.myTableView.delegate = self;
+    self.myTableView.dataSource = self;
     self.automaticallyAdjustsScrollViewInsets = NO;
     [self.view addSubview:self.myTableView];
     
     NSArray* nibArys = @[@"CZJOrderEvaluateCell",
                          @"CZJOrderEvalutateAllCell"
                          ];
-    
     for (id cells in nibArys) {
         UINib *nib=[UINib nibWithNibName:cells bundle:nil];
         [self.myTableView registerNib:nib forCellReuseIdentifier:cells];
     }
+    [self.myTableView reloadData];
 }
 
-- (void)getEvalutatableOrderFromServer
-{
-    
-
-}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 
 #pragma mark-UITableViewDataSource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return evaluateGoodsAry.count + 2;
+    return _evaluateGoodsAry.count + 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -76,22 +70,22 @@ UITableViewDelegate
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (0 <= indexPath.section && indexPath.section < evaluateGoodsAry.count)
+    if (0 <= indexPath.section && indexPath.section < _evaluateGoodsAry.count)
     {
-        CZJReturnedOrderListForm* returnedListForm = (CZJReturnedOrderListForm*)evaluateGoodsAry[indexPath.section];
+        CZJOrderGoodsForm* returnedListForm = (CZJOrderGoodsForm*)_evaluateGoodsAry[indexPath.section];
         CZJOrderEvaluateCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJOrderEvaluateCell" forIndexPath:indexPath];
         [cell.goodsImg sd_setImageWithURL:[NSURL URLWithString:returnedListForm.itemImg] placeholderImage:IMAGENAMED(@"")];
         cell.goodsNameLabel.text = returnedListForm.itemName;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
     }
-    if (indexPath.section == evaluateGoodsAry.count)
+    if (indexPath.section == _evaluateGoodsAry.count)
     {
         CZJOrderEvalutateAllCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJOrderEvalutateAllCell" forIndexPath:indexPath];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
     }
-    if (indexPath.section == evaluateGoodsAry.count + 1)
+    if (indexPath.section == _evaluateGoodsAry.count + 1)
     {
         UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"clearCell"];
         if (!cell)
@@ -118,24 +112,19 @@ UITableViewDelegate
 #pragma mark-UITableViewDelegate
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (0 <= indexPath.section && indexPath.section < evaluateGoodsAry.count)
+    if (0 <= indexPath.section && indexPath.section < _evaluateGoodsAry.count)
     {
         return 307;
     }
-    if (indexPath.section == evaluateGoodsAry.count)
+    if (indexPath.section == _evaluateGoodsAry.count)
     {
         return 159;
     }
-    if (indexPath.section == evaluateGoodsAry.count + 1)
+    if (indexPath.section == _evaluateGoodsAry.count + 1)
     {
         return 100;
     }
     return 0;
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -164,15 +153,9 @@ UITableViewDelegate
 - (void)addMyComment:(id)sender
 {
     DLog(@"发表评价");
+    [CZJBaseDataInstance generalPost:@{} success:^(id json) {
+        
+    } andServerAPI:kCZJServerAPISubmitComment];
 }
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

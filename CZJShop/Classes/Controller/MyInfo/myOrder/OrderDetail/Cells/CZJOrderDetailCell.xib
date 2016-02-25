@@ -314,12 +314,13 @@
                 <outlet property="leftTimeLabel" destination="hoc-0h-QV9" id="Rfc-vk-hgT"/>
                 <outlet property="orderNoLabel" destination="bt6-3c-ZV7" id="5sG-Re-REd"/>
                 <outlet property="orderTimeLabel" destination="eh4-dT-LvL" id="P3A-Cq-54A"/>
+                <outlet property="orderTimeTitleLabel" destination="xpi-ie-3f2" id="mNN-FQ-IdF"/>
                 <outlet property="stageImg" destination="HcM-18-Wxm" id="G5w-mK-pji"/>
                 <outlet property="stageLabel" destination="Mf5-Gf-9sm" id="gse-Fb-dmO"/>
                 <outlet property="stageLabelWidth" destination="h4O-QD-6hn" id="h4N-Co-dVS"/>
                 <outlet property="stagelabelcenterLeading" destination="mGP-ID-Y0B" id="OQo-xi-2eQ"/>
             </connections>
-            <point key="canvasLocation" x="195" y="278.5"/>
+            <point key="canvasLocation" x="237" y="277.5"/>
         </tableViewCell>
     </objects>
     <resources>

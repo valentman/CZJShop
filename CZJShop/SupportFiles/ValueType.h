@@ -115,6 +115,13 @@ typedef NS_ENUM(NSInteger, CZJCellType)
     CZJCellTypeExpand
 };
 
+//订单详情页面类型（一般订单详情界面，退换货订单详情界面）
+typedef NS_ENUM(NSInteger, CZJOrderDetailType)
+{
+    CZJOrderDetailTypeGeneral = 100,
+    CZJOrderDetailTypeReturned
+};
+
 
 struct CZJMargin {
     CGFloat horisideMargin;
@@ -130,7 +137,7 @@ CG_INLINE CZJMargin CZJMarginMake(CGFloat horisideMargin, CGFloat vertiMiddleMar
     return margin;
 }
 
-
+typedef void (^MGBasicBlock)();
 typedef void (^CZJButtonBlock)(UIButton* button);
 typedef void (^CZJSuccessBlock)(id json);
 typedef void (^CZJFailureBlock)();

@@ -24,7 +24,6 @@
 #import "CZJOrderListReturnedController.h"
 #import "CZJPopPayViewController.h"
 #import "CZJAlertViewController.h"
-#import "CZJSBAlertView.h"
 
 @interface CZJMyInfoOrderListController ()
 <
@@ -178,8 +177,12 @@ CZJPopPayViewDelegate
             [self performSegueWithIdentifier:@"segueToMyReturnableList" sender:self];
             break;
         case CZJOrderListCellBtnTypeConfirm:
-            [self showCZJAlertView:@"你要想好哦，确认收货就不能退款了哦"];
-             DLog(@"确认收货");
+        {
+            __weak typeof(self) weak = self;
+            [self showCZJAlertView:@"你要想好哦，确认收货就不能退款了哦" andHandler:^{
+                [weak hideWindow];
+            }];
+        }
             break;
         case CZJOrderListCellBtnTypeCheckCar:
             [self performSegueWithIdentifier:@"segueToCarCheck" sender:self];
@@ -188,8 +191,15 @@ CZJPopPayViewDelegate
             [self performSegueWithIdentifier:@"segueToBuildingProgress" sender:self];
             break;
         case CZJOrderListCellBtnTypeCancel:
-            [self showCZJAlertView:@"确定取消该订单"];
-            DLog(@"取消订单");
+        {
+            __weak typeof(self) weak = self;
+            [self showCZJAlertView:@"确定取消该订单" andHandler:^{
+                [CZJBaseDataInstance generalPost:@{} success:^(id json) {
+                    
+                } andServerAPI:kCZJServerAPICancelOrder];
+                [weak hideWindow];
+            }];
+        }
             break;
         case CZJOrderListCellBtnTypePay:
             [self showPopPayView:[currentTouchedOrderListForm.orderMoney floatValue]];
@@ -229,34 +239,6 @@ CZJPopPayViewDelegate
     }];
 }
 
-- (void)showCZJAlertView:(NSString*)promptStr
-{
-    CZJSBAlertView* alertViewVC = [[CZJSBAlertView alloc]init];
-    self.popWindowInitialRect = ZEROVERTICALHIDERECT;
-    self.popWindowDestineRect = ZERORECT;
-    self.windowAlpha = 0;
-    [CZJUtils showMyWindowOnTarget:self withMyVC:alertViewVC];
-    alertViewVC.popView.descLabel.text = promptStr;
-    [alertViewVC.popView.cancelBtn addTarget:self action:@selector(hideWindow) forControlEvents:UIControlEventTouchUpInside];
-}
-
-- (void)hideWindow
-{
-    [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
-        self.window.frame = self.popWindowInitialRect;
-        self.windowAlpha = 1.0f;
-        self.upView.alpha = 0.0;
-    } completion:^(BOOL finished) {
-        if (finished) {
-            [self.upView removeFromSuperview];
-            [self.window resignKeyWindow];
-            self.window  = nil;
-            self.upView = nil;
-            self.navigationController.interactivePopGestureRecognizer.enabled = YES;
-        }
-    }];
-}
-
 #pragma mark- CZJPopPayViewDelegate
 - (void)payViewToPay:(id)sender
 {
@@ -270,6 +252,7 @@ CZJPopPayViewDelegate
     {
         CZJMyOrderDetailController* orderDetailVC = segue.destinationViewController;
         [orderDetailVC setOrderNo:currentTouchedOrderListForm.orderNo];
+        [orderDetailVC setOrderDetailType:CZJOrderDetailTypeGeneral];
     }
     if ([segue.identifier isEqualToString:@"segueToBuildingProgress"])
     {
@@ -284,6 +267,7 @@ CZJPopPayViewDelegate
     if ([segue.identifier isEqualToString:@"segueToEvaluate"])
     {
         CZJOrderEvaluateController* orderEvaluateVC = segue.destinationViewController;
+        orderEvaluateVC.evaluateGoodsAry = currentTouchedOrderListForm.items;
         [orderEvaluateVC setOrderNo:currentTouchedOrderListForm.orderNo];
     }
     if ([segue.identifier isEqualToString:@"segueToMyReturnableList"])

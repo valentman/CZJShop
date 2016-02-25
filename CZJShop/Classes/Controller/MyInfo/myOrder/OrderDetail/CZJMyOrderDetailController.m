@@ -8,7 +8,6 @@
 
 #import "CZJMyOrderDetailController.h"
 #import "CZJBaseDataManager.h"
-#import "CZJOrderForm.h"
 #import "CZJOrderDetailCell.h"
 #import "CZJDeliveryAddrCell.h"
 #import "CZJOrderProductHeaderCell.h"
@@ -19,21 +18,26 @@
 #import "CZJOrderBuilderCell.h"
 #import "CZJOrderBuildCarCell.h"
 #import "CZJOrderBuildingImagesCell.h"
+#import "CZJOrderReturnedListCell.h"
+#import "CZJCommentCell.h"
 #import "CZJOrderListReturnedController.h"
 #import "CZJOrderEvaluateController.h"
 #import "CZJOrderBuildingController.h"
 #import "CZJOrderLogisticsController.h"
 #import "CZJOrderCarCheckController.h"
+#import "CZJPopPayViewController.h"
 
 @interface CZJMyOrderDetailController ()
 <
 UITableViewDataSource,
-UITableViewDelegate
+UITableViewDelegate,
+CZJPopPayViewDelegate
 >
 {
     CZJOrderDetailForm* orderDetailForm;
+    CZJReturnedOrderDetailForm* returnedOrdderDetailForm;
+    CZJAddrForm* receiverAddrForm;
     NSDictionary* builderData;
-    NSString* stageStr;
     NSInteger stageNum;
     NSInteger orderType;
     UIColor* stageLabelColor;
@@ -77,6 +81,8 @@ UITableViewDelegate
 @property (weak, nonatomic) IBOutlet UIView *buttomLineView;
 
 
+
+
 - (IBAction)returnGoodsAction:(id)sender;
 - (IBAction)viewCarCheckAction:(id)sender;
 - (IBAction)payAction:(id)sender;
@@ -95,7 +101,18 @@ UITableViewDelegate
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self initViews];
-    [self getOrderDetailFromServer];
+    if (CZJOrderDetailTypeGeneral == self.orderDetailType)
+    {
+        [self getOrderDetailFromServer];
+        self.title = @"订单详情";
+    }
+    if (CZJOrderDetailTypeReturned == self.orderDetailType)
+    {
+        NSString* title = @"退换货详情";
+        self.navigationItem.title = title;
+        self.title = title;
+        [self getReturnedOrderDetailFromServer];
+    }
 }
 
 - (void)initViews
@@ -116,16 +133,32 @@ UITableViewDelegate
                          @"CZJGiftCell",
                          @"CZJOrderBuilderCell",
                          @"CZJOrderBuildCarCell",
-                         @"CZJOrderBuildingImagesCell"
+                         @"CZJOrderBuildingImagesCell",
+                         @"CZJOrderReturnedListCell",
+                         @"CZJCommentCell"
                          ];
     
     for (id cells in nibArys) {
         UINib *nib=[UINib nibWithNibName:cells bundle:nil];
         [self.myTableView registerNib:nib forCellReuseIdentifier:cells];
     }
-    
+
     [self addCZJNaviBarView:CZJNaviBarViewTypeGeneral];
     self.naviBarView.mainTitleLabel.text = @"订单详情";
+}
+
+- (void)getReturnedOrderDetailFromServer
+{
+    NSDictionary* params = @{@"orderItemPid":self.returnedGoodsForm.orderItemPid};
+    [CZJBaseDataInstance generalPost:params success:^(id json) {
+        NSDictionary* dict = [[CZJUtils DataFromJson:json] valueForKey:@"msg"];
+        receiverAddrForm = [CZJAddrForm objectWithKeyValues:[dict valueForKey:@"receiver"]];
+        returnedOrdderDetailForm = [CZJReturnedOrderDetailForm objectWithKeyValues:[dict valueForKey:@"item"]];
+        stageNum = [returnedOrdderDetailForm.returnStatus integerValue] - 1;
+        self.returnedDetailView.hidden = NO;
+        orderType = 3;
+        [self.myTableView reloadData];
+    } andServerAPI:kCZJServerAPIGetMyReturnedOrderDetail];
 }
 
 - (void)getOrderDetailFromServer
@@ -135,6 +168,7 @@ UITableViewDelegate
         NSDictionary* dict = [[CZJUtils DataFromJson:json] valueForKey:@"msg"];
         builderData = [dict valueForKey:@"build"];
         orderDetailForm = [CZJOrderDetailForm objectWithKeyValues:dict];
+        receiverAddrForm = orderDetailForm.receiver;
         [self.myTableView reloadData];
         
         if (!orderDetailForm.paidFlag)
@@ -142,7 +176,7 @@ UITableViewDelegate
             //type==0为商品，type==1为服务
             if (0 == [orderDetailForm.type integerValue])
             {//商品未付款 永远只有等待买家付款的状态，也就是status == 0
-                stageStr = @"等待买家付款";
+                _stageStr = @"等待买家付款";
                 stageNum = 0;
                 orderType = 0;
                 self.payCancleOrderView.hidden = NO;   //取消订单、付款
@@ -150,21 +184,21 @@ UITableViewDelegate
             else if (1 == [orderDetailForm.type integerValue])
             {
                 if (0 == [orderDetailForm.status integerValue]) {
-                    stageStr = @"等待买家付款";
+                    _stageStr = @"等待买家付款";
                     stageNum = 0;
                     orderType = 0;
                     self.payCancleOrderView.hidden = NO;   //取消订单、付款
                 }
                 else if (1 == [orderDetailForm.status integerValue])
                 {
-                    stageStr = @"等待门店施工(未付款)";
+                    _stageStr = @"等待门店施工(未付款)";
                     stageNum = 1;
                     orderType = 1;
                     self.carCheckView.hidden = NO; //取消订单、付款 、查看车检结果
                 }
                 else
                 {
-                    stageStr = @"门店正在施工(未付款)";
+                    _stageStr = @"门店正在施工(未付款)";
                     stageNum = 1;
                     orderType = 1;
                     self.payCarCheckView.hidden = NO;  //付款 、查看车检结果
@@ -177,7 +211,7 @@ UITableViewDelegate
             if (orderDetailForm.evaluated)
             {
                 stageLabelColor = UIColorFromRGB(0x48AB11);
-                stageStr = @"订单已完成";
+                _stageStr = @"订单已完成";
                 stageNum = 3;
                 orderType = 0;
                 if ([orderDetailForm.type integerValue] == 0)
@@ -200,17 +234,17 @@ UITableViewDelegate
                     {
                         if (1 == [orderDetailForm.status integerValue])
                         {
-                            stageStr = @"卖家还没发货";
+                            _stageStr = @"卖家还没发货";
                             self.cancelOrderView.hidden = NO;   //取消订单
                         }
                         else if (2 == [orderDetailForm.status integerValue])
                         {
-                            stageStr = @"卖家还没发货";
+                            _stageStr = @"卖家还没发货";
                             self.cancelOrderView.hidden = NO;   //取消订单
                         }
                         else if (3 == [orderDetailForm.status integerValue])
                         {
-                            stageStr = @"等待买家收货";
+                            _stageStr = @"等待买家收货";
                             self.noReceiveView.hidden = NO;  //退换货、查看物流、确认收货
                         }
                     }
@@ -218,29 +252,29 @@ UITableViewDelegate
                     {
                         if (0 == [orderDetailForm.status integerValue])
                         {
-                            stageStr = @"等待到店施工";
+                            _stageStr = @"等待到店施工";
                             self.cancelOrderView.hidden = NO;   //取消订单
                         }
                         else if (1 == [orderDetailForm.status integerValue])
                         {
-                            stageStr = @"等待门店施工";
+                            _stageStr = @"等待门店施工";
                             self.cancleCarCheckView.hidden = NO; //取消订单、查看车检结果
                         }
                         else if (2 == [orderDetailForm.status integerValue])
                         {
-                            stageStr = @"门店正在施工";
+                            _stageStr = @"门店正在施工";
                             self.carCheckBuildingProgressView.hidden = NO; //查看车检结果、查看施工进度
                         }
                         else if (3 == [orderDetailForm.status integerValue])
                         {
-                            stageStr = @"门店正在施工";
+                            _stageStr = @"门店正在施工";
                             self.carCheckBuildingProgressView.hidden = NO; //查看车检结果、查看施工进度
                         }
                     }
                 }
                 else
                 {
-                    stageStr = @"等待买家评价";
+                    _stageStr = @"等待买家评价";
                     stageNum = 2;
                     orderType = 0;
                     if (0 == [orderDetailForm.type integerValue])
@@ -267,34 +301,51 @@ UITableViewDelegate
 #pragma mark-UITableViewDataSource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    if ([orderDetailForm.type floatValue] == 1 &&
-        [orderDetailForm.status floatValue] >= 2)
+    if (CZJOrderDetailTypeGeneral == self.orderDetailType)
     {
-        return 5;
+        if ([orderDetailForm.type floatValue] == 1 &&
+            [orderDetailForm.status floatValue] >= 2)
+        {
+            return 5;
+        }
+        return 2;
     }
-    return 2;
+    if (CZJOrderDetailTypeReturned == self.orderDetailType)
+    {
+        return 2;
+    }
+    return 0;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (0 == section)
     {
-        return 1 + (orderDetailForm.receiver.receiver == nil ? 0 : 1);
+        return 1 + (receiverAddrForm.receiver == nil ? 0 : 1);
     }
-    if (1 == section)
+    
+    if (CZJOrderDetailTypeGeneral == self.orderDetailType)
     {
-        return  4 + orderDetailForm.items.count;
+        if (1 == section)
+        {
+            return  4 + orderDetailForm.items.count;
+        }
+        if (2 == section ||
+            3 == section)
+        {
+            return 1;
+        }
+        if (4 == section)
+        {
+            return 2;
+        }
+        return 3;
     }
-    if (2 == section ||
-        3 == section)
+    if (CZJOrderDetailTypeReturned == self.orderDetailType)
     {
-        return 1;
+        return 3;
     }
-    if (4 == section)
-    {
-        return 2;
-    }
-    return 3;
+    return 0;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -304,16 +355,23 @@ UITableViewDelegate
         if (0 == indexPath.row)
         {
             CZJOrderDetailCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJOrderDetailCell" forIndexPath:indexPath];
-            cell.orderNoLabel.text = orderDetailForm.orderNo;
-            cell.orderTimeLabel.text = orderDetailForm.createTime;
             [cell setOrderStateLayout:stageNum type:orderType];
-            cell.stageLabel.text = stageStr;
+            cell.stageLabel.text = _stageStr;
+            if (CZJOrderDetailTypeReturned == self.orderDetailType)
+            {
+                cell.orderTimeTitleLabel.text = @"申请时间:";
+                cell.leftTimeLabel.hidden = YES;
+            }
+            cell.orderNoLabel.text = CZJOrderDetailTypeGeneral == self.orderDetailType ? orderDetailForm.orderNo : returnedOrdderDetailForm.orderNo;
+            cell.orderTimeLabel.text = CZJOrderDetailTypeGeneral == self.orderDetailType ?orderDetailForm.createTime:returnedOrdderDetailForm.returnTime;
+
             if (stageLabelColor)
             {
                 cell.stageLabel.textColor = stageLabelColor;
             }
-            cell.stageLabelWidth.constant = [CZJUtils calculateTitleSizeWithString:stageStr WithFont:BOLDSYSTEMFONT(15)].width + 5;
-            if (!orderDetailForm.paidFlag) {
+            cell.stageLabelWidth.constant = [CZJUtils calculateTitleSizeWithString:_stageStr WithFont:BOLDSYSTEMFONT(15)].width + 5;
+            if (!orderDetailForm.paidFlag &&
+                CZJOrderDetailTypeGeneral == self.orderDetailType) {
                 cell.leftTimeLabel.hidden = [orderDetailForm.timeOver isEqualToString:@""];
                 cell.leftTimeLabel.text = [NSString stringWithFormat:@"剩余%@",orderDetailForm.timeOver];
             }
@@ -327,9 +385,9 @@ UITableViewDelegate
         else if (1 == indexPath.row)
         {
             CZJDeliveryAddrCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJDeliveryAddrCell" forIndexPath:indexPath];
-            cell.deliveryNameLabel.text = orderDetailForm.receiver.receiver;
-            cell.deliveryAddrLabel.text = orderDetailForm.receiver.addr;
-            cell.contactNumLabel.text = orderDetailForm.receiver.mobile;
+            cell.deliveryNameLabel.text = receiverAddrForm.receiver;
+            cell.deliveryAddrLabel.text = receiverAddrForm.addr;
+            cell.contactNumLabel.text = receiverAddrForm.mobile;
             cell.defaultLabel.hidden = YES;
             cell.deliveryAddrLayoutLeading.constant = 41;
             cell.commitNextArrowImg.hidden = YES;
@@ -337,217 +395,254 @@ UITableViewDelegate
         }
     }
     
-    if (1 == indexPath.section)
+    if (CZJOrderDetailTypeReturned == self.orderDetailType)
     {
-        NSInteger itemCount = orderDetailForm.items.count;
-        NSInteger giftCount = 0;            //礼品数量
-        BOOL isHaveFullCut = [orderDetailForm.fullCutPrice integerValue] > 0.1;            //是否有满减
-        BOOL isHaveCoupon = YES;             //是否有优惠券
-
-        
-        NSInteger fullcutCount = (isHaveFullCut || isHaveCoupon) ? 1 : 0;
-        
         if (0 == indexPath.row)
         {
-            UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"storeHeaer"];
-            if (!cell) {
-                cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"storeHeaer"];
-            }
-            
-            [cell.imageView setImage:IMAGENAMED(@"commit_icon_shop")];
-            cell.textLabel.text = orderDetailForm.storeName;
-            cell.separatorInset = UIEdgeInsetsMake(44, -20, 0, 0);
+            CZJOrderReturnedListCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJOrderReturnedListCell" forIndexPath:indexPath];
+            [cell.goodImg sd_setImageWithURL:[NSURL URLWithString:@""] placeholderImage:IMAGENAMED(@"")];
+            cell.goodNameLabel.text = self.returnedGoodsForm.itemName;
+            cell.goodPriceLabel.text = [NSString stringWithFormat:@"￥%@",self.returnedGoodsForm.currentPrice];
+            cell.goodModelLabel.text = self.returnedGoodsForm.itemSku;
+            cell.returnBtn.hidden = YES;
             return cell;
         }
-        else if (indexPath.row > 0 &&
-                 indexPath.row <= itemCount)
+        if (1 == indexPath.row)
         {
-            CZJOrderGoodsForm* goodsForm = orderDetailForm.items[indexPath.row - 1];
-            CZJOrderProductHeaderCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJOrderProductHeaderCell" forIndexPath:indexPath];
-            cell.setupView.hidden = YES;
-            [cell.goodsImg sd_setImageWithURL:[NSURL URLWithString:goodsForm.itemImg] placeholderImage:IMAGENAMED(@"home_btn_xiche")];
-            cell.goodsNameLabel.text = goodsForm.itemName;
-            cell.priceLabel.text = [NSString stringWithFormat:@"￥%.1f",[goodsForm.currentPrice floatValue]];
-            cell.numLabel.text = [NSString stringWithFormat:@"×%@",goodsForm.itemCount];
-            cell.goodsTypeLabel.text = goodsForm.itemSku;
-            cell.setupView.hidden = !goodsForm.setupFlag;
-            cell.goodsNameLayoutWidth.constant = PJ_SCREEN_WIDTH - 68 -15 - 8 - 15;
-            cell.totalPriceLabel.text = [NSString stringWithFormat:@"￥%.1f",[goodsForm.itemCount floatValue] * [goodsForm.currentPrice integerValue]];
-            
-            if (goodsForm.setupFlag)
+            UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"resonCell"];
+            if (!cell)
             {
-                cell.arrowImg.hidden = YES;
-                cell.selectedSetupStoreNameLabel.text = goodsForm.setupStoreName;
-                cell.storeNameLabelTailing.constant = 15;
+                 cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"resonCell"];
+            }
+            cell.detailTextLabel.text = returnedOrdderDetailForm.returnReason;
+            cell.detailTextLabel.textColor = LIGHTGRAYCOLOR;
+            cell.detailTextLabel.font = SYSTEMFONT(13);
+            cell.separatorInset = HiddenCellSeparator;
+            return cell;
+        }
+        if (2 == indexPath.row)
+        {
+            CZJCommentCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJCommentCell" forIndexPath:indexPath];
+            cell.commentLabel.text = returnedOrdderDetailForm.returnNote;
+            cell.commentLabel.textColor = LIGHTGRAYCOLOR;
+            cell.separatorInset = HiddenCellSeparator;
+            return cell;
+        }
+        
+    }
+    if (CZJOrderDetailTypeGeneral == self.orderDetailType)
+    {
+        if (1 == indexPath.section)
+        {
+            NSInteger itemCount = orderDetailForm.items.count;
+            NSInteger giftCount = 0;            //礼品数量
+            BOOL isHaveFullCut = [orderDetailForm.fullCutPrice integerValue] > 0.1;            //是否有满减
+            BOOL isHaveCoupon = YES;             //是否有优惠券
+            
+            
+            NSInteger fullcutCount = (isHaveFullCut || isHaveCoupon) ? 1 : 0;
+            
+            if (0 == indexPath.row)
+            {
+                UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"storeHeaer"];
+                if (!cell) {
+                    cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"storeHeaer"];
+                }
                 
+                [cell.imageView setImage:IMAGENAMED(@"commit_icon_shop")];
+                cell.textLabel.text = orderDetailForm.storeName;
+                cell.separatorInset = UIEdgeInsetsMake(44, -20, 0, 0);
+                return cell;
             }
-            cell.separatorInset = UIEdgeInsetsMake(goodsForm.setupFlag ? 138 : 108, 20, 0, 20);
-            return cell;
-        }
-        else if (indexPath.row > itemCount &&
-                 indexPath.row <= itemCount + fullcutCount)
-        {
-            CZJPromotionCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJPromotionCell" forIndexPath:indexPath];
-            cell.nameOneLabel.text = @"优惠券:";
-            cell.nameOneNumLabel.text = [NSString stringWithFormat:@"-￥%.1f", [orderDetailForm.couponPrice floatValue]];
-            
-            cell.nameTwoLabel.hidden = !isHaveFullCut;
-            cell.nameTwoNumLabel.hidden = !isHaveFullCut;
-            cell.nameTwoLabel.text = isHaveFullCut? @"促销满减:" : @"";
-            cell.nameTwoNumLabel.text = isHaveFullCut ? [NSString stringWithFormat:@"-￥%@",orderDetailForm.fullCutPrice] :  @"";
-            cell.separatorInset = HiddenCellSeparator;
-            return cell;
-        }
-        else if (indexPath.row > itemCount + fullcutCount&&
-                 indexPath.row <= itemCount + fullcutCount + 1)
-        {
-            CZJOrderProductFooterCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJOrderProductFooterCell" forIndexPath:indexPath];
-            cell.fullCutLabel.hidden = YES;
-            cell.setupPriceLabel.hidden = YES;
-            cell.setupLabel.hidden = YES;
-            
-            NSString* transportStr = [NSString stringWithFormat:@"+￥%.1f",[orderDetailForm.transportPrice floatValue]];
-            cell.transportPriceLabel.text = transportStr;
-            cell.transportPriceLayoutWidth.constant = [CZJUtils calculateTitleSizeWithString:transportStr AndFontSize:14].width + 10;
-            
-            NSString* totalStr = [NSString stringWithFormat:@"￥%.1f",[orderDetailForm.orderMoney floatValue]];
-            cell.totalLabel.text = totalStr;
-            cell.totalPriceLayoutWidth.constant = [CZJUtils calculateTitleSizeWithString:totalStr AndFontSize:17].width + 10;
-            
-            if ([orderDetailForm.setupPrice floatValue] > 0.01)
+            else if (indexPath.row > 0 &&
+                     indexPath.row <= itemCount)
             {
-                cell.setupPriceLabel.hidden = NO;
-                cell.setupLabel.hidden = NO;
-                NSString* setupStr = [NSString stringWithFormat:@"+￥%.1f",[orderDetailForm.setupPrice floatValue]];
-                cell.setupPriceLabel.text = setupStr;
-                cell.setupPriceLayoutWidth.constant = [CZJUtils calculateTitleSizeWithString:setupStr AndFontSize:14].width + 10;
+                CZJOrderGoodsForm* goodsForm = orderDetailForm.items[indexPath.row - 1];
+                CZJOrderProductHeaderCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJOrderProductHeaderCell" forIndexPath:indexPath];
+                cell.setupView.hidden = YES;
+                [cell.goodsImg sd_setImageWithURL:[NSURL URLWithString:goodsForm.itemImg] placeholderImage:IMAGENAMED(@"home_btn_xiche")];
+                cell.goodsNameLabel.text = goodsForm.itemName;
+                cell.priceLabel.text = [NSString stringWithFormat:@"￥%.1f",[goodsForm.currentPrice floatValue]];
+                cell.numLabel.text = [NSString stringWithFormat:@"×%@",goodsForm.itemCount];
+                cell.goodsTypeLabel.text = goodsForm.itemSku;
+                cell.setupView.hidden = !goodsForm.setupFlag;
+                cell.goodsNameLayoutWidth.constant = PJ_SCREEN_WIDTH - 68 -15 - 8 - 15;
+                cell.totalPriceLabel.text = [NSString stringWithFormat:@"￥%.1f",[goodsForm.itemCount floatValue] * [goodsForm.currentPrice integerValue]];
+                
+                if (goodsForm.setupFlag)
+                {
+                    cell.arrowImg.hidden = YES;
+                    cell.selectedSetupStoreNameLabel.text = goodsForm.setupStoreName;
+                    cell.storeNameLabelTailing.constant = 15;
+                    
+                }
+                cell.separatorInset = UIEdgeInsetsMake(goodsForm.setupFlag ? 138 : 108, 20, 0, 20);
+                return cell;
             }
-            
-            cell.separatorInset = HiddenCellSeparator;
-            return cell;
-        }
-        else if (indexPath.row > itemCount + fullcutCount + 1 &&
-                 indexPath.row <= itemCount + fullcutCount + giftCount)
-        {
-            CZJGiftCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJGiftCell" forIndexPath:indexPath];
-            return cell;
-        }
-        else
-        {
-            CZJLeaveMessageCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJLeaveMessageCell" forIndexPath:indexPath];
-            cell.leaveMessageLabel.text = @"";
-            if (![orderDetailForm.note isEqualToString:@""]) {
-                cell.leaveMessageView.hidden = YES;
-                CGSize size = [CZJUtils calculateStringSizeWithString:orderDetailForm.note Font:SYSTEMFONT(12) Width:PJ_SCREEN_WIDTH - 30];
-                cell.leaveMessageLabel.text = orderDetailForm.note;
-                cell.leaveMessageLayoutHeight.constant = size.height;
-                cell.frame = CGRectMake(cell.frame.origin.x, cell.frame.origin.y, cell.frame.size.width, size.height + 30);
+            else if (indexPath.row > itemCount &&
+                     indexPath.row <= itemCount + fullcutCount)
+            {
+                CZJPromotionCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJPromotionCell" forIndexPath:indexPath];
+                cell.nameOneLabel.text = @"优惠券:";
+                cell.nameOneNumLabel.text = [NSString stringWithFormat:@"-￥%.1f", [orderDetailForm.couponPrice floatValue]];
+                
+                cell.nameTwoLabel.hidden = !isHaveFullCut;
+                cell.nameTwoNumLabel.hidden = !isHaveFullCut;
+                cell.nameTwoLabel.text = isHaveFullCut? @"促销满减:" : @"";
+                cell.nameTwoNumLabel.text = isHaveFullCut ? [NSString stringWithFormat:@"-￥%@",orderDetailForm.fullCutPrice] :  @"";
+                cell.separatorInset = HiddenCellSeparator;
+                return cell;
+            }
+            else if (indexPath.row > itemCount + fullcutCount&&
+                     indexPath.row <= itemCount + fullcutCount + 1)
+            {
+                CZJOrderProductFooterCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJOrderProductFooterCell" forIndexPath:indexPath];
+                cell.fullCutLabel.hidden = YES;
+                cell.setupPriceLabel.hidden = YES;
+                cell.setupLabel.hidden = YES;
+                
+                NSString* transportStr = [NSString stringWithFormat:@"+￥%.1f",[orderDetailForm.transportPrice floatValue]];
+                cell.transportPriceLabel.text = transportStr;
+                cell.transportPriceLayoutWidth.constant = [CZJUtils calculateTitleSizeWithString:transportStr AndFontSize:14].width + 10;
+                
+                NSString* totalStr = [NSString stringWithFormat:@"￥%.1f",[orderDetailForm.orderMoney floatValue]];
+                cell.totalLabel.text = totalStr;
+                cell.totalPriceLayoutWidth.constant = [CZJUtils calculateTitleSizeWithString:totalStr AndFontSize:17].width + 10;
+                
+                if ([orderDetailForm.setupPrice floatValue] > 0.01)
+                {
+                    cell.setupPriceLabel.hidden = NO;
+                    cell.setupLabel.hidden = NO;
+                    NSString* setupStr = [NSString stringWithFormat:@"+￥%.1f",[orderDetailForm.setupPrice floatValue]];
+                    cell.setupPriceLabel.text = setupStr;
+                    cell.setupPriceLayoutWidth.constant = [CZJUtils calculateTitleSizeWithString:setupStr AndFontSize:14].width + 10;
+                }
+                
+                cell.separatorInset = HiddenCellSeparator;
+                return cell;
+            }
+            else if (indexPath.row > itemCount + fullcutCount + 1 &&
+                     indexPath.row <= itemCount + fullcutCount + giftCount)
+            {
+                CZJGiftCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJGiftCell" forIndexPath:indexPath];
+                return cell;
             }
             else
             {
-                cell.leaveMessageView.hidden = NO;
+                CZJLeaveMessageCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJLeaveMessageCell" forIndexPath:indexPath];
+                cell.leaveMessageLabel.text = @"";
+                if (![orderDetailForm.note isEqualToString:@""]) {
+                    cell.leaveMessageView.hidden = YES;
+                    CGSize size = [CZJUtils calculateStringSizeWithString:orderDetailForm.note Font:SYSTEMFONT(12) Width:PJ_SCREEN_WIDTH - 30];
+                    cell.leaveMessageLabel.text = orderDetailForm.note;
+                    cell.leaveMessageLayoutHeight.constant = size.height;
+                    cell.frame = CGRectMake(cell.frame.origin.x, cell.frame.origin.y, cell.frame.size.width, size.height + 30);
+                }
+                else
+                {
+                    cell.leaveMessageView.hidden = NO;
+                }
+                cell.separatorInset = HiddenCellSeparator;
+                return cell;
             }
-            cell.separatorInset = HiddenCellSeparator;
-            return cell;
-        }
-
-    }
-    
-    if (2 == indexPath.section)
-    {
-        CZJOrderBuildCarCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJOrderBuildCarCell" forIndexPath:indexPath];
-        [cell.carBrandImg sd_setImageWithURL:[NSURL URLWithString:@""] placeholderImage:IMAGENAMED(@"default_icon_car")];
-        NSString* carBrandName = [[builderData valueForKey:@"car"] valueForKey:@"brandName"];
-        NSString* carSeriesName = [[builderData valueForKey:@"car"] valueForKey:@"seriesName"];
-        NSString* carNumberPlate = [[builderData valueForKey:@"car"] valueForKey:@"numberPlate"];
-        cell.myCarInfoLabel.text = [NSString stringWithFormat:@"%@ %@ %@",carBrandName, carSeriesName, carNumberPlate];
-        cell.myCarModelLabel.text = [[builderData valueForKey:@"car"] valueForKey:@"modelName"];
-        return cell;
-    }
-    if (3 == indexPath.section)
-    {
-        CZJOrderBuilderCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJOrderBuilderCell" forIndexPath:indexPath];
-        
-        //施工人员头像
-         [cell.builderHeadImg sd_setImageWithURL:[NSURL URLWithString:[builderData valueForKey:@"head"]] placeholderImage:IMAGENAMED(@"order_head_default.png")];
-        
-        //施工人员名称和施工状态
-        NSString* builderNameStr =[builderData valueForKey:@"builder"] == nil ? @"" : [builderData valueForKey:@"builder"];
-        NSString* buildStatusStr;
-        NSInteger offset = 0;
-        NSInteger leading;
-        NSInteger builderNameWidth = [CZJUtils calculateStringSizeWithString:builderNameStr Font:SYSTEMFONT(15) Width:100].width;
-        if (0 != builderNameWidth)
-        {
-            leading = 5;
-            offset = 30;
-        }
-        else
-        {
-            leading = -60;
-        }
-        
-        if ([orderDetailForm.status floatValue] == 2 ||
-            [orderDetailForm.status floatValue] == 3)
-        {
             
-            buildStatusStr = @"正在施工";
         }
-        if ([orderDetailForm.status floatValue] == 4)
-        {
-            buildStatusStr = @"已完成施工";
-        }
-        cell.builderNameOffset.constant = offset;
-        cell.builderNameLabel.text = builderNameStr;
-        cell.buildingLabel.text = buildStatusStr;
-        cell.buildingLabelLeading.constant = leading;
         
-        //用时
-        NSString* useTimeStr = [NSString stringWithFormat:@"已用时%@",[builderData valueForKey:@"useTime"] == nil ? @"" : [builderData valueForKey:@"useTime"]];
-        if ([orderDetailForm.status floatValue] == 4)
+        if (2 == indexPath.section)
         {
-            useTimeStr = @"请顾客前往取车";
-        }
-        CGSize size = [CZJUtils calculateTitleSizeWithString:useTimeStr AndFontSize:12];
-        cell.leftTimeLabelWidth.constant = size.width + 5;
-        cell.leftTimeLabel.text = useTimeStr;
-
-        cell.separatorInset = HiddenCellSeparator;
-        return cell;
-    }
-    if (4 == indexPath.section)
-    {
-        if (0 == indexPath.row)
-        {
-            CZJOrderBuildingImagesCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJOrderBuildingImagesCell" forIndexPath:indexPath];
-            cell.myTitleLabel.text = @"施工图片";
-            cell.separatorInset = HiddenCellSeparator;
+            CZJOrderBuildCarCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJOrderBuildCarCell" forIndexPath:indexPath];
+            [cell.carBrandImg sd_setImageWithURL:[NSURL URLWithString:@""] placeholderImage:IMAGENAMED(@"default_icon_car")];
+            NSString* carBrandName = [[builderData valueForKey:@"car"] valueForKey:@"brandName"];
+            NSString* carSeriesName = [[builderData valueForKey:@"car"] valueForKey:@"seriesName"];
+            NSString* carNumberPlate = [[builderData valueForKey:@"car"] valueForKey:@"numberPlate"];
+            cell.myCarInfoLabel.text = [NSString stringWithFormat:@"%@ %@ %@",carBrandName, carSeriesName, carNumberPlate];
+            cell.myCarModelLabel.text = [[builderData valueForKey:@"car"] valueForKey:@"modelName"];
             return cell;
         }
-        else
+        if (3 == indexPath.section)
         {
-            UITableViewCell* cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
-            NSArray* photosAry = [builderData valueForKey:@"photos"];
-            for (int i = 0; i< photosAry.count; i++)
+            CZJOrderBuilderCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJOrderBuilderCell" forIndexPath:indexPath];
+            
+            //施工人员头像
+            [cell.builderHeadImg sd_setImageWithURL:[NSURL URLWithString:[builderData valueForKey:@"head"]] placeholderImage:IMAGENAMED(@"order_head_default.png")];
+            
+            //施工人员名称和施工状态
+            NSString* builderNameStr =[builderData valueForKey:@"builder"] == nil ? @"" : [builderData valueForKey:@"builder"];
+            NSString* buildStatusStr;
+            NSInteger offset = 0;
+            NSInteger leading;
+            NSInteger builderNameWidth = [CZJUtils calculateStringSizeWithString:builderNameStr Font:SYSTEMFONT(15) Width:100].width;
+            if (0 != builderNameWidth)
             {
-                UIImageView* image = [[UIImageView alloc]init];
-                image.frame = [CZJUtils viewFramFromDynamic:CZJMarginMake(15, 10) size:CGSizeMake(78, 78) index:i divide:4];
-                [cell addSubview:image];
-                [image sd_setImageWithURL:[NSURL URLWithString:photosAry[i]] placeholderImage:IMAGENAMED(@"")];
+                leading = 5;
+                offset = 30;
             }
-            if (photosAry.count == 0)
+            else
             {
-                UILabel* textlabel = [[UILabel alloc]initWithFrame:CGRectMake(15, 10, 100, 15)];
-                [cell addSubview:textlabel];
+                leading = -60;
+            }
+            
+            if ([orderDetailForm.status floatValue] == 2 ||
+                [orderDetailForm.status floatValue] == 3)
+            {
                 
-                textlabel.text = @"暂未拍照";
-                textlabel.textColor = [UIColor lightGrayColor];
-                textlabel.font = SYSTEMFONT(12);
+                buildStatusStr = @"正在施工";
             }
+            if ([orderDetailForm.status floatValue] == 4)
+            {
+                buildStatusStr = @"已完成施工";
+            }
+            cell.builderNameOffset.constant = offset;
+            cell.builderNameLabel.text = builderNameStr;
+            cell.buildingLabel.text = buildStatusStr;
+            cell.buildingLabelLeading.constant = leading;
+            
+            //用时
+            NSString* useTimeStr = [NSString stringWithFormat:@"已用时%@",[builderData valueForKey:@"useTime"] == nil ? @"" : [builderData valueForKey:@"useTime"]];
+            if ([orderDetailForm.status floatValue] == 4)
+            {
+                useTimeStr = @"请顾客前往取车";
+            }
+            CGSize size = [CZJUtils calculateTitleSizeWithString:useTimeStr AndFontSize:12];
+            cell.leftTimeLabelWidth.constant = size.width + 5;
+            cell.leftTimeLabel.text = useTimeStr;
+            
             cell.separatorInset = HiddenCellSeparator;
             return cell;
         }
-        
+        if (4 == indexPath.section)
+        {
+            if (0 == indexPath.row)
+            {
+                CZJOrderBuildingImagesCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJOrderBuildingImagesCell" forIndexPath:indexPath];
+                cell.myTitleLabel.text = @"施工图片";
+                cell.separatorInset = HiddenCellSeparator;
+                return cell;
+            }
+            else
+            {
+                UITableViewCell* cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
+                NSArray* photosAry = [builderData valueForKey:@"photos"];
+                for (int i = 0; i< photosAry.count; i++)
+                {
+                    UIImageView* image = [[UIImageView alloc]init];
+                    image.frame = [CZJUtils viewFramFromDynamic:CZJMarginMake(15, 10) size:CGSizeMake(78, 78) index:i divide:4];
+                    [cell addSubview:image];
+                    [image sd_setImageWithURL:[NSURL URLWithString:photosAry[i]] placeholderImage:IMAGENAMED(@"")];
+                }
+                if (photosAry.count == 0)
+                {
+                    UILabel* textlabel = [[UILabel alloc]initWithFrame:CGRectMake(15, 10, 100, 15)];
+                    [cell addSubview:textlabel];
+                    
+                    textlabel.text = @"暂未拍照";
+                    textlabel.textColor = [UIColor lightGrayColor];
+                    textlabel.font = SYSTEMFONT(12);
+                }
+                cell.separatorInset = HiddenCellSeparator;
+                return cell;
+            }
+        }
     }
     
     return nil;
@@ -568,78 +663,96 @@ UITableViewDelegate
             return 85;
         }
     }
-    if (1 == indexPath.section)
+    
+    if (CZJOrderDetailTypeGeneral == self.orderDetailType)
     {
-        NSInteger itemCount = orderDetailForm.items.count;
-        NSInteger giftCount = 0;
-        
-        if (0 == indexPath.row)
+        if (1 == indexPath.section)
         {
-            return 44;
-        }
-        else if (indexPath.row > 0 &&
-                 indexPath.row <= itemCount)
-        {
-            CZJOrderGoodsForm* goodsForm = orderDetailForm.items[indexPath.row - 1];
-            if (goodsForm.setupFlag)
+            NSInteger itemCount = orderDetailForm.items.count;
+            NSInteger giftCount = 0;
+            
+            if (0 == indexPath.row)
             {
-                return 138;
+                return 44;
             }
-            return 108;
-
-        }
-        else if (indexPath.row > itemCount &&
-                 indexPath.row <= itemCount + 2)
-        {
-            return 30;
-        }
-        else if (indexPath.row > itemCount + 2 &&
-                 indexPath.row <= itemCount + 2 + giftCount)
-        {
-            return 30;
-        }
-        else if (indexPath.row > itemCount + 2 + giftCount &&
-                 indexPath.row <= itemCount + 2 + giftCount + 1)
-        {
-            CGSize size = [CZJUtils calculateStringSizeWithString:orderDetailForm.note Font:SYSTEMFONT(12) Width:PJ_SCREEN_WIDTH - 30];
+            else if (indexPath.row > 0 &&
+                     indexPath.row <= itemCount)
+            {
+                CZJOrderGoodsForm* goodsForm = orderDetailForm.items[indexPath.row - 1];
+                if (goodsForm.setupFlag)
+                {
+                    return 138;
+                }
+                return 108;
+                
+            }
+            else if (indexPath.row > itemCount &&
+                     indexPath.row <= itemCount + 2)
+            {
+                return 30;
+            }
+            else if (indexPath.row > itemCount + 2 &&
+                     indexPath.row <= itemCount + 2 + giftCount)
+            {
+                return 30;
+            }
+            else if (indexPath.row > itemCount + 2 + giftCount &&
+                     indexPath.row <= itemCount + 2 + giftCount + 1)
+            {
+                CGSize size = [CZJUtils calculateStringSizeWithString:orderDetailForm.note Font:SYSTEMFONT(12) Width:PJ_SCREEN_WIDTH - 30];
                 return  50 + size.height;
+            }
+            else
+            {
+                return 44;
+            }
         }
-        else
+        if (2 == indexPath.section)
         {
-            return 44;
+            return 82;
+        }
+        if (3 == indexPath.section)
+        {
+            return 167;
+        }
+        if (4 == indexPath.section)
+        {
+            if (0 == indexPath.row)
+            {
+                return 44;
+            }
+            if (1 == indexPath.row)
+            {
+                if (((NSArray*)[builderData valueForKey:@"photos"]).count > 0)
+                {
+                    return 100;
+                }
+                //动态调整的
+                return 44;
+            }
         }
     }
-    if (2 == indexPath.section)
-    {
-        return 82;
-    }
-    if (3 == indexPath.section)
-    {
-        return 167;
-    }
-    if (4 == indexPath.section)
+    if (CZJOrderDetailTypeReturned == self.orderDetailType)
     {
         if (0 == indexPath.row)
         {
-            return 44;
+            return 110;
         }
         if (1 == indexPath.row)
         {
-            if (((NSArray*)[builderData valueForKey:@"photos"]).count > 0)
-            {
-                return 100;
-            }
-            //动态调整的
-            return 44;
+            return 150;
+        }
+        if (2 == indexPath.row)
+        {
+            return 100;
         }
     }
+    
+
+
     return 0;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    
-}
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
@@ -685,6 +798,7 @@ UITableViewDelegate
     if ([segue.identifier isEqualToString:@"orderDetailToEvaluate"])
     {
         CZJOrderEvaluateController* evaluateVC = segue.destinationViewController;
+        evaluateVC.evaluateGoodsAry = orderDetailForm.items;
         evaluateVC.orderNo = self.orderNo;
     }
     if ([segue.identifier isEqualToString:@"orderDetailToCarCheck"])
@@ -692,6 +806,38 @@ UITableViewDelegate
         CZJOrderCarCheckController* carCheckVC = segue.destinationViewController;
         carCheckVC.orderNo = self.orderNo;
     }
+}
+
+- (void)showPopPayView:(float)orderMoney
+{
+    CZJPopPayViewController* payPopView = [[CZJPopPayViewController alloc]init];
+    payPopView.delegate = self;
+    payPopView.orderMoney = orderMoney;
+    
+    self.popWindowInitialRect = VERTICALHIDERECT(320);
+    self.popWindowDestineRect = VERTICALSHOWRECT(320);
+    [CZJUtils showMyWindowOnTarget:self withMyVC:payPopView];
+    __weak typeof(self) weak = self;
+    [payPopView setCancleBarItemHandle:^{
+        [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+            weak.window.frame = self.popWindowInitialRect;
+            weak.upView.alpha = 0.0;
+        } completion:^(BOOL finished) {
+            if (finished) {
+                [weak.upView removeFromSuperview];
+                [weak.window resignKeyWindow];
+                weak.window  = nil;
+                weak.upView = nil;
+                weak.navigationController.interactivePopGestureRecognizer.enabled = YES;
+            }
+        }];
+    }];
+}
+
+#pragma mark- CZJPopPayViewDelegate
+- (void)payViewToPay:(id)sender
+{
+    
 }
 
 
@@ -704,40 +850,48 @@ UITableViewDelegate
 - (IBAction)viewCarCheckAction:(id)sender
 {
     [self performSegueWithIdentifier:@"orderDetailToCarCheck" sender:self];
-    DLog(@"查看车况");
 }
 
 - (IBAction)payAction:(id)sender
 {
-    DLog(@"付款");
+    [self showPopPayView:[orderDetailForm.orderMoney floatValue]];
 }
 
 - (IBAction)confirmReceiveGoodsAction:(id)sender
 {
-    DLog(@"确认收货");
+    __weak typeof(self) weak = self;
+    [self showCZJAlertView:@"你要想好哦，确认收货就不能退款了哦" andHandler:^{
+        [CZJBaseDataInstance generalPost:@{} success:^(id json) {
+            [weak.myTableView reloadData];
+        } andServerAPI:kCZJServerAPIReceiveGoods];
+        [weak hideWindow];
+    }];
 }
 
 - (IBAction)viewLogisticsAction:(id)sender
 {
-    DLog(@"查看物流信息");
     [self performSegueWithIdentifier:@"segueToLogistics" sender:self];
 }
 
 - (IBAction)cancelOrderAction:(id)sender
 {
-    DLog(@"取消订单");
+    __weak typeof(self) weak = self;
+    [self showCZJAlertView:@"确定取消该订单" andHandler:^{
+        [CZJBaseDataInstance generalPost:@{} success:^(id json) {
+            
+        } andServerAPI:kCZJServerAPICancelOrder];
+        [weak hideWindow];
+    }];
 }
 
 - (IBAction)viewBuildingProgressAction:(id)sender
 {
     [self performSegueWithIdentifier:@"orderDetailToBuilding" sender:self];
-    DLog(@"查看施工进度");
 }
 
 - (IBAction)gotoEvaluateAction:(id)sender
 {
     [self performSegueWithIdentifier:@"orderDetailToEvaluate" sender:self];
-    DLog(@"去评价");
 }
 
 - (IBAction)contactServiceAction:(id)sender
@@ -747,7 +901,13 @@ UITableViewDelegate
 
 - (IBAction)cancelReturnGoodsAction:(id)sender
 {
-    DLog(@"取消退换货");
+    __weak typeof(self) weak = self;
+    [self showCZJAlertView:@"确定取消退换货" andHandler:^{
+        [CZJBaseDataInstance generalPost:nil success:^(id json) {
+            
+        } andServerAPI:kCZJServerAPICancelReturnOrder];
+        [weak hideWindow];
+    }];
 }
 
 - (IBAction)remindSellerAction:(id)sender

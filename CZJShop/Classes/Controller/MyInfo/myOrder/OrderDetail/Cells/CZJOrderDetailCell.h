@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CZJOrderDetailCell : UITableViewCell
+@interface CZJOrderDetailCell : CZJTableViewCell
 @property (weak, nonatomic) IBOutlet UILabel *orderNoLabel;
 @property (weak, nonatomic) IBOutlet UILabel *orderTimeLabel;
 
@@ -16,6 +16,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *leftTimeLabel;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *stageLabelWidth;
 
+@property (weak, nonatomic) IBOutlet UILabel *orderTimeTitleLabel;
 
 - (void)setOrderStateLayout:(NSInteger)state type:(NSInteger)type;
 @end

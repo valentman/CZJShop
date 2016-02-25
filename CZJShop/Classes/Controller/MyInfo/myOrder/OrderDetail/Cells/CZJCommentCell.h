@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CZJCommentCell : UITableViewCell
+@interface CZJCommentCell : CZJTableViewCell
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *commentHeight;
 @property (weak, nonatomic) IBOutlet UILabel *commentLabel;
 

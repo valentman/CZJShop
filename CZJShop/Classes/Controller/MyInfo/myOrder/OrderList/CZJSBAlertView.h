@@ -11,7 +11,5 @@
 
 @interface CZJSBAlertView : UIViewController
 @property (nonatomic, strong)CZJAlertView* popView;
-@property (nonatomic, copy) MGBasicBlock basicBlock;
-
-- (void)setCancleBarItemHandle:(CZJGeneralBlock)basicBlock;
+- (void)setConfirmItemHandle:(CZJGeneralBlock)basicBlock;
 @end

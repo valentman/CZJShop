@@ -12,6 +12,7 @@
 
 - (void)awakeFromNib {
     // Initialization code
+    [super awakeFromNib];
     [CZJUtils creatIndicatorWithColor:[UIColor lightGrayColor] andPosition:CGPointMake(30, 15)];
 }
 

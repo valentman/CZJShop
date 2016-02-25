@@ -204,3 +204,6 @@
 
 @implementation CZJReturnedOrderListForm
 @end
+
+@implementation CZJReturnedOrderDetailForm
+@end

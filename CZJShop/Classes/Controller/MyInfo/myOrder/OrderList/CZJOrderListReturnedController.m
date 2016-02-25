@@ -10,6 +10,7 @@
 #import "CZJBaseDataManager.h"
 #import "CZJOrderForm.h"
 #import "CZJOrderReturnedListCell.h"
+#import "CZJMyOrderDetailController.h"
 
 @interface CZJOrderListReturnedController ()
 <
@@ -19,6 +20,8 @@ UITableViewDataSource
 
 {
     NSArray* returnedOrderListAry;
+    NSString* statestr;
+    CZJReturnedOrderListForm* returnedGoodsForm;
 }
 @property (strong, nonatomic)UITableView* myTableView;
 @end
@@ -110,14 +113,26 @@ UITableViewDataSource
     if (CZJReturnListTypeReturned == self.returnListType)
     {
         cell.returnBtn.hidden = YES;
-        NSString* statestr = @"卖家已同意，请寄回商品";
-        if (1 == [form.returnStatus integerValue] )
-        {
-            statestr = @"卖家已同意，请寄回商品";
+        switch ([form.returnStatus integerValue]) {
+            case 1:
+                statestr = @"等待卖家同意";
+                break;
+            case 2:
+                statestr = @"卖家已同意，请寄回商品";
+                break;
+            case 3:
+                statestr = @"等待卖家收货";
+                break;
+            case 4:
+                statestr = @"退换货成功";
+                break;
+                
+            default:
+                break;
         }
         cell.returnStateLabel.text = statestr;
     }
-    
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
 
@@ -129,7 +144,8 @@ UITableViewDataSource
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
+    returnedGoodsForm = (CZJReturnedOrderListForm*)returnedOrderListAry[indexPath.row];
+    [self performSegueWithIdentifier:@"segueToReturnedOrderDetail" sender:returnedGoodsForm];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -149,14 +165,15 @@ UITableViewDataSource
     }
 }
 
-/*
-#pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+#pragma mark - Navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    CZJMyOrderDetailController* orderDetailVC = segue.destinationViewController;
+    orderDetailVC.returnedGoodsForm = (CZJReturnedOrderListForm*)sender;
+    orderDetailVC.orderDetailType = CZJOrderDetailTypeReturned;
+    orderDetailVC.stageStr = statestr;
 }
-*/
+
 
 @end

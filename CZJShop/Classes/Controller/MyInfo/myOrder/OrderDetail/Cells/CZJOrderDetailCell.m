@@ -21,6 +21,7 @@
 @implementation CZJOrderDetailCell
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
     // Initialization code
 }
 
@@ -36,36 +37,50 @@
     self.buttonTwo.hidden = YES;
     self.buttonThree.hidden = YES;
     self.buttonFour.hidden = YES;
+    NSString* imageName = @"";
     switch (state) {
         case 0:
             self.buttonOne.hidden = NO;
-            [self.stageImg setImage:IMAGENAMED(@"order_icon_pay")];
+            if (0 == type ||
+                1 == type)
+            {
+                imageName = @"order_icon_pay";
+            }
             break;
             
         case 1:
             self.buttonTwo.hidden = NO;
             if (0 == type)
             {
-                [self.stageImg setImage:IMAGENAMED(@"order_icon_shouhuo")];
+                imageName = @"order_icon_shouhuo";
             }
-            else
+            else if (1 == type)
             {
-                [self.stageImg setImage:IMAGENAMED(@"order_icon_shigong")];
+                imageName = @"order_icon_shigong";
             }
             break;
             
         case 2:
             self.buttonThree.hidden = NO;
-            [self.stageImg setImage:IMAGENAMED(@"order_icon_recommend")];
+            if (0 == type ||
+                1 == type)
+            {
+                imageName = @"order_icon_recommend";
+            }
             break;
             
         case 3:
             self.buttonFour.hidden = NO;
-            [self.stageImg setImage:IMAGENAMED(@"order_icon_gou2")];
+            if (0 == type ||
+                1 == type)
+            {
+                imageName = @"order_icon_gou2";
+            }
             break;
             
         default:
             break;
     }
+    [self.stageImg setImage:IMAGENAMED(imageName)];
 }
 @end

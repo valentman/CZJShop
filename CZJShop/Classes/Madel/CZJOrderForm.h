@@ -168,3 +168,15 @@
 @property (strong, nonatomic)NSString* orderItemPid;
 @property (strong, nonatomic)NSString* returnStatus;
 @end
+
+@interface CZJReturnedOrderDetailForm : NSObject
+@property (strong, nonatomic)NSString* orderItemPid;
+@property (strong, nonatomic)NSString* orderNo;
+@property (strong, nonatomic)NSArray* returnImgs;
+@property (strong, nonatomic)NSString* returnMoney;
+@property (strong, nonatomic)NSString* returnNote;
+@property (strong, nonatomic)NSString* returnReason;
+@property (strong, nonatomic)NSString* returnStatus;
+@property (strong, nonatomic)NSString* returnTime;
+@property (strong, nonatomic)NSString* returnType;
+@end
