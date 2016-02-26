@@ -110,3 +110,26 @@
 
 
 @end
+
+@implementation UIView (SubView)
+- (void)removeAllSubViews
+{
+    NSArray* childrens = [self subviews];
+    for (UIView* subView in childrens)
+    {
+        [subView removeFromSuperview];
+    }
+}
+
+- (void)removeAllSubViewsExceptView:(UIView*)exceptView
+{
+    NSArray* childrens = [self subviews];
+    for (UIView* subView in childrens)
+    {
+        if (exceptView != subView)
+        {
+            [subView removeFromSuperview];
+        }
+    }
+}
+@end

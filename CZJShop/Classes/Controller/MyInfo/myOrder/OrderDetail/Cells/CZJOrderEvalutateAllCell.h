@@ -9,8 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface CZJOrderEvalutateAllCell : CZJTableViewCell
-@property (weak, nonatomic) IBOutlet CZJStarRageView *descView;
-@property (weak, nonatomic) IBOutlet CZJStarRageView *evirView;
-@property (weak, nonatomic) IBOutlet CZJStarRageView *serviceView;
+@property (strong, nonatomic) IBOutlet CZJStarRageView *descView;
+@property (strong, nonatomic) IBOutlet CZJStarRageView *evirView;
+@property (strong, nonatomic) IBOutlet CZJStarRageView *serviceView;
 
 @end

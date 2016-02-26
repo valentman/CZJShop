@@ -12,8 +12,8 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    CZJStarRageView* starView = [[CZJStarRageView alloc]initWithFrame:self.starView.frame starCount:5];;
-    [self.contentView addSubview:starView];
+    _starView = [[CZJStarRageView alloc]initWithFrame:self.starView.frame starCount:5];;
+    [self.contentView addSubview:_starView];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

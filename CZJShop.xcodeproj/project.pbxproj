@@ -722,6 +722,45 @@
 		ECD5F0FD1C2D66C7002012F7 /* CZJChoosedProductCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = ECD5F0FB1C2D66C7002012F7 /* CZJChoosedProductCell.xib */; };
 		ECD5F1001C2D6C0D002012F7 /* CZJChooseProductTypeController.m in Sources */ = {isa = PBXBuildFile; fileRef = ECD5F0FF1C2D6C0D002012F7 /* CZJChooseProductTypeController.m */; };
 		ECD5F1031C2D6CDF002012F7 /* CZJReceiveCouponsController.m in Sources */ = {isa = PBXBuildFile; fileRef = ECD5F1021C2D6CDF002012F7 /* CZJReceiveCouponsController.m */; };
+		ECD6FF7E1C800043005F8E52 /* GTM_Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = ECD6FF2D1C800043005F8E52 /* GTM_Base64.m */; settings = {ASSET_TAGS = (); }; };
+		ECD6FF7F1C800043005F8E52 /* QNALAssetFile.m in Sources */ = {isa = PBXBuildFile; fileRef = ECD6FF2F1C800043005F8E52 /* QNALAssetFile.m */; settings = {ASSET_TAGS = (); }; };
+		ECD6FF801C800043005F8E52 /* QNAsyncRun.m in Sources */ = {isa = PBXBuildFile; fileRef = ECD6FF311C800043005F8E52 /* QNAsyncRun.m */; settings = {ASSET_TAGS = (); }; };
+		ECD6FF811C800043005F8E52 /* QNCrc32.m in Sources */ = {isa = PBXBuildFile; fileRef = ECD6FF331C800043005F8E52 /* QNCrc32.m */; settings = {ASSET_TAGS = (); }; };
+		ECD6FF821C800043005F8E52 /* QNDnsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = ECD6FF351C800043005F8E52 /* QNDnsManager.m */; settings = {ASSET_TAGS = (); }; };
+		ECD6FF831C800043005F8E52 /* QNDomain.m in Sources */ = {isa = PBXBuildFile; fileRef = ECD6FF371C800043005F8E52 /* QNDomain.m */; settings = {ASSET_TAGS = (); }; };
+		ECD6FF841C800043005F8E52 /* QNEtag.m in Sources */ = {isa = PBXBuildFile; fileRef = ECD6FF391C800043005F8E52 /* QNEtag.m */; settings = {ASSET_TAGS = (); }; };
+		ECD6FF851C800043005F8E52 /* QNFile.m in Sources */ = {isa = PBXBuildFile; fileRef = ECD6FF3B1C800043005F8E52 /* QNFile.m */; settings = {ASSET_TAGS = (); }; };
+		ECD6FF861C800043005F8E52 /* QNNetworkInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = ECD6FF3E1C800043005F8E52 /* QNNetworkInfo.m */; settings = {ASSET_TAGS = (); }; };
+		ECD6FF871C800043005F8E52 /* QNPHAssetFile.m in Sources */ = {isa = PBXBuildFile; fileRef = ECD6FF401C800043005F8E52 /* QNPHAssetFile.m */; settings = {ASSET_TAGS = (); }; };
+		ECD6FF881C800043005F8E52 /* QNRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = ECD6FF421C800043005F8E52 /* QNRecord.m */; settings = {ASSET_TAGS = (); }; };
+		ECD6FF891C800043005F8E52 /* QNSystem.m in Sources */ = {isa = PBXBuildFile; fileRef = ECD6FF451C800043005F8E52 /* QNSystem.m */; settings = {ASSET_TAGS = (); }; };
+		ECD6FF8A1C800043005F8E52 /* QNUrlSafeBase64.m in Sources */ = {isa = PBXBuildFile; fileRef = ECD6FF471C800043005F8E52 /* QNUrlSafeBase64.m */; settings = {ASSET_TAGS = (); }; };
+		ECD6FF8B1C800043005F8E52 /* QNDns.m in Sources */ = {isa = PBXBuildFile; fileRef = ECD6FF4C1C800043005F8E52 /* QNDns.m */; settings = {ASSET_TAGS = (); }; };
+		ECD6FF8C1C800043005F8E52 /* QNDnspodEnterprise.m in Sources */ = {isa = PBXBuildFile; fileRef = ECD6FF4E1C800043005F8E52 /* QNDnspodEnterprise.m */; settings = {ASSET_TAGS = (); }; };
+		ECD6FF8D1C800043005F8E52 /* QNDnspodFree.m in Sources */ = {isa = PBXBuildFile; fileRef = ECD6FF501C800043005F8E52 /* QNDnspodFree.m */; settings = {ASSET_TAGS = (); }; };
+		ECD6FF8E1C800043005F8E52 /* QNHttpManager.m in Sources */ = {isa = PBXBuildFile; fileRef = ECD6FF531C800043005F8E52 /* QNHttpManager.m */; settings = {ASSET_TAGS = (); }; };
+		ECD6FF8F1C800043005F8E52 /* QNResponseInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = ECD6FF551C800043005F8E52 /* QNResponseInfo.m */; settings = {ASSET_TAGS = (); }; };
+		ECD6FF901C800043005F8E52 /* QNSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = ECD6FF571C800043005F8E52 /* QNSessionManager.m */; settings = {ASSET_TAGS = (); }; };
+		ECD6FF911C800043005F8E52 /* QNStats.m in Sources */ = {isa = PBXBuildFile; fileRef = ECD6FF591C800043005F8E52 /* QNStats.m */; settings = {ASSET_TAGS = (); }; };
+		ECD6FF921C800043005F8E52 /* QNUserAgent.m in Sources */ = {isa = PBXBuildFile; fileRef = ECD6FF5B1C800043005F8E52 /* QNUserAgent.m */; settings = {ASSET_TAGS = (); }; };
+		ECD6FF931C800043005F8E52 /* QNHijackingDetectWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = ECD6FF5E1C800043005F8E52 /* QNHijackingDetectWrapper.m */; settings = {ASSET_TAGS = (); }; };
+		ECD6FF941C800043005F8E52 /* QNHosts.m in Sources */ = {isa = PBXBuildFile; fileRef = ECD6FF601C800043005F8E52 /* QNHosts.m */; settings = {ASSET_TAGS = (); }; };
+		ECD6FF951C800043005F8E52 /* QNResolver.m in Sources */ = {isa = PBXBuildFile; fileRef = ECD6FF621C800043005F8E52 /* QNResolver.m */; settings = {ASSET_TAGS = (); }; };
+		ECD6FF961C800043005F8E52 /* QNReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = ECD6FF661C800043005F8E52 /* QNReachability.m */; settings = {ASSET_TAGS = (); }; };
+		ECD6FF971C800043005F8E52 /* QNFileRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = ECD6FF691C800043005F8E52 /* QNFileRecorder.m */; settings = {ASSET_TAGS = (); }; };
+		ECD6FF981C800043005F8E52 /* QNConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = ECD6FF6D1C800043005F8E52 /* QNConfiguration.m */; settings = {ASSET_TAGS = (); }; };
+		ECD6FF991C800043005F8E52 /* QNFormUpload.m in Sources */ = {isa = PBXBuildFile; fileRef = ECD6FF6F1C800043005F8E52 /* QNFormUpload.m */; settings = {ASSET_TAGS = (); }; };
+		ECD6FF9A1C800043005F8E52 /* QNResumeUpload.m in Sources */ = {isa = PBXBuildFile; fileRef = ECD6FF711C800043005F8E52 /* QNResumeUpload.m */; settings = {ASSET_TAGS = (); }; };
+		ECD6FF9B1C800043005F8E52 /* QNUploadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = ECD6FF731C800043005F8E52 /* QNUploadManager.m */; settings = {ASSET_TAGS = (); }; };
+		ECD6FF9C1C800043005F8E52 /* QNUploadOption.m in Sources */ = {isa = PBXBuildFile; fileRef = ECD6FF761C800043005F8E52 /* QNUploadOption.m */; settings = {ASSET_TAGS = (); }; };
+		ECD6FF9D1C800043005F8E52 /* QNUpToken.m in Sources */ = {isa = PBXBuildFile; fileRef = ECD6FF781C800043005F8E52 /* QNUpToken.m */; settings = {ASSET_TAGS = (); }; };
+		ECD6FF9E1C800043005F8E52 /* QNDes.m in Sources */ = {isa = PBXBuildFile; fileRef = ECD6FF7B1C800043005F8E52 /* QNDes.m */; settings = {ASSET_TAGS = (); }; };
+		ECD6FF9F1C800043005F8E52 /* QNHex.m in Sources */ = {isa = PBXBuildFile; fileRef = ECD6FF7D1C800043005F8E52 /* QNHex.m */; settings = {ASSET_TAGS = (); }; };
+		ECD6FFA11C8000F2005F8E52 /* libresolv.9.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = ECD6FFA01C8000F2005F8E52 /* libresolv.9.tbd */; };
+		ECD6FFA41C802001005F8E52 /* CZJEvaluateForm.m in Sources */ = {isa = PBXBuildFile; fileRef = ECD6FFA31C802001005F8E52 /* CZJEvaluateForm.m */; settings = {ASSET_TAGS = (); }; };
+		ECD6FFA91C804C9C005F8E52 /* CZJDeletableImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = ECD6FFA81C804C9C005F8E52 /* CZJDeletableImageView.m */; settings = {ASSET_TAGS = (); }; };
+		ECD6FFAC1C805289005F8E52 /* commit_icon_del@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = ECD6FFAA1C805289005F8E52 /* commit_icon_del@2x.png */; settings = {ASSET_TAGS = (); }; };
+		ECD6FFAD1C805289005F8E52 /* commit_icon_del@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = ECD6FFAB1C805289005F8E52 /* commit_icon_del@3x.png */; settings = {ASSET_TAGS = (); }; };
 		ECDB5DCB1BFADB0500882BB2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = ECDB5DCA1BFADB0500882BB2 /* main.m */; };
 		ECDB5DCE1BFADB0500882BB2 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = ECDB5DCD1BFADB0500882BB2 /* AppDelegate.m */; };
 		ECDB5DD41BFADB0500882BB2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ECDB5DD21BFADB0500882BB2 /* Main.storyboard */; };
@@ -2036,6 +2075,90 @@
 		ECD5F0FF1C2D6C0D002012F7 /* CZJChooseProductTypeController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJChooseProductTypeController.m; sourceTree = "<group>"; };
 		ECD5F1011C2D6CDF002012F7 /* CZJReceiveCouponsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJReceiveCouponsController.h; sourceTree = "<group>"; };
 		ECD5F1021C2D6CDF002012F7 /* CZJReceiveCouponsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJReceiveCouponsController.m; sourceTree = "<group>"; };
+		ECD6FF2C1C800043005F8E52 /* GTM_Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTM_Base64.h; sourceTree = "<group>"; };
+		ECD6FF2D1C800043005F8E52 /* GTM_Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTM_Base64.m; sourceTree = "<group>"; };
+		ECD6FF2E1C800043005F8E52 /* QNALAssetFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QNALAssetFile.h; sourceTree = "<group>"; };
+		ECD6FF2F1C800043005F8E52 /* QNALAssetFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QNALAssetFile.m; sourceTree = "<group>"; };
+		ECD6FF301C800043005F8E52 /* QNAsyncRun.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QNAsyncRun.h; sourceTree = "<group>"; };
+		ECD6FF311C800043005F8E52 /* QNAsyncRun.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QNAsyncRun.m; sourceTree = "<group>"; };
+		ECD6FF321C800043005F8E52 /* QNCrc32.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QNCrc32.h; sourceTree = "<group>"; };
+		ECD6FF331C800043005F8E52 /* QNCrc32.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QNCrc32.m; sourceTree = "<group>"; };
+		ECD6FF341C800043005F8E52 /* QNDnsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QNDnsManager.h; sourceTree = "<group>"; };
+		ECD6FF351C800043005F8E52 /* QNDnsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QNDnsManager.m; sourceTree = "<group>"; };
+		ECD6FF361C800043005F8E52 /* QNDomain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QNDomain.h; sourceTree = "<group>"; };
+		ECD6FF371C800043005F8E52 /* QNDomain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QNDomain.m; sourceTree = "<group>"; };
+		ECD6FF381C800043005F8E52 /* QNEtag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QNEtag.h; sourceTree = "<group>"; };
+		ECD6FF391C800043005F8E52 /* QNEtag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QNEtag.m; sourceTree = "<group>"; };
+		ECD6FF3A1C800043005F8E52 /* QNFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QNFile.h; sourceTree = "<group>"; };
+		ECD6FF3B1C800043005F8E52 /* QNFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QNFile.m; sourceTree = "<group>"; };
+		ECD6FF3C1C800043005F8E52 /* QNFileDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QNFileDelegate.h; sourceTree = "<group>"; };
+		ECD6FF3D1C800043005F8E52 /* QNNetworkInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QNNetworkInfo.h; sourceTree = "<group>"; };
+		ECD6FF3E1C800043005F8E52 /* QNNetworkInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QNNetworkInfo.m; sourceTree = "<group>"; };
+		ECD6FF3F1C800043005F8E52 /* QNPHAssetFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QNPHAssetFile.h; sourceTree = "<group>"; };
+		ECD6FF401C800043005F8E52 /* QNPHAssetFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QNPHAssetFile.m; sourceTree = "<group>"; };
+		ECD6FF411C800043005F8E52 /* QNRecord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QNRecord.h; sourceTree = "<group>"; };
+		ECD6FF421C800043005F8E52 /* QNRecord.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QNRecord.m; sourceTree = "<group>"; };
+		ECD6FF431C800043005F8E52 /* QNResolverDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QNResolverDelegate.h; sourceTree = "<group>"; };
+		ECD6FF441C800043005F8E52 /* QNSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QNSystem.h; sourceTree = "<group>"; };
+		ECD6FF451C800043005F8E52 /* QNSystem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QNSystem.m; sourceTree = "<group>"; };
+		ECD6FF461C800043005F8E52 /* QNUrlSafeBase64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QNUrlSafeBase64.h; sourceTree = "<group>"; };
+		ECD6FF471C800043005F8E52 /* QNUrlSafeBase64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QNUrlSafeBase64.m; sourceTree = "<group>"; };
+		ECD6FF481C800043005F8E52 /* QNVersion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QNVersion.h; sourceTree = "<group>"; };
+		ECD6FF491C800043005F8E52 /* HappyDNS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HappyDNS.h; sourceTree = "<group>"; };
+		ECD6FF4B1C800043005F8E52 /* QNDns.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QNDns.h; sourceTree = "<group>"; };
+		ECD6FF4C1C800043005F8E52 /* QNDns.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QNDns.m; sourceTree = "<group>"; };
+		ECD6FF4D1C800043005F8E52 /* QNDnspodEnterprise.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QNDnspodEnterprise.h; sourceTree = "<group>"; };
+		ECD6FF4E1C800043005F8E52 /* QNDnspodEnterprise.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QNDnspodEnterprise.m; sourceTree = "<group>"; };
+		ECD6FF4F1C800043005F8E52 /* QNDnspodFree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QNDnspodFree.h; sourceTree = "<group>"; };
+		ECD6FF501C800043005F8E52 /* QNDnspodFree.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QNDnspodFree.m; sourceTree = "<group>"; };
+		ECD6FF511C800043005F8E52 /* QNHttpDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QNHttpDelegate.h; sourceTree = "<group>"; };
+		ECD6FF521C800043005F8E52 /* QNHttpManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QNHttpManager.h; sourceTree = "<group>"; };
+		ECD6FF531C800043005F8E52 /* QNHttpManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QNHttpManager.m; sourceTree = "<group>"; };
+		ECD6FF541C800043005F8E52 /* QNResponseInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QNResponseInfo.h; sourceTree = "<group>"; };
+		ECD6FF551C800043005F8E52 /* QNResponseInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QNResponseInfo.m; sourceTree = "<group>"; };
+		ECD6FF561C800043005F8E52 /* QNSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QNSessionManager.h; sourceTree = "<group>"; };
+		ECD6FF571C800043005F8E52 /* QNSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QNSessionManager.m; sourceTree = "<group>"; };
+		ECD6FF581C800043005F8E52 /* QNStats.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QNStats.h; sourceTree = "<group>"; };
+		ECD6FF591C800043005F8E52 /* QNStats.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QNStats.m; sourceTree = "<group>"; };
+		ECD6FF5A1C800043005F8E52 /* QNUserAgent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QNUserAgent.h; sourceTree = "<group>"; };
+		ECD6FF5B1C800043005F8E52 /* QNUserAgent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QNUserAgent.m; sourceTree = "<group>"; };
+		ECD6FF5D1C800043005F8E52 /* QNHijackingDetectWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QNHijackingDetectWrapper.h; sourceTree = "<group>"; };
+		ECD6FF5E1C800043005F8E52 /* QNHijackingDetectWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QNHijackingDetectWrapper.m; sourceTree = "<group>"; };
+		ECD6FF5F1C800043005F8E52 /* QNHosts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QNHosts.h; sourceTree = "<group>"; };
+		ECD6FF601C800043005F8E52 /* QNHosts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QNHosts.m; sourceTree = "<group>"; };
+		ECD6FF611C800043005F8E52 /* QNResolver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QNResolver.h; sourceTree = "<group>"; };
+		ECD6FF621C800043005F8E52 /* QNResolver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QNResolver.m; sourceTree = "<group>"; };
+		ECD6FF631C800043005F8E52 /* QiniuSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QiniuSDK.h; sourceTree = "<group>"; };
+		ECD6FF651C800043005F8E52 /* QNReachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QNReachability.h; sourceTree = "<group>"; };
+		ECD6FF661C800043005F8E52 /* QNReachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QNReachability.m; sourceTree = "<group>"; };
+		ECD6FF681C800043005F8E52 /* QNFileRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QNFileRecorder.h; sourceTree = "<group>"; };
+		ECD6FF691C800043005F8E52 /* QNFileRecorder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QNFileRecorder.m; sourceTree = "<group>"; };
+		ECD6FF6A1C800043005F8E52 /* QNRecorderDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QNRecorderDelegate.h; sourceTree = "<group>"; };
+		ECD6FF6C1C800043005F8E52 /* QNConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QNConfiguration.h; sourceTree = "<group>"; };
+		ECD6FF6D1C800043005F8E52 /* QNConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QNConfiguration.m; sourceTree = "<group>"; };
+		ECD6FF6E1C800043005F8E52 /* QNFormUpload.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QNFormUpload.h; sourceTree = "<group>"; };
+		ECD6FF6F1C800043005F8E52 /* QNFormUpload.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QNFormUpload.m; sourceTree = "<group>"; };
+		ECD6FF701C800043005F8E52 /* QNResumeUpload.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QNResumeUpload.h; sourceTree = "<group>"; };
+		ECD6FF711C800043005F8E52 /* QNResumeUpload.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QNResumeUpload.m; sourceTree = "<group>"; };
+		ECD6FF721C800043005F8E52 /* QNUploadManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QNUploadManager.h; sourceTree = "<group>"; };
+		ECD6FF731C800043005F8E52 /* QNUploadManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QNUploadManager.m; sourceTree = "<group>"; };
+		ECD6FF741C800043005F8E52 /* QNUploadOption+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "QNUploadOption+Private.h"; sourceTree = "<group>"; };
+		ECD6FF751C800043005F8E52 /* QNUploadOption.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QNUploadOption.h; sourceTree = "<group>"; };
+		ECD6FF761C800043005F8E52 /* QNUploadOption.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QNUploadOption.m; sourceTree = "<group>"; };
+		ECD6FF771C800043005F8E52 /* QNUpToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QNUpToken.h; sourceTree = "<group>"; };
+		ECD6FF781C800043005F8E52 /* QNUpToken.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QNUpToken.m; sourceTree = "<group>"; };
+		ECD6FF7A1C800043005F8E52 /* QNDes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QNDes.h; sourceTree = "<group>"; };
+		ECD6FF7B1C800043005F8E52 /* QNDes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QNDes.m; sourceTree = "<group>"; };
+		ECD6FF7C1C800043005F8E52 /* QNHex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QNHex.h; sourceTree = "<group>"; };
+		ECD6FF7D1C800043005F8E52 /* QNHex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QNHex.m; sourceTree = "<group>"; };
+		ECD6FFA01C8000F2005F8E52 /* libresolv.9.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libresolv.9.tbd; path = usr/lib/libresolv.9.tbd; sourceTree = SDKROOT; };
+		ECD6FFA21C802001005F8E52 /* CZJEvaluateForm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJEvaluateForm.h; sourceTree = "<group>"; };
+		ECD6FFA31C802001005F8E52 /* CZJEvaluateForm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJEvaluateForm.m; sourceTree = "<group>"; };
+		ECD6FFA61C802B65005F8E52 /* CZJForm.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CZJForm.h; sourceTree = "<group>"; };
+		ECD6FFA71C804C9C005F8E52 /* CZJDeletableImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJDeletableImageView.h; sourceTree = "<group>"; };
+		ECD6FFA81C804C9C005F8E52 /* CZJDeletableImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJDeletableImageView.m; sourceTree = "<group>"; };
+		ECD6FFAA1C805289005F8E52 /* commit_icon_del@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "commit_icon_del@2x.png"; sourceTree = "<group>"; };
+		ECD6FFAB1C805289005F8E52 /* commit_icon_del@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "commit_icon_del@3x.png"; sourceTree = "<group>"; };
 		ECDB5DC61BFADB0500882BB2 /* CZJShop.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CZJShop.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ECDB5DCA1BFADB0500882BB2 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		ECDB5DCC1BFADB0500882BB2 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -2348,6 +2471,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ECD6FFA11C8000F2005F8E52 /* libresolv.9.tbd in Frameworks */,
 				EC28E2DA1C152F72003423F9 /* libicucore.A.tbd in Frameworks */,
 				EC28E2D81C152F21003423F9 /* libstdc++.6.0.9.tbd in Frameworks */,
 				ECC4DDBA1C17D67B00FBD6A4 /* MAMapKit.framework in Frameworks */,
@@ -2425,6 +2549,8 @@
 				EC8CB5FD1C60D96500CCE27F /* CZJStarRageView.m */,
 				ECD3D4311C730A1D00C230BE /* CZJTextView.h */,
 				ECD3D4321C730A1D00C230BE /* CZJTextView.m */,
+				ECD6FFA71C804C9C005F8E52 /* CZJDeletableImageView.h */,
+				ECD6FFA81C804C9C005F8E52 /* CZJDeletableImageView.m */,
 			);
 			path = Conponets;
 			sourceTree = "<group>";
@@ -2662,6 +2788,7 @@
 		EC10E6751BFC24C800CDBFCD /* Madel */ = {
 			isa = PBXGroup;
 			children = (
+				ECD6FFA61C802B65005F8E52 /* CZJForm.h */,
 				ECE3D65A1BFDA23200C63712 /* HomeForm.h */,
 				ECE3D65B1BFDA23200C63712 /* HomeForm.m */,
 				EC10E69C1BFC6B3C00CDBFCD /* StartPageForm.h */,
@@ -2692,6 +2819,8 @@
 				EC4997081C756DEA007B0936 /* CZJMyCardInfoForm.m */,
 				EC296B121C7807DF00D9D473 /* CZJGoodsDetailForm.h */,
 				EC296B131C7807DF00D9D473 /* CZJGoodsDetailForm.m */,
+				ECD6FFA21C802001005F8E52 /* CZJEvaluateForm.h */,
+				ECD6FFA31C802001005F8E52 /* CZJEvaluateForm.m */,
 			);
 			name = Madel;
 			path = Classes/Madel;
@@ -3261,6 +3390,7 @@
 		ECC4DBDF1C17D67A00FBD6A4 /* ThirdSDK */ = {
 			isa = PBXGroup;
 			children = (
+				ECD6FF2A1C800043005F8E52 /* QiniuSDK */,
 				EC1E43E01C40A76F006CC23C /* SVPullToRefresh */,
 				EC1E43DA1C40A214006CC23C /* KMCGeigerCounter */,
 				EC5CCDB91C3CB27E00D4D8B6 /* GKHLocationPicker */,
@@ -4055,9 +4185,149 @@
 			path = ServiceDetail;
 			sourceTree = "<group>";
 		};
+		ECD6FF2A1C800043005F8E52 /* QiniuSDK */ = {
+			isa = PBXGroup;
+			children = (
+				ECD6FF491C800043005F8E52 /* HappyDNS.h */,
+				ECD6FF631C800043005F8E52 /* QiniuSDK.h */,
+				ECD6FF2B1C800043005F8E52 /* Common */,
+				ECD6FF4A1C800043005F8E52 /* Http */,
+				ECD6FF5C1C800043005F8E52 /* Local */,
+				ECD6FF641C800043005F8E52 /* QNReachability */,
+				ECD6FF671C800043005F8E52 /* Recorder */,
+				ECD6FF6B1C800043005F8E52 /* Storage */,
+				ECD6FF791C800043005F8E52 /* Util */,
+			);
+			path = QiniuSDK;
+			sourceTree = "<group>";
+		};
+		ECD6FF2B1C800043005F8E52 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				ECD6FF2C1C800043005F8E52 /* GTM_Base64.h */,
+				ECD6FF2D1C800043005F8E52 /* GTM_Base64.m */,
+				ECD6FF2E1C800043005F8E52 /* QNALAssetFile.h */,
+				ECD6FF2F1C800043005F8E52 /* QNALAssetFile.m */,
+				ECD6FF301C800043005F8E52 /* QNAsyncRun.h */,
+				ECD6FF311C800043005F8E52 /* QNAsyncRun.m */,
+				ECD6FF321C800043005F8E52 /* QNCrc32.h */,
+				ECD6FF331C800043005F8E52 /* QNCrc32.m */,
+				ECD6FF341C800043005F8E52 /* QNDnsManager.h */,
+				ECD6FF351C800043005F8E52 /* QNDnsManager.m */,
+				ECD6FF361C800043005F8E52 /* QNDomain.h */,
+				ECD6FF371C800043005F8E52 /* QNDomain.m */,
+				ECD6FF381C800043005F8E52 /* QNEtag.h */,
+				ECD6FF391C800043005F8E52 /* QNEtag.m */,
+				ECD6FF3A1C800043005F8E52 /* QNFile.h */,
+				ECD6FF3B1C800043005F8E52 /* QNFile.m */,
+				ECD6FF3C1C800043005F8E52 /* QNFileDelegate.h */,
+				ECD6FF3D1C800043005F8E52 /* QNNetworkInfo.h */,
+				ECD6FF3E1C800043005F8E52 /* QNNetworkInfo.m */,
+				ECD6FF3F1C800043005F8E52 /* QNPHAssetFile.h */,
+				ECD6FF401C800043005F8E52 /* QNPHAssetFile.m */,
+				ECD6FF411C800043005F8E52 /* QNRecord.h */,
+				ECD6FF421C800043005F8E52 /* QNRecord.m */,
+				ECD6FF431C800043005F8E52 /* QNResolverDelegate.h */,
+				ECD6FF441C800043005F8E52 /* QNSystem.h */,
+				ECD6FF451C800043005F8E52 /* QNSystem.m */,
+				ECD6FF461C800043005F8E52 /* QNUrlSafeBase64.h */,
+				ECD6FF471C800043005F8E52 /* QNUrlSafeBase64.m */,
+				ECD6FF481C800043005F8E52 /* QNVersion.h */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
+		ECD6FF4A1C800043005F8E52 /* Http */ = {
+			isa = PBXGroup;
+			children = (
+				ECD6FF4B1C800043005F8E52 /* QNDns.h */,
+				ECD6FF4C1C800043005F8E52 /* QNDns.m */,
+				ECD6FF4D1C800043005F8E52 /* QNDnspodEnterprise.h */,
+				ECD6FF4E1C800043005F8E52 /* QNDnspodEnterprise.m */,
+				ECD6FF4F1C800043005F8E52 /* QNDnspodFree.h */,
+				ECD6FF501C800043005F8E52 /* QNDnspodFree.m */,
+				ECD6FF511C800043005F8E52 /* QNHttpDelegate.h */,
+				ECD6FF521C800043005F8E52 /* QNHttpManager.h */,
+				ECD6FF531C800043005F8E52 /* QNHttpManager.m */,
+				ECD6FF541C800043005F8E52 /* QNResponseInfo.h */,
+				ECD6FF551C800043005F8E52 /* QNResponseInfo.m */,
+				ECD6FF561C800043005F8E52 /* QNSessionManager.h */,
+				ECD6FF571C800043005F8E52 /* QNSessionManager.m */,
+				ECD6FF581C800043005F8E52 /* QNStats.h */,
+				ECD6FF591C800043005F8E52 /* QNStats.m */,
+				ECD6FF5A1C800043005F8E52 /* QNUserAgent.h */,
+				ECD6FF5B1C800043005F8E52 /* QNUserAgent.m */,
+			);
+			path = Http;
+			sourceTree = "<group>";
+		};
+		ECD6FF5C1C800043005F8E52 /* Local */ = {
+			isa = PBXGroup;
+			children = (
+				ECD6FF5D1C800043005F8E52 /* QNHijackingDetectWrapper.h */,
+				ECD6FF5E1C800043005F8E52 /* QNHijackingDetectWrapper.m */,
+				ECD6FF5F1C800043005F8E52 /* QNHosts.h */,
+				ECD6FF601C800043005F8E52 /* QNHosts.m */,
+				ECD6FF611C800043005F8E52 /* QNResolver.h */,
+				ECD6FF621C800043005F8E52 /* QNResolver.m */,
+			);
+			path = Local;
+			sourceTree = "<group>";
+		};
+		ECD6FF641C800043005F8E52 /* QNReachability */ = {
+			isa = PBXGroup;
+			children = (
+				ECD6FF651C800043005F8E52 /* QNReachability.h */,
+				ECD6FF661C800043005F8E52 /* QNReachability.m */,
+			);
+			path = QNReachability;
+			sourceTree = "<group>";
+		};
+		ECD6FF671C800043005F8E52 /* Recorder */ = {
+			isa = PBXGroup;
+			children = (
+				ECD6FF681C800043005F8E52 /* QNFileRecorder.h */,
+				ECD6FF691C800043005F8E52 /* QNFileRecorder.m */,
+				ECD6FF6A1C800043005F8E52 /* QNRecorderDelegate.h */,
+			);
+			path = Recorder;
+			sourceTree = "<group>";
+		};
+		ECD6FF6B1C800043005F8E52 /* Storage */ = {
+			isa = PBXGroup;
+			children = (
+				ECD6FF6C1C800043005F8E52 /* QNConfiguration.h */,
+				ECD6FF6D1C800043005F8E52 /* QNConfiguration.m */,
+				ECD6FF6E1C800043005F8E52 /* QNFormUpload.h */,
+				ECD6FF6F1C800043005F8E52 /* QNFormUpload.m */,
+				ECD6FF701C800043005F8E52 /* QNResumeUpload.h */,
+				ECD6FF711C800043005F8E52 /* QNResumeUpload.m */,
+				ECD6FF721C800043005F8E52 /* QNUploadManager.h */,
+				ECD6FF731C800043005F8E52 /* QNUploadManager.m */,
+				ECD6FF741C800043005F8E52 /* QNUploadOption+Private.h */,
+				ECD6FF751C800043005F8E52 /* QNUploadOption.h */,
+				ECD6FF761C800043005F8E52 /* QNUploadOption.m */,
+				ECD6FF771C800043005F8E52 /* QNUpToken.h */,
+				ECD6FF781C800043005F8E52 /* QNUpToken.m */,
+			);
+			path = Storage;
+			sourceTree = "<group>";
+		};
+		ECD6FF791C800043005F8E52 /* Util */ = {
+			isa = PBXGroup;
+			children = (
+				ECD6FF7A1C800043005F8E52 /* QNDes.h */,
+				ECD6FF7B1C800043005F8E52 /* QNDes.m */,
+				ECD6FF7C1C800043005F8E52 /* QNHex.h */,
+				ECD6FF7D1C800043005F8E52 /* QNHex.m */,
+			);
+			path = Util;
+			sourceTree = "<group>";
+		};
 		ECDB5DBD1BFADB0500882BB2 = {
 			isa = PBXGroup;
 			children = (
+				ECD6FFA01C8000F2005F8E52 /* libresolv.9.tbd */,
 				ECDB5DC81BFADB0500882BB2 /* CZJShop */,
 				ECDB5DC71BFADB0500882BB2 /* Products */,
 			);
@@ -4266,6 +4536,8 @@
 		ECDB61901BFB554300882BB2 /* Other */ = {
 			isa = PBXGroup;
 			children = (
+				ECD6FFAA1C805289005F8E52 /* commit_icon_del@2x.png */,
+				ECD6FFAB1C805289005F8E52 /* commit_icon_del@3x.png */,
 				ECFA85CD1C1BC21D009F9177 /* default_icon_car@2x.png */,
 				ECFA85CE1C1BC21D009F9177 /* default_icon_car@3x.png */,
 				EC28E2B41C152BA0003423F9 /* mapres */,
@@ -4838,6 +5110,7 @@
 				ECC4DEDD1C17FEA900FBD6A4 /* prodetail_icon_reply@3x.png in Resources */,
 				ECD3D4131C72D6D000C230BE /* share_icon_qq@3x.png in Resources */,
 				ECC4DE521C17D67B00FBD6A4 /* pop@2x.png in Resources */,
+				ECD6FFAD1C805289005F8E52 /* commit_icon_del@3x.png in Resources */,
 				ECF8E9671C5C6DB300A98707 /* order_icon_wancheng@3x.png in Resources */,
 				EC26A2F81C2A386600B166A3 /* commit_icon_tip@3x.png in Resources */,
 				ECC4DDC81C17D67B00FBD6A4 /* blueArrow@2x.png in Resources */,
@@ -5162,6 +5435,7 @@
 				ECFAFA8E1C5370EB004E1E16 /* car_icon_add@3x.png in Resources */,
 				ECC4DE001C17D67B00FBD6A4 /* wl_map_icon_4@2x.png in Resources */,
 				ECD3D4381C734FD800C230BE /* icon-small-40@2x.png in Resources */,
+				ECD6FFAC1C805289005F8E52 /* commit_icon_del@2x.png in Resources */,
 				EC26A2EE1C2A386600B166A3 /* commit_icon_line@3x.png in Resources */,
 				EC0C937D1C201103002A7FF5 /* CZJEvalutionDescCell.xib in Resources */,
 				ECDB61681BFB551600882BB2 /* all_btn_discovery@2x.png in Resources */,
@@ -5422,6 +5696,8 @@
 				EC0223BF1C59F3B200600851 /* CZJOrderListNoPayController.m in Sources */,
 				ECC4DE421C17D67B00FBD6A4 /* UIImageView+AFNetworking.m in Sources */,
 				EC1FD2431C7C85A900954D1E /* CZJOrderListNoPayButtomView.m in Sources */,
+				ECD6FF9E1C800043005F8E52 /* QNDes.m in Sources */,
+				ECD6FF841C800043005F8E52 /* QNEtag.m in Sources */,
 				EC4521481C5EFFE9003272C3 /* CZJOrderLogisticsCompCell.m in Sources */,
 				EC0F004F1C329D7200F124F8 /* CZJApplicableCarController.m in Sources */,
 				ECC4DE241C17D67B00FBD6A4 /* SDWebImageCompat.m in Sources */,
@@ -5437,6 +5713,7 @@
 				ECC4DE461C17D67B00FBD6A4 /* UUDatePicker.m in Sources */,
 				ECF2DCE01C5767F80096FF39 /* CZJShoppingCartController.m in Sources */,
 				EC10E69B1BFC699000CDBFCD /* CZJErrorCodeManager.m in Sources */,
+				ECD6FF8B1C800043005F8E52 /* QNDns.m in Sources */,
 				ECF2DCB41C5767F80096FF39 /* CZJMyMessageCenterController.m in Sources */,
 				EC0C93811C20112B002A7FF5 /* CZJEvalutionFooterCell.m in Sources */,
 				ECC4DE171C17D67B00FBD6A4 /* MXPullDownCollectionViewCell.m in Sources */,
@@ -5452,10 +5729,12 @@
 				EC0C93641C1FC7C3002A7FF5 /* NIDropDown.m in Sources */,
 				ECF2DCA11C5767F80096FF39 /* CZJMyInfoHeadCell.m in Sources */,
 				ECC4DDA61C17D67B00FBD6A4 /* AFSecurityPolicy.m in Sources */,
+				ECD6FF7F1C800043005F8E52 /* QNALAssetFile.m in Sources */,
 				ECC4DE221C17D67B00FBD6A4 /* NSData+ImageContentType.m in Sources */,
 				ECC4DE2B1C17D67B00FBD6A4 /* UIImage+GIF.m in Sources */,
 				ECC4DDB21C17D67B00FBD6A4 /* DataSigner.m in Sources */,
 				ECB4B60B1C0E8D6800925BCA /* CZJStoreMapController.m in Sources */,
+				ECD6FF911C800043005F8E52 /* QNStats.m in Sources */,
 				EC2518331C22B77500C6754A /* LXDSegmentControl.m in Sources */,
 				ECC4DDF51C17D67B00FBD6A4 /* LocationChange.m in Sources */,
 				ECC4DDC11C17D67B00FBD6A4 /* EGORefreshTableHeaderView.m in Sources */,
@@ -5471,9 +5750,11 @@
 				ECF2DCD41C5767F80096FF39 /* CZJAddDeliveryAddrController.m in Sources */,
 				EC1FD23C1C7C55C700954D1E /* CZJOrderListPayCell.m in Sources */,
 				EC4521591C5F2BF7003272C3 /* CZJOrderBuildingController.m in Sources */,
+				ECD6FF831C800043005F8E52 /* QNDomain.m in Sources */,
 				EC025FC81C21036E00A8085E /* MJRefreshAutoFooter.m in Sources */,
 				ECF2DCDD1C5767F80096FF39 /* CZJShoppingCartHeaderCell.m in Sources */,
 				ECC4DDEB1C17D67B00FBD6A4 /* UIViewController+LJWKeyboardHandlerHelper.m in Sources */,
+				ECD6FF871C800043005F8E52 /* QNPHAssetFile.m in Sources */,
 				EC4521521C5F0CF0003272C3 /* CZJOrderEvalutateAllCell.m in Sources */,
 				EC154CF71C1EBEB50004FAF5 /* CZJServiceFilterController.m in Sources */,
 				ECC4DDCD1C17D67B00FBD6A4 /* UIColor+Hexadecimal.m in Sources */,
@@ -5484,8 +5765,10 @@
 				ECC4DDF41C17D67B00FBD6A4 /* CheckInstalledMapAPP.m in Sources */,
 				EC7801821C251C4F002D52A5 /* CZJGoodsListFilterSubController.m in Sources */,
 				ECD3D4301C7306B300C230BE /* CZJOpinioFeedbackController.m in Sources */,
+				ECD6FF951C800043005F8E52 /* QNResolver.m in Sources */,
 				EC5B86F21C0DBCA0008EC732 /* CZJDiscoverDetailController.m in Sources */,
 				ECF2DCB71C5767F80096FF39 /* CZJMyInfoOrderListController.m in Sources */,
+				ECD6FF8E1C800043005F8E52 /* QNHttpManager.m in Sources */,
 				EC8CB5FE1C60D96500CCE27F /* CZJStarRageView.m in Sources */,
 				ECD3D4361C73206500C230BE /* CZJMyInfoAboutUsController.m in Sources */,
 				ECC4DE4E1C17D67B00FBD6A4 /* payRequsestHandler.mm in Sources */,
@@ -5507,7 +5790,9 @@
 				ECC4DDD11C17D67B00FBD6A4 /* JRSwizzle.m in Sources */,
 				EC5B86D81C0D3295008EC732 /* CZJDiscoverController.m in Sources */,
 				EC10E6981BFC630600CDBFCD /* WGS84TOGCJ02.m in Sources */,
+				ECD6FF9C1C800043005F8E52 /* QNUploadOption.m in Sources */,
 				ECC4DDA21C17D67B00FBD6A4 /* AFHTTPRequestOperation.m in Sources */,
+				ECD6FF901C800043005F8E52 /* QNSessionManager.m in Sources */,
 				EC025FCF1C21036E00A8085E /* MJRefreshAutoStateFooter.m in Sources */,
 				ECF2DCA31C5767F80096FF39 /* CZJMyInfoShoppingCartCell.m in Sources */,
 				EC154CD61C1E6ADA0004FAF5 /* CZJDetailForm.m in Sources */,
@@ -5518,12 +5803,16 @@
 				EC10E6A11BFC6B3C00CDBFCD /* UserBaseForm.m in Sources */,
 				ECD5F1031C2D6CDF002012F7 /* CZJReceiveCouponsController.m in Sources */,
 				EC4521391C5EF872003272C3 /* CZJOrderCarCheckCell.m in Sources */,
+				ECD6FF9A1C800043005F8E52 /* QNResumeUpload.m in Sources */,
 				ECC4DE341C17D67B00FBD6A4 /* SKSTableViewCell.m in Sources */,
 				EC0C93721C200DD7002A7FF5 /* CZJCouponsCell.m in Sources */,
 				EC025FCD1C21036E00A8085E /* MJRefreshAutoGifFooter.m in Sources */,
 				ECF2DCAE1C5767F80096FF39 /* CZJRegisterController.m in Sources */,
+				ECD6FF881C800043005F8E52 /* QNRecord.m in Sources */,
 				ECC4DE4F1C17D67B00FBD6A4 /* WXUtil.mm in Sources */,
+				ECD6FF921C800043005F8E52 /* QNUserAgent.m in Sources */,
 				ECC4DE4A1C17D67B00FBD6A4 /* WebViewJavascriptBridge.m in Sources */,
+				ECD6FFA41C802001005F8E52 /* CZJEvaluateForm.m in Sources */,
 				ECC4DDBF1C17D67B00FBD6A4 /* EasyJSWebView.m in Sources */,
 				EC442B601BFEF5D100DC6F97 /* CZJAdBanerCell.m in Sources */,
 				EC8A0BAA1C005C07002A2CED /* CZJLimitBuyCellHeader.m in Sources */,
@@ -5535,7 +5824,9 @@
 				EC0223B91C59C7BB00600851 /* LSPageScrollView.m in Sources */,
 				ECC4DE281C17D67B00FBD6A4 /* SDWebImageManager.m in Sources */,
 				ECF8E9801C5CAC0600A98707 /* CZJOrderListReturnedController.m in Sources */,
+				ECD6FF861C800043005F8E52 /* QNNetworkInfo.m in Sources */,
 				EC0223C81C59F40900600851 /* CZJOrderListNoEvaController.m in Sources */,
+				ECD6FF7E1C800043005F8E52 /* GTM_Base64.m in Sources */,
 				ECC4DDE81C17D67B00FBD6A4 /* LJWKeyboardToolBar.m in Sources */,
 				EC583A031C48D4AF001401FC /* CZJStoreDetailForm.m in Sources */,
 				ECC4DE0C1C17D67B00FBD6A4 /* NSObject+MJCoding.m in Sources */,
@@ -5549,6 +5840,7 @@
 				EC0223C21C59F3C400600851 /* CZJOrderListNoBuildController.m in Sources */,
 				ECC4DE291C17D67B00FBD6A4 /* SDWebImagePrefetcher.m in Sources */,
 				ECC4DE451C17D67B00FBD6A4 /* UIWebView+AFNetworking.m in Sources */,
+				ECD6FF981C800043005F8E52 /* QNConfiguration.m in Sources */,
 				ECC4DDE71C17D67B00FBD6A4 /* LJWKeyboardHandler.m in Sources */,
 				EC26A3131C2A486A00B166A3 /* CZJShoppingCartForm.m in Sources */,
 				ECF2DCB01C5767F80096FF39 /* CZJMyCarListCell.m in Sources */,
@@ -5573,6 +5865,8 @@
 				ECF2DCAD1C5767F80096FF39 /* CZJLoginController.m in Sources */,
 				EC28E28A1C1521A0003423F9 /* CZJMAAroundAnnotation.m in Sources */,
 				EC154CEF1C1EBEB50004FAF5 /* CZJCarBrandsListCellTableViewCell.m in Sources */,
+				ECD6FF991C800043005F8E52 /* QNFormUpload.m in Sources */,
+				ECD6FF8D1C800043005F8E52 /* QNDnspodFree.m in Sources */,
 				ECC4DE1D1C17D67B00FBD6A4 /* OpenShare+Weibo.m in Sources */,
 				ECF2DCB31C5767F80096FF39 /* CZJMyCarListController.m in Sources */,
 				ECD3D42D1C72F70400C230BE /* ShareMessage.m in Sources */,
@@ -5593,6 +5887,7 @@
 				EC025FF31C21507000A8085E /* PhotoView.m in Sources */,
 				EC1FE7F71C74126E00318505 /* CZJMyWalletCardController.m in Sources */,
 				ECC4DE1F1C17D67B00FBD6A4 /* OpenShare.m in Sources */,
+				ECD6FF9D1C800043005F8E52 /* QNUpToken.m in Sources */,
 				ECC4DDBB1C17D67B00FBD6A4 /* AnimatedGif.m in Sources */,
 				ECFA85D41C1BD3C3009F9177 /* CZJFilterBaseController.m in Sources */,
 				ECC4DDCF1C17D67B00FBD6A4 /* FDAlertView.m in Sources */,
@@ -5613,18 +5908,23 @@
 				ECC4DE3D1C17D67B00FBD6A4 /* SVProgressHUD.m in Sources */,
 				ECC4DE551C17D67B00FBD6A4 /* ZXLocationManager.m in Sources */,
 				EC8A0BAD1C005C34002A2CED /* CZJBrandRecoCellHeader.m in Sources */,
+				ECD6FF891C800043005F8E52 /* QNSystem.m in Sources */,
 				ECC4DE0E1C17D67B00FBD6A4 /* NSObject+MJProperty.m in Sources */,
 				ECF2DCBC1C5767F80096FF39 /* CZJDeliveryAddrCell.m in Sources */,
 				EC45215F1C5F2CAC003272C3 /* CZJOrderCarCheckController.m in Sources */,
 				EC1FD2371C7C343C00954D1E /* CZJPopPayViewController.m in Sources */,
+				ECD6FFA91C804C9C005F8E52 /* CZJDeletableImageView.m in Sources */,
+				ECD6FF941C800043005F8E52 /* QNHosts.m in Sources */,
 				EC5CCDBE1C3CB27E00D4D8B6 /* GKHpickerAddressView.m in Sources */,
 				ECFFB9501C10275E00811C2E /* CZJProvinceForm.m in Sources */,
 				EC442B721BFEF73F00DC6F97 /* CZJGoodsRecommendCell.m in Sources */,
 				EC1FBA4B1C76B945005F26A8 /* CZJAddMyEvalutionController.m in Sources */,
 				ECC4DDB81C17D67B00FBD6A4 /* RSADataVerifier.m in Sources */,
+				ECD6FF8F1C800043005F8E52 /* QNResponseInfo.m in Sources */,
 				ECF2DCDB1C5767F80096FF39 /* CZJShoppingCartCell.m in Sources */,
 				EC1E43E71C40A76F006CC23C /* UIScrollView+SVPullToRefresh.m in Sources */,
 				EC442B5B1BFEF5B100DC6F97 /* CZJMiaoShaCell.m in Sources */,
+				ECD6FF851C800043005F8E52 /* QNFile.m in Sources */,
 				ECC4DDF61C17D67B00FBD6A4 /* LocIsBaidu.m in Sources */,
 				ECB4B6151C0E94EB00925BCA /* CZJStoreCell.m in Sources */,
 				ECC4DDF81C17D67B00FBD6A4 /* RegexKitLite.m in Sources */,
@@ -5635,6 +5935,7 @@
 				EC1E43DE1C40A214006CC23C /* KMCGeigerCounter.m in Sources */,
 				ECF2DCE31C5767F80096FF39 /* CZJMyInfoServiceFeedbackController.m in Sources */,
 				ECE3D6631BFDC8AA00C63712 /* CZJScanQRController.m in Sources */,
+				ECD6FF821C800043005F8E52 /* QNDnsManager.m in Sources */,
 				EC45214D1C5F08CB003272C3 /* CZJOrderEvaluateCell.m in Sources */,
 				ECC4DDEA1C17D67B00FBD6A4 /* UIView+LJWKeyboardHandlerAddtion.m in Sources */,
 				ECF649071C7D4D4D002CD12A /* CZJAlertView.m in Sources */,
@@ -5644,6 +5945,7 @@
 				ECC4DE331C17D67B00FBD6A4 /* SKSTableView.m in Sources */,
 				EC0223B81C59C7BB00600851 /* CZJViewController.m in Sources */,
 				ECF2DCD91C5767F80096FF39 /* CZJLeaveMessageView.m in Sources */,
+				ECD6FF811C800043005F8E52 /* QNCrc32.m in Sources */,
 				EC025FD11C21036E00A8085E /* MJRefreshBackNormalFooter.m in Sources */,
 				EC4997091C756DEA007B0936 /* CZJMyCardInfoForm.m in Sources */,
 				ECF2DCCE1C5767F80096FF39 /* CZJOrderTypeExpandCell.m in Sources */,
@@ -5690,13 +5992,16 @@
 				ECF2DCAF1C5767F80096FF39 /* ServiceProtocol.m in Sources */,
 				ECC4DE0B1C17D67B00FBD6A4 /* MJType.m in Sources */,
 				ECC4DDCE1C17D67B00FBD6A4 /* UIScrollView+EmptyDataSet.m in Sources */,
+				ECD6FF801C800043005F8E52 /* QNAsyncRun.m in Sources */,
 				EC025FD51C21036E00A8085E /* MJRefreshStateHeader.m in Sources */,
 				ECF2DCA81C5767F80096FF39 /* CZJStoreAttentionCell.m in Sources */,
 				ECC4DDB31C17D67B00FBD6A4 /* DataVerifier.m in Sources */,
+				ECD6FF8C1C800043005F8E52 /* QNDnspodEnterprise.m in Sources */,
 				EC154CD91C1EB2D10004FAF5 /* CZJGoodsForm.m in Sources */,
 				ECC4DE0D1C17D67B00FBD6A4 /* NSObject+MJKeyValue.m in Sources */,
 				ECF2DCEA1C5768FB0096FF39 /* CZJOrderListCell.m in Sources */,
 				ECC4DE3E1C17D67B00FBD6A4 /* AFNetworkActivityIndicatorManager.m in Sources */,
+				ECD6FF971C800043005F8E52 /* QNFileRecorder.m in Sources */,
 				EC442B531BFEF55500DC6F97 /* CZJServiceCell.m in Sources */,
 				EC025FF11C21507000A8085E /* CALayer+Anim.m in Sources */,
 				ECF2DCD71C5767F80096FF39 /* CZJCommitOrderController.m in Sources */,
@@ -5704,9 +6009,11 @@
 				ECDB5DCE1BFADB0500882BB2 /* AppDelegate.m in Sources */,
 				ECC4DE121C17D67B00FBD6A4 /* MultilevelCollectionViewCell.m in Sources */,
 				EC0223B41C59C7BB00600851 /* CZJButtonArrayCell.m in Sources */,
+				ECD6FF961C800043005F8E52 /* QNReachability.m in Sources */,
 				ECF2DCD81C5767F80096FF39 /* CZJDeliveryAddrController.m in Sources */,
 				ECF2DCA51C5767F80096FF39 /* CZJMyInformationController.m in Sources */,
 				EC4521431C5EFB23003272C3 /* CZJOrderLogisticsInfoCell.m in Sources */,
+				ECD6FF9F1C800043005F8E52 /* QNHex.m in Sources */,
 				ECF2DCC41C5767F80096FF39 /* CZJOrderCouponCell.m in Sources */,
 				ECC4DE101C17D67B00FBD6A4 /* CollectionHeader.m in Sources */,
 				EC025FD01C21036E00A8085E /* MJRefreshBackGifFooter.m in Sources */,
@@ -5719,12 +6026,15 @@
 				EC025FF41C21507000A8085E /* WyzAlbumViewController.m in Sources */,
 				EC154CF81C1EBEB50004FAF5 /* CZJServiceListController.m in Sources */,
 				EC1FE7F11C74124400318505 /* CZJMyWalletPointController.m in Sources */,
+				ECD6FF9B1C800043005F8E52 /* QNUploadManager.m in Sources */,
 				ECC4DE4D1C17D67B00FBD6A4 /* ApiXml.mm in Sources */,
 				ECF2DCDA1C5767F80096FF39 /* CZJMyInfoRecordController.m in Sources */,
 				EC025FC91C21036E00A8085E /* MJRefreshBackFooter.m in Sources */,
+				ECD6FF931C800043005F8E52 /* QNHijackingDetectWrapper.m in Sources */,
 				ECD5F0FC1C2D66C7002012F7 /* CZJChoosedProductCell.m in Sources */,
 				EC3216751C522D2F0037D809 /* CZJAttentionForm.m in Sources */,
 				ECDB5DCB1BFADB0500882BB2 /* main.m in Sources */,
+				ECD6FF8A1C800043005F8E52 /* QNUrlSafeBase64.m in Sources */,
 				ECC4DE471C17D67B00FBD6A4 /* UUDatePicker_DateModel.m in Sources */,
 				ECC4DDAB1C17D67B00FBD6A4 /* AliPayManager.m in Sources */,
 				EC0C93951C204168002A7FF5 /* CZJHotRecoCell.m in Sources */,

@@ -31,6 +31,8 @@
 #import "CZJNaviagtionBarView.h"
 #import "CZJStarRageView.h"
 #import "CZJTextView.h"
+#import "CZJForm.h"
+#import "CZJDeletableImageView.h"
 
 #import "CALayer+UIColor.h"
 #import "UIView+Frame.h"
@@ -45,6 +47,7 @@
 #import "SVProgressHUD.h"
 #import "MBProgressHUD.h"
 #import "FDAlertView.h"
+#import "QiniuSDK.h"
 
 //-------------------------系统---------------------------
 //检查系统版本

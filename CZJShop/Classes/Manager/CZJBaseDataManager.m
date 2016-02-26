@@ -1571,6 +1571,15 @@ singleton_implementation(CZJBaseDataManager);
                   Success:(CZJSuccessBlock)success
                      fail:(CZJFailureBlock)fail
 {
+    [self generalUploadImage:image withAPI:kCZJServerAPIUploadHeadPic Success:success fail:fail];
+}
+
+
+- (void)generalUploadImage:(UIImage*)image
+                   withAPI:(NSString*)serverAPI
+                   Success:(CZJSuccessBlock)success
+                      fail:(CZJFailureBlock)fail
+{
     CZJSuccessBlock successBlock = ^(id json){
         if ([self showAlertView:json])
         {
@@ -1581,12 +1590,10 @@ singleton_implementation(CZJBaseDataManager);
     CZJFailureBlock failBlock = ^(){
         [[CZJErrorCodeManager sharedCZJErrorCodeManager] ShowNetError];
     };
-    
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params setValuesForKeysWithDictionary:self.params];
-    [params setValuesForKeysWithDictionary:postParams];
     
-    [CZJNetWorkInstance uploadImageWithUrl:kCZJServerAPIUploadHeadPic
+    [CZJNetWorkInstance uploadImageWithUrl:serverAPI
                                      Image:image
                                 Parameters:params
                                    success:successBlock

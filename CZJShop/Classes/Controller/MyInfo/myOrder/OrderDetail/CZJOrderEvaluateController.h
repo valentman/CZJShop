@@ -13,5 +13,6 @@
 @property (strong, nonatomic)NSString* goodName;
 @property (strong, nonatomic)NSString* goodImg;
 @property (strong, nonatomic)NSString* orderNo;
-@property (strong, nonatomic)NSArray* evaluateGoodsAry;;
+@property (strong, nonatomic)CZJOrderDetailForm* orderDetailForm;
+
 @end

@@ -324,6 +324,11 @@ singleton_interface(CZJBaseDataManager);
                   Success:(CZJSuccessBlock)success
                      fail:(CZJFailureBlock)fail;
 
+- (void)generalUploadImage:(UIImage*)image
+                   withAPI:(NSString*)serverAPI
+                   Success:(CZJSuccessBlock)success
+                      fail:(CZJFailureBlock)fail;
+
 //修改用户信息
 - (void)updateUserInfo:(NSDictionary*)postParams
                Success:(CZJSuccessBlock)success

@@ -798,7 +798,7 @@ CZJPopPayViewDelegate
     if ([segue.identifier isEqualToString:@"orderDetailToEvaluate"])
     {
         CZJOrderEvaluateController* evaluateVC = segue.destinationViewController;
-        evaluateVC.evaluateGoodsAry = orderDetailForm.items;
+        evaluateVC.orderDetailForm = orderDetailForm;
         evaluateVC.orderNo = self.orderNo;
     }
     if ([segue.identifier isEqualToString:@"orderDetailToCarCheck"])

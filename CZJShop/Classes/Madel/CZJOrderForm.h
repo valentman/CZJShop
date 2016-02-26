@@ -41,6 +41,7 @@
 
 @interface CZJOrderListForm : NSObject
 @property(strong, nonatomic)NSString* companyId;
+@property(strong, nonatomic)NSString* createTime;
 @property(assign, nonatomic)BOOL evaluated;
 @property(strong, nonatomic)NSMutableArray* items;
 @property(strong, nonatomic)NSString* orderMoney;

@@ -24,6 +24,11 @@
 
 @interface CZJStarRageView : UIView
 
+
+/**
+ *  拥有者持有对象
+ */
+@property (weak, nonatomic)id ownerObject;
 /**
  *  代理
  */

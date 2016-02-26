@@ -33,3 +33,8 @@
 - (void)setPosition:(CGPoint)point atAnchorPoint:(CGPoint)anchorPoint;
 
 @end
+
+@interface UIView (SubView)
+- (void)removeAllSubViews;
+- (void)removeAllSubViewsExceptView:(UIView*)exceptView;
+@end

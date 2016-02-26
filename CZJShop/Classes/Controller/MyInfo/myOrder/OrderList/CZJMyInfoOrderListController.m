@@ -34,8 +34,6 @@ CZJPopPayViewDelegate
 {
     NIDropDown *dropDown;
     CZJOrderListForm* currentTouchedOrderListForm;
-    
-//    UIButton *rightBtn;
 }
 @property (strong, nonatomic) UIView *backgroundView;
 @property (weak, nonatomic) IBOutlet UIView *settlePanelView;
@@ -267,7 +265,12 @@ CZJPopPayViewDelegate
     if ([segue.identifier isEqualToString:@"segueToEvaluate"])
     {
         CZJOrderEvaluateController* orderEvaluateVC = segue.destinationViewController;
-        orderEvaluateVC.evaluateGoodsAry = currentTouchedOrderListForm.items;
+        CZJOrderDetailForm* evalutaeDetailForm = [[CZJOrderDetailForm alloc] init];
+        evalutaeDetailForm.orderNo = currentTouchedOrderListForm.orderNo;
+        evalutaeDetailForm.storeId = currentTouchedOrderListForm.storeId;
+        evalutaeDetailForm.items = currentTouchedOrderListForm.items;
+        evalutaeDetailForm.createTime = currentTouchedOrderListForm.createTime;
+        orderEvaluateVC.orderDetailForm = evalutaeDetailForm;
         [orderEvaluateVC setOrderNo:currentTouchedOrderListForm.orderNo];
     }
     if ([segue.identifier isEqualToString:@"segueToMyReturnableList"])

@@ -62,15 +62,26 @@
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                     </textView>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6wG-Vt-4bH">
-                        <rect key="frame" x="15" y="202" width="78" height="78"/>
+                    <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2FA-D7-55r">
+                        <rect key="frame" x="0.0" y="195" width="320" height="111"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6wG-Vt-4bH">
+                                <rect key="frame" x="0.0" y="0.0" width="78" height="78"/>
+                                <animations/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="78" id="GoD-TH-PiE"/>
+                                    <constraint firstAttribute="width" constant="78" id="p31-62-Xae"/>
+                                </constraints>
+                                <state key="normal" title="Button" image="evaluate_icon_photo.png"/>
+                            </button>
+                        </subviews>
                         <animations/>
+                        <color key="backgroundColor" red="1" green="0.80000001190000003" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="78" id="GoD-TH-PiE"/>
-                            <constraint firstAttribute="width" constant="78" id="p31-62-Xae"/>
+                            <constraint firstItem="6wG-Vt-4bH" firstAttribute="leading" secondItem="2FA-D7-55r" secondAttribute="leading" id="Y5D-jS-22I"/>
+                            <constraint firstItem="6wG-Vt-4bH" firstAttribute="top" secondItem="2FA-D7-55r" secondAttribute="top" id="f92-b5-AAD"/>
                         </constraints>
-                        <state key="normal" title="Button" image="evaluate_icon_photo.png"/>
-                    </button>
+                    </view>
                 </subviews>
                 <animations/>
                 <constraints>
@@ -80,23 +91,30 @@
                     <constraint firstItem="qVV-9M-GD5" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="BXy-m1-i4T"/>
                     <constraint firstItem="erm-OS-Vm0" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="Coy-7m-rhK"/>
                     <constraint firstItem="erm-OS-Vm0" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="20" id="IO9-3M-dOf"/>
-                    <constraint firstItem="6wG-Vt-4bH" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="R2g-6y-L4g"/>
+                    <constraint firstItem="2FA-D7-55r" firstAttribute="top" secondItem="qVV-9M-GD5" secondAttribute="bottom" constant="8" id="Jbk-bU-KdE"/>
+                    <constraint firstAttribute="bottom" secondItem="2FA-D7-55r" secondAttribute="bottom" id="WCO-Uj-8kx"/>
                     <constraint firstItem="Ihb-ef-wCY" firstAttribute="top" secondItem="Q9o-tY-PJY" secondAttribute="bottom" constant="8" id="YId-L7-C8V"/>
                     <constraint firstItem="Q9o-tY-PJY" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="20" id="YjX-mS-q2x"/>
                     <constraint firstItem="csA-Mf-sVr" firstAttribute="top" secondItem="Q9o-tY-PJY" secondAttribute="bottom" constant="30" id="YkL-7u-9ud"/>
                     <constraint firstAttribute="trailing" secondItem="Q9o-tY-PJY" secondAttribute="trailing" constant="15" id="cUH-40-9j5"/>
-                    <constraint firstItem="6wG-Vt-4bH" firstAttribute="top" secondItem="qVV-9M-GD5" secondAttribute="bottom" constant="15" id="jsm-cm-rIt"/>
+                    <constraint firstAttribute="trailing" secondItem="2FA-D7-55r" secondAttribute="trailing" id="doJ-AW-KN8"/>
                     <constraint firstItem="Q9o-tY-PJY" firstAttribute="leading" secondItem="erm-OS-Vm0" secondAttribute="trailing" constant="8" id="miI-cg-hir"/>
                     <constraint firstItem="qVV-9M-GD5" firstAttribute="top" secondItem="erm-OS-Vm0" secondAttribute="bottom" constant="8" id="pbX-OI-gHB"/>
+                    <constraint firstItem="2FA-D7-55r" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="xvC-oR-n75"/>
                 </constraints>
             </tableViewCellContentView>
             <animations/>
             <connections>
                 <outlet property="goodsImg" destination="erm-OS-Vm0" id="uPh-Oo-3vn"/>
                 <outlet property="goodsNameLabel" destination="Q9o-tY-PJY" id="2pr-3w-YGH"/>
+                <outlet property="messageTextField" destination="qVV-9M-GD5" id="p9E-lF-62S"/>
+                <outlet property="picBTn" destination="6wG-Vt-4bH" id="ypn-qC-TdB"/>
+                <outlet property="picBtnLeading" destination="Y5D-jS-22I" id="0gb-c3-DYD"/>
+                <outlet property="picBtnTop" destination="f92-b5-AAD" id="Gyy-Fa-7eF"/>
+                <outlet property="picLoadView" destination="2FA-D7-55r" id="Ywj-Rh-mvJ"/>
                 <outlet property="starView" destination="csA-Mf-sVr" id="epe-Ro-yjh"/>
             </connections>
-            <point key="canvasLocation" x="337" y="359.5"/>
+            <point key="canvasLocation" x="316" y="239.5"/>
         </tableViewCell>
     </objects>
     <resources>

@@ -12,14 +12,14 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    CZJStarRageView* descstarView = [[CZJStarRageView alloc]initWithFrame:CGRectMake((PJ_SCREEN_WIDTH - self.descView.frame.size.width - 15), self.descView.frame.origin.y, self.descView.frame.size.width, self.descView.frame.size.height) starCount:5];
-    [self.contentView addSubview:descstarView];
+    _descView = [[CZJStarRageView alloc]initWithFrame:CGRectMake((PJ_SCREEN_WIDTH - self.descView.frame.size.width - 15), self.descView.frame.origin.y, self.descView.frame.size.width, self.descView.frame.size.height) starCount:5];
+    [self.contentView addSubview:_descView];
 
-    CZJStarRageView* servicestarView = [[CZJStarRageView alloc]initWithFrame:CGRectMake((PJ_SCREEN_WIDTH - self.descView.frame.size.width - 15), self.serviceView.frame.origin.y, self.descView.frame.size.width, self.serviceView.frame.size.height) starCount:5];;
-    [self.contentView addSubview:servicestarView];
+    _serviceView = [[CZJStarRageView alloc]initWithFrame:CGRectMake((PJ_SCREEN_WIDTH - self.descView.frame.size.width - 15), self.serviceView.frame.origin.y, self.descView.frame.size.width, self.serviceView.frame.size.height) starCount:5];;
+    [self.contentView addSubview:_serviceView];
     
-    CZJStarRageView* evirStarView = [[CZJStarRageView alloc]initWithFrame:CGRectMake((PJ_SCREEN_WIDTH - self.descView.frame.size.width - 15), self.evirView.frame.origin.y, self.descView.frame.size.width, self.evirView.frame.size.height) starCount:5];
-    [self.contentView addSubview:evirStarView];
+    _evirView = [[CZJStarRageView alloc]initWithFrame:CGRectMake((PJ_SCREEN_WIDTH - self.descView.frame.size.width - 15), self.evirView.frame.origin.y, self.descView.frame.size.width, self.evirView.frame.size.height) starCount:5];
+    [self.contentView addSubview:_evirView];
     
 }
 

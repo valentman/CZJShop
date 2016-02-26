@@ -108,4 +108,17 @@
 + (CAShapeLayer *)creatIndicatorWithColor:(UIColor *)color andPosition:(CGPoint)point;
 + (CGRect)viewFramFromDynamic:(CZJMargin)margin size:(CGSize)viewSize index:(int)index divide:(int)divide;
 
+
+//-----------------------------拍照或选取相册图片处理方法---------------------------
++ (BOOL) isCameraAvailable;
++ (BOOL) isRearCameraAvailable;
++ (BOOL) isFrontCameraAvailable;
++ (BOOL) doesCameraSupportTakingPhotos;
++ (BOOL) isPhotoLibraryAvailable;
++ (BOOL) canUserPickVideosFromPhotoLibrary;
++ (BOOL) canUserPickPhotosFromPhotoLibrary;
++ (BOOL) cameraSupportsMedia:(NSString *)paramMediaType sourceType:(UIImagePickerControllerSourceType)paramSourceType;
++ (UIImage *)imageByScalingToMaxSize:(UIImage *)sourceImage;
++ (UIImage *)imageByScalingAndCroppingForSourceImage:(UIImage *)sourceImage targetSize:(CGSize)targetSize;
+
 @end

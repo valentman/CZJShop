@@ -11,6 +11,11 @@
 @interface CZJOrderEvaluateCell : CZJTableViewCell
 @property (weak, nonatomic) IBOutlet UILabel *goodsNameLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *goodsImg;
-@property (weak, nonatomic) IBOutlet UIView *starView;
+@property (strong, nonatomic) IBOutlet CZJStarRageView *starView;
+@property (weak, nonatomic) IBOutlet UIButton *picBTn;
+@property (weak, nonatomic) IBOutlet UITextView *messageTextField;
+@property (weak, nonatomic) IBOutlet UIView *picLoadView;
 
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *picBtnLeading;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *picBtnTop;
 @end
