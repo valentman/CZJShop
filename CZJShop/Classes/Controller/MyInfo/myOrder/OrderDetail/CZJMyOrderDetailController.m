@@ -101,18 +101,22 @@ CZJPopPayViewDelegate
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self initViews];
+    NSString* title = @"";
     if (CZJOrderDetailTypeGeneral == self.orderDetailType)
     {
         [self getOrderDetailFromServer];
-        self.title = @"订单详情";
+        title = @"订单详情";
     }
     if (CZJOrderDetailTypeReturned == self.orderDetailType)
     {
-        NSString* title = @"退换货详情";
-        self.navigationItem.title = title;
-        self.title = title;
+        title = @"退换货详情";
         [self getReturnedOrderDetailFromServer];
     }
+    [self setTitle:title];
+}
+
+-(void)setTitle:(NSString*)msg{
+    [super setTitle:msg];
 }
 
 - (void)initViews

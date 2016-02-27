@@ -12,10 +12,12 @@
 #define kLookAllEvalView 5001
 #define kEvalDetailView 5002
 
-@interface CZJEvalutionFooterCell : UITableViewCell<CZJImageViewTouchDelegate>
+@interface CZJEvalutionFooterCell : CZJTableViewCell<CZJImageViewTouchDelegate>
 @property (weak, nonatomic) IBOutlet UIView *allEvalView;
 @property (weak, nonatomic) IBOutlet UIView *evalDetailView;
 @property (weak, nonatomic) IBOutlet UIButton *evalutionReplyBtn;
+@property (weak, nonatomic) IBOutlet UIButton *addEvaluateBtn;
+
 @property (weak, nonatomic) IBOutlet UILabel *seeAllEvalution;
 
 @property (weak, nonatomic) IBOutlet UILabel *serviceName;

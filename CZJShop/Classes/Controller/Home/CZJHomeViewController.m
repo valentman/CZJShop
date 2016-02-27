@@ -665,11 +665,10 @@ CZJGoodsRecommendCellDelegate
 
 -(void)showActivityHtmlWithUrl:(NSString*)url
 {
+    CZJWebViewController* webView = (CZJWebViewController*)[CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:@"webViewSBID"];
+    webView.cur_url = url;
+    [self.navigationController pushViewController:webView animated:YES];
     return;
-    //    _curUrl = url;
-    //    _htmlType =  eActivityHtml;
-    //    _webViewTitle = @"活动详情";
-    //    [self performSegueWithIdentifier:@"pushToServiceDetail" sender:self];
 }
 
 

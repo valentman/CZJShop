@@ -39,6 +39,7 @@
     _naviBarView = [[CZJNaviagtionBarView alloc]initWithFrame:CGRectMake(0, 20, PJ_SCREEN_WIDTH, 44) AndType:naviBarViewType];
     _naviBarView.delegate = self;
     [self.view addSubview:_naviBarView];
+    self.navigationController.interactivePopGestureRecognizer.delegate = self;
 }
 
 #pragma mark - CZJNaviagtionBarViewDelegate(自定义导航栏按钮回调)
@@ -119,4 +120,9 @@
     }];
 }
 
+
+- (void)setTitle:(NSString *)title
+{
+    [super setTitle:title];
+}
 @end

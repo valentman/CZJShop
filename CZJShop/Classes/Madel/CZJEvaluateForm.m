@@ -9,7 +9,9 @@
 #import "CZJEvaluateForm.h"
 
 @implementation CZJEvaluateForm
-
++ (NSDictionary *)replacedKeyFromPropertyName{
+    return @{@"evaluateID" : @"id",};
+}
 @end
 
 @implementation CZJMyEvaluationForm
@@ -20,5 +22,9 @@
 @end
 
 @implementation CZJMyEvaluationGoodsForm
+
+@end
+
+@implementation CZJAddedMyEvalutionForm : NSObject
 
 @end

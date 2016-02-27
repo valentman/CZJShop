@@ -12,6 +12,7 @@
 
 - (void)awakeFromNib {
     // Initialization code
+    [super awakeFromNib];
     stars = [NSArray array];
     stars = @[_starone,_starTwo,_starThr, _starFour,_starFive];
 }

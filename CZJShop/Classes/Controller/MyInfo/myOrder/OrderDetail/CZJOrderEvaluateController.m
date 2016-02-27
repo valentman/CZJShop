@@ -7,7 +7,6 @@
 //
 
 #import "CZJOrderEvaluateController.h"
-#import "CZJBaseDataManager.h"
 #import "CZJOrderEvaluateCell.h"
 #import "CZJOrderEvalutateAllCell.h"
 #import "CZJOrderForm.h"
@@ -37,8 +36,10 @@ CZJStarRateViewDelegate
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    TICK;
     [self initDatas];
     [self initViews];
+    TOCK;
 }
 
 - (void)initDatas
@@ -277,6 +278,7 @@ CZJStarRateViewDelegate
         {
             myEvaluationForm.deliveryScore = scoreStr;
         }
+        myEvaluationForm.environmentScore = @"5";
     }
 
 }

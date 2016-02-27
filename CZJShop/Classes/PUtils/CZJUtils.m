@@ -31,6 +31,24 @@
     return DataDic;
 }
 
++ (NSDictionary *)dictionaryFromJsonString:(NSString *)jsonString {
+    if (jsonString == nil) {
+        return nil;
+    }
+    
+    NSData *jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
+    NSError *err;
+    NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:jsonData
+                                                        options:NSJSONReadingMutableContainers
+                                                          error:&err];
+    if(err) {
+        NSLog(@"json解析失败：%@",err);
+        return nil;
+    }
+    
+    return dic;
+}
+
 + (NSString*)JsonFromData:(id)data
 {
     NSString *jsonString = nil;
@@ -44,15 +62,13 @@
     return jsonString;
 }
 
-+(NSData*)JsonFormData:(id)data{
++ (NSData*)JsonFormData:(id)data{
     
     NSError* error;
     NSData *jsonData = [NSJSONSerialization
                         dataWithJSONObject:data options:NSJSONWritingPrettyPrinted error:&error];
     return jsonData;
 }
-
-
 
 
 #pragma mark /*数据持久化
@@ -467,6 +483,26 @@ void backLastView(id sender, SEL _cmd)
 #pragma mark 字符串处理
 + (NSString*)getExplicitServerAPIURLPathWithSuffix:(NSString*)urlStr{
     return [NSString stringWithFormat:@"%@%@",kCZJServerAddr,urlStr];
+}
+
+
++ (NSString*)cutString:(NSString*)str Prefix:(NSString*)pre
+{
+    NSRange range = [str rangeOfString:pre];
+    
+    NSCharacterSet *set = [NSCharacterSet characterSetWithCharactersInString:@" :-''""{}"];
+    str = [str stringByReplacingOccurrencesOfString:@" " withString:@""];
+    str = [str stringByReplacingOccurrencesOfString:@"'" withString:@""];
+    NSString* ns2 = [str stringByTrimmingCharactersInSet:set];
+    return [ns2 substringWithRange:NSMakeRange(range.location+range.length, ([ns2 length]-(range.location+range.length)))];
+}
+
++ (NSString*)resetString:(NSString*)str
+{
+    NSCharacterSet *set = [NSCharacterSet characterSetWithCharactersInString:@" :-'''"""];
+    str = [str stringByReplacingOccurrencesOfString:@" " withString:@""];
+    NSString* ns2 = [str stringByTrimmingCharactersInSet:set];
+    return ns2;
 }
 
 + (CGSize)calculateTitleSizeWithString:(NSString *)string AndFontSize:(CGFloat)fontSize

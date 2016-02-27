@@ -91,6 +91,32 @@
                                     <action selector="replyEvalutionAction:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="eit-cQ-86N"/>
                                 </connections>
                             </button>
+                            <button clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2Xe-dd-9r3">
+                                <rect key="frame" x="230" y="17" width="70" height="30"/>
+                                <animations/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="70" id="LIN-62-o7I"/>
+                                    <constraint firstAttribute="height" constant="30" id="Q4x-i1-PrC"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <state key="normal" title="追加评价">
+                                    <color key="titleColor" red="0.20000000300000001" green="0.20000000300000001" blue="0.20000000300000001" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="3"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
+                                        <real key="value" value="0.5"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="layer.borderColorWithUIColor">
+                                        <color key="value" red="0.7019608021" green="0.7019608021" blue="0.7019608021" alpha="1" colorSpace="calibratedRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="replyEvalutionAction:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="Bq6-cd-7UY"/>
+                                </connections>
+                            </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2015-12-23 12:12" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tQP-Eh-ebv">
                                 <rect key="frame" x="79" y="34" width="150" height="21"/>
                                 <animations/>
@@ -107,9 +133,11 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="tQP-Eh-ebv" secondAttribute="bottom" constant="8" id="3ke-2f-WTr"/>
+                            <constraint firstItem="2Xe-dd-9r3" firstAttribute="centerY" secondItem="ren-Qx-ZDW" secondAttribute="centerY" id="LEb-QL-Dvd"/>
                             <constraint firstItem="Oev-dP-WNA" firstAttribute="leading" secondItem="ren-Qx-ZDW" secondAttribute="leading" constant="79" id="UzD-KA-d7k"/>
                             <constraint firstItem="tQP-Eh-ebv" firstAttribute="leading" secondItem="ren-Qx-ZDW" secondAttribute="leading" constant="79" id="ccY-Pr-d3G"/>
                             <constraint firstItem="Ot4-0l-zCl" firstAttribute="leading" secondItem="ren-Qx-ZDW" secondAttribute="leading" constant="15" id="eKV-oC-Boh"/>
+                            <constraint firstAttribute="trailing" secondItem="2Xe-dd-9r3" secondAttribute="trailing" constant="20" id="iJh-rg-zEV"/>
                             <constraint firstItem="Ot4-0l-zCl" firstAttribute="top" secondItem="ren-Qx-ZDW" secondAttribute="top" constant="8" id="iMG-FO-bXB"/>
                             <constraint firstItem="Oev-dP-WNA" firstAttribute="top" secondItem="ren-Qx-ZDW" secondAttribute="top" constant="8" id="ih1-u4-QRW"/>
                             <constraint firstItem="AGX-wC-0TM" firstAttribute="leading" secondItem="ren-Qx-ZDW" secondAttribute="leading" constant="15" id="k3d-uZ-Dke"/>
@@ -133,6 +161,7 @@
             </tableViewCellContentView>
             <animations/>
             <connections>
+                <outlet property="addEvaluateBtn" destination="2Xe-dd-9r3" id="4nk-8e-blC"/>
                 <outlet property="allEvalView" destination="DaL-6R-5f7" id="aUe-f6-BEt"/>
                 <outlet property="evalDetailView" destination="ren-Qx-ZDW" id="pZi-G0-VQA"/>
                 <outlet property="evalutionReplyBtn" destination="UiH-sq-aHr" id="2D8-ms-eKk"/>
@@ -143,6 +172,6 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="prodetail_icon_reply" width="13" height="13"/>
+        <image name="prodetail_icon_reply" width="10" height="10"/>
     </resources>
 </document>

@@ -1913,4 +1913,54 @@ singleton_implementation(CZJBaseDataManager);
 }
 
 
+-(NSString*)returnDetailInfoWith:(EWEBTYPE)webType
+                          itemId:(NSString*)itemId
+                          typeId:(NSString*)typeId
+                        moreFlag:(BOOL)moreFlag
+                        sortType:(int)sortType
+                         success:(void (^)())success
+                            fail:(void (^)())fail{
+    
+    NSString* chezhu_id = [CZJLoginModelInstance cheZhuId];
+    NSString* url_type = @"";
+    switch (webType) {
+        case eActivity:{
+            url_type = @"chezhu/showStoreRecommend.do";
+            url_type = [NSString stringWithFormat:@"%@/%@?chezhuId=%@&storeId=%@",kCZJServerAddr,url_type,chezhu_id,itemId];
+        }
+            break;
+        case eRecomment:
+            url_type = @"chezhu/showStoreRecommend.do";
+            url_type = [NSString stringWithFormat:@"%@/%@?chezhuId=%@&recommendId=%@",kCZJServerAddr,url_type,chezhu_id,itemId];
+            break;
+        case eStoreInfo:{
+            url_type = @"chezhu/showStoreInfo.do";
+            
+            if (typeId) {
+                
+                if (moreFlag) {
+                    url_type = [NSString stringWithFormat:@"%@/%@?chezhuId=%@&storeId=%@&typeId=%@&moreFlag=true&sortType=%d",kCZJServerAddr,url_type,chezhu_id,itemId,typeId,sortType];
+                }else{
+                    url_type = [NSString stringWithFormat:@"%@/%@?chezhuId=%@&storeId=%@&typeId=%@",kCZJServerAddr,url_type,chezhu_id,itemId,typeId];
+                }
+                
+            }else{
+                url_type = [NSString stringWithFormat:@"%@/%@?chezhuId=%@&storeId=%@",kCZJServerAddr,url_type,chezhu_id,itemId];
+            }
+            
+        }
+            break;
+        case eServiceItem:{
+            url_type = @"chezhu/showServiceItem.do";
+            url_type = [NSString stringWithFormat:@"%@/%@?chezhuId=%@&itemId=%@",kCZJServerAddr,url_type,chezhu_id,itemId];
+        }
+            break;
+        default:
+            break;
+    }
+    
+    success();
+    return url_type;
+}
+
 @end

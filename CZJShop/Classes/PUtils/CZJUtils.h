@@ -13,6 +13,7 @@
 #pragma mark- Zhouxin
 //---------------------------数据解析-----------------------------
 + (NSDictionary*)DataFromJson:(id)json;
++ (NSDictionary *)dictionaryFromJsonString:(NSString *)jsonString;
 + (NSString*)JsonFromData:(id)data;
 + (NSData*)JsonFormData:(id)data;
 
@@ -64,6 +65,8 @@
 #pragma mark- PJoe
 //----------------------------字符串处理--------------------------
 + (NSString*)getExplicitServerAPIURLPathWithSuffix:(NSString*)urlStr;
++ (NSString*)cutString:(NSString*)str Prefix:(NSString*)pre;
++ (NSString*)resetString:(NSString*)str;
 //获取字符串的Size
 + (CGSize)calculateTitleSizeWithString:(NSString *)string WithFont:(UIFont*)font;
 + (CGSize)calculateTitleSizeWithString:(NSString *)string AndFontSize:(CGFloat)fontSize;

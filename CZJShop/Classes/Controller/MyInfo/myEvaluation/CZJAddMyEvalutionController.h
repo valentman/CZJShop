@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CZJAddMyEvalutionController : UIViewController
 
+@interface CZJAddMyEvalutionController : UIViewController
+@property (strong, nonatomic)CZJEvaluateForm* currentEvaluation;
 @end
