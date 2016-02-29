@@ -26,6 +26,9 @@
         label_type.layer.borderColor = [UIColor redColor].CGColor;
         label_type.frame =  CGRectMake(10 , (frame.size.height - 20) / 2, 40, 20);
         
+        _titleButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        _titleButton.frame = frame;
+        
         UILabel* label_title = [[UILabel alloc] init];
         label_title.textAlignment = NSTextAlignmentLeft;
         label_title.font = [UIFont systemFontOfSize:16.0f];;
@@ -34,6 +37,7 @@
         
         [self addSubview:label_type];
         [self addSubview:label_title];
+        [self addSubview:_titleButton];
         return self;
     }
     return nil;
@@ -43,7 +47,6 @@
 
 @interface CZJCarInfoCell ()
 @property(assign) NSMutableArray* carInfoBarViews;
-
 @property (assign)NSInteger infocount;
 @end
 
@@ -58,8 +61,9 @@
     [super setSelected:selected animated:animated];
 }
 
-- (void)initWithCarInfoDatas:(NSArray*)infoDatas
+- (void)initWithCarInfoDatas:(NSArray*)infoDatas andButtonClick:(CZJButtonClickHandler)buttonClick
 {
+    self.buttonClick = buttonClick;
     self.isInit = YES;
     _carInfoDatas = infoDatas;
     _infocount = _carInfoDatas.count;
@@ -67,9 +71,9 @@
         CGRect frame = CGRectMake(10, i * 39, _scrollInfoView.frame.size.width, _scrollInfoView.frame.size.height);
         CarInfoBarView* view = [[CarInfoBarView alloc]initWithFrame:frame AndData:_carInfoDatas[i]];
         [view setTag:i + kStarTag];
-        
+        [view.titleButton addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
         //信息条顺序往下添加
-        
+        [view.titleButton setTag:i];
         [_scrollInfoView addSubview:view];
     }
     UIView* lines = [[UIView alloc]initWithFrame:CGRectMake(0, (_scrollInfoView.frame.size.height - 20) / 2, 0.5, 20)];
@@ -77,6 +81,14 @@
     [_scrollInfoView addSubview:lines];
     
     _autoScrollTimer = [NSTimer scheduledTimerWithTimeInterval:3.0 target:self selector:@selector(beginLoop:) userInfo:nil repeats:YES];
+}
+
+- (void)buttonClick:(UIButton*)sender
+{
+    if (self.buttonClick) {
+        
+        self.buttonClick(_carInfoDatas[sender.tag]);
+    }
 }
 
 - (void)beginLoop:(NSTimer*)timer

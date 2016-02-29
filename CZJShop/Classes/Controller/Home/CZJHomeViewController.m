@@ -326,7 +326,10 @@ CZJGoodsRecommendCellDelegate
             CZJCarInfoCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CZJCarInfoCell" forIndexPath:indexPath];
             if (cell && _carInfoArray.count > 0 && !cell.isInit)
             {
-                [cell initWithCarInfoDatas:_carInfoArray];
+                [cell initWithCarInfoDatas:_carInfoArray andButtonClick:^(id data) {
+                    NSString* url = (NSString*)url;
+                    [self showWebViewWithURL:url andTitle:@"汽车资讯"];
+                }];
             }
             [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
             
@@ -665,11 +668,7 @@ CZJGoodsRecommendCellDelegate
 
 -(void)showActivityHtmlWithUrl:(NSString*)url
 {
-    CZJWebViewController* webView = (CZJWebViewController*)[CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:@"webViewSBID"];
-    webView.cur_url = url;
-    [self.navigationController pushViewController:webView animated:YES];
-    webView.naviBarView.mainTitleLabel.text = @"活动详情";
-    return;
+    [self showWebViewWithURL:url andTitle:@"活动详情"];
 }
 
 
@@ -726,5 +725,14 @@ CZJGoodsRecommendCellDelegate
 - (IBAction)tapToTop:(id)sender
 {
     [self.homeTableView setContentOffset:CGPointMake(0,0) animated:YES];
+}
+
+
+- (void)showWebViewWithURL:(NSString*)url andTitle:(NSString*)title
+{
+    CZJWebViewController* webView = (CZJWebViewController*)[CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:@"webViewSBID"];
+    webView.cur_url = url;
+    [self.navigationController pushViewController:webView animated:YES];
+    webView.naviBarView.mainTitleLabel.text = title;
 }
 @end

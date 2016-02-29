@@ -11,4 +11,5 @@
 @interface CZJTableViewCell : UITableViewCell
 @property (assign) BOOL isInit;
 @property (assign) BOOL isSelected;
+@property (copy, nonatomic) CZJButtonClickHandler buttonClick;
 @end
