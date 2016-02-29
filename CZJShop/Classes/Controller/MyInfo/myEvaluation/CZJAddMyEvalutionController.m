@@ -39,7 +39,8 @@ VPImageCropperDelegate
     [super viewDidLoad];
     self.textView.delegate = self;
     picAry = [NSMutableArray array];
-    [CZJUtils customizeNavigationBarForTarget:self];
+    [self addCZJNaviBarView:CZJNaviBarViewTypeGeneral];
+    self.naviBarView.mainTitleLabel.text = @"追加评价";
 }
 
 - (void)didReceiveMemoryWarning {

@@ -9,5 +9,9 @@
 #import <UIKit/UIKit.h>
 
 @interface CZJAddedEvalutionCell : CZJTableViewCell
+@property (weak, nonatomic) IBOutlet UILabel *addedTimeLabel;
+@property (weak, nonatomic) IBOutlet UILabel *addedContentLabel;
+@property (weak, nonatomic) IBOutlet UIView *picView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *contentLabelHeight;
 
 @end

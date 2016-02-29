@@ -113,15 +113,25 @@
 
 
 //-----------------------------拍照或选取相册图片处理方法---------------------------
-+ (BOOL) isCameraAvailable;
-+ (BOOL) isRearCameraAvailable;
-+ (BOOL) isFrontCameraAvailable;
-+ (BOOL) doesCameraSupportTakingPhotos;
-+ (BOOL) isPhotoLibraryAvailable;
-+ (BOOL) canUserPickVideosFromPhotoLibrary;
-+ (BOOL) canUserPickPhotosFromPhotoLibrary;
-+ (BOOL) cameraSupportsMedia:(NSString *)paramMediaType sourceType:(UIImagePickerControllerSourceType)paramSourceType;
++ (BOOL)isCameraAvailable;
++ (BOOL)isRearCameraAvailable;
++ (BOOL)isFrontCameraAvailable;
++ (BOOL)doesCameraSupportTakingPhotos;
++ (BOOL)isPhotoLibraryAvailable;
++ (BOOL)canUserPickVideosFromPhotoLibrary;
++ (BOOL)canUserPickPhotosFromPhotoLibrary;
++ (BOOL)cameraSupportsMedia:(NSString *)paramMediaType sourceType:(UIImagePickerControllerSourceType)paramSourceType;
 + (UIImage *)imageByScalingToMaxSize:(UIImage *)sourceImage;
 + (UIImage *)imageByScalingAndCroppingForSourceImage:(UIImage *)sourceImage targetSize:(CGSize)targetSize;
+
+
+//-----------------------------------程序缓存处理---------------------------------
+// 计算单个文件大小
++ (float)fileSizeAtPath:(NSString*)path;
+// 计算目录大小
++ (float)folderSizeAtPath:(NSString*)path;
+// 清除文件按
++ (void)clearCache:(CZJGeneralBlock)success;
+
 
 @end

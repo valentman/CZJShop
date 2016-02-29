@@ -23,5 +23,6 @@
 @property (weak, nonatomic) IBOutlet UIImageView *starFour;
 @property (weak, nonatomic) IBOutlet UIImageView *starFive;
 @property (weak, nonatomic) IBOutlet UIImageView *arrowNextImage;
+@property (weak, nonatomic) IBOutlet UIView *picView;
 - (void)setStar:(int)star;
 @end

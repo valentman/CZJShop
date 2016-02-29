@@ -40,10 +40,10 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="63"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="购买服务：" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ot4-0l-zCl">
-                                <rect key="frame" x="15" y="8" width="70" height="21"/>
+                                <rect key="frame" x="15" y="10" width="70" height="16"/>
                                 <animations/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="21" id="WSo-zQ-o8n"/>
+                                    <constraint firstAttribute="height" constant="16" id="WSo-zQ-o8n"/>
                                     <constraint firstAttribute="width" constant="70" id="WaG-i4-YCY"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -62,11 +62,10 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="机油保养" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Oev-dP-WNA">
-                                <rect key="frame" x="79" y="8" width="120" height="21"/>
+                                <rect key="frame" x="79" y="10" width="131" height="16"/>
                                 <animations/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="21" id="2pq-l4-Cni"/>
-                                    <constraint firstAttribute="width" constant="120" id="yq0-8Z-znz"/>
+                                    <constraint firstAttribute="height" constant="16" id="2pq-l4-Cni"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <color key="textColor" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
@@ -134,17 +133,24 @@
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="tQP-Eh-ebv" secondAttribute="bottom" constant="8" id="3ke-2f-WTr"/>
                             <constraint firstItem="2Xe-dd-9r3" firstAttribute="centerY" secondItem="ren-Qx-ZDW" secondAttribute="centerY" id="LEb-QL-Dvd"/>
+                            <constraint firstItem="2Xe-dd-9r3" firstAttribute="leading" secondItem="Oev-dP-WNA" secondAttribute="trailing" constant="20" id="Ooc-UK-gaQ"/>
                             <constraint firstItem="Oev-dP-WNA" firstAttribute="leading" secondItem="ren-Qx-ZDW" secondAttribute="leading" constant="79" id="UzD-KA-d7k"/>
+                            <constraint firstItem="Oev-dP-WNA" firstAttribute="centerY" secondItem="Ot4-0l-zCl" secondAttribute="centerY" id="aNv-NQ-uyJ"/>
                             <constraint firstItem="tQP-Eh-ebv" firstAttribute="leading" secondItem="ren-Qx-ZDW" secondAttribute="leading" constant="79" id="ccY-Pr-d3G"/>
                             <constraint firstItem="Ot4-0l-zCl" firstAttribute="leading" secondItem="ren-Qx-ZDW" secondAttribute="leading" constant="15" id="eKV-oC-Boh"/>
                             <constraint firstAttribute="trailing" secondItem="2Xe-dd-9r3" secondAttribute="trailing" constant="20" id="iJh-rg-zEV"/>
-                            <constraint firstItem="Ot4-0l-zCl" firstAttribute="top" secondItem="ren-Qx-ZDW" secondAttribute="top" constant="8" id="iMG-FO-bXB"/>
+                            <constraint firstItem="Ot4-0l-zCl" firstAttribute="top" secondItem="ren-Qx-ZDW" secondAttribute="top" constant="10" id="iMG-FO-bXB"/>
                             <constraint firstItem="Oev-dP-WNA" firstAttribute="top" secondItem="ren-Qx-ZDW" secondAttribute="top" constant="8" id="ih1-u4-QRW"/>
                             <constraint firstItem="AGX-wC-0TM" firstAttribute="leading" secondItem="ren-Qx-ZDW" secondAttribute="leading" constant="15" id="k3d-uZ-Dke"/>
                             <constraint firstAttribute="trailing" secondItem="UiH-sq-aHr" secondAttribute="trailing" constant="15" id="ocg-Oe-cJJ"/>
                             <constraint firstItem="UiH-sq-aHr" firstAttribute="centerY" secondItem="ren-Qx-ZDW" secondAttribute="centerY" id="tip-TN-So8"/>
                             <constraint firstAttribute="bottom" secondItem="AGX-wC-0TM" secondAttribute="bottom" constant="8" id="zoO-FD-F4q"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="ih1-u4-QRW"/>
+                            </mask>
+                        </variation>
                     </view>
                 </subviews>
                 <animations/>

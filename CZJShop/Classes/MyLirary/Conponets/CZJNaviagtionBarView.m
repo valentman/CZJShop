@@ -147,10 +147,14 @@
     [_btnArrange setHidden:YES];
 
     //标题
-    _mainTitleLabel = [[UILabel alloc]initWithFrame:CGRectMake((PJ_SCREEN_WIDTH - 80) * 0.5, 14, 80, 16)];
+    _mainTitleLabel = [[UILabel alloc]initWithFrame:CGRectMake((PJ_SCREEN_WIDTH - 120) * 0.5, 14, 120, 16)];
     _mainTitleLabel.font = BOLDSYSTEMFONT(20);
     _mainTitleLabel.textAlignment = NSTextAlignmentCenter;
     _mainTitleLabel.hidden = YES;
+    
+    _buttomSeparator = [[UIView alloc]initWithFrame:CGRectMake(0, 44, PJ_SCREEN_WIDTH, 0.5)];
+    _buttomSeparator.backgroundColor = LIGHTGRAYCOLOR;
+    _buttomSeparator.hidden = YES;
     
     switch (type) {
         case CZJNaviBarViewTypeCategory:
@@ -230,6 +234,7 @@
         case CZJNaviBarViewTypeMain:
             _customSearchBar.hidden = YES;
             _mainTitleLabel.hidden = NO;
+            _buttomSeparator.hidden = NO;
             _btnMore.hidden = NO;
             [_btnMore setBackgroundImage:IMAGENAMED(@"shop_btn_map") forState:UIControlStateNormal];
             [_btnMore setTag:CZJButtonTypeMap];
@@ -240,6 +245,7 @@
             _mainTitleLabel.hidden = NO;
             _mainTitleLabel.font = BOLDSYSTEMFONT(18);
             _btnBack.hidden = NO;
+            _buttomSeparator.hidden = NO;
             break;
             
         default:
@@ -253,6 +259,7 @@
     [self addSubview:_btnMore];
     [self addSubview:_btnArrange];
     [self addSubview:_mainTitleLabel];
+    [self addSubview:_buttomSeparator];
 }
 
 

@@ -17,9 +17,9 @@ static NSString *const kCZJServerAddr = @"http://192.168.0.251:8080/appserver/";
 //首页接口组
 static NSString *const kCZJServerAPIShowHome = @"chezhu/showHomeV2.do";                             //获取首页数据
 static NSString *const kCZJServerAPIGetRecoGoods = @"chezhu/showRecommendGoods.do";                 //获取首页推荐商品
-//static NSString *const kCZJServerAPIActivityCenter = @"chezhu/showActivityCenter.do";               //获取活动中心信息
-//static NSString *const kCZJServerAPICarInfo = @"chezhu/showCarNews.do";                             //获取汽车资讯
-//static NSString *const kCZJServerAPIGetCityIdByName = @"chezhu/loadCityIdByNameV2.do";            //获取汽车资讯
+static NSString *const kCZJServerAPIActivityCenter = @"chezhu/showActivityCenter.do";               //获取活动中心信息
+static NSString *const kCZJServerAPICarInfo = @"chezhu/showCarNews.do";                             //获取汽车资讯
+//static NSString *const kCZJServerAPIGetCityIdByName = @"chezhu/loadCityIdByNameV2.do";            //获取城市ID
 static NSString *const kCZJServerAPILoadCarBrands = @"chezhu/loadCarBrandsV2.do";                   //获取汽车品牌列表
 static NSString *const kCZJServerAPILoadCarSeries = @"chezhu/loadCarSeries.do";                     //获取汽车品牌车系列表
 static NSString *const kCZJServerAPILoadCarModels = @"chezhu/loadCarModels.do";                     //获取汽车品牌车系列表
@@ -127,13 +127,15 @@ static NSString *const kCZJServerAPIShowCardList = @"chezhu/loadSetmenus.do";   
 static NSString *const kCZJServerAPIGetBalanceInfo = @"chezhu/loadChargeInfo.do";                   // 获取余额详情
 static NSString *const kCZJServerAPIRecharge = @"chezhu/charge.do";                                 // 充值
 static NSString *const kCZJServerAPIMyEvalutions = @"chezhu/loadMyEvaluations.do";                  // 获取我的评价列表
-static NSString *const kCZJServerAPIAddEvalution = @"chezhu/evalAdd.do";                                   // 追加评论
+static NSString *const kCZJServerAPIAddEvalution = @"chezhu/evalAdd.do";                            // 追加评论
 //static NSString *const kCZJServerAPIReplyEvalution = @"chezhu/evalReply.do";                               // 回复
 
 
 //-----------------------系统常量定义---------------------------
 //在应用商店中本APP的地址
 static NSString *const kCZJAPPURL = @"https://itunes.apple.com/us/app/id1035567397";
+static NSString *const kCZJAPPURLVersionCheck = @"http://itunes.apple.com/lookup";
+
 
 //第三方推送服务方申请的AppID和AppKey,暂时使用信鸽的。
 static uint32_t const kCZJPushServerAppId = 2200145103;

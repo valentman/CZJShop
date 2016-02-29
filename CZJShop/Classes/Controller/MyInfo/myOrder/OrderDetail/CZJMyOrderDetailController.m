@@ -112,11 +112,7 @@ CZJPopPayViewDelegate
         title = @"退换货详情";
         [self getReturnedOrderDetailFromServer];
     }
-    [self setTitle:title];
-}
-
--(void)setTitle:(NSString*)msg{
-    [super setTitle:msg];
+    self.naviBarView.mainTitleLabel.text = title;
 }
 
 - (void)initViews
@@ -148,7 +144,7 @@ CZJPopPayViewDelegate
     }
 
     [self addCZJNaviBarView:CZJNaviBarViewTypeGeneral];
-    self.naviBarView.mainTitleLabel.text = @"订单详情";
+    
 }
 
 - (void)getReturnedOrderDetailFromServer

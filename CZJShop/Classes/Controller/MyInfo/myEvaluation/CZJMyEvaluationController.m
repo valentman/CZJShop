@@ -27,9 +27,10 @@ UITableViewDelegate
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [CZJUtils customizeNavigationBarForTarget:self];
     [self initTableView];
     [self getMyEvalutionDataFromServer];
+    [self addCZJNaviBarView:CZJNaviBarViewTypeGeneral];
+    self.naviBarView.mainTitleLabel.text = @"我的评价";
 }
 
 - (void)initTableView
@@ -88,25 +89,61 @@ UITableViewDelegate
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    CZJEvaluateForm* evaluationForm = myEvaluationAry[indexPath.section];
     if (0 == indexPath.row)
     {
         CZJEvalutionDescCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJEvalutionDescCell" forIndexPath:indexPath];
+        [cell setStar:[evaluationForm.score intValue]];
+        cell.arrowNextImage.hidden = YES;
+        cell.evalTime.text = evaluationForm.evalTime;
+        float strHeight = [CZJUtils calculateStringSizeWithString:evaluationForm.message Font:SYSTEMFONT(13) Width:PJ_SCREEN_WIDTH - 30].height;
+        cell.evalContent.text = evaluationForm.message;
+        cell.evalContentLayoutHeight.constant = strHeight + 5;
+        
+        for (int i = 0; i < evaluationForm.evalImgs.count; i++)
+        {
+            NSString* url = evaluationForm.evalImgs[i];
+            CGRect imageFrame = [CZJUtils viewFramFromDynamic:CZJMarginMake(0, 0) size:CGSizeMake(78, 78) index:i divide:Divide];
+            UIImageView* imageView = [[UIImageView alloc]initWithFrame:imageFrame];
+            [imageView sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:IMAGENAMED(@"")];
+            [cell.picView addSubview:imageView];
+        }
         return cell;
     }
     if (1 == indexPath.row)
     {
         
         CZJEvalutionFooterCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJEvalutionFooterCell" forIndexPath:indexPath];
-        cell.addEvaluateBtn.hidden = NO;
         cell.evalutionReplyBtn.hidden = YES;
         [cell.evalutionReplyBtn setTag:indexPath.section];
-        [cell.addEvaluateBtn addTarget:self action:@selector(addEvaluateBtnHandler:) forControlEvents:UIControlEventTouchUpInside];
+        if (!evaluationForm.added)
+        {
+            cell.addEvaluateBtn.hidden = NO;
+            [cell.addEvaluateBtn addTarget:self action:@selector(addEvaluateBtnHandler:) forControlEvents:UIControlEventTouchUpInside];
+        }
+        cell.serviceName.text = evaluationForm.itemName;
+        cell.serviceTime.text = evaluationForm.orderTime;
         return cell;
     }
     if (2 == indexPath.row)
     {
         
         CZJAddedEvalutionCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJAddedEvalutionCell" forIndexPath:indexPath];
+        cell.addedTimeLabel.text = evaluationForm.addedEval.evalTime;
+        cell.addedContentLabel.text = evaluationForm.addedEval.message;
+        float strHeight = [CZJUtils calculateStringSizeWithString:evaluationForm.addedEval.message Font:SYSTEMFONT(13) Width:PJ_SCREEN_WIDTH - 30].height;
+        cell.addedContentLabel.text = evaluationForm.addedEval.message;
+        cell.contentLabelHeight.constant = strHeight + 5;
+        
+        
+        for (int i = 0; i < evaluationForm.addedEval.evalImgs.count; i++)
+        {
+            NSString* url = evaluationForm.addedEval.evalImgs[i];
+            CGRect imageFrame = [CZJUtils viewFramFromDynamic:CZJMarginMake(0, 0) size:CGSizeMake(70, 70) index:i divide:Divide];
+            UIImageView* imageView = [[UIImageView alloc]initWithFrame:imageFrame];
+            [imageView sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:IMAGENAMED(@"")];
+            [cell.picView addSubview:imageView];
+        }
         return cell;
     }
     return nil;
@@ -115,17 +152,30 @@ UITableViewDelegate
 #pragma mark-UITableViewDelegate
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    CZJEvaluateForm* evaluationForm = myEvaluationAry[indexPath.section];
     if (0 == indexPath.row)
     {
-        return 100;
+        float strHeight = [CZJUtils calculateStringSizeWithString:evaluationForm.message Font:SYSTEMFONT(13) Width:PJ_SCREEN_WIDTH - 30].height;
+        float picViewHeight = 0;
+        if (evaluationForm.evalImgs.count != 0)
+        {
+            picViewHeight = 78*(evaluationForm.evalImgs.count / Divide + 1);
+        }
+        return 50 + 15 + strHeight + 5 + picViewHeight ;
     }
     if (1 == indexPath.row)
     {
-        return 50;
+        return 60;
     }
     if (2 == indexPath.row)
     {
-        return 80;
+        float strHeight = [CZJUtils calculateStringSizeWithString:evaluationForm.addedEval.message Font:SYSTEMFONT(13) Width:PJ_SCREEN_WIDTH - 40].height;
+        float picViewHeight = 0;
+        if (evaluationForm.addedEval.evalImgs.count != 0)
+        {
+            picViewHeight = 70*(evaluationForm.addedEval.evalImgs.count / Divide + 1);
+        }
+        return 30 + 10 + strHeight + 5 + picViewHeight + 10 + 15;
     }
     return 0;
 }

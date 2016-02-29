@@ -43,10 +43,23 @@
                         <state key="normal" title="Button" image="commit_icon_swich_on.png"/>
                         <state key="selected" image="commit_icon_swich_off.png"/>
                     </button>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dHM-Lu-HNW">
+                        <rect key="frame" x="225" y="15" width="80" height="15"/>
+                        <animations/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="80" id="ZN9-v1-bgA"/>
+                            <constraint firstAttribute="height" constant="15" id="taT-FH-J9e"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <color key="textColor" red="0.50196081400000003" green="0.50196081400000003" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
                 <animations/>
                 <constraints>
                     <constraint firstItem="dsN-eo-QTX" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="6wd-c1-enS"/>
+                    <constraint firstItem="dHM-Lu-HNW" firstAttribute="centerY" secondItem="dsN-eo-QTX" secondAttribute="centerY" id="A4Y-Sy-UqD"/>
+                    <constraint firstAttribute="trailing" secondItem="dHM-Lu-HNW" secondAttribute="trailing" constant="15" id="LPj-ya-KZL"/>
                     <constraint firstItem="dsN-eo-QTX" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="Oub-nd-Cku"/>
                     <constraint firstAttribute="trailing" secondItem="8sx-1i-RwD" secondAttribute="trailing" constant="15" id="QEY-in-mJh"/>
                     <constraint firstItem="8sx-1i-RwD" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="chX-QU-brG"/>
@@ -60,6 +73,7 @@
                 <outlet property="chooseButton" destination="we5-Rl-N3A" id="Evn-OI-e9W"/>
                 <outlet property="couponNameLabel" destination="dsN-eo-QTX" id="O0a-3L-UpN"/>
                 <outlet property="coupontNameWidth" destination="YvX-6c-wmD" id="j7h-Ac-yf4"/>
+                <outlet property="myDetailLabel" destination="dHM-Lu-HNW" id="uUr-yB-J66"/>
             </connections>
             <point key="canvasLocation" x="100" y="301"/>
         </tableViewCell>

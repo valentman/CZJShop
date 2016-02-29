@@ -9,7 +9,11 @@
 #import "CZJViewController.h"
 
 
-@interface CZJViewController ()<CZJNaviagtionBarViewDelegate>
+@interface CZJViewController ()
+<
+CZJNaviagtionBarViewDelegate,
+UIGestureRecognizerDelegate
+>
 
 @end
 

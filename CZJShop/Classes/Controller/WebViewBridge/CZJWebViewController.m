@@ -38,7 +38,6 @@ DZNEmptyDataSetDelegate
 - (void)initViews
 {
     [self addCZJNaviBarView:CZJNaviBarViewTypeGeneral];
-    self.naviBarView.mainTitleLabel.text = @"活动详情";
     
     //webView接口
     self.webViewJSI = [CZJWebViewJSI bridgeForWebView:_myWebView webViewDelegate:self];
@@ -79,7 +78,7 @@ DZNEmptyDataSetDelegate
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
 {
     self.failedLoading = NO;
-    [SVProgressHUD show];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     return YES;
 }
 
@@ -91,7 +90,7 @@ DZNEmptyDataSetDelegate
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView{
-    [SVProgressHUD dismiss];
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
 }
 
 

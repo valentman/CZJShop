@@ -8,6 +8,7 @@
 
 #import "CZJDiscoverController.h"
 #import "CZJBaseDataManager.h"
+#import "CZJLoginModelManager.h"
 #import "CZJDiscoverDetailController.h"
 
 #define kTypeLabelTag 10
@@ -28,18 +29,15 @@
     self.discoverForms = [NSMutableDictionary dictionary];
 }
 
-
 - (void)getDataFromServer
 {
     //从服务器获取数据成功返回回调
     CZJSuccessBlock successBlock = ^(id json){
-        
         [self.discoverForms setValuesForKeysWithDictionary:CZJBaseDataInstance.discoverForms];
         [self updateTableView];
     };
     
     CZJFailureBlock failBlock = ^{};
-    
     [CZJBaseDataInstance showDiscoverWithBlocksuccess:successBlock fail:failBlock];
 }
 
@@ -47,6 +45,7 @@
 
 - (void)viewDidAppear:(BOOL)animated
 {
+    self.navigationController.navigationBarHidden = NO;
     NSArray* cells = [self.discoverTableView visibleCells];
     for (id cell in cells) {
         UIView* dotTagView = [[cell contentView]viewWithTag:kDotViewTag];
@@ -66,6 +65,10 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    if (1 == section)
+    {
+        return 1;
+    }
     return 2;
 }
 
@@ -84,13 +87,26 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    CZJTableViewCell* cell = (CZJTableViewCell*)[self tableView:tableView cellForRowAtIndexPath:indexPath];
-    if ([cell.reuseIdentifier isEqualToString:@"activity"])
-    {
-        [self performSegueWithIdentifier:@"segueToActivity" sender:self];
+    if (0 == indexPath.section) {
+        CZJWebViewController* webView = (CZJWebViewController*)[CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:@"webViewSBID"];
+        NSString* url = @"";
+        if (0 == indexPath.row && 0 == indexPath.section)
+        {
+            url = [NSString stringWithFormat:@"%@?chezhuId=%@",kCZJServerAPIActivityCenter,CZJLoginModelInstance.cheZhuId];
+            webView.naviBarView.mainTitleLabel.text = @"活动中心";
+        }
+        if (0 == indexPath.row && 0 == indexPath.section)
+        {
+            url = [NSString stringWithFormat:@"%@?chezhuId=%@",kCZJServerAPICarInfo,CZJLoginModelInstance.cheZhuId];
+            webView.naviBarView.mainTitleLabel.text = @"汽车资讯";
+        }
+        webView.cur_url = url;
+        [self.navigationController pushViewController:webView animated:YES];
+        
+        CZJTableViewCell* cell = (CZJTableViewCell*)[self tableView:tableView cellForRowAtIndexPath:indexPath];
+        UIView* dotTagView = [[cell contentView]viewWithTag:kDotViewTag];
+        dotTagView.hidden = YES;
     }
-    UIView* dotTagView = [[cell contentView]viewWithTag:kDotViewTag];
-    dotTagView.hidden = YES;
 }
 
 
@@ -135,21 +151,6 @@
 
 #pragma mark - Navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    CZJDiscoverDetailController* view = [segue destinationViewController];
-    
-    if ([segue.identifier isEqualToString:@"segueToCarnews"])
-    {
-        view.navigationItem.title = @"汽车资讯";
-    }
-    if ([segue.identifier isEqualToString:@"segueToActivity"])
-    {
-        view.navigationItem.title = @"活动中心";
-    }
-    if ([segue.identifier isEqualToString:@"segueToYao"])
-    {
-        view.navigationItem.title = @"摇一摇";
-    }
-
 }
 
 

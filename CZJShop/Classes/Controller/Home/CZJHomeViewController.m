@@ -668,6 +668,7 @@ CZJGoodsRecommendCellDelegate
     CZJWebViewController* webView = (CZJWebViewController*)[CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:@"webViewSBID"];
     webView.cur_url = url;
     [self.navigationController pushViewController:webView animated:YES];
+    webView.naviBarView.mainTitleLabel.text = @"活动详情";
     return;
 }
 

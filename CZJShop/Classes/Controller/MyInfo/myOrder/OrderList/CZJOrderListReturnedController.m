@@ -170,6 +170,7 @@ UITableViewDataSource
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     CZJMyOrderDetailController* orderDetailVC = segue.destinationViewController;
+    orderDetailVC.navigationItem.title = @"退货订单详情";
     orderDetailVC.returnedGoodsForm = (CZJReturnedOrderListForm*)sender;
     orderDetailVC.orderDetailType = CZJOrderDetailTypeReturned;
     orderDetailVC.stageStr = statestr;

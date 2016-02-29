@@ -31,7 +31,7 @@
             break;
         }
         UIImageView* image = stars[i];
-        [image setHidden:NO];
+        [image setHighlighted:NO];
     }
 }
 
