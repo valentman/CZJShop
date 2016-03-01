@@ -933,7 +933,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cXM-Z5-708" customClass="CZJNaviagtionBarView">
                                 <rect key="frame" x="0.0" y="20" width="320" height="44"/>
                                 <animations/>
-                                <color key="backgroundColor" red="0.71932429060000003" green="0.75822437890000005" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="2jp-FK-JhW"/>
                                     <constraint firstAttribute="width" constant="320" id="xP7-R9-3E0"/>
@@ -1009,7 +1009,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vJH-LY-aAZ" userLabel="下拉菜单" customClass="MXPullDownMenu">
                                 <rect key="frame" x="0.0" y="64" width="320" height="46"/>
                                 <animations/>
-                                <color key="backgroundColor" red="0.71932429060000003" green="0.75822437890000005" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="46" id="pNg-oA-F97"/>
                                 </constraints>
@@ -1058,7 +1058,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="K5a-iR-Hjj" customClass="CZJNaviagtionBarView">
                                 <rect key="frame" x="0.0" y="20" width="320" height="44"/>
                                 <animations/>
-                                <color key="backgroundColor" red="0.4906700551" green="0.84201212130000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="320" id="27U-6f-mZN"/>
                                     <constraint firstAttribute="height" constant="44" id="gga-Sc-OZ3"/>
@@ -1400,7 +1400,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <animations/>
                         <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
-                        <color key="separatorColor" patternImage="1739985A-4922-4F60-8D10-F9E19599BC7A" colorSpace="pattern"/>
+                        <color key="separatorColor" patternImage="7CAD9906-8A90-496B-BA8F-67F182119EC2" colorSpace="pattern"/>
                         <inset key="separatorInset" minX="15" minY="0.0" maxX="15" maxY="0.0"/>
                         <sections>
                             <tableViewSection id="t6n-nw-cfg" userLabel="Activity">
@@ -7295,7 +7295,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="1739985A-4922-4F60-8D10-F9E19599BC7A" width="256" height="256">
+        <image name="7CAD9906-8A90-496B-BA8F-67F182119EC2" width="256" height="256">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPT5YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQrLjE3OlUkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw
@@ -11783,15 +11783,15 @@ AAAAAAAEDtA
         <image name="yue_img_bj.png" width="375" height="289"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="lKt-0d-hD3"/>
         <segue reference="8Me-3r-Flt"/>
+        <segue reference="Yrw-VN-Mar"/>
         <segue reference="88D-z9-9MA"/>
-        <segue reference="Eev-Mt-eBi"/>
         <segue reference="MjX-Mw-DSW"/>
         <segue reference="OGv-AU-DWf"/>
-        <segue reference="md8-5U-07U"/>
         <segue reference="yxJ-Kx-arp"/>
-        <segue reference="lel-ft-RgU"/>
+        <segue reference="md8-5U-07U"/>
+        <segue reference="Eev-Mt-eBi"/>
         <segue reference="B1X-5g-nhm"/>
+        <segue reference="lel-ft-RgU"/>
     </inferredMetricsTieBreakers>
 </document>

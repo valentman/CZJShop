@@ -29,7 +29,7 @@
     NSArray *_array;
     NSMutableArray *_titles;
     NSMutableArray *_indicators;
-    NSMutableArray *_containCitys;
+    NSArray *_containCitys;
     
     NSInteger _numOfMenu;
     NSInteger _currentSelectedMenudIndex;
@@ -442,7 +442,11 @@
     // 得到tapIndex(点击的菜单项)
     CGPoint touchPoint = [paramSender locationInView:self];
     NSInteger tapIndex = touchPoint.x / (PJ_SCREEN_WIDTH / _numOfMenu);
-    
+    [self touchMXPullDownMenuAtMenuIndex:tapIndex];
+}
+
+- (void)touchMXPullDownMenuAtMenuIndex:(NSInteger)tapIndex
+{
     //
     for (int i = 0; i < _numOfMenu; i++)
     {
@@ -630,6 +634,7 @@
         }];
     }];
     complete();
+    [[NSNotificationCenter defaultCenter]postNotificationName:@"MXPullDownMenuTitleChange" object:nil];
 }
 
 
@@ -776,6 +781,13 @@
     }];
     CAShapeLayer *indicator = (CAShapeLayer *)_indicators[_currentSelectedMenudIndex];
     indicator.position = CGPointMake(title.position.x + title.frame.size.width / 2 + 8, indicator.position.y);
+}
+
+- (NSString*)getMenuTitleByCurrentMenuIndex
+{
+    CATextLayer *title = (CATextLayer *)_titles[0];
+    DLog(@"titlestring:%@",title.string);
+    return title.string;
 }
 
 

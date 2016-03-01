@@ -80,8 +80,8 @@ typedef NS_ENUM(NSInteger, CZJViewMoveOrientation)
 //详情类型（商品详情、服务详情）
 typedef NS_ENUM(NSInteger, CZJDetailType)
 {
-    CZJDetailTypeService = 101,
-    CZJDetailTypeGoods,
+    CZJDetailTypeGoods = 0,
+    CZJDetailTypeService,
     CZJDetailTypeStore
 };
 

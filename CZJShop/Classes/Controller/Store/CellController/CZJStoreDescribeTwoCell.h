@@ -8,10 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CZJStoreDescribeTwoCell : UITableViewCell
+@interface CZJStoreDescribeTwoCell : CZJTableViewCell
 @property (weak, nonatomic) IBOutlet UILabel *serviceLabel;
 @property (weak, nonatomic) IBOutlet UILabel *goodsLabel;
 @property (weak, nonatomic) IBOutlet UILabel *promotionLabel;
 @property (weak, nonatomic) IBOutlet UILabel *setMenuLabel;
+- (IBAction)buttonClickAction:(id)sender;
 
 @end

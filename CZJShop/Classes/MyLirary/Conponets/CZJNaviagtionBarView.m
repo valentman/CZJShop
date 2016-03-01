@@ -82,7 +82,7 @@
     _customSearchBar.delegate = self;
     _customSearchBar.backgroundColor = CLEARCOLOR;
     _customSearchBar.backgroundImage = [UIImage imageNamed:@"nav_bargound"];
-    _customSearchBar.placeholder = @"搜索商品、服务项目门店名称";
+    _customSearchBar.placeholder = @"搜索服务、商品、门店";
     [_customSearchBar setTag:CZJButtonTypeSearchBar];
     _customSearchBar.hidden = NO;
     
@@ -189,14 +189,17 @@
             
             btnBackRect =  CGRectMake(14, 2, 40, 40);
             _btnBack.frame = btnBackRect;
-            [_btnBack setBackgroundImage:[UIImage imageNamed:@"prodetail_btn_back"] forState:UIControlStateNormal];
+            _btnBack.backgroundColor = RGB(230, 230, 230);
+            _btnBack.layer.cornerRadius = 20;
             
             btnMoreRect = CGRectMake(CGRectGetMaxX(_selfBounds) - 54, 2, 40, 40);
             _btnMore.frame = btnMoreRect;
-            [_btnMore setBackgroundImage:[UIImage imageNamed:@"prodetail_btn_more"] forState:UIControlStateNormal];
+            _btnMore.backgroundColor = RGB(230, 230, 230);
+            _btnMore.layer.cornerRadius = 20;
+            [_btnMore setBackgroundImage:[UIImage imageNamed:@"prodetail_btn_morenor"] forState:UIControlStateNormal];
             
             searchaBarRect = CGRectMake(CGRectGetMinX(_selfBounds) + 54,
-                                        (CGRectGetMaxY(_selfBounds) - 40) / 2 ,
+                                        2,
                                         _selfBounds.size.width - (54 * 2),
                                         40);
             _customSearchBar.frame = searchaBarRect;

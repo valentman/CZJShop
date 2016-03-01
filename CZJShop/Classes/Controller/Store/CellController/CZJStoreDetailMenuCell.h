@@ -9,5 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface CZJStoreDetailMenuCell : CZJTableViewCell
+@property (weak, nonatomic) IBOutlet UIView *myView;
+@property (strong, nonatomic)NSMutableArray* titles;
 
 @end

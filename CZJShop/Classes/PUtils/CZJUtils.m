@@ -1048,6 +1048,22 @@ void tapToHidePopViewAction(id sender, SEL _cmd)
 }
 
 
-
++ (NSMutableArray*)getAggregationArrayFromArray:(NSArray*)sourcArray
+{
+    NSMutableArray* destArray = [NSMutableArray array];
+    float count = (float)sourcArray.count;
+    float count2 = ceilf(count/2);
+    [destArray removeAllObjects];
+    for (int i  = 0; i < count2; i++)
+    {
+        NSMutableArray* array = [NSMutableArray array];
+        [destArray addObject:array];
+    }
+    for (int i = 0; i < count; i++) {
+        int index = i / 2;
+        [destArray[index] addObject:sourcArray[i]];
+    }
+    return destArray;
+}
 
 @end

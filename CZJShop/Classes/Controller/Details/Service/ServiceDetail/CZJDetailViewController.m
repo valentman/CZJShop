@@ -226,7 +226,6 @@ CZJStoreInfoHeaerCellDelegate
         [self dealWithData];
         [self.detailTableView reloadData];
         tableViewContentSizeHeight = self.detailTableView.mj_contentH - self.detailTableView.mj_h;
-        DLog(@"contentSize:%f, frameSize:%f, offset:%f",self.detailTableView.mj_contentH,tableViewContentSizeHeight);
         
         if (CZJDetailTypeGoods == self.detaiViewType)
         {

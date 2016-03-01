@@ -404,7 +404,12 @@ CZJViewControllerDelegate
                 break;
                 
             case 3:
+            {
                 segueId = @"";
+                CZJWebViewController* webView = (CZJWebViewController*)[CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:@"webViewSBID"];
+                webView.cur_url = kCZJServerAPIGetPoint;
+                [self.navigationController pushViewController:webView animated:YES];
+            }
                 break;
                 
             case 4:

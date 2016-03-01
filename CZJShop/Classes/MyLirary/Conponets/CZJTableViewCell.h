@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+typedef void (^CZJButtonClickHandler)(id data);
+
 @interface CZJTableViewCell : UITableViewCell
 @property (assign) BOOL isInit;
 @property (assign) BOOL isSelected;

@@ -121,7 +121,7 @@ CZJGoodsRecommendCellDelegate
     self.homeTableView.delegate = self;
     self.homeTableView.dataSource = self;
     [self.homeTableView setDelegate:self];
-    [self.homeTableView setBackgroundColor:CZJNAVIBARBGCOLOR];
+    [self.homeTableView setBackgroundColor:CZJTableViewBGColor];
     self.homeTableView.showsVerticalScrollIndicator = NO;
     self.homeTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.homeTableView.rowHeight = UITableViewAutomaticDimension;
@@ -298,8 +298,6 @@ CZJGoodsRecommendCellDelegate
                 cell.delegate = self;
             }
             return cell;
-            
-            
         }
             break;
             
@@ -312,11 +310,6 @@ CZJGoodsRecommendCellDelegate
                 cell.delegate = self;
             }
             [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
-            
-            //            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell1"];
-            //            if (!cell) {
-            //                cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell1"];
-            //            }
             return cell;
         }
             break;
@@ -327,16 +320,11 @@ CZJGoodsRecommendCellDelegate
             if (cell && _carInfoArray.count > 0 && !cell.isInit)
             {
                 [cell initWithCarInfoDatas:_carInfoArray andButtonClick:^(id data) {
-                    NSString* url = (NSString*)url;
+                    NSString* url = (NSString*)data;
                     [self showWebViewWithURL:url andTitle:@"汽车资讯"];
                 }];
             }
             [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
-            
-            //            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell2"];
-            //            if (!cell) {
-            //                cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell2"];
-            //            }
             return cell;
         }
             break;
@@ -350,22 +338,12 @@ CZJGoodsRecommendCellDelegate
                     [cell initMiaoShaInfoWithData:_miaoShaArray];
                 }
                 [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
-                
-                //                UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell31"];
-                //                if (!cell) {
-                //                    cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell31"];
-                //                }
                 return cell;
             }
             else if (0 == indexPath.row)
             {
                 CZJMiaoShaCellHeader* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJMiaoShaCellHeader" forIndexPath:indexPath];
                 [cell initHeaderWithTimestamp:CZJBaseDataInstance.homeForm.serverTime];
-                
-                //                UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell3"];
-                //                if (!cell) {
-                //                    cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell3"];
-                //                }
                 return cell;
             }
         }
@@ -375,12 +353,6 @@ CZJGoodsRecommendCellDelegate
         {//广告栏一
             CZJAdBanerCell *cell = (CZJAdBanerCell*)[tableView dequeueReusableCellWithIdentifier:@"CZJAdBanerCell" forIndexPath:indexPath];
             [cell initBannerOneWithDatas:_bannerOneArray];
-            
-            
-            //            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell4"];
-            //            if (!cell) {
-            //                cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell4"];
-            //            }
             return cell;
         }
             break;
@@ -390,12 +362,6 @@ CZJGoodsRecommendCellDelegate
             if (0 == indexPath.row)
             {
                 CZJLimitBuyCellHeader* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJLimitBuyCellHeader" forIndexPath:indexPath];
-                
-                //                UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell51"];
-                //                if (!cell) {
-                //                    cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell51"];
-                //                }
-                
                 return cell;
             }
             else if (1 == indexPath.row)
@@ -405,11 +371,6 @@ CZJGoodsRecommendCellDelegate
                 {
                     [cell initLimitBuyWithDatas:_limitBuyArray];
                 }
-                
-                //                UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell5"];
-                //                if (!cell) {
-                //                    cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell5"];
-                //                }
                 return cell;
             }
             
@@ -421,11 +382,6 @@ CZJGoodsRecommendCellDelegate
             if (0 == indexPath.row)
             {
                 CZJBrandRecoCellHeader* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJBrandRecoCellHeader" forIndexPath:indexPath];
-                
-                //                UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell1"];
-                //                if (!cell) {
-                //                    cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell1"];
-                //                }
                 return cell;
             }
             if (1 == indexPath.row)
@@ -435,11 +391,6 @@ CZJGoodsRecommendCellDelegate
                 {
                     [cell initBrandRecommendWithDatas:_brandRecommentArray];
                 }
-                
-                //                UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell6"];
-                //                if (!cell) {
-                //                    cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell6"];
-                //                }
                 return cell;
             }
         }
@@ -450,10 +401,6 @@ CZJGoodsRecommendCellDelegate
             CZJAdBanerPlusCell *cell = (CZJAdBanerPlusCell*)[tableView dequeueReusableCellWithIdentifier:@"CZJAdBanerPlusCell" forIndexPath:indexPath];
             
             [cell initBannerTwoWithDatas:_bannerTwoArray];
-            //            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell7"];
-            //            if (!cell) {
-            //                cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell7"];
-            //            }
             return cell;
         }
             break;
@@ -463,11 +410,6 @@ CZJGoodsRecommendCellDelegate
             if (0 == indexPath.row)
             {
                 CZJSpecialRecoCellHeader* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJSpecialRecoCellHeader" forIndexPath:indexPath];
-                
-                //                UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell1"];
-                //                if (!cell) {
-                //                    cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell1"];
-                //                }
                 return cell;
             }
             else if (1 == indexPath.row)
@@ -477,11 +419,6 @@ CZJGoodsRecommendCellDelegate
                 {
                     [cell initSpecialRecommendWithDatas:_specialRecommentArray];
                 }
-                //                UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell8"];
-                //                if (!cell) {
-                //                    cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell8"];
-                //                }
-                
                 return cell;
             }
         }
@@ -494,17 +431,15 @@ CZJGoodsRecommendCellDelegate
                 CZJGoodsRecoCellHeader* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJGoodsRecoCellHeader" forIndexPath:indexPath];
                 cell.backgroundColor = [UIColor clearColor];
                 cell.backgroundView.backgroundColor = [UIColor clearColor];
-                
-                //                UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell1"];
-                //                if (!cell) {
-                //                    cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell1"];
-                //                }
                 return cell;
             }
             else
             {
                 CZJGoodsRecommendCell* cell = (CZJGoodsRecommendCell*)[tableView dequeueReusableCellWithIdentifier:@"CZJGoodsRecommendCell" forIndexPath:indexPath];
                 cell.delegate = self;
+                float width = (PJ_SCREEN_WIDTH - 30) / 2;
+                cell.imageOneHeight.constant = width;
+                cell.imageTwoHeight.constant = width;
                 if (cell && _goodsRecommentArray.count > 0)
                 {
                     [cell initGoodsRecommendWithDatas:_goodsRecommentArray[indexPath.row - 1]];
@@ -636,7 +571,8 @@ CZJGoodsRecommendCellDelegate
                 return 50;
             }
             if (1 <= indexPath.row) {
-                return 260;
+                float width = (PJ_SCREEN_WIDTH - 30) / 2;
+                return width + 5 + 40 + 10 +15 + 10 + 10;
             }
             break;
         default:

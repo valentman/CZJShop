@@ -55,8 +55,10 @@ UICollectionViewDelegate
 >
 - (MXPullDownMenu *)initWithArray:(NSArray *)array AndType:(CZJMXPullDownMenuType)menutype WithFrame:(CGRect)frame;
 - (void)confiMenuWithSelectRow:(NSInteger)row;
+- (void)touchMXPullDownMenuAtMenuIndex:(NSInteger)tapIndex;
 - (void)registNotification;
 - (void)removeNotificationObserve;
+- (NSString*)getMenuTitleByCurrentMenuIndex;
 @property (nonatomic) id<MXPullDownMenuDelegate> delegate;
 
 @end

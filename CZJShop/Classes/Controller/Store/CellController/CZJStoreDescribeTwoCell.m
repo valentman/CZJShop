@@ -20,4 +20,11 @@
     // Configure the view for the selected state
 }
 
+- (IBAction)buttonClickAction:(id)sender
+{
+    if (self.buttonClick)
+    {
+        self.buttonClick(sender);
+    }
+}
 @end

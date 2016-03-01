@@ -39,8 +39,10 @@
     self.goodNameLabel.text = form.itemName;
     self.goodPriceLabel.text = [NSString stringWithFormat:@"￥%@",form.currentPrice];
     itemOneId = form.storeItemPid;
+    self.viewTow.hidden = YES;
     if (datas.count > 1)
     {
+        self.viewTow.hidden = NO;
         GoodsRecommendForm * form2 = datas[1];
         itemTwoId = form2.storeItemPid;
         [self.goodImg2 sd_setImageWithURL:[NSURL URLWithString:form2.itemImg] placeholderImage:PNGIMAGE(@"home_btn_xiche")];

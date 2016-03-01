@@ -30,8 +30,6 @@
 @property(strong, nonatomic)NSString* storeAddr;
 @property(strong, nonatomic)NSString* storeId;
 @property(strong, nonatomic)NSString* storeName;
-
-- (id)initWithDictionary:(NSDictionary*)dict;
 @end
 
 //-----------------------门店详情活动-----------------------
@@ -41,7 +39,6 @@
 @property(nonatomic, strong) NSString* url;
 @property(nonatomic, strong) NSString* title;
 
-- (id)initWithDictionary:(NSDictionary*)dictionary;
 @end
 
 //-----------------------门店详情广告栏-----------------------
@@ -50,19 +47,16 @@
 @property(nonatomic, strong) NSString* img;
 @property(nonatomic, strong) NSString* type;
 @property(nonatomic, strong) NSString* title;
-
-- (id)initWithDictionary:(NSDictionary*)dictionary;
 @end
 
 //-----------------------门店商品类型、服务类型-----------------------
 @interface CZJStoreDetailTypesForm : NSObject
 @property(nonatomic, strong) NSString* name;
 @property(nonatomic, strong) NSString* typeId;
-- (id)initWithDictionary:(NSDictionary*)dictionary;
 @end
 
 //-----------------------服务或商品-----------------------
-@interface CZJSToreDetailGoodsAndServiceForm : NSObject
+@interface CZJStoreDetailGoodsAndServiceForm : NSObject
 @property(nonatomic, strong)NSString* originalPrice;
 @property(nonatomic, strong)NSString* storeItemPid;
 @property(nonatomic, strong)NSString* itemType;
@@ -70,5 +64,4 @@
 @property(nonatomic, strong)NSString* itemImg;
 @property(nonatomic, strong)NSString* currentPrice;
 
-- (id)initWithDictionary:(NSDictionary*)dict;
 @end
