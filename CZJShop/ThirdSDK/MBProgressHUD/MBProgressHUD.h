@@ -31,7 +31,7 @@
 #import <CoreGraphics/CoreGraphics.h>
 
 @protocol MBProgressHUDDelegate;
-
+#define kHudTag 9999
 
 typedef NS_ENUM(NSInteger, MBProgressHUDMode) {
 	/** Progress is shown using an UIActivityIndicatorView. This is the default. */

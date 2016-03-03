@@ -136,4 +136,5 @@
 //把一个数组里面的元素，重新组装成由俩个元素组成的数组的数组
 + (NSMutableArray*)getAggregationArrayFromArray:(NSArray*)sourcArray;
 
++ (UIView*)getBackgroundPromptViewWithPrompt:(NSString*)prompt;
 @end

@@ -359,6 +359,8 @@
 		EC4997091C756DEA007B0936 /* CZJMyCardInfoForm.m in Sources */ = {isa = PBXBuildFile; fileRef = EC4997081C756DEA007B0936 /* CZJMyCardInfoForm.m */; settings = {ASSET_TAGS = (); }; };
 		EC49970D1C75AA60007B0936 /* CZJMyWalletCardItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EC49970B1C75AA60007B0936 /* CZJMyWalletCardItemCell.m */; settings = {ASSET_TAGS = (); }; };
 		EC49970E1C75AA60007B0936 /* CZJMyWalletCardItemCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EC49970C1C75AA60007B0936 /* CZJMyWalletCardItemCell.xib */; settings = {ASSET_TAGS = (); }; };
+		EC4A4C771C86CCC7008A03EB /* CZJBackgroundPromptView.m in Sources */ = {isa = PBXBuildFile; fileRef = EC4A4C751C86CCC7008A03EB /* CZJBackgroundPromptView.m */; settings = {ASSET_TAGS = (); }; };
+		EC4A4C781C86CCC7008A03EB /* CZJBackgroundPromptView.xib in Resources */ = {isa = PBXBuildFile; fileRef = EC4A4C761C86CCC7008A03EB /* CZJBackgroundPromptView.xib */; settings = {ASSET_TAGS = (); }; };
 		EC4ACB951C562C6800E3523F /* CZJSearchController.m in Sources */ = {isa = PBXBuildFile; fileRef = EC4ACB941C562C6800E3523F /* CZJSearchController.m */; settings = {ASSET_TAGS = (); }; };
 		EC4EF4B01C3A4E7300E0FA91 /* commit_lable_zeng@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EC4EF4AE1C3A4E7300E0FA91 /* commit_lable_zeng@2x.png */; };
 		EC4EF4B11C3A4E7300E0FA91 /* commit_lable_zeng@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = EC4EF4AF1C3A4E7300E0FA91 /* commit_lable_zeng@3x.png */; };
@@ -945,7 +947,6 @@
 		ECF3D1661C83E72D008E4969 /* evaluate_icon_zhuiping@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = ECF3D1621C83E72D008E4969 /* evaluate_icon_zhuiping@3x.png */; settings = {ASSET_TAGS = (); }; };
 		ECF3D16A1C8418E4008E4969 /* CZJAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = ECF3D1681C8418E4008E4969 /* CZJAlertView.m */; settings = {ASSET_TAGS = (); }; };
 		ECF3D16B1C8418E4008E4969 /* CZJAlertView.xib in Resources */ = {isa = PBXBuildFile; fileRef = ECF3D1691C8418E4008E4969 /* CZJAlertView.xib */; settings = {ASSET_TAGS = (); }; };
-		ECF3D16E1C84191C008E4969 /* CZJAlertViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ECF3D16D1C84191C008E4969 /* CZJAlertViewController.m */; settings = {ASSET_TAGS = (); }; };
 		ECF3D17A1C8421F6008E4969 /* SVHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = ECF3D1771C8421F6008E4969 /* SVHTTPClient.m */; settings = {ASSET_TAGS = (); }; };
 		ECF3D17B1C8421F6008E4969 /* SVHTTPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = ECF3D1791C8421F6008E4969 /* SVHTTPRequest.m */; settings = {ASSET_TAGS = (); }; };
 		ECF54EF41C34C8DF007127B7 /* CZJEvalutionDetailReplyCell.m in Sources */ = {isa = PBXBuildFile; fileRef = ECF54EF21C34C8DF007127B7 /* CZJEvalutionDetailReplyCell.m */; };
@@ -1497,6 +1498,9 @@
 		EC49970A1C75AA60007B0936 /* CZJMyWalletCardItemCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJMyWalletCardItemCell.h; sourceTree = "<group>"; };
 		EC49970B1C75AA60007B0936 /* CZJMyWalletCardItemCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJMyWalletCardItemCell.m; sourceTree = "<group>"; };
 		EC49970C1C75AA60007B0936 /* CZJMyWalletCardItemCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CZJMyWalletCardItemCell.xib; sourceTree = "<group>"; };
+		EC4A4C741C86CCC7008A03EB /* CZJBackgroundPromptView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJBackgroundPromptView.h; sourceTree = "<group>"; };
+		EC4A4C751C86CCC7008A03EB /* CZJBackgroundPromptView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJBackgroundPromptView.m; sourceTree = "<group>"; };
+		EC4A4C761C86CCC7008A03EB /* CZJBackgroundPromptView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CZJBackgroundPromptView.xib; sourceTree = "<group>"; };
 		EC4ACB931C562C6800E3523F /* CZJSearchController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJSearchController.h; sourceTree = "<group>"; };
 		EC4ACB941C562C6800E3523F /* CZJSearchController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJSearchController.m; sourceTree = "<group>"; };
 		EC4EF4AE1C3A4E7300E0FA91 /* commit_lable_zeng@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "commit_lable_zeng@2x.png"; sourceTree = "<group>"; };
@@ -2416,8 +2420,6 @@
 		ECF3D1671C8418E3008E4969 /* CZJAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJAlertView.h; sourceTree = "<group>"; };
 		ECF3D1681C8418E4008E4969 /* CZJAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJAlertView.m; sourceTree = "<group>"; };
 		ECF3D1691C8418E4008E4969 /* CZJAlertView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CZJAlertView.xib; sourceTree = "<group>"; };
-		ECF3D16C1C84191C008E4969 /* CZJAlertViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJAlertViewController.h; sourceTree = "<group>"; };
-		ECF3D16D1C84191C008E4969 /* CZJAlertViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJAlertViewController.m; sourceTree = "<group>"; };
 		ECF3D1761C8421F6008E4969 /* SVHTTPClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVHTTPClient.h; sourceTree = "<group>"; };
 		ECF3D1771C8421F6008E4969 /* SVHTTPClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVHTTPClient.m; sourceTree = "<group>"; };
 		ECF3D1781C8421F6008E4969 /* SVHTTPRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVHTTPRequest.h; sourceTree = "<group>"; };
@@ -2556,8 +2558,6 @@
 		EC0223A01C59C7BB00600851 /* Conponets */ = {
 			isa = PBXGroup;
 			children = (
-				ECF3D16C1C84191C008E4969 /* CZJAlertViewController.h */,
-				ECF3D16D1C84191C008E4969 /* CZJAlertViewController.m */,
 				ECF3D1671C8418E3008E4969 /* CZJAlertView.h */,
 				ECF3D1681C8418E4008E4969 /* CZJAlertView.m */,
 				ECF3D1691C8418E4008E4969 /* CZJAlertView.xib */,
@@ -2581,6 +2581,9 @@
 				ECD3D4321C730A1D00C230BE /* CZJTextView.m */,
 				ECD6FFA71C804C9C005F8E52 /* CZJDeletableImageView.h */,
 				ECD6FFA81C804C9C005F8E52 /* CZJDeletableImageView.m */,
+				EC4A4C741C86CCC7008A03EB /* CZJBackgroundPromptView.h */,
+				EC4A4C751C86CCC7008A03EB /* CZJBackgroundPromptView.m */,
+				EC4A4C761C86CCC7008A03EB /* CZJBackgroundPromptView.xib */,
 			);
 			path = Conponets;
 			sourceTree = "<group>";
@@ -5714,6 +5717,7 @@
 				ECD3D41E1C72D6D000C230BE /* taocan_img_arrow2@2x.png in Resources */,
 				EC393F981C2E349400B17228 /* prodetail_icon_off@2x.png in Resources */,
 				ECF2DCAB1C5767F80096FF39 /* CZJStoreAttentionHeadCell.xib in Resources */,
+				EC4A4C781C86CCC7008A03EB /* CZJBackgroundPromptView.xib in Resources */,
 				ECC4DE111C17D67B00FBD6A4 /* CollectionHeader.xib in Resources */,
 				ECC4DEE51C17FEA900FBD6A4 /* prodetail_icon_shoplogo@3x.png in Resources */,
 				EC34FFEC1C433D5A0063A071 /* my_icon_list@2x.png in Resources */,
@@ -5975,7 +5979,6 @@
 				ECFA85D41C1BD3C3009F9177 /* CZJFilterBaseController.m in Sources */,
 				ECC4DDCF1C17D67B00FBD6A4 /* FDAlertView.m in Sources */,
 				EC10E6881BFC24C800CDBFCD /* CZJUtils.m in Sources */,
-				ECF3D16E1C84191C008E4969 /* CZJAlertViewController.m in Sources */,
 				EC0223AF1C59C7BB00600851 /* NSDictionary+NSDictonay_Unicode.m in Sources */,
 				ECC4DE2F1C17D67B00FBD6A4 /* UIImageView+WebCache.m in Sources */,
 				ECF2DCDF1C5767F80096FF39 /* WLZ_ChangeCountView.m in Sources */,
@@ -6001,6 +6004,7 @@
 				ECD6FF941C800043005F8E52 /* QNHosts.m in Sources */,
 				EC5CCDBE1C3CB27E00D4D8B6 /* GKHpickerAddressView.m in Sources */,
 				ECFFB9501C10275E00811C2E /* CZJProvinceForm.m in Sources */,
+				EC4A4C771C86CCC7008A03EB /* CZJBackgroundPromptView.m in Sources */,
 				EC442B721BFEF73F00DC6F97 /* CZJGoodsRecommendCell.m in Sources */,
 				ECC4DDB81C17D67B00FBD6A4 /* RSADataVerifier.m in Sources */,
 				ECD6FF8F1C800043005F8E52 /* QNResponseInfo.m in Sources */,

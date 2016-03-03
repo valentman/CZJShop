@@ -18,7 +18,7 @@ DZNEmptyDataSetSource,
 DZNEmptyDataSetDelegate
 >
 {
-    
+    BOOL isLoadSuccess;
 }
 @property (strong, nonatomic)CZJWebViewJSI* webViewJSI;
 @property (strong, nonatomic)UIWebView* myWebView;
@@ -32,13 +32,11 @@ DZNEmptyDataSetDelegate
 {
     [super viewDidLoad];
     [self initViews];
-    [self loadHtml:_cur_url];
+    [self addCZJNaviBarView:CZJNaviBarViewTypeGeneral];
 }
 
 - (void)initViews
 {
-    [self addCZJNaviBarView:CZJNaviBarViewTypeGeneral];
-    
     //webView接口
     self.webViewJSI = [CZJWebViewJSI bridgeForWebView:_myWebView webViewDelegate:self];
     self.webViewJSI.JSIDelegate = self;
@@ -49,6 +47,8 @@ DZNEmptyDataSetDelegate
     self.myWebView = [[UIWebView alloc]initWithFrame:CGRectMake(0, 64, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - 64)];
     self.myWebView.delegate = self;
     [self.view addSubview:self.myWebView];
+    
+    [self loadHtml:_cur_url];
 }
 
 - (void)loadHtml:(NSString *)surl{
@@ -78,18 +78,27 @@ DZNEmptyDataSetDelegate
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
 {
     self.failedLoading = NO;
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    if (!isLoadSuccess && !VIEWWITHTAG(self.view, kHudTag))
+    {
+        DLog();
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    }
     return YES;
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
 {
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     self.failedLoading = YES;
     [self.myWebView.scrollView reloadEmptyDataSet];
+    
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView{
+    DLog();
+    self.naviBarView.mainTitleLabel.text = [webView stringByEvaluatingJavaScriptFromString:@"document.title"];
+    isLoadSuccess = YES;
     [MBProgressHUD hideHUDForView:self.view animated:YES];
 }
 

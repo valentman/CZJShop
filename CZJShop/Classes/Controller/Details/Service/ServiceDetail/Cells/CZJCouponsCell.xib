@@ -33,7 +33,7 @@
                             <constraint firstAttribute="height" constant="10" id="b5C-Tz-iA1"/>
                         </constraints>
                     </imageView>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="we5-Rl-N3A">
+                    <button hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="we5-Rl-N3A">
                         <rect key="frame" x="270" y="3" width="40" height="40"/>
                         <animations/>
                         <constraints>

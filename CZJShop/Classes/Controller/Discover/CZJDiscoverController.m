@@ -93,6 +93,7 @@
         if (0 == indexPath.row && 0 == indexPath.section)
         {
             url = [NSString stringWithFormat:@"%@?chezhuId=%@",kCZJServerAPIActivityCenter,CZJLoginModelInstance.cheZhuId];
+//            url = @"http://upload.chezhijian.com/@/yunying/201603/4af0da0e0a2644628e36e5b59347f932.png";
             webView.naviBarView.mainTitleLabel.text = @"活动中心";
         }
         if (0 == indexPath.row && 0 == indexPath.section)

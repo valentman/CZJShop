@@ -51,16 +51,7 @@ singleton_implementation(CZJBaseDataManager);
         _serviceTypesAry = [NSMutableArray array];
         _goodsTypesAry = [NSMutableArray array];
         _orderPaymentTypeAry = [NSArray array];
-        //固定请求参数确定
-        NSDictionary* _tmpparams = @{@"chezhuId" : nil == [CZJLoginModelInstance cheZhuId] ? @"0" : [CZJLoginModelInstance cheZhuId],
-                                     @"cityId" : nil == [CZJLoginModelInstance cityId] ? @"0" : [CZJLoginModelInstance cityId],
-                                     @"chezhuMobile" : nil == [CZJLoginModelInstance mobile] ? @"0" : [CZJLoginModelInstance mobile],
-                                     @"lng" : @(_curLocation.longitude),
-                                     @"lat" : @(_curLocation.latitude),
-                                     @"os" : @"ios",
-                                     @"suffix" : ((iPhone6Plus || iPhone6) ? @"@3x" : @"@2x")
-                                     };
-        _params = [_tmpparams mutableCopy];
+        [self initParameters];
         [self loadAreaInfos];
         
         NSArray* dict = [CZJUtils readArrayFromPlistWithName:@"PaymentType"];
@@ -68,6 +59,20 @@ singleton_implementation(CZJBaseDataManager);
         return self;
     }
     return nil;
+}
+
+- (void)initParameters
+{
+    //固定请求参数确定
+    NSDictionary* _tmpparams = @{@"chezhuId" : nil == [CZJLoginModelInstance cheZhuId] ? @"0" : [CZJLoginModelInstance cheZhuId],
+                                 @"cityId" : nil == [CZJLoginModelInstance cityId] ? @"0" : [CZJLoginModelInstance cityId],
+                                 @"chezhuMobile" : nil == [CZJLoginModelInstance mobile] ? @"0" : [CZJLoginModelInstance mobile],
+                                 @"lng" : @(_curLocation.longitude),
+                                 @"lat" : @(_curLocation.latitude),
+                                 @"os" : @"ios",
+                                 @"suffix" : ((iPhone6Plus || iPhone6) ? @"@3x" : @"@2x")
+                                 };
+    _params = [_tmpparams mutableCopy];
 }
 
 - (NSArray*)orderPaymentTypeAry
@@ -113,6 +118,16 @@ singleton_implementation(CZJBaseDataManager);
     {
         _curLocation = curLocation;
     }
+}
+
+- (void)setCurCityName:(NSString *)curCity
+{
+    [self generalPost:@{@"cityName":curCity} success:^(id json) {
+        NSDictionary* dict = [[CZJUtils DataFromJson:json] valueForKey:@"msg"];
+        self.curCityID = [dict valueForKey:@"cityId"];
+        self.curProvinceID = [dict valueForKey:@"provinceId"];
+        [self initParameters];
+    } andServerAPI:kCZJServerAPIGetCityIdByName];
 }
 
 - (BOOL)showAlertView:(id)info{

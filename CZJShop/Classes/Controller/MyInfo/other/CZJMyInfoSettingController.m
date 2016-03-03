@@ -82,7 +82,6 @@ UITableViewDataSource
     CZJCouponsCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJCouponsCell" forIndexPath:indexPath];
     cell.couponNameLabel.textColor = [UIColor blackColor];
     cell.couponNameLabel.font = SYSTEMFONT(16);
-    cell.chooseButton.hidden = YES;
     cell.couponNameLabel.text = settingAry[indexPath.row];
     NSString* versionStr = settingAry[indexPath.row];
     CGSize size = [CZJUtils calculateTitleSizeWithString:versionStr AndFontSize:16];

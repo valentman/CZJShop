@@ -90,11 +90,17 @@
         [[CCLocationManager shareLocation] getLocationCoordinate:^(CLLocationCoordinate2D locationCorrrdinate) {
             [CZJBaseDataInstance setCurLocation:locationCorrrdinate];
         }];
+        [[CCLocationManager shareLocation]getCity:^(NSString *addressString) {
+            [CZJBaseDataInstance setCurCityName:addressString];
+        }];
     }
     else if (IS_IOS7)
     {
         [[ZXLocationManager sharedZXLocationManager] getLocationCoordinate:^(CLLocationCoordinate2D coord) {
             [CZJBaseDataInstance setCurLocation:coord];
+        }];
+        [[ZXLocationManager sharedZXLocationManager]getCityName:^(NSString *addressString) {
+            [CZJBaseDataInstance setCurCityName:addressString];
         }];
     }
 

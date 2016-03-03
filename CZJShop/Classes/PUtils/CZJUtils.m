@@ -14,6 +14,7 @@
 #import "CZJDetailViewController.h"
 #import "CZJStoreDetailController.h"
 #import "CZJSearchController.h"
+#import "CZJBackgroundPromptView.h"
 
 
 @interface CZJUtils ()<UIAlertViewDelegate>
@@ -1064,6 +1065,13 @@ void tapToHidePopViewAction(id sender, SEL _cmd)
         [destArray[index] addObject:sourcArray[i]];
     }
     return destArray;
+}
+
++ (UIView*)getBackgroundPromptViewWithPrompt:(NSString*)prompt
+{
+    CZJBackgroundPromptView* promptView = [self getXibViewByName:@"CZJBackgroundPromptView"];
+    promptView.promptLabel.text = prompt;
+    return promptView;
 }
 
 @end

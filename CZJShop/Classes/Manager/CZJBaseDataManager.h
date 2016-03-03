@@ -65,6 +65,9 @@
 @property (nonatomic, retain) NSArray* orderPaymentTypeAry;
 //-------------------------本地数据对象------------------------------
 @property (nonatomic, assign) CLLocationCoordinate2D curLocation;
+@property (nonatomic, retain) NSString* curCityName;                    //用户当前城市
+@property (nonatomic, retain) NSString* curCityID;                    //用户当前城市ID
+@property (nonatomic, retain) NSString* curProvinceID;                    //用户当前省份ID
 @property (nonatomic) NSMutableDictionary *params;
 
 singleton_interface(CZJBaseDataManager);

@@ -99,11 +99,12 @@ CZJStoreInfoHeaerCellDelegate
     [self addCZJNaviBarView:CZJNaviBarViewTypeDetail];
     [self initDatas];
     [self initViews];
+    [SVProgressHUD show];
+    [SVProgressHUD setBackgroundColor:CLEARCOLOR];
     [CZJUtils performBlock:^{
-        [SVProgressHUD show];
-        [SVProgressHUD setBackgroundColor:CLEARCOLOR];
         [self getDataFromServer];
     } afterDelay:0.5];
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -116,7 +117,6 @@ CZJStoreInfoHeaerCellDelegate
     [self registNotification];
     self.navigationController.interactivePopGestureRecognizer.delegate = self;
     self.navigationController.navigationBarHidden = YES;
-
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -246,6 +246,7 @@ CZJStoreInfoHeaerCellDelegate
         
         [webVie setTitleArray:@[@"图文详情",@"购买须知",@"包装售后",@"适用车型"] andVCArray:@[FController,SController,TController,AController]];
         [self.myScrollView addSubview:webVie];
+        
         [SVProgressHUD dismiss];
     };
     

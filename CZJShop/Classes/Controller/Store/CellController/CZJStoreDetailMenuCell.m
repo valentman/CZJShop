@@ -23,6 +23,8 @@
         [self.myView.layer addSublayer:title];
         [self.titles addObject:title];
     }
+    UIGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapMenu:)];
+    [self addGestureRecognizer:tapGesture];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -30,5 +32,18 @@
 
     // Configure the view for the selected state
 }
+
+- (void)tapMenu:(UITapGestureRecognizer *)paramSender
+{
+    // 得到tapIndex(点击的菜单项)
+    CGPoint touchPoint = [paramSender locationInView:self];
+    NSInteger tapIndex = touchPoint.x / (PJ_SCREEN_WIDTH / 4);
+    
+    if (self.buttonClick)
+    {
+        self.buttonClick([NSString stringWithFormat:@"%ld",tapIndex]);
+    }
+}
+
 
 @end

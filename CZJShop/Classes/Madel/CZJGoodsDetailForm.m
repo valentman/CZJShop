@@ -31,6 +31,6 @@
 @implementation CZJGoodsDetailForm
 + (NSDictionary *)objectClassInArray
 {
-    return @{@"items" : @"CZJCouponForm"};
+    return @{@"coupons" : @"CZJCouponForm"};
 }
 @end

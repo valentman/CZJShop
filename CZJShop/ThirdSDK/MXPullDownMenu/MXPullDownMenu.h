@@ -43,6 +43,7 @@ typedef NS_ENUM(NSInteger, CZJMXPullDownMenuType)
 @optional
 - (void)PullDownMenu:(MXPullDownMenu*)pullDownMenu didSelectRowAtColumn:(NSInteger)column row:(NSInteger)row;
 - (void)pullDownMenu:(MXPullDownMenu*)pullDownMenu didSelectCityName:(NSString*)cityName;
+- (void)pullDownMenuFirstName:(NSString*)firstName andSecondName:(NSString*)secondName;
 - (void)pullDownMenuDidSelectFiliterButton;    //筛选按钮
 
 @end

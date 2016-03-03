@@ -147,7 +147,7 @@
     [_btnArrange setHidden:YES];
 
     //标题
-    _mainTitleLabel = [[UILabel alloc]initWithFrame:CGRectMake((PJ_SCREEN_WIDTH - 120) * 0.5, 14, 120, 16)];
+    _mainTitleLabel = [[UILabel alloc]initWithFrame:CGRectMake(50, 14, PJ_SCREEN_WIDTH - 100, 16)];
     _mainTitleLabel.font = BOLDSYSTEMFONT(20);
     _mainTitleLabel.textAlignment = NSTextAlignmentCenter;
     _mainTitleLabel.hidden = YES;

@@ -23,7 +23,6 @@
 #import "CZJOrderCarCheckController.h"
 #import "CZJOrderListReturnedController.h"
 #import "CZJPopPayViewController.h"
-#import "CZJAlertViewController.h"
 
 @interface CZJMyInfoOrderListController ()
 <

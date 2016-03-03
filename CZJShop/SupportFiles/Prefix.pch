@@ -275,6 +275,8 @@ ULog(xx, ##__VA_ARGS__); \
 #define HiddenCellSeparator UIEdgeInsetsMake(46, PJ_SCREEN_WIDTH, 0, 0);
 #define IndentCellSeparator(num) UIEdgeInsetsMake(0, num, 0, num);
 
+#define CGPointMiddle CGPointMake(0.5, 0.5)
+
 
 //------------------------单例宏---------------------------
 //@interface

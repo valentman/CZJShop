@@ -60,6 +60,15 @@ MKMapViewDelegate
     NSString* _touchedStoreItemPid;
     NSInteger _touchedType;
     BOOL isSearchBarShow;
+    
+    NSString* _bigTypeId;                   //第一个大类型
+    NSString* _typeId;                      //第二个类型
+    NSString* _q;                           //搜索内容
+    NSString* _sortType;                    //销量1 最新2 价高3 价低4
+    
+    CGFloat tableCellHeight;
+    NSInteger numberOfLoad;
+    NSInteger goodCellHeight;
 }
 
 @property (weak, nonatomic) IBOutlet UITableView *myTableView;
@@ -99,6 +108,16 @@ MKMapViewDelegate
     _goodsTypesArray = [NSMutableArray array];
     _serviceTypesArray = [NSMutableArray array];
     _serviceAndGoodsArray = [NSMutableArray array];
+    
+    _bigTypeId = @"2";
+    _typeId = @"0";
+    _q = @"";
+    _sortType = @"1";
+    
+    //除去顶部导航栏，状态栏，下拉菜单高度，底部导航栏之后的中间区域高度
+    tableCellHeight = PJ_SCREEN_HEIGHT - 64 - 54 - 49;
+    goodCellHeight = (PJ_SCREEN_WIDTH - 30) / 2 + 5 + 40 + 10 +15 + 10 + 10;
+    numberOfLoad = ceilf(tableCellHeight / goodCellHeight);
 }
 
 - (void)initViews
@@ -128,6 +147,7 @@ MKMapViewDelegate
     self.myTableView.backgroundColor = CZJTableViewBGColor;
     self.myTableView.delegate = self;
     self.myTableView.dataSource = self;
+    self.myTableView.showsVerticalScrollIndicator = NO;
     self.myTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.automaticallyAdjustsScrollViewInsets = NO;
     
@@ -160,7 +180,6 @@ MKMapViewDelegate
 {
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [CZJBaseDataInstance loadStoreInfo:@{@"storeId" : self.storeId} success:^(id json) {
-        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
         [self dealWithStoreDetailInfoData:json];
         [self.myTableView reloadData];
         [self getStoreGoodsAndServiceDataFromServer];
@@ -169,15 +188,17 @@ MKMapViewDelegate
 
 - (void)getStoreGoodsAndServiceDataFromServer
 {
-    NSDictionary* params = @{@"bigTypeId" : @"0",
-                             @"typeId" : @"0",
-                             @"q" : @"",
-                             @"sortType" : @"",
-                             @"storeId" : self.storeId,
-                             @"storeCityId" : @"469"};
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    NSDictionary* params = @{@"bigTypeId" : _bigTypeId,
+                             @"typeId" : _typeId,
+                             @"q" : _q,
+                             @"sortType" : _sortType,
+                             @"storeId" : _storeDetailForm.storeId,
+                             @"storeCityId" : _storeDetailForm.cityId};
     [CZJBaseDataInstance loadStoreDetail:params success:^(id json) {
         CZJGeneralBlock block = ^()
         {
+            [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
             [self dealWithGoodsServiceData:json];
         };
         [CZJUtils performBlock:block afterDelay:0.5];
@@ -248,7 +269,21 @@ MKMapViewDelegate
     }
     if (5 == section)
     {
-        return _serviceAndGoodsArray.count > 0 ? _serviceAndGoodsArray.count + 2 : 0;
+        if (0 == _serviceAndGoodsArray.count)
+        {//第一种没有数据
+            return 2 + 1;
+        }
+        //第二种有数据，但又填充不满屏幕的情况
+        else if (_serviceAndGoodsArray.count > 0 &&
+                 _serviceAndGoodsArray.count < numberOfLoad)
+        {
+            return _serviceAndGoodsArray.count + 2 + 1;
+        }
+        //第三种有数据，可以正常填满屏幕的情况
+        else
+        {
+            return _serviceAndGoodsArray.count + 2;
+        }
     }
     return 1;
 }
@@ -294,8 +329,10 @@ MKMapViewDelegate
             {
                 UIButton* btn = (UIButton*)data;
                 _touchedType = btn.tag;
-                [self.myTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:5] atScrollPosition:UITableViewScrollPositionTop animated:YES];
+                [self.myTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:5] atScrollPosition:UITableViewScrollPositionTop animated:NO];
                 [self.topView confiMenuWithSelectRow:_touchedType];
+                _bigTypeId = [NSString stringWithFormat:@"%ld",_touchedType];
+                [self getStoreGoodsAndServiceDataFromServer];
             };
             cell.buttonClick = buttonClickHandler;
             return cell;
@@ -366,20 +403,72 @@ MKMapViewDelegate
         {
             CZJStoreDetailMenuCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJStoreDetailMenuCell" forIndexPath:indexPath];
             ((CATextLayer*)cell.titles[0]).string = [self.topView getMenuTitleByCurrentMenuIndex];
-            [cell setTag:500];
+            CZJButtonClickHandler buttonClickHandler = ^(id data)
+            {
+                NSString* tagStr = (NSString*)data;
+                _touchedType = [tagStr integerValue];
+                [self.myTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:5] atScrollPosition:UITableViewScrollPositionTop animated:NO];
+                [self.topView confiMenuWithSelectRow:_touchedType];
+                if (_touchedType == 0)
+                {
+                    _bigTypeId = [NSString stringWithFormat:@"%ld",_touchedType];
+                }
+                else
+                {
+                    _sortType = [NSString stringWithFormat:@"%ld",_touchedType];
+                }
+                [self getStoreGoodsAndServiceDataFromServer];
+            };
+            cell.buttonClick = buttonClickHandler;
             return cell;
         }
         else
         {
-            CZJGoodsRecommendCell* cell = (CZJGoodsRecommendCell*)[tableView dequeueReusableCellWithIdentifier:@"CZJGoodsRecommendCell" forIndexPath:indexPath];
-            float width = (PJ_SCREEN_WIDTH - 30) / 2;
-            cell.delegate = self;
-            cell.imageTwoHeight.constant = width;
-            cell.imageOneHeight.constant = width;
-            if (cell && _serviceAndGoodsArray.count > 0) {
-                [cell initGoodsRecommendWithDatas:_serviceAndGoodsArray[indexPath.row - 2]];
+            //第一种没有数据的情况
+            if (0 == _serviceAndGoodsArray.count)
+            {
+                CZJTableViewCell* cell = (CZJTableViewCell*)[CZJUtils getBackgroundPromptViewWithPrompt:@"该店没有商品或服务"];
+                cell.selectionStyle = UITableViewCellSelectionStyleNone;
+                return cell;
             }
-            return cell;
+            //第二种有数据，但又填充不满屏幕的情况
+            else if (_serviceAndGoodsArray.count > 0 &&
+                     _serviceAndGoodsArray.count < numberOfLoad)
+            {
+                if (indexPath.row < _serviceAndGoodsArray.count + 2 &&
+                    indexPath.row > 1)
+                {//有数据的goodcell
+                    CZJGoodsRecommendCell* cell = (CZJGoodsRecommendCell*)[tableView dequeueReusableCellWithIdentifier:@"CZJGoodsRecommendCell" forIndexPath:indexPath];
+                    float width = (PJ_SCREEN_WIDTH - 30) / 2;
+                    cell.delegate = self;
+                    cell.imageTwoHeight.constant = width;
+                    cell.imageOneHeight.constant = width;
+                    if (cell && _serviceAndGoodsArray.count > 0) {
+                        [cell initGoodsRecommendWithDatas:_serviceAndGoodsArray[indexPath.row - 2]];
+                    }
+                    return cell;
+                }
+                else
+                {//空白的cell
+                    CZJTableViewCell* cell = [[CZJTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell2"];
+                    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+                    cell.backgroundColor = CLEARCOLOR;
+                    return cell;
+                }
+            }
+            //第三种有数据，可以正常填满屏幕的情况
+            else
+            {
+                CZJGoodsRecommendCell* cell = (CZJGoodsRecommendCell*)[tableView dequeueReusableCellWithIdentifier:@"CZJGoodsRecommendCell" forIndexPath:indexPath];
+                float width = (PJ_SCREEN_WIDTH - 30) / 2;
+                cell.delegate = self;
+                cell.imageTwoHeight.constant = width;
+                cell.imageOneHeight.constant = width;
+                if (cell && _serviceAndGoodsArray.count > 0) {
+                    [cell initGoodsRecommendWithDatas:_serviceAndGoodsArray[indexPath.row - 2]];
+                }
+                return cell;
+            }
         }
     }
     return nil;
@@ -440,8 +529,30 @@ MKMapViewDelegate
         }
         else
         {
-            float width = (PJ_SCREEN_WIDTH - 30) / 2;
-            return width + 5 + 40 + 10 +15 + 10 + 10;
+            //第一种没有数据的情况
+            if (0 == _serviceAndGoodsArray.count)
+            {
+                return tableCellHeight;
+            }
+            //第二种有数据，但又填充不满屏幕的情况
+            else if (_serviceAndGoodsArray.count > 0 &&
+                _serviceAndGoodsArray.count < numberOfLoad)
+            {
+                if (indexPath.row < _serviceAndGoodsArray.count + 2 &&
+                    indexPath.row > 1)
+                {//有数据的goodcell
+                    return goodCellHeight;
+                }
+                else
+                {//空白的cell
+                    return tableCellHeight - _serviceAndGoodsArray.count*goodCellHeight;
+                }
+            }
+            //第三种有数据，可以正常填满屏幕的情况
+            else
+            {
+                return goodCellHeight;
+            }
         }
     }
     return 180;
@@ -489,15 +600,15 @@ MKMapViewDelegate
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     float contentOffsetY = [scrollView contentOffset].y;
+    
+    //判断是否是上拉还是下滑动作
     bool isDraggingDown = (lastContentOffsetY - contentOffsetY) > 0 ;
     lastContentOffsetY = contentOffsetY;
 
-    UIView* view = VIEWWITHTAG(self.myTableView, 500);
-    CGRect frame = view.frame;
-    DLog(@"contentOffsetY:%f, frame.y:%f",contentOffsetY, frame.origin.y);
-    if (view &&
-        ((contentOffsetY <= frame.origin.y - 64 && isDraggingDown)||
-        (contentOffsetY >= frame.origin.y - 64 && !isDraggingDown)))
+    CGRect frame = [self.myTableView rectForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:5]];
+//    DLog(@"contentOffsetY:%f, frameY:%f",contentOffsetY,frame.origin.y);
+    if ((contentOffsetY <= frame.origin.y - 64 && isDraggingDown)||
+        (contentOffsetY >= frame.origin.y - 64 && !isDraggingDown))
     {
         self.topView.hidden = isDraggingDown;
     }
@@ -645,14 +756,37 @@ MKMapViewDelegate
 
 
 #pragma mark MXPullDownMenuDelegate
-- (void)pullDownMenuDidSelectFiliterButton
+- (void)pullDownMenuFirstName:(NSString*)firstName andSecondName:(NSString*)secondName
 {
-    
+    DLog(@"%@,%@",firstName, secondName);
 }
-
 - (void)pullDownMenu:(MXPullDownMenu*)pullDownMenu didSelectCityName:(NSString*)cityName
 {
     DLog(@"%@",cityName);
+    if ([cityName isEqualToString:@"销量"])
+    {
+        _sortType = @"1";
+    }
+    if ([cityName isEqualToString:@"最新"])
+    {
+        _sortType = @"2";
+    }
+    if ([cityName isEqualToString:@"价格"])
+    {
+        if ([_sortType isEqualToString:@"3"])
+        {
+            _sortType = @"4";
+        }
+        else if ([_sortType isEqualToString:@"3"])
+        {
+            _sortType = @"3";
+        }
+    }
+    if ([cityName isEqualToString:@"全部"])
+    {
+        _bigTypeId = @"0";
+    }
+    [self getStoreGoodsAndServiceDataFromServer];
 }
 
 

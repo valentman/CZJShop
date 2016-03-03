@@ -398,8 +398,12 @@
         {
             _selectedCityName = ((CZJStoreDetailTypesForm*)[_containCitys objectAtIndex:indexPath.row]).name;
         }
+        [self.delegate pullDownMenuFirstName:cell.cityName.text andSecondName:_selectedCityName];
     }
-    [self.delegate pullDownMenu:self didSelectCityName:_selectedCityName];
+    else
+    {
+       [self.delegate pullDownMenu:self didSelectCityName:_selectedCityName];
+    }
 }
 
 
@@ -467,7 +471,6 @@
     
     if (CZJMXPullDownMenuTypeStoreDetail == _menuType && 0 != tapIndex)
     {
-        [self.delegate pullDownMenuDidSelectFiliterButton];
         [self.delegate pullDownMenu:self didSelectCityName:_array[tapIndex][0]];
         [self tapBackGround:nil];
         return;
