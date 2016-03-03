@@ -181,8 +181,9 @@ FOUNDATION_STATIC_INLINE NSUInteger SDCacheCostForImage(UIImage *image) {
     }
     unsigned char r[CC_MD5_DIGEST_LENGTH];
     CC_MD5(str, (CC_LONG)strlen(str), r);
-    NSString *filename = [NSString stringWithFormat:@"%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x",
-                                                    r[0], r[1], r[2], r[3], r[4], r[5], r[6], r[7], r[8], r[9], r[10], r[11], r[12], r[13], r[14], r[15]];
+    NSString *filename = [NSString stringWithFormat:@"%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%@",
+                          r[0], r[1], r[2], r[3], r[4], r[5], r[6], r[7], r[8], r[9], r[10],
+                          r[11], r[12], r[13], r[14], r[15], [[key pathExtension] isEqualToString:@""] ? @"" : [NSString stringWithFormat:@".%@", [key pathExtension]]];
 
     return filename;
 }
@@ -275,6 +276,12 @@ FOUNDATION_STATIC_INLINE NSUInteger SDCacheCostForImage(UIImage *image) {
     // this is an exception to access the filemanager on another queue than ioQueue, but we are using the shared instance
     // from apple docs on NSFileManager: The methods of the shared NSFileManager object can be called from multiple threads safely.
     exists = [[NSFileManager defaultManager] fileExistsAtPath:[self defaultCachePathForKey:key]];
+
+    // fallback because of https://github.com/rs/SDWebImage/pull/976 that added the extension to the disk file name
+    // checking the key with and without the extension
+    if (!exists) {
+        exists = [[NSFileManager defaultManager] fileExistsAtPath:[[self defaultCachePathForKey:key] stringByDeletingPathExtension]];
+    }
     
     return exists;
 }
@@ -282,6 +289,13 @@ FOUNDATION_STATIC_INLINE NSUInteger SDCacheCostForImage(UIImage *image) {
 - (void)diskImageExistsWithKey:(NSString *)key completion:(SDWebImageCheckCacheCompletionBlock)completionBlock {
     dispatch_async(_ioQueue, ^{
         BOOL exists = [_fileManager fileExistsAtPath:[self defaultCachePathForKey:key]];
+
+        // fallback because of https://github.com/rs/SDWebImage/pull/976 that added the extension to the disk file name
+        // checking the key with and without the extension
+        if (!exists) {
+            exists = [_fileManager fileExistsAtPath:[[self defaultCachePathForKey:key] stringByDeletingPathExtension]];
+        }
+
         if (completionBlock) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 completionBlock(exists);
@@ -319,10 +333,24 @@ FOUNDATION_STATIC_INLINE NSUInteger SDCacheCostForImage(UIImage *image) {
         return data;
     }
 
+    // fallback because of https://github.com/rs/SDWebImage/pull/976 that added the extension to the disk file name
+    // checking the key with and without the extension
+    data = [NSData dataWithContentsOfFile:[defaultPath stringByDeletingPathExtension]];
+    if (data) {
+        return data;
+    }
+
     NSArray *customPaths = [self.customPaths copy];
     for (NSString *path in customPaths) {
         NSString *filePath = [self cachePathForKey:key inPath:path];
         NSData *imageData = [NSData dataWithContentsOfFile:filePath];
+        if (imageData) {
+            return imageData;
+        }
+
+        // fallback because of https://github.com/rs/SDWebImage/pull/976 that added the extension to the disk file name
+        // checking the key with and without the extension
+        imageData = [NSData dataWithContentsOfFile:[filePath stringByDeletingPathExtension]];
         if (imageData) {
             return imageData;
         }

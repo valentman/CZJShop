@@ -44,6 +44,10 @@ UIGestureRecognizerDelegate
     _naviBarView.delegate = self;
     [self.view addSubview:_naviBarView];
     self.navigationController.interactivePopGestureRecognizer.delegate = self;
+    if (self.searchStr != nil)
+    {
+        self.naviBarView.customSearchBar.text = self.searchStr;
+    }
 }
 
 #pragma mark - CZJNaviagtionBarViewDelegate(自定义导航栏按钮回调)
@@ -95,8 +99,11 @@ UIGestureRecognizerDelegate
 }
 
 
-- (void)showCZJAlertView:(NSString*)promptStr andHandler:(CZJGeneralBlock)confirmBlock
+- (void)showCZJAlertView:(NSString*)promptStr
+       andConfirmHandler:(CZJGeneralBlock)confirmBlock
+        andCancleHandler:(CZJGeneralBlock)cancleBlock
 {
+    self.cancleBlock = cancleBlock;
     CZJSBAlertView* alertViewVC = [[CZJSBAlertView alloc]init];
     self.popWindowInitialRect = ZEROVERTICALHIDERECT;
     self.popWindowDestineRect = ZERORECT;
@@ -120,6 +127,7 @@ UIGestureRecognizerDelegate
             self.window  = nil;
             self.upView = nil;
             self.navigationController.interactivePopGestureRecognizer.enabled = YES;
+            if (self.cancleBlock) self.cancleBlock();
         }
     }];
 }

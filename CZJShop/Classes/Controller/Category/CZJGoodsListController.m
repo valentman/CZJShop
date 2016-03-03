@@ -36,14 +36,11 @@ CZJFilterControllerDelegate
     NSString* _choosedStoreitemPid;
 }
 
-@property (weak, nonatomic) IBOutlet CZJNaviagtionBarView *topNaviBarView;
 @property (weak, nonatomic) IBOutlet MXPullDownMenu *pullDownMenuView;
 @property (weak, nonatomic) IBOutlet PullTableView *myGoodsTableView;
 @property (weak, nonatomic) IBOutlet UICollectionView *myGoodsCollectionView;
 
 @property (assign, nonatomic)NSInteger page;
-@property (nonatomic, strong) UIWindow *window;
-@property (nonatomic, weak) UIView *upView;
 
 @end
 
@@ -53,14 +50,12 @@ CZJFilterControllerDelegate
     [super viewDidLoad];
     [self initDatas];
     [self initViews];
-    
     [self getGoodsListDataFromServer];
-    // Do any additional setup after loading the view.
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    [_topNaviBarView refreshShopBadgeLabel];
+    [self.naviBarView refreshShopBadgeLabel];
 }
 
 
@@ -93,10 +88,8 @@ CZJFilterControllerDelegate
 - (void)initViews
 {
     //导航栏添加搜索栏
-    self.navigationController.navigationBarHidden = YES;
-    CGRect mainViewBounds = self.navigationController.navigationBar.bounds;
-    [self.topNaviBarView initWithFrame:mainViewBounds AndType:CZJNaviBarViewTypeGoodsList].delegate = self;
-    [self.topNaviBarView setBackgroundColor:CZJNAVIBARBGCOLOR];
+    [self addCZJNaviBarView:CZJNaviBarViewTypeGoodsList];
+    self.naviBarView.detailType = CZJDetailTypeGoods;
     
     //下拉菜单筛选条件初始
     NSArray* sortTypes = @[@"综合排序", @"销量", @"人气", @"评论",@"附近"];
@@ -373,7 +366,7 @@ CZJFilterControllerDelegate
         [self.myGoodsTableView setHidden:YES];
         [self.myGoodsCollectionView setHidden:NO];
         [self.myGoodsCollectionView reloadData];
-        [self.topNaviBarView.btnArrange setBackgroundImage:[UIImage imageNamed:@"pro_btn_list"] forState:UIControlStateNormal];
+        [self.naviBarView.btnArrange setBackgroundImage:[UIImage imageNamed:@"pro_btn_list"] forState:UIControlStateNormal];
     }
     else
     {
@@ -381,7 +374,7 @@ CZJFilterControllerDelegate
         [self.myGoodsCollectionView setHidden:YES];
         [self.myGoodsTableView setHidden:NO];
         [self.myGoodsTableView reloadData];
-        [self.topNaviBarView.btnArrange setBackgroundImage:[UIImage imageNamed:@"pro_btn_large"] forState:UIControlStateNormal];
+        [self.naviBarView.btnArrange setBackgroundImage:[UIImage imageNamed:@"pro_btn_large"] forState:UIControlStateNormal];
     }
 }
 

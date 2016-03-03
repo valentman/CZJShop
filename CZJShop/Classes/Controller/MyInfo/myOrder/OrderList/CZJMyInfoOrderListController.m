@@ -176,9 +176,9 @@ CZJPopPayViewDelegate
         case CZJOrderListCellBtnTypeConfirm:
         {
             __weak typeof(self) weak = self;
-            [self showCZJAlertView:@"你要想好哦，确认收货就不能退款了哦" andHandler:^{
+            [self showCZJAlertView:@"你要想好哦，确认收货就不能退款了哦" andConfirmHandler:^{
                 [weak hideWindow];
-            }];
+            } andCancleHandler:nil];
         }
             break;
         case CZJOrderListCellBtnTypeCheckCar:
@@ -190,12 +190,12 @@ CZJPopPayViewDelegate
         case CZJOrderListCellBtnTypeCancel:
         {
             __weak typeof(self) weak = self;
-            [self showCZJAlertView:@"确定取消该订单" andHandler:^{
+            [self showCZJAlertView:@"确定取消该订单" andConfirmHandler:^{
                 [CZJBaseDataInstance generalPost:@{} success:^(id json) {
                     
                 } andServerAPI:kCZJServerAPICancelOrder];
                 [weak hideWindow];
-            }];
+            } andCancleHandler:nil];
         }
             break;
         case CZJOrderListCellBtnTypePay:

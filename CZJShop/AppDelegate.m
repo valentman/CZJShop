@@ -38,7 +38,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
     //-------------------1.版本更新检测------------------
-    NSMutableDictionary* versionCheck_info = [CZJUtils readDataFromPlistWithName:kCZJPlistFileCheckVersion];
+    NSMutableDictionary* versionCheck_info = [CZJUtils readDictionaryFromDocumentsDirectoryWithPlistName:kCZJPlistFileCheckVersion];
     if (versionCheck_info && versionCheck_info.count > 0)
     {
         NSDictionary* version_dict = [versionCheck_info valueForKey:kCZJCheckVersion];

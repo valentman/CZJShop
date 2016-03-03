@@ -23,13 +23,14 @@
 + (NSData*)readDataFromLocal;
 
 //---------------NSMutableArray数据的持久化-----------------------
-+ (BOOL)writeArrayToPlist:(NSMutableArray*)array withPlistName:(NSString*)plistName;
-+ (NSMutableArray*)readArrayFromPlistWithName:(NSString*)plistName;
++ (BOOL)writeArrayToDocumentsDirectory:(NSMutableArray*)array withPlistName:(NSString*)plistName;
++ (NSMutableArray*)readArrayFromDocumentsDirectoryWithName:(NSString*)plistName;
++ (NSMutableArray*)readArrayFromBundleDirectoryWithName:(NSString*)plistName;
 
 //---------------NSMutableDictionary数据的持久化------------------
-+ (BOOL)writeDataToPlist:(NSMutableDictionary*)dict withPlistName:(NSString*)plistName;
-+ (NSMutableDictionary*)readDataFromPlistWithName:(NSString*)plistName;
-+ (NSMutableDictionary*)readPlistDataFromBundleDirectory:(NSString*)plistName;
++ (BOOL)writeDictionaryToDocumentsDirectory:(NSMutableDictionary*)dict withPlistName:(NSString*)plistName;
++ (NSMutableDictionary*)readDictionaryFromDocumentsDirectoryWithPlistName:(NSString*)plistName;
++ (NSMutableDictionary*)readDictionaryFromBundleDirectoryWithPlistName:(NSString*)plistName;
 
 //----------------------启动界面信息------------------------------
 + (void)writeStarInfoDataToPlist:(NSDictionary*)dict;

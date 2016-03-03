@@ -17,8 +17,5 @@
 @end
 
 
-@interface CZJDiscoverViewController : UITableViewController
-@property (nonatomic, strong) IBOutlet UITableView *discoverTableView;
-
-
+@interface CZJDiscoverViewController : CZJViewController
 @end

@@ -123,9 +123,9 @@
 
 
 //---------------获取设备系统缓存目录和文件目录---------------
-#define PJCachesPath [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) firstObject]
-#define PJDocumentsPath [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject]
-#define PJFileManager [NSFileManager defaultManager]
+#define CachesDirectory [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) firstObject]
+#define DocumentsDirectory [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject]
+#define FileManager [NSFileManager defaultManager]
 
 //-------------------------内存----------------------------
 //使用ARC和不使用ARC

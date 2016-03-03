@@ -34,7 +34,6 @@
 }
 @property (weak, nonatomic) IBOutlet MXPullDownMenu *pullDownMenu;
 @property (weak, nonatomic) IBOutlet UITableView *serviceTableView;
-@property (weak, nonatomic) IBOutlet CZJNaviagtionBarView *navigationBar;
 @property (weak, nonatomic) IBOutlet UIView *refreshLocationBarView;
 @property (weak, nonatomic) IBOutlet UILabel *locationNameLabel;
 @property (weak, nonatomic) IBOutlet UIButton *locationButton;
@@ -42,8 +41,6 @@
 
 @property (assign, nonatomic)NSInteger page;
 
-@property (nonatomic, strong) UIWindow *window;
-@property (nonatomic, weak) UIView *upView;
 @end
 
 @implementation CZJServiceListController
@@ -51,7 +48,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [CZJUtils hideSearchBarViewForTarget:self];
-    [CZJUtils customizeNavigationBarForTarget:self];
     
     isFirstIn = YES;
     [self initData];
@@ -62,7 +58,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     self.navigationController.navigationBarHidden = YES;
-    [_navigationBar refreshShopBadgeLabel];
+    [self.naviBarView refreshShopBadgeLabel];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -139,8 +135,9 @@
         NSArray* menuArray = @[[CZJBaseDataInstance storeForm].provinceForms, sortTypes,storeTypes];
         [self.pullDownMenu initWithArray:menuArray AndType:CZJMXPullDownMenuTypeService WithFrame:self.pullDownMenu.frame].delegate = self;
     }
-    CGRect mainViewBounds = self.navigationController.navigationBar.bounds;
-    [self.navigationBar initWithFrame:mainViewBounds AndType:CZJNaviBarViewTypeBack].delegate = self;
+    
+    [self addCZJNaviBarView:CZJNaviBarViewTypeBack];
+    self.naviBarView.detailType = CZJDetailTypeGoods;
 }
 
 - (void)getStoreServiceListDataFromServer

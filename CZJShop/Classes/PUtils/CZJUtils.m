@@ -119,8 +119,8 @@
 
 
 #pragma mark NSMutableArray数据的持久化
-+ (BOOL)writeArrayToPlist:(NSMutableArray*)array withPlistName:(NSString*)plistName{
-    NSString *plistPath = [PJDocumentsPath stringByAppendingPathComponent:plistName];
++ (BOOL)writeArrayToDocumentsDirectory:(NSMutableArray*)array withPlistName:(NSString*)plistName{
+    NSString *plistPath = [DocumentsDirectory stringByAppendingPathComponent:plistName];
     NSFileManager *fileManager = [NSFileManager defaultManager];
     BOOL isExists = [fileManager fileExistsAtPath:plistPath];
     if (!isExists) {
@@ -129,8 +129,20 @@
     return [array writeToFile:plistPath atomically:YES];
 }
 
-+ (NSMutableArray*)readArrayFromPlistWithName:(NSString*)plistName{
-//    NSString *plistPath = [PJDocumentsPath stringByAppendingPathComponent:plistName];
++ (NSMutableArray*)readArrayFromDocumentsDirectoryWithName:(NSString*)plistName
+{
+    NSString *plistPath = [DocumentsDirectory stringByAppendingPathComponent:plistName];
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    BOOL isExists = [fileManager fileExistsAtPath:plistPath];
+    NSMutableArray* array = [NSMutableArray array];
+    if (isExists) {
+        array = [NSMutableArray arrayWithContentsOfFile:plistPath];
+    }
+    return array;
+}
+
++ (NSMutableArray*)readArrayFromBundleDirectoryWithName:(NSString*)plistName
+{
     NSString *plistPath = [[NSBundle mainBundle] pathForResource:plistName ofType:@"plist"];
     NSFileManager *fileManager = [NSFileManager defaultManager];
     BOOL isExists = [fileManager fileExistsAtPath:plistPath];
@@ -143,10 +155,10 @@
 
 
 #pragma mark 把可变字典数据的持久化
-+ (BOOL)writeDataToPlist:(NSMutableDictionary*)dict withPlistName:(NSString*)plistName
++ (BOOL)writeDictionaryToDocumentsDirectory:(NSMutableDictionary*)dict withPlistName:(NSString*)plistName
 {
     NSError *error;
-    NSString *plistPath = [PJDocumentsPath stringByAppendingPathComponent:plistName];
+    NSString *plistPath = [DocumentsDirectory stringByAppendingPathComponent:plistName];
     
     NSFileManager *fileManager = [NSFileManager defaultManager];
     BOOL isExists = [fileManager fileExistsAtPath:plistPath];
@@ -163,11 +175,11 @@
     return NO;
 }
 
-+ (NSMutableDictionary*)readDataFromPlistWithName:(NSString*)plistName
++ (NSMutableDictionary*)readDictionaryFromDocumentsDirectoryWithPlistName:(NSString*)plistName
 {
     NSError *error;
     NSPropertyListFormat format;
-    NSString *plistPath = [PJDocumentsPath stringByAppendingPathComponent:plistName];
+    NSString *plistPath = [DocumentsDirectory stringByAppendingPathComponent:plistName];
     
     NSFileManager *fileManager = [NSFileManager defaultManager];
     BOOL isExists = [fileManager fileExistsAtPath:plistPath];
@@ -182,7 +194,7 @@
     return nil;
 }
 
-+ (NSMutableDictionary*)readPlistDataFromBundleDirectory:(NSString*)plistName
++ (NSMutableDictionary*)readDictionaryFromBundleDirectoryWithPlistName:(NSString*)plistName
 {
     NSError *error;
     NSPropertyListFormat format;
@@ -204,11 +216,11 @@
 #pragma mark 启动页面数据的读取
 + (NSMutableDictionary*)readStartInfoPlistWithPlistName
 {
-    return [self readDataFromPlistWithName:kCZJPlistFileStartInfo];
+    return [self readDictionaryFromDocumentsDirectoryWithPlistName:kCZJPlistFileStartInfo];
 }
 
 + (void)writeStarInfoDataToPlist:(NSDictionary*)dict{
-    [self writeDataToPlist:[dict mutableCopy] withPlistName:kCZJPlistFileStartInfo];
+    [self writeDictionaryToDocumentsDirectory:[dict mutableCopy] withPlistName:kCZJPlistFileStartInfo];
 }
 #pragma mark*/
 
@@ -624,6 +636,7 @@ void tapToHidePopViewAction(id sender, SEL _cmd)
     [UIView animateWithDuration:0.4 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
         target.window.frame = CGRectMake(0, 0, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT);
         ((CZJSearchController*)searchVC).delegate = naviBar ? naviBar : target;
+        ((CZJSearchController*)searchVC).detailType = naviBar.detailType;
     } completion:^(BOOL finished) {
         [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
     }];
@@ -1045,7 +1058,7 @@ void tapToHidePopViewAction(id sender, SEL _cmd)
 
 + (void)clearCache:(CZJGeneralBlock)success
 {
-    [self clearFile:PJCachesPath andSuccess:success];
+    [self clearFile:CachesDirectory andSuccess:success];
 }
 
 

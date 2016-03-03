@@ -10,7 +10,6 @@
 
 @interface CollectionHeader : UICollectionReusableView
 
-@property (weak, nonatomic) IBOutlet UILabel *headerTitile;
 @property (weak, nonatomic) IBOutlet UIImageView *bannerAdImageview;
 
 @end

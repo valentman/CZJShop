@@ -18,7 +18,8 @@ typedef void (^CZJButtonClickHandler)(id data);
 
 @interface CZJCarInfoCell : CZJTableViewCell
 @property (weak, nonatomic) IBOutlet UIImageView *carInfoWordImg;
-@property (weak, nonatomic) IBOutlet UIScrollView *scrollInfoView;
+@property (weak, nonatomic) IBOutlet UIView *infoView;
+
 @property (assign) NSArray* carInfoDatas;
 @property (nonatomic, strong) NSTimer *autoScrollTimer;
 

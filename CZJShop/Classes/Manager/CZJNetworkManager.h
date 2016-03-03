@@ -21,6 +21,11 @@ singleton_interface(CZJNetworkManager)
                 success:(void (^)(id json))success
                    fail:(void (^)())fail;
 
+- (void)postJSONWithNoServerAPI:(NSString *)urlStr
+                     parameters:(id)parameters
+                        success:(void (^)(id responseObject))success
+                           fail:(void (^)())fail;
+
 - (void)postJSONWithUrl:(NSString *)urlStr
              parameters:(id)parameters
                 success:(void (^)(id responseObject))success

@@ -18,7 +18,6 @@ DZNEmptyDataSetSource,
 DZNEmptyDataSetDelegate
 >
 {
-    BOOL isLoadSuccess;
 }
 @property (strong, nonatomic)CZJWebViewJSI* webViewJSI;
 @property (strong, nonatomic)UIWebView* myWebView;
@@ -32,11 +31,18 @@ DZNEmptyDataSetDelegate
 {
     [super viewDidLoad];
     [self initViews];
-    [self addCZJNaviBarView:CZJNaviBarViewTypeGeneral];
+    
 }
 
 - (void)initViews
 {
+    [self addCZJNaviBarView:CZJNaviBarViewTypeGeneral];
+    self.naviBarView.btnMore.hidden = NO;
+    [self.naviBarView.btnMore setBackgroundImage:IMAGENAMED(@"") forState:UIControlStateNormal];
+    [self.naviBarView.btnMore setTitle:@"关闭" forState:UIControlStateNormal];
+    [self.naviBarView.btnMore setTitleColor:BLACKCOLOR forState:UIControlStateNormal];
+    [self.naviBarView.btnMore addTarget:self action:@selector(clickEventCallBack:) forControlEvents:UIControlEventTouchUpInside];
+    
     //webView接口
     self.webViewJSI = [CZJWebViewJSI bridgeForWebView:_myWebView webViewDelegate:self];
     self.webViewJSI.JSIDelegate = self;
@@ -48,13 +54,17 @@ DZNEmptyDataSetDelegate
     self.myWebView.delegate = self;
     [self.view addSubview:self.myWebView];
     
-    [self loadHtml:_cur_url];
+    //URLRequest
+    if (_cur_url)
+    {
+        NSURL *url = [NSURL URLWithString:_cur_url];
+        [self loadHtml:url];
+    }
 }
 
-- (void)loadHtml:(NSString *)surl{
+- (void)loadHtml:(NSURL*)surl{
     DLog(@"%@",surl);
-    NSURL *url = [NSURL URLWithString:surl];
-    [self.myWebView loadRequest:[NSURLRequest requestWithURL:url]];
+    [self.myWebView loadRequest:[NSURLRequest requestWithURL:surl]];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -73,16 +83,40 @@ DZNEmptyDataSetDelegate
 }
 
 
+#pragma mark - CZJNaviagtionBarViewDelegate(自定义导航栏按钮回调)
+- (void)clickEventCallBack:(nullable id)sender
+{
+    UIButton* barButton = (UIButton*)sender;
+    switch (barButton.tag) {
+        case CZJButtonTypeNaviBarMore:
+            [self.navigationController popViewControllerAnimated:YES];
+            break;
+            
+        case CZJButtonTypeNaviBarBack:
+            if ([self.myWebView canGoBack])
+            {
+                [self.myWebView goBack];
+            }else{
+                [self.navigationController popViewControllerAnimated:YES];
+            }
+            break;
+            
+        case CZJButtonTypeHomeShopping:
+            
+            break;
+            
+        default:
+            break;
+    }
+}
+
+
 #pragma mark - UIWebViewDelegate methods
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
 {
     self.failedLoading = NO;
-    if (!isLoadSuccess && !VIEWWITHTAG(self.view, kHudTag))
-    {
-        DLog();
-        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    }
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     return YES;
 }
 
@@ -96,10 +130,8 @@ DZNEmptyDataSetDelegate
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView{
-    DLog();
     self.naviBarView.mainTitleLabel.text = [webView stringByEvaluatingJavaScriptFromString:@"document.title"];
-    isLoadSuccess = YES;
-    [MBProgressHUD hideHUDForView:self.view animated:YES];
+    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
 }
 
 

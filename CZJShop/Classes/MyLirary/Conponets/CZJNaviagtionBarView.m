@@ -85,6 +85,19 @@
     _customSearchBar.placeholder = @"搜索服务、商品、门店";
     [_customSearchBar setTag:CZJButtonTypeSearchBar];
     _customSearchBar.hidden = NO;
+    for (UIView *subView in self.customSearchBar.subviews)
+    {
+        for (UIView *secondLevelSubview in subView.subviews){
+            if ([secondLevelSubview isKindOfClass:[UITextField class]])
+            {
+                UITextField *searchBarTextField = (UITextField *)secondLevelSubview;
+                //set font color here
+                searchBarTextField.textColor = [UIColor grayColor];
+                break;
+            }
+        }
+    }
+    [[UITextField appearanceWhenContainedIn:[UISearchBar class], nil] setTextColor:[UIColor blueColor]];
     
     //2.扫一扫按钮
     CGRect btnScanRect = CGRectMake(0, 0, 44, 44);
@@ -152,7 +165,7 @@
     _mainTitleLabel.textAlignment = NSTextAlignmentCenter;
     _mainTitleLabel.hidden = YES;
     
-    _buttomSeparator = [[UIView alloc]initWithFrame:CGRectMake(0, 44, PJ_SCREEN_WIDTH, 0.5)];
+    _buttomSeparator = [[UIView alloc]initWithFrame:CGRectMake(0, 43, PJ_SCREEN_WIDTH, 0.5)];
     _buttomSeparator.backgroundColor = LIGHTGRAYCOLOR;
     _buttomSeparator.hidden = YES;
     
@@ -270,7 +283,7 @@
 // return NO to not become first responder
 - (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar
 {
-    //这里做跳转
+    //跳转到搜索页面
     [CZJUtils showSearchView:(UIViewController*)_delegate andNaviBar:self];
     return NO;
 }
@@ -284,10 +297,6 @@
 {
     __block UIButton* touchBt = (UIButton*)sender;
     [touchBt setEnabled:NO];
-    if ([_delegate respondsToSelector:@selector(clickEventCallBack:)]) {
-        [_delegate clickEventCallBack:sender];
-    }
-    
     
     switch (touchBt.tag) {
         case CZJButtonTypeHomeShopping:
@@ -302,6 +311,10 @@
             break;
             
         default:
+            if ([_delegate respondsToSelector:@selector(clickEventCallBack:)])
+            {
+                [_delegate clickEventCallBack:sender];
+            }
             break;
     }
     

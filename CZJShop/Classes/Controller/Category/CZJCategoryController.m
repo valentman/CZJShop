@@ -26,12 +26,10 @@
     [super viewDidLoad];
     NSMutableArray * lis=[NSMutableArray arrayWithCapacity:0];
     
-    
     id navigationBarAppearance = self.navigationController.navigationBar;
     [navigationBarAppearance setBackgroundImage:[UIImage imageNamed:@"nav_bargound"] forBarMetrics:UIBarMetricsDefault];
     self.navigationController.toolbar.translucent = NO;
     self.navigationController.navigationBar.shadowImage =[UIImage imageNamed:@"nav_bargound"];
-
     
     //导航栏添加搜索栏
     self.navigationController.navigationBarHidden = YES;

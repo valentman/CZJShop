@@ -15,7 +15,7 @@
 
 #define kImageDefaultName @"tempShop"
 #define kMultilevelCollectionViewCell @"MultilevelCollectionViewCell"
-#define kMultilevelCollectionHeader   @"CollectionHeader"//CollectionHeader
+#define kMultilevelCollectionHeader   @"CollectionHeader"
 #define kScreenWidth [UIScreen mainScreen].bounds.size.width
 
 
@@ -158,7 +158,7 @@
     [CZJBaseDataInstance showCategoryTypeId:typeId success:successBlock fail:failBlock];
 }
 
-#pragma mark---左边的tablew 代理
+#pragma mark-----------------------左边的tablewView 代理-------------------------
 #pragma mark--deleagte
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 1;
@@ -250,22 +250,20 @@
     }
 }
 
-
 -(void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath{
     
     MultilevelTableViewCell * cell=(MultilevelTableViewCell*)[tableView cellForRowAtIndexPath:indexPath];
     cell.titile.textColor=self.leftUnSelectColor;
     UILabel * line=(UILabel*)[cell viewWithTag:100];
     line.backgroundColor=tableView.separatorColor;
-
     cell.backgroundColor=self.leftUnSelectBgColor;
 }
 
-#pragma mark---imageCollectionView--------------------------
 
--(NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
-    
-    DLog();
+
+#pragma mark---------------------imageCollectionView--------------------------
+-(NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
+{
     rightMeun * title=self.allData[self.selectIndex];
     if (title.nextArray.count==0) {
         return 0;
@@ -293,13 +291,10 @@
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     
     MultilevelCollectionViewCell *cell=[collectionView dequeueReusableCellWithReuseIdentifier:kMultilevelCollectionViewCell forIndexPath:indexPath];
-    
-    //cell数据
     rightMeun * title=self.allData[self.selectIndex];
     rightMeun * itemMenu=title.nextArray[indexPath.item];
 
     cell.titile.text=itemMenu.meunName;
-    cell.backgroundColor=[UIColor clearColor];
     cell.imageView.backgroundColor=UIColorFromRGB(0xF8FCF8);
     [cell.imageView sd_setImageWithURL:[NSURL URLWithString:itemMenu.urlName] placeholderImage:[UIImage imageNamed:kImageDefaultName]];
     return cell;
@@ -322,11 +317,16 @@
             rightMeun * meun;
             meun=title.nextArray[indexPath.section];
             NSString* banner = title.bannerAd.img;
+            
+            if (!banner)
+            {
+                return nil;
+            }
             if ([banner containsString:@".gif"])
             {
                 view.bannerAdImageview = [AnimatedGif getAnimationForGifAtUrl:[NSURL URLWithString:banner]];
             }
-            else if ([banner containsString:@".png"])
+            else
             {
                 [view.bannerAdImageview sd_setImageWithURL:[NSURL URLWithString:banner] placeholderImage:[UIImage imageNamed:kImageDefaultName]];
             }
@@ -337,15 +337,29 @@
     }
     return view;
 }
+
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
-    
     return CGSizeMake(88, 120);
 }
+
 -(UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section{
     return UIEdgeInsetsMake(0, 10, 0, 10);
 }
+
 -(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section{
-    CGSize size={kScreenWidth,80};
+    NSInteger height = 80;
+    rightMeun * title=self.allData[self.selectIndex];
+    if (title.nextArray.count>0)
+    {
+        rightMeun * meun;
+        meun=title.nextArray[section];
+        NSString* banner = title.bannerAd.img;
+        if (!banner)
+        {
+            height = 0;
+        }
+    }
+    CGSize size={kScreenWidth,height};
     return size;
 }
 
@@ -366,9 +380,7 @@
         
         title.offsetScorller=scrollView.contentOffset.y;
         self.isReturnLastOffset=NO;
-        
     }
-
  }
 
 -(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
@@ -379,7 +391,6 @@
         title.offsetScorller=scrollView.contentOffset.y;
         self.isReturnLastOffset=NO;
     }
-
 }
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{

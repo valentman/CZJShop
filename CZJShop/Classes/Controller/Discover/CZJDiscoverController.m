@@ -10,24 +10,65 @@
 #import "CZJBaseDataManager.h"
 #import "CZJLoginModelManager.h"
 #import "CZJDiscoverDetailController.h"
+#import "CZJGeneralCell.h"
 
 #define kTypeLabelTag 10
 #define kNewsLabelTag 11
 #define kDotViewTag 12
 
 @interface CZJDiscoverViewController ()
-@property (nonatomic,strong) NSMutableDictionary* discoverForms;
+<
+UITableViewDataSource,
+UITableViewDelegate
+>
+{
+    NSArray* cellTypesAry;
+}
+@property (nonatomic, strong) UITableView *myTableView;
+@property (nonatomic, strong) NSMutableDictionary* discoverForms;
 @end
 
 @implementation CZJDiscoverViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self initViews];
     [self getDataFromServer];
-    self.discoverTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    self.discoverTableView.backgroundColor = RGB(239, 239, 239);
     self.discoverForms = [NSMutableDictionary dictionary];
 }
+
+- (void)initViews
+{
+    [self addCZJNaviBarView:CZJNaviBarViewTypeMain];
+    self.naviBarView.btnMore.hidden = YES;
+    self.naviBarView.mainTitleLabel.text = @"发现";
+    
+    
+    self.myTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 64, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - StatusBar_HEIGHT - NavigationBar_HEIGHT) style:UITableViewStylePlain];
+    self.myTableView.tableFooterView = [[UIView alloc]init];
+    self.myTableView.delegate = self;
+    self.myTableView.dataSource = self;
+    self.myTableView.scrollEnabled = NO;
+    self.myTableView.clipsToBounds = NO;
+    self.myTableView.showsVerticalScrollIndicator = NO;
+    self.automaticallyAdjustsScrollViewInsets = NO;
+    self.myTableView.backgroundColor = CZJTableViewBGColor;
+    [self.view addSubview:self.myTableView];
+    NSArray* nibArys = @[@"CZJGeneralCell"
+                         ];
+    
+    for (id cells in nibArys) {
+        UINib *nib=[UINib nibWithNibName:cells bundle:nil];
+        [self.myTableView registerNib:nib forCellReuseIdentifier:cells];
+    }
+    
+    
+    NSDictionary* cell1 = @{@"title":@"活动中心", @"detailTitle":@"activity",  @"buttonTitle":@"find_icon_activity.png"} ;
+    NSDictionary* cell2 = @{@"title":@"汽车资讯", @"detailTitle":@"news", @"buttonTitle":@"find_icon_news.png"} ;
+    NSDictionary* cell3 = @{@"title":@"扫一扫", @"detailTitle":@"shake", @"buttonTitle":@"find_icon_saoyisao.png"} ;
+    cellTypesAry = @[cell1, cell2, cell3];
+}
+
 
 - (void)getDataFromServer
 {
@@ -45,8 +86,7 @@
 
 - (void)viewDidAppear:(BOOL)animated
 {
-    self.navigationController.navigationBarHidden = NO;
-    NSArray* cells = [self.discoverTableView visibleCells];
+    NSArray* cells = [self.myTableView visibleCells];
     for (id cell in cells) {
         UIView* dotTagView = [[cell contentView]viewWithTag:kDotViewTag];
         dotTagView.layer.cornerRadius = 2.5;
@@ -58,13 +98,15 @@
     [super didReceiveMemoryWarning];
 }
 
-#pragma mark - Table view data source
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+#pragma mark-UITableViewDataSource
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
     return 2;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
     if (1 == section)
     {
         return 1;
@@ -72,40 +114,64 @@
     return 2;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (0 == section) {
-        return 15;
+    NSDictionary* dict;
+    if (0 == indexPath.section)
+    {
+        dict = cellTypesAry[indexPath.row];
     }
-    return 10;
+    else
+    {
+        dict = cellTypesAry[2];
+    }
+    CZJGeneralCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJGeneralCell" forIndexPath:indexPath];
+    [cell.nameLabel setTag:kTypeLabelTag];
+    [cell.detailLabel setTag:kNewsLabelTag];
+    cell.imageViewHeight.constant = 29;
+    cell.imageViewWidth.constant = 29;
+    [cell.headImgView setImage:IMAGENAMED([dict valueForKey:@"buttonTitle"])];
+    cell.nameLabel.text = [dict valueForKey:@"title"];
+    cell.tempData = [dict valueForKey:@"detailTitle"];
+
+    if (1 == indexPath.section && 0 == indexPath.row)
+    {
+        cell.separatorInset = HiddenCellSeparator;
+    }
+    return cell;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+#pragma mark-UITableViewDelegate
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 5;
+    return 50;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 10;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (0 == indexPath.section) {
-        CZJWebViewController* webView = (CZJWebViewController*)[CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:@"webViewSBID"];
         NSString* url = @"";
         if (0 == indexPath.row && 0 == indexPath.section)
         {
-            url = [NSString stringWithFormat:@"%@?chezhuId=%@",kCZJServerAPIActivityCenter,CZJLoginModelInstance.cheZhuId];
-//            url = @"http://upload.chezhijian.com/@/yunying/201603/4af0da0e0a2644628e36e5b59347f932.png";
-            webView.naviBarView.mainTitleLabel.text = @"活动中心";
+            
+            url = [NSString stringWithFormat:@"%@?chezhuId=%@",[CZJUtils getExplicitServerAPIURLPathWithSuffix:kCZJServerAPIActivityCenter],CZJLoginModelInstance.cheZhuId];
         }
-        if (0 == indexPath.row && 0 == indexPath.section)
+        if (1 == indexPath.row && 0 == indexPath.section)
         {
-            url = [NSString stringWithFormat:@"%@?chezhuId=%@",kCZJServerAPICarInfo,CZJLoginModelInstance.cheZhuId];
-            webView.naviBarView.mainTitleLabel.text = @"汽车资讯";
+            url = [NSString stringWithFormat:@"%@?chezhuId=%@",[CZJUtils getExplicitServerAPIURLPathWithSuffix:kCZJServerAPICarInfo],CZJLoginModelInstance.cheZhuId];
         }
+        
+        CZJWebViewController* webView = (CZJWebViewController*)[CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:@"webViewSBID"];
         webView.cur_url = url;
         [self.navigationController pushViewController:webView animated:YES];
         
-        CZJTableViewCell* cell = (CZJTableViewCell*)[self tableView:tableView cellForRowAtIndexPath:indexPath];
-        UIView* dotTagView = [[cell contentView]viewWithTag:kDotViewTag];
+        CZJGeneralCell* cell = (CZJGeneralCell*)[tableView cellForRowAtIndexPath:indexPath];
+        UIView* dotTagView = VIEWWITHTAG(cell.contentView, kDotViewTag);
         dotTagView.hidden = YES;
     }
 }
@@ -113,17 +179,19 @@
 
 - (void)updateTableView
 {
-    NSArray* cells = [self.discoverTableView visibleCells];
-    for (id cell in cells) {
+    NSArray* cells = [self.myTableView visibleCells];
+    for (CZJGeneralCell* cell in cells) {
         UIView* dotTagView = [[cell contentView]viewWithTag:kDotViewTag];
-        NSString* reuseID = ((CZJTableViewCell*)cell).reuseIdentifier;
+        NSString* reuseID = cell.tempData;
         NSString* newsBody = [[self.discoverForms valueForKey:reuseID]valueForKey:@"desc"];
         if ([newsBody isEqualToString:@""]) {
             DLog(@"%@",reuseID);
             dotTagView.hidden = YES;
             return;
         }
-        ((UILabel*)[[cell contentView]viewWithTag:kNewsLabelTag]).text = newsBody;
+        cell.detailLabel.hidden = NO;
+        cell.detailLabel.text = newsBody;
+        
         NSString* updatetime = [[self.discoverForms valueForKey:reuseID] valueForKey:@"updateTime"];
         NSString* value = [USER_DEFAULT valueForKey:reuseID];
         if (!value)

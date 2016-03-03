@@ -42,16 +42,25 @@
                         </constraints>
                     </imageView>
                     <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="查看全部订单" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EI7-FV-nYW">
-                        <rect key="frame" x="190" y="14" width="100" height="15"/>
+                        <rect key="frame" x="140" y="14" width="150" height="15"/>
                         <animations/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="100" id="V7a-Xo-CkZ"/>
+                            <constraint firstAttribute="width" constant="150" id="V7a-Xo-CkZ"/>
                             <constraint firstAttribute="height" constant="15" id="v7L-te-bn1"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                         <color key="textColor" red="0.50196081400000003" green="0.50196081400000003" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <view hidden="YES" tag="12" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AsN-cc-tNZ" userLabel="DotTag">
+                        <rect key="frame" x="290" y="10" width="5" height="5"/>
+                        <animations/>
+                        <color key="backgroundColor" red="1" green="0.12874946139999999" blue="0.1621697557" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="5" id="e7l-UU-AAK"/>
+                            <constraint firstAttribute="width" constant="5" id="lDX-55-ocs"/>
+                        </constraints>
+                    </view>
                 </subviews>
                 <animations/>
                 <constraints>
@@ -59,10 +68,12 @@
                     <constraint firstItem="NBw-VK-z46" firstAttribute="leading" secondItem="aRY-co-kF7" secondAttribute="trailing" constant="10" id="91s-n4-pzu"/>
                     <constraint firstItem="aRY-co-kF7" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="FJ9-a5-wyA"/>
                     <constraint firstItem="aRY-co-kF7" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="FQg-fJ-fF8"/>
+                    <constraint firstItem="AsN-cc-tNZ" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="I1s-QK-AQh"/>
                     <constraint firstItem="EI7-FV-nYW" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="IWa-MV-oPg"/>
                     <constraint firstItem="NBw-VK-z46" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="V5T-yj-qPD"/>
                     <constraint firstItem="DLh-vG-E1W" firstAttribute="leading" secondItem="EI7-FV-nYW" secondAttribute="trailing" constant="10" id="Zul-Gw-hRZ"/>
                     <constraint firstAttribute="trailing" secondItem="DLh-vG-E1W" secondAttribute="trailing" constant="15" id="duQ-8b-r05"/>
+                    <constraint firstAttribute="trailing" secondItem="AsN-cc-tNZ" secondAttribute="trailing" constant="25" id="god-Xc-1cJ"/>
                 </constraints>
             </tableViewCellContentView>
             <animations/>
@@ -70,6 +81,8 @@
                 <outlet property="arrowImg" destination="DLh-vG-E1W" id="dvB-kd-iGI"/>
                 <outlet property="detailLabel" destination="EI7-FV-nYW" id="1xP-1Q-47B"/>
                 <outlet property="headImgView" destination="aRY-co-kF7" id="pmE-5I-GEX"/>
+                <outlet property="imageViewHeight" destination="JWh-ZT-qgF" id="3nS-l4-zX9"/>
+                <outlet property="imageViewWidth" destination="bbM-Gb-VdH" id="Ohe-zR-hpZ"/>
                 <outlet property="nameLabel" destination="NBw-VK-z46" id="32p-lm-ELl"/>
             </connections>
             <point key="canvasLocation" x="226" y="324"/>

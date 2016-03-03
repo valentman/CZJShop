@@ -8,7 +8,5 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CZJStoreViewController : UIViewController
-@property (strong, nonatomic) NSString* searchStr;
-
+@interface CZJStoreViewController : CZJViewController
 @end

@@ -12,7 +12,7 @@
 singleton_implementation(CZJMessageManager)
 - (id) init{
     if (self = [super init]) {
-        _messages = [CZJUtils  readArrayFromPlistWithName:kCZJPlistFileMessage];
+        _messages = [CZJUtils  readArrayFromDocumentsDirectoryWithName:kCZJPlistFileMessage];
         if (!_messages) {
             _isNewMessage = NO;
             _messages = [NSMutableArray array];
@@ -46,7 +46,7 @@ singleton_implementation(CZJMessageManager)
 -(void)readMessageFromPlist{
     if (_messages) {
         [_messages removeAllObjects];
-        _messages = [CZJUtils  readArrayFromPlistWithName:kCZJPlistFileMessage];
+        _messages = [CZJUtils  readArrayFromDocumentsDirectoryWithName:kCZJPlistFileMessage];
     }
 }
 
@@ -58,7 +58,7 @@ singleton_implementation(CZJMessageManager)
 
 -(void)wirteMessages{
     if (_messages) {
-        [CZJUtils writeArrayToPlist:_messages withPlistName:kCZJPlistFileMessage];
+        [CZJUtils writeArrayToDocumentsDirectory:_messages withPlistName:kCZJPlistFileMessage];
     }
 }
 

@@ -10,6 +10,7 @@
 #import "CZJCouponsCell.h"
 #import "CZJBaseDataManager.h"
 #import "SVHTTPRequest.h"
+#import "CZJNetworkManager.h"
 
 @interface CZJMyInfoSettingController ()
 <
@@ -103,7 +104,7 @@ UITableViewDataSource
     {
         cell.arrowImg.hidden = YES;
         cell.myDetailLabel.hidden = NO;
-        float size = [CZJUtils folderSizeAtPath:PJCachesPath];
+        float size = [CZJUtils folderSizeAtPath:CachesDirectory];
         cell.myDetailLabel.text = [NSString stringWithFormat:@"%.2fM",size];
     }
     return cell;
@@ -133,14 +134,14 @@ UITableViewDataSource
     if (2 == indexPath.row)
     {
         __weak typeof(self) weak = self;
-        [self showCZJAlertView:@"确定清除本地缓存" andHandler:^{
+        [self showCZJAlertView:@"确定清除本地缓存" andConfirmHandler:^{
             [MBProgressHUD showHUDAddedTo:self.view animated:YES];
             [CZJUtils clearCache:^{
                 [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
                 [weak.myTableView reloadData];
             }];
             [weak hideWindow];
-        }];
+        } andCancleHandler:nil];
     }
     if (3 == indexPath.row)
     {
@@ -169,10 +170,12 @@ UITableViewDataSource
     
     [MBProgressHUD showHUDAddedTo:self.view animated:true];
     
-    [CZJBaseDataInstance generalPost:@{@"term":@"车之健",@"entity":@"software"} success:^(id json) {
+    CZJSuccessBlock success = ^(id json) {
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
         NSDictionary* dict = [CZJUtils DataFromJson:json];
         NSArray *infoArray = [dict objectForKey:@"results"];
-        if ([infoArray count]) {
+        if ([infoArray count])
+        {
             NSDictionary *releaseInfo = [infoArray objectAtIndex:0];
             NSString *lastVersion = [releaseInfo objectForKey:@"version"];
             
@@ -188,7 +191,38 @@ UITableViewDataSource
                 [alert show];
             }
         }
-    } andServerAPI:@"http://itunes.apple.com/search"];
+        else
+        {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"无更新信息" message:@"此版本为最新版本" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+            alert.tag = 10002;
+            [alert show];
+        }
+    };
+    
+//    [CZJBaseDataInstance generalPost:@{@"term":@"车之健",@"entity":@"software"} success:^(id json) {
+//        NSDictionary* dict = [CZJUtils DataFromJson:json];
+//        NSArray *infoArray = [dict objectForKey:@"results"];
+//        if ([infoArray count]) {
+//            NSDictionary *releaseInfo = [infoArray objectAtIndex:0];
+//            NSString *lastVersion = [releaseInfo objectForKey:@"version"];
+//            
+//            if (![lastVersion isEqualToString:[self getCurrentVersion]]) {
+//                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"更新" message:@"有新的版本更新，是否前往更新？" delegate:self cancelButtonTitle:@"关闭" otherButtonTitles:@"更新", nil];
+//                alert.tag = 10000;
+//                [alert show];
+//            }
+//            else
+//            {
+//                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"更新" message:@"此版本为最新版本" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+//                alert.tag = 10001;
+//                [alert show];
+//            }
+//        }
+//    } andServerAPI:@"http://itunes.apple.com/search"];
+    [CZJNetWorkInstance postJSONWithNoServerAPI:@"http://itunes.apple.com/search"
+                                     parameters:@{@"term":@"车之健",@"entity":@"software"}
+                                        success:success
+                                           fail:nil];
     
     
     

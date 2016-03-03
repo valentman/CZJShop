@@ -12,7 +12,7 @@
 #import "PullTableView.h"
 #import "CZJStoreForm.h"
 
-@interface CZJServiceListController : UIViewController
+@interface CZJServiceListController : CZJViewController
 {
     NSString* _choosedStoreitemPid;
     BOOL isFirstIn;
@@ -27,6 +27,6 @@
 @property (assign, nonatomic) BOOL moreFlag;
 @property (assign, nonatomic) int  sortType;
 @property (weak, nonatomic) id <CZJViewControllerDelegate> delegate;
-@property (strong, nonatomic) NSString* searchStr;
+
 
 @end

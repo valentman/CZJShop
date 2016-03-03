@@ -29,11 +29,21 @@
  */
 @property (nonatomic, strong) UIView *upView;
 
+/* 弹出框取消按钮回调 */
+@property (nonatomic, copy) CZJGeneralBlock cancleBlock;
+
+/* 搜索栏搜索字段 */
+@property (strong, nonatomic) NSString* searchStr;
+
 /* 自定导航栏 */
 @property (nonatomic, strong) CZJNaviagtionBarView* naviBarView;
 
+
 - (void)addCZJNaviBarView:(CZJNaviBarViewType)naviBarViewType;
 
-- (void)showCZJAlertView:(NSString*)promptStr andHandler:(CZJGeneralBlock)confirmBlock;
+- (void)showCZJAlertView:(NSString*)promptStr
+       andConfirmHandler:(CZJGeneralBlock)confirmBlock
+        andCancleHandler:(CZJGeneralBlock)cancleBlock;
+
 - (void)hideWindow;
 @end

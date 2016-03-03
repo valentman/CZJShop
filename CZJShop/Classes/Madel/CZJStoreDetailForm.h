@@ -43,10 +43,9 @@
 
 //-----------------------门店详情广告栏-----------------------
 @interface CZJStoreDetailBannerForm : NSObject
-@property(nonatomic, strong) NSString* bannerID;
-@property(nonatomic, strong) NSString* img;
-@property(nonatomic, strong) NSString* type;
-@property(nonatomic, strong) NSString* title;
+@property(nonatomic, strong) NSString* itemImg;
+@property(nonatomic, strong) NSString* itemType;
+@property(nonatomic, strong) NSString* storeItemPid;
 @end
 
 //-----------------------门店商品类型、服务类型-----------------------

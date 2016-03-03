@@ -67,20 +67,23 @@
     self.isInit = YES;
     _carInfoDatas = infoDatas;
     _infocount = _carInfoDatas.count;
-    for (int i  = 0; i < _carInfoDatas.count; i++) {
-        CGRect frame = CGRectMake(10, i * 39, _scrollInfoView.frame.size.width, _scrollInfoView.frame.size.height);
+    for (int i  = 0; i < _infocount; i++) {
+        CGRect frame = CGRectMake(10, i * 39, _infoView.frame.size.width, _infoView.frame.size.height);
         CarInfoBarView* view = [[CarInfoBarView alloc]initWithFrame:frame AndData:_carInfoDatas[i]];
+        [view setUserInteractionEnabled:YES];
         [view setTag:i + kStarTag];
         [view.titleButton addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
         //信息条顺序往下添加
         [view.titleButton setTag:i];
-        [_scrollInfoView addSubview:view];
+        [_infoView addSubview:view];
     }
-    UIView* lines = [[UIView alloc]initWithFrame:CGRectMake(0, (_scrollInfoView.frame.size.height - 20) / 2, 0.5, 20)];
+    UIView* lines = [[UIView alloc]initWithFrame:CGRectMake(0, (_infoView.frame.size.height - 20) / 2, 0.5, 20)];
     lines.backgroundColor = [UIColor lightGrayColor];
-    [_scrollInfoView addSubview:lines];
-    
-    _autoScrollTimer = [NSTimer scheduledTimerWithTimeInterval:3.0 target:self selector:@selector(beginLoop:) userInfo:nil repeats:YES];
+    [_infoView addSubview:lines];
+    if (_infocount > 1)
+    {
+        _autoScrollTimer = [NSTimer scheduledTimerWithTimeInterval:3.0 target:self selector:@selector(beginLoop:) userInfo:nil repeats:YES];
+    }
 }
 
 - (void)buttonClick:(UIButton*)sender
@@ -92,7 +95,7 @@
 
 - (void)beginLoop:(NSTimer*)timer
 {
-    for (UIView* subview in _scrollInfoView.subviews) {
+    for (UIView* subview in _infoView.subviews) {
         if ([subview isKindOfClass:[CarInfoBarView class]])
         {
             CarInfoBarView* view = (CarInfoBarView*)subview;

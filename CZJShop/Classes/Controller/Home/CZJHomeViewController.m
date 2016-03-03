@@ -66,6 +66,7 @@ CZJGoodsRecommendCellDelegate
     [self getHomeDataFromServer:CZJHomeGetDataFromServerTypeOne];
     [self.homeTableView reloadData];
     [CZJUtils setExtraCellLineHidden:self.homeTableView];
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -320,8 +321,8 @@ CZJGoodsRecommendCellDelegate
             if (cell && _carInfoArray.count > 0 && !cell.isInit)
             {
                 [cell initWithCarInfoDatas:_carInfoArray andButtonClick:^(id data) {
-                    NSString* url = (NSString*)data;
-                    [self showWebViewWithURL:url andTitle:@"汽车资讯"];
+                    CarInfoForm* carInfoForm = (CarInfoForm*)data;
+                    [self showWebViewWithURL:carInfoForm.url andTitle:@"汽车资讯"];
                 }];
             }
             [cell setSelectionStyle:UITableViewCellSelectionStyleNone];

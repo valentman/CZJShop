@@ -8,9 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CZJGoodsListController : UIViewController
-
+@interface CZJGoodsListController : CZJViewController
 @property (strong, nonatomic) NSString *typeId;
-@property (strong, nonatomic) NSString* searchStr;
-
 @end

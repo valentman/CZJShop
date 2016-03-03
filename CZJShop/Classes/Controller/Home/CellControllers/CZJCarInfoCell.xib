@@ -23,25 +23,22 @@
                             <constraint firstAttribute="height" constant="39" id="plX-UY-Ife"/>
                         </constraints>
                     </imageView>
-                    <scrollView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Uel-QR-nVj">
-                        <rect key="frame" x="110" y="0.0" width="210" height="38"/>
+                    <view clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vwU-hJ-zdz">
+                        <rect key="frame" x="110" y="0.0" width="210" height="39"/>
                         <animations/>
-                    </scrollView>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
                 </subviews>
                 <animations/>
                 <constraints>
-                    <constraint firstItem="Uel-QR-nVj" firstAttribute="leading" secondItem="XX0-gM-ZQA" secondAttribute="trailing" constant="10" id="0bx-Uq-dm3"/>
                     <constraint firstItem="XX0-gM-ZQA" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="5SW-QE-sKj"/>
-                    <constraint firstAttribute="trailing" secondItem="Uel-QR-nVj" secondAttribute="trailing" id="LNB-SB-MBL"/>
                     <constraint firstItem="XX0-gM-ZQA" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="T3G-6Z-xfV"/>
-                    <constraint firstAttribute="bottom" secondItem="Uel-QR-nVj" secondAttribute="bottom" id="a6A-zd-FqE"/>
-                    <constraint firstItem="Uel-QR-nVj" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="wGR-0c-Lwa"/>
                 </constraints>
             </tableViewCellContentView>
             <animations/>
             <connections>
                 <outlet property="carInfoWordImg" destination="XX0-gM-ZQA" id="2Lo-co-OD7"/>
-                <outlet property="scrollInfoView" destination="Uel-QR-nVj" id="fV9-Dl-sMi"/>
+                <outlet property="infoView" destination="vwU-hJ-zdz" id="Ufg-pU-LaO"/>
             </connections>
             <point key="canvasLocation" x="353" y="284.5"/>
         </tableViewCell>

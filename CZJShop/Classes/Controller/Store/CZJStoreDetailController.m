@@ -350,13 +350,13 @@ MKMapViewDelegate
     if (2 == indexPath.section && 0 == indexPath.row)
     {//广告一
         CZJAdBanerCell *cell = (CZJAdBanerCell*)[tableView dequeueReusableCellWithIdentifier:@"CZJAdBanerCell" forIndexPath:indexPath];
-        [cell initBannerOneWithDatas:_bannerOneArray];
+//        [cell initBannerOneWithDatas:_bannerOneArray];
         return cell;
     }
     if (3 == indexPath.section)
     {//广告二
         CZJAdBanerCell *cell = (CZJAdBanerCell*)[tableView dequeueReusableCellWithIdentifier:@"CZJAdBanerCell" forIndexPath:indexPath];
-        [cell initBannerWithImg:_imgsArray[indexPath.row]];
+//        [cell initBannerWithImg:_imgsArray[indexPath.row]];
         return cell;
     }
     if (4 == indexPath.section)

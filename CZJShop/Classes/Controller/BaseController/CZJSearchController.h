@@ -17,4 +17,5 @@ typedef NS_ENUM(NSInteger, SearchType)
 @interface CZJSearchController : CZJViewController
 @property (nonatomic, weak) id <CZJViewControllerDelegate> delegate;
 @property (nonatomic, weak) id parent;
+@property (nonatomic, assign) CZJDetailType detailType;
 @end

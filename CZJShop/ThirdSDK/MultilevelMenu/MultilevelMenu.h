@@ -64,7 +64,6 @@
 
 
 @interface BannerAdForm : NSObject
-
 @property(copy, nonatomic)NSString* target;
 @property(copy, nonatomic)NSString* img;
 @property(copy, nonatomic)NSString* typeID;

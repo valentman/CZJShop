@@ -104,12 +104,12 @@ singleton_implementation(CZJNetworkManager)
     }];
 }
 
-- (void)postJSONWithUrl:(NSString *)urlStr
-             parameters:(id)parameters
-                success:(void (^)(id responseObject))success
-                   fail:(void (^)())fail
+
+- (void)postJSONWithNoServerAPI:(NSString *)urlStr
+                     parameters:(id)parameters
+                        success:(void (^)(id responseObject))success
+                           fail:(void (^)())fail
 {
-    
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     // 设置返回类型
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html",@"text/plain", nil];
@@ -120,30 +120,72 @@ singleton_implementation(CZJNetworkManager)
     manager.responseSerializer = [AFHTTPResponseSerializer serializer];
     manager.requestSerializer.timeoutInterval = 10.f;
     
-    NSString* path =  [self getPath:urlStr];
-    DLog(@"\nServerAPI:%@, \nParameter:%@",path,[parameters description]);
-    [manager POST:path
+    [manager POST:urlStr
        parameters:parameters
           success:^(AFHTTPRequestOperation *operation, id responseObject){
-                DLog();
-                if (success)
-                {
-                    success(responseObject);
-                }
-                dispatch_async(dispatch_get_main_queue(), ^(){
-                    [SVProgressHUD dismiss];
-                });
+              DLog();
+              if (success)
+              {
+                  success(responseObject);
+              }
+              dispatch_async(dispatch_get_main_queue(), ^(){
+                  [SVProgressHUD dismiss];
+              });
           }
           failure:^(AFHTTPRequestOperation *operation, NSError *error){
-                DLog();
-                if (fail) {
-                    fail();
-                }
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [SVProgressHUD dismiss];
-                });
+              DLog();
+              if (fail) {
+                  fail();
+              }
+              dispatch_async(dispatch_get_main_queue(), ^{
+                  [SVProgressHUD dismiss];
+              });
           }
      ];
+}
+
+- (void)postJSONWithUrl:(NSString *)urlStr
+             parameters:(id)parameters
+                success:(void (^)(id responseObject))success
+                   fail:(void (^)())fail
+{
+    NSString* path =  [self getPath:urlStr];
+    DLog(@"\nServerAPI:%@, \nParameter:%@",path,[parameters description]);
+    [self postJSONWithNoServerAPI:path parameters:parameters success:success fail:fail];
+    
+//    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+//    // 设置返回类型
+//    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html",@"text/plain", nil];
+//    
+//    // 设置返回格式
+//    [manager.requestSerializer willChangeValueForKey:@"timeoutInterval"];
+//    [manager.requestSerializer didChangeValueForKey:@"timeoutInterval"];
+//    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+//    manager.requestSerializer.timeoutInterval = 10.f;
+//    
+//
+//    [manager POST:path
+//       parameters:parameters
+//          success:^(AFHTTPRequestOperation *operation, id responseObject){
+//                DLog();
+//                if (success)
+//                {
+//                    success(responseObject);
+//                }
+//                dispatch_async(dispatch_get_main_queue(), ^(){
+//                    [SVProgressHUD dismiss];
+//                });
+//          }
+//          failure:^(AFHTTPRequestOperation *operation, NSError *error){
+//                DLog();
+//                if (fail) {
+//                    fail();
+//                }
+//                dispatch_async(dispatch_get_main_queue(), ^{
+//                    [SVProgressHUD dismiss];
+//                });
+//          }
+//     ];
 }
 
 - (void)sessionDownloadWithUrl:(NSString *)urlStr success:(void (^)(NSURL *fileURL))success fail:(void (^)())fail

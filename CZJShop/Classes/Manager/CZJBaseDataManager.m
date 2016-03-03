@@ -54,7 +54,7 @@ singleton_implementation(CZJBaseDataManager);
         [self initParameters];
         [self loadAreaInfos];
         
-        NSArray* dict = [CZJUtils readArrayFromPlistWithName:@"PaymentType"];
+        NSArray* dict = [CZJUtils readArrayFromBundleDirectoryWithName:@"PaymentType"];
         _orderPaymentTypeAry = [CZJOrderTypeForm objectArrayWithKeyValuesArray:dict];
         return self;
     }
@@ -148,8 +148,8 @@ singleton_implementation(CZJBaseDataManager);
         if ([self showAlertView:json])
         {
             NSDictionary* newdict = [CZJUtils DataFromJson:json];
-            [CZJUtils writeDataToPlist:[newdict mutableCopy] withPlistName:kCZJPlistFileCitys];
-            NSMutableDictionary* newdicts = [CZJUtils readDataFromPlistWithName:kCZJPlistFileCitys];
+            [CZJUtils writeDictionaryToDocumentsDirectory:[newdict mutableCopy] withPlistName:kCZJPlistFileCitys];
+            NSMutableDictionary* newdicts = [CZJUtils readDictionaryFromDocumentsDirectoryWithPlistName:kCZJPlistFileCitys];
             DLog(@"%@", [newdicts description]);
             if (_storeForm)
             {

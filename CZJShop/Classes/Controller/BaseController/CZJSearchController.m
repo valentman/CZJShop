@@ -25,7 +25,6 @@ UITableViewDelegate
     NIDropDown *dropDown;
     NSMutableArray* searchHistoryAry;
     NSMutableArray* currentAry;
-    CZJDetailType  detailType;
     SearchType searchType;
 }
 @property (weak, nonatomic) IBOutlet UITableView *myTableView;
@@ -47,7 +46,6 @@ UITableViewDelegate
     [super viewDidLoad];
     [self initDatas];
     [self initViews];
-    // Do any additional setup after loading the view.
 }
 
 - (void)initDatas
@@ -72,6 +70,7 @@ UITableViewDelegate
     [_backgroundView addGestureRecognizer:gesture];
     _backgroundView.hidden = YES;
 
+    //搜索记录TableView
     self.view.backgroundColor = CZJNAVIBARBGCOLOR;
     self.myTableView.tableFooterView = [[UIView alloc] init];
     self.myTableView.hidden = YES;
@@ -81,25 +80,41 @@ UITableViewDelegate
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.clearHisView.hidden = YES;
     
-    searchHistoryAry = [CZJUtils readArrayFromPlistWithName:kCZJPlistFileSearchHistory];
+    //读取搜索历史记录文件，如果有历史记录，则显示出来。
+    searchHistoryAry = [CZJUtils readArrayFromDocumentsDirectoryWithName:kCZJPlistFileSearchHistory];
     if (searchHistoryAry.count > 0)
     {
         self.myTableView.hidden = NO;
         [self.myTableView reloadData];
     }
     
-    self.categoryLabel.text = @"服务";
-    detailType = CZJDetailTypeService;
-    
+    //输入框注册回调事件
     [self.searchTextField addTarget:self action:@selector(textFieldDidReturn:) forControlEvents:UIControlEventEditingDidEndOnExit];
     [self.searchTextField addTarget:self action:@selector(textFieldDidChanged:) forControlEvents:UIControlEventEditingChanged];
     [self.searchTextField becomeFirstResponder];
+    
+    
+    //默认搜索标签为服务
+    switch (self.detailType)
+    {
+        case CZJDetailTypeService:
+            self.categoryLabel.text = @"服务";
+            break;
+        case CZJDetailTypeGoods:
+            self.categoryLabel.text = @"商品";
+            break;
+        case CZJDetailTypeStore:
+            self.categoryLabel.text = @"门店";
+            break;
+            
+        default:
+            break;
+    }
 }
 
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 #pragma mark-UITableViewDataSource
@@ -180,6 +195,7 @@ UITableViewDelegate
             cell.detailTextLabel.text = @"";
         }
     }
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
 
@@ -206,7 +222,7 @@ UITableViewDelegate
                 continue;
             }
         }
-        [CZJUtils writeArrayToPlist:searchHistoryAry withPlistName:kCZJPlistFileSearchHistory];
+        [CZJUtils writeArrayToDocumentsDirectory:searchHistoryAry withPlistName:kCZJPlistFileSearchHistory];
         [self beginSearch:str];
     }
     else if (searchType == kSearchTypeHistory &&  indexPath.row < searchHistoryAry.count)
@@ -230,15 +246,15 @@ UITableViewDelegate
 {
     if ([btnStr isEqualToString:@"服务"])
     {
-        detailType = CZJDetailTypeService;
+        _detailType = CZJDetailTypeService;
     }
     if ([btnStr isEqualToString:@"商品"])
     {
-        detailType = CZJDetailTypeGoods;
+        _detailType = CZJDetailTypeGoods;
     }
     if ([btnStr isEqualToString:@"门店"])
     {
-        detailType = CZJDetailTypeStore;
+        _detailType = CZJDetailTypeStore;
     }
     self.categoryLabel.text = btnStr;
     [self tapBackground:nil];
@@ -262,9 +278,16 @@ UITableViewDelegate
 
 - (IBAction)clearHistoryAction:(id)sender
 {
-    [searchHistoryAry removeAllObjects];
-    [CZJUtils writeArrayToPlist:searchHistoryAry withPlistName:kCZJPlistFileSearchHistory];
-    [self.myTableView reloadData];
+    [self.searchTextField resignFirstResponder];
+    [self showCZJAlertView:@"确定清除搜索记录？" andConfirmHandler:^{
+        [searchHistoryAry removeAllObjects];
+        [CZJUtils writeArrayToDocumentsDirectory:searchHistoryAry withPlistName:kCZJPlistFileSearchHistory];
+        [self.myTableView reloadData];
+        [self hideWindow];
+        [self.searchTextField becomeFirstResponder];
+    } andCancleHandler:^{
+        [self.searchTextField becomeFirstResponder];
+    }];
 }
 
 - (IBAction)chooseCategoryAction:(id)sender
@@ -288,30 +311,28 @@ UITableViewDelegate
     [self beginSearch:textField.text];
     if (![textField.text isEqualToString:@""]) {
         [searchHistoryAry insertObject:textField.text atIndex:0];
-        [CZJUtils writeArrayToPlist:searchHistoryAry withPlistName:kCZJPlistFileSearchHistory];
+        [CZJUtils writeArrayToDocumentsDirectory:searchHistoryAry withPlistName:kCZJPlistFileSearchHistory];
     }
 }
 
 - (void)beginSearch:(NSString*)searchStr
 {
-    UIViewController* vc;
-    switch (detailType) {
+    CZJViewController* vc;
+    switch (_detailType) {
         case CZJDetailTypeService:
         {
             vc = (CZJServiceListController*)[CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:@"serviceListSBID"];
-            ((CZJServiceListController*)vc).searchStr = searchStr;
         }
             break;
         case CZJDetailTypeGoods:
         {
             vc = (CZJGoodsListController*)[CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:@"goodListSBID"];
-            ((CZJGoodsListController*)vc).searchStr = searchStr;
         }
             break;
         case CZJDetailTypeStore:
         {
             vc = (CZJStoreViewController*)[CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:@"storeListSBID"];
-            ((CZJStoreViewController*)vc).searchStr = searchStr;
+            vc.hidesBottomBarWhenPushed = YES;
         }
             break;
             
@@ -321,6 +342,7 @@ UITableViewDelegate
     [self cancelSerchAction:nil];
     if ([self.parent isKindOfClass:[UIViewController class]])
     {
+        vc.searchStr = searchStr;
         UIViewController* control = (UIViewController*)self.parent;
         [control.navigationController pushViewController:vc animated:true];
     }
@@ -337,6 +359,7 @@ UITableViewDelegate
     else
     {
         searchType = kSearchTypeServer;
+        //模糊搜索
         NSDictionary* params = @{@"q":textField.text};
         [CZJBaseDataInstance searchAnything:params Success:^(id json) {
             [currentAry removeAllObjects];
