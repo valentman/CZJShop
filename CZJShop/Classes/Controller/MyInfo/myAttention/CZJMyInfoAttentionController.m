@@ -276,7 +276,7 @@ UITableViewDelegate
         if (0 == indexPath.row)
         {
             CZJStoreAttentionHeadCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJStoreAttentionHeadCell" forIndexPath:indexPath];
-            [cell.storeImg sd_setImageWithURL:[NSURL URLWithString:form.homeImg] placeholderImage:IMAGENAMED(@"home_btn_xiche")];
+            [cell.storeImg sd_setImageWithURL:[NSURL URLWithString:form.homeImg] placeholderImage:DefaultPlaceHolderImage];
             cell.storeNameLabel.text = form.name;
             CGSize attentionSize = [CZJUtils calculateTitleSizeWithString:form.attentionCount AndFontSize:14];
             cell.attentionCountLabel.text = form.attentionCount;
@@ -298,7 +298,7 @@ UITableViewDelegate
     {
         CZJGoodsAttentionForm* form = tmpArray[indexPath.row];
         CZJGoodsAttentionCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJGoodsAttentionCell" forIndexPath:indexPath];
-        [cell.goodImg sd_setImageWithURL:[NSURL URLWithString:form.itemImg] placeholderImage:IMAGENAMED(@"home_btn_xiche")];
+        [cell.goodImg sd_setImageWithURL:[NSURL URLWithString:form.itemImg] placeholderImage:DefaultPlaceHolderImage];
         
         CGSize nameSize = [CZJUtils calculateStringSizeWithString:form.itemName Font:SYSTEMFONT(15) Width:PJ_SCREEN_WIDTH - 116];
         cell.goodNameLabel.text = form.itemName;

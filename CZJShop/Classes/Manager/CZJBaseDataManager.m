@@ -122,12 +122,15 @@ singleton_implementation(CZJBaseDataManager);
 
 - (void)setCurCityName:(NSString *)curCity
 {
-    [self generalPost:@{@"cityName":curCity} success:^(id json) {
-        NSDictionary* dict = [[CZJUtils DataFromJson:json] valueForKey:@"msg"];
-        self.curCityID = [dict valueForKey:@"cityId"];
-        self.curProvinceID = [dict valueForKey:@"provinceId"];
-        [self initParameters];
-    } andServerAPI:kCZJServerAPIGetCityIdByName];
+    if (curCity)
+    {
+        [self generalPost:@{@"cityName":curCity} success:^(id json) {
+            NSDictionary* dict = [[CZJUtils DataFromJson:json] valueForKey:@"msg"];
+            self.curCityID = [dict valueForKey:@"cityId"];
+            self.curProvinceID = [dict valueForKey:@"provinceId"];
+            [self initParameters];
+        } andServerAPI:kCZJServerAPIGetCityIdByName];
+    }
 }
 
 - (BOOL)showAlertView:(id)info{

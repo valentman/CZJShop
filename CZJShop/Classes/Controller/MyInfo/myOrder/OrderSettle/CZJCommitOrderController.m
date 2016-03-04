@@ -408,9 +408,11 @@ CZJRedPacketCellDelegate
         {
             CZJOrderGoodsForm* goodsForm = storeForm.items[indexPath.row - 1];
             CZJOrderProductHeaderCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJOrderProductHeaderCell" forIndexPath:indexPath];
-            [cell.goodsImg sd_setImageWithURL:[NSURL URLWithString:goodsForm.itemImg] placeholderImage:IMAGENAMED(@"home_btn_xiche")];
+            [cell.goodsImg sd_setImageWithURL:[NSURL URLWithString:goodsForm.itemImg] placeholderImage:DefaultPlaceHolderImage];
             cell.goodsNameLabel.text = goodsForm.itemName;
-            cell.priceLabel.text = [NSString stringWithFormat:@"￥%@",goodsForm.currentPrice];
+            NSString* priceStr = [NSString stringWithFormat:@"￥%@",goodsForm.currentPrice];
+            cell.priceLabel.text = priceStr;
+            cell.priceLabelWidth.constant = [CZJUtils calculateTitleSizeWithString:priceStr AndFontSize:13].width + 5;
             cell.numLabel.text = [NSString stringWithFormat:@"×%@",goodsForm.itemCount];
             cell.goodsTypeLabel.text = goodsForm.itemSku;
             cell.setupView.hidden = !goodsForm.setupFlag;
@@ -466,9 +468,12 @@ CZJRedPacketCellDelegate
             CZJOrderProductFooterCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJOrderProductFooterCell" forIndexPath:indexPath];
             NSString* transportPriceStr = [NSString stringWithFormat:@"￥%@",totalprice > 59 ? @"0" :storeForm.transportPrice];
             cell.transportPriceLabel.text = transportPriceStr;
-            cell.totalLabel.text = [NSString stringWithFormat:@"￥%.1f",totalprice];
+            NSString* totalPriceStr = [NSString stringWithFormat:@"￥%.1f",totalprice];
+            cell.totalLabel.text = totalPriceStr;
+            cell.totalPriceLayoutWidth.constant = [CZJUtils calculateTitleSizeWithString:totalPriceStr AndFontSize:17].width + 5;
             cell.transportPriceLayoutWidth.constant = [CZJUtils calculateTitleSizeWithString:transportPriceStr AndFontSize:14].width + 5;
-            
+            cell.setupPriceLabel.hidden = YES;
+            cell.setupLabel.hidden = YES;
             return cell;
         }
         else if (indexPath.row > itemCount + fullcutCount + 1 &&

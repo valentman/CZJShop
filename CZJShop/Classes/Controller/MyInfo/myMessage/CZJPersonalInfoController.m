@@ -117,7 +117,7 @@ VPImageCropperDelegate
                 [cell addSubview:headview];
             }
             if (isFromServer) {
-                [headview sd_setImageWithURL:[NSURL URLWithString:userinfo.chezhuHeadImg] placeholderImage:IMAGENAMED(@"home_btn_xiche")];
+                [headview sd_setImageWithURL:[NSURL URLWithString:userinfo.chezhuHeadImg] placeholderImage:DefaultPlaceHolderImage];
             }
             
         }

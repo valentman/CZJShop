@@ -87,13 +87,30 @@
                                 <constraint firstAttribute="width" constant="80" id="qzH-Cq-O4e"/>
                             </constraints>
                         </view>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mlK-6v-rgw">
+                            <rect key="frame" x="0.0" y="34" width="320" height="1"/>
+                            <animations/>
+                            <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="1" id="OyZ-7q-t42">
+                                    <userDefinedRuntimeAttributes>
+                                        <userDefinedRuntimeAttribute type="number" keyPath="constant">
+                                            <real key="value" value="0.5"/>
+                                        </userDefinedRuntimeAttribute>
+                                    </userDefinedRuntimeAttributes>
+                                </constraint>
+                            </constraints>
+                        </view>
                     </subviews>
                     <animations/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
+                        <constraint firstItem="mlK-6v-rgw" firstAttribute="leading" secondItem="2SR-4S-hzP" secondAttribute="leading" id="Ghs-gZ-xfm"/>
+                        <constraint firstAttribute="trailing" secondItem="mlK-6v-rgw" secondAttribute="trailing" id="VMW-hM-Sf1"/>
                         <constraint firstItem="PQu-hS-oMa" firstAttribute="leading" secondItem="2SR-4S-hzP" secondAttribute="leading" id="jXp-7V-0q3"/>
                         <constraint firstItem="PQu-hS-oMa" firstAttribute="top" secondItem="2SR-4S-hzP" secondAttribute="top" id="ju4-Uq-lIO"/>
                         <constraint firstItem="i1h-HJ-38b" firstAttribute="top" secondItem="2SR-4S-hzP" secondAttribute="top" id="sh0-w8-ro1"/>
+                        <constraint firstAttribute="bottom" secondItem="mlK-6v-rgw" secondAttribute="bottom" id="w6D-Ue-BEh"/>
                         <constraint firstAttribute="trailing" secondItem="i1h-HJ-38b" secondAttribute="trailing" constant="20" id="zN4-a7-bk9"/>
                     </constraints>
                 </view>

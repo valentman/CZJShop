@@ -7,7 +7,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="CZJGoodsRecoCellHeader">
+        <view clipsSubviews="YES" contentMode="scaleToFill" id="iN0-l3-epB" customClass="CZJGoodsRecoCellHeader">
             <rect key="frame" x="0.0" y="0.0" width="320" height="35"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
@@ -32,11 +32,11 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="home_icon_recommend.png" translatesAutoresizingMaskIntoConstraints="NO" id="VtN-Fy-jal">
-                            <rect key="frame" x="0.0" y="9" width="26" height="22"/>
+                            <rect key="frame" x="0.0" y="9" width="25" height="21"/>
                             <animations/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="22" id="gaH-Db-qFA"/>
-                                <constraint firstAttribute="width" constant="26" id="kCV-hq-6Q4"/>
+                                <constraint firstAttribute="height" constant="21" id="gaH-Db-qFA"/>
+                                <constraint firstAttribute="width" constant="25" id="kCV-hq-6Q4"/>
                             </constraints>
                         </imageView>
                     </subviews>
@@ -49,17 +49,31 @@
                         <constraint firstAttribute="height" constant="39" id="A0q-QL-Kjq"/>
                         <constraint firstAttribute="trailing" secondItem="iFn-90-Ol4" secondAttribute="trailing" id="Bk4-qx-WGr"/>
                         <constraint firstItem="iFn-90-Ol4" firstAttribute="centerY" secondItem="85U-Li-Spc" secondAttribute="centerY" id="E86-xU-UqS"/>
+                        <constraint firstItem="VtN-Fy-jal" firstAttribute="centerY" secondItem="85U-Li-Spc" secondAttribute="centerY" id="Kmj-u6-8OY"/>
                         <constraint firstItem="mlV-KQ-Vlp" firstAttribute="top" secondItem="85U-Li-Spc" secondAttribute="top" constant="9" id="gmY-Fy-pAY"/>
                         <constraint firstItem="iFn-90-Ol4" firstAttribute="leading" secondItem="85U-Li-Spc" secondAttribute="leading" id="imd-yF-5xx"/>
                         <constraint firstItem="VtN-Fy-jal" firstAttribute="top" secondItem="85U-Li-Spc" secondAttribute="top" constant="9" id="ojW-yn-f7p"/>
+                        <constraint firstItem="mlV-KQ-Vlp" firstAttribute="centerY" secondItem="85U-Li-Spc" secondAttribute="centerY" id="yTS-YA-4sa"/>
                     </constraints>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="ojW-yn-f7p"/>
+                            <exclude reference="gmY-Fy-pAY"/>
+                        </mask>
+                    </variation>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rKv-xt-YKG">
                     <rect key="frame" x="15" y="17" width="100" height="1"/>
                     <animations/>
                     <color key="backgroundColor" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="1" id="M7w-uS-mIH"/>
+                        <constraint firstAttribute="height" constant="1" id="M7w-uS-mIH">
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="number" keyPath="constant">
+                                    <real key="value" value="0.29999999999999999"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
+                        </constraint>
                     </constraints>
                 </view>
                 <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ee7-6B-fCj">
@@ -67,12 +81,18 @@
                     <animations/>
                     <color key="backgroundColor" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="1" id="VSs-vZ-9B1"/>
+                        <constraint firstAttribute="height" constant="1" id="VSs-vZ-9B1">
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="number" keyPath="constant">
+                                    <real key="value" value="0.29999999999999999"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
+                        </constraint>
                     </constraints>
                 </view>
             </subviews>
             <animations/>
-            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <color key="backgroundColor" red="0.96078431372549022" green="0.96078431372549022" blue="0.96078431372549022" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="Ee7-6B-fCj" secondAttribute="trailing" constant="15" id="4ZP-td-IUk"/>
                 <constraint firstItem="85U-Li-Spc" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="5AA-tD-iCl"/>

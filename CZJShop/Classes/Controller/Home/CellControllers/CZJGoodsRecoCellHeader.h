@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CZJGoodsRecoCellHeader : UITableViewCell
+@interface CZJGoodsRecoCellHeader : CZJTableViewCell
 @property (weak, nonatomic) IBOutlet UILabel *recoMenuLabel;
 @property (weak, nonatomic) IBOutlet UILabel *recoLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *recoImg;

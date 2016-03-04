@@ -67,7 +67,7 @@
     [cell.originPriceLabel setAttributedText:[CZJUtils stringWithDeleteLine:priceStr]];
     cell.currentPriceLabel.text = [rmb stringByAppendingString:form.currentPrice];
     cell.iconImage.backgroundColor=UIColorFromRGB(0xF8FCF8);
-    [cell.iconImage sd_setImageWithURL:[NSURL URLWithString:form.img] placeholderImage:[UIImage imageNamed:@"home_btn_xiche"]];
+    [cell.iconImage sd_setImageWithURL:[NSURL URLWithString:form.img] placeholderImage:DefaultPlaceHolderImage];
     return cell;
 }
 @end

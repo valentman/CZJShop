@@ -110,18 +110,6 @@
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.serviceTableView.tableFooterView = [[UIView alloc] init];
     
-    self.serviceTableView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
-        _getdataType = CZJHomeGetDataFromServerTypeOne;
-        [self getStoreServiceListDataFromServer];
-        self.page = 1;
-    }];
-    
-    self.serviceTableView.footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^(){
-        _getdataType = CZJHomeGetDataFromServerTypeTwo;
-        self.page++;
-        [self getStoreServiceListDataFromServer];;
-    }];
-    
     UINib *nib=[UINib nibWithNibName:@"CZJStoreCell" bundle:nil];
     [self.serviceTableView registerNib:nib forCellReuseIdentifier:@"CZJStoreCell"];
     UINib *nib2=[UINib nibWithNibName:@"CZJStoreServiceCell" bundle:nil];
@@ -137,23 +125,41 @@
     }
     
     [self addCZJNaviBarView:CZJNaviBarViewTypeBack];
-    self.naviBarView.detailType = CZJDetailTypeGoods;
+    self.naviBarView.detailType = CZJDetailTypeService;
 }
 
 - (void)getStoreServiceListDataFromServer
 {
-    DLog(@"storeparameters:%@", [storePostParams description]);
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     CZJSuccessBlock successBlock = ^(id json) {
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        if (_sortedStoreArys.count == 0)
+        {
+            self.serviceTableView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+                _getdataType = CZJHomeGetDataFromServerTypeOne;
+                [self getStoreServiceListDataFromServer];
+                self.page = 1;
+            }];
+            
+            self.serviceTableView.footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^(){
+                _getdataType = CZJHomeGetDataFromServerTypeTwo;
+                self.page++;
+                [self getStoreServiceListDataFromServer];;
+            }];
+        }
         [self dealWithArray];
+        [self.serviceTableView reloadData];
+        
         [self.serviceTableView.header endRefreshing];
         [self.serviceTableView.footer endRefreshing];
-        [self.serviceTableView reloadData];
     };
     
     [CZJBaseDataInstance showSeverciceList:storePostParams
                                       type:_getdataType
                                    success:successBlock
-                                      fail:^{}];
+                                      fail:^{
+                                          [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+                                      }];
 }
 
 - (void)dealWithArray
@@ -301,7 +307,7 @@
         cell.storeDistance.text = storeForm.distance;
         cell.storeLocation.text = storeForm.addr;
         cell.feedbackRate.text = storeForm.star;
-        [cell.storeCellImageView sd_setImageWithURL:[NSURL URLWithString:storeForm.homeImg] placeholderImage:IMAGENAMED(@"home_btn_xiche")];
+        [cell.storeCellImageView sd_setImageWithURL:[NSURL URLWithString:storeForm.homeImg] placeholderImage:DefaultPlaceHolderImage];
         return cell;
     }
     else if ((((CZJNearbyStoreServiceListForm*)_sortedStoreArys[indexPath.section]).items.count + 1) == indexPath.row)

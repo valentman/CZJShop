@@ -460,7 +460,7 @@ CZJPopPayViewDelegate
                 CZJOrderGoodsForm* goodsForm = orderDetailForm.items[indexPath.row - 1];
                 CZJOrderProductHeaderCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJOrderProductHeaderCell" forIndexPath:indexPath];
                 cell.setupView.hidden = YES;
-                [cell.goodsImg sd_setImageWithURL:[NSURL URLWithString:goodsForm.itemImg] placeholderImage:IMAGENAMED(@"home_btn_xiche")];
+                [cell.goodsImg sd_setImageWithURL:[NSURL URLWithString:goodsForm.itemImg] placeholderImage:DefaultPlaceHolderImage];
                 cell.goodsNameLabel.text = goodsForm.itemName;
                 cell.priceLabel.text = [NSString stringWithFormat:@"￥%.1f",[goodsForm.currentPrice floatValue]];
                 cell.numLabel.text = [NSString stringWithFormat:@"×%@",goodsForm.itemCount];

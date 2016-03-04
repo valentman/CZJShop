@@ -94,6 +94,12 @@ UITableViewDelegate
     [self.searchTextField becomeFirstResponder];
     
     
+
+}
+
+- (void)setDetailType:(CZJDetailType)detailType
+{
+    _detailType = detailType;
     //默认搜索标签为服务
     switch (self.detailType)
     {
@@ -111,6 +117,7 @@ UITableViewDelegate
             break;
     }
 }
+
 
 
 - (void)didReceiveMemoryWarning {
@@ -303,18 +310,6 @@ UITableViewDelegate
     }
 }
 
-#pragma mark - UITextFieldDelegate
-- (void)textFieldDidReturn:(UITextField *)textField
-{
-    DLog(@"%@",textField.text);
-    [self.searchTextField resignFirstResponder];
-    [self beginSearch:textField.text];
-    if (![textField.text isEqualToString:@""]) {
-        [searchHistoryAry insertObject:textField.text atIndex:0];
-        [CZJUtils writeArrayToDocumentsDirectory:searchHistoryAry withPlistName:kCZJPlistFileSearchHistory];
-    }
-}
-
 - (void)beginSearch:(NSString*)searchStr
 {
     CZJViewController* vc;
@@ -345,6 +340,19 @@ UITableViewDelegate
         vc.searchStr = searchStr;
         UIViewController* control = (UIViewController*)self.parent;
         [control.navigationController pushViewController:vc animated:true];
+    }
+}
+
+
+#pragma mark - UITextFieldDelegate
+- (void)textFieldDidReturn:(UITextField *)textField
+{
+    DLog(@"%@",textField.text);
+    [self.searchTextField resignFirstResponder];
+    [self beginSearch:textField.text];
+    if (![textField.text isEqualToString:@""]) {
+        [searchHistoryAry insertObject:textField.text atIndex:0];
+        [CZJUtils writeArrayToDocumentsDirectory:searchHistoryAry withPlistName:kCZJPlistFileSearchHistory];
     }
 }
 

@@ -105,7 +105,7 @@ UITableViewDelegate
             NSString* url = evaluationForm.evalImgs[i];
             CGRect imageFrame = [CZJUtils viewFramFromDynamic:CZJMarginMake(0, 0) size:CGSizeMake(78, 78) index:i divide:Divide];
             UIImageView* imageView = [[UIImageView alloc]initWithFrame:imageFrame];
-            [imageView sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:IMAGENAMED(@"")];
+            [imageView sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:DefaultPlaceHolderImage];
             [cell.picView addSubview:imageView];
         }
         return cell;
@@ -141,7 +141,7 @@ UITableViewDelegate
             NSString* url = evaluationForm.addedEval.evalImgs[i];
             CGRect imageFrame = [CZJUtils viewFramFromDynamic:CZJMarginMake(0, 0) size:CGSizeMake(70, 70) index:i divide:Divide];
             UIImageView* imageView = [[UIImageView alloc]initWithFrame:imageFrame];
-            [imageView sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:IMAGENAMED(@"")];
+            [imageView sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:DefaultPlaceHolderImage];
             [cell.picView addSubview:imageView];
         }
         return cell;

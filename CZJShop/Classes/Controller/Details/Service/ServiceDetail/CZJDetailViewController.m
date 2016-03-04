@@ -410,7 +410,7 @@ CZJStoreInfoHeaerCellDelegate
                     cell.evalTime.text = evalutionForm.evalTime;
                     cell.evalContent.text = evalutionForm.evalDesc;
                     [cell.addtionnalImage sd_setImageWithURL:[NSURL URLWithString:evalutionForm.imgs[0]]
-                                            placeholderImage:IMAGENAMED(@"home_btn_xiche")];
+                                            placeholderImage:DefaultPlaceHolderImage];
                     [cell setStar:[evalutionForm.evalStar intValue]];
                 }
                 [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
@@ -433,7 +433,7 @@ CZJStoreInfoHeaerCellDelegate
                 if (_storeInfo)
                 {
                     [cell.storeImage sd_setImageWithURL:[NSURL URLWithString:_storeInfo.logo]
-                                            placeholderImage:IMAGENAMED(@"home_btn_xiche")];
+                                            placeholderImage:DefaultPlaceHolderImage];
                     cell.storeName.text = _storeInfo.storeName;
                     cell.storeAddr.text = _storeInfo.storeAddr;
                     cell.storeAddrLayoutWidth.constant = PJ_SCREEN_WIDTH - 200;

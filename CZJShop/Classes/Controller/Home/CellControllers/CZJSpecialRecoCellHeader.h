@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CZJSpecialRecoCellHeader : UITableViewCell
+@interface CZJSpecialRecoCellHeader : CZJTableViewCell
 
 @end

@@ -14,7 +14,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="139"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oGb-GE-hhz">
+                    <button hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oGb-GE-hhz">
                         <rect key="frame" x="20" y="59" width="22" height="22"/>
                         <animations/>
                         <constraints>
@@ -128,12 +128,18 @@
                             <constraint firstItem="X9C-sW-U1r" firstAttribute="leading" secondItem="BAb-YC-yqd" secondAttribute="leading" id="xc1-BV-Xez"/>
                             <constraint firstItem="8Ei-yJ-Wwp" firstAttribute="top" secondItem="BAb-YC-yqd" secondAttribute="top" id="yUj-pV-s0f"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="9DT-9h-vLs"/>
+                            </mask>
+                        </variation>
                     </view>
                 </subviews>
                 <animations/>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 <constraints>
                     <constraint firstItem="oGb-GE-hhz" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="Bax-NM-jnJ"/>
+                    <constraint firstAttribute="trailing" secondItem="BAb-YC-yqd" secondAttribute="trailing" constant="20" id="Dc9-Gb-dTH"/>
                     <constraint firstAttribute="bottom" secondItem="BAb-YC-yqd" secondAttribute="bottom" constant="10" id="NnE-Cf-96Y"/>
                     <constraint firstItem="BAb-YC-yqd" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="cmj-dc-D5U"/>
                     <constraint firstItem="BAb-YC-yqd" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="h9J-jX-KrJ"/>

@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CZJBrandRecoCellHeader : UITableViewCell
+@interface CZJBrandRecoCellHeader : CZJTableViewCell
 - (IBAction)showMoreBrandInfo:(id)sender;
 
 @end

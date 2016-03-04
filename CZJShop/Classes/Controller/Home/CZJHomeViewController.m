@@ -44,6 +44,7 @@ CZJGoodsRecommendCellDelegate
 {
     NSString* _serviceTypeId;
     NSString* _touchedStoreItemPid;
+    BOOL isLoadSuccess;
 }
 @property (strong, nonatomic) IBOutlet PullTableView *homeTableView;
 @property (weak, nonatomic) IBOutlet UIButton *btnToTop;
@@ -63,6 +64,7 @@ CZJGoodsRecommendCellDelegate
     [self dealWithInitNavigationBar];
     [self dealWithInitTableView];
     [self dealWithInitTabbar];
+    [SVProgressHUD show];
     [self getHomeDataFromServer:CZJHomeGetDataFromServerTypeOne];
     [self.homeTableView reloadData];
     [CZJUtils setExtraCellLineHidden:self.homeTableView];
@@ -122,7 +124,6 @@ CZJGoodsRecommendCellDelegate
     self.homeTableView.delegate = self;
     self.homeTableView.dataSource = self;
     [self.homeTableView setDelegate:self];
-    [self.homeTableView setBackgroundColor:CZJTableViewBGColor];
     self.homeTableView.showsVerticalScrollIndicator = NO;
     self.homeTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.homeTableView.rowHeight = UITableViewAutomaticDimension;
@@ -168,7 +169,8 @@ CZJGoodsRecommendCellDelegate
     
     //从服务器获取数据成功返回回调
     CZJSuccessBlock successBlock = ^(id json){
-        
+        [SVProgressHUD dismiss];
+        isLoadSuccess = YES;
         [self dealWithArray];
         [self.homeTableView reloadData];
         if (self.homeTableView.pullTableIsRefreshing == YES)
@@ -180,6 +182,7 @@ CZJGoodsRecommendCellDelegate
         
         switch (dataType) {
             case CZJHomeGetDataFromServerTypeOne:
+                [self loadMoreTable];
                 break;
                 
             case CZJHomeGetDataFromServerTypeTwo:
@@ -344,6 +347,7 @@ CZJGoodsRecommendCellDelegate
             else if (0 == indexPath.row)
             {
                 CZJMiaoShaCellHeader* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJMiaoShaCellHeader" forIndexPath:indexPath];
+                [cell.miaoShaChangCi setTitle:@"" forState:UIControlStateNormal];
                 [cell initHeaderWithTimestamp:CZJBaseDataInstance.homeForm.serverTime];
                 return cell;
             }
@@ -430,13 +434,13 @@ CZJGoodsRecommendCellDelegate
             if (0 == indexPath.row)
             {
                 CZJGoodsRecoCellHeader* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJGoodsRecoCellHeader" forIndexPath:indexPath];
-                cell.backgroundColor = [UIColor clearColor];
-                cell.backgroundView.backgroundColor = [UIColor clearColor];
+                cell.backgroundColor = CZJTableViewBGColor;
                 return cell;
             }
             else
             {
                 CZJGoodsRecommendCell* cell = (CZJGoodsRecommendCell*)[tableView dequeueReusableCellWithIdentifier:@"CZJGoodsRecommendCell" forIndexPath:indexPath];
+                cell.backgroundColor = CZJTableViewBGColor;
                 cell.delegate = self;
                 float width = (PJ_SCREEN_WIDTH - 30) / 2;
                 cell.imageOneHeight.constant = width;
@@ -466,13 +470,16 @@ CZJGoodsRecommendCellDelegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     //广告条和汽车头条可能没有信息数据，则返回0
-    if ((_bannerOneArray.count == 0 && section == 4)||
+    if (isLoadSuccess && ((_bannerOneArray.count == 0 && section == 4)||
         (_bannerTwoArray.count == 0 && section == 7)||
         (_carInfoArray.count == 0 && section == 2) ||
         (_specialRecommentArray.count == 0 && section == 8) ||
         (_brandRecommentArray.count == 0 && section == 6) ||
-        (_limitBuyArray.count == 0 && section == 5)||
-        (_miaoShaArray.count == 0 && section == 3))
+        (_miaoShaArray.count == 0 && section == 3)))
+    {
+        return 0;
+    }
+    if (_limitBuyArray.count == 0 && section == 5)
     {
         return 0;
     }
@@ -491,31 +498,6 @@ CZJGoodsRecommendCellDelegate
 }
 
 #pragma mark - TableView Delegate
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    switch (indexPath.section)
-    {
-        case 0:{
-            
-        }
-            break;
-        case 1:{
-            
-        }
-            break;
-        case 2:{
-            
-        }
-            break;
-        case 3:{
-            
-        }
-            break;
-        default:
-            break;
-    }
-}
-
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     switch (indexPath.section) {
@@ -557,7 +539,7 @@ CZJGoodsRecommendCellDelegate
             break;
             
         case 7:
-            return 100;
+            return 250;
             break;
         case 8:
             if (0 == indexPath.row) {
@@ -584,13 +566,30 @@ CZJGoodsRecommendCellDelegate
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
-    if ((_carInfoArray.count == 0 && section == 2)||
-        (_miaoShaArray.count == 0 && section == 3)||
-        (_limitBuyArray.count == 0 && section == 5)||
-        (_brandRecommentArray.count == 0 && section == 6)){
-        return 15;
-    }
     
+    if (isLoadSuccess)
+    {
+        if ((_carInfoArray.count == 0 && section == 2)||
+            (_miaoShaArray.count == 0 && section == 3)||
+            (_limitBuyArray.count == 0 && section == 5)||
+            (_brandRecommentArray.count == 0 && section == 6)||
+            (_bannerTwoArray.count == 0 && section == 7)||
+            (_specialRecommentArray.count == 0 && section == 8)){
+            return 10;
+        }
+    }
+    else
+    {
+        if ((section == 2)||
+            (section == 3)||
+            (section == 5)||
+            (section == 6)||
+            (section == 7)||
+            (section == 8)){
+            return 10;
+        }
+    }
+
     return 0;
 }
 

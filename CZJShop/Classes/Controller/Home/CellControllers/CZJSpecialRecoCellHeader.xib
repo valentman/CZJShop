@@ -49,12 +49,29 @@
                                 <constraint firstItem="kne-ea-iMj" firstAttribute="leading" secondItem="Z5I-Pm-qKm" secondAttribute="leading" constant="10" id="kUk-bW-BKo"/>
                             </constraints>
                         </view>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Icd-Nt-3n6">
+                            <rect key="frame" x="0.0" y="34" width="320" height="1"/>
+                            <animations/>
+                            <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="1" id="fkq-dY-mXJ">
+                                    <userDefinedRuntimeAttributes>
+                                        <userDefinedRuntimeAttribute type="number" keyPath="constant">
+                                            <real key="value" value="0.29999999999999999"/>
+                                        </userDefinedRuntimeAttribute>
+                                    </userDefinedRuntimeAttributes>
+                                </constraint>
+                            </constraints>
+                        </view>
                     </subviews>
                     <animations/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstItem="Z5I-Pm-qKm" firstAttribute="leading" secondItem="P7l-zH-w2j" secondAttribute="leading" id="0Gn-QS-thH"/>
+                        <constraint firstItem="Icd-Nt-3n6" firstAttribute="leading" secondItem="P7l-zH-w2j" secondAttribute="leading" id="U9l-2G-Kl5"/>
                         <constraint firstItem="Z5I-Pm-qKm" firstAttribute="top" secondItem="P7l-zH-w2j" secondAttribute="top" id="g0Z-hx-pOs"/>
+                        <constraint firstAttribute="bottom" secondItem="Icd-Nt-3n6" secondAttribute="bottom" id="r3C-Ar-9nc"/>
+                        <constraint firstAttribute="trailing" secondItem="Icd-Nt-3n6" secondAttribute="trailing" id="w8w-Cy-ihL"/>
                     </constraints>
                 </view>
             </subviews>

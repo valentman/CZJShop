@@ -43,7 +43,6 @@ UITableViewDelegate
 @property (nonatomic,retain)NSString* curLocationCityName;
 @property (assign, nonatomic)NSInteger page;
 
-@property (weak, nonatomic) IBOutlet CZJNaviagtionBarView *my;
 @end
 
 @implementation CZJStoreViewController
@@ -115,15 +114,12 @@ UITableViewDelegate
     UINib *nib=[UINib nibWithNibName:@"CZJStoreCell" bundle:nil];
     [self.storeTableView registerNib:nib forCellReuseIdentifier:@"CZJStoreCell"];
     
-    self.navigationController.navigationBarHidden = YES;
-    CGRect mainViewBounds = self.navigationController.navigationBar.bounds;
-    [self.my initWithFrame:mainViewBounds AndType:CZJNaviBarViewTypeMain].delegate = self;
-    self.my.mainTitleLabel.text = @"门店";
+    [self addCZJNaviBarView:CZJNaviBarViewTypeMain];
+    self.naviBarView.mainTitleLabel.text = @"门店";
 }
 
 - (void)getStoreDataFromServer
 {
-    DLog(@"storeparameters:%@", [storePostParams description]);
     CZJSuccessBlock successBlock = ^(id json) {
         [self dealWithArray];
         [self.storeTableView reloadData];
@@ -157,7 +153,7 @@ UITableViewDelegate
 #pragma mark- 定位功能区
 - (void)initRefreshLocationBarView
 {
-    [self.view.window addSubview:_refreshLocationBarView];
+    [self.window addSubview:_refreshLocationBarView];
     _locationButton.tag = CZJViewMoveOrientationLeft;
     [_locationButton addTarget:self action:@selector(btnTouched:) forControlEvents:UIControlEventTouchUpInside];
     [self btnTouched:nil];
@@ -307,7 +303,7 @@ UITableViewDelegate
     cell.storeDistance.text = storeForm.distance;
     cell.storeLocation.text = storeForm.addr;
     cell.feedbackRate.text = storeForm.star;
-    [cell.storeCellImageView sd_setImageWithURL:[NSURL URLWithString:storeForm.homeImg] placeholderImage:IMAGENAMED(@"home_btn_xiche")];
+    [cell.storeCellImageView sd_setImageWithURL:[NSURL URLWithString:storeForm.homeImg] placeholderImage:DefaultPlaceHolderImage];
     TOCK;
     return cell;
     

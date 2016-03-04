@@ -10,33 +10,39 @@
         <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="153" id="KGk-i7-Jjw" customClass="CZJBrandRecommendCell">
             <rect key="frame" x="0.0" y="0.0" width="320" height="153"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+            <tableViewCellContentView key="contentView" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
                 <rect key="frame" x="0.0" y="0.0" width="320" height="152"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TbV-2V-9AV">
-                        <rect key="frame" x="160" y="0.0" width="1" height="152"/>
-                        <animations/>
-                        <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
-                        <constraints>
-                            <constraint firstAttribute="width" constant="1" id="hP1-SM-hOz"/>
-                        </constraints>
-                    </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wsC-Vm-WGs">
-                        <rect key="frame" x="0.0" y="0.0" width="160" height="152"/>
+                        <rect key="frame" x="0.0" y="0.0" width="159" height="152"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="GUL-Ke-mmn">
-                                <rect key="frame" x="0.0" y="0.0" width="160" height="152"/>
+                                <rect key="frame" x="0.0" y="0.0" width="159" height="152"/>
                                 <animations/>
                             </imageView>
                         </subviews>
                         <animations/>
-                        <color key="backgroundColor" red="0.71932429060000003" green="0.75822437890000005" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="GUL-Ke-mmn" secondAttribute="trailing" id="DaB-Nw-Mee"/>
                             <constraint firstItem="GUL-Ke-mmn" firstAttribute="leading" secondItem="wsC-Vm-WGs" secondAttribute="leading" id="Jvw-oD-lhb"/>
                             <constraint firstItem="GUL-Ke-mmn" firstAttribute="top" secondItem="wsC-Vm-WGs" secondAttribute="top" id="iX1-g2-R6e"/>
                             <constraint firstAttribute="bottom" secondItem="GUL-Ke-mmn" secondAttribute="bottom" id="w0v-d1-Ldb"/>
+                        </constraints>
+                    </view>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TbV-2V-9AV" userLabel="separatorOne">
+                        <rect key="frame" x="160" y="0.0" width="1" height="152"/>
+                        <animations/>
+                        <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="1" id="hP1-SM-hOz">
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="constant">
+                                        <real key="value" value="0.40000000000000002"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </constraint>
                         </constraints>
                     </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qKy-jP-cE4">
@@ -48,7 +54,7 @@
                             </imageView>
                         </subviews>
                         <animations/>
-                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="yQG-tG-iUc" secondAttribute="trailing" id="D5u-7t-zUH"/>
                             <constraint firstAttribute="bottom" secondItem="yQG-tG-iUc" secondAttribute="bottom" id="iRs-Ka-ADW"/>
@@ -56,20 +62,18 @@
                             <constraint firstItem="yQG-tG-iUc" firstAttribute="top" secondItem="qKy-jP-cE4" secondAttribute="top" id="pgc-TH-ZhY"/>
                         </constraints>
                     </view>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0Uv-vp-vkN">
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0Uv-vp-vkN" userLabel="separatoryTwo">
                         <rect key="frame" x="160" y="76" width="160" height="1"/>
                         <animations/>
-                        <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="1" id="7PJ-uH-IKS"/>
-                        </constraints>
-                    </view>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DfQ-qo-jln">
-                        <rect key="frame" x="240" y="76" width="1" height="76"/>
-                        <animations/>
-                        <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
-                        <constraints>
-                            <constraint firstAttribute="width" constant="1" id="fHl-NF-hLf"/>
+                            <constraint firstAttribute="height" constant="1" id="7PJ-uH-IKS">
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="constant">
+                                        <real key="value" value="0.29999999999999999"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </constraint>
                         </constraints>
                     </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SEa-AK-WXo">
@@ -81,13 +85,32 @@
                             </imageView>
                         </subviews>
                         <animations/>
-                        <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="6sS-4q-GKl" secondAttribute="bottom" id="Cbe-et-SIY"/>
                             <constraint firstAttribute="trailing" secondItem="6sS-4q-GKl" secondAttribute="trailing" id="gvi-jE-Vse"/>
                             <constraint firstItem="6sS-4q-GKl" firstAttribute="leading" secondItem="SEa-AK-WXo" secondAttribute="leading" id="uZm-Ri-BsO"/>
                             <constraint firstItem="6sS-4q-GKl" firstAttribute="top" secondItem="SEa-AK-WXo" secondAttribute="top" id="y6a-Tp-JDJ"/>
                         </constraints>
+                    </view>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DfQ-qo-jln" userLabel="separatorThree">
+                        <rect key="frame" x="240" y="76" width="1" height="76"/>
+                        <animations/>
+                        <color key="backgroundColor" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="1" id="fHl-NF-hLf">
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="constant">
+                                        <real key="value" value="0.29999999999999999"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </constraint>
+                        </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="constant">
+                                <real key="value" value="0.29999999999999999"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
                     </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Zoa-oq-is5">
                         <rect key="frame" x="241" y="77" width="79" height="75"/>
@@ -98,7 +121,7 @@
                             </imageView>
                         </subviews>
                         <animations/>
-                        <color key="backgroundColor" red="1" green="0.81426887859999997" blue="0.26342855840000001" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="pd4-GQ-clw" secondAttribute="trailing" id="Hz8-14-gyl"/>
                             <constraint firstAttribute="bottom" secondItem="pd4-GQ-clw" secondAttribute="bottom" id="Wua-nt-9wB"/>
@@ -108,6 +131,7 @@
                     </view>
                 </subviews>
                 <animations/>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 <constraints>
                     <constraint firstItem="0Uv-vp-vkN" firstAttribute="leading" secondItem="TbV-2V-9AV" secondAttribute="leading" id="8Gb-D1-D8d"/>
                     <constraint firstItem="SEa-AK-WXo" firstAttribute="leading" secondItem="TbV-2V-9AV" secondAttribute="trailing" id="8qg-Sf-0Rx"/>
@@ -116,7 +140,13 @@
                     <constraint firstItem="TbV-2V-9AV" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="LpK-5z-Auz"/>
                     <constraint firstItem="SEa-AK-WXo" firstAttribute="trailing" secondItem="DfQ-qo-jln" secondAttribute="leading" id="OLk-UW-crL"/>
                     <constraint firstItem="0Uv-vp-vkN" firstAttribute="centerY" secondItem="TbV-2V-9AV" secondAttribute="centerY" id="Q8z-1X-dlh"/>
-                    <constraint firstItem="wsC-Vm-WGs" firstAttribute="trailing" secondItem="TbV-2V-9AV" secondAttribute="leading" id="QnO-Gb-zXY"/>
+                    <constraint firstItem="wsC-Vm-WGs" firstAttribute="trailing" secondItem="TbV-2V-9AV" secondAttribute="leading" constant="-1" id="QnO-Gb-zXY">
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="constant">
+                                <real key="value" value="0.29999999999999999"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </constraint>
                     <constraint firstAttribute="bottom" secondItem="SEa-AK-WXo" secondAttribute="bottom" id="TO6-Rf-o9m"/>
                     <constraint firstItem="qKy-jP-cE4" firstAttribute="leading" secondItem="TbV-2V-9AV" secondAttribute="trailing" id="TyZ-nv-Vpt"/>
                     <constraint firstItem="DfQ-qo-jln" firstAttribute="centerX" secondItem="0Uv-vp-vkN" secondAttribute="centerX" id="Y9H-QU-RRx"/>

@@ -10,6 +10,10 @@
 
 @implementation CZJBrandRecoCellHeader
 
+- (void)awakeFromNib
+{
+    [super awakeFromNib];
+}
 /*
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.

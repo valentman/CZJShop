@@ -113,7 +113,7 @@
         {
             CZJOrderGoodsForm* goodsForm = (CZJOrderGoodsForm*)listForm.items[i];
             UIImageView* goodsImage = [[UIImageView alloc]initWithFrame:CGRectMake(10 + 88 * i, 5, 78, 78)];
-            [goodsImage sd_setImageWithURL:[NSURL URLWithString:goodsForm.itemImg] placeholderImage:IMAGENAMED(@"home_btn_xiche")];
+            [goodsImage sd_setImageWithURL:[NSURL URLWithString:goodsForm.itemImg] placeholderImage:DefaultPlaceHolderImage];
             [self.normalContentView addSubview:goodsImage];
         }
     }
@@ -121,7 +121,7 @@
     {
         self.noEvalutionContentView.hidden = NO;
         CZJOrderGoodsForm* goodsForm = (CZJOrderGoodsForm*)listForm.items[0];
-        [self.goodImg sd_setImageWithURL:[NSURL URLWithString:goodsForm.itemImg] placeholderImage:IMAGENAMED(@"home_btn_xiche")];
+        [self.goodImg sd_setImageWithURL:[NSURL URLWithString:goodsForm.itemImg] placeholderImage:DefaultPlaceHolderImage];
         self.goodsNameLabel.text = goodsForm.itemName;
         self.goodsModel.text = goodsForm.itemSku;
         self.priceLabel.text = [NSString stringWithFormat:@"￥%.1f",[goodsForm.currentPrice floatValue]];

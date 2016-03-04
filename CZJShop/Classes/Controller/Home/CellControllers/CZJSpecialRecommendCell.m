@@ -31,6 +31,7 @@
 @implementation CZJSpecialRecommendCell
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
     // Initialization code
     self.collectionViewLayout.itemSize = CGSizeMake((PJ_SCREEN_WIDTH - 1) / 3, 98);
     self.collectionViewLayout.minimumInteritemSpacing = 0.5;

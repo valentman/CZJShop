@@ -39,7 +39,7 @@
         UIImageView* _imageView = (UIImageView*)_imageViews[i];
         _imageView.userInteractionEnabled = YES;
         [_imageView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapGesture:)]];
-        [_imageView sd_setImageWithURL:[NSURL URLWithString:((BrandRecommendForm*)_brandRecommendDatas[i]).img] placeholderImage:[UIImage imageNamed:@"default_banner_img.png"]];
+        [_imageView sd_setImageWithURL:[NSURL URLWithString:((BrandRecommendForm*)_brandRecommendDatas[i]).img] placeholderImage:DefaultPlaceHolderImage];
     }
 }
 

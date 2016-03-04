@@ -115,7 +115,7 @@ UITableViewDelegate
 {
     NSDictionary* form = scanListAry[indexPath.row];
     CZJGoodsAttentionCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJGoodsAttentionCell" forIndexPath:indexPath];
-    [cell.goodImg sd_setImageWithURL:[NSURL URLWithString:[form valueForKey:@"itemImg"]] placeholderImage:IMAGENAMED(@"home_btn_xiche")];
+    [cell.goodImg sd_setImageWithURL:[NSURL URLWithString:[form valueForKey:@"itemImg"]] placeholderImage:DefaultPlaceHolderImage];
     
     CGSize nameSize = [CZJUtils calculateStringSizeWithString:[form valueForKey:@"itemName"] Font:SYSTEMFONT(15) Width:PJ_SCREEN_WIDTH - 116];
     cell.goodNameLabel.text = [form valueForKey:@"itemName"];

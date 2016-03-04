@@ -34,7 +34,7 @@
 //        NSArray *nib = [[NSBundle mainBundle]loadNibNamed:@"CZJHotRecoCell" owner:self options:nil];
         CZJHotRecoCell* cell = [CZJUtils getXibViewByName:@"CZJHotRecoCell"];
         ;
-        [cell.hotRecoImage sd_setImageWithURL:[NSURL URLWithString:form.itemImg] placeholderImage:IMAGENAMED(@"home_btn_xiche")];
+        [cell.hotRecoImage sd_setImageWithURL:[NSURL URLWithString:form.itemImg] placeholderImage:DefaultPlaceHolderImage];
         
         NSDictionary *dic = @{NSFontAttributeName: SYSTEMFONT(12)};
         CGSize hotSize = [form.itemName boundingRectWithSize:CGSizeMake(100, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading  attributes:dic context:nil].size;

@@ -137,18 +137,10 @@ UITableViewDataSource
     {
         NSDictionary* dict = [CZJUtils DataFromJson:json];
         NSArray* tmpItems = [[dict valueForKey:@"msg"] valueForKey:@"items"];
-        for (NSDictionary* dicts in tmpItems)
-        {
-//            CZJGoodsSKU* sku = [[CZJGoodsSKU alloc]initWithDictionary:dicts];
-//            [_items addObject:sku];
-        }
+        _items = [[CZJGoodsSKU objectArrayWithKeyValuesArray:tmpItems] mutableCopy];
         _labels = [[dict valueForKey:@"msg"] valueForKey:@"labels"];
         NSArray* skus = [[dict valueForKey:@"msg"] valueForKey:@"skus"];
-        for (NSDictionary* dictsku in skus)
-        {
-            CZJLevelSku* skuForm = [[CZJLevelSku alloc]initWithDictionary:dictsku];
-            [_oneLevelSkus addObject:skuForm];
-        }
+        _oneLevelSkus = [[CZJLevelSku objectArrayWithKeyValuesArray:skus] mutableCopy];
         _tableView.delegate = self;
         _tableView.dataSource = self;
         [_tableView reloadData];
@@ -250,7 +242,7 @@ UITableViewDataSource
         cell.productNameLabel.text = self.currentSku.skuName;
         cell.productPriceLabel.text = [NSString stringWithFormat:@"￥%@",self.currentSku.skuPrice];
         cell.productCodeLabel.text = self.currentSku.skuCode;
-        [cell.productImage sd_setImageWithURL:[NSURL URLWithString:self.currentSku.skuImg] placeholderImage:IMAGENAMED(@"home_btn_xiche")];
+        [cell.productImage sd_setImageWithURL:[NSURL URLWithString:self.currentSku.skuImg] placeholderImage:DefaultPlaceHolderImage];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
     }

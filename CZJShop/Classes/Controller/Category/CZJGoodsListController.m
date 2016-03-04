@@ -188,7 +188,7 @@ CZJFilterControllerDelegate
     cell.goodPrice.text = [rmb stringByAppendingString:goodsForm.currentPrice];
     cell.goodRate.text = goodsForm.goodEvalRate;
     cell.puchaseCount.text = goodsForm.purchaseCount;
-    [cell.goodImageView sd_setImageWithURL:[NSURL URLWithString:goodsForm.itemImg] placeholderImage:IMAGENAMED(@"home_btn_xiche")];
+    [cell.goodImageView sd_setImageWithURL:[NSURL URLWithString:goodsForm.itemImg] placeholderImage:DefaultPlaceHolderImage];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
     
@@ -247,7 +247,7 @@ CZJFilterControllerDelegate
     cell.productName.text = form.itemName;
     cell.productPrice.text = [rmb stringByAppendingString:form.currentPrice];
     cell.iconImageView.backgroundColor= CZJNAVIBARBGCOLOR;
-    [cell.iconImageView sd_setImageWithURL:[NSURL URLWithString:form.itemImg] placeholderImage:IMAGENAMED(@"home_btn_xiche")];
+    [cell.iconImageView sd_setImageWithURL:[NSURL URLWithString:form.itemImg] placeholderImage:DefaultPlaceHolderImage];
     return cell;
 }
 

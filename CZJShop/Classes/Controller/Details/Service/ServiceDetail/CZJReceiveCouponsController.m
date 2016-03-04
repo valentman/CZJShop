@@ -123,7 +123,7 @@ UITableViewDelegate
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 120;
+    return 160;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -134,7 +134,7 @@ UITableViewDelegate
     {
         CZJShoppingCouponsForm* couponForm = (CZJShoppingCouponsForm*)self.coupons[indexPath.row];
         NSString* priceStri = [NSString stringWithFormat:@"￥%@",couponForm.value];
-        CGSize priceSize = [CZJUtils calculateTitleSizeWithString:priceStri WithFont:SYSTEMFONT(40)];
+        CGSize priceSize = [CZJUtils calculateTitleSizeWithString:priceStri WithFont:SYSTEMFONT(45)];
         cell.couponPriceLabelLayout.constant = priceSize.width + 5;
         cell.couponPriceLabel.text = priceStri;
         

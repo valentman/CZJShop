@@ -208,6 +208,12 @@
     }
     return nil;
 }
+
++ (NSDictionary *)objectClassInArray
+{
+    return @{@"items" : @"CZJStoreServiceForm"};
+}
+
 @end
 
 

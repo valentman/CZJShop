@@ -258,12 +258,29 @@
                                 <constraint firstItem="TRp-Qi-00C" firstAttribute="top" secondItem="az4-gN-bvw" secondAttribute="top" constant="7" id="pJR-Jw-e6Y"/>
                             </constraints>
                         </view>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jaT-Rc-PI3">
+                            <rect key="frame" x="0.0" y="34" width="320" height="1"/>
+                            <animations/>
+                            <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="1" id="dGK-B2-xZI">
+                                    <userDefinedRuntimeAttributes>
+                                        <userDefinedRuntimeAttribute type="number" keyPath="constant">
+                                            <real key="value" value="0.29999999999999999"/>
+                                        </userDefinedRuntimeAttribute>
+                                    </userDefinedRuntimeAttributes>
+                                </constraint>
+                            </constraints>
+                        </view>
                     </subviews>
                     <animations/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="trailing" secondItem="az4-gN-bvw" secondAttribute="trailing" constant="20" id="0GE-5m-5XK"/>
+                        <constraint firstAttribute="bottom" secondItem="jaT-Rc-PI3" secondAttribute="bottom" id="0py-ls-DQM"/>
                         <constraint firstItem="az4-gN-bvw" firstAttribute="top" secondItem="udQ-Vn-8QT" secondAttribute="top" id="5Ui-ES-pKP"/>
+                        <constraint firstAttribute="trailing" secondItem="jaT-Rc-PI3" secondAttribute="trailing" id="WKi-LH-Ldz"/>
+                        <constraint firstItem="jaT-Rc-PI3" firstAttribute="leading" secondItem="udQ-Vn-8QT" secondAttribute="leading" id="Y82-vd-yh5"/>
                         <constraint firstItem="EtF-QD-yZ3" firstAttribute="leading" secondItem="udQ-Vn-8QT" secondAttribute="leading" id="lpc-Gc-sBX"/>
                         <constraint firstItem="EtF-QD-yZ3" firstAttribute="top" secondItem="udQ-Vn-8QT" secondAttribute="top" id="qh0-YW-iCr"/>
                         <constraint firstAttribute="bottom" secondItem="EtF-QD-yZ3" secondAttribute="bottom" id="vOI-OE-Pfv"/>

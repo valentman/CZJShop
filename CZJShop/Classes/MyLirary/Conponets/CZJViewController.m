@@ -21,11 +21,11 @@ UIGestureRecognizerDelegate
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self initDatas];
+    [self initCZJVCDatas];
     [self checkNetWorkStatus];
 }
 
-- (void)initDatas
+- (void)initCZJVCDatas
 {
     self.windowAlpha = 1.0f;
 }
