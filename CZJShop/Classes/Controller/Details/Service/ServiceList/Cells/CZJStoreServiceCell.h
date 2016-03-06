@@ -8,11 +8,18 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CZJStoreServiceCell : UITableViewCell
+@interface CZJStoreServiceCell : CZJTableViewCell
 @property (weak, nonatomic) IBOutlet UILabel *serviceItemName;
 @property (weak, nonatomic) IBOutlet UILabel *currentPrice;
 @property (weak, nonatomic) IBOutlet UILabel *originPrice;
 @property (weak, nonatomic) IBOutlet UIImageView *serviceTypeImg;
 @property (weak, nonatomic) IBOutlet UILabel *purchasedCount;
+@property (weak, nonatomic) IBOutlet UILabel *storeName;
+@property (weak, nonatomic) IBOutlet UILabel *distance;
+@property (weak, nonatomic) IBOutlet UILabel *goodRate;
+@property (weak, nonatomic) IBOutlet UIImageView *serviceImg;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *priceLabelWidth;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *originPriceLabelWidth;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *purchasedCountWidth;
 
 @end

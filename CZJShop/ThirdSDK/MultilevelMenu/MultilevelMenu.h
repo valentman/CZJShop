@@ -9,17 +9,13 @@
 #import <UIKit/UIKit.h>
 
 #define kLeftWidth 100
+typedef void (^SelectBlock)(NSInteger, NSInteger, id);
 
 @interface MultilevelMenu : UIView<UITableViewDataSource,UITableViewDelegate,UICollectionViewDelegateFlowLayout,UICollectionViewDataSource,UICollectionViewDelegate>
 
 @property(strong,nonatomic,readonly) NSArray * allData;
-
-
-@property(copy,nonatomic,readonly) id block;
-
-
+@property(copy,nonatomic,readonly) SelectBlock block;
 @property(assign,nonatomic) BOOL isRecordLastScroll;
-
 @property(assign,nonatomic) NSInteger selectIndex;
 @property(assign)NSIndexPath* selelctIndexPath;
 
@@ -39,11 +35,9 @@
  *  左边点中背景颜色
  */
 @property(strong,nonatomic) UIColor * leftSelectBgColor;
-
 /**
  *  左边未点中文字颜色
  */
-
 @property(strong,nonatomic) UIColor * leftUnSelectColor;
 /**
  *  左边未点中背景颜色
@@ -58,15 +52,15 @@
  */
 @property(nonatomic) NSInteger tabbarHeight;
 
--(id)initWithFrame:(CGRect)frame WithData:(NSArray*)data withSelectIndex:(void(^)(NSInteger left,NSInteger right,id info))selectIndex;
+-(id)initWithFrame:(CGRect)frame WithData:(NSArray*)data withSelectIndex:(SelectBlock)selectIndex;
 -(void)reloadData;
 @end
 
 
 @interface BannerAdForm : NSObject
-@property(copy, nonatomic)NSString* target;
+@property(copy, nonatomic)NSString* value;
 @property(copy, nonatomic)NSString* img;
-@property(copy, nonatomic)NSString* typeID;
+@property(copy, nonatomic)NSString* type;
 @end
 
 @interface rightMeun : NSObject
@@ -83,13 +77,11 @@
  *  菜单ID
  */
 @property(copy,nonatomic) NSString * ID;
-
 /**
  *  下一级菜单
  */
 @property(strong,nonatomic) BannerAdForm* bannerAd;
 @property(strong,nonatomic) NSMutableArray * nextArray;
-
 /**
  *  菜单层数
  */

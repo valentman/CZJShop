@@ -31,7 +31,6 @@
     //得到第一个UIView
     for (CZJStoreServiceForm* form in hotRecommends)
     {
-//        NSArray *nib = [[NSBundle mainBundle]loadNibNamed:@"CZJHotRecoCell" owner:self options:nil];
         CZJHotRecoCell* cell = [CZJUtils getXibViewByName:@"CZJHotRecoCell"];
         ;
         [cell.hotRecoImage sd_setImageWithURL:[NSURL URLWithString:form.itemImg] placeholderImage:DefaultPlaceHolderImage];
@@ -46,7 +45,6 @@
             hotSize.height = 30;
         }
         cell.hotRecoNameLayoutHeight.constant = hotSize.height;
-        cell.hotRecoPrice.text = form.skillPrice;
         [hotRecoCells addObject:cell];
         cellHeight = cell.frame.size.height;
         cellWidth = cell.frame.size.width;

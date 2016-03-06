@@ -160,7 +160,7 @@
     [_btnArrange setHidden:YES];
 
     //标题
-    _mainTitleLabel = [[UILabel alloc]initWithFrame:CGRectMake(50, 14, PJ_SCREEN_WIDTH - 100, 16)];
+    _mainTitleLabel = [[UILabel alloc]initWithFrame:CGRectMake(60, 14, PJ_SCREEN_WIDTH - 120, 16)];
     _mainTitleLabel.font = BOLDSYSTEMFONT(20);
     _mainTitleLabel.textAlignment = NSTextAlignmentCenter;
     _mainTitleLabel.hidden = YES;
@@ -172,6 +172,7 @@
     switch (type) {
         case CZJNaviBarViewTypeCategory:
             //分类扫一扫按钮和购物车按钮背景图片不一样
+            [_buttomSeparator setHidden:NO];
             [_btnScan setHidden:NO];
             [_btnShop setHidden:NO];
             saoyisaoBtnImageName = @"all_btn_saoyisao";
@@ -189,6 +190,7 @@
             
         case CZJNaviBarViewTypeBack:
             //导航栏返回按钮
+            [_buttomSeparator setHidden:NO];
             [_btnBack setHidden:NO];
             [_btnShop setHidden:NO];
             shopBtnImageName = @"btn_shopping";

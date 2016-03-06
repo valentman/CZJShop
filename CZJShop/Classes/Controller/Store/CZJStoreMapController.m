@@ -11,26 +11,26 @@
 #import <MAMapKit/MAMapKit.h>
 #import <AMapSearchKit/AMapSearchAPI.h>
 #import "CZJCustomAnnotationView.h"
-
 #import "CZJMAAroundAnnotation.h"
 #import "CZJStoreMAAroundForm.h"
-
 #import "CZJBaseDataManager.h"
 #import "CZJStoreForm.h"
 #import "ZXLocationManager.h"
-
 #import "CZJServiceListController.h"
+#import "CZJStoreDetailController.h"
 
 #define kDefaultCalloutViewMargin       -8
 #define MAPKEY @"dd2b9e1576489ef636cdda90c74cbdbe"
 
 @interface CZJStoreMapController ()
-<MAMapViewDelegate,
+<
+MAMapViewDelegate,
 UIGestureRecognizerDelegate,
-AMapSearchDelegate>
+AMapSearchDelegate
+>
 {
     MAMapView *_mapView;
-    UIButton *_locationBtn;//定位按钮
+    UIButton *_locationBtn;                 //定位按钮
     
     //地址转码
     AMapSearchAPI *_search;
@@ -40,91 +40,25 @@ AMapSearchDelegate>
     NSMutableArray *_pois;
     NSMutableArray *_annotations;
     
+    CLLocationCoordinate2D nearstoreLocation;
+    
     NSString* _curItemId;
     BOOL _isJumped;
 }
 @end
 
 @implementation CZJStoreMapController
-
--(id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-    }
-    
-    return self;
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    [self initAttributes];
+    [self initViews];
+    [self getAroundMerchantData];
 }
 
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:YES];
     _isJumped = NO;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(jumpToOther:) name:kCZJMaptoStoreWeb object:nil];
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [self getAroundMerchantData];
-    });
-    
-    self.navigationController.interactivePopGestureRecognizer.delegate = self;
-    self.navigationController.interactivePopGestureRecognizer.enabled = YES;
-}
-
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    
-    [self initMapView];
-    [self setNav];
-    [self initControls];
-    [self initSearch];
-    [self initAttributes];//初始化数据
-}
-
-- (void)jumpToOther:(id)info{
-    if (!_isJumped) {
-        _isJumped = YES;
-        _curItemId = [info object];
-    //    [self performSegueWithIdentifier:@"mapToWebViewSID" sender:self];
-    }
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
--(void)setNav{
-    UIButton *backBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    backBtn.frame = CGRectMake(15, 40, 44, 44);
-    [backBtn addTarget:self action:@selector(OnBackBtn:) forControlEvents:UIControlEventTouchUpInside];
-    [backBtn setImage:[UIImage imageNamed:@"prodetail_btn_back"] forState:UIControlStateNormal];
-    [self.view addSubview:backBtn];
-}
-
--(void)initMapView{
-    [MAMapServices sharedServices].apiKey = MAPKEY;
-    _mapView = [[MAMapView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), CGRectGetHeight(self.view.bounds))];
-    _mapView.delegate = self;
-    _mapView.compassOrigin = CGPointMake(_mapView.compassOrigin.x, 22);
-    _mapView.scaleOrigin = CGPointMake(_mapView.scaleOrigin.x, 22);
-    [self.view addSubview:_mapView];
-    
-    _mapView.showsUserLocation = YES;
-    _mapView.userTrackingMode = 1;
-}
-
--(void)initControls{
-    _locationBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    
-    _locationBtn.frame = CGRectMake(20, CGRectGetHeight(_mapView.bounds)-100, 40, 40);
-    _locationBtn.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin;//
-    _locationBtn.backgroundColor = [UIColor whiteColor];
-    _locationBtn.layer.cornerRadius = 5;
-    [_locationBtn setImage:[UIImage imageNamed:@"wl_map_icon_position"] forState:UIControlStateNormal];
-    [_locationBtn addTarget:self action:@selector(locateAction) forControlEvents:UIControlEventTouchUpInside];
-    [_mapView addSubview:_locationBtn];
-    
-}
-
--(void)initSearch{
-    _search = [[AMapSearchAPI alloc] initWithSearchKey:MAPKEY Delegate:self];
 }
 
 - (void)initAttributes
@@ -133,50 +67,98 @@ AMapSearchDelegate>
     _pois = [NSMutableArray array];
 }
 
+-(void)initViews{
+    //添加MapView
+    [MAMapServices sharedServices].apiKey = MAPKEY;
+    _mapView = [[MAMapView alloc] initWithFrame:CGRectMake(0, 64, CGRectGetWidth(self.view.bounds), CGRectGetHeight(self.view.bounds) - 64)];
+    _mapView.delegate = self;
+    _mapView.compassOrigin = CGPointMake(_mapView.compassOrigin.x, 14);     //右上角罗盘
+    _mapView.scaleOrigin = CGPointMake(_mapView.scaleOrigin.x, 22);         //左上角比例尺
+    _mapView.showTraffic = NO;                                              //交通状况
+    _mapView.showsUserLocation = YES;
+    _mapView.userTrackingMode = MAUserTrackingModeFollow;
+    [self.view addSubview:_mapView];
+    
+    
+    //左下角自身定位按钮
+    _locationBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    _locationBtn.frame = CGRectMake(20, CGRectGetHeight(_mapView.bounds)-100, 40, 40);
+    _locationBtn.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin;//
+    _locationBtn.backgroundColor = [UIColor whiteColor];
+    _locationBtn.layer.cornerRadius = 5;
+    [_locationBtn setImage:[UIImage imageNamed:@"wl_map_icon_position"] forState:UIControlStateNormal];
+    [_locationBtn setImage:[UIImage imageNamed:@"wl_map_icon_position_press"] forState:UIControlStateHighlighted];
+    [_locationBtn addTarget:self action:@selector(locateAction) forControlEvents:UIControlEventTouchUpInside];
+    [_mapView addSubview:_locationBtn];
+    
+    
+    _search = [[AMapSearchAPI alloc] initWithSearchKey:MAPKEY Delegate:self];
+    
+    //添加NaviBarView
+    [self addCZJNaviBarView:CZJNaviBarViewTypeGeneral];
+    self.naviBarView.mainTitleLabel.text = @"选择门店";
+}
+
+
 //获取附近商家列表
 -(void)getAroundMerchantData
 {
-        NSMutableArray* dataArray = [CZJBaseDataInstance storeForm].storeListForms;
-        if (dataArray.count > 0)
+    NSMutableArray* dataArray = [CZJBaseDataInstance storeForm].storeListForms;
+    if (dataArray.count > 0)
+    {
+        [_mapView removeAnnotations:_annotations];
+        [_annotations removeAllObjects];
+        CLLocationCoordinate2D location = [CZJBaseDataInstance curLocation];
+        for (int i = 0; i < dataArray.count; i++)
         {
-            [_mapView removeAnnotations:_annotations];
-            [_annotations removeAllObjects];
-            CLLocationCoordinate2D location = [CZJBaseDataInstance curLocation];
-            for (int i = 0; i < dataArray.count; i++)
-            {
-                CZJNearbyStoreForm* model = dataArray[i];
-                CZJMAAroundAnnotation *annotation = [[CZJMAAroundAnnotation alloc] init];
-                annotation.jzmaaroundM = model;
-                annotation.title = model.name;
-                annotation.subtitle = model.addr;
-                annotation.thrtitle = model.openingHours;
-                annotation.coordinate = CLLocationCoordinate2DMake([[model lat] doubleValue], [[model lng] doubleValue]);
-                [_annotations addObject:annotation];
-            }
-            
-            if (([dataArray count] > 0) && (location.longitude == 0) && (location.latitude == 0))
-            {
-                _mapView.centerCoordinate = CLLocationCoordinate2DMake([[[dataArray firstObject] lat] doubleValue], [[[dataArray firstObject] lng] doubleValue]);
-            }
-            
-            [self performSelectorOnMainThread:@selector(updateUI)withObject:_annotations waitUntilDone:YES];
+            CZJNearbyStoreForm* model = dataArray[i];
+            CZJMAAroundAnnotation *annotation = [[CZJMAAroundAnnotation alloc] init];
+            annotation.jzmaaroundM = model;
+            annotation.title = model.name;
+            annotation.subtitle = model.addr;
+            annotation.thrtitle = model.openingHours;
+            annotation.coordinate = [self getLocationOfPlace:model.addr];
+            [_annotations addObject:annotation];
         }
+        
+        if (([dataArray count] > 0) && (location.longitude == 0) && (location.latitude == 0))
+        {
+            _mapView.centerCoordinate = CLLocationCoordinate2DMake([[[dataArray firstObject] lat] doubleValue], [[[dataArray firstObject] lng] doubleValue]);
+        }
+    }
+
+    [self performSelectorOnMainThread:@selector(updateUI)withObject:_annotations waitUntilDone:YES];
 }
 
+
+- (CLLocationCoordinate2D)getLocationOfPlace:(NSString*)addr
+{
+    CLGeocoder *geocoder=[[CLGeocoder alloc]init];
+    __block CLLocationCoordinate2D niceg ;
+    //根据“北京市”地理编码
+    DLog(@"%@",addr);
+    [geocoder geocodeAddressString:addr completionHandler:^(NSArray *placemarks, NSError *error) {
+        CLPlacemark *clPlacemark1=[placemarks firstObject];//获取第一个地标
+        nearstoreLocation = clPlacemark1.location.coordinate;
+        NSString* palce = [NSString stringWithFormat:@"%@%@%@%@",clPlacemark1.locality,clPlacemark1.subLocality,clPlacemark1.thoroughfare,clPlacemark1.subThoroughfare];
+        DLog(@"%@, %f, %f", palce, nearstoreLocation.latitude, nearstoreLocation.longitude);
+        
+    }];
+    return niceg;
+}
+
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+}
+
+
+//更新地图上标注点
 -(void)updateUI{
     NSLog(@"个数:%ld",(unsigned long)_annotations.count);
-    
-    
     for (int i = 0; i < _annotations.count; i++) {
         [_mapView addAnnotation:_annotations[i]];
     }
-}
-
-
-
-//相应事件
--(void)OnBackBtn:(UIButton *)sender{
-    [self.navigationController popViewControllerAnimated:YES];
 }
 
 -(void)locateAction{
@@ -184,9 +166,6 @@ AMapSearchDelegate>
         [_mapView setUserTrackingMode:MAUserTrackingModeFollow animated:YES];
     }
 }
-
-
-
 
 
 //逆地理编码
@@ -201,7 +180,8 @@ AMapSearchDelegate>
 
 //
 -(void)searchAction{
-    if (_currentLocation == nil || _search == nil) {
+    if (_currentLocation == nil || _search == nil)
+    {
         NSLog(@"search failed");
         return;
     }
@@ -216,17 +196,17 @@ AMapSearchDelegate>
 
 #pragma mark - MAMapViewDelegate
 //更新位置
--(void)mapView:(MAMapView *)mapView didUpdateUserLocation:(MAUserLocation *)userLocation updatingLocation:(BOOL)updatingLocation{
-    //    NSLog(@"userLocation:%@",userLocation.location);
+-(void)mapView:(MAMapView *)mapView didUpdateUserLocation:(MAUserLocation *)userLocation updatingLocation:(BOOL)updatingLocation
+{
     _currentLocation = [userLocation.location copy];
 }
 
 //替换定位图标
 -(void)mapView:(MAMapView *)mapView didChangeUserTrackingMode:(MAUserTrackingMode)mode animated:(BOOL)animated{
     if (mode == MAUserTrackingModeNone) {
-        [_locationBtn setImage:[UIImage imageNamed:@"wl_map_icon_position"] forState:UIControlStateNormal];
-    }else{
         [_locationBtn setImage:[UIImage imageNamed:@"location_yes"] forState:UIControlStateNormal];
+    }else{
+        [_locationBtn setImage:[UIImage imageNamed:@"wl_map_icon_position"] forState:UIControlStateNormal];
     }
 }
 
@@ -235,7 +215,6 @@ AMapSearchDelegate>
     if ([view.annotation isKindOfClass:[MAUserLocation class]]) {
         [self reGeoAction];
     }
-    
     
     // 调整自定义callout的位置，使其可以完全显示
     if ([view isKindOfClass:[CZJCustomAnnotationView class]]) {
@@ -328,11 +307,7 @@ AMapSearchDelegate>
 }
 
 
-
-
-
 #pragma mark - Helpers
-
 - (CGSize)offsetToContainRect:(CGRect)innerRect inRect:(CGRect)outerRect
 {
     CGFloat nudgeRight = fmaxf(0, CGRectGetMinX(outerRect) - (CGRectGetMinX(innerRect)));
@@ -343,12 +318,17 @@ AMapSearchDelegate>
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    
-    if ([segue.identifier isEqualToString:@"mapToWebViewSID"]) {
-//        CZJServiceDetailInfo* ctr = segue.destinationViewController;
-//        ctr.itemId  = _curItemId;
-//        ctr.curType = eStoreInfo;
-//        ctr.navTitleName = @"门店详情";
+    if ([segue.identifier isEqualToString:@"mapToStoreDetail"]) {
+        CZJStoreDetailController* ctr = segue.destinationViewController;
+        ctr.storeId = @"";
+    }
+}
+
+- (void)jumpToOther:(id)info{
+    if (!_isJumped) {
+        _isJumped = YES;
+        _curItemId = [info object];
+        [self performSegueWithIdentifier:@"mapToStoreDetail" sender:self];
     }
 }
 @end

@@ -30,7 +30,7 @@
 @implementation MultilevelMenu
 
 
--(id)initWithFrame:(CGRect)frame WithData:(NSArray *)data withSelectIndex:(void (^)(NSInteger, NSInteger, id))selectIndex
+-(id)initWithFrame:(CGRect)frame WithData:(NSArray *)data withSelectIndex:(SelectBlock)selectIndex
 {
     
     if (self  == [super initWithFrame:frame]) {
@@ -146,10 +146,7 @@
         
         //广告栏信息
         NSDictionary* banners = [[tempdata valueForKey:@"msg"] valueForKey:@"banner"];
-        BannerAdForm* bannerAd = tempMenu.bannerAd;
-        bannerAd.target= banners[@"target"];
-        bannerAd.typeID = banners[@"type"];
-        bannerAd.img = banners[@"img"];
+        tempMenu.bannerAd = [BannerAdForm objectWithKeyValues:banners];
         [self.rightCollection reloadData];
     };
     
@@ -282,8 +279,7 @@
     rightMeun * touchedItemMeun=title.nextArray[indexPath.item];
     if (self.block)
     {
-        void (^select)(NSInteger left,NSInteger right,id info) = self.block;
-        select(self.selectIndex,indexPath.item,touchedItemMeun);
+        self.block(self.selectIndex,indexPath.item,touchedItemMeun);
     }
 }
 
@@ -312,6 +308,7 @@
     rightMeun * title=self.allData[self.selectIndex];
     
     CollectionHeader *view =  [collectionView dequeueReusableSupplementaryViewOfKind :kind   withReuseIdentifier:reuseIdentifier   forIndexPath:indexPath];
+    [view.bannerBtn addTarget:self action:@selector(bannerADClick:) forControlEvents:UIControlEventTouchUpInside];
     if ([kind isEqualToString:UICollectionElementKindSectionHeader]){
         if (title.nextArray.count>0) {
             rightMeun * meun;
@@ -359,7 +356,7 @@
             height = 0;
         }
     }
-    CGSize size={kScreenWidth,height};
+    CGSize size={kScreenWidth, height};
     return size;
 }
 
@@ -400,18 +397,27 @@
     }
 }
 
+-(void)bannerADClick:(id)sender
+{
+    rightMeun * title=self.allData[self.selectIndex];
+    if (title.nextArray.count>0)
+    {
+        rightMeun * meun;
+        meun=title.nextArray[0];
+        NSString* url = title.bannerAd.value;
+        if (url)
+        {
+            self.block(self.selectIndex, -1, url);
+        }
+    }
+    
+}
+
 
 @end
 
 
 @implementation BannerAdForm
-- (instancetype)init
-{
-    if (self = [super init]) {
-        return self;
-    }
-    return nil;
-}
 @end
 
 

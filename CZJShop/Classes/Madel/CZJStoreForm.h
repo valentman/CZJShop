@@ -12,20 +12,16 @@
 @interface CZJStoreForm : NSObject
 {
     NSMutableArray* _storeListForms;
-    NSMutableArray* _storeServiceListForms;
     NSMutableArray* _provinceForms;
     NSMutableArray* _cityForms;
 }
 @property (nonatomic, strong) NSMutableArray* storeListForms;
-@property (nonatomic, strong) NSMutableArray* storeServiceListForms;
 @property (nonatomic, strong) NSMutableArray* provinceForms;
 @property (nonatomic, strong) NSMutableArray* cityForms;
 
 - (id)initWithDictionary:(NSDictionary*)dict;
 - (void)setNewStoreListDataWithDictionary:(NSDictionary*)dict;
 - (void)appendStoreListData:(NSDictionary*)dict;
-- (void)setNewStoreServiceListDataWithDictionary:(NSDictionary*)dict;
-- (void)appendStoreServiceListData:(NSDictionary*)dict;
 - (void)setNewProvinceDataWithDictionary:(NSDictionary*)dict;
 - (NSString*)getCityIDWithCityName:(NSString*)cityname;
 @end
@@ -55,26 +51,10 @@
 @end
 
 
-//-------------------------附近门店服务列表信息------------------------------
-@interface CZJNearbyStoreServiceListForm : NSObject
-@property(nonatomic, strong) NSString* addr;
-@property(nonatomic, strong) NSString* distance;
-@property(nonatomic, strong) NSString* evalCount;
-@property(nonatomic, strong) NSString* goodsCount;
-@property(nonatomic, strong) NSString* homeImg;
-@property(nonatomic, assign) BOOL moreFlag;
-@property(nonatomic, strong) NSString* name;
-@property(nonatomic, strong) NSString* purchaseCount;
-@property(nonatomic, strong) NSString* goodRate;
-@property(nonatomic, strong) NSString* star;
-@property(nonatomic, strong) NSString* storeId;
-@property(nonatomic, strong) NSMutableArray* items;
-
-- (id)initWithDictionary:(NSDictionary*)dict;
-@end
-
+//-------------------------附近服务列表信息------------------------------
 @interface CZJStoreServiceForm : NSObject
 @property(nonatomic, strong) NSString* currentPrice;
+@property(nonatomic, strong) NSString* distance;
 @property(nonatomic, strong) NSString* evalCount;
 @property(nonatomic, strong) NSString* goHouseFlag;
 @property(nonatomic, strong) NSString* goStoreFlag;
@@ -84,10 +64,7 @@
 @property(nonatomic, strong) NSString* itemType;
 @property(nonatomic, strong) NSString* originalPrice;
 @property(nonatomic, strong) NSString* purchaseCount;
-@property(nonatomic, strong) NSString* skillFlag;
-@property(nonatomic, strong) NSString* skillPrice;
 @property(nonatomic, strong) NSString* storeItemPid;
-
-- (id)initWithDictionary:(NSDictionary*)dict;
+@property(nonatomic, strong) NSString* storeName;
 @end
 

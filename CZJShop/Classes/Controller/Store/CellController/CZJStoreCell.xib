@@ -56,7 +56,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="5.9km" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rIv-hj-ga4">
-                        <rect key="frame" x="246" y="69" width="60" height="21"/>
+                        <rect key="frame" x="246" y="65" width="60" height="21"/>
                         <animations/>
                         <constraints>
                             <constraint firstAttribute="height" constant="21" id="SPz-dw-iFq"/>
@@ -117,7 +117,9 @@
                     <constraint firstItem="Btz-3H-0iR" firstAttribute="centerY" secondItem="e4f-cn-c5Q" secondAttribute="centerY" id="CqY-rZ-bvq"/>
                     <constraint firstAttribute="trailing" secondItem="rIv-hj-ga4" secondAttribute="trailing" constant="14" id="Hbk-2Y-xVS"/>
                     <constraint firstItem="e4f-cn-c5Q" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="IzD-lO-bLC"/>
+                    <constraint firstItem="Qlq-dA-3Ww" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="OkV-Ml-FiJ"/>
                     <constraint firstItem="rPR-2t-GcR" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="QgA-FX-bYy"/>
+                    <constraint firstItem="rIv-hj-ga4" firstAttribute="centerY" secondItem="TZM-2i-bFt" secondAttribute="centerY" id="Tbv-fe-N30"/>
                     <constraint firstItem="Zit-mw-HI0" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="Xds-qJ-ddn"/>
                     <constraint firstItem="Qlq-dA-3Ww" firstAttribute="trailing" secondItem="rPR-2t-GcR" secondAttribute="leading" id="Xzx-fL-L0I"/>
                     <constraint firstItem="TZM-2i-bFt" firstAttribute="leading" secondItem="HQO-oF-ybd" secondAttribute="trailing" constant="14" id="bBM-HU-nrn"/>
@@ -130,6 +132,12 @@
                     <constraint firstItem="e4f-cn-c5Q" firstAttribute="centerY" secondItem="HQO-oF-ybd" secondAttribute="centerY" id="yPK-WV-M3G"/>
                     <constraint firstItem="iik-m4-t73" firstAttribute="leading" secondItem="HQO-oF-ybd" secondAttribute="trailing" constant="14" id="ymC-wF-GPn"/>
                 </constraints>
+                <variation key="default">
+                    <mask key="constraints">
+                        <exclude reference="gEM-X1-H9h"/>
+                        <exclude reference="9Xt-UA-i6D"/>
+                    </mask>
+                </variation>
             </tableViewCellContentView>
             <animations/>
             <connections>

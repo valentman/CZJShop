@@ -133,6 +133,7 @@
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
 {
     CLGeocoder *geocoder=[[CLGeocoder alloc]init];
+    
     [geocoder reverseGeocodeLocation:newLocation completionHandler:^(NSArray *placemarks,NSError *error)
      {
          if (placemarks.count > 0) {
@@ -173,5 +174,8 @@
     [manager stopUpdatingLocation];
     
 }
+
+
+
 
 @end

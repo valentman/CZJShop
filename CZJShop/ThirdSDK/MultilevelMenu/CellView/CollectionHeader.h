@@ -11,5 +11,6 @@
 @interface CollectionHeader : UICollectionReusableView
 
 @property (weak, nonatomic) IBOutlet UIImageView *bannerAdImageview;
+@property (weak, nonatomic) IBOutlet UIButton *bannerBtn;
 
 @end

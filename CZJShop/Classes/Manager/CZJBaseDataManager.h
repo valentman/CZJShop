@@ -107,12 +107,6 @@ singleton_interface(CZJBaseDataManager);
                           success:(CZJSuccessBlock)success
                              fail:(CZJFailureBlock)failure;
 
-//获取服务列表数据
-- (void)showSeverciceList:(NSDictionary*)postParams
-                     type:(CZJHomeGetDataFromServerType)type
-                  success:(CZJSuccessBlock)success
-                     fail:(CZJFailureBlock)failure;
-
 //获取汽车品牌列表信息
 - (void)getCarBrandsList;
 

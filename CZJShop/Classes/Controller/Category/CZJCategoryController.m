@@ -69,17 +69,27 @@
     }];
     
     [self.multiView initWithFrame:CGRectMake(0, StatusBar_HEIGHT, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - Tabbar_HEIGHT - StatusBar_HEIGHT - NavigationBar_HEIGHT) WithData:lis withSelectIndex:^(NSInteger left, NSInteger right,rightMeun* info) {
-        DLog(@"点击的 菜单%@, ID:%@",info.meunName,info.ID);
-        if ([info.ID hasPrefix:@"10"])
-        {
-            _serviceTypeId = info.ID;
-            [self performSegueWithIdentifier:@"segueToServiceList" sender:self];
+        
+        if (-1 == right)
+        {//广告栏
+            CZJWebViewController* webView = (CZJWebViewController*)[CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:@"webViewSBID"];
+            webView.cur_url = (NSString*)info;
+            [self.navigationController pushViewController:webView animated:YES];
         }
         else
-        {
-            _goodsTypeId = info.ID;
-            [self performSegueWithIdentifier:@"segueToGoodsList" sender:self];
+        {//Item
+            if ([info.ID hasPrefix:@"10"])
+            {
+                _serviceTypeId = info.ID;
+                [self performSegueWithIdentifier:@"segueToServiceList" sender:self];
+            }
+            else
+            {
+                _goodsTypeId = info.ID;
+                [self performSegueWithIdentifier:@"segueToGoodsList" sender:self];
+            }
         }
+        
     }].isRecordLastScroll=YES;
     
 }

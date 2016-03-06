@@ -34,11 +34,7 @@
 - (void)appendNewGoodsData:(NSDictionary*)dict
 {
     NSArray* tmpAry = [dict valueForKey:@"msg"];
-    for (id obj in tmpAry )
-    {
-        CZJStoreServiceForm* goodsInfo =  [[CZJStoreServiceForm alloc]initWithDictionary:obj];
-        [_goodsList addObject:goodsInfo];
-    }
+    _goodsList = [[CZJStoreServiceForm objectArrayWithKeyValuesArray:tmpAry] mutableCopy];
 }
 
 

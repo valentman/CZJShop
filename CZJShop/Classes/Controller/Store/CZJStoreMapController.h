@@ -8,6 +8,5 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CZJStoreMapController : UIViewController
-
+@interface CZJStoreMapController : CZJViewController
 @end

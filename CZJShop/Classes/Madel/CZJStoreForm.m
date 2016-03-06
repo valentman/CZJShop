@@ -11,7 +11,6 @@
 
 @implementation CZJStoreForm
 @synthesize storeListForms = _storeListForms;
-@synthesize storeServiceListForms = _storeServiceListForms;
 @synthesize provinceForms = _provinceForms;
 @synthesize cityForms = _cityForms;
 
@@ -44,29 +43,6 @@
     {
         CZJNearbyStoreForm* storelist =  [[CZJNearbyStoreForm alloc]initWithDictionary:obj];
         [_storeListForms addObject:storelist];
-    }
-}
-
-- (void)setNewStoreServiceListDataWithDictionary:(NSDictionary*)dict
-{
-    if (_storeServiceListForms)
-    {
-        [_storeServiceListForms removeAllObjects];
-    }
-    else
-    {
-        _storeServiceListForms = [NSMutableArray array];
-    }
-    [self appendStoreServiceListData:dict];
-}
-
-- (void)appendStoreServiceListData:(NSDictionary*)dict
-{
-    NSArray* storelist = [dict valueForKey:@"msg"];
-    for (id obj in storelist )
-    {
-        CZJNearbyStoreServiceListForm* storelist =  [[CZJNearbyStoreServiceListForm alloc]initWithDictionary:obj];
-        [_storeServiceListForms addObject:storelist];
     }
 }
 
@@ -171,87 +147,8 @@
 @end
 
 
-@implementation CZJNearbyStoreServiceListForm
-@synthesize addr = _addr;
-@synthesize distance = _distance;
-@synthesize evalCount = _evalCount;
-@synthesize goodsCount = _goodsCount;
-@synthesize homeImg = _homeImg;
-@synthesize moreFlag = _moreFlag;
-@synthesize name = _name;
-@synthesize purchaseCount = _purchaseCount;
-@synthesize star = _star;
-@synthesize storeId = _storeId;
-
--(id)initWithDictionary:(NSDictionary*)dict{
-    if (self = [super init]) {
-        self.items = [NSMutableArray array];
-        self.addr = [dict valueForKey:@"addr"];
-        self.distance = [dict valueForKey:@"distance"];
-        self.evalCount = [NSString stringWithFormat:@"%@",[dict valueForKey:@"evalCount"]];
-        self.purchaseCount = [NSString stringWithFormat:@"%@",[dict valueForKey:@"purchaseCount"]];
-        self.goodsCount = [NSString stringWithFormat:@"%@",[dict valueForKey:@"goodsCount"]];
-        self.name = [dict valueForKey:@"name"];
-        self.homeImg = [dict valueForKey:@"homeImg"];
-        int rate = [[NSString stringWithFormat:@"%@",[dict valueForKey:@"star"]] floatValue] * 100 /5;
-        self.goodRate = [NSString stringWithFormat:@"%d", rate];
-        self.star = [self.goodRate stringByAppendingString:@"%"];
-        self.storeId = [dict valueForKey:@"storeId"];
-        self.moreFlag = [[dict valueForKey:@"moreFlag"] boolValue];
-        NSArray* tempAry = [dict valueForKey:@"items"];
-        for (id obj in tempAry) {
-            CZJStoreServiceForm* form = [[CZJStoreServiceForm alloc]initWithDictionary:obj];
-            [self.items addObject:form];
-        }
-        
-        return self;
-    }
-    return nil;
-}
-
-+ (NSDictionary *)objectClassInArray
-{
-    return @{@"items" : @"CZJStoreServiceForm"};
-}
-
-@end
-
 
 @implementation CZJStoreServiceForm
-@synthesize currentPrice = _currentPrice;
-@synthesize evalCount = _evalCount;
-@synthesize goHouseFlag = _goHouseFlag;
-@synthesize goStoreFlag = _goStoreFlag;
-@synthesize goodEvalRate = _goodEvalRate;
-@synthesize itemImg = _itemImg;
-@synthesize itemName = _itemName;
-@synthesize itemType = _itemType;
-@synthesize originalPrice = _originalPrice;
-@synthesize purchaseCount = _purchaseCount;
-@synthesize skillFlag = _skillFlag;
-@synthesize skillPrice = _skillPrice;
-@synthesize storeItemPid = _storeItemPid;
-
--(id)initWithDictionary:(NSDictionary*)dict{
-    if (self = [super init]) {
-        self.currentPrice = [dict valueForKey:@"currentPrice"];
-        self.evalCount = [dict valueForKey:@"evalCount"];
-        self.goHouseFlag = [dict valueForKey:@"goHouseFlag"];
-        self.goStoreFlag = [dict valueForKey:@"goStoreFlag"];
-        self.goodEvalRate = [dict valueForKey:@"goodEvalRate"];
-        self.itemImg = [dict valueForKey:@"itemImg"];
-        self.itemName = [dict valueForKey:@"itemName"];
-        self.itemType = [dict valueForKey:@"itemType"];
-        self.originalPrice = [dict valueForKey:@"originalPrice"];
-        self.purchaseCount = [dict valueForKey:@"purchaseCount"];
-        self.skillFlag = [dict valueForKey:@"skillFlag"];
-        self.skillPrice = [dict valueForKey:@"skillPrice"];
-        self.storeItemPid = [dict valueForKey:@"storeItemPid"] ;
-        return self;
-    }
-    return nil;
-}
-
 
 @end
 

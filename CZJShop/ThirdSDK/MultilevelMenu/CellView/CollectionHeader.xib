@@ -11,20 +11,29 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="80"/>
             <autoresizingMask key="autoresizingMask"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="za1-pm-fBx">
-                    <rect key="frame" x="0.0" y="0.0" width="320" height="80"/>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="za1-pm-fBx">
+                    <rect key="frame" x="15" y="0.0" width="290" height="80"/>
                     <animations/>
                 </imageView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8EH-43-Sp8">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="80"/>
+                    <animations/>
+                </button>
             </subviews>
             <animations/>
             <constraints>
-                <constraint firstAttribute="trailing" secondItem="za1-pm-fBx" secondAttribute="trailing" id="OSI-Zf-CxP"/>
+                <constraint firstAttribute="bottom" secondItem="8EH-43-Sp8" secondAttribute="bottom" id="89B-Zc-5zF"/>
+                <constraint firstItem="8EH-43-Sp8" firstAttribute="leading" secondItem="U6b-Vx-4bR" secondAttribute="leading" id="BRN-vY-UoT"/>
+                <constraint firstAttribute="trailing" secondItem="za1-pm-fBx" secondAttribute="trailing" constant="15" id="OSI-Zf-CxP"/>
+                <constraint firstItem="8EH-43-Sp8" firstAttribute="top" secondItem="U6b-Vx-4bR" secondAttribute="top" id="aKw-8N-d8I"/>
+                <constraint firstAttribute="trailing" secondItem="8EH-43-Sp8" secondAttribute="trailing" id="aMO-kx-lrY"/>
                 <constraint firstItem="za1-pm-fBx" firstAttribute="top" secondItem="U6b-Vx-4bR" secondAttribute="top" id="bvo-dI-4ED"/>
                 <constraint firstAttribute="bottom" secondItem="za1-pm-fBx" secondAttribute="bottom" id="uIY-qA-dxD"/>
-                <constraint firstItem="za1-pm-fBx" firstAttribute="leading" secondItem="U6b-Vx-4bR" secondAttribute="leading" id="zN9-JI-KoT"/>
+                <constraint firstItem="za1-pm-fBx" firstAttribute="leading" secondItem="U6b-Vx-4bR" secondAttribute="leading" constant="15" id="zN9-JI-KoT"/>
             </constraints>
             <connections>
                 <outlet property="bannerAdImageview" destination="za1-pm-fBx" id="sav-5f-AhP"/>
+                <outlet property="bannerBtn" destination="8EH-43-Sp8" id="1Br-FO-SGI"/>
             </connections>
             <point key="canvasLocation" x="368" y="311"/>
         </collectionReusableView>
