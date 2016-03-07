@@ -21,7 +21,7 @@
         _carBrandsForms = [NSMutableDictionary dictionary]; //汽车品牌列表信息
         _carSeries = [NSMutableDictionary dictionary];     //汽车指定品牌车系列表
         _carModels = [NSMutableArray array];                //汽车车型信息列表
-        
+        _hotBrands = [NSMutableArray array];
         _haveCarsForms = [NSMutableArray array];
         return self;
     }
@@ -49,6 +49,9 @@
         HaveCarsForm* tmp_ser = [[HaveCarsForm alloc] initWithDictionary:obj];
         [_haveCarsForms addObject:tmp_ser];
     }
+    
+    NSArray* hotBrands = [[dict valueForKey:@"msg"] valueForKey:@"hot"];
+    _hotBrands = [[CarBrandsForm objectArrayWithKeyValuesArray:hotBrands] mutableCopy];
 }
 
 - (void)setNewCarSeriesWithDict:(NSDictionary*)dict AndBrandName:(NSString*)brandName

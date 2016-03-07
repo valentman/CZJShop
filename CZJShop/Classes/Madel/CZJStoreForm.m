@@ -58,31 +58,23 @@
         _provinceForms = [NSMutableArray array];
         _cityForms = [NSMutableArray array];
     }
-    NSArray* provinces = [[dict valueForKey:@"msg"] valueForKey:@"provinces"];
-    NSMutableArray* citys = [[[dict valueForKey:@"msg"] valueForKey:@"citys"] mutableCopy];
-    
-    for (id cityObj in citys)
-    {
-        CZJCitysForm* tmp_citys = [[CZJCitysForm alloc]initWithDictionary:cityObj];
-        [_cityForms addObject:tmp_citys];
-    }
-    
+    _cityForms = [[CZJCitysForm objectArrayWithKeyValuesArray:[dict valueForKey:@"citys"]]mutableCopy];
+
+    NSArray* provinces = [dict valueForKey:@"provinces"];
     for (id proObj in provinces )
     {
         CZJProvinceForm* tmp_provinces = [[CZJProvinceForm alloc]initWithDictionary:proObj];
         NSString* currentProvID = [proObj valueForKey:@"provinceId"];
-        for (id cityObj in citys)
+        for (id cityObj in _cityForms)
         {
             NSString* cityProID = [cityObj valueForKey:@"provinceId"];
-            CZJCitysForm* tmp_citys = [[CZJCitysForm alloc]initWithDictionary:cityObj];
             if ([currentProvID isEqualToString:@"0"])
             {
-                [tmp_provinces.containCitys addObject:tmp_citys];
+                [tmp_provinces.containCitys addObject:cityObj];
             }
             if ([currentProvID isEqualToString: cityProID]) {
-                [tmp_provinces.containCitys addObject:tmp_citys];
+                [tmp_provinces.containCitys addObject:cityObj];
             }
-            
         }
         [_provinceForms addObject:tmp_provinces];
     }

@@ -108,7 +108,7 @@ singleton_interface(CZJBaseDataManager);
                              fail:(CZJFailureBlock)failure;
 
 //获取汽车品牌列表信息
-- (void)getCarBrandsList;
+- (void)getCarBrandsList:(CZJSuccessBlock)success;
 
 //获取汽车品牌车系列表
 - (void) loadCarSeriesWithBrandId:(NSString*)brandId
@@ -350,11 +350,6 @@ singleton_interface(CZJBaseDataManager);
 - (void)setDefaultCar:(NSDictionary*)postParams
               Success:(CZJSuccessBlock)success
                  fail:(CZJFailureBlock)fail;
-
-//获取筛选的汽车品牌
-- (void)loadFilterCarBrandsList:(NSDictionary*)postParams
-                        Success:(CZJSuccessBlock)success
-                           fail:(CZJFailureBlock)fail;
 
 //获取浏览记录
 - (void)loadScanList:(NSDictionary*)postParams

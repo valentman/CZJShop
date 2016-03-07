@@ -21,19 +21,18 @@
     NSMutableArray* _specialRecommendForms;
     NSMutableArray* _goodRecommentForms;
     NSMutableArray* _goodRecommendFromGroupedAry;
-    
 }
-@property(nonatomic,strong)NSMutableArray* activityFroms;
-@property(nonatomic,strong)NSMutableArray* serviceForms;
-@property(nonatomic,strong)NSMutableArray* carInfoForms;
-@property(nonatomic,strong)NSMutableArray* secSkillForms;
-@property(nonatomic,strong)NSMutableArray* bannerOneForms;
-@property(nonatomic,strong)NSMutableArray* limitBuyForms;
-@property(nonatomic,strong)NSMutableArray* brandRecommendForms;
-@property(nonatomic,strong)NSMutableArray* bannerTwoForms;
-@property(nonatomic,strong)NSMutableArray* specialRecommendForms;
-@property(nonatomic,strong)NSMutableArray* goodRecommentForms;
-@property(nonatomic,strong)NSMutableArray* goodRecommendFromGroupedAry;
+@property(nonatomic,strong) NSMutableArray* activityFroms;
+@property(nonatomic,strong) NSMutableArray* serviceForms;
+@property(nonatomic,strong) NSMutableArray* carInfoForms;
+@property(nonatomic,strong) NSMutableArray* secSkillForms;
+@property(nonatomic,strong) NSMutableArray* bannerOneForms;
+@property(nonatomic,strong) NSMutableArray* limitBuyForms;
+@property(nonatomic,strong) NSMutableArray* brandRecommendForms;
+@property(nonatomic,strong) NSMutableArray* bannerTwoForms;
+@property(nonatomic,strong) NSMutableArray* specialRecommendForms;
+@property(nonatomic,strong) NSMutableArray* goodRecommentForms;
+@property(nonatomic,strong) NSMutableArray* goodRecommendFromGroupedAry;
 @property(nonatomic,strong) NSString* coupon;
 @property(nonatomic, strong) NSString* serverTime;
 
@@ -49,8 +48,6 @@
 @property(nonatomic, strong) NSString* activityId;
 @property(nonatomic, strong) NSString* img;
 @property(nonatomic, strong) NSString* url;
-
-- (id)initWithDictionary:(NSDictionary*)dictionary;
 @end
 
 //-----------------------首页服务-----------------------
@@ -60,7 +57,6 @@
 @property(nonatomic, strong) NSString* typeId;
 @property(nonatomic, assign) BOOL need;
 @property(nonatomic, assign) BOOL open;
-- (id)initWithDictionary:(NSDictionary*)dictionary;
 @end
 
 //---------------------首页汽车资讯----------------------
@@ -68,8 +64,6 @@
 @property(nonatomic, strong) NSString* title;
 @property(nonatomic, strong) NSString* type;
 @property(nonatomic, strong) NSString* url;
-
-- (id)initWithDictionary:(NSDictionary*)dict;
 @end
 
 //-----------------------首页秒杀----------------------
@@ -79,16 +73,12 @@
 @property(nonatomic, strong)NSString* itemType;
 @property(nonatomic, strong)NSString* img;
 @property(nonatomic, strong)NSString* currentPrice;
-
-- (id)initWithDictionary:(NSDictionary*)dict;
 @end
 
 //---------------------首页广告栏一---------------------
 @interface BannerForm : NSObject
 @property(nonatomic, strong)NSString* img;
 @property(nonatomic, strong)NSString* url;
-
-- (id)initWithDictionary:(NSDictionary*)dict;
 @end
 
 //---------------------首页限量抢购---------------------
@@ -98,28 +88,21 @@
 @property(nonatomic, strong)NSString* itemType;
 @property(nonatomic, strong)NSString* img;
 @property(nonatomic, strong)NSString* currentPrice;
-
-- (id)initWithDictionary:(NSDictionary*)dict;
 @end
 
 //---------------------首页品牌推荐---------------------
 @interface BrandRecommendForm : NSObject
 @property(nonatomic, strong)NSString* img;
 @property(nonatomic, strong)NSString* url;
-
-- (id)initWithDictionary:(NSDictionary*)dict;
 @end
 
 //---------------------首页特色推荐---------------------
 @interface SpecialRecommendForm : NSObject
 @property(nonatomic, strong)NSString* img;
 @property(nonatomic, strong)NSString* url;
-
-- (id)initWithDictionary:(NSDictionary*)dict;
 @end
 
 //---------------------首页推荐商品---------------------
-
 @interface GoodsRecommendForm : NSObject
 @property(nonatomic, strong) NSString* storeItemPid;
 @property(nonatomic, strong) NSString* itemType;
@@ -127,8 +110,4 @@
 @property(nonatomic, strong) NSString* itemImg;
 @property(nonatomic, strong) NSString* currentPrice;
 @property(nonatomic, strong) NSString* originalPrice;
-
--(id)initWithDictionary:(NSDictionary*)dictionary;
-
-
 @end

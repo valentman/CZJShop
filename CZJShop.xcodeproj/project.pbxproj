@@ -131,6 +131,8 @@
 		EC154CF71C1EBEB50004FAF5 /* CZJServiceFilterController.m in Sources */ = {isa = PBXBuildFile; fileRef = EC154CEC1C1EBEB50004FAF5 /* CZJServiceFilterController.m */; };
 		EC154CF81C1EBEB50004FAF5 /* CZJServiceListController.m in Sources */ = {isa = PBXBuildFile; fileRef = EC154CEE1C1EBEB50004FAF5 /* CZJServiceListController.m */; };
 		EC154CFC1C1EBF000004FAF5 /* CZJDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EC154CFB1C1EBF000004FAF5 /* CZJDetailViewController.m */; };
+		EC1C89091C8D720000B96602 /* CZJHotBrandViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EC1C89071C8D720000B96602 /* CZJHotBrandViewCell.m */; settings = {ASSET_TAGS = (); }; };
+		EC1C890A1C8D720000B96602 /* CZJHotBrandViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EC1C89081C8D720000B96602 /* CZJHotBrandViewCell.xib */; settings = {ASSET_TAGS = (); }; };
 		EC1E43DE1C40A214006CC23C /* KMCGeigerCounter.m in Sources */ = {isa = PBXBuildFile; fileRef = EC1E43DC1C40A214006CC23C /* KMCGeigerCounter.m */; };
 		EC1E43DF1C40A214006CC23C /* KMCGeigerCounterTick.aiff in Resources */ = {isa = PBXBuildFile; fileRef = EC1E43DD1C40A214006CC23C /* KMCGeigerCounterTick.aiff */; };
 		EC1E43E61C40A76F006CC23C /* UIScrollView+SVInfiniteScrolling.m in Sources */ = {isa = PBXBuildFile; fileRef = EC1E43E31C40A76F006CC23C /* UIScrollView+SVInfiniteScrolling.m */; };
@@ -1212,6 +1214,9 @@
 		EC154CEE1C1EBEB50004FAF5 /* CZJServiceListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJServiceListController.m; sourceTree = "<group>"; };
 		EC154CFA1C1EBF000004FAF5 /* CZJDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJDetailViewController.h; sourceTree = "<group>"; };
 		EC154CFB1C1EBF000004FAF5 /* CZJDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJDetailViewController.m; sourceTree = "<group>"; };
+		EC1C89061C8D720000B96602 /* CZJHotBrandViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJHotBrandViewCell.h; sourceTree = "<group>"; };
+		EC1C89071C8D720000B96602 /* CZJHotBrandViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJHotBrandViewCell.m; sourceTree = "<group>"; };
+		EC1C89081C8D720000B96602 /* CZJHotBrandViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CZJHotBrandViewCell.xib; sourceTree = "<group>"; };
 		EC1E43DB1C40A214006CC23C /* KMCGeigerCounter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KMCGeigerCounter.h; sourceTree = "<group>"; };
 		EC1E43DC1C40A214006CC23C /* KMCGeigerCounter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KMCGeigerCounter.m; sourceTree = "<group>"; };
 		EC1E43DD1C40A214006CC23C /* KMCGeigerCounterTick.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = KMCGeigerCounterTick.aiff; sourceTree = "<group>"; };
@@ -2964,6 +2969,9 @@
 				EC154CE21C1EBEB50004FAF5 /* CZJStoreServiceCell.h */,
 				EC154CE31C1EBEB50004FAF5 /* CZJStoreServiceCell.m */,
 				EC154CE41C1EBEB50004FAF5 /* CZJStoreServiceCell.xib */,
+				EC1C89061C8D720000B96602 /* CZJHotBrandViewCell.h */,
+				EC1C89071C8D720000B96602 /* CZJHotBrandViewCell.m */,
+				EC1C89081C8D720000B96602 /* CZJHotBrandViewCell.xib */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -5521,6 +5529,7 @@
 				EC3400011C433D5A0063A071 /* my_icon_tuihuo@3x.png in Resources */,
 				ECC4DEFB1C17FEA900FBD6A4 /* shaixuan_icon_hot@3x.png in Resources */,
 				ECD3D40E1C72D6D000C230BE /* set_icon_logo@2x.png in Resources */,
+				EC1C890A1C8D720000B96602 /* CZJHotBrandViewCell.xib in Resources */,
 				EC26A3101C2A386600B166A3 /* coupon_icon_red@3x.png in Resources */,
 				ECF2DC9E1C5767F80096FF39 /* CZJGeneralCell.xib in Resources */,
 				EC154CF31C1EBEB50004FAF5 /* CZJStoreServiceCell.xib in Resources */,
@@ -5917,6 +5926,7 @@
 				ECC4DDE81C17D67B00FBD6A4 /* LJWKeyboardToolBar.m in Sources */,
 				EC583A031C48D4AF001401FC /* CZJStoreDetailForm.m in Sources */,
 				ECC4DE0C1C17D67B00FBD6A4 /* NSObject+MJCoding.m in Sources */,
+				EC1C89091C8D720000B96602 /* CZJHotBrandViewCell.m in Sources */,
 				EC393F7C1C2E288500B17228 /* CZJReceiveCouponsCell.m in Sources */,
 				ECC4DDFA1C17D67B00FBD6A4 /* RegionAnnotationView.m in Sources */,
 				EC2518341C22B77500C6754A /* LXDSegmentControlConfiguration.m in Sources */,

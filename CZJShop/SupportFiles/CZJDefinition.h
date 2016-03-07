@@ -49,7 +49,8 @@ static NSString *const kCZJServerAPIGoodsHotReco = @"chezhu/loadStoreRecommends.
 static NSString *const kCZJServerAPIGetNearbyStores = @"chezhu/loadStores.do";                      //获取附近门店列表
 static NSString *const kCZJServerAPIGetCitys = @"chezhu/loadO2oCitys.do";                           //获取城市列表
 static NSString *const kCZJServerAPIGetServiceList = @"chezhu/searchServiceItemV2.do";              //获取附近门店服务列表
-//static NSString *const kCZJServerAPILoadServiceTypes = @"chezhu/loadServiceTypes.do";               //得到服务分类
+static NSString *const kCZJServerAPIGetMapNearByStores = @"chezhu/loadMapStores.do";                //获取地图中心店附近门店列表
+static NSString *const kCZJServerAPILoadServiceTypes = @"chezhu/loadServiceTypes.do";               //得到服务分类
 
 //发现接口组
 static NSString *const kCZJServerAPIGetDiscovery = @"chezhu/loadDiscoveryInfo.do";                  //获取发现数据
@@ -96,7 +97,6 @@ static NSString *const kCZJServerAPIAddCar = @"chezhu/addCar.do";               
 static NSString *const kCZJServerAPIGetCarlist = @"chezhu/showCars.do";                             //获取爱车列表
 static NSString *const kCZJServerAPIRemoveCar= @"chezhu/removeCar.do";                              //移除爱车
 static NSString *const kCZJServerAPISetDefaultCar = @"chezhu/setDftCar.do";                         //设置默认车辆
-static NSString *const kCZJServerAPILoadFilterCarBrands = @"chezhu/loadCarBrands.do";               //获取筛选的汽车品牌
 static NSString *const kCZJServerAPIMyScanList = @"chezhu/loadVisits.do";                           //获取浏览记录
 static NSString *const kCZJServerAPIClearScanList = @"chezhu/emptyVisits.do";                       //清空浏览记录
 static NSString *const kCZJServerAPISearch = @"chezhu/suggest.do";                                  //搜索
@@ -124,6 +124,7 @@ static NSString *const kCZJServerAPICancelReturnOrder = @"chezhu/cancelReturnOrd
 //个人中心其他接口组
 static NSString *const kCZJServerAPIShowCouponsList = @"chezhu/showCoupons.do";                     // 优惠券列表
 static NSString *const kCZJServerAPIShowCardList = @"chezhu/loadSetmenus.do";                       // 套餐卡列表
+static NSString *const kCZJServerAPIShowCardDetail = @"chezhu/showSetmenu.do";                       // 套餐卡列表
 static NSString *const kCZJServerAPIGetBalanceInfo = @"chezhu/loadChargeInfo.do";                   // 获取余额详情
 static NSString *const kCZJServerAPIGetPoint = @"chezhu/showPointsCenter.do";
 static NSString *const kCZJServerAPIRecharge = @"chezhu/charge.do";                                 // 充值

@@ -13,13 +13,14 @@
     NSMutableDictionary* _carBrandsForms;    //汽车品牌列表
     NSMutableDictionary* _carSeries;         //汽车指定品牌车系列表
     NSMutableArray* _carModels;              //汽车车型
-    
+    NSMutableArray* _hotBrands;              //热门品牌
     NSMutableArray* _haveCarsForms;      //已有车辆
 }
 @property(nonatomic,strong)NSMutableDictionary* carBrandsForms;
 @property(nonatomic,strong)NSMutableDictionary* carSeries;
 @property(nonatomic,strong)NSMutableArray* carModels;
 @property(nonatomic,strong)NSMutableArray* haveCarsForms;
+@property(nonatomic,strong)NSMutableArray* hotBrands;
 
 - (id)initWithDictionary:(NSDictionary*)dictionary;
 - (void)setNewCarBrandsFormDictionary:(NSDictionary*)dict;

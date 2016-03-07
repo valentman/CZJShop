@@ -65,14 +65,14 @@
         float appref  = self.appearencePercentTriggerAutoRefresh;
         float mjInset = _scrollView.mj_insetB;
         float resutl = mjContentH - mjH + selmjH * appref + mjInset - selmjH;
-        DLog(@"mjOffsetY:%f mjContentH:%f mjH:%f selmjH:%f appref:%f mjInset:%f resutl:%f",mjOffsetY,mjContentH,mjH,selmjH,appref,mjInset,resutl);
-        if (mjOffsetY >= resutl)
+//        DLog(@"mjOffsetY:%f mjContentH:%f mjH:%f selmjH:%f appref:%f mjInset:%f resutl:%f",mjOffsetY,mjContentH,mjH,selmjH,appref,mjInset,resutl);
+        if (mjOffsetY >= resutl + 46)
         {
-            DLog(@"mjOffsetY:%f mjContentH:%f mjH:%f selmjH:%f appref:%f mjInset:%f resutl:%f",mjOffsetY,mjContentH,mjH,selmjH,appref,mjInset,resutl);
+//            DLog(@"mjOffsetY:%f mjContentH:%f mjH:%f selmjH:%f appref:%f mjInset:%f resutl:%f",mjOffsetY,mjContentH,mjH,selmjH,appref,mjInset,resutl);
             // 防止手松开时连续调用
             CGPoint old = [change[@"old"] CGPointValue];
             CGPoint new = [change[@"new"] CGPointValue];
-            DLog(@"oldY:%f, newY:%f",old.y, new.y);
+//            DLog(@"oldY:%f, newY:%f",old.y, new.y);
             if (new.y <= old.y) return;
             
             // 当底部刷新控件完全出现时，才刷新

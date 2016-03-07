@@ -37,6 +37,7 @@
     [self.cateNaviBarView initWithFrame:mainViewBounds AndType:CZJNaviBarViewTypeCategory].delegate = self;
     
 
+    DLog(@"height:%f",self.view.frame.size.height);
     
     //固定数据
     NSDictionary* menuNames = @{@"2000" : @"线下服务",
@@ -68,7 +69,18 @@
         return (NSComparisonResult)NSOrderedSame;
     }];
     
-    [self.multiView initWithFrame:CGRectMake(0, StatusBar_HEIGHT, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - Tabbar_HEIGHT - StatusBar_HEIGHT - NavigationBar_HEIGHT) WithData:lis withSelectIndex:^(NSInteger left, NSInteger right,rightMeun* info) {
+    CGRect multiRect;
+    if (!_viewFromWhere)
+    {
+        multiRect = CGRectMake(0, StatusBar_HEIGHT, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - Tabbar_HEIGHT - StatusBar_HEIGHT - NavigationBar_HEIGHT) ;
+    }
+    else
+    {
+        multiRect = CGRectMake(0, StatusBar_HEIGHT, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - StatusBar_HEIGHT - NavigationBar_HEIGHT) ;
+    }
+    
+    
+    [self.multiView initWithFrame:multiRect WithData:lis withSelectIndex:^(NSInteger left, NSInteger right,rightMeun* info) {
         
         if (-1 == right)
         {//广告栏

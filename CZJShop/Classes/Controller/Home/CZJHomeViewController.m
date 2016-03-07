@@ -30,6 +30,7 @@
 #import "CZJShoppingCartController.h"
 #import "CZJLoginController.h"
 #import "CZJDetailViewController.h"
+#import "CZJCategoryController.h"
 
 @interface CZJHomeViewController ()<
 UISearchBarDelegate,
@@ -269,12 +270,12 @@ CZJGoodsRecommendCellDelegate
             [self.naviBarView setAlpha:1.0];
         }];
         
-        float alphaValue = contentOffsetY * 0.5 / 200;
-        if (alphaValue > 0.7)
+        float alphaValue = contentOffsetY / 200;
+        if (alphaValue > 0.8)
         {
-            alphaValue = 0.7;
+            alphaValue = 0.8;
         }
-        [self.naviBarView setBackgroundColor:RGBA(235, 20, 20, alphaValue)];
+        [self.naviBarView setBackgroundColor:RGBA(235, 35, 38, alphaValue)];
     }
     
     if (contentOffsetY > 600)
@@ -597,9 +598,20 @@ CZJGoodsRecommendCellDelegate
 #pragma mark- CZJActivityDelegate
 - (void)showDetailInfoWithForm:(id)form
 {
-    _serviceTypeId = ((ServiceForm*)form).typeId;
-    [USER_DEFAULT setValue:_serviceTypeId forKey:kUserDefaultServiceTypeID];
-    [self performSegueWithIdentifier:@"pushToServiceDetail" sender:self];
+    ServiceForm* serviceForm = (ServiceForm*)form;
+    if ([serviceForm.name isEqualToString:@"更多服务"])
+    {
+        CZJCategoryController* cateVC = (CZJCategoryController*)[CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:@"CategorySBID"];
+        cateVC.hidesBottomBarWhenPushed = YES;
+        cateVC.viewFromWhere = @"homeView";
+        [self.navigationController pushViewController:cateVC animated:YES];
+    }
+    else
+    {
+        _serviceTypeId = serviceForm.typeId;
+        [USER_DEFAULT setValue:_serviceTypeId forKey:kUserDefaultServiceTypeID];
+        [self performSegueWithIdentifier:@"pushToServiceDetail" sender:self];
+    }
 }
 
 -(void)showActivityHtmlWithUrl:(NSString*)url

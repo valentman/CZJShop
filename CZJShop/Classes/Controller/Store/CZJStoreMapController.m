@@ -137,11 +137,13 @@ AMapSearchDelegate
     __block CLLocationCoordinate2D niceg ;
     //根据“北京市”地理编码
     DLog(@"%@",addr);
-    [geocoder geocodeAddressString:addr completionHandler:^(NSArray *placemarks, NSError *error) {
+    [geocoder geocodeAddressString:@"中国四川省成都市武侯区一环路南四段13-附23号" completionHandler:^(NSArray *placemarks, NSError *error) {
         CLPlacemark *clPlacemark1=[placemarks firstObject];//获取第一个地标
         nearstoreLocation = clPlacemark1.location.coordinate;
         NSString* palce = [NSString stringWithFormat:@"%@%@%@%@",clPlacemark1.locality,clPlacemark1.subLocality,clPlacemark1.thoroughfare,clPlacemark1.subThoroughfare];
         DLog(@"%@, %f, %f", palce, nearstoreLocation.latitude, nearstoreLocation.longitude);
+        
+        
         
     }];
     return niceg;

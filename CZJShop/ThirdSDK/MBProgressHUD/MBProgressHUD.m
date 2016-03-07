@@ -174,7 +174,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 		self.opacity = 0.8f;
 		self.color = nil;
 		self.labelFont = [UIFont boldSystemFontOfSize:kLabelFontSize];
-		self.labelColor = [UIColor redColor];
+		self.labelColor = [UIColor whiteColor];
 		self.detailsLabelFont = [UIFont boldSystemFontOfSize:kDetailsLabelFontSize];
 		self.detailsLabelColor = [UIColor whiteColor];
 		self.activityIndicatorColor = [UIColor whiteColor];
@@ -336,7 +336,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	// Fade out
 	if (animated && showStarted) {
 		[UIView beginAnimations:nil context:NULL];
-		[UIView setAnimationDuration:0.30];
+		[UIView setAnimationDuration:0.50];
 		[UIView setAnimationDelegate:self];
 		[UIView setAnimationDidStopSelector:@selector(animationFinished:finished:context:)];
 		// 0.02 prevents the hud from passing through touches during the animation the hud will get completely hidden

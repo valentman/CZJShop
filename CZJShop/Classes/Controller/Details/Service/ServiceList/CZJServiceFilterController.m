@@ -14,6 +14,9 @@
 #import "HomeForm.h"
 
 @interface CZJServiceFilterController ()<UITableViewDataSource,UITableViewDelegate>
+{
+    NSMutableArray* _aviableServiceAry;
+}
 @property (nonatomic, copy) MGBasicBlock basicBlock;
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSArray *arrTitle;
@@ -24,20 +27,32 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self initViews];
+    [CZJUtils performBlock:^{
+        [self initServiceFilterDatas];
+    } afterDelay:0.5];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(refreshTableView:) name:@"ChooseCartype" object:nil];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:@"ChooseCartype" object:nil];
+}
+
+- (void)initServiceFilterDatas
+{
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [CZJBaseDataInstance generalPost:nil success:^(id json) {
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        NSDictionary* dict = [CZJUtils DataFromJson:json];
+        _aviableServiceAry = [[ServiceForm objectArrayWithKeyValuesArray:[dict valueForKey:@"msg"]] mutableCopy];
+        [self.tableView reloadData];
+    } andServerAPI:kCZJServerAPILoadServiceTypes];
+}
+
+- (void)initViews
+{
     self.title = @"筛选";
-    
-    NSArray* tmpary = [CZJBaseDataInstance homeForm].serviceForms;
-    self.aviableServiceAry = [NSMutableArray array];
-    //只显示开了的服务
-    for (id obj in tmpary)
-    {
-        ServiceForm* form = (ServiceForm*)obj;
-        if (form.open)
-        {
-            [self.aviableServiceAry addObject:form];
-        }
-    }
-    
     
     UIButton *rightBtn = [[ UIButton alloc ] initWithFrame : CGRectMake(0 , 0 , 44 , 44 )];
     [rightBtn setTitle:@"确定" forState:UIControlStateNormal];
@@ -50,22 +65,19 @@
     [rightItem setTag:1001];
     
     self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0,0, PJ_SCREEN_WIDTH-50, PJ_SCREEN_HEIGHT) style:UITableViewStyleGrouped];
+    self.tableView.separatorStyle = UITableViewCellSelectionStyleNone;
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
-    self.tableView.separatorStyle = UITableViewCellSelectionStyleNone;
     self.tableView.clipsToBounds = true;
-    [self.view addSubview:self.tableView];
     self.tableView.bounces = NO;
-    
     self.arrTitle = @[@"到店服务", @"上门服务"];
-    
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(refreshTableView:) name:@"ChooseCartype" object:nil];
+    [self.view addSubview:self.tableView];
 }
 
 
 - (void)refreshTableView:(id)sender
 {
-    [self.tableView reloadData];
+    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
 - (void)setCancleBarItemHandle:(MGBasicBlock)basicBlock{
@@ -74,11 +86,9 @@
 }
 
 - (void)cancelAction:(UIBarButtonItem *)bar{
-    
     if(self.basicBlock)self.basicBlock();
-    [[NSNotificationCenter defaultCenter]removeObserver:self name:@"ChooseCartype" object:nil];
-    
 }
+
 - (void)navBackBarAction:(UIBarButtonItem *)bar{
     if (self.navigationController.viewControllers.count > 1) {
         [self.navigationController popViewControllerAnimated:YES];
@@ -130,25 +140,6 @@
     {
         if (0==indexPath.row)
         {
-            UITableViewCell* cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell1"];
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            cell.textLabel.text = @"类别";
-            cell.textLabel.font = [UIFont systemFontOfSize:16];
-            return cell;
-        }
-        if (1 == indexPath.row)
-        {
-            CZJSerFilterTypeChooseCell* cell = [[CZJSerFilterTypeChooseCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell2"];
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-           
-            [cell setButtonDatas:self.aviableServiceAry WithType:kCZJSerFilterTypeChooseCellTypeService];
-            return cell;
-        }
-    }
-    if (2 == indexPath.section)
-    {
-        if (0==indexPath.row)
-        {
             UITableViewCell* cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell3"];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             cell.textLabel.text = @"服务方式";
@@ -161,6 +152,25 @@
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             
             [cell setButtonDatas:[self.arrTitle mutableCopy] WithType:kCZJSerFilterTypeChooseCellTypeGoWhere];
+            return cell;
+        }
+    }
+    if (2 == indexPath.section)
+    {
+        if (0==indexPath.row)
+        {
+            UITableViewCell* cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell1"];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.textLabel.text = @"类别";
+            cell.textLabel.font = [UIFont systemFontOfSize:16];
+            return cell;
+        }
+        if (1 == indexPath.row)
+        {
+            CZJSerFilterTypeChooseCell* cell = [[CZJSerFilterTypeChooseCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell2"];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            
+            [cell setButtonDatas:_aviableServiceAry WithType:kCZJSerFilterTypeChooseCellTypeService];
             return cell;
         }
     }
@@ -194,8 +204,7 @@
         }
         else if (1 == indexPath.row)
         {
-            int col = ceilf(self.aviableServiceAry.count / 3.0) ;
-            return  col * 55;
+            return 55;
         }
     }
     if (2 == indexPath.section)
@@ -206,7 +215,8 @@
         }
         else if (1 == indexPath.row)
         {
-            return 55;
+            int col = ceilf(self.aviableServiceAry.count / 3.0) ;
+            return  col * 55;
         }
     }
     return 0;

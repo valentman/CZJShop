@@ -52,7 +52,7 @@ singleton_implementation(CZJBaseDataManager);
         _goodsTypesAry = [NSMutableArray array];
         _orderPaymentTypeAry = [NSArray array];
         [self initParameters];
-        [self loadAreaInfos];
+        [self getAreaInfos];
         
         NSArray* dict = [CZJUtils readArrayFromBundleDirectoryWithName:@"PaymentType"];
         _orderPaymentTypeAry = [CZJOrderTypeForm objectArrayWithKeyValuesArray:dict];
@@ -94,19 +94,6 @@ singleton_implementation(CZJBaseDataManager);
 }
 
 
-- (void)loadAreaInfos
-{
-    //更新地区信息：此处只在第一次进入程序或启动时间超过一天
-    if ([CZJUtils isTimeCrossOneDay])
-    {
-        [self getAreaInfos];
-    }
-    else
-    {
-        [self getAreaInfos];
-    }
-}
-
 - (void)setCurLocation:(CLLocationCoordinate2D)curLocation
 {
     if (![WGS84TOGCJ02 isLocationOutOfChina:curLocation])
@@ -118,6 +105,7 @@ singleton_implementation(CZJBaseDataManager);
     {
         _curLocation = curLocation;
     }
+    [self initParameters];
 }
 
 - (void)setCurCityName:(NSString *)curCity
@@ -150,10 +138,7 @@ singleton_implementation(CZJBaseDataManager);
     CZJSuccessBlock successBlock = ^(id json) {
         if ([self showAlertView:json])
         {
-            NSDictionary* newdict = [CZJUtils DataFromJson:json];
-            [CZJUtils writeDictionaryToDocumentsDirectory:[newdict mutableCopy] withPlistName:kCZJPlistFileCitys];
-            NSMutableDictionary* newdicts = [CZJUtils readDictionaryFromDocumentsDirectoryWithPlistName:kCZJPlistFileCitys];
-            DLog(@"%@", [newdicts description]);
+            NSDictionary* newdict = [[CZJUtils DataFromJson:json] valueForKey:@"msg"];
             if (_storeForm)
             {
                 [_storeForm setNewProvinceDataWithDictionary:newdict];
@@ -187,7 +172,6 @@ singleton_implementation(CZJBaseDataManager);
                 fail:(CZJFailureBlock)fail;
 {
     __block CZJSuccessBlock successBlock = ^(id json){
-        [self getCarBrandsList];
         if ([self showAlertView:json])
         {
             if (dataType == CZJHomeGetDataFromServerTypeOne)
@@ -204,7 +188,7 @@ singleton_implementation(CZJBaseDataManager);
             }
             else if (dataType == CZJHomeGetDataFromServerTypeTwo)
             {
-                //加载更多，追加数据
+                //推荐商品分页返回数据
                 [_homeForm  appendGoodsRecommendDataWith:[CZJUtils DataFromJson:json]];
             }
         }
@@ -222,7 +206,6 @@ singleton_implementation(CZJBaseDataManager);
         switch (dataType) {
             case CZJHomeGetDataFromServerTypeOne:
             {
-                [self loadAreaInfos];
                 explicitUrl = kCZJServerAPIShowHome;
                 [params setValuesForKeysWithDictionary:_params];
             }
@@ -394,7 +377,7 @@ singleton_implementation(CZJBaseDataManager);
 
 
 #pragma mark- 筛选列表，汽车车型选择
-- (void)getCarBrandsList
+- (void)getCarBrandsList:(CZJSuccessBlock)success
 {
     CZJSuccessBlock successBlock = ^(id json){
         if ([self showAlertView:json])
@@ -409,6 +392,7 @@ singleton_implementation(CZJBaseDataManager);
                 _carForm = [[CZJCarForm alloc]initWithDictionary:dict];
                 [_carForm setNewCarBrandsFormDictionary:dict];
             }
+            success(json);
         }
     };
     
@@ -1701,31 +1685,6 @@ singleton_implementation(CZJBaseDataManager);
                                    fail:failBlock];
 }
 
-//获取筛选的汽车品牌
-- (void)loadFilterCarBrandsList:(NSDictionary*)postParams
-                        Success:(CZJSuccessBlock)success
-                           fail:(CZJFailureBlock)fail
-{
-    CZJSuccessBlock successBlock = ^(id json){
-        if ([self showAlertView:json])
-        {
-            success(json);
-        }
-    };
-    
-    CZJFailureBlock failBlock = ^(){
-        [[CZJErrorCodeManager sharedCZJErrorCodeManager] ShowNetError];
-    };
-    
-    NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    [params setValuesForKeysWithDictionary:self.params];
-    [params setValuesForKeysWithDictionary:postParams];
-    
-    [CZJNetWorkInstance postJSONWithUrl:kCZJServerAPILoadFilterCarBrands
-                             parameters:params
-                                success:successBlock
-                                   fail:failBlock];
-}
 
 //获取浏览记录
 - (void)loadScanList:(NSDictionary*)postParams

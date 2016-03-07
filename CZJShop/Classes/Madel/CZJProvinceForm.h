@@ -27,6 +27,4 @@
 @property(nonatomic, strong) NSString* total;
 @property(nonatomic, strong) NSString* cityId;
 @property(nonatomic, strong) NSString* name;
-
-- (id)initWithDictionary:(NSDictionary*)dict;
 @end

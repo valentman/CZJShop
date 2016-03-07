@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 #define kMGLeftSpace 50
-@interface CZJFilterBaseController : UIViewController
+@interface CZJFilterBaseController : CZJViewController
 {
      CZJCarListType _carlistType;
 }

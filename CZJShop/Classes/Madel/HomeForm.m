@@ -24,13 +24,11 @@
 @synthesize serverTime;
 
 
+//推荐商品分页返回数据
 -(void)appendGoodsRecommendDataWith:(NSDictionary*)dictionary{
     if ([dictionary valueForKey:@"msg"]) {
         NSArray* recommends = [dictionary valueForKey:@"msg"];
-        for (id obj in recommends) {
-            GoodsRecommendForm* tmp_ser = [[GoodsRecommendForm alloc] initWithDictionary:obj];
-            [_goodRecommentForms addObject:tmp_ser];
-        }
+        _goodRecommentForms = [[GoodsRecommendForm objectArrayWithKeyValuesArray:recommends] mutableCopy];
         float count = (int)_goodRecommentForms.count;
         float count2 = ceilf(count/2);
         [_goodRecommendFromGroupedAry removeAllObjects];
@@ -48,60 +46,17 @@
 
 -(void)setNewDictionary:(NSDictionary*)dictionary{
     [self cleanData];
+    NSDictionary* dict = [dictionary valueForKey:@"msg"];
     
-    NSArray* activitys = [[dictionary valueForKey:@"msg"] valueForKey:@"activitys"];
-    for (id obj in activitys) {
-        ActivityForm* tmp_ser = [[ActivityForm alloc] initWithDictionary:obj];
-        [_activityFroms addObject:tmp_ser];
-    }
-    
-    NSArray* services = [[dictionary valueForKey:@"msg"] valueForKey:@"services"];
-    for (id obj in services) {
-        ServiceForm* tmp_ser = [[ServiceForm alloc] initWithDictionary:obj];
-        [_serviceForms addObject:tmp_ser];
-    }
-   
-    NSArray* carInfos = [[dictionary valueForKey:@"msg"] valueForKey:@"news"];
-    for (id obj in carInfos) {
-        CarInfoForm* tmp_ser = [[CarInfoForm alloc] initWithDictionary:obj];
-        [_carInfoForms addObject:tmp_ser];
-    }
-
-    NSArray* secSkills = [[dictionary valueForKey:@"msg"] valueForKey:@"skills"];
-    for (id obj in secSkills) {
-        SecSkillsForm* tmp_ser = [[SecSkillsForm alloc] initWithDictionary:obj];
-        [_secSkillForms addObject:tmp_ser];
-    }
-    
-    NSArray* banerOnes = [[dictionary valueForKey:@"msg"] valueForKey:@"banners1"];
-    for (id obj in banerOnes) {
-        BannerForm* tmp_ser = [[BannerForm alloc] initWithDictionary:obj];
-        [_bannerOneForms addObject:tmp_ser];
-    }
-    
-    NSArray* limits = [[dictionary valueForKey:@"msg"] valueForKey:@"limits"];
-    for (id obj in limits) {
-        LimitBuyForm* tmp_ser = [[LimitBuyForm alloc] initWithDictionary:obj];
-        [_limitBuyForms addObject:tmp_ser];
-    }
-    
-    NSArray* brands = [[dictionary valueForKey:@"msg"] valueForKey:@"brands"];
-    for (id obj in brands) {
-        BrandRecommendForm* tmp_ser = [[BrandRecommendForm alloc] initWithDictionary:obj];
-        [_brandRecommendForms addObject:tmp_ser];
-    }
-    NSArray* bannerTwos = [[dictionary valueForKey:@"msg"] valueForKey:@"banners2"];
-    for (id obj in bannerTwos) {
-        BannerForm* tmp_ser = [[BannerForm alloc] initWithDictionary:obj];
-        [_bannerTwoForms addObject:tmp_ser];
-    }
-    
-    NSArray* specialRecomsends = [[dictionary valueForKey:@"msg"] valueForKey:@"features"];
-    for (id obj in specialRecomsends) {
-        SpecialRecommendForm* tmp_ser = [[SpecialRecommendForm alloc] initWithDictionary:obj];
-        [_specialRecommendForms addObject:tmp_ser];
-    }
-    
+    _activityFroms = [[ActivityForm objectArrayWithKeyValuesArray:[dict valueForKey:@"activitys"]] mutableCopy];
+    _serviceForms = [[ServiceForm objectArrayWithKeyValuesArray:[dict valueForKey:@"services"]] mutableCopy];
+    _carInfoForms = [[CarInfoForm objectArrayWithKeyValuesArray:[dict valueForKey:@"news"]] mutableCopy];
+    _secSkillForms = [[SecSkillsForm objectArrayWithKeyValuesArray:[dict valueForKey:@"skills"]] mutableCopy];
+    _bannerOneForms = [[BannerForm objectArrayWithKeyValuesArray:[dict valueForKey:@"banners1"]] mutableCopy];
+    _limitBuyForms = [[LimitBuyForm objectArrayWithKeyValuesArray:[dict valueForKey:@"limits"]] mutableCopy];
+    _brandRecommendForms = [[BrandRecommendForm objectArrayWithKeyValuesArray:[dict valueForKey:@"brands"]] mutableCopy];
+    _bannerTwoForms = [[BannerForm objectArrayWithKeyValuesArray:[dict valueForKey:@"banners2"]] mutableCopy];
+    _specialRecommendForms = [[SpecialRecommendForm objectArrayWithKeyValuesArray:[dict valueForKey:@"features"]] mutableCopy];
     serverTime = dictionary[@"msg"][@"currentTime"];
 }
 
@@ -256,170 +211,36 @@
 
 //----------------------活动----------------------
 @implementation ActivityForm
-@synthesize activityId;
-@synthesize img;
-@synthesize url;
--(id)initWithDictionary:(NSDictionary*)dictionary{
-    if (self = [super init]) {
-        self.activityId = [dictionary valueForKey:@"activityId"];
-        self.img = [dictionary valueForKey:@"img"];
-        self.url = [dictionary valueForKey:@"url"];
-        return self;
-    }
-    return nil;
-}
 @end
 
 //---------------------服务列表---------------------
 @implementation ServiceForm
-@synthesize name;
-@synthesize img;
-@synthesize typeId;
-
--(id)initWithDictionary:(NSDictionary*)dictionary{
-    if (self = [super init]) {
-        self.name = [dictionary valueForKey:@"name"];
-        self.img = [dictionary valueForKey:@"img"];
-        self.typeId = [NSString stringWithFormat:@"%@",[dictionary valueForKey:@"typeId"]];
-        self.need = [[dictionary valueForKey:@"need"] boolValue];
-        self.open = [[dictionary valueForKey:@"open"] boolValue];
-        return self;
-    }
-    return nil;
-}
-
 @end
 
 //---------------------汽车资讯----------------------
 @implementation CarInfoForm : NSObject
-@synthesize title;
-@synthesize type;
-@synthesize url;
-
-- (id)initWithDictionary:(NSDictionary*)dict
-{
-    if (self = [super init]) {
-        self.title = [dict valueForKey:@"title"];
-        self.type = [dict valueForKey:@"type"];
-        self.url = [dict valueForKey:@"url"];
-        return self;
-    }
-    return nil;
-}
 @end
 
 //-----------------------秒杀----------------------
 @implementation SecSkillsForm : NSObject
-@synthesize originalPrice;
-@synthesize storeItemPid;
-@synthesize itemType;
-@synthesize img;
-@synthesize currentPrice;
-
-- (id)initWithDictionary:(NSDictionary*)dict
-{
-    if (self = [super init]) {
-        self.originalPrice = [dict valueForKey:@"originalPrice"];
-        self.storeItemPid = [dict valueForKey:@"storeItemPid"];
-        self.itemType = [dict valueForKey:@"itemType"];
-        self.img = [dict valueForKey:@"img"];
-        self.currentPrice = [dict valueForKey:@"currentPrice"];
-        return self;
-    }
-    return nil;
-}
 @end
 
 //---------------------广告栏一---------------------
 @implementation BannerForm : NSObject
-@synthesize img;
-@synthesize url;
-
-- (id)initWithDictionary:(NSDictionary*)dict
-{
-    if (self = [super init]) {
-        self.img = [dict valueForKey:@"img"];
-        self.url = [dict valueForKey:@"url"];
-        return self;
-    }
-    return nil;
-}
 @end
 
 //---------------------限量抢购---------------------
 @implementation LimitBuyForm : NSObject
-@synthesize originalPrice;
-@synthesize storeItemPid;
-@synthesize itemType;
-@synthesize img;
-@synthesize currentPrice;
-
-- (id)initWithDictionary:(NSDictionary*)dict
-{
-    if (self = [super init]) {
-        self.originalPrice = [dict valueForKey:@"originalPrice"];
-        self.storeItemPid = [dict valueForKey:@"storeItemPid"];
-        self.itemType = [dict valueForKey:@"itemType"];
-        self.img = [dict valueForKey:@"img"];
-        self.currentPrice = [dict valueForKey:@"currentPrice"];
-        return self;
-    }
-    return nil;
-}
 @end
 
 //---------------------品牌推荐---------------------
 @implementation BrandRecommendForm : NSObject
-@synthesize img;
-@synthesize url;
-
-- (id)initWithDictionary:(NSDictionary*)dict
-{
-    if (self = [super init]) {
-        self.img = [dict valueForKey:@"img"];
-        self.url = [dict valueForKey:@"url"];
-        return self;
-    }
-    return nil;
-}
 @end
 
 //---------------------特色推荐---------------------
 @implementation SpecialRecommendForm : NSObject
-@synthesize img;
-@synthesize url;
-
-- (id)initWithDictionary:(NSDictionary*)dict
-{
-    if (self = [super init]) {
-        self.img = [dict valueForKey:@"img"];
-        self.url = [dict valueForKey:@"url"];
-        return self;
-    }
-    return nil;
-}
 @end
 
 //---------------------推荐商品---------------------
 @implementation GoodsRecommendForm
--(id)initWithDictionary:(NSDictionary*)dictionary{
-    if (self = [super init]) {
-        self.storeItemPid = [dictionary valueForKey:@"storeItemPid"];
-        self.itemType = [dictionary valueForKey:@"itemType"];
-        self.itemName = [dictionary valueForKey:@"itemName"];
-        self.itemImg = [dictionary valueForKey:@"itemImg"];
-        self.currentPrice = [dictionary valueForKey:@"currentPrice"];
-        self.originalPrice = [dictionary valueForKey:@"originalPrice"];
-        return self;
-    }
-    return nil;
-}
 @end
-
-
-
-
-
-
-
-
