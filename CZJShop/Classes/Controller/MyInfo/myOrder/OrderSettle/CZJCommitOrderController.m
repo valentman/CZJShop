@@ -71,17 +71,17 @@ CZJRedPacketCellDelegate
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [CZJUtils customizeNavigationBarForTarget:self];
+//    [CZJUtils customizeNavigationBarForTarget:self];
     [self initDatas];
     [self initViews];
     [SVProgressHUD show];
     [self getSettleDataFromServer];
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    self.navigationController.navigationBarHidden = NO;
-}
+//- (void)viewWillAppear:(BOOL)animated
+//{
+//    self.navigationController.navigationBarHidden = NO;
+//}
 
 - (void)initDatas
 {
@@ -149,6 +149,9 @@ CZJRedPacketCellDelegate
     }
     self.myTableView.tableFooterView = [[UIView alloc] init];
     self.automaticallyAdjustsScrollViewInsets = NO;
+    
+    [self addCZJNaviBarView:CZJNaviBarViewTypeGeneral];
+    self.naviBarView.mainTitleLabel.text = @"提交订单";
 }
 
 - (void)getSettleDataFromServer

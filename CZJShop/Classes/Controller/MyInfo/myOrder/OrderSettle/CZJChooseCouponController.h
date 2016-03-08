@@ -16,7 +16,7 @@
 @end
 
 
-@interface CZJChooseCouponController : UIViewController
+@interface CZJChooseCouponController : CZJViewController
 {
     NSString* _storeIds;
 }

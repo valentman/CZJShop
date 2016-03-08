@@ -16,6 +16,9 @@
 UITableViewDataSource,
 UITableViewDelegate
 >
+{
+    NSArray* _cardDetailAry;
+}
 @property (strong, nonatomic)UITableView* myTableView;
 @end
 
@@ -53,7 +56,13 @@ UITableViewDelegate
 
 - (void)getCardDetailInfoFromServer
 {
-    [self.myTableView reloadData];
+    
+    [CZJBaseDataInstance generalPost:@{@"SetmenuId" : _cardInfoForm.setmenuId} success:^(id json) {
+        NSArray* dict = [[CZJUtils DataFromJson:json] valueForKey:@"msg"];
+        _cardDetailAry = [CZJCardDetailInfoForm objectArrayWithKeyValuesArray:dict];
+        [self.myTableView reloadData];
+    } andServerAPI:kCZJServerAPIShowCardDetail];
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -74,7 +83,7 @@ UITableViewDelegate
     }
     else
     {
-        return 10;
+        return _cardDetailAry.count;
     }
     return 0;
 }
@@ -84,6 +93,7 @@ UITableViewDelegate
     if (0 == indexPath.section)
     {
         CZJMyWalletCardCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJMyWalletCardCell" forIndexPath:indexPath];
+        cell.cardTypeWidth.constant = [CZJUtils calculateTitleSizeWithString:_cardInfoForm.setmenuName AndFontSize:17].height + 5;
         cell.storeNameLabel.text = _cardInfoForm.storeName;
         cell.cardTypeLabel.text = _cardInfoForm.setmenuName;
         [cell setCardCellWithCardDetailInfo:_cardInfoForm];
@@ -92,7 +102,29 @@ UITableViewDelegate
     }
     else
     {
+        CZJCardDetailInfoForm* cardDetailForm = _cardDetailAry[indexPath.row];
+        CZJCardDetailInfoFormItem* cardDetailItemForm = cardDetailForm.items[0];
         CZJRedPacketUseCaseCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJRedPacketUseCaseCell" forIndexPath:indexPath];
+        if (indexPath.row % 2 == 0)
+        {
+            cell.leftView.hidden = YES;
+            cell.leftLabel.text = cardDetailForm.createTime;
+            cell.rightBalanceName.hidden = YES;
+            cell.rightBalanceLabel.hidden = YES;
+            cell.rightNumberLabel.hidden = YES;
+            
+            cell.rightItemNameLabel.text = [NSString stringWithFormat:@"(扣%@次)%@",cardDetailItemForm.useCount, cardDetailItemForm.itemName];
+        }
+        else
+        {
+            cell.rightView.hidden = YES;
+            cell.rightLabel.text = cardDetailForm.createTime;
+            cell.leftBalanceName.hidden = YES;
+            cell.leftBalanceLabel.hidden = YES;
+            cell.leftNumberLabel.hidden = YES;
+            
+            cell.leftItemNameLabel.text = [NSString stringWithFormat:@"(扣%@次)%@",cardDetailItemForm.useCount, cardDetailItemForm.itemName];
+        }
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
     }
@@ -104,7 +136,11 @@ UITableViewDelegate
 {
     if (0 == indexPath.section)
     {
-        return  160 + 35 * _cardInfoForm.items.count;
+        return  200 + 35 * _cardInfoForm.items.count;
+    }
+    else
+    {
+        return 100;
     }
     return 100;
 }

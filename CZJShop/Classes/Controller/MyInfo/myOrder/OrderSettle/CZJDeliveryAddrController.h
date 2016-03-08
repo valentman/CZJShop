@@ -14,7 +14,7 @@
 - (void)clickChooseAddr:(CZJAddrForm*)addForm;
 @end
 
-@interface CZJDeliveryAddrController : UIViewController
+@interface CZJDeliveryAddrController : CZJViewController
 
 @property (strong, nonatomic)NSString* currentAddrId;
 @property (weak, nonatomic)id<CZJDeliveryAddrControllerDelegate> delegate;

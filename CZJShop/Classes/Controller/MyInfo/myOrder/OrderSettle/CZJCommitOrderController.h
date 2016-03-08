@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CZJCommitOrderController : UIViewController
+@interface CZJCommitOrderController : CZJViewController
 
 @property(strong, nonatomic)NSArray* settleParamsAry;
 

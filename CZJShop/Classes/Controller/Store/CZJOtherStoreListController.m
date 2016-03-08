@@ -110,7 +110,7 @@ CZJNaviagtionBarViewDelegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     CZJNearbyStoreForm* storeForm = (CZJNearbyStoreForm*)_sortedStoreArys[indexPath.row];
-    CZJStoreDetailController* sdVC = (CZJStoreDetailController*)[CZJUtils getViewControllerFromStoryboard:@"Main" andVCName:@"storeDetailVC"];
+    CZJStoreDetailController* sdVC = (CZJStoreDetailController*)[CZJUtils getViewControllerFromStoryboard:@"Main" andVCName:kCZJStoryBoardIDStoreDetailVC];
     sdVC.storeId = storeForm.storeId;
     [self.navigationController pushViewController:sdVC animated:YES];
 }

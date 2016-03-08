@@ -35,6 +35,11 @@ UITableViewDataSource
     [self initViews];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    self.navigationController.navigationBarHidden = NO;
+}
+
 - (void)initViews
 {
     settingAry = @[@"推送消息",

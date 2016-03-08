@@ -37,7 +37,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    [CZJUtils customizeNavigationBarForTarget:self];
+//    [CZJUtils customizeNavigationBarForTarget:self];
     _selectedAddAry = [NSMutableArray array];
     _saveBtn.layer.cornerRadius = 5;
     [_defaultBtn setImage:[UIImage imageNamed:@"commit_btn_circle"] forState:UIControlStateNormal];
@@ -56,7 +56,8 @@
         _phoneNumTextField.text = _addrForm.mobile;
         _detailedAddrTextField.text = _addrForm.addr;
     }
-    
+    [self addCZJNaviBarView:CZJNaviBarViewTypeGeneral];
+    self.naviBarView.mainTitleLabel.text = @"添加收货地址";
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event

@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CZJMyWalletCouponController : UIViewController
+@interface CZJMyWalletCouponController : CZJViewController
 
 @end
 

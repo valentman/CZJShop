@@ -28,6 +28,11 @@
     [self initViews];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    self.navigationController.navigationBarHidden = NO;
+}
+
 - (void)initViews
 {
     CZJMyWalletCardUnUsedController* unUsed = [[CZJMyWalletCardUnUsedController alloc]init];
@@ -37,6 +42,7 @@
     CGRect pageViewFrame = CGRectMake(0, StatusBar_HEIGHT + NavigationBar_HEIGHT, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - StatusBar_HEIGHT);
     CZJPageControlView* pageview = [[CZJPageControlView alloc]initWithFrame:pageViewFrame andPageIndex:0];
     [pageview setTitleArray:@[@"未用完",@"已用完"] andVCArray:@[unUsed, used]];
+    pageview.backgroundColor = CZJTableViewBGColor;
     [self.view addSubview:pageview];
 }
 
@@ -91,7 +97,7 @@ PullTableViewDelegate
     CGRect viewRect = CGRectMake(0, 0, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT- 128);
     _myTableView = [[PullTableView alloc]initWithFrame:viewRect style:UITableViewStylePlain];
     
-    _myTableView.backgroundColor = CZJNAVIBARBGCOLOR;
+    _myTableView.backgroundColor = CZJTableViewBGColor;
     _myTableView.tableFooterView = [[UIView alloc]init];
     _myTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     _myTableView.bounces = YES;
@@ -134,14 +140,15 @@ PullTableViewDelegate
     CZJMyWalletCardCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJMyWalletCardCell" forIndexPath:indexPath];
     cell.storeNameLabel.text = form.storeName;
     cell.cardTypeLabel.text = form.setmenuName;
+    cell.cardTypeWidth.constant = [CZJUtils calculateTitleSizeWithString:form.setmenuName AndFontSize:17].height + 5;
     if (form.items.count > 0)
     {
         CZJMyCardDetailInfoForm* cardDetailForm = form.items[0];
         CGSize labelSize = [CZJUtils calculateStringSizeWithString:cardDetailForm.itemName Font:SYSTEMFONT(11) Width:200];
         cell.itemNameLabelWidth.constant = labelSize.width + 5;
         cell.itemNameLabel.text = cardDetailForm.itemName;
-        cell.totalTimeLabel.text = cardDetailForm.itemOriginal;
-        cell.leftTimeLabel.text = cardDetailForm.itemCount;
+        cell.totalTimeLabel.text = cardDetailForm.itemCount;
+        cell.leftTimeLabel.text = [NSString stringWithFormat:@"%ld",[cardDetailForm.itemCount integerValue] - [cardDetailForm.useCount integerValue]];
     }
     cell.tintColor = [UIColor grayColor];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -154,9 +161,9 @@ PullTableViewDelegate
     CZJMyCardInfoForm* form = (CZJMyCardInfoForm*)_cardList[indexPath.row];
     if (form.items.count > 0)
     {
-        return 201;
+        return 250;
     }
-    return 161;
+    return 181;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

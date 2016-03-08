@@ -25,6 +25,11 @@
     [self initViews];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    self.navigationController.navigationBarHidden = NO;
+}
+
 - (void)initViews
 {
     CZJMyWalletCouponUnUsedController* unUsed = [[CZJMyWalletCouponUnUsedController alloc]init];
@@ -69,6 +74,7 @@ PullTableViewDelegate
     self.myTableView.pullTableIsRefreshing = NO;
     self.myTableView.pullTableIsLoadingMore = NO;
 }
+
 
 - (void)initViews
 {

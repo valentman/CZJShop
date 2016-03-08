@@ -17,9 +17,11 @@
 #import "CZJDetailViewController.h"
 #import "CZJStoreDetailController.h"
 
-@interface CZJServiceListController ()<
+@interface CZJServiceListController ()
+<
     UITableViewDataSource,
     UITableViewDelegate,
+    UIGestureRecognizerDelegate,
     MXPullDownMenuDelegate,
     CZJNaviagtionBarViewDelegate,
     CZJFilterControllerDelegate
@@ -34,6 +36,7 @@
     
     BOOL _isAnimate;
     BOOL _isOutOfScreen;
+    BOOL _isTouch;
     float lastY;
     float lastContentOffsetY;
     
@@ -90,11 +93,11 @@
     DLog();
 }
 
-- (void)viewWillDisappear:(BOOL)animated
+- (void)viewDidDisappear:(BOOL)animated
 {
+    [[UIApplication sharedApplication]setStatusBarHidden:NO];
     [_pullDownMenu removeNotificationObserve];
 }
-
 
 - (void)initData
 {
@@ -247,38 +250,41 @@
     //判断是否是上拉（isDraggingDown = false）还是下滑（isDraggingDown = true）
     bool isDraggingDown = (lastContentOffsetY - contentOffsetY) > 0 ;
     lastContentOffsetY = contentOffsetY;
-    DLog(@"state:%ld", scrollView.panGestureRecognizer.state);
     if (UIGestureRecognizerStateChanged == scrollView.panGestureRecognizer.state)
     {
-        DLog(@"触摸着 state:%ld", scrollView.panGestureRecognizer.state);
-        if (isDraggingDown && self.naviBarView.frame.origin.y < 0 && _isOutOfScreen)
+        if (isDraggingDown &&
+            self.naviBarView.frame.origin.y < 0 &&
+            _isTouch)
         {
+            _isTouch = NO;
             DLog(@"下拉");
+            [[UIApplication sharedApplication]setStatusBarHidden:NO];
             [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-                [self.naviBarView setPosition:CGPointMake(0, naviBraviewOriginPoint.y) atAnchorPoint:CGPointZero];
-                [_pullDownMenu setPosition:CGPointMake(0, pullDownMenuOriginPoint.y) atAnchorPoint:CGPointZero];
+                self.naviBarView.frame = CGRectMake(0, 20, PJ_SCREEN_WIDTH, 44);
+                _pullDownMenu.frame = CGRectMake(0, 64, PJ_SCREEN_WIDTH, 46);
                 self.serviceTableView.frame = CGRectMake(0, 110, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - 110);
-            } completion:^(BOOL finished) {
-                if (finished)
-                {
-                    _isOutOfScreen = NO;
-                }
-            }];
+            } completion:nil];
         }
-        else if (!isDraggingDown && _pullDownMenu.frame.origin.y > 0 && !_isOutOfScreen)
+        else if (!isDraggingDown &&
+                 _pullDownMenu.frame.origin.y > 0 &&
+                 _isTouch)
         {
+            _isTouch = NO;
             DLog(@"上拉");
+            [[UIApplication sharedApplication]setStatusBarHidden:YES];
             [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-                [self.naviBarView setPosition:CGPointMake(0, naviBraviewOriginPoint.y - 150) atAnchorPoint:CGPointZero];
-                [_pullDownMenu setPosition:CGPointMake(0, pullDownMenuOriginPoint.y - 150) atAnchorPoint:CGPointZero];
+                self.naviBarView.frame = CGRectMake(0, -110, PJ_SCREEN_WIDTH, 44);
+                _pullDownMenu.frame = CGRectMake(0, -46, PJ_SCREEN_WIDTH, 46);
                 self.serviceTableView.frame = CGRectMake(0, 0, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT);
-            } completion:^(BOOL finished) {
-                if (finished) {
-                    _isOutOfScreen = YES;
-                }
-            }];
+            } completion:nil];
         }
     }
+}
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
+    _isTouch = YES;
+    DLog();
 }
 
 #pragma mark- 定位功能区
@@ -466,8 +472,12 @@
     
     UIView *view = [[UIView alloc] initWithFrame:self.view.bounds];
     view.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.5];
+    //点击隐藏手势
     UITapGestureRecognizer *tap  = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapAction)];
     [view addGestureRecognizer:tap];
+    //侧滑隐藏手势
+    UISwipeGestureRecognizer *swipeLeft = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipe:)];
+    [self.view addGestureRecognizer:swipeLeft];
     [self.view addSubview:view];
     self.upView = view;
     self.upView.alpha = 0.0;
@@ -510,6 +520,13 @@
     }];
 }
 
+- (void)handleSwipe:(UISwipeGestureRecognizer *)gestureRecognizer
+{
+    CGPoint location = [gestureRecognizer locationInView:self.view];
+    DLog();
+    [self tapAction];
+}
+
 #pragma mark -CZJServiceFilterDelegate
 - (void)chooseFilterOK
 {
@@ -530,5 +547,6 @@
         serviceDetailCon.detaiViewType = CZJDetailTypeService;
     }
 }
+
 
 @end

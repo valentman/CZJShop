@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CZJOpinioFeedbackController : UIViewController
+@interface CZJOpinioFeedbackController : CZJViewController
 
 @end

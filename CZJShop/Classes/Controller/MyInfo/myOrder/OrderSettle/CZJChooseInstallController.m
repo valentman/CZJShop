@@ -35,7 +35,8 @@ UITableViewDelegate
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [CZJUtils customizeNavigationBarForTarget:self];
+    [self addCZJNaviBarView:CZJNaviBarViewTypeGeneral];
+    self.naviBarView.mainTitleLabel.text = @"选择安装门店";
     storeList = [NSMutableArray array];
     _promptLabelLayoutWidth.constant = PJ_SCREEN_WIDTH - 50;
 

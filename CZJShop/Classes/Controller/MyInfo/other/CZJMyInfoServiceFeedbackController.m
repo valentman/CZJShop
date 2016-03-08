@@ -30,6 +30,11 @@ UITableViewDelegate
     [self initViews];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    self.navigationController.navigationBarHidden = NO;
+}
+
 - (void)initViews
 {
     self.myTableView.tableFooterView = [[UIView alloc]init];

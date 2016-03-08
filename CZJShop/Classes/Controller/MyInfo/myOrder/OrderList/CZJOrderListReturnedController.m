@@ -11,6 +11,7 @@
 #import "CZJOrderForm.h"
 #import "CZJOrderReturnedListCell.h"
 #import "CZJMyOrderDetailController.h"
+#import "CZJCommitReturnController.h"
 
 @interface CZJOrderListReturnedController ()
 <
@@ -41,8 +42,6 @@ UITableViewDataSource
     
     
     //创建TableView，注册Cell
-   
-    
     self.myTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 64, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - StatusBar_HEIGHT - NavigationBar_HEIGHT) style:UITableViewStylePlain];
     self.myTableView.tableFooterView = [[UIView alloc]init];
     self.myTableView.delegate = self;
@@ -82,7 +81,6 @@ UITableViewDataSource
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 
@@ -109,6 +107,8 @@ UITableViewDataSource
     if (CZJReturnListTypeReturnable == self.returnListType)
     {
         cell.returnStateLabel.hidden = YES;
+        [cell.returnBtn setTag:indexPath.row];
+        [cell.returnBtn addTarget:self action:@selector(segueToReturn:) forControlEvents:UIControlEventTouchUpInside];
     }
     if (CZJReturnListTypeReturned == self.returnListType)
     {
@@ -132,6 +132,7 @@ UITableViewDataSource
         }
         cell.returnStateLabel.text = statestr;
     }
+
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
@@ -144,8 +145,11 @@ UITableViewDataSource
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    returnedGoodsForm = (CZJReturnedOrderListForm*)returnedOrderListAry[indexPath.row];
-    [self performSegueWithIdentifier:@"segueToReturnedOrderDetail" sender:returnedGoodsForm];
+    if (_returnListType == CZJReturnListTypeReturned)
+    {
+        returnedGoodsForm = (CZJReturnedOrderListForm*)returnedOrderListAry[indexPath.row];
+        [self performSegueWithIdentifier:@"segueToReturnedOrderDetail" sender:returnedGoodsForm];
+    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -166,14 +170,29 @@ UITableViewDataSource
 }
 
 
+- (void)segueToReturn:(UIButton*)sender
+{
+    returnedGoodsForm = (CZJReturnedOrderListForm*)returnedOrderListAry[sender.tag];
+    [self performSegueWithIdentifier:@"segueToCommitReturn" sender:returnedGoodsForm];
+}
+
 #pragma mark - Navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    CZJMyOrderDetailController* orderDetailVC = segue.destinationViewController;
-    orderDetailVC.navigationItem.title = @"退货订单详情";
-    orderDetailVC.returnedGoodsForm = (CZJReturnedOrderListForm*)sender;
-    orderDetailVC.orderDetailType = CZJOrderDetailTypeReturned;
-    orderDetailVC.stageStr = statestr;
+    if ([segue.identifier isEqualToString:@"segueToReturnedOrderDetail"])
+    {
+        CZJMyOrderDetailController* orderDetailVC = segue.destinationViewController;
+        orderDetailVC.navigationItem.title = @"退货订单详情";
+        orderDetailVC.returnedGoodsForm = (CZJReturnedOrderListForm*)sender;
+        orderDetailVC.orderDetailType = CZJOrderDetailTypeReturned;
+        orderDetailVC.stageStr = statestr;
+    }
+    if ([segue.identifier isEqualToString:@"segueToCommitReturn"])
+    {
+        CZJCommitReturnController* returnControlf = segue.destinationViewController;
+        returnControlf.returnedGoodsForm = (CZJReturnedOrderListForm*)sender;
+    }
+
 }
 
 

@@ -30,7 +30,7 @@ CZJDeliveryAddrListCellDelegate
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [CZJUtils customizeNavigationBarForTarget:self];
+//    [CZJUtils customizeNavigationBarForTarget:self];
     
     
     _addrListAry = [NSMutableArray array];
@@ -40,6 +40,9 @@ CZJDeliveryAddrListCellDelegate
     UINib* nib = [UINib nibWithNibName:@"CZJDeliveryAddrListCell" bundle:nil];
     [self.addrListTableView registerNib:nib forCellReuseIdentifier:@"CZJDeliveryAddrListCell"];
     self.addrListTableView.tableFooterView = [[UIView alloc] init];
+    
+    [self addCZJNaviBarView:CZJNaviBarViewTypeGeneral];
+    self.naviBarView.mainTitleLabel.text = @"收货地址";
 }
 
 - (void)viewWillAppear:(BOOL)animated

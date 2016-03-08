@@ -1,22 +1,26 @@
 //
-//  CZJMyWalletPointController.m
+//  CZJOrderPaySuccessController.m
 //  CZJShop
 //
-//  Created by Joe.Pen on 2/17/16.
+//  Created by Joe.Pen on 3/8/16.
 //  Copyright © 2016 JoeP. All rights reserved.
 //
 
-#import "CZJMyWalletPointController.h"
+#import "CZJOrderPaySuccessController.h"
 
-@interface CZJMyWalletPointController ()
+@interface CZJOrderPaySuccessController ()
+@property (weak, nonatomic) IBOutlet UILabel *orderNumber;
+@property (weak, nonatomic) IBOutlet UILabel *payNumber;
+
+- (IBAction)showOrderAction:(id)sender;
+- (IBAction)backToHomeAction:(id)sender;
 
 @end
 
-@implementation CZJMyWalletPointController
+@implementation CZJOrderPaySuccessController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [CZJUtils customizeNavigationBarForTarget:self];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -33,4 +37,9 @@
 }
 */
 
+- (IBAction)showOrderAction:(id)sender {
+}
+
+- (IBAction)backToHomeAction:(id)sender {
+}
 @end

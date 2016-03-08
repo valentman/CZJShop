@@ -39,11 +39,19 @@
         int divide = (buttonCount == 3) ? 3 : 3;
         // 列数
         int column = i%divide;
-        // 行数
+        // 行数5
         int row = i/divide;
+        if (cellType == kCZJSerfilterTypeChooseCellTypeReturnGoods)
+        {
+            row = 1;
+        }
         // 很据列数和行数算出x、y
         int childX = column * (kButtonWidth + kCellLeftMargin);
         int childY = row * (kButtonHeight + kButtonVertMargin);
+        if (cellType == kCZJSerfilterTypeChooseCellTypeReturnGoods)
+        {
+            childY = 20;
+        }
         child.frame = CGRectMake(childX + kCellLeftMargin, childY, kButtonWidth, kButtonHeight);
         child.hidden = NO;
         child.titleLabel.font = [UIFont systemFontOfSize:15];
@@ -63,6 +71,7 @@
                 }
             }
                 break;
+            
             case kCZJSerFilterTypeChooseCellTypeGoWhere:
             {
                 NSString* name = self.buttonDatas[i];
@@ -74,6 +83,17 @@
             }
                 break;
                 
+            case kCZJSerfilterTypeChooseCellTypeReturnGoods:
+            {
+                NSString* name = self.buttonDatas[i];
+                [child setTitle:name forState:UIControlStateNormal];
+                if ([name isEqualToString:@"退货"])
+                {
+                    [self selectedBtnClick:child];
+                }
+            }
+                break;
+            
             case kCZJSerFilterTypeChooseCellTypeGoods:
             {
                 NSString* name = self.buttonDatas[i];
@@ -113,7 +133,7 @@
 {
     UIButton* _button = (UIButton*)sender;
     NSInteger tag = [_button tag];
-    if (kCZJSerFilterTypeChooseCellTypeGoods == cellType)
+    if (kCZJSerFilterTypeChooseCellTypeGoods == cellType )
     {
         if (_button.selected) {
             [_button setSelected:false];
@@ -135,7 +155,8 @@
     }
     else if (kCZJSerFilterTypeChooseCellTypeGoWhere == cellType ||
              kCZJSerFilterTypeChooseCellTypeService == cellType ||
-             kCZJSerfilterTypeChooseCellTypeDetail == cellType)
+             kCZJSerfilterTypeChooseCellTypeDetail == cellType ||
+             kCZJSerfilterTypeChooseCellTypeReturnGoods == cellType)
     {
         for (UIButton* btn in self.contentView.subviews)
         {
@@ -180,6 +201,7 @@
             
         }
             break;
+        case kCZJSerfilterTypeChooseCellTypeReturnGoods:
         case kCZJSerfilterTypeChooseCellTypeDetail:
         {
             if (self.buttonBlock)

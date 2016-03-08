@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "CZJOrderForm.h"
 
-@interface CZJAddDeliveryAddrController : UIViewController
+@interface CZJAddDeliveryAddrController : CZJViewController
 @property (strong, nonatomic)CZJAddrForm* addrForm;
 @end

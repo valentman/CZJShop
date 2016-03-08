@@ -26,13 +26,18 @@ UITableViewDataSource
     [self initViews];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    self.navigationController.navigationBarHidden = NO;
+}
+
 - (void)initViews
 {
     isEdit = NO;
     [CZJUtils customizeNavigationBarForTarget:self];
     //右按钮
     UIButton* rightBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    rightBtn.frame = CGRectMake(PJ_SCREEN_WIDTH - 60 , 0 , 100 , 44 );
+    rightBtn.frame = CGRectMake(PJ_SCREEN_WIDTH - 44 , 0 , 88 , 44 );
     rightBtn.titleLabel.textAlignment = NSTextAlignmentRight;
     [rightBtn setTitle:@"编辑" forState:UIControlStateNormal];
     [rightBtn setTitleColor:BLACKCOLOR forState:UIControlStateNormal];

@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CZJMyWalletCardController : UIViewController
+@interface CZJMyWalletCardController : CZJViewController
 
 @end
 

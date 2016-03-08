@@ -77,12 +77,13 @@ CZJGoodsRecommendCellDelegate
     [((CZJCarInfoCell*)[self.homeTableView dequeueReusableCellWithIdentifier:@"CZJCarInfoCell"]).autoScrollTimer setFireDate:[NSDate distantPast]];
     [self.naviBarView refreshShopBadgeLabel];
     self.naviBarView.hidden = NO;
-    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
+    
 
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
+    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
     self.isJumpToAnotherView = YES;
 }
 

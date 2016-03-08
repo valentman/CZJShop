@@ -16,7 +16,7 @@
 
 @end
 
-@interface CZJLeaveMessageView : UIViewController
+@interface CZJLeaveMessageView : CZJViewController
 @property (weak, nonatomic) id<CZJLeaveMessageViewDelegate> delegate;
 @property (weak, nonatomic) IBOutlet UITextView *leaveMessageTextView;
 @property (strong, nonatomic) NSString* leaveMesageStr;

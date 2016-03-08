@@ -102,6 +102,7 @@ VPImageCropperDelegate
 {
     [super viewWillAppear:animated];
     [self refreshTableView];
+    self.navigationController.navigationBarHidden = NO;
 }
 
 - (void)refreshTableView

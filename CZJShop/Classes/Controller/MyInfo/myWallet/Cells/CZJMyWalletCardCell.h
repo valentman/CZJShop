@@ -16,6 +16,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *totalTimeLabel;
 @property (weak, nonatomic) IBOutlet UILabel *leftTimeLabel;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *separatorViewHeight;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *cardTypeWidth;
 
 
 - (void)setCardCellWithCardDetailInfo:(CZJMyCardInfoForm*)cardInfo;

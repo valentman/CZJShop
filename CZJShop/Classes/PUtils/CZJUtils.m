@@ -573,6 +573,8 @@ void backLastView(id sender, SEL _cmd)
     view.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.5];
     UITapGestureRecognizer *tap  = [[UITapGestureRecognizer alloc] initWithTarget:target action:dismissPopview];
     [view addGestureRecognizer:tap];
+    UISwipeGestureRecognizer *swipeLeft = [[UISwipeGestureRecognizer alloc] initWithTarget:target action:dismissPopview];
+    [view addGestureRecognizer:swipeLeft];
     [target.view addSubview:view];
     target.upView = view;
     target.upView.alpha = 0.0;
@@ -828,7 +830,7 @@ void tapToHidePopViewAction(id sender, SEL _cmd)
                         andItemPid:(NSString*)sid
                         detailType:(CZJDetailType)detailtype
 {
-    CZJDetailViewController* detailView = (CZJDetailViewController*)[CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:@"goodsDetailSBID"];
+    CZJDetailViewController* detailView = (CZJDetailViewController*)[CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:kCZJStoryBoardIDGoodsDetailVC];
     detailView.storeItemPid = sid;
     detailView.detaiViewType = detailtype;
     [navi pushViewController:detailView animated:true];
@@ -837,7 +839,7 @@ void tapToHidePopViewAction(id sender, SEL _cmd)
 
 + (void)showStoreDetailView:(UINavigationController*)navi andStoreId:(NSString*)sid
 {
-    CZJStoreDetailController* storeDetail = (CZJStoreDetailController*)[CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:@"storeDetailVC"];
+    CZJStoreDetailController* storeDetail = (CZJStoreDetailController*)[CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:kCZJStoryBoardIDStoreDetailVC];
     storeDetail.storeId = sid;
     [navi pushViewController:storeDetail animated:true];
 }

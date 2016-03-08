@@ -1,19 +1,14 @@
 //
-//  CZJRedPacketUseCaseCell.m
+//  CZJCommitReturnTypeCell.m
 //  CZJShop
 //
-//  Created by Joe.Pen on 2/17/16.
+//  Created by Joe.Pen on 3/8/16.
 //  Copyright © 2016 JoeP. All rights reserved.
 //
 
-#import "CZJRedPacketUseCaseCell.h"
+#import "CZJCommitReturnTypeCell.h"
 
-@interface CZJRedPacketUseCaseCell ()
-
-
-@end
-
-@implementation CZJRedPacketUseCaseCell
+@implementation CZJCommitReturnTypeCell
 
 - (void)awakeFromNib {
     // Initialization code
@@ -23,11 +18,6 @@
     [super setSelected:selected animated:animated];
 
     // Configure the view for the selected state
-}
-
-- (void)setRedPacketCellWithData:(id)data
-{
-    self.rightView.hidden = YES;
 }
 
 @end

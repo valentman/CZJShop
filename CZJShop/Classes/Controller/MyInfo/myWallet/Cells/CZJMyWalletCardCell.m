@@ -42,7 +42,7 @@ UITableViewDataSource
 
 - (void)getTableView:(NSInteger)itemCount
 {
-    self.myTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 140, PJ_SCREEN_WIDTH- 20, itemCount* 35) style:UITableViewStylePlain];
+    self.myTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 170, PJ_SCREEN_WIDTH- 20, itemCount* 35) style:UITableViewStylePlain];
     self.myTableView.tableFooterView = [[UIView alloc]init];
     self.myTableView.delegate = self;
     self.myTableView.dataSource = self;

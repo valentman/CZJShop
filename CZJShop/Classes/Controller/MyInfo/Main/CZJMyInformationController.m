@@ -61,12 +61,6 @@ CZJViewControllerDelegate
 }
 
 
-- (void)viewWillDisappear:(BOOL)animated
-{
-    self.navigationController.navigationBarHidden = NO;
-}
-
-
 - (void)viewWillAppear:(BOOL)animated
 {
     [self.myInfoTableView reloadData];

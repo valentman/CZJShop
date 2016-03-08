@@ -118,6 +118,10 @@
 		EC10E7AA1BFC7BA300CDBFCD /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = EC10E7A91BFC7BA300CDBFCD /* libz.tbd */; };
 		EC10E7AC1BFC7CC000CDBFCD /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = EC10E7AB1BFC7CC000CDBFCD /* libsqlite3.0.tbd */; };
 		EC10E7AF1BFC801900CDBFCD /* CZJMessageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = EC10E7AE1BFC801900CDBFCD /* CZJMessageManager.m */; };
+		EC151DB41C8ED2F10089F7B2 /* CZJOrderPaySuccessController.m in Sources */ = {isa = PBXBuildFile; fileRef = EC151DB31C8ED2F10089F7B2 /* CZJOrderPaySuccessController.m */; settings = {ASSET_TAGS = (); }; };
+		EC151DB71C8EEC9A0089F7B2 /* CZJCommitReturnController.m in Sources */ = {isa = PBXBuildFile; fileRef = EC151DB61C8EEC9A0089F7B2 /* CZJCommitReturnController.m */; settings = {ASSET_TAGS = (); }; };
+		EC151DBB1C8EF3B60089F7B2 /* CZJCommitReturnTypeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EC151DB91C8EF3B60089F7B2 /* CZJCommitReturnTypeCell.m */; settings = {ASSET_TAGS = (); }; };
+		EC151DBC1C8EF3B60089F7B2 /* CZJCommitReturnTypeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EC151DBA1C8EF3B60089F7B2 /* CZJCommitReturnTypeCell.xib */; settings = {ASSET_TAGS = (); }; };
 		EC154CD61C1E6ADA0004FAF5 /* CZJDetailForm.m in Sources */ = {isa = PBXBuildFile; fileRef = EC154CD51C1E6ADA0004FAF5 /* CZJDetailForm.m */; };
 		EC154CD91C1EB2D10004FAF5 /* CZJGoodsForm.m in Sources */ = {isa = PBXBuildFile; fileRef = EC154CD81C1EB2D10004FAF5 /* CZJGoodsForm.m */; };
 		EC154CEF1C1EBEB50004FAF5 /* CZJCarBrandsListCellTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EC154CDE1C1EBEB50004FAF5 /* CZJCarBrandsListCellTableViewCell.m */; };
@@ -1190,6 +1194,13 @@
 		EC10E7AB1BFC7CC000CDBFCD /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
 		EC10E7AD1BFC801900CDBFCD /* CZJMessageManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJMessageManager.h; sourceTree = "<group>"; };
 		EC10E7AE1BFC801900CDBFCD /* CZJMessageManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJMessageManager.m; sourceTree = "<group>"; };
+		EC151DB21C8ED2F10089F7B2 /* CZJOrderPaySuccessController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJOrderPaySuccessController.h; sourceTree = "<group>"; };
+		EC151DB31C8ED2F10089F7B2 /* CZJOrderPaySuccessController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJOrderPaySuccessController.m; sourceTree = "<group>"; };
+		EC151DB51C8EEC9A0089F7B2 /* CZJCommitReturnController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJCommitReturnController.h; sourceTree = "<group>"; };
+		EC151DB61C8EEC9A0089F7B2 /* CZJCommitReturnController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJCommitReturnController.m; sourceTree = "<group>"; };
+		EC151DB81C8EF3B60089F7B2 /* CZJCommitReturnTypeCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJCommitReturnTypeCell.h; sourceTree = "<group>"; };
+		EC151DB91C8EF3B60089F7B2 /* CZJCommitReturnTypeCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJCommitReturnTypeCell.m; sourceTree = "<group>"; };
+		EC151DBA1C8EF3B60089F7B2 /* CZJCommitReturnTypeCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CZJCommitReturnTypeCell.xib; sourceTree = "<group>"; };
 		EC154CD41C1E6ADA0004FAF5 /* CZJDetailForm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJDetailForm.h; sourceTree = "<group>"; };
 		EC154CD51C1E6ADA0004FAF5 /* CZJDetailForm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJDetailForm.m; sourceTree = "<group>"; };
 		EC154CD71C1EB2D10004FAF5 /* CZJGoodsForm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJGoodsForm.h; sourceTree = "<group>"; };
@@ -4858,6 +4869,8 @@
 				EC0223C71C59F40900600851 /* CZJOrderListNoEvaController.m */,
 				ECF8E97E1C5CAC0600A98707 /* CZJOrderListReturnedController.h */,
 				ECF8E97F1C5CAC0600A98707 /* CZJOrderListReturnedController.m */,
+				EC151DB51C8EEC9A0089F7B2 /* CZJCommitReturnController.h */,
+				EC151DB61C8EEC9A0089F7B2 /* CZJCommitReturnController.m */,
 				ECF6490C1C7D528A002CD12A /* CZJSBAlertView.h */,
 				ECF6490D1C7D528A002CD12A /* CZJSBAlertView.m */,
 			);
@@ -4880,6 +4893,8 @@
 				ECF2DC7F1C5767F80096FF39 /* CZJDeliveryAddrController.m */,
 				ECF2DC801C5767F80096FF39 /* CZJLeaveMessageView.h */,
 				ECF2DC811C5767F80096FF39 /* CZJLeaveMessageView.m */,
+				EC151DB21C8ED2F10089F7B2 /* CZJOrderPaySuccessController.h */,
+				EC151DB31C8ED2F10089F7B2 /* CZJOrderPaySuccessController.m */,
 			);
 			path = OrderSettle;
 			sourceTree = "<group>";
@@ -5023,6 +5038,9 @@
 				EC1FD2401C7C85A900954D1E /* CZJOrderListNoPayButtomView.h */,
 				EC1FD2411C7C85A900954D1E /* CZJOrderListNoPayButtomView.m */,
 				EC1FD2421C7C85A900954D1E /* CZJOrderListNoPayButtomView.xib */,
+				EC151DB81C8EF3B60089F7B2 /* CZJCommitReturnTypeCell.h */,
+				EC151DB91C8EF3B60089F7B2 /* CZJCommitReturnTypeCell.m */,
+				EC151DBA1C8EF3B60089F7B2 /* CZJCommitReturnTypeCell.xib */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -5654,6 +5672,7 @@
 				EC34FFEE1C433D5A0063A071 /* my_icon_msg@2x.png in Resources */,
 				EC393F961C2E349400B17228 /* prodetail_icon_lingqu@2x.png in Resources */,
 				ECEDF6341C7DC63600DAF307 /* Images.xcassets in Resources */,
+				EC151DBC1C8EF3B60089F7B2 /* CZJCommitReturnTypeCell.xib in Resources */,
 				ECD3D4021C72D6D000C230BE /* couponl_icon_guoqi@2x.png in Resources */,
 				EC8A0BA31C005B87002A2CED /* CZJBrandRecoCellHeader.xib in Resources */,
 				ECC4DEF21C17FEA900FBD6A4 /* shaixuan_arrow_up@2x.png in Resources */,
@@ -5841,6 +5860,7 @@
 				EC79821E1C24FD0A003FC433 /* CZJGoodsListFilterController.m in Sources */,
 				ECC4DDB61C17D67B00FBD6A4 /* openssl_wrapper.m in Sources */,
 				ECC4DE431C17D67B00FBD6A4 /* UIProgressView+AFNetworking.m in Sources */,
+				EC151DBB1C8EF3B60089F7B2 /* CZJCommitReturnTypeCell.m in Sources */,
 				ECC4DDC41C17D67B00FBD6A4 /* PullTableView.m in Sources */,
 				ECF2DCD41C5767F80096FF39 /* CZJAddDeliveryAddrController.m in Sources */,
 				EC1FD23C1C7C55C700954D1E /* CZJOrderListPayCell.m in Sources */,
@@ -6150,6 +6170,7 @@
 				EC28E28D1C1521EF003423F9 /* CZJStoreMAAroundForm.m in Sources */,
 				EC1E43E61C40A76F006CC23C /* UIScrollView+SVInfiniteScrolling.m in Sources */,
 				ECF6490E1C7D528A002CD12A /* CZJSBAlertView.m in Sources */,
+				EC151DB41C8ED2F10089F7B2 /* CZJOrderPaySuccessController.m in Sources */,
 				EC1FE7F41C74125A00318505 /* CZJMyWalletCouponController.m in Sources */,
 				EC025FE01C213B4C00A8085E /* CZJPicDetailController.m in Sources */,
 				EC5B86EE1C0D346B008EC732 /* CZJDiscoverCell.m in Sources */,
@@ -6162,6 +6183,7 @@
 				ECD3D4331C730A1D00C230BE /* CZJTextView.m in Sources */,
 				ECC4DE441C17D67B00FBD6A4 /* UIRefreshControl+AFNetworking.m in Sources */,
 				ECC4DE081C17D67B00FBD6A4 /* MJConst.m in Sources */,
+				EC151DB71C8EEC9A0089F7B2 /* CZJCommitReturnController.m in Sources */,
 				ECE3D67A1BFDE8F900C63712 /* CZJCategoryController.m in Sources */,
 				EC0223C51C59F3F200600851 /* CZJOrderListNoReceiveController.m in Sources */,
 				ECC4DE091C17D67B00FBD6A4 /* MJFoundation.m in Sources */,

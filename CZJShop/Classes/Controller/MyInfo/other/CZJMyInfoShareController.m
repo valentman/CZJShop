@@ -33,6 +33,11 @@
     [self erweima];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    self.navigationController.navigationBarHidden = NO;
+}
+
 - (void)initViews
 {
     self.separatorViewHeight.constant = 0.8;

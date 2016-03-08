@@ -20,3 +20,17 @@
     return @{@"ID" : @"id",};
 }
 @end
+
+
+@implementation CZJCardDetailInfoForm
++ (NSDictionary *)objectClassInArray
+{
+    return @{@"items" : @"CZJCardDetailInfoFormItem"};
+}
+@end
+
+@implementation CZJCardDetailInfoFormItem
++ (NSDictionary *)replacedKeyFromPropertyName{
+    return @{@"ID" : @"id",};
+}
+@end

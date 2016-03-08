@@ -32,7 +32,8 @@ UITableViewDelegate
 @synthesize storeIds = _storeIds;
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [CZJUtils customizeNavigationBarForTarget:self];
+    [self addCZJNaviBarView:CZJNaviBarViewTypeGeneral];
+    self.naviBarView.mainTitleLabel.text = @"选择优惠券";
     _storeAry = [NSArray array];
     _storeCoupons = [NSMutableArray array];
     

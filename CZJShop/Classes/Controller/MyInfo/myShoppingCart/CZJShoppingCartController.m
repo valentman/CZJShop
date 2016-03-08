@@ -13,6 +13,8 @@
 #import "CZJShoppingCartHeaderCell.h"
 #import "CZJReceiveCouponsController.h"
 #import "CZJCommitOrderController.h"
+#import "CZJStoreDetailController.h"
+#import "CZJDetailViewController.h"
 
 @interface CZJShoppingCartController ()
 <
@@ -58,7 +60,6 @@ UIGestureRecognizerDelegate
 
 - (void)initViews
 {
-    self.navigationController.interactivePopGestureRecognizer.delegate = self;
     //tableview
     self.myTableView.tableFooterView = [[UIView alloc]init];
     self.myTableView.delegate = self;
@@ -77,50 +78,24 @@ UIGestureRecognizerDelegate
             [self.myTableView.header endRefreshing];
         }];
     }];
-
-
-    //自定义导航栏左右按钮
-    //左按钮
-    UIButton *leftBtn = [[ UIButton alloc ] initWithFrame : CGRectMake(- 20 , 0 , 44 , 44 )];
-    [leftBtn setBackgroundImage:[UIImage imageNamed:@"prodetail_btn_backnor"] forState:UIControlStateNormal];
-    [leftBtn addTarget:self action:@selector(backToLastView:) forControlEvents:UIControlEventTouchUpInside];
-    [leftBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    UIBarButtonItem *leftItem =[[UIBarButtonItem alloc]initWithCustomView: leftBtn];
-    if ((IS_IOS7 ? 20 : 0))
-    {
-        UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
-        negativeSpacer.width = -20 ;//这个数值可以根据情况自由变化
-        self.navigationItem.leftBarButtonItems = @[negativeSpacer, leftItem];
-        
-    } else
-    {
-        self.navigationItem.leftBarButtonItem = leftItem;
-    }
     
     //右按钮
-    UIButton *rightBtn = [[ UIButton alloc ] initWithFrame : CGRectMake(0 , 0 , 44 , 44 )];
+    UIButton *rightBtn = [[ UIButton alloc ] initWithFrame : CGRectMake(PJ_SCREEN_WIDTH - 59 , 0 , 44 , 44 )];
     [rightBtn setTitle:@"编辑" forState:UIControlStateNormal];
     [rightBtn setTitle:@"完成" forState:UIControlStateSelected];
     [rightBtn addTarget:self action:@selector(edit:) forControlEvents:UIControlEventTouchUpInside];
     [rightBtn setTitleColor:BLACKCOLOR forState:UIControlStateNormal];
     [rightBtn setSelected:NO];
     rightBtn.titleLabel.font = SYSTEMFONT(18);
-    UIBarButtonItem *rightItem =[[UIBarButtonItem alloc]initWithCustomView: rightBtn];
-    if ((IS_IOS7 ? 20 : 0))
-    {
-        UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
-        negativeSpacer.width = 0 ;//这个数值可以根据情况自由变化
-        self.navigationItem.rightBarButtonItems = @[negativeSpacer, rightItem];
-        
-    } else
-    {
-        self.navigationItem.rightBarButtonItem = rightItem;
-    }
-
     
     [_allChooseBtn setImage:IMAGENAMED(@"commit_btn_circle.png") forState:UIControlStateNormal];
     [_allChooseBtn setImage:IMAGENAMED(@"commit_btn_circle_sel.png") forState:UIControlStateSelected];
     _allChooseBtn.selected = NO;
+    
+    [self addCZJNaviBarView:CZJNaviBarViewTypeGeneral];
+    [self.naviBarView addSubview:rightBtn];
+    self.naviBarView.mainTitleLabel.text = @"我的购物车";
+    [self.naviBarView.btnBack addTarget:self action:@selector(backToLastView:) forControlEvents:UIControlEventTouchUpInside];
 }
 
 
@@ -337,6 +312,28 @@ UIGestureRecognizerDelegate
     return 10;
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    CZJShoppingCartInfoForm* _shoppingcartInfo = (CZJShoppingCartInfoForm*)shoppingInfos[indexPath.section];
+    if (0 == indexPath.row)
+    {//跳转到门店详情
+        [CZJUtils showStoreDetailView:self.navigationController andStoreId:_shoppingcartInfo.storeId];
+//        CZJStoreDetailController* storeDetailVC = (CZJStoreDetailController*)[CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:@""];
+//        storeDetailVC.storeId = _shoppingcartInfo.storeId;
+//        [self.navigationController pushViewController:storeDetailVC animated:YES];
+    }
+    else
+    {//跳转到商品详情
+        CZJShoppingGoodsInfoForm* goodsInfo = (CZJShoppingGoodsInfoForm*)_shoppingcartInfo.items[indexPath.row -1];
+        [CZJUtils showGoodsServiceDetailView:self.navigationController andItemPid:goodsInfo.storeItemPid detailType:[goodsInfo.itemType integerValue]];
+        
+//        CZJDetailViewController* goodsDetailVC = (CZJDetailViewController*)[CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:@""];
+//        goodsDetailVC.storeItemPid = goodsInfo.storeItemPid;
+//        [self.navigationController pushViewController:goodsDetailVC animated:YES];
+    }
+}
+
+
 -(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (self.isEdit || indexPath.row == 0)
@@ -457,34 +454,15 @@ UIGestureRecognizerDelegate
 
 - (void)clickGetCoupon:(id)sender andIndexPath:(NSIndexPath*)indexPath
 {
-    CGRect popViewRect = CGRectMake(0, PJ_SCREEN_HEIGHT, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - 200);
-    UIWindow *window = [[UIWindow alloc] initWithFrame:popViewRect];
-    window.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:1.0];
-    window.windowLevel = UIWindowLevelNormal;
-    window.hidden = NO;
-    [window makeKeyAndVisible];
-    
+    self.popWindowDestineRect = CGRectMake(0, 200, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - 200);
+    self.popWindowInitialRect = CGRectMake(0, PJ_SCREEN_HEIGHT, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - 200);
     CZJReceiveCouponsController *receiveCouponsController = [[CZJReceiveCouponsController alloc] init];
-    window.rootViewController = receiveCouponsController;
-    self.window = window;
-    
-    UIView *view = [[UIView alloc] initWithFrame:self.view.bounds];
-    view.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.5];
-    UITapGestureRecognizer *tap  = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapAction)];
-    [view addGestureRecognizer:tap];
-    [self.view addSubview:view];
-    self.upView = view;
-    self.upView.alpha = 0.0;
-    [UIView animateWithDuration:0.5 animations:^{
-        self.window.frame =  CGRectMake(0, 200, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - 200);
-        self.upView.alpha = 1.0;
-    } completion:nil];
-    self.navigationController.interactivePopGestureRecognizer.enabled = NO;
+    [CZJUtils showMyWindowOnTarget:self withMyVC:receiveCouponsController];
     
     __weak typeof(self) weak = self;
     [receiveCouponsController setCancleBarItemHandle:^{
         [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
-            weak.window.frame = popViewRect;
+            weak.window.frame = weak.popWindowInitialRect;
             self.upView.alpha = 0.0;
         } completion:^(BOOL finished) {
             if (finished) {
@@ -495,21 +473,6 @@ UIGestureRecognizerDelegate
                 weak.navigationController.interactivePopGestureRecognizer.enabled = YES;
             }
         }];
-    }];
-}
-
-- (void)tapAction{
-    [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
-        self.window.frame = CGRectMake(0, PJ_SCREEN_HEIGHT, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - 200);
-        self.upView.alpha = 0.0;
-    } completion:^(BOOL finished) {
-        if (finished) {
-            [self.upView removeFromSuperview];
-            [self.window resignKeyWindow];
-            self.window  = nil;
-            self.upView = nil;
-            self.navigationController.interactivePopGestureRecognizer.enabled = YES;
-        }
     }];
 }
 
