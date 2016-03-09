@@ -634,7 +634,7 @@ CZJStoreInfoHeaerCellDelegate
             if(dropDown == nil) {
                 CGRect rect = CGRectMake(PJ_SCREEN_WIDTH - 120 - 14, StatusBar_HEIGHT + 78, 120, 150);
                 _backgroundView.hidden = NO;
-                dropDown = [[NIDropDown alloc]showDropDown:_backgroundView Frame:rect WithObjects:arr];
+                dropDown = [[NIDropDown alloc]showDropDown:_backgroundView Frame:rect WithObjects:arr  andType:CZJNIDropDownTypeNormal];
                 dropDown.delegate = self;
             }
         }

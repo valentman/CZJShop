@@ -1,14 +1,14 @@
 //
-//  CZJCommitReturnTypeCell.m
+//  CZJCommitReturnReasonCell.m
 //  CZJShop
 //
-//  Created by Joe.Pen on 3/8/16.
+//  Created by Joe.Pen on 3/9/16.
 //  Copyright © 2016 JoeP. All rights reserved.
 //
 
-#import "CZJCommitReturnTypeCell.h"
+#import "CZJCommitReturnReasonCell.h"
 
-@implementation CZJCommitReturnTypeCell
+@implementation CZJCommitReturnReasonCell
 
 - (void)awakeFromNib {
     [super awakeFromNib];

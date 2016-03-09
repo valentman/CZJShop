@@ -400,6 +400,12 @@
 		EC5EEB5E1C45DC1100EEA368 /* CZJStoreDetailHeadCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EC5EEB581C45DC1100EEA368 /* CZJStoreDetailHeadCell.xib */; };
 		EC5F75E21C0593860073CE04 /* CZJMiaoShaCollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EC5F75E01C0593860073CE04 /* CZJMiaoShaCollectionCell.m */; };
 		EC5F75E31C0593860073CE04 /* CZJMiaoShaCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EC5F75E11C0593860073CE04 /* CZJMiaoShaCollectionCell.xib */; };
+		EC6340AD1C8FC29A00DDFB76 /* CZJCommitReturnReasonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EC6340AB1C8FC29A00DDFB76 /* CZJCommitReturnReasonCell.m */; settings = {ASSET_TAGS = (); }; };
+		EC6340AE1C8FC29A00DDFB76 /* CZJCommitReturnReasonCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EC6340AC1C8FC29A00DDFB76 /* CZJCommitReturnReasonCell.xib */; settings = {ASSET_TAGS = (); }; };
+		EC6340B21C8FF4C600DDFB76 /* CZJOneButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EC6340B01C8FF4C600DDFB76 /* CZJOneButtonCell.m */; settings = {ASSET_TAGS = (); }; };
+		EC6340B31C8FF4C600DDFB76 /* CZJOneButtonCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EC6340B11C8FF4C600DDFB76 /* CZJOneButtonCell.xib */; settings = {ASSET_TAGS = (); }; };
+		EC6340B61C8FF9FD00DDFB76 /* commit_icon_kefu@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EC6340B41C8FF9FD00DDFB76 /* commit_icon_kefu@2x.png */; settings = {ASSET_TAGS = (); }; };
+		EC6340B71C8FF9FD00DDFB76 /* commit_icon_kefu@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = EC6340B51C8FF9FD00DDFB76 /* commit_icon_kefu@3x.png */; settings = {ASSET_TAGS = (); }; };
 		EC6ACCD81C30E15F00832B55 /* CZJChooseTypeHeaderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EC6ACCD61C30E15F00832B55 /* CZJChooseTypeHeaderCell.m */; };
 		EC6ACCD91C30E15F00832B55 /* CZJChooseTypeHeaderCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EC6ACCD71C30E15F00832B55 /* CZJChooseTypeHeaderCell.xib */; };
 		EC7801821C251C4F002D52A5 /* CZJGoodsListFilterSubController.m in Sources */ = {isa = PBXBuildFile; fileRef = EC7801811C251C4F002D52A5 /* CZJGoodsListFilterSubController.m */; };
@@ -1561,6 +1567,14 @@
 		EC5F75DF1C0593860073CE04 /* CZJMiaoShaCollectionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJMiaoShaCollectionCell.h; sourceTree = "<group>"; };
 		EC5F75E01C0593860073CE04 /* CZJMiaoShaCollectionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJMiaoShaCollectionCell.m; sourceTree = "<group>"; };
 		EC5F75E11C0593860073CE04 /* CZJMiaoShaCollectionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CZJMiaoShaCollectionCell.xib; sourceTree = "<group>"; };
+		EC6340AA1C8FC29A00DDFB76 /* CZJCommitReturnReasonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJCommitReturnReasonCell.h; sourceTree = "<group>"; };
+		EC6340AB1C8FC29A00DDFB76 /* CZJCommitReturnReasonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJCommitReturnReasonCell.m; sourceTree = "<group>"; };
+		EC6340AC1C8FC29A00DDFB76 /* CZJCommitReturnReasonCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CZJCommitReturnReasonCell.xib; sourceTree = "<group>"; };
+		EC6340AF1C8FF4C600DDFB76 /* CZJOneButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJOneButtonCell.h; sourceTree = "<group>"; };
+		EC6340B01C8FF4C600DDFB76 /* CZJOneButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJOneButtonCell.m; sourceTree = "<group>"; };
+		EC6340B11C8FF4C600DDFB76 /* CZJOneButtonCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CZJOneButtonCell.xib; sourceTree = "<group>"; };
+		EC6340B41C8FF9FD00DDFB76 /* commit_icon_kefu@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "commit_icon_kefu@2x.png"; sourceTree = "<group>"; };
+		EC6340B51C8FF9FD00DDFB76 /* commit_icon_kefu@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "commit_icon_kefu@3x.png"; sourceTree = "<group>"; };
 		EC6ACCD51C30E15F00832B55 /* CZJChooseTypeHeaderCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJChooseTypeHeaderCell.h; sourceTree = "<group>"; };
 		EC6ACCD61C30E15F00832B55 /* CZJChooseTypeHeaderCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJChooseTypeHeaderCell.m; sourceTree = "<group>"; };
 		EC6ACCD71C30E15F00832B55 /* CZJChooseTypeHeaderCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CZJChooseTypeHeaderCell.xib; sourceTree = "<group>"; };
@@ -3215,6 +3229,8 @@
 		EC34FFC11C433D5A0063A071 /* MyInfo */ = {
 			isa = PBXGroup;
 			children = (
+				EC6340B41C8FF9FD00DDFB76 /* commit_icon_kefu@2x.png */,
+				EC6340B51C8FF9FD00DDFB76 /* commit_icon_kefu@3x.png */,
 				ECF3D15F1C83E72D008E4969 /* evaluate_icon_photo2@2x.png */,
 				ECF3D1601C83E72D008E4969 /* evaluate_icon_photo2@3x.png */,
 				ECF3D1611C83E72D008E4969 /* evaluate_icon_zhuiping@2x.png */,
@@ -5041,6 +5057,12 @@
 				EC151DB81C8EF3B60089F7B2 /* CZJCommitReturnTypeCell.h */,
 				EC151DB91C8EF3B60089F7B2 /* CZJCommitReturnTypeCell.m */,
 				EC151DBA1C8EF3B60089F7B2 /* CZJCommitReturnTypeCell.xib */,
+				EC6340AA1C8FC29A00DDFB76 /* CZJCommitReturnReasonCell.h */,
+				EC6340AB1C8FC29A00DDFB76 /* CZJCommitReturnReasonCell.m */,
+				EC6340AC1C8FC29A00DDFB76 /* CZJCommitReturnReasonCell.xib */,
+				EC6340AF1C8FF4C600DDFB76 /* CZJOneButtonCell.h */,
+				EC6340B01C8FF4C600DDFB76 /* CZJOneButtonCell.m */,
+				EC6340B11C8FF4C600DDFB76 /* CZJOneButtonCell.xib */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -5330,6 +5352,7 @@
 				EC26A2F91C2A386600B166A3 /* commit_icon_weixin@2x.png in Resources */,
 				ECD3D4141C72D6D000C230BE /* share_icon_weibo@2x.png in Resources */,
 				ECC4DEF01C17FEA900FBD6A4 /* serve_icon_shop@2x.png in Resources */,
+				EC6340B71C8FF9FD00DDFB76 /* commit_icon_kefu@3x.png in Resources */,
 				EC28E2C71C152BA0003423F9 /* icon_map_cateid_22.png in Resources */,
 				ECC4DEC51C17FEA900FBD6A4 /* prodetail_btn_shop@3x.png in Resources */,
 				EC1009931C818BCB00768AE2 /* CZJAddedEvalutionCell.xib in Resources */,
@@ -5401,6 +5424,8 @@
 				ECC4DE021C17D67B00FBD6A4 /* wl_map_icon_5@2x.png in Resources */,
 				EC393F901C2E349400B17228 /* prodetail_icon_coupon01sel@2x.png in Resources */,
 				ECDB61811BFB551600882BB2 /* home_banner02@3x.png in Resources */,
+				EC6340AE1C8FC29A00DDFB76 /* CZJCommitReturnReasonCell.xib in Resources */,
+				EC6340B31C8FF4C600DDFB76 /* CZJOneButtonCell.xib in Resources */,
 				ECDB616C1BFB551600882BB2 /* all_btn_home@2x.png in Resources */,
 				ECD3D4081C72D6D000C230BE /* serve_icon_call@2x.png in Resources */,
 				ECE55B151C19765700B2A441 /* classify_banner@3x.png in Resources */,
@@ -5696,6 +5721,7 @@
 				EC26A3071C2A386600B166A3 /* coupon_icon_base_gray@2x.png in Resources */,
 				EC34FFF01C433D5A0063A071 /* my_icon_pay@2x.png in Resources */,
 				ECC4DEC81C17FEA900FBD6A4 /* prodetail_comment_line@2x.png in Resources */,
+				EC6340B61C8FF9FD00DDFB76 /* commit_icon_kefu@2x.png in Resources */,
 				EC0F00431C326D9300F124F8 /* shop_icon_guanzhu_sel@2x.png in Resources */,
 				EC0C936E1C2006E6002A7FF5 /* CZJDetailDescCell.xib in Resources */,
 				ECDB618C1BFB551600882BB2 /* home_img_pro01@2x.png in Resources */,
@@ -5852,6 +5878,7 @@
 				ECC4DDF51C17D67B00FBD6A4 /* LocationChange.m in Sources */,
 				ECF3D17A1C8421F6008E4969 /* SVHTTPClient.m in Sources */,
 				ECC4DDC11C17D67B00FBD6A4 /* EGORefreshTableHeaderView.m in Sources */,
+				EC6340B21C8FF4C600DDFB76 /* CZJOneButtonCell.m in Sources */,
 				ECC4DE2E1C17D67B00FBD6A4 /* UIImageView+HighlightedWebCache.m in Sources */,
 				ECF2DCC81C5767F80096FF39 /* CZJOrderProductFooterCell.m in Sources */,
 				ECFFB94D1C0FF3CE00811C2E /* CZJStoreForm.m in Sources */,
@@ -5912,6 +5939,7 @@
 				EC025FCF1C21036E00A8085E /* MJRefreshAutoStateFooter.m in Sources */,
 				ECF2DCA31C5767F80096FF39 /* CZJMyInfoShoppingCartCell.m in Sources */,
 				EC154CD61C1E6ADA0004FAF5 /* CZJDetailForm.m in Sources */,
+				EC6340AD1C8FC29A00DDFB76 /* CZJCommitReturnReasonCell.m in Sources */,
 				EC154CFC1C1EBF000004FAF5 /* CZJDetailViewController.m in Sources */,
 				EC2518251C22959300C6754A /* CZJEvalutionDetailCell.m in Sources */,
 				ECC4DDB51C17D67B00FBD6A4 /* NSDataEx.m in Sources */,

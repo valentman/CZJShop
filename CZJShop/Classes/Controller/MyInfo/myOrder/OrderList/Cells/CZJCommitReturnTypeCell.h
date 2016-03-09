@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CZJCommitReturnTypeCell : UITableViewCell
+@interface CZJCommitReturnTypeCell : CZJTableViewCell
 @property (weak, nonatomic) IBOutlet UILabel *promptLabel;
 
 @end

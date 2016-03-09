@@ -304,7 +304,7 @@ UITableViewDelegate
     if(dropDown == nil) {
         CGRect rect = CGRectMake(15, StatusBar_HEIGHT + 68, 120, 150);
         _backgroundView.hidden = NO;
-        dropDown = [[NIDropDown alloc]showDropDown:_backgroundView Frame:rect WithObjects:arr];
+        dropDown = [[NIDropDown alloc]showDropDown:_backgroundView Frame:rect WithObjects:arr andType:CZJNIDropDownTypeNormal];
         [dropDown setTrangleLayerPositioin:kCZJLayerPositionTypeLeft];
         dropDown.delegate = self;
     }

@@ -15,6 +15,12 @@ typedef NS_ENUM(NSInteger, CZJLayerPositionType)
     kCZJLayerPositionTypeRight
 };
 
+typedef NS_ENUM(NSInteger, CZJNIDropDownType)
+{
+    CZJNIDropDownTypeNormal = 0,
+    CZJNIDropDownTypeCustomize
+};
+
 @class NIDropDown;
 @protocol NIDropDownDelegate
 - (void) niDropDownDelegateMethod:(NSString*)btnStr;
@@ -23,8 +29,9 @@ typedef NS_ENUM(NSInteger, CZJLayerPositionType)
 @interface NIDropDown : UIView <UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, retain) id <NIDropDownDelegate> delegate;
+@property (nonatomic, retain) id  data;
 
 -(void)hideDropDown:(id)b;
-- (id)showDropDown:(id)target Frame:(CGRect)rect WithObjects:(NSArray *)arr;
+- (id)showDropDown:(id)target Frame:(CGRect)rect WithObjects:(NSArray *)arr andType:(CZJNIDropDownType)_dropDownType;
 - (void)setTrangleLayerPositioin:(CZJLayerPositionType)pos;
 @end

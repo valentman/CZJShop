@@ -181,3 +181,12 @@
 @property (strong, nonatomic)NSString* returnTime;
 @property (strong, nonatomic)NSString* returnType;
 @end
+
+
+@interface CZJSubmitReturnForm : NSObject
+@property (strong, nonatomic)NSString* returnType;
+@property (strong, nonatomic)NSString* returnNote;
+@property (strong, nonatomic)NSString* orderItemPid;
+@property (strong, nonatomic)NSString* returnReason;
+@property (strong, nonatomic)NSMutableArray* returnImgs;
+@end

@@ -13,6 +13,8 @@
 {
     CGRect myRect;
     CAShapeLayer* trangleLayer;
+    CZJNIDropDownType dropDownType;
+    NSArray* titleAry;
 }
 @property(nonatomic, strong) UITableView *table;
 @property(nonatomic, strong) UIButton *btnSender;
@@ -25,42 +27,61 @@
 @synthesize list;
 @synthesize delegate;
 
-- (id)showDropDown:(id)target Frame:(CGRect)rect WithObjects:(NSArray *)arr{
-    
+- (id)showDropDown:(id)target Frame:(CGRect)rect WithObjects:(NSArray *)arr andType:(CZJNIDropDownType)_dropDownType{
+    dropDownType = _dropDownType;
     btnSender = (UIButton*)target;
     myRect = rect;
+    titleAry = arr;
     if (self = [super init]) {
-        // Initialization code
-        
         self.frame = CGRectMake(rect.origin.x, rect.origin.y, rect.size.width, 0);
         self.list = [NSArray arrayWithArray:arr];
-        self.layer.masksToBounds = NO;
-        self.layer.shadowOffset = CGSizeMake(-1, 1);
-        self.layer.shadowOpacity = 0.5;
         
-
-        
-        table = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, rect.size.width, 0)];
+        table = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, rect.size.width, rect.size.height)];
         table.delegate = self;
         table.dataSource = self;
         table.layer.cornerRadius = 2;
         table.backgroundColor = [UIColor colorWithRed:0.239 green:0.239 blue:0.239 alpha:1];
-        table.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
-        table.separatorColor = [UIColor grayColor];
+
         table.bounces = NO;
+        [self addSubview:table];
         
-        CGPoint tranglePoint = CGPointMake(table.frame.origin.x + rect.size.width - 16, table.frame.origin.y - 5);
-        trangleLayer = [self creatIndicatorWithColor:[UIColor whiteColor] andPosition:tranglePoint];
-        [self.layer addSublayer:trangleLayer];
+        
+        switch (dropDownType)
+        {
+            case CZJNIDropDownTypeCustomize:
+                table.separatorStyle = UITableViewCellSeparatorStyleNone;
+                break;
+                
+            case CZJNIDropDownTypeNormal:
+                table.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+                table.separatorColor = [UIColor grayColor];
+                
+                self.layer.masksToBounds = NO;
+                self.layer.shadowOffset = CGSizeMake(-1, 1);
+                self.layer.shadowOpacity = 0.5;
+                
+                CGPoint tranglePoint = CGPointMake(table.frame.origin.x + rect.size.width - 16, table.frame.origin.y - 5);
+                trangleLayer = [self creatIndicatorWithColor:[UIColor whiteColor] andPosition:tranglePoint];
+                [self.layer addSublayer:trangleLayer];
+                break;
+                
+            default:
+                break;
+        }
+
+
+        
+        
+        
         
         [UIView beginAnimations:nil context:nil];
         [UIView setAnimationDuration:0.5];
         self.frame = CGRectMake(rect.origin.x, rect.origin.y, rect.size.width, rect.size.height);
-        table.frame = CGRectMake(0, 0, rect.size.width, rect.size.height);
+//        table.frame = CGRectMake(0, 0, rect.size.width, rect.size.height);
         [UIView commitAnimations];
         
         [btnSender.superview addSubview:self];
-        [self addSubview:table];
+        
     }
     return self;
 }
@@ -111,14 +132,18 @@
 
 -(void)hideDropDown:(id)b {
     [UIView animateWithDuration:0.5 animations:^{
-        self.frame = CGRectMake(myRect.origin.x, myRect.origin.y+myRect.size.height, myRect.size.width, 0);
-        table.frame = CGRectMake(0, -myRect.size.height, myRect.size.width, 0);
+        self.frame = CGRectMake(myRect.origin.x, myRect.origin.y, myRect.size.width, 30);
+        self.alpha = 0.2;
+        table.frame = CGRectMake(0, 0, myRect.size.width, 0);
         CGRect fra = trangleLayer.frame;
         trangleLayer.frame = CGRectMake(fra.origin.x, fra.origin.y, fra.size.width, 0);
         [trangleLayer removeFromSuperlayer];
         trangleLayer = nil;
     } completion:^(BOOL finished) {
-        
+        if (finished) {
+            [self retain];
+            [self removeFromSuperview];
+        }
     }];
 }
 
@@ -127,6 +152,10 @@
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (dropDownType == CZJNIDropDownTypeCustomize)
+    {
+        return 40;
+    }
     return 50;
 }
 
@@ -141,25 +170,32 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
-        cell.textLabel.font = [UIFont systemFontOfSize:15];
+        cell.textLabel.font = SYSTEMFONT(15);
         cell.textLabel.textAlignment = NSTextAlignmentLeft;
     }
     NSDictionary* dict = [list objectAtIndex:indexPath.row];
     NSString* key = [[ dict allKeys] firstObject];
     cell.textLabel.text = key;
     cell.textLabel.textColor = [UIColor blackColor];
-    UIEdgeInsets sepEdge = UIEdgeInsetsMake(0, 0, 0, 10);
-    cell.separatorInset = sepEdge;
     [cell.imageView setImage:[UIImage imageNamed:[dict valueForKey:key]]];
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    if (indexPath.row == self.list.count - 1)
+    
+    if (dropDownType == CZJNIDropDownTypeCustomize)
     {
+        [cell.textLabel drawTextInRect:CGRectMake(15, 10, PJ_SCREEN_WIDTH - 60, 20)];
+        cell.textLabel.textColor = RGB(192, 192, 192);
+        cell.textLabel.font = SYSTEMFONT(13);
+        if ([key isEqualToString:_data])
+        {
+            cell.textLabel.textColor = RGB(102, 102, 102);
+        }
     }
+    
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell* cell = [self tableView:tableView cellForRowAtIndexPath:indexPath];
+    UITableViewCell* cell = [tableView cellForRowAtIndexPath:indexPath];
     NSString* btnStr = cell.textLabel.text;
     [self.delegate niDropDownDelegateMethod:btnStr];
 }

@@ -10,27 +10,55 @@
 #import "CZJSerFilterTypeChooseCell.h"
 #import "CZJOrderReturnedListCell.h"
 #import "CZJCommitReturnTypeCell.h"
+#import "CZJCommitReturnReasonCell.h"
+#import "CZJLeaveMessageCell.h"
+#import "CZJOneButtonCell.h"
+#import "VPImageCropperViewController.h"
+#import "CZJBaseDataManager.h"
+#import "NIDropDown.h"
+#import "CZJLeaveMessageView.h"
 
 @interface CZJCommitReturnController ()
 <
 UITableViewDataSource,
-UITableViewDelegate
+UITableViewDelegate,
+UIActionSheetDelegate,
+UIImagePickerControllerDelegate,
+UINavigationControllerDelegate,
+VPImageCropperDelegate,
+NIDropDownDelegate,
+CZJLeaveMessageViewDelegate
 >
 {
     __block NSInteger returnType;           //退换货类型
     NSString* chooseTypeStr;
     CZJCommitReturnTypeCell* promptCell;
+    
+    NSInteger choosedSecionIndex;
+    __block CZJSubmitReturnForm* submitReturnForm;  //退换货数据
+    
+    NIDropDown* dropDown;
 }
 @property (strong, nonatomic)UITableView* myTableView;
+@property (strong, nonatomic)UIView* backgroundView;
 @end
 
 @implementation CZJCommitReturnController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self addCZJNaviBarView:CZJNaviBarViewTypeGeneral];
-    self.naviBarView.mainTitleLabel.text = @"退换货";
+    [self initMyData];
     [self initViews];
+}
+
+- (void)initMyData
+{
+    submitReturnForm = [[CZJSubmitReturnForm alloc]init];
+    submitReturnForm.returnImgs = [NSMutableArray array];
+    submitReturnForm.returnType = @"1";
+    submitReturnForm.returnNote = @"";
+    submitReturnForm.returnReason = @"无";
+    submitReturnForm.orderItemPid = _returnedGoodsForm.orderItemPid;
 }
 
 - (void)initViews
@@ -46,7 +74,10 @@ UITableViewDelegate
     [self.view addSubview:self.myTableView];
     
     NSArray* nibArys = @[@"CZJOrderReturnedListCell",
-                         @"CZJCommitReturnTypeCell"
+                         @"CZJCommitReturnTypeCell",
+                         @"CZJCommitReturnReasonCell",
+                         @"CZJLeaveMessageCell",
+                         @"CZJOneButtonCell"
                          ];
     
     for (id cells in nibArys) {
@@ -54,18 +85,32 @@ UITableViewDelegate
         [self.myTableView registerNib:nib forCellReuseIdentifier:cells];
     }
     [self.myTableView reloadData];
+    
+    [self addCZJNaviBarView:CZJNaviBarViewTypeGeneral];
+    self.naviBarView.mainTitleLabel.text = @"退换货";
+    self.naviBarView.btnMore.hidden = NO;
+    [self.naviBarView.btnMore setBackgroundImage:IMAGENAMED(@"commit_icon_kefu") forState:UIControlStateNormal];
+    [self.naviBarView.btnMore addTarget:self action:@selector(contackService:) forControlEvents:UIControlEventTouchUpInside];
+    
+    
+    //背景触摸层
+    _backgroundView = [[UIView alloc]initWithFrame:self.view.bounds];
+    _backgroundView.backgroundColor = RGBA(240, 240, 240, 0);
+    UIGestureRecognizer *gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapBackground:)];
+    [_backgroundView addGestureRecognizer:gesture];
+    _backgroundView.hidden = YES;
+    [self.view addSubview:_backgroundView];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    
 }
 
 
 #pragma mark-UITableViewDataSource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 1;
+    return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -108,11 +153,13 @@ UITableViewDelegate
                 if ([button.titleLabel.text isEqualToString:@"退货"])
                 {
                     returnType = 0;
+                    submitReturnForm.returnType = @"1";
                     promptCell.promptLabel.text = @"您选择了退货，请与卖家协商达成退货。";
                 }
                 if ([button.titleLabel.text isEqualToString:@"换货"])
                 {
                     returnType = 1;
+                    submitReturnForm.returnType = @"2";
                     promptCell.promptLabel.text = @"您选择了换货，请与卖家协商达成退货。";
                 }
             };
@@ -131,23 +178,67 @@ UITableViewDelegate
     {
         if (0 == indexPath.row)
         {
+            CZJCommitReturnReasonCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJCommitReturnReasonCell" forIndexPath:indexPath];
+            CAShapeLayer* trangle = [CZJUtils creatIndicatorWithColor:RGB(100, 100, 100) andPosition:CGPointMake(PJ_SCREEN_WIDTH - 50, 15)];
+            [cell.returnTypeBtn.layer addSublayer:trangle];
+            [cell.returnTypeBtn addTarget:self action:@selector(returnTypeBtnTouched:) forControlEvents:UIControlEventTouchUpInside];
+            cell.returnTypeLabel.text = submitReturnForm.returnReason;
+            
+            [cell.picLoadView removeAllSubViewsExceptView:cell.picBTn];
+            [cell.picBTn addTarget:self action:@selector(picBtnTouched:) forControlEvents:UIControlEventTouchUpInside];
+            int divide = (iPhone5 || iPhone4) ? 3 : 4;
+            for (int i = 0; i < submitReturnForm.returnImgs.count; i++)
+            {
+                NSString* imgUrl = submitReturnForm.returnImgs[i];
+                CGRect imageFrame = [CZJUtils viewFramFromDynamic:CZJMarginMake(15, 10) size:CGSizeMake(78, 78) index:i divide:divide];
+                CZJDeletableImageView* picImage = [[CZJDeletableImageView alloc]initWithFrame:imageFrame andImageName:imgUrl];
+                [picImage.deleteButton addTarget:self action:@selector(picViewDeleteBtnHandler:) forControlEvents:UIControlEventTouchUpInside];
+                [picImage.deleteButton setTag:indexPath.section];
+                [cell.picLoadView addSubview:picImage];
+            }
+            CGRect picBtnFrame = [CZJUtils viewFramFromDynamic:CZJMarginMake(15, 10) size:CGSizeMake(78, 78) index:(int)submitReturnForm.returnImgs.count divide:divide];
+            cell.picBtnLeading.constant = picBtnFrame.origin.x;
+            cell.picBtnTop.constant = picBtnFrame.origin.y;
 
+            cell.separatorInset = HiddenCellSeparator;
+            return cell;
         }
         if (1 == indexPath.row)
         {
-            //动态改变
+            CZJLeaveMessageCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJLeaveMessageCell" forIndexPath:indexPath];
+            cell.leaveMessageView.hidden = NO;
+            if (![submitReturnForm.returnNote isEqualToString:@""])
+            {
+                cell.leaveMessageView.hidden = YES;
+                cell.leaveMessageLabel.text = submitReturnForm.returnNote;
+                cell.leaveMessageLayoutHeight.constant = [CZJUtils calculateTitleSizeWithString:submitReturnForm.returnNote AndFontSize:12].height + 10;
+            }
+            cell.separatorInset = HiddenCellSeparator;
+            return cell;
 
         }
         if (2 == indexPath.row)
         {
-
+            CZJOneButtonCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJOneButtonCell" forIndexPath:indexPath];
+            [cell.theBtn addTarget:self action:@selector(submitMyReturn:) forControlEvents:UIControlEventTouchUpInside];
+            cell.backgroundColor = CLEARCOLOR;
+            cell.separatorInset = HiddenCellSeparator;
+            return cell;
         }
     }
-    
-    
-
     return nil;
 }
+
+- (void)picViewDeleteBtnHandler:(UIButton*)sender
+{
+    NSInteger indexSection = sender.tag;
+    CZJDeletableImageView* picImage = (CZJDeletableImageView*)[sender superview];
+    [picImage removeFromSuperview];
+    [submitReturnForm.returnImgs removeObject:picImage.imgName];
+    [self.myTableView reloadSections:[NSIndexSet indexSetWithIndex:indexSection] withRowAnimation:UITableViewRowAnimationAutomatic];
+}
+
+
 
 #pragma mark-UITableViewDelegate
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -171,12 +262,12 @@ UITableViewDelegate
     {
         if (0 == indexPath.row)
         {
-            return 50;
+            return 150;
         }
         if (1 == indexPath.row)
         {
-            //动态改变
-            return 0;
+            float height = [CZJUtils calculateTitleSizeWithString:submitReturnForm.returnNote AndFontSize:12].height;
+            return 50 + height;
         }
         if (2 == indexPath.row)
         {
@@ -196,5 +287,217 @@ UITableViewDelegate
     return 10;
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (1 == indexPath.section && 1 == indexPath.section)
+    {
+        CZJLeaveMessageView* leaveMessage = (CZJLeaveMessageView*)[CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:@"leaveMessageSBID"];
+        leaveMessage.delegate = self;
+        leaveMessage.leaveMesageStr = submitReturnForm.returnNote;
+        [self.navigationController pushViewController:leaveMessage animated:YES];
+    }
+}
 
+#pragma mark- UIActionSheetDelegate
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 0) {
+        // 拍照
+        if ([CZJUtils isCameraAvailable] &&
+            [CZJUtils doesCameraSupportTakingPhotos]) {
+            UIImagePickerController *controller = [[UIImagePickerController alloc] init];
+            controller.sourceType = UIImagePickerControllerSourceTypeCamera;
+            if ([CZJUtils isRearCameraAvailable]) {
+                controller.cameraDevice = UIImagePickerControllerCameraDeviceRear;
+            }
+            NSMutableArray *mediaTypes = [[NSMutableArray alloc] init];
+            [mediaTypes addObject:(__bridge NSString *)kUTTypeImage];
+            controller.mediaTypes = mediaTypes;
+            controller.delegate = self;
+            [self presentViewController:controller
+                               animated:YES
+                             completion:^(void){
+                                 NSLog(@"Picker View Controller is presented");
+                             }];
+        }
+        
+    } else if (buttonIndex == 1) {
+        // 从相册中选取
+        if ([CZJUtils isPhotoLibraryAvailable]) {
+            UIImagePickerController *controller = [[UIImagePickerController alloc] init];
+            controller.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+            NSMutableArray *mediaTypes = [[NSMutableArray alloc] init];
+            [mediaTypes addObject:(__bridge NSString *)kUTTypeImage];
+            controller.mediaTypes = mediaTypes;
+            controller.delegate = self;
+            [self presentViewController:controller
+                               animated:YES
+                             completion:^(void){
+                                 NSLog(@"Picker View Controller is presented");
+                             }];
+        }
+    }
+}
+
+
+#pragma mark UIImagePickerControllerDelegate
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    [picker dismissViewControllerAnimated:YES completion:^() {
+        //获取从ImagePicker返回来的图像信息生成一个UIImage
+        UIImage *portraitImg = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
+        portraitImg = [CZJUtils imageByScalingToMaxSize:portraitImg];
+        // 裁剪
+        VPImageCropperViewController *imgEditorVC = [[VPImageCropperViewController alloc] initWithImage:portraitImg cropFrame:CGRectMake(0, 100.0f, self.view.frame.size.width, self.view.frame.size.width) limitScaleRatio:3.0];
+        imgEditorVC.delegate = self;
+        [self presentViewController:imgEditorVC animated:YES completion:^{
+            // TO DO
+        }];
+    }];
+}
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
+    [picker dismissViewControllerAnimated:YES completion:^(){
+    }];
+}
+
+
+#pragma mark VPImageCropperDelegate
+- (void)imageCropper:(VPImageCropperViewController *)cropperViewController didFinished:(UIImage *)editedImage
+{
+    [MBProgressHUD showHUDAddedTo:self.view animated:true];
+    __weak typeof(self) weak = self;
+    [cropperViewController dismissViewControllerAnimated:YES completion:^{
+        // TO DO
+        NSData *imageData = UIImageJPEGRepresentation(editedImage,0.5);
+        
+        [CZJBaseDataInstance generalUploadImage:editedImage withAPI:kCZJServerAPIUploadImg Success:^(id json) {
+            NSDictionary* dict = [[CZJUtils DataFromJson:json]valueForKey:@"msg"];
+            QNUploadManager *upManager = [[QNUploadManager alloc] init];
+            [upManager putData:imageData key:[dict valueForKey:@"key"] token:[dict valueForKey:@"token"]
+                      complete: ^(QNResponseInfo *info, NSString *key, NSDictionary *resp) {
+                          [MBProgressHUD hideAllHUDsForView:weak.view animated:true];
+                          NSLog(@"%@", info);
+                          NSLog(@"%@", resp);
+                          [weak refreshPic:[dict valueForKey:@"url"]];
+                      } option:nil];
+        } fail:nil];
+    }];
+}
+
+- (void)imageCropperDidCancel:(VPImageCropperViewController *)cropperViewController {
+    [cropperViewController dismissViewControllerAnimated:YES completion:^{
+    }];
+}
+
+
+#pragma mark UITextViewDelegate
+- (BOOL)textViewShouldBeginEditing:(UITextView *)textView
+{
+    DLog();
+    return YES;
+}
+- (BOOL)textViewShouldEndEditing:(UITextView *)textView
+{
+    DLog();
+    return YES;
+}
+
+- (void)textViewDidBeginEditing:(UITextView *)textView
+{
+    DLog(@"%@",textView.text);
+}
+
+- (void)textViewDidEndEditing:(UITextView *)textView
+{
+    submitReturnForm.returnNote = textView.text;
+    DLog(@"%@",textView.text);
+}
+
+
+- (void)textViewDidChange:(UITextView *)textView
+{
+    DLog(@"%@",textView.text);
+}
+
+
+- (void)picBtnTouched:(id)sender
+{
+    choosedSecionIndex = ((UIButton*)sender).tag;
+    UIActionSheet *choiceSheet = [[UIActionSheet alloc] initWithTitle:nil
+                                                             delegate:self
+                                                    cancelButtonTitle:@"取消"
+                                               destructiveButtonTitle:nil
+                                                    otherButtonTitles:@"拍照", @"从相册中选取", nil];
+    [choiceSheet showInView:self.view];
+}
+
+- (void)refreshPic:(NSString*)picImg
+{
+    [submitReturnForm.returnImgs addObject:picImg];
+    [self.myTableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationAutomatic];
+}
+
+//提交退货申请
+- (void)submitMyReturn:(id)sender
+{
+    NSDictionary* dict = submitReturnForm.keyValues;
+    DLog(@"退货%@",[dict description]);
+    [CZJBaseDataInstance generalPost:@{@"paramJson" : [CZJUtils JsonFromData:dict]} success:^(id json)
+     {
+         [CZJUtils tipWithText:@"发表评价成功，非常感谢！" andView:nil];
+     } andServerAPI:kCZJServerAPISubmitReturnOrder];
+}
+
+- (void)returnTypeBtnTouched:(UIButton*)sender
+{
+    NSArray * arr = @[@{@"收到的商品与描述不符" : @""},
+                      @{@"商品质量问题":@""},
+                      @{@"盗版/假货" :@""},
+                      @{@"拍错/多拍" :@""}];
+    if(dropDown == nil) {
+        CGRect frame = [self.myTableView rectForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:1]];
+        CGRect rect = CGRectMake(15, 20 + 64 + frame.origin.y, PJ_SCREEN_WIDTH - 30, 160);
+        _backgroundView.hidden = NO;
+        dropDown = [[NIDropDown alloc]showDropDown:_backgroundView Frame:rect WithObjects:arr  andType:CZJNIDropDownTypeCustomize];
+         YES;
+        dropDown.data = submitReturnForm.returnReason;
+        dropDown.clipsToBounds = YES;
+        dropDown.layer.cornerRadius = 5;
+        dropDown.layer.borderWidth = 0.5;
+        dropDown.layer.borderColor = RGB(128, 128, 128).CGColor;
+        dropDown.delegate = self;
+    }
+}
+
+
+
+
+#pragma mark- NIDropDownDelegate(更多按钮弹出框回调)
+- (void) niDropDownDelegateMethod:(NSString*)btnStr
+{
+    submitReturnForm.returnReason = btnStr;
+    [self.myTableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationNone];
+    [self tapBackground:nil];
+}
+
+- (void)tapBackground:(UITapGestureRecognizer *)paramSender
+{
+    if (dropDown)
+    {
+        _backgroundView.hidden = YES;
+        [dropDown hideDropDown:paramSender];
+        dropDown = nil;
+    }
+}
+
+- (void)contackService:(UIButton*)sender
+{
+    DLog(@"联系客服");
+}
+
+
+- (void)clickConfirmMessage:(NSString*)message
+{
+    submitReturnForm.returnNote = message;
+    [self.myTableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationNone];
+}
 @end

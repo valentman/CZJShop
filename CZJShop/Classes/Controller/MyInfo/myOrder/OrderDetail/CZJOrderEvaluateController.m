@@ -161,7 +161,7 @@ CZJStarRateViewDelegate
             [picImage.deleteButton setTag:indexPath.section];
             [cell.picLoadView addSubview:picImage];
         }
-        CGRect picBtnFrame = [CZJUtils viewFramFromDynamic:CZJMarginMake(15, 10) size:CGSizeMake(78, 78) index:returnedListForm.evalImgs.count divide:divide];
+        CGRect picBtnFrame = [CZJUtils viewFramFromDynamic:CZJMarginMake(15, 10) size:CGSizeMake(78, 78) index:(int)returnedListForm.evalImgs.count divide:divide];
         cell.picBtnLeading.constant = picBtnFrame.origin.x;
         cell.picBtnTop.constant = picBtnFrame.origin.y;
         

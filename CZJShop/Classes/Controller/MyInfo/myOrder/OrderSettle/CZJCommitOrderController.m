@@ -802,7 +802,7 @@ CZJRedPacketCellDelegate
     NSMutableDictionary* orderInfo = [@{@"redpacket":_orderForm.redpacket,
                                         @"cardMoney":_orderForm.cardMoney,
                                         @"stores":_convertOrderStoreAry,
-                                        @"totalMoney":[NSString stringWithFormat:@"%ld",orderTotalPrice]}
+                                        @"totalMoney":[NSString stringWithFormat:@"%f",orderTotalPrice]}
                                       mutableCopy];
     if (_orderForm.needAddr) {
         if (_currentChooseAddr) {

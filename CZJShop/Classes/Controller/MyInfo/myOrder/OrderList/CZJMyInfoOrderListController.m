@@ -139,7 +139,7 @@ CZJPopPayViewDelegate
     if(dropDown == nil) {
         CGRect rect = CGRectMake(PJ_SCREEN_WIDTH - 150 - 14, StatusBar_HEIGHT + 78, 150, arr.count * 50);
         _backgroundView.hidden = NO;
-        dropDown = [[NIDropDown alloc]showDropDown:_backgroundView Frame:rect WithObjects:arr];
+        dropDown = [[NIDropDown alloc]showDropDown:_backgroundView Frame:rect WithObjects:arr andType:CZJNIDropDownTypeNormal];
         [dropDown setTrangleLayerPositioin:kCZJLayerPositionTypeRight];
         dropDown.delegate = self;
     }
