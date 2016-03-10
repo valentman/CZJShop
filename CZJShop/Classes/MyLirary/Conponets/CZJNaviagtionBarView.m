@@ -266,6 +266,17 @@
             _buttomSeparator.hidden = NO;
             break;
             
+        case CZJNaviBarViewTypeScan:
+            _customSearchBar.hidden = YES;
+            _mainTitleLabel.hidden = NO;
+            _mainTitleLabel.font = BOLDSYSTEMFONT(18);
+            _mainTitleLabel.textColor = WHITECOLOR;
+            [self setBackgroundColor:CLEARCOLOR];
+            [_btnBack setBackgroundImage:IMAGENAMED(@"scan_icon_back") forState:UIControlStateNormal];
+            _btnBack.hidden = NO;
+            [_btnBack setPosition:CGPointMake(15, 0) atAnchorPoint:CGPointZero];
+            break;
+            
         default:
             break;
     }

@@ -11,5 +11,7 @@
 @interface CZJDetailViewController : CZJViewController
 
 @property (nonatomic, strong)NSString* storeItemPid;
+@property (nonatomic, strong)NSString* promotionType;
+@property (nonatomic, strong)NSString* promotionPrice;
 @property (nonatomic, assign)CZJDetailType detaiViewType;
 @end

@@ -17,6 +17,7 @@
 @implementation CZJMiaoShaCell
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
     _miaoShaDatas = [NSMutableArray array];
 }
 
@@ -52,7 +53,12 @@
     return self.miaoShaDatas.count;
 }
 
--(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
+-(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    if ([self.delegate respondsToSelector:@selector(clickMiaoShaCellItem:)])
+    {
+        [self.delegate clickMiaoShaCellItem:nil];
+    }
 }
 
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{

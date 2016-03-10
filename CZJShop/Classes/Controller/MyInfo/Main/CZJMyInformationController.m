@@ -17,7 +17,10 @@
 #import "CZJShoppingCartController.h"
 #import "UserBaseForm.h"
 #import "CZJOrderListReturnedController.h"
+#import "CZJMyInfoShareController.h"
 
+@implementation CZJMyInfoForm
+@end
 
 @interface CZJMyInformationController ()
 <
@@ -32,6 +35,8 @@ CZJViewControllerDelegate
     NSArray* orderSubCellAry;           //订单cell下子项数组
     NSArray* walletSubCellAry;          //我的钱包下子项数组
     NSInteger _currentTouchOrderListType;
+    
+    CZJMyInfoForm* myInfoForm;
 }
 @property (weak, nonatomic) IBOutlet UITableView *myInfoTableView;
 
@@ -120,6 +125,7 @@ CZJViewControllerDelegate
     {//
         [CZJBaseDataInstance getUserInfo:nil Success:^(id json) {
             NSDictionary* dict = [[CZJUtils DataFromJson:json] valueForKey:@"msg"];
+            myInfoForm = [CZJMyInfoForm objectWithKeyValues:dict];
             [self updateOrderData:dict];
             [self.myInfoTableView reloadData];
         } fail:^{
@@ -189,7 +195,7 @@ CZJViewControllerDelegate
                 [cell setUserPersonalInfo:CZJBaseDataInstance.userInfoForm];
                 cell.delegate = self;
             }
-            cell.separatorInset = UIEdgeInsetsMake(46, PJ_SCREEN_WIDTH, 0, 0);
+            cell.separatorInset = HiddenCellSeparator;
             return cell;
         }
         else if (1 == indexPath.row)
@@ -520,6 +526,11 @@ CZJViewControllerDelegate
     {
         CZJOrderListReturnedController* returnList = segue.destinationViewController;
         returnList.returnListType = CZJReturnListTypeReturned;
+    }
+    if ([segue.identifier isEqualToString:@"segueToShare"])
+    {
+        CZJMyInfoShareController* shareVC = segue.destinationViewController;
+        shareVC.myShareCode = myInfoForm.couponCode;
     }
 }
 

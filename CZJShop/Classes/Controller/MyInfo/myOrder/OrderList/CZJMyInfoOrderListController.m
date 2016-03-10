@@ -75,7 +75,6 @@ CZJPopPayViewDelegate
 {
     [self addCZJNaviBarView:CZJNaviBarViewTypeGeneral];
     self.naviBarView.mainTitleLabel.text = @"我的订单";
-    [CZJUtils customizeNavigationBarForTarget:self hiddenButton:YES];
     
     //右按钮
     UIButton* rightBtn = [UIButton buttonWithType:UIButtonTypeCustom];

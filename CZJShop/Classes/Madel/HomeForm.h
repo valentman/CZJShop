@@ -75,6 +75,29 @@
 @property(nonatomic, strong)NSString* currentPrice;
 @end
 
+@interface CZJMiaoShaTimesForm : NSObject
+@property (strong, nonatomic) NSString* skillId;
+@property (strong, nonatomic) NSString* skillTime;
+@property (strong, nonatomic) NSString* status;
+@end
+
+@interface CZJMiaoShaControllerForm : NSObject
+@property (strong, nonatomic) NSString*  currentTime;
+@property (strong, nonatomic) NSArray*  skillTimes;
+@end
+
+@interface CZJMiaoShaCellForm : NSObject
+@property (strong, nonatomic) NSString* currentPrice;
+@property (strong, nonatomic) NSString* homeFlag;
+@property (strong, nonatomic) NSString* img;
+@property (strong, nonatomic) NSString* itemName;
+@property (strong, nonatomic) NSString* itemType;
+@property (strong, nonatomic) NSString* limitCount;
+@property (strong, nonatomic) NSString* limitPoint;
+@property (strong, nonatomic) NSString* originalPrice;
+@property (strong, nonatomic) NSString* storeItemPid;
+@end
+
 //---------------------首页广告栏一---------------------
 @interface BannerForm : NSObject
 @property(nonatomic, strong)NSString* img;

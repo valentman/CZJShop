@@ -249,11 +249,19 @@ CZJStoreInfoHeaerCellDelegate
         
         [SVProgressHUD dismiss];
     };
+    NSDictionary* param = @{@"storeItemPid":self.storeItemPid, @"promotionPrice":self.promotionPrice, @"promotionType":self.promotionType};
+    NSString* apiUrl;
+    if (CZJDetailTypeGoods == _detaiViewType)
+    {
+        
+        apiUrl = kCZJServerAPIGoodsDetail;
+    }
+    else if (CZJDetailTypeService == _detaiViewType)
+    {
+        apiUrl = kCZJServerAPIServiceDetail;
+    }
     
-    [CZJBaseDataInstance loadDetailsWithType:self.detaiViewType
-                             AndStoreItemPid:self.storeItemPid
-                                     Success:successBlock
-                                        fail:^{}];
+    [CZJBaseDataInstance generalPost:param success:successBlock andServerAPI:apiUrl];
 }
 
 - (void)getHotRecommendDataFromServer

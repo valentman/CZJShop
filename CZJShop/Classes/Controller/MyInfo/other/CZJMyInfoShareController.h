@@ -10,5 +10,5 @@
 #import <MessageUI/MessageUI.h>
 
 @interface CZJMyInfoShareController : CZJViewController
-
+@property (strong, nonatomic)NSString* myShareCode;
 @end

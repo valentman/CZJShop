@@ -18,6 +18,7 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *separatorViewHeight;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *separatorLineHeight;
 @property (weak, nonatomic) IBOutlet UIImageView *myQRCode;
+@property (weak, nonatomic) IBOutlet UILabel *myCodeLabel;
 
 - (IBAction)msgShareAction:(id)sender;
 - (IBAction)appShareAction:(id)sender;
@@ -55,8 +56,9 @@
     
     //UIBarButtonItem
     UIBarButtonItem *rightItem =[[UIBarButtonItem alloc]initWithCustomView: leftBtn];
-    
     self.navigationItem.rightBarButtonItem = rightItem;
+    
+    self.myCodeLabel.text = _myShareCode;
 }
 
 
@@ -69,9 +71,11 @@
     //恢复滤镜的默认属性
     [filter setDefaults];
     
-    //将字符串转换成NSData
-    NSData *data=[@"www.baidu.comwww.baidu.com" dataUsingEncoding:NSUTF8StringEncoding];
+    NSDictionary* myInfo = @{@"content" : _myShareCode,@"isLogin" : @"1", @"type" : @"5"};
     
+    //将字符串转换成NSData
+    NSData *data=[CZJUtils JsonFormData:myInfo];
+
     //通过KVO设置滤镜inputmessage数据
     [filter setValue:data forKey:@"inputMessage"];
     

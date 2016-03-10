@@ -31,6 +31,7 @@
 #import "CZJLoginController.h"
 #import "CZJDetailViewController.h"
 #import "CZJCategoryController.h"
+#import "CZJMiaoShaController.h"
 
 @interface CZJHomeViewController ()<
 UISearchBarDelegate,
@@ -40,7 +41,8 @@ PullTableViewDelegate,
 CZJNaviagtionBarViewDelegate,
 CZJImageViewTouchDelegate,
 CZJServiceCellDelegate,
-CZJGoodsRecommendCellDelegate
+CZJGoodsRecommendCellDelegate,
+CZJMiaoShaCellDelegate
 >
 {
     NSString* _serviceTypeId;
@@ -49,7 +51,6 @@ CZJGoodsRecommendCellDelegate
 }
 @property (strong, nonatomic) IBOutlet PullTableView *homeTableView;
 @property (weak, nonatomic) IBOutlet UIButton *btnToTop;
-//@property (strong, nonatomic) CZJNaviagtionBarView *navibarView;
 
 - (IBAction)tapToTop:(id)sender;
 @end
@@ -341,6 +342,7 @@ CZJGoodsRecommendCellDelegate
                 CZJMiaoShaCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CZJMiaoShaCell" forIndexPath:indexPath];
                 if (cell && _miaoShaArray.count > 0 && !cell.isInit)
                 {
+                    cell.delegate = self;
                     [cell initMiaoShaInfoWithData:_miaoShaArray];
                 }
                 [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
@@ -595,6 +597,14 @@ CZJGoodsRecommendCellDelegate
     return 0;
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (3 == indexPath.section)
+    {
+        [self performSegueWithIdentifier:@"segueToMiaoSha" sender:nil];
+    }
+}
+
 
 #pragma mark- CZJActivityDelegate
 - (void)showDetailInfoWithForm:(id)form
@@ -618,6 +628,12 @@ CZJGoodsRecommendCellDelegate
 -(void)showActivityHtmlWithUrl:(NSString*)url
 {
     [self showWebViewWithURL:url andTitle:@"活动详情"];
+}
+
+#pragma mark- CZJMiaoShaCellDelegate
+- (void)clickMiaoShaCellItem:(id)sender
+{
+    [self performSegueWithIdentifier:@"segueToMiaoSha" sender:nil];
 }
 
 
@@ -667,6 +683,10 @@ CZJGoodsRecommendCellDelegate
         CZJDetailViewController* detailVC = segue.destinationViewController;
         detailVC.storeItemPid = _touchedStoreItemPid;
         detailVC.detaiViewType = CZJDetailTypeGoods;
+    }
+    if ([segue.identifier isEqualToString:@"segueToMiaoSha"])
+    {
+//        CZJMiaoShaController* miaoshaVC = segue.destinationViewController;
     }
 }
 

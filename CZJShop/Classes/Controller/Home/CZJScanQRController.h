@@ -9,21 +9,12 @@
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
 
-@interface CZJScanQRController : UIViewController
-{
-    AVCaptureSession * _AVSession;
-}
-@property(nonatomic,retain)AVCaptureSession * AVSession;
-@property (weak, nonatomic) IBOutlet UIView *preView;
-@property (weak, nonatomic) IBOutlet UIView *operatorView;
-@property (weak, nonatomic) IBOutlet UIButton *lightButton;
-@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *indicator;
+@interface CZJScanQRController : CZJViewController
+@end
 
-@property (strong, nonatomic)UILabel* hintLabel;
-@property (strong, nonatomic) UIView* boxView;
-@property (nonatomic)BOOL isReading;
-@property (nonatomic)BOOL isLighting;
-@property (strong, nonatomic) CALayer* scanLayer;
-@property (strong, nonatomic)AVCaptureSession* captureSession;
-@property (strong, nonatomic)AVCaptureVideoPreviewLayer* videoPreviewLayer;
+
+@interface CZJSCanQRForm : NSObject
+@property (strong, nonatomic) NSString* content;
+@property (strong, nonatomic) NSString* isLogin;
+@property (strong, nonatomic) NSString* type;
 @end

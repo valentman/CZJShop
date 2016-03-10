@@ -225,6 +225,20 @@
 @implementation SecSkillsForm : NSObject
 @end
 
+@implementation CZJMiaoShaTimesForm
+@end
+
+@implementation CZJMiaoShaControllerForm
++ (NSDictionary *)objectClassInArray{
+    return @{
+             @"skillTimes" : @"CZJMiaoShaTimesForm",
+             };
+}
+@end
+
+@implementation CZJMiaoShaCellForm
+@end
+
 //---------------------广告栏一---------------------
 @implementation BannerForm : NSObject
 @end

@@ -61,7 +61,8 @@ UIScrollViewDelegate>
 - (UIPageViewController *)pageController{
     if (!_pageController) {
         _pageController = [[UIPageViewController alloc]initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal options:nil];
-        _pageController.view.frame = CGRectMake(0, 64, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - 64);
+        _pageController.view.frame = CGRectMake(0, 94, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - 64);
+        _pageController.view.backgroundColor = CLEARCOLOR;
         _pageController.delegate = self;
         _pageController.dataSource = self;
         

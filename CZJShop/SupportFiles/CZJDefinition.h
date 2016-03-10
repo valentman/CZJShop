@@ -11,8 +11,8 @@
 
 //----------------------------服务器接口-------------------------------
 //服务地址
-static NSString *const kCZJServerAddr = @"http://192.168.0.251:8080/appserver/";
-//static NSString *const kCZJServerAddr = @"http://101.201.197.202:8080/appserver/";
+//static NSString *const kCZJServerAddr = @"http://192.168.0.251:8080/appserver/";
+static NSString *const kCZJServerAddr = @"http://101.201.197.202:8080/appserver/";
 
 //首页接口组
 static NSString *const kCZJServerAPIShowHome = @"chezhu/showHomeV2.do";                             //获取首页数据
@@ -30,6 +30,8 @@ static NSString *const kCZJServerAPIServiceCarModelsList = @"chezhu/showServiceC
 static NSString *const kCZJServerAPIServiceHotReco = @"chezhu/searchHotRecommend.do";               //获取服务热门推荐
 static NSString *const kCZJServerAPICommentsList = @"chezhu/loadEvaluations.do";                    //获取评论列表
 static NSString *const kCZJServerAPIReplyList = @"chezhu/loadEvalReplys.do";                        //获取回复列表
+static NSString *const kCZJServerAPIGetKillTimeList = @"chezhu/loadSkillTimes.do"; //得到秒杀哦点场
+static NSString *const kCZJServerAPIPGetSkillGoodsList = @"chezhu/loadSkillGoods.do"; //得到秒杀商品列表
 
 //分类接口组
 static NSString *const kCZJServerAPIGetCategoryData = @"chezhu/loadGoodsSubTypes.do";               //获取分类信息
@@ -233,8 +235,10 @@ static NSString *const kCZJStoryBoardFileMain = @"Main";
 static NSString *const kCZJStoryBoardIDHomeView = @"homeViewSBID";
 static NSString *const kCZJStoryBoardIDStartPage = @"startPageSBID";
 static NSString *const kCZJStoryBoardIDGoodsDetailVC = @"goodsDetailSBID";              //商品或服务详情
-static NSString *const kCZJStoryBoardIDStoreDetailVC = @"storeDetailVC";                //商品或服务详情
+static NSString *const kCZJStoryBoardIDStoreDetailVC = @"storeDetailVC";                //门店详情
 static NSString *const kCZJStoryBoardIDPaymentSuccess = @"paymentSuccessSBID";          //订单支付成功
+static NSString *const kCZJStoryBoardIDCommitSettle = @"SBIDCommitSettle";
+
 
 
 

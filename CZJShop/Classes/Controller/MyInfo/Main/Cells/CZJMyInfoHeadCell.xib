@@ -19,10 +19,10 @@
                         <animations/>
                     </imageView>
                     <view opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ffc-NE-hbV">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="169"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="170"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="my_icon_head.png" translatesAutoresizingMaskIntoConstraints="NO" id="QYr-dW-RDs">
-                                <rect key="frame" x="126" y="63" width="68" height="68"/>
+                                <rect key="frame" x="126" y="64" width="68" height="68"/>
                                 <animations/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="68" id="4hz-TD-Vdz"/>
@@ -30,7 +30,7 @@
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="点击登录" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1vL-Ah-IXg">
-                                <rect key="frame" x="128" y="143" width="65" height="21"/>
+                                <rect key="frame" x="128" y="144" width="65" height="21"/>
                                 <animations/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="Z26-Fg-QKN"/>
@@ -52,10 +52,10 @@
                         </constraints>
                     </view>
                     <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ABF-5Y-qOp">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="169"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="170"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="my_icon_head.png" translatesAutoresizingMaskIntoConstraints="NO" id="GWr-Xv-uRo">
-                                <rect key="frame" x="35" y="63" width="68" height="68"/>
+                                <rect key="frame" x="35" y="64" width="68" height="68"/>
                                 <animations/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="68" id="3c2-yl-sd7"/>
@@ -101,7 +101,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="all_arrow_next.png" translatesAutoresizingMaskIntoConstraints="NO" id="oNl-WR-M3f">
-                                <rect key="frame" x="300" y="144" width="5" height="10"/>
+                                <rect key="frame" x="300" y="145" width="5" height="10"/>
                                 <animations/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="5" id="c09-VK-kJC"/>
@@ -121,7 +121,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="账户设置、收货地址、车辆管理" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hae-jB-KgM">
-                                <rect key="frame" x="148" y="144" width="150" height="10"/>
+                                <rect key="frame" x="148" y="145" width="150" height="10"/>
                                 <animations/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="10" id="vN4-0X-qW6"/>
@@ -170,7 +170,7 @@
                 <animations/>
                 <constraints>
                     <constraint firstItem="sau-by-EUj" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="0kb-t6-yac"/>
-                    <constraint firstAttribute="bottom" secondItem="ABF-5Y-qOp" secondAttribute="bottom" id="3HW-Jk-7m6"/>
+                    <constraint firstAttribute="bottom" secondItem="ABF-5Y-qOp" secondAttribute="bottom" constant="-1" id="3HW-Jk-7m6"/>
                     <constraint firstAttribute="trailing" secondItem="sau-by-EUj" secondAttribute="trailing" id="Amw-5Q-l68"/>
                     <constraint firstItem="sau-by-EUj" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="LeB-Vl-v3L"/>
                     <constraint firstItem="ABF-5Y-qOp" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="PKG-Vs-pIJ"/>
@@ -178,7 +178,7 @@
                     <constraint firstItem="ffc-NE-hbV" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="Zs4-gj-auQ"/>
                     <constraint firstAttribute="trailing" secondItem="ffc-NE-hbV" secondAttribute="trailing" id="gV9-ef-nEb"/>
                     <constraint firstAttribute="bottom" secondItem="sau-by-EUj" secondAttribute="bottom" id="jzt-ft-xAZ"/>
-                    <constraint firstAttribute="bottom" secondItem="ffc-NE-hbV" secondAttribute="bottom" id="unk-JE-baQ"/>
+                    <constraint firstAttribute="bottom" secondItem="ffc-NE-hbV" secondAttribute="bottom" constant="-1" id="unk-JE-baQ"/>
                     <constraint firstItem="ABF-5Y-qOp" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="vHK-zL-BT1"/>
                     <constraint firstItem="ffc-NE-hbV" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="w8m-tA-N3W"/>
                 </constraints>
