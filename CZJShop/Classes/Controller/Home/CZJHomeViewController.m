@@ -66,11 +66,9 @@ CZJMiaoShaCellDelegate
     [self dealWithInitNavigationBar];
     [self dealWithInitTableView];
     [self dealWithInitTabbar];
-    [SVProgressHUD show];
     [self getHomeDataFromServer:CZJHomeGetDataFromServerTypeOne];
     [self.homeTableView reloadData];
     [CZJUtils setExtraCellLineHidden:self.homeTableView];
-    
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -96,6 +94,7 @@ CZJMiaoShaCellDelegate
 
 - (void)propertysInit
 {
+    DLog();
     //隐藏toTop按钮
     self.btnToTop.hidden = YES;
     self.isFirst = YES;
@@ -172,7 +171,6 @@ CZJMiaoShaCellDelegate
     
     //从服务器获取数据成功返回回调
     CZJSuccessBlock successBlock = ^(id json){
-        [SVProgressHUD dismiss];
         isLoadSuccess = YES;
         [self dealWithArray];
         [self.homeTableView reloadData];
@@ -352,7 +350,14 @@ CZJMiaoShaCellDelegate
             {
                 CZJMiaoShaCellHeader* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJMiaoShaCellHeader" forIndexPath:indexPath];
                 [cell.miaoShaChangCi setTitle:@"" forState:UIControlStateNormal];
-                [cell initHeaderWithTimestamp:CZJBaseDataInstance.homeForm.serverTime];
+                if (cell && _miaoShaArray.count > 0 && !cell.isInit)
+                {
+                    TICK;
+                    NSInteger timeinteval = [CZJBaseDataInstance.homeForm.serverTime integerValue] - [((CZJMiaoShaTimesForm*)CZJBaseDataInstance.homeForm.skillTimes[0]).skillTime integerValue];
+                    TOCK;
+                    [cell initHeaderWithTimestamp:timeinteval];
+                }
+                
                 return cell;
             }
         }
@@ -478,12 +483,12 @@ CZJMiaoShaCellDelegate
         (_bannerTwoArray.count == 0 && section == 7)||
         (_carInfoArray.count == 0 && section == 2) ||
         (_specialRecommentArray.count == 0 && section == 8) ||
-        (_brandRecommentArray.count == 0 && section == 6) ||
-        (_miaoShaArray.count == 0 && section == 3)))
+        (_brandRecommentArray.count == 0 && section == 6)))
     {
         return 0;
     }
-    if (_limitBuyArray.count == 0 && section == 5)
+    if ((_limitBuyArray.count == 0 && section == 5) ||
+        (_miaoShaArray.count == 0 && section == 3))
     {
         return 0;
     }
@@ -491,7 +496,7 @@ CZJMiaoShaCellDelegate
     {
         return _goodsRecommentArray.count + 1;
     }
-    if (3 == section ||
+    if ((_miaoShaArray.count > 0 && section == 3)||
         5 == section ||
         6 == section ||
         8 == section)
@@ -686,7 +691,6 @@ CZJMiaoShaCellDelegate
     }
     if ([segue.identifier isEqualToString:@"segueToMiaoSha"])
     {
-//        CZJMiaoShaController* miaoshaVC = segue.destinationViewController;
     }
 }
 

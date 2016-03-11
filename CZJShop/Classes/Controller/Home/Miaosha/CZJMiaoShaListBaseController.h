@@ -23,6 +23,7 @@
     NSDictionary* _params;
 }
 @property (strong, nonatomic)NSDictionary* params;
+@property (strong, nonatomic)CZJMiaoShaTimesForm* miaoShaTimes;    //秒杀场次
 @property (weak, nonatomic)id<CZJMiaoShaListDelegate> delegate;
 
 - (void)getMiaoShaDataFromServer;

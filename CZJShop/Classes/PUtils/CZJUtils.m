@@ -760,6 +760,28 @@ void tapToHidePopViewAction(id sender, SEL _cmd)
     return NO;
 }
 
++ (CZJDateTime)getLeftDatetime:(NSInteger)timeStamp
+{
+    CZJDateTime dateTime;
+    NSInteger ms = timeStamp;
+    NSInteger ss = 1;
+    NSInteger mi = ss * 60;
+    NSInteger hh = mi * 60;
+    NSInteger dd = hh * 24;
+    
+    // 剩余的
+    NSInteger day = ms / dd;// 天
+    NSInteger hour = (ms - day * dd) / hh;// 时
+    NSInteger minute = (ms - day * dd - hour * hh) / mi;// 分
+    NSInteger second = (ms - day * dd - hour * hh - minute * mi) / ss;// 秒
+    dateTime.day = day;
+    dateTime.hour = hour;
+    dateTime.minute = minute;
+    dateTime.second = second;
+    return dateTime;
+}
+
+
 + (void)printClassMethodList:(id)target
 {
     Class currentClass=[target class];
@@ -1088,5 +1110,7 @@ void tapToHidePopViewAction(id sender, SEL _cmd)
     promptView.promptLabel.text = prompt;
     return promptView;
 }
+
+
 
 @end

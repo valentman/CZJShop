@@ -130,6 +130,17 @@ struct CZJMargin {
 };
 typedef struct CZJMargin CZJMargin;
 
+
+struct CZJDateTime
+{
+    NSInteger day;
+    NSInteger hour;
+    NSInteger minute;
+    NSInteger second;
+};
+typedef struct CZJDateTime CZJDateTime;
+
+
 CG_INLINE CZJMargin CZJMarginMake(CGFloat horisideMargin, CGFloat vertiMiddleMargin)
 {
     CZJMargin margin;

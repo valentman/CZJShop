@@ -136,7 +136,7 @@ UITableViewDelegate
 {
     if (0 == indexPath.section)
     {
-        return  200 + 35 * _cardInfoForm.items.count;
+        return  190 + 35 * _cardInfoForm.items.count;
     }
     else
     {

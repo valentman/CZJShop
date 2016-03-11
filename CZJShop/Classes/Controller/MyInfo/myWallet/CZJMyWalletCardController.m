@@ -161,7 +161,7 @@ PullTableViewDelegate
     CZJMyCardInfoForm* form = (CZJMyCardInfoForm*)_cardList[indexPath.row];
     if (form.items.count > 0)
     {
-        return 250;
+        return 230;
     }
     return 181;
 }

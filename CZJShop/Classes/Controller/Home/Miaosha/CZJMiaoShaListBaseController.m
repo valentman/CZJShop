@@ -17,6 +17,7 @@ UITableViewDelegate
 >
 {
     NSArray* miaoShaAry;
+    NSTimer* myTimer;
 }
 @property (strong, nonatomic)UITableView* myTableView;
 @end
@@ -26,7 +27,18 @@ UITableViewDelegate
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self initViews];
-    [self getMiaoShaDataFromServer];
+    //每分钟刷新秒杀页面一次
+    myTimer = [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(getMiaoShaDataFromServer) userInfo:nil repeats:YES];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [myTimer setFireDate:[NSDate distantPast]];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [myTimer setFireDate:[NSDate distantFuture]];
 }
 
 - (void)initViews
@@ -37,7 +49,6 @@ UITableViewDelegate
     self.myTableView.dataSource = self;
     self.myTableView.clipsToBounds = NO;
     self.myTableView.showsVerticalScrollIndicator = NO;
-    self.myTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.myTableView.backgroundColor = CZJTableViewBGColor;
     [self.view addSubview:self.myTableView];
@@ -52,12 +63,12 @@ UITableViewDelegate
 
 - (void)getMiaoShaDataFromServer
 {
+    _params = @{@"skillId":_miaoShaTimes.skillId};
     [CZJBaseDataInstance generalPost:_params success:^(id json) {
         NSArray* tmpAry = [[CZJUtils DataFromJson:json]valueForKey:@"msg"];
         miaoShaAry = [CZJMiaoShaCellForm objectArrayWithKeyValuesArray:tmpAry];
+        [self.myTableView reloadData];
     } andServerAPI:kCZJServerAPIPGetSkillGoodsList];
-    
-    [self.myTableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -79,7 +90,31 @@ UITableViewDelegate
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    CZJMiaoShaCellForm* miaoshaCellForm = miaoShaAry[indexPath.row];
     CZJMiaoShaControlCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJMiaoShaControlCell" forIndexPath:indexPath];
+    [cell.goodImg sd_setImageWithURL:[NSURL URLWithString:miaoshaCellForm.img] placeholderImage:DefaultPlaceHolderImage];
+    cell.goodName.text = miaoshaCellForm.itemName;
+    cell.goodNameLabelHeight.constant = [CZJUtils calculateTitleSizeWithString:miaoshaCellForm.itemName AndFontSize:17].height;
+    NSString* currentPriceStr = [NSString stringWithFormat:@"￥%@",miaoshaCellForm.currentPrice];
+    cell.currentPrice.text = currentPriceStr;
+    cell.currentPriceWidth.constant = [CZJUtils calculateTitleSizeWithString:currentPriceStr AndFontSize:17].width + 5;
+    NSString* originPriceStr = [NSString stringWithFormat:@"￥%@",miaoshaCellForm.originalPrice];
+    [cell.originPrice setAttributedText: [CZJUtils stringWithDeleteLine:originPriceStr]];
+    cell.originPriceWidth.constant = [CZJUtils calculateTitleSizeWithString:originPriceStr AndFontSize:12].width;
+    NSString* leftStr = [NSString stringWithFormat:@"仅限%@件",miaoshaCellForm.limitCount];
+    cell.leftNum.text = leftStr;
+    cell.leftNumWidth.constant = [CZJUtils calculateTitleSizeWithString:leftStr AndFontSize:12].width + 5;
+    if ([miaoshaCellForm.limitPoint integerValue] < 1)
+    {
+        cell.alreadyBuyBtn.titleLabel.text = [NSString stringWithFormat:@"已购%d%",[miaoshaCellForm.limitCount intValue]*100];
+        float widt = cell.alreadyBuyBtn.frame.size.width * (1 - [miaoshaCellForm.limitPoint floatValue]) * -1;
+        cell.backgroundLabelTrailing.constant = widt;
+    }
+    else if (1 == [miaoshaCellForm.limitPoint integerValue])
+    {
+        cell.goingOnView.hidden = YES;
+        cell.alreadyOverView.hidden = NO;
+    }
     return cell;
 }
 
@@ -96,14 +131,6 @@ UITableViewDelegate
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [CZJUtils performBlock:^{
-        [self getMiaoShaDataFromServer];
-    } afterDelay:0.5];
-}
-
-- (void)getMiaoShaDataFromServer
-{
-    _params = @{@"skillId":@"223"};
     [super getMiaoShaDataFromServer];
 }
 
@@ -117,16 +144,9 @@ UITableViewDelegate
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [CZJUtils performBlock:^{
-        [self getMiaoShaDataFromServer];
-    } afterDelay:0.5];
-}
-
-- (void)getMiaoShaDataFromServer
-{
-    _params = @{@"type":@"0", @"page":@"1", @"timeType":@"0"};
     [super getMiaoShaDataFromServer];
 }
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
@@ -139,15 +159,11 @@ UITableViewDelegate
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [CZJUtils performBlock:^{
-        [self getMiaoShaDataFromServer];
-    } afterDelay:0.5];
+    [super getMiaoShaDataFromServer];
 }
 
 - (void)getMiaoShaDataFromServer
 {
-    _params = @{@"type":@"0", @"page":@"1", @"timeType":@"0"};
-    [super getMiaoShaDataFromServer];
 }
 
 
@@ -162,14 +178,6 @@ UITableViewDelegate
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [CZJUtils performBlock:^{
-        [self getMiaoShaDataFromServer];
-    } afterDelay:0.5];
-}
-
-- (void)getMiaoShaDataFromServer
-{
-    _params = @{@"type":@"0", @"page":@"1", @"timeType":@"0"};
     [super getMiaoShaDataFromServer];
 }
 
@@ -183,14 +191,6 @@ UITableViewDelegate
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [CZJUtils performBlock:^{
-        [self getMiaoShaDataFromServer];
-    } afterDelay:0.5];
-}
-
-- (void)getMiaoShaDataFromServer
-{
-    _params = @{@"type":@"0", @"page":@"1", @"timeType":@"0"};
     [super getMiaoShaDataFromServer];
 }
 

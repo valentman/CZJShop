@@ -100,6 +100,7 @@
 //获取时间间隔
 + (BOOL)isTimeCrossOneDay;
 + (BOOL)isTimeCrossFiveMin:(int)intervalMin;
++ (CZJDateTime)getLeftDatetime:(NSInteger)timeStamp;
 //延迟执行Block
 + (void)performBlock:(CZJGeneralBlock)block afterDelay:(NSTimeInterval)delay;
 //打印类所有方法和成员变量

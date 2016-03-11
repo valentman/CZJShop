@@ -13,6 +13,7 @@
 @synthesize serviceForms = _serviceForms;
 @synthesize carInfoForms = _carInfoForms;
 @synthesize secSkillForms = _secSkillForms;
+@synthesize skillTimes = _skillTimes;
 @synthesize bannerOneForms = _bannerOneForms;
 @synthesize limitBuyForms = _limitBuyForms;
 @synthesize brandRecommendForms = _brandRecommendForms;
@@ -52,6 +53,7 @@
     _serviceForms = [[ServiceForm objectArrayWithKeyValuesArray:[dict valueForKey:@"services"]] mutableCopy];
     _carInfoForms = [[CarInfoForm objectArrayWithKeyValuesArray:[dict valueForKey:@"news"]] mutableCopy];
     _secSkillForms = [[SecSkillsForm objectArrayWithKeyValuesArray:[dict valueForKey:@"skills"]] mutableCopy];
+    _skillTimes = [[CZJMiaoShaTimesForm objectArrayWithKeyValuesArray:[dict valueForKey:@"skillTimes"]] mutableCopy];
     _bannerOneForms = [[BannerForm objectArrayWithKeyValuesArray:[dict valueForKey:@"banners1"]] mutableCopy];
     _limitBuyForms = [[LimitBuyForm objectArrayWithKeyValuesArray:[dict valueForKey:@"limits"]] mutableCopy];
     _brandRecommendForms = [[BrandRecommendForm objectArrayWithKeyValuesArray:[dict valueForKey:@"brands"]] mutableCopy];

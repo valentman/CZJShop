@@ -14,6 +14,7 @@
     NSMutableArray* _serviceForms;
     NSMutableArray* _carInfoForms;
     NSMutableArray* _secSkillForms;
+    NSMutableArray* _skillTimes;
     NSMutableArray* _bannerOneForms;
     NSMutableArray* _limitBuyForms;
     NSMutableArray* _brandRecommendForms;
@@ -26,6 +27,7 @@
 @property(nonatomic,strong) NSMutableArray* serviceForms;
 @property(nonatomic,strong) NSMutableArray* carInfoForms;
 @property(nonatomic,strong) NSMutableArray* secSkillForms;
+@property(nonatomic,strong) NSMutableArray* skillTimes;
 @property(nonatomic,strong) NSMutableArray* bannerOneForms;
 @property(nonatomic,strong) NSMutableArray* limitBuyForms;
 @property(nonatomic,strong) NSMutableArray* brandRecommendForms;

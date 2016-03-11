@@ -16,7 +16,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *hourLabel;
 @property (weak, nonatomic) IBOutlet UILabel *minutesLabel;
 @property (weak, nonatomic) IBOutlet UILabel *secondLabel;
-@property (assign) NSDate* timeStamp;
 
-- (void)initHeaderWithTimestamp:(NSString*)time;
+- (void)initHeaderWithTimestamp:(NSInteger)timeLeft;
 @end

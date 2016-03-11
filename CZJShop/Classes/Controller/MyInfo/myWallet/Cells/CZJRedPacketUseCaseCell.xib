@@ -54,21 +54,21 @@
                         </constraints>
                     </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ctN-7Y-74c">
-                        <rect key="frame" x="169" y="42" width="60" height="15"/>
+                        <rect key="frame" x="169" y="42" width="150" height="15"/>
                         <animations/>
                         <constraints>
                             <constraint firstAttribute="height" constant="15" id="JLz-eW-fjs"/>
-                            <constraint firstAttribute="width" constant="60" id="kOF-7R-XDI"/>
+                            <constraint firstAttribute="width" constant="150" id="kOF-7R-XDI"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="n4m-MT-D2k">
-                        <rect key="frame" x="91" y="42" width="60" height="15"/>
+                        <rect key="frame" x="1" y="42" width="150" height="15"/>
                         <animations/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="60" id="2d6-7M-Vzs"/>
+                            <constraint firstAttribute="width" constant="150" id="2d6-7M-Vzs"/>
                             <constraint firstAttribute="height" constant="15" id="jjd-zz-POo"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
