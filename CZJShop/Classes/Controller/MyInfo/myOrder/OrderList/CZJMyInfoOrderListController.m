@@ -23,6 +23,7 @@
 #import "CZJOrderCarCheckController.h"
 #import "CZJOrderListReturnedController.h"
 #import "CZJPopPayViewController.h"
+#import "CZJMiaoShaTimesView.h"
 
 @interface CZJMyInfoOrderListController ()
 <
@@ -33,6 +34,7 @@ CZJPopPayViewDelegate
 {
     NIDropDown *dropDown;
     CZJOrderListForm* currentTouchedOrderListForm;
+    NSInteger currentIndex;
 }
 @property (strong, nonatomic) UIView *backgroundView;
 @property (weak, nonatomic) IBOutlet UIView *settlePanelView;
@@ -50,6 +52,7 @@ CZJPopPayViewDelegate
 - (void)updateDateIntervalButton:(NSNotification*)notif
 {
     NSString* index = [notif.userInfo objectForKey:@"currentIndex"];
+    currentIndex = [index integerValue];
     if ([index isEqualToString:@"0"])
     {
         VIEWWITHTAG(self.naviBarView, 2999).hidden = NO;
@@ -119,6 +122,22 @@ CZJPopPayViewDelegate
     UIGestureRecognizer *gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapBackground:)];
     [_backgroundView addGestureRecognizer:gesture];
     _backgroundView.hidden = YES;
+    
+    CZJMiaoShaTimesView* miaoShaTimesView = [CZJUtils getXibViewByName:@"CZJMiaoShaTimesView"];
+    miaoShaTimesView.frame = CGRectMake(0, 64, PJ_SCREEN_WIDTH, 50);
+    [self.view addSubview:miaoShaTimesView];
+    for (UIView* cellView in [miaoShaTimesView.contentView subviews])
+    {
+        cellView.backgroundColor = RGB(50, 50, 50);
+        NSArray* subs = [cellView subviews];
+//        UILabel* maintitle = (UILabel*)VIEWWITHTAG(cellView, 1);
+//        ((UILabel*)VIEWWITHTAG(cellView, 1)).textColor = WHITECOLOR;
+//        ((UILabel*)VIEWWITHTAG(cellView, 2)).textColor = BLACKCOLOR;
+        if (cellView.tag == currentIndex)
+        {
+            cellView.backgroundColor = REDCOLOR;
+        }
+    }
 }
 
 - (void)tapBackground:(UITapGestureRecognizer *)paramSender

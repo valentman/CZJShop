@@ -794,14 +794,19 @@ MKMapViewDelegate
 - (void)clickRecommendCellWithID:(NSString*)itemID
 {
     _touchedStoreItemPid = itemID;
+
     CZJDetailViewController* detailVC = (CZJDetailViewController*)[CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:@"goodsDetailSBID"];
     detailVC.storeItemPid = itemID;
+    detailVC.detaiViewType = CZJDetailTypeGoods;
+    detailVC.promotionType = CZJGoodsPromotionTypeBaoKuan;
     NSString* itemType = @"";
     for (CZJStoreDetailGoodsAndServiceForm* mForm in _nativeServiceAndGoodsArray)
     {
         if ([itemID isEqualToString:mForm.storeItemPid])
         {
             itemType = mForm.itemType;
+            detailVC.promotionPrice = mForm.currentPrice;
+            break;
         }
     }
     detailVC.detaiViewType = [itemType intValue];

@@ -688,6 +688,8 @@ CZJMiaoShaCellDelegate
         CZJDetailViewController* detailVC = segue.destinationViewController;
         detailVC.storeItemPid = _touchedStoreItemPid;
         detailVC.detaiViewType = CZJDetailTypeGoods;
+        detailVC.promotionType = CZJGoodsPromotionTypeGeneral;
+        detailVC.promotionPrice = @"";
     }
     if ([segue.identifier isEqualToString:@"segueToMiaoSha"])
     {

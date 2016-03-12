@@ -11,6 +11,8 @@
 #import "CZJPageControlView.h"
 #import "CZJBaseDataManager.h"
 #import "CZJMiaoShaControlHeaderCell.h"
+#import "CZJDetailViewController.h"
+#import "CZJMiaoShaTimesView.h"
 
 @interface CZJMiaoShaController ()
 <
@@ -20,6 +22,7 @@ CZJMiaoShaListDelegate
     CZJMiaoShaControllerForm* miaoShaControllerForm;
     CZJPageControlView* pageControlView;
     CZJMiaoShaControlHeaderCell* headerCell;
+    CZJMiaoShaTimesView* miaoShaTimesView;
     NSArray* pageControls;
     
     NSInteger _timestamp;
@@ -72,6 +75,15 @@ CZJMiaoShaListDelegate
     pageControlView = [[CZJPageControlView alloc]initWithFrame:pageViewFrame andPageIndex:0];
     pageControlView.backgroundColor = CLEARCOLOR;
     [self.view addSubview:pageControlView];
+    
+    //秒杀场次栏
+    miaoShaTimesView = [CZJUtils getXibViewByName:@"CZJMiaoShaTimesView"];
+    miaoShaTimesView.frame = CGRectMake(0, 64, PJ_SCREEN_WIDTH, 50);
+    [self.view addSubview:miaoShaTimesView];
+    for (UIView* cellView in [miaoShaTimesView subviews])
+    {
+        cellView.backgroundColor = RGB(50, 50, 50);
+    }
 }
 
 - (void)initMiaoShaPageView
@@ -81,7 +93,7 @@ CZJMiaoShaListDelegate
         CZJMiaoShaListBaseController* baseVC = pageControls[i];
         baseVC.miaoShaTimes = miaoShaControllerForm.skillTimes[i];
     }
-    [pageControlView setTitleArray:@[@"8:00",@"10:00",@"12:00",@"14:00",@"16:00"] andVCArray:pageControls];
+    [pageControlView setTitleArray:@[@"",@"",@"",@"",@""] andVCArray:pageControls];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateDateIntervalButton:) name:kCZJNotifikOrderListType object:nil];
     
     [self setTimestamp:[((CZJMiaoShaTimesForm*)miaoShaControllerForm.skillTimes[4]).skillTime integerValue] - [miaoShaControllerForm.currentTime integerValue]];
@@ -145,7 +157,15 @@ CZJMiaoShaListDelegate
 }
 
 #pragma mark- CZJMiaoShaListDelegate
-
+- (void)clickMiaoShaCell:(CZJMiaoShaCellForm*)cellForm
+{
+    CZJDetailViewController* detailVC = (CZJDetailViewController*)[CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:kCZJStoryBoardIDGoodsDetailVC];
+    detailVC.storeItemPid = cellForm.storeItemPid;
+    detailVC.detaiViewType = CZJDetailTypeGoods;
+    detailVC.promotionType = CZJGoodsPromotionTypeMiaoSha;
+    detailVC.promotionPrice = cellForm.currentPrice;
+    [self.navigationController pushViewController:detailVC animated:YES];
+}
 
 
 #pragma mark- PageControl改变页面通知反馈

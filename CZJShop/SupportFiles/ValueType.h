@@ -86,6 +86,14 @@ typedef NS_ENUM(NSInteger, CZJDetailType)
     CZJDetailTypeStore
 };
 
+//商品类型（一般商品、爆款商品、秒杀商品）
+typedef NS_ENUM(NSInteger, CZJGoodsPromotionType)
+{
+    CZJGoodsPromotionTypeGeneral = 0,
+    CZJGoodsPromotionTypeBaoKuan,
+    CZJGoodsPromotionTypeMiaoSha
+};
+
 //评论类型
 typedef NS_ENUM(NSInteger, CZJEvalutionType)
 {

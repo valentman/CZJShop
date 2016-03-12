@@ -34,11 +34,11 @@ CZJOrderListCellDelegate
 
 - (void)initViews
 {
-    CGRect viewRect = CGRectMake(0, 0, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT- 128);
+    CGRect viewRect = CGRectMake(0, 0, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT- 114);
     if ([[_params valueForKey:@"type"] isEqualToString:@"1"])
     {
-        viewRect = CGRectMake(0, 0, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT- 128 - 60);
-        CGRect buttomRect = CGRectMake(0, PJ_SCREEN_HEIGHT- 128 - 60, PJ_SCREEN_WIDTH,60);
+        viewRect = CGRectMake(0, 0, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT- 114 - 60);
+        CGRect buttomRect = CGRectMake(0, PJ_SCREEN_HEIGHT- 114 - 60, PJ_SCREEN_WIDTH,60);
         _noPayButtomView = [CZJUtils getXibViewByName:@"CZJOrderListNoPayButtomView"];
         _noPayButtomView.frame = buttomRect;
         [self.view addSubview:_noPayButtomView];
@@ -115,6 +115,10 @@ CZJOrderListCellDelegate
     CZJOrderListCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJOrderListCell" forIndexPath:indexPath];
     [cell setCellModelWithType:_orderList[indexPath.section] andType:[[_params valueForKey:@"type"] integerValue]];
     cell.delegate = self;
+    if (indexPath.section == _orderList.count - 1)
+    {
+        cell.separatorInset = HiddenCellSeparator;
+    }
     return cell;
 }
 

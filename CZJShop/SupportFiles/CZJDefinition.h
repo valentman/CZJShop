@@ -30,8 +30,9 @@ static NSString *const kCZJServerAPIServiceCarModelsList = @"chezhu/showServiceC
 static NSString *const kCZJServerAPIServiceHotReco = @"chezhu/searchHotRecommend.do";               //获取服务热门推荐
 static NSString *const kCZJServerAPICommentsList = @"chezhu/loadEvaluations.do";                    //获取评论列表
 static NSString *const kCZJServerAPIReplyList = @"chezhu/loadEvalReplys.do";                        //获取回复列表
-static NSString *const kCZJServerAPIGetKillTimeList = @"chezhu/loadSkillTimes.do"; //得到秒杀哦点场
-static NSString *const kCZJServerAPIPGetSkillGoodsList = @"chezhu/loadSkillGoods.do"; //得到秒杀商品列表
+static NSString *const kCZJServerAPIGetKillTimeList = @"chezhu/loadSkillTimes.do";                  //得到秒杀哦点场
+static NSString *const kCZJServerAPIPGetSkillGoodsList = @"chezhu/loadSkillGoods.do";               //得到秒杀商品列表
+//static NSString *const kCZJServerAPIShowBrands = @"chezhu/showBrands.do";                           //更多品牌
 
 //分类接口组
 static NSString *const kCZJServerAPIGetCategoryData = @"chezhu/loadGoodsSubTypes.do";               //获取分类信息

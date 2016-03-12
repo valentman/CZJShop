@@ -247,9 +247,13 @@ UIAlertViewDelegate
             case 1:
             case 2:// 1服务 2商品
             {
-                CZJDetailViewController* detailview = (CZJDetailViewController*)[CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:kCZJStoryBoardIDGoodsDetailVC];
-                detailview.storeItemPid = scanForm.content;
-                [self.navigationController pushViewController:detailview animated:YES];
+                CZJDetailViewController* detailVC = (CZJDetailViewController*)[CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:kCZJStoryBoardIDGoodsDetailVC];
+                detailVC.storeItemPid = scanForm.content;
+                detailVC.detaiViewType = CZJDetailTypeGoods;
+                detailVC.promotionType = CZJGoodsPromotionTypeGeneral;
+                detailVC.promotionPrice = @"";
+                
+                [self.navigationController pushViewController:detailVC animated:YES];
             }
                 break;
                 

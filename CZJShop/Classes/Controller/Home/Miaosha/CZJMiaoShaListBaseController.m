@@ -123,6 +123,16 @@ UITableViewDelegate
 {
     return 117;
 }
+
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    CZJMiaoShaCellForm* cellForm = miaoShaAry[indexPath.row];
+    if ([self.delegate respondsToSelector:@selector(clickMiaoShaCell:)])
+    {
+        [self.delegate clickMiaoShaCell:cellForm];
+    }
+}
 @end
 
 

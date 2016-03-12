@@ -402,6 +402,8 @@ CZJFilterControllerDelegate
         CZJDetailViewController* serviceDetailCon = segue.destinationViewController;
         serviceDetailCon.storeItemPid = _choosedStoreitemPid;
         serviceDetailCon.detaiViewType = CZJDetailTypeGoods;
+        serviceDetailCon.promotionType = CZJGoodsPromotionTypeGeneral;
+        serviceDetailCon.promotionPrice = @"";
     }
 }
 

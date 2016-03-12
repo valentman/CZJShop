@@ -855,6 +855,7 @@ void tapToHidePopViewAction(id sender, SEL _cmd)
     CZJDetailViewController* detailView = (CZJDetailViewController*)[CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:kCZJStoryBoardIDGoodsDetailVC];
     detailView.storeItemPid = sid;
     detailView.detaiViewType = detailtype;
+    detailView.promotionPrice = @"";
     [navi pushViewController:detailView animated:true];
 }
 

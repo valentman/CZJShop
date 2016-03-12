@@ -9,9 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface CZJDetailViewController : CZJViewController
-
 @property (nonatomic, strong)NSString* storeItemPid;
-@property (nonatomic, strong)NSString* promotionType;
-@property (nonatomic, strong)NSString* promotionPrice;
 @property (nonatomic, assign)CZJDetailType detaiViewType;
+@property (nonatomic, assign)CZJGoodsPromotionType promotionType;
+@property (nonatomic, strong)NSString* promotionPrice;
 @end

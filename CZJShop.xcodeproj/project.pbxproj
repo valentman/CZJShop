@@ -101,6 +101,8 @@
 		EC0F004F1C329D7200F124F8 /* CZJApplicableCarController.m in Sources */ = {isa = PBXBuildFile; fileRef = EC0F004E1C329D7200F124F8 /* CZJApplicableCarController.m */; };
 		EC0F00521C329DE800F124F8 /* CZJAfterServiceController.m in Sources */ = {isa = PBXBuildFile; fileRef = EC0F00511C329DE800F124F8 /* CZJAfterServiceController.m */; };
 		EC0F00551C32AE7100F124F8 /* CZJPicDetailBaseController.m in Sources */ = {isa = PBXBuildFile; fileRef = EC0F00541C32AE7100F124F8 /* CZJPicDetailBaseController.m */; };
+		EC0F45151C9406BC00D7B39A /* CZJMiaoShaTimesView.m in Sources */ = {isa = PBXBuildFile; fileRef = EC0F45131C9406BC00D7B39A /* CZJMiaoShaTimesView.m */; settings = {ASSET_TAGS = (); }; };
+		EC0F45161C9406BC00D7B39A /* CZJMiaoShaTimesView.xib in Resources */ = {isa = PBXBuildFile; fileRef = EC0F45141C9406BC00D7B39A /* CZJMiaoShaTimesView.xib */; settings = {ASSET_TAGS = (); }; };
 		EC1009921C818BCB00768AE2 /* CZJAddedEvalutionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EC1009901C818BCB00768AE2 /* CZJAddedEvalutionCell.m */; settings = {ASSET_TAGS = (); }; };
 		EC1009931C818BCB00768AE2 /* CZJAddedEvalutionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EC1009911C818BCB00768AE2 /* CZJAddedEvalutionCell.xib */; settings = {ASSET_TAGS = (); }; };
 		EC10E6811BFC24C800CDBFCD /* CZJHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EC10E6691BFC24C800CDBFCD /* CZJHomeViewController.m */; };
@@ -1188,6 +1190,9 @@
 		EC0F00511C329DE800F124F8 /* CZJAfterServiceController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJAfterServiceController.m; sourceTree = "<group>"; };
 		EC0F00531C32AE7100F124F8 /* CZJPicDetailBaseController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJPicDetailBaseController.h; sourceTree = "<group>"; };
 		EC0F00541C32AE7100F124F8 /* CZJPicDetailBaseController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJPicDetailBaseController.m; sourceTree = "<group>"; };
+		EC0F45121C9406BC00D7B39A /* CZJMiaoShaTimesView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJMiaoShaTimesView.h; sourceTree = "<group>"; };
+		EC0F45131C9406BC00D7B39A /* CZJMiaoShaTimesView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJMiaoShaTimesView.m; sourceTree = "<group>"; };
+		EC0F45141C9406BC00D7B39A /* CZJMiaoShaTimesView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CZJMiaoShaTimesView.xib; sourceTree = "<group>"; };
 		EC10098F1C818BCB00768AE2 /* CZJAddedEvalutionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJAddedEvalutionCell.h; sourceTree = "<group>"; };
 		EC1009901C818BCB00768AE2 /* CZJAddedEvalutionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJAddedEvalutionCell.m; sourceTree = "<group>"; };
 		EC1009911C818BCB00768AE2 /* CZJAddedEvalutionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CZJAddedEvalutionCell.xib; sourceTree = "<group>"; };
@@ -4336,6 +4341,9 @@
 				ECD555671C91640100BAC8A0 /* CZJMiaoShaControlHeaderCell.h */,
 				ECD555681C91640100BAC8A0 /* CZJMiaoShaControlHeaderCell.m */,
 				ECD555691C91640100BAC8A0 /* CZJMiaoShaControlHeaderCell.xib */,
+				EC0F45121C9406BC00D7B39A /* CZJMiaoShaTimesView.h */,
+				EC0F45131C9406BC00D7B39A /* CZJMiaoShaTimesView.m */,
+				EC0F45141C9406BC00D7B39A /* CZJMiaoShaTimesView.xib */,
 			);
 			path = cell;
 			sourceTree = "<group>";
@@ -5770,6 +5778,7 @@
 				ECB4B6361C0E976F00925BCA /* icon_star_10@3x.png in Resources */,
 				ECF3D1661C83E72D008E4969 /* evaluate_icon_zhuiping@3x.png in Resources */,
 				ECC4DEE21C17FEA900FBD6A4 /* prodetail_icon_shop02@2x.png in Resources */,
+				EC0F45161C9406BC00D7B39A /* CZJMiaoShaTimesView.xib in Resources */,
 				EC2A315C1C128CBA00622767 /* shop_icon_location@2x.png in Resources */,
 				EC79821B1C24EC43003FC433 /* pro_icon_price@3x.png in Resources */,
 				ECF2DCA41C5767F80096FF39 /* CZJMyInfoShoppingCartCell.xib in Resources */,
@@ -6287,6 +6296,7 @@
 				EC0C93951C204168002A7FF5 /* CZJHotRecoCell.m in Sources */,
 				ECC4DDC21C17D67B00FBD6A4 /* LoadMoreTableFooterView.m in Sources */,
 				ECF8E9351C5C5BA100A98707 /* CALayer+UIColor.m in Sources */,
+				EC0F45151C9406BC00D7B39A /* CZJMiaoShaTimesView.m in Sources */,
 				EC8A0BB31C005C72002A2CED /* CZJGoodsRecoCellHeader.m in Sources */,
 				EC6ACCD81C30E15F00832B55 /* CZJChooseTypeHeaderCell.m in Sources */,
 				EC45215C1C5F2C1E003272C3 /* CZJOrderLogisticsController.m in Sources */,

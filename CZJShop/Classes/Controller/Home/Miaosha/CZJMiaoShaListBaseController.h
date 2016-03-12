@@ -10,11 +10,7 @@
 
 @protocol CZJMiaoShaListDelegate <NSObject>
 
-//- (void)clickOneOrder:(CZJOrderListForm*)orderListForm;
-//- (void)clickOrderListCellButton:(UIButton*)sender
-//                   andButtonType:(CZJOrderListCellButtonType)buttonType
-//                    andOrderForm:(CZJOrderListForm*)orderListForm;
-//- (void)showPopPayView:(float)orderMoney;
+- (void)clickMiaoShaCell:(CZJMiaoShaCellForm*)cellForm;
 
 @end
 

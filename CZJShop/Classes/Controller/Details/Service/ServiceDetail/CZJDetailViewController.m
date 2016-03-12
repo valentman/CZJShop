@@ -249,7 +249,7 @@ CZJStoreInfoHeaerCellDelegate
         
         [SVProgressHUD dismiss];
     };
-    NSDictionary* param = @{@"storeItemPid":self.storeItemPid, @"promotionPrice":self.promotionPrice, @"promotionType":self.promotionType};
+    NSDictionary* param = @{@"storeItemPid":self.storeItemPid, @"promotionPrice":self.promotionPrice, @"promotionType":[NSString stringWithFormat:@"%ld",self.promotionType]};
     NSString* apiUrl;
     if (CZJDetailTypeGoods == _detaiViewType)
     {

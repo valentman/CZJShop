@@ -318,18 +318,11 @@ UIGestureRecognizerDelegate
     if (0 == indexPath.row)
     {//跳转到门店详情
         [CZJUtils showStoreDetailView:self.navigationController andStoreId:_shoppingcartInfo.storeId];
-//        CZJStoreDetailController* storeDetailVC = (CZJStoreDetailController*)[CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:@""];
-//        storeDetailVC.storeId = _shoppingcartInfo.storeId;
-//        [self.navigationController pushViewController:storeDetailVC animated:YES];
     }
     else
     {//跳转到商品详情
         CZJShoppingGoodsInfoForm* goodsInfo = (CZJShoppingGoodsInfoForm*)_shoppingcartInfo.items[indexPath.row -1];
         [CZJUtils showGoodsServiceDetailView:self.navigationController andItemPid:goodsInfo.storeItemPid detailType:[goodsInfo.itemType integerValue]];
-        
-//        CZJDetailViewController* goodsDetailVC = (CZJDetailViewController*)[CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:@""];
-//        goodsDetailVC.storeItemPid = goodsInfo.storeItemPid;
-//        [self.navigationController pushViewController:goodsDetailVC animated:YES];
     }
 }
 
