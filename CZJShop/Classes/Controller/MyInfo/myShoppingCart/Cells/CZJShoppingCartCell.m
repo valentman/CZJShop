@@ -143,8 +143,8 @@
 //计算每个cell自己的小计价格
 - (void)calculatePriceNumber
 {
-    NSInteger totalPriceNum = [self.goodsInfoForm.currentPrice integerValue] * self.choosedCount;
-    self.totalPrice.text = [NSString stringWithFormat:@"￥%ld",totalPriceNum];
+    float totalPriceNum = [self.goodsInfoForm.currentPrice floatValue] * self.choosedCount;
+    self.totalPrice.text = [NSString stringWithFormat:@"￥%.2f",totalPriceNum];
     if (_chooseBtn.selected)
     {//通知controller价格变化
         [self.delegate changePurchaseNumberNotification];

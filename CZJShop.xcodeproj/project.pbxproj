@@ -408,6 +408,8 @@
 		EC6340B31C8FF4C600DDFB76 /* CZJOneButtonCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EC6340B11C8FF4C600DDFB76 /* CZJOneButtonCell.xib */; settings = {ASSET_TAGS = (); }; };
 		EC6340B61C8FF9FD00DDFB76 /* commit_icon_kefu@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EC6340B41C8FF9FD00DDFB76 /* commit_icon_kefu@2x.png */; settings = {ASSET_TAGS = (); }; };
 		EC6340B71C8FF9FD00DDFB76 /* commit_icon_kefu@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = EC6340B51C8FF9FD00DDFB76 /* commit_icon_kefu@3x.png */; settings = {ASSET_TAGS = (); }; };
+		EC6555651C9667B400F68ECC /* CZJPaymentManager.m in Sources */ = {isa = PBXBuildFile; fileRef = EC6555641C9667B400F68ECC /* CZJPaymentManager.m */; settings = {ASSET_TAGS = (); }; };
+		EC6555681C966E6A00F68ECC /* CZJPaymentOrderForm.m in Sources */ = {isa = PBXBuildFile; fileRef = EC6555671C966E6A00F68ECC /* CZJPaymentOrderForm.m */; settings = {ASSET_TAGS = (); }; };
 		EC6ACCD81C30E15F00832B55 /* CZJChooseTypeHeaderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EC6ACCD61C30E15F00832B55 /* CZJChooseTypeHeaderCell.m */; };
 		EC6ACCD91C30E15F00832B55 /* CZJChooseTypeHeaderCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EC6ACCD71C30E15F00832B55 /* CZJChooseTypeHeaderCell.xib */; };
 		EC7801821C251C4F002D52A5 /* CZJGoodsListFilterSubController.m in Sources */ = {isa = PBXBuildFile; fileRef = EC7801811C251C4F002D52A5 /* CZJGoodsListFilterSubController.m */; };
@@ -1599,6 +1601,10 @@
 		EC6340B11C8FF4C600DDFB76 /* CZJOneButtonCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CZJOneButtonCell.xib; sourceTree = "<group>"; };
 		EC6340B41C8FF9FD00DDFB76 /* commit_icon_kefu@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "commit_icon_kefu@2x.png"; sourceTree = "<group>"; };
 		EC6340B51C8FF9FD00DDFB76 /* commit_icon_kefu@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "commit_icon_kefu@3x.png"; sourceTree = "<group>"; };
+		EC6555631C9667B400F68ECC /* CZJPaymentManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJPaymentManager.h; sourceTree = "<group>"; };
+		EC6555641C9667B400F68ECC /* CZJPaymentManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJPaymentManager.m; sourceTree = "<group>"; };
+		EC6555661C966E6A00F68ECC /* CZJPaymentOrderForm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJPaymentOrderForm.h; sourceTree = "<group>"; };
+		EC6555671C966E6A00F68ECC /* CZJPaymentOrderForm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJPaymentOrderForm.m; sourceTree = "<group>"; };
 		EC6ACCD51C30E15F00832B55 /* CZJChooseTypeHeaderCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJChooseTypeHeaderCell.h; sourceTree = "<group>"; };
 		EC6ACCD61C30E15F00832B55 /* CZJChooseTypeHeaderCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJChooseTypeHeaderCell.m; sourceTree = "<group>"; };
 		EC6ACCD71C30E15F00832B55 /* CZJChooseTypeHeaderCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CZJChooseTypeHeaderCell.xib; sourceTree = "<group>"; };
@@ -2946,6 +2952,8 @@
 				EC296B131C7807DF00D9D473 /* CZJGoodsDetailForm.m */,
 				ECD6FFA21C802001005F8E52 /* CZJEvaluateForm.h */,
 				ECD6FFA31C802001005F8E52 /* CZJEvaluateForm.m */,
+				EC6555661C966E6A00F68ECC /* CZJPaymentOrderForm.h */,
+				EC6555671C966E6A00F68ECC /* CZJPaymentOrderForm.m */,
 			);
 			name = Madel;
 			path = Classes/Madel;
@@ -2964,6 +2972,8 @@
 				EC10E6A61BFC6DAB00CDBFCD /* CZJNetworkManager.m */,
 				EC10E7AD1BFC801900CDBFCD /* CZJMessageManager.h */,
 				EC10E7AE1BFC801900CDBFCD /* CZJMessageManager.m */,
+				EC6555631C9667B400F68ECC /* CZJPaymentManager.h */,
+				EC6555641C9667B400F68ECC /* CZJPaymentManager.m */,
 			);
 			name = Manager;
 			path = Classes/Manager;
@@ -6062,6 +6072,7 @@
 				ECC4DE4F1C17D67B00FBD6A4 /* WXUtil.mm in Sources */,
 				ECD6FF921C800043005F8E52 /* QNUserAgent.m in Sources */,
 				ECC4DE4A1C17D67B00FBD6A4 /* WebViewJavascriptBridge.m in Sources */,
+				EC6555651C9667B400F68ECC /* CZJPaymentManager.m in Sources */,
 				ECD6FFA41C802001005F8E52 /* CZJEvaluateForm.m in Sources */,
 				ECC4DDBF1C17D67B00FBD6A4 /* EasyJSWebView.m in Sources */,
 				EC442B601BFEF5D100DC6F97 /* CZJAdBanerCell.m in Sources */,
@@ -6098,6 +6109,7 @@
 				ECF2DCB01C5767F80096FF39 /* CZJMyCarListCell.m in Sources */,
 				ECC4DDB71C17D67B00FBD6A4 /* RSADataSigner.m in Sources */,
 				EC442B811BFEF7E200DC6F97 /* CZJSpecialRecommendCell.m in Sources */,
+				EC6555681C966E6A00F68ECC /* CZJPaymentOrderForm.m in Sources */,
 				ECF2DCB21C5767F80096FF39 /* CZJAddMyCarController.m in Sources */,
 				EC025FD71C21036E00A8085E /* MJRefreshConst.m in Sources */,
 				ECC16C811C911D8D001DF023 /* CZJQRView.m in Sources */,

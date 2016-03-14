@@ -15,6 +15,7 @@
 #import "CZJLoginModelManager.h"
 #import "CZJMessageManager.h"
 #import "OpenShareHeader.h"
+#import <AlipaySDK/AlipaySDK.h>
 #import "XGPush.h"
 #import "XGSetting.h"
 #import "JRSwizzle.h"
@@ -185,17 +186,17 @@
     
     
     //---------------------7.分享设置---------------------
-//    [OpenShare connectQQWithAppId:kCZJOpenShareQQAppId];
-//    [OpenShare connectWeiboWithAppKey:kCZJOpenShareWeiboAppKey];
-//    [OpenShare connectWeixinWithAppId:kCZJOpenShareWeixinAppId];
-//    [OpenShare connectAlipay];
+    [OpenShare connectQQWithAppId:kCZJOpenShareQQAppId];
+    [OpenShare connectWeiboWithAppKey:kCZJOpenShareWeiboAppKey];
+    [OpenShare connectWeixinWithAppId:kCZJOpenShareWeixinAppId];
+    [OpenShare connectAlipay];
     
     
     //-------------------8.字典描述分类替换---------------
     [NSDictionary jr_swizzleMethod:@selector(description) withMethod:@selector(my_description) error:nil];
     
     //-------------------9.开启帧数显示---------------
-    [KMCGeigerCounter sharedGeigerCounter].enabled = NO;
+    [KMCGeigerCounter sharedGeigerCounter].enabled = YES;
 
     return YES;
 }
@@ -356,5 +357,24 @@
     }
 }
 
+- (BOOL)application:(UIApplication *)application
+            openURL:(NSURL *)url
+  sourceApplication:(NSString *)sourceApplication
+         annotation:(id)annotation {
+    //跳转支付宝钱包进行支付，处理支付结果
+    [[AlipaySDK defaultService] processOrderWithPaymentResult:url standbyCallback:^(NSDictionary *resultDic) {
+        DLog(@"result ---- = %@",resultDic);
+        if ([[resultDic valueForKey:@"resultStatus"] intValue] == 9000) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:alipaySuccseful object:resultDic];
+        }
+    }];
+    
+    //第二步：添加回调
+    if ([OpenShare handleOpenURL:url]) {
+        return YES;
+    }
+    
+    return YES;
+}
 
 @end

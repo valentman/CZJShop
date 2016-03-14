@@ -27,6 +27,7 @@
 #import "CZJShoppingCartForm.h"
 #import "CZJStoreForm.h"
 #import "CZJLeaveMessageView.h"
+#import "CZJPaymentManager.h"
 
 
 @interface CZJCommitOrderController ()
@@ -71,17 +72,12 @@ CZJRedPacketCellDelegate
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-//    [CZJUtils customizeNavigationBarForTarget:self];
     [self initDatas];
     [self initViews];
     [SVProgressHUD show];
     [self getSettleDataFromServer];
 }
 
-//- (void)viewWillAppear:(BOOL)animated
-//{
-//    self.navigationController.navigationBarHidden = NO;
-//}
 
 - (void)initDatas
 {
@@ -170,9 +166,14 @@ CZJRedPacketCellDelegate
                 orderTotalPrice += [goodsForm.itemCount floatValue]*[goodsForm.currentPrice floatValue];
             }
             orderTotalPrice += [form.transportPrice floatValue];
+            form.totalSetupPrice = @"0";
+            form.couponPrice = @"0";
+            form.orderPrice = @"0";
+            form.orderMoney = @"0";
+            form.note = @"无";
         }
         orderFinalPrice = orderTotalPrice;
-        _totalPriceLabel.text = [NSString stringWithFormat:@"￥%.1f",orderFinalPrice];
+        _totalPriceLabel.text = [NSString stringWithFormat:@"￥%.2f",orderFinalPrice];
     } fail:^{
         
     }];
@@ -420,7 +421,7 @@ CZJRedPacketCellDelegate
             cell.goodsTypeLabel.text = goodsForm.itemSku;
             cell.setupView.hidden = !goodsForm.setupFlag;
             cell.goodsNameLayoutWidth.constant = PJ_SCREEN_WIDTH - 68 -15 - 8 - 15;
-            cell.totalPriceLabel.text = [NSString stringWithFormat:@"￥%.1f",[goodsForm.itemCount integerValue] * [goodsForm.currentPrice floatValue]];
+            cell.totalPriceLabel.text = [NSString stringWithFormat:@"￥%.2f",[goodsForm.itemCount integerValue] * [goodsForm.currentPrice floatValue]];
             cell.delegate = self;
             cell.storeItemPid = goodsForm.storeItemPid;
             cell.selectedSetupStoreNameLabel.text = goodsForm.selectdSetupStoreName;
@@ -446,7 +447,7 @@ CZJRedPacketCellDelegate
                 cell.nameTwoLabel.hidden = YES;
                 cell.nameTwoNumLabel.hidden = YES;
                 cell.nameOneLabel.text = @"优惠券:";
-                cell.nameOneNumLabel.text = [NSString stringWithFormat:@"-￥%.1f", couponPrice];
+                cell.nameOneNumLabel.text = [NSString stringWithFormat:@"-￥%.2f", couponPrice];
             }
             else if (isHaveFullCut && !isHaveCoupon)
             {
@@ -460,8 +461,8 @@ CZJRedPacketCellDelegate
             }
             else
             {
-                cell.nameOneNumLabel.text = [NSString stringWithFormat:@"-￥%.1f",couponPrice];
-                cell.nameTwoNumLabel.text = [NSString stringWithFormat:@"-￥%.1f",[storeForm.fullCutPrice floatValue]];
+                cell.nameOneNumLabel.text = [NSString stringWithFormat:@"-￥%.2f",couponPrice];
+                cell.nameTwoNumLabel.text = [NSString stringWithFormat:@"-￥%.2f",[storeForm.fullCutPrice floatValue]];
             }
             return cell;
         }
@@ -471,7 +472,7 @@ CZJRedPacketCellDelegate
             CZJOrderProductFooterCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJOrderProductFooterCell" forIndexPath:indexPath];
             NSString* transportPriceStr = [NSString stringWithFormat:@"￥%@",totalprice > 59 ? @"0" :storeForm.transportPrice];
             cell.transportPriceLabel.text = transportPriceStr;
-            NSString* totalPriceStr = [NSString stringWithFormat:@"￥%.1f",totalprice];
+            NSString* totalPriceStr = [NSString stringWithFormat:@"￥%.2f",totalprice];
             cell.totalLabel.text = totalPriceStr;
             cell.totalPriceLayoutWidth.constant = [CZJUtils calculateTitleSizeWithString:totalPriceStr AndFontSize:17].width + 5;
             cell.transportPriceLayoutWidth.constant = [CZJUtils calculateTitleSizeWithString:transportPriceStr AndFontSize:14].width + 5;
@@ -745,6 +746,9 @@ CZJRedPacketCellDelegate
     CZJOrderStoreForm* storeForm = (CZJOrderStoreForm*)_orderStoreAry[_currentChooseIndexPath.section - 3];
     CZJOrderGoodsForm* goodsForm = storeForm.items[_currentChooseIndexPath.row - 1];
     goodsForm.selectdSetupStoreName = nearByStoreForm.name;
+    goodsForm.setupPrice = nearByStoreForm.setupPrice;
+    float total = [storeForm.totalSetupPrice floatValue] + [nearByStoreForm.setupPrice floatValue];
+    storeForm.totalSetupPrice = [NSString stringWithFormat:@"%.2f",total];
     [self.myTableView reloadSections:[NSIndexSet indexSetWithIndex:_currentChooseIndexPath.section] withRowAnimation:UITableViewRowAnimationFade];
 }
 
@@ -811,12 +815,21 @@ CZJRedPacketCellDelegate
         else
         {
             [CZJUtils tipWithText:@"请填写收货人地址" andView:self.view];
+            [self.myTableView setContentOffset:CGPointMake(0,0) animated:YES];
             return;
         }
     }
+    NSString* paramsjson = [CZJUtils JsonFromData:orderInfo];
+    DLog(@"%@",paramsjson);
     NSDictionary* params = @{@"paramJson":[CZJUtils JsonFromData:orderInfo]};
     [CZJBaseDataInstance submitOrder:params Success:^(id json) {
-        
+        NSDictionary* dict = [[CZJUtils DataFromJson:json] valueForKey:@"msg"];
+        CZJPaymentOrderForm* paymentOrderForm = [[CZJPaymentOrderForm alloc] init];
+        paymentOrderForm.order_no = [dict valueForKey:@"payNo"];
+        paymentOrderForm.order_name = [NSString stringWithFormat:@"订单%@",[dict valueForKey:@"payNo"]];
+        paymentOrderForm.order_description = @"";
+        paymentOrderForm.order_price = [dict valueForKey:@"totalMoney"];
+        [CZJPaymentInstance weixinPay:paymentOrderForm];
     } fail:^{
         
     }];

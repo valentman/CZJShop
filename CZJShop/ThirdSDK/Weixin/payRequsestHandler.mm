@@ -150,11 +150,9 @@
 {
     //订单标题，展示给用户
     NSString *order_name    = [dict valueForKey:@"order_name"];
-    int price = [[dict valueForKey:@"order_price"] floatValue] * 100;
-    
     //订单金额,单位（分）
-    NSString *order_price   = [NSString stringWithFormat:@"%d",price];//[NSString stringWithFormat:@"%d",price];//@"1";//1分钱测试 [dict valueForKey:@"order_price"]
-
+    NSString *order_price   = [NSString stringWithFormat:@"%.f",[[dict valueForKey:@"order_price"] floatValue]*100];
+    //支付设备号或门店号
     NSString* device_info = [dict valueForKey:@"order_description"];
     //================================
     //预付单参数订单设置
@@ -176,12 +174,10 @@
     [packageParams setObject: order_price       forKey:@"total_fee"];       //订单金额，单位为分
     
     //获取prepayId（预支付交易会话标识）
-    NSString *prePayid;
-    prePayid            = [self sendPrepay:packageParams];
+     NSString *prePayid = [self sendPrepay:packageParams];
     
     if ( prePayid != nil) {
         //获取到prepayid后进行第二次签名
-        
         NSString    *package, *time_stamp, *nonce_str;
         //设置支付参数
         time_t now;
@@ -189,8 +185,7 @@
         time_stamp  = [NSString stringWithFormat:@"%ld", now];
         nonce_str	= [WXUtil md5:time_stamp];
         //重新按提交格式组包，微信客户端暂只支持package=Sign=WXPay格式，须考虑升级后支持携带package具体参数的情况
-        //package       = [NSString stringWithFormat:@"Sign=%@",package];
-        package         = @"Sign=WXPay";
+        package = @"Sign=WXPay";
         //第二次签名参数列表
         NSMutableDictionary *signParams = [NSMutableDictionary dictionary];
         [signParams setObject: appid        forKey:@"appid"];
@@ -199,17 +194,12 @@
         [signParams setObject: mchid        forKey:@"partnerid"];
         [signParams setObject: time_stamp   forKey:@"timestamp"];
         [signParams setObject: prePayid     forKey:@"prepayid"];
-        //[signParams setObject: @"MD5"       forKey:@"signType"];
         //生成签名
         NSString *sign  = [self createMd5Sign:signParams];
-        
         //添加签名
-        [signParams setObject: sign         forKey:@"sign"];
+        [signParams setObject: sign forKey:@"sign"];
         
         [debugInfo appendFormat:@"第二步签名成功，sign＝%@\n",sign];
-        
-        
-        //iOSLink=sprintf("weixin://app/%s/pay/?nonceStr=%s&package=Sign%%3DWXPay&partnerId=%s&prepayId=%s&timeStamp=%s&sign=%s&signType=SHA1",$APP_ID,$input["noncestr"],$MCH_ID,$input["prepayid"],$input["timestamp"],$sign);
         
         NSString* tmp = [NSString stringWithFormat:@"weixin://app/%@/pay/?nonceStr=%@&package=Sign%%3DWXPay&partnerId=%@&prepayId=%@&timeStamp=%@&sign=%@&signType=SHA1",appid,nonce_str,mchid,prePayid,time_stamp,sign];
         

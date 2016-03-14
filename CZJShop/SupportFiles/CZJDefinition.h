@@ -72,7 +72,7 @@ static NSString *const kCZJServerAPITakeCoupon = @"chezhu/takeCouponV2.do";     
 static NSString *const kCZJServerAPIShoppingCartList = @"chezhu/loadShoppingCart.do";               //获取购物车信息
 static NSString *const kCZJServerAPIDeleteShoppingCartInfo = @"chezhu/deleteShoppingCart.do";       //删除购物车信息
 static NSString *const kCZJServerAPISettleOrders = @"chezhu/settleOrder.do";                        //去结算
-static NSString *const kCZJServerAPIGetUseableCouponList = @"chezhu/showCouponsForOrder.do";        //获取能使用的优惠券列表(storeIds)
+static NSString *const kCZJServerAPIGetUseableCouponList = @"chezhu/showCouponsForOrder.do";        //获取能使用的优惠券列表
 static NSString *const kCZJServerAPIGetSetupStoreList = @"chezhu/loadSetupStores.do";               //获取安装门店列表
 static NSString *const kCZJServerAPIAddAddr = @"chezhu/addAddrV2.do";                               //添加地址
 static NSString *const kCZJServerAPIGetAddrList = @"chezhu/loadAddrsV2.do";                         //获取地址列表
@@ -80,7 +80,11 @@ static NSString *const kCZJServerAPIRemoveAddr = @"chezhu/removeAddrV2.do";     
 static NSString *const kCZJServerAPISetDefaultAddr = @"chezhu/setDftAddrV2.do";                     //设置默认地址 (id)
 static NSString *const kCZJServerAPIUpdateAddr = @"chezhu/updateAddrV2.do";                         //修改地址
 static NSString *const kCZJServerAPISubmitOrder = @"chezhu/saveOrderV2.do";                         //提交订单
-
+//static NSString *const kCZJServerAPIPayWeixinNotify = @"chezhu/notifyForWeixin.do";                 //微信支付回调
+//static NSString *const kCZJServerAPIPayZhifubaoNotify = @"chezhu/notifyForZhifubao.do";             //支付宝支付回调
+//static NSString *const kCZJServerAPIChargeForWeixin = @"chezhu/chargeForWeixin.do";                 //充值微信支付回调
+//static NSString *const kCZJServerAPIChargeForZhifubao = @"chezhu/chargeForZhifubao.do";             //充值支付宝支付回调
+static NSString *const kCZJServerAPIGetWeixinPayParams = @"chezhu/getPayParams.do";                 //获取微信支付参数
 
 //门店详情接口组
 static NSString *const kCZJServerAPIGetStoreDetail = @"chezhu/showStoreDetail.do";                  //获取门店详情 (storeId)
@@ -114,7 +118,7 @@ static NSString *const kCZJServerAPICarCheck = @"chezhu/viewCarChecks.do";      
 static NSString *const kCZJServerAPIBuildingProgress = @"chezhu/viewBuildProgress.do";              //施工进度
 //static NSString *const kCZJServerAPIExpressInfo = @"chezhu/vieweExpressInfo.do";                   //物流信息
 static NSString *const kCZJServerAPIGetReturnableOrderList = @"chezhu/loadReturnItemsByOrder.do";   //获取订单可退货列表
-static NSString *const kCZJServerAPIUploadImg = @"chezhu/loadQiuniuParams.do";                       //获取气流信息
+static NSString *const kCZJServerAPIUploadImg = @"chezhu/loadQiuniuParams.do";                      //获取七牛信息
 static NSString *const kCZJServerAPISubmitReturnOrder = @"chezhu/returnOrderItem.do";               //提交退货信息
 static NSString *const kCZJServerAPIGetReturnedOrderList = @"chezhu/loadReturnItems.do";            //获取我的已退还货列表
 static NSString *const kCZJServerAPIGetMyReturnedOrderDetail = @"chezhu/loadOrderItem.do";          // 获取我的退货详情
@@ -127,7 +131,7 @@ static NSString *const kCZJServerAPICancelReturnOrder = @"chezhu/cancelReturnOrd
 //个人中心其他接口组
 static NSString *const kCZJServerAPIShowCouponsList = @"chezhu/showCoupons.do";                     // 优惠券列表
 static NSString *const kCZJServerAPIShowCardList = @"chezhu/loadSetmenus.do";                       // 套餐卡列表
-static NSString *const kCZJServerAPIShowCardDetail = @"chezhu/showSetmenu.do";                       // 套餐卡列表
+static NSString *const kCZJServerAPIShowCardDetail = @"chezhu/showSetmenu.do";                      // 套餐卡列表
 static NSString *const kCZJServerAPIGetBalanceInfo = @"chezhu/loadChargeInfo.do";                   // 获取余额详情
 static NSString *const kCZJServerAPIGetPoint = @"chezhu/showPointsCenter.do";
 static NSString *const kCZJServerAPIRecharge = @"chezhu/charge.do";                                 // 充值

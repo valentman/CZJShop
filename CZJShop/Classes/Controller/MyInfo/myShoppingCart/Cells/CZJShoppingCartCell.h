@@ -18,7 +18,7 @@
 @end
 
 
-@interface CZJShoppingCartCell : UITableViewCell
+@interface CZJShoppingCartCell : CZJTableViewCell
 
 @property(nonatomic,assign)BOOL isEdit;
 @property(nonatomic,assign)NSIndexPath* indexPath;

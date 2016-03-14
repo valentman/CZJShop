@@ -24,4 +24,5 @@
 #import "CZJMyCardInfoForm.h"
 #import "CZJGoodsDetailForm.h"
 #import "CZJEvaluateForm.h"
+#import "CZJPaymentOrderForm.h"
 

@@ -48,7 +48,7 @@
 //商户API密钥，填写相应参数
 #define PARTNER_ID      @"8lmb3n6gmgLTmOgFsX7KVZYRqin3N2L2"
 //支付结果回调页面
-#define NOTIFY_URL      @"http://m.chezhijian.com/appserver/chezhu/notifyForWeixin.do"
+#define NOTIFY_URL      @"http://101.201.197.202:8080/appserver/chezhu/notifyForWeixin.do"
 //获取服务器端支付数据地址（商户自定义）
 #define SP_URL          @"http://wxpay.weixin.qq.com/pub_v2/app/app_pay.php"
 
@@ -58,7 +58,7 @@
     NSString *payUrl;
 
     //lash_errcode;
-    long     last_errcode;
+    long last_errcode;
 	//debug信息
     NSMutableString *debugInfo;
     NSString *appid,*mchid,*spkey;

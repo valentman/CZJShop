@@ -18,6 +18,10 @@
 
 #define CZJNetWorkInstance [CZJNetworkManager sharedCZJNetworkManager]
 
+#define CZJPaymentInstance [CZJPaymentManager sharedCZJPaymentManager]
+
+#define alipaySuccseful  @"alipaySuccseful"
+
 typedef enum{
     eNone,
     eActivityHtml = 10,
