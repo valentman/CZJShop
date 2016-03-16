@@ -46,7 +46,7 @@
 - (void)awakeFromNib {
     
     // Initialization code
-    self.CZJAFCollectionLayout.itemSize = CGSizeMake(PJ_SCREEN_WIDTH/4, 75);
+    self.CZJAFCollectionLayout.itemSize = CGSizeMake(PJ_SCREEN_WIDTH/5, 75);
 
     [self.collectionView registerClass:[ServiceCollectionViewCell class]
             forCellWithReuseIdentifier:CZJServiceCollectionViewCellIdentifier];

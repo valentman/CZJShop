@@ -615,7 +615,7 @@ CZJMiaoShaCellDelegate
 - (void)showDetailInfoWithForm:(id)form
 {
     ServiceForm* serviceForm = (ServiceForm*)form;
-    if ([serviceForm.name isEqualToString:@"更多服务"])
+    if ([serviceForm.typeId isEqualToString:@"2000"])
     {
         self.tabBarController.selectedIndex = 1;
     }

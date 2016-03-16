@@ -11,7 +11,7 @@
 @implementation UIScrollView (UITouch)
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    //if(!self.dragging)
+    if(!self.dragging)
     {
         [[self nextResponder] touchesBegan:touches withEvent:event];
     }
@@ -19,7 +19,7 @@
 }
 -(void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    //if(!self.dragging)
+    if(!self.dragging)
     {
         [[self nextResponder] touchesMoved:touches withEvent:event];
     }
@@ -28,7 +28,7 @@
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    //if(!self.dragging)
+    if(!self.dragging)
     {
         [[self nextResponder] touchesEnded:touches withEvent:event];
     }
