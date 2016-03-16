@@ -76,8 +76,6 @@ CZJMiaoShaCellDelegate
     [((CZJCarInfoCell*)[self.homeTableView dequeueReusableCellWithIdentifier:@"CZJCarInfoCell"]).autoScrollTimer setFireDate:[NSDate distantPast]];
     [self.naviBarView refreshShopBadgeLabel];
     self.naviBarView.hidden = NO;
-    
-
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -130,6 +128,7 @@ CZJMiaoShaCellDelegate
     self.homeTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.homeTableView.rowHeight = UITableViewAutomaticDimension;
     self.automaticallyAdjustsScrollViewInsets = NO;
+    self.homeTableView.clipsToBounds = NO;
     
     NSArray* nibArys = @[@"CZJActivityCell",
                          @"CZJServiceCell",
@@ -157,9 +156,10 @@ CZJMiaoShaCellDelegate
 - (void)dealWithInitTabbar
 {
     //TabBarItem选中颜色设置及右上角标记设置
+    UITabBarController* tabcontrl = self.tabBarController;
     [self.tabBarController.tabBar setTintColor:RGB(235, 20, 20)];
-    //    NSArray *items = self.tabBarController.tabBar.items;
-    //    [[items objectAtIndex:eTabBarItemShop] setBadgeValue:@"1"];
+//        NSArray *items = self.tabBarController.tabBar.items;
+//        [[items objectAtIndex:eTabBarItemShop] setBadgeValue:@"1"];
 }
 
 
@@ -617,10 +617,7 @@ CZJMiaoShaCellDelegate
     ServiceForm* serviceForm = (ServiceForm*)form;
     if ([serviceForm.name isEqualToString:@"更多服务"])
     {
-        CZJCategoryController* cateVC = (CZJCategoryController*)[CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:@"CategorySBID"];
-        cateVC.hidesBottomBarWhenPushed = YES;
-        cateVC.viewFromWhere = @"homeView";
-        [self.navigationController pushViewController:cateVC animated:YES];
+        self.tabBarController.selectedIndex = 1;
     }
     else
     {

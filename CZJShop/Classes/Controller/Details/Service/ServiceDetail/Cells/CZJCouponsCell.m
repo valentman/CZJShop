@@ -32,7 +32,7 @@
     if (count >= 3) {
         count = 3;
     }
-    int location = 63;
+    int location = 0;
     for (int i = 0; i<count; i++)
     {
         CZJCouponForm* couponForm = couponsAry[i];
@@ -51,7 +51,7 @@
             imagezname = @"shop_icon_coupon_blue";
         }
         [view.bgImage setImage:IMAGENAMED(imagezname)];
-        [self.contentView addSubview:view];
+        [self.couponScrollView addSubview:view];
     }
 }
 

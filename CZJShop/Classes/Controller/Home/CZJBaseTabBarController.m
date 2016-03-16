@@ -1,0 +1,64 @@
+//
+//  CZJBaseTabBarController.m
+//  CZJShop
+//
+//  Created by Joe.Pen on 3/15/16.
+//  Copyright © 2016 JoeP. All rights reserved.
+//
+
+#import "CZJBaseTabBarController.h"
+
+@interface CZJBaseTabBarController ()
+
+@end
+
+@implementation CZJBaseTabBarController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+}
+
+-(void)setSelectedIndex:(NSUInteger)selectedIndex
+{
+    //判断是否相等,不同才设置
+    if (self.selectedIndex != selectedIndex) {
+        //设置最近一次
+        _lastSelectedIndex = self.selectedIndex;
+        DLog(@"1 OLD:%ld , NEW:%ld",self.lastSelectedIndex,selectedIndex);
+    }
+    
+    //调用父类的setSelectedIndex
+    [super setSelectedIndex:selectedIndex];
+}
+
+- (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item
+{
+    //获得选中的item
+    NSUInteger tabIndex = [tabBar.items indexOfObject:item];
+    if (tabIndex != self.selectedIndex) {
+        //设置最近一次变更
+        _lastSelectedIndex = self.selectedIndex;
+        DLog(@"2 OLD:%ld , NEW:%ld",self.lastSelectedIndex,tabIndex);
+    }
+}
+
+- (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController
+{
+    
+}
+
+/*
+#pragma mark - Navigation
+
+// In a storyboard-based application, you will often want to do a little preparation before navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
+}
+*/
+
+@end

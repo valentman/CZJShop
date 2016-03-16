@@ -41,9 +41,9 @@ static NSString* schema=@"Alipay";
     if ([url.absoluteString rangeOfString:@"//safepay/"].location != NSNotFound) {
         NSError *err;
         NSDictionary *ret=[NSJSONSerialization JSONObjectWithData:[[self urlDecode:url.query]dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingAllowFragments error:&err];
-        if (err||ret[@"memo"]==[NSNull null]||[ret[@"memo"][@"ResultStatus"] intValue]!=9000) {
+        if (err||ret[@"memo"]==[NSNull null]||[ret[@"memo"][@"resultStatus"] intValue]!=9000) {
             if ([self payFailCallback]) {
-                [self payFailCallback](ret,err?:[NSError errorWithDomain:@"alipay_pay" code:ret[@"memo"]!=[NSNull null]?[ret[@"memo"][@"ResultStatus"] intValue]:-1 userInfo:ret]);
+                [self payFailCallback](ret,err?:[NSError errorWithDomain:@"alipay_pay" code:ret[@"memo"]!=[NSNull null]?[ret[@"memo"][@"resultStatus"] intValue]:-1 userInfo:ret]);
             }
         }else{
             if ([self paySuccessCallback]) {

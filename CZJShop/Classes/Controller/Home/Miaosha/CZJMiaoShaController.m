@@ -24,7 +24,7 @@ CZJMiaoShaListDelegate
     CZJMiaoShaControlHeaderCell* headerCell;
     CZJMiaoShaTimesView* miaoShaTimesView;
     NSArray* pageControls;
-    
+    NSInteger currentIndex;
     NSInteger _timestamp;
     NSTimer *timer;
 }
@@ -80,9 +80,15 @@ CZJMiaoShaListDelegate
     miaoShaTimesView = [CZJUtils getXibViewByName:@"CZJMiaoShaTimesView"];
     miaoShaTimesView.frame = CGRectMake(0, 64, PJ_SCREEN_WIDTH, 50);
     [self.view addSubview:miaoShaTimesView];
-    for (UIView* cellView in [miaoShaTimesView subviews])
+    for (UIView* cellView in [miaoShaTimesView.contentView subviews])
     {
         cellView.backgroundColor = RGB(50, 50, 50);
+        ((UILabel*)VIEWWITHTAG(cellView, 101)).textColor = WHITECOLOR;
+        ((UILabel*)VIEWWITHTAG(cellView, 102)).textColor = WHITECOLOR;
+        if (cellView.tag == currentIndex)
+        {
+            cellView.backgroundColor = REDCOLOR;
+        }
     }
 }
 
@@ -171,6 +177,6 @@ CZJMiaoShaListDelegate
 #pragma mark- PageControl改变页面通知反馈
 - (void)updateDateIntervalButton:(NSNotification*)notif
 {
-    NSString* index = [notif.userInfo objectForKey:@"currentIndex"];
+    currentIndex = [[notif.userInfo objectForKey:@"currentIndex"] integerValue];
 }
 @end

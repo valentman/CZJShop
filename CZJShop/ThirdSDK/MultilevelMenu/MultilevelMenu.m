@@ -56,7 +56,6 @@
         self.leftTablew.dataSource=self;
         self.leftTablew.delegate=self;
         self.leftTablew.showsVerticalScrollIndicator = NO;
-        
         self.leftTablew.tableFooterView=[[UIView alloc] init];
         [self addSubview:self.leftTablew];
         self.leftTablew.backgroundColor=self.leftBgColor;
@@ -81,6 +80,7 @@
         self.rightCollection.delegate=self;
         self.rightCollection.dataSource=self;
         self.rightCollection.backgroundColor = [UIColor blueColor];
+        self.rightCollection.clipsToBounds =NO;
         
         //注册可用视图
         UINib *nib=[UINib nibWithNibName:kMultilevelCollectionViewCell bundle:nil];

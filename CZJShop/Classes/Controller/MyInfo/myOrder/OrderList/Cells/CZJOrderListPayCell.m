@@ -10,7 +10,9 @@
 
 @implementation CZJOrderListPayCell
 
-- (void)awakeFromNib {
+- (void)awakeFromNib
+{
+    [super awakeFromNib];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

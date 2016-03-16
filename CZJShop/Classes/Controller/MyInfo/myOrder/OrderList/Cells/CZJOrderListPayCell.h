@@ -14,7 +14,7 @@
 
 @end
 
-@interface CZJOrderListPayCell : UITableViewCell
+@interface CZJOrderListPayCell : CZJTableViewCell
 @property (weak, nonatomic)id<CZJOrderListPayCellDelegate> delegate;
 @property (weak, nonatomic) IBOutlet UILabel *orderMoneyLabel;
 

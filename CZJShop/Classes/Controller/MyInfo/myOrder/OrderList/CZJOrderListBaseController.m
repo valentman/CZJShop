@@ -19,8 +19,9 @@ CZJOrderListCellDelegate
 >
 {
     float totalToPay;
+    NSMutableArray* orderNoArys;
 }
-@property (strong, nonatomic)NSMutableArray* orderList;
+@property (strong, nonatomic)NSArray* orderList;
 @property (strong, nonatomic)UITableView* myTableView;
 @end
 
@@ -28,7 +29,7 @@ CZJOrderListCellDelegate
 @synthesize params = _params;
 - (void)viewDidLoad {
     [super viewDidLoad];
-    _orderList = [NSMutableArray array];
+    orderNoArys = [NSMutableArray array];
     [self initViews];
 }
 
@@ -60,7 +61,7 @@ CZJOrderListCellDelegate
 - (void)getOrderListFromServer
 {
     [CZJBaseDataInstance getOrderList:_params Success:^(id json) {
-        _orderList = [[CZJOrderListForm objectArrayWithKeyValuesArray:[[CZJUtils DataFromJson:json] valueForKey:@"msg" ]] mutableCopy];
+        _orderList = [CZJOrderListForm objectArrayWithKeyValuesArray:[[CZJUtils DataFromJson:json] valueForKey:@"msg" ]];
         _myTableView.delegate = self;
         _myTableView.dataSource = self;
         [_myTableView reloadData];
@@ -71,13 +72,20 @@ CZJOrderListCellDelegate
 
 - (void)buttomViewGoToPay:(id)sender
 {
-    if ([self.delegate respondsToSelector:@selector(showPopPayView:)])
+    if ([self.delegate respondsToSelector:@selector(showPopPayView:andOrderNoSting:)])
     {
         if (0 == totalToPay) {
             [CZJUtils tipWithText:@"请选择商品" andView:nil];
             return;
         }
-        [self.delegate showPopPayView:totalToPay];
+        for (CZJOrderListForm* cellForm in _orderList)
+        {
+            if (cellForm.isSelected)
+            {
+                [orderNoArys addObject:cellForm.orderNo];
+            }
+        }
+        [self.delegate showPopPayView:totalToPay andOrderNoSting:[orderNoArys componentsJoinedByString:@","]];
     }
 }
 

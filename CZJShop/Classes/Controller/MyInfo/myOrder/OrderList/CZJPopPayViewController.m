@@ -20,6 +20,7 @@ CZJOrderListPayCellDelegate
 >
 {
     NSArray* _orderTypeAry;
+    CZJOrderTypeForm* _selectedTypeForm;
 }
 @end
 
@@ -58,7 +59,14 @@ CZJOrderListPayCellDelegate
 - (void)initTableView
 {
     _orderTypeAry = CZJBaseDataInstance.orderPaymentTypeAry;
-    
+    for (CZJOrderTypeForm* form in _orderTypeAry)
+    {
+        if ([form.orderTypeName isEqualToString:@"支付宝"])
+        {
+            _selectedTypeForm = form;
+            break;
+        }
+    }
     //添加TableView
     CGRect rect = [self.view bounds];
     _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 50.5, PJ_SCREEN_WIDTH, rect.size.height - 50) style:UITableViewStylePlain];
@@ -104,12 +112,12 @@ CZJOrderListPayCellDelegate
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 4;
+    return _orderTypeAry.count + 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (3 == indexPath.row)
+    if (_orderTypeAry.count == indexPath.row)
     {
         CZJOrderListPayCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJOrderListPayCell" forIndexPath:indexPath];
         cell.orderMoneyLabel.text = [NSString stringWithFormat:@"￥%.1f",self.orderMoney];
@@ -134,7 +142,7 @@ CZJOrderListPayCellDelegate
 #pragma mark-UITableViewDelegate
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (3 == indexPath.row)
+    if (_orderTypeAry.count == indexPath.row)
     {
         return 60;
     }
@@ -143,16 +151,21 @@ CZJOrderListPayCellDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    for ( int i = 0; i < _orderTypeAry.count; i++)
+    if (indexPath.row < _orderTypeAry.count)
     {
-        CZJOrderTypeForm* typeForm = _orderTypeAry[i];
-        typeForm.isSelect = NO;
-        if (i == indexPath.row)
+        for ( int i = 0; i < _orderTypeAry.count; i++)
         {
-            typeForm.isSelect = YES;
+            CZJOrderTypeForm* typeForm = _orderTypeAry[i];
+            typeForm.isSelect = NO;
+            if (i == indexPath.row)
+            {
+                typeForm.isSelect = YES;
+                _selectedTypeForm = typeForm;
+            }
         }
+        [self.tableView reloadData];
     }
-    [self.tableView reloadData];
+
 }
 
 #pragma mark -CZJOrderListPayCellDelegate
@@ -160,7 +173,7 @@ CZJOrderListPayCellDelegate
 {
     if ([self.delegate respondsToSelector:@selector(payViewToPay:)])
     {
-        [self.delegate payViewToPay:sender];
+        [self.delegate payViewToPay:_selectedTypeForm];
     }
 }
 

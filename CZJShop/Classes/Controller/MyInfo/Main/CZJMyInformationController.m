@@ -75,6 +75,7 @@ CZJViewControllerDelegate
 - (void)viewDidAppear:(BOOL)animated
 {
     self.navigationController.navigationBarHidden = YES;
+    [self.tabBarController.tabBar setTintColor:RGB(235, 20, 20)];
     _currentTouchOrderListType = 0;
     DLog();
 }
@@ -173,6 +174,10 @@ CZJViewControllerDelegate
     {
         return 4;
     }
+    if (3 == section)
+    {
+        return 3;
+    }
     else
     {
         return 2;
@@ -264,6 +269,13 @@ CZJViewControllerDelegate
             CZJGeneralCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJGeneralCell" forIndexPath:indexPath];
             [cell.imageView setImage:IMAGENAMED(@"my_icon_serve")];
             cell.nameLabel.text = @"服务与反馈";
+            return cell;
+        }
+        if (1 == indexPath.row)
+        {
+            CZJGeneralCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJGeneralCell" forIndexPath:indexPath];
+            [cell.imageView setImage:IMAGENAMED(@"my_icon_zhibao")];
+            cell.nameLabel.text = @"质保卡查询";
             return cell;
         }
         else
@@ -363,11 +375,18 @@ CZJViewControllerDelegate
         if (indexPath.row == 0) {
             segueIdentifer = @"segueToService";
         }
+        else if (1 == indexPath.row)
+        {
+            CZJWebViewController* webView = (CZJWebViewController*)[CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:@"webViewSBID"];
+            webView.cur_url = kCZJServerAPIZHIBAOCARD;
+            [self.navigationController pushViewController:webView animated:YES];
+        }
         else
         {
             segueIdentifer = @"segueToSetting";
         }
     }
+    
     if (segueIdentifer)
     {
         [self performSegueWithIdentifier:segueIdentifer sender:self];

@@ -20,6 +20,7 @@
 #import "XGSetting.h"
 #import "JRSwizzle.h"
 #import "KMCGeigerCounter.h"
+#import "CZJOrderPaySuccessController.h"
 
 @interface AppDelegate ()
 
@@ -178,8 +179,7 @@
         storyboardId = kCZJStoryBoardIDHomeView;
     }
 
-    UIViewController *_CZJRootViewController = [CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:storyboardId];
-    
+    UIViewController *_CZJRootViewController = [CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:kCZJStoryBoardIDHomeView];
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.rootViewController = _CZJRootViewController;
     [self.window makeKeyAndVisible];
@@ -365,7 +365,7 @@
     [[AlipaySDK defaultService] processOrderWithPaymentResult:url standbyCallback:^(NSDictionary *resultDic) {
         DLog(@"result ---- = %@",resultDic);
         if ([[resultDic valueForKey:@"resultStatus"] intValue] == 9000) {
-            [[NSNotificationCenter defaultCenter] postNotificationName:alipaySuccseful object:resultDic];
+            [[NSNotificationCenter defaultCenter] postNotificationName:kCZJAlipaySuccseful object:resultDic];
         }
     }];
     

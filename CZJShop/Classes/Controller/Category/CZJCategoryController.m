@@ -31,10 +31,7 @@
     self.navigationController.toolbar.translucent = NO;
     self.navigationController.navigationBar.shadowImage =[UIImage imageNamed:@"nav_bargound"];
     
-    //导航栏添加搜索栏
-    self.navigationController.navigationBarHidden = YES;
-    CGRect mainViewBounds = self.navigationController.navigationBar.bounds;
-    [self.cateNaviBarView initWithFrame:mainViewBounds AndType:CZJNaviBarViewTypeCategory].delegate = self;
+
     
 
     DLog(@"height:%f",self.view.frame.size.height);
@@ -103,12 +100,17 @@
         
     }].isRecordLastScroll=YES;
     
+    //导航栏添加搜索栏
+    self.navigationController.navigationBarHidden = YES;
+    CGRect mainViewBounds = self.navigationController.navigationBar.bounds;
+    [self.cateNaviBarView initWithFrame:mainViewBounds AndType:CZJNaviBarViewTypeCategory].delegate = self;
 }
 
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [self.naviBarView refreshShopBadgeLabel];
+    [self.navigationController popToRootViewControllerAnimated:NO];
 }
 
 

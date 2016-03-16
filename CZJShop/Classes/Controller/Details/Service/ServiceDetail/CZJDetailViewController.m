@@ -790,27 +790,35 @@ CZJStoreInfoHeaerCellDelegate
 #pragma mark- Action
 - (IBAction)immediatelyBuyAction:(id)sender
 {
-    NSDictionary* itemDict = @{@"itemCode" : goodsDetailForm.goods.itemCode,
-                               @"storeItemPid" : goodsDetailForm.goods.storeItemPid,
-                               @"itemImg" : goodsDetailForm.goods.itemImg,
-                               @"itemName" : goodsDetailForm.goods.itemName,
-                               @"itemSku" : goodsDetailForm.goods.itemSku,
-                               @"itemType" : goodsDetailForm.goods.itemType,
-                               @"itemCount" : @"1",
-                               };
+    if ([USER_DEFAULT boolForKey:kCZJIsUserHaveLogined])
+    {
+        NSDictionary* itemDict = @{@"itemCode" : goodsDetailForm.goods.itemCode,
+                                   @"storeItemPid" : goodsDetailForm.goods.storeItemPid,
+                                   @"itemImg" : goodsDetailForm.goods.itemImg,
+                                   @"itemName" : goodsDetailForm.goods.itemName,
+                                   @"itemSku" : goodsDetailForm.goods.itemSku,
+                                   @"itemType" : goodsDetailForm.goods.itemType,
+                                   @"itemCount" : @"1",
+                                   };
+        
+        NSArray* itemAry = @[itemDict];
+        NSDictionary* storeDict = @{@"items" :itemAry,
+                                    @"storeName" : goodsDetailForm.store.storeName,
+                                    @"storeId" :goodsDetailForm.store.storeId,
+                                    @"companyId" :goodsDetailForm.store.companyId,
+                                    @"selfFlag" : goodsDetailForm.goods.selfFlag ? @"true" : @"false"
+                                    };
+        [_settleOrderAry addObject:storeDict];
+        CZJCommitOrderController* settleOrder = (CZJCommitOrderController*)[CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:@"SBIDCommitSettle"];
+        settleOrder.settleParamsAry = _settleOrderAry;
+        [self.navigationController pushViewController:settleOrder animated:true];
+        [CZJUtils tipWithText:@"结算成功" andView:nil];
+    }
+    else
+    {
+        [CZJUtils showLoginView:self andNaviBar:self.naviBarView];
+    }
 
-    NSArray* itemAry = @[itemDict];
-    NSDictionary* storeDict = @{@"items" :itemAry,
-                                @"storeName" : goodsDetailForm.store.storeName,
-                                @"storeId" :goodsDetailForm.store.storeId,
-                                @"companyId" :goodsDetailForm.store.companyId,
-                                @"selfFlag" : goodsDetailForm.goods.selfFlag ? @"true" : @"false"
-                                };
-    [_settleOrderAry addObject:storeDict];
-    CZJCommitOrderController* settleOrder = (CZJCommitOrderController*)[CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:@"SBIDCommitSettle"];
-    settleOrder.settleParamsAry = _settleOrderAry;
-    [self.navigationController pushViewController:settleOrder animated:true];
-    [CZJUtils tipWithText:@"结算成功" andView:nil];
 }
 
 - (IBAction)addProductToShoppingCartAction:(id)sender

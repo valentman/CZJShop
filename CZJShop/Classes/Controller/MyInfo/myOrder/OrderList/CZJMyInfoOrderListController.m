@@ -24,6 +24,7 @@
 #import "CZJOrderListReturnedController.h"
 #import "CZJPopPayViewController.h"
 #import "CZJMiaoShaTimesView.h"
+#import "CZJPaymentManager.h"
 
 @interface CZJMyInfoOrderListController ()
 <
@@ -34,10 +35,15 @@ CZJPopPayViewDelegate
 {
     NIDropDown *dropDown;
     CZJOrderListForm* currentTouchedOrderListForm;
+    NSString* orderNoString;
     NSInteger currentIndex;
+    CZJGeneralBlock hidePayViewBlock;
+    float totalMoney;
 }
 @property (strong, nonatomic) UIView *backgroundView;
 @property (weak, nonatomic) IBOutlet UIView *settlePanelView;
+
+- (IBAction)mergeToPayAction:(id)sender;
 
 @end
 
@@ -122,22 +128,6 @@ CZJPopPayViewDelegate
     UIGestureRecognizer *gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapBackground:)];
     [_backgroundView addGestureRecognizer:gesture];
     _backgroundView.hidden = YES;
-    
-    CZJMiaoShaTimesView* miaoShaTimesView = [CZJUtils getXibViewByName:@"CZJMiaoShaTimesView"];
-    miaoShaTimesView.frame = CGRectMake(0, 64, PJ_SCREEN_WIDTH, 50);
-    [self.view addSubview:miaoShaTimesView];
-    for (UIView* cellView in [miaoShaTimesView.contentView subviews])
-    {
-        cellView.backgroundColor = RGB(50, 50, 50);
-        NSArray* subs = [cellView subviews];
-//        UILabel* maintitle = (UILabel*)VIEWWITHTAG(cellView, 1);
-//        ((UILabel*)VIEWWITHTAG(cellView, 1)).textColor = WHITECOLOR;
-//        ((UILabel*)VIEWWITHTAG(cellView, 2)).textColor = BLACKCOLOR;
-        if (cellView.tag == currentIndex)
-        {
-            cellView.backgroundColor = REDCOLOR;
-        }
-    }
 }
 
 - (void)tapBackground:(UITapGestureRecognizer *)paramSender
@@ -217,7 +207,7 @@ CZJPopPayViewDelegate
         }
             break;
         case CZJOrderListCellBtnTypePay:
-            [self showPopPayView:[currentTouchedOrderListForm.orderMoney floatValue]];
+            [self showPopPayView:[currentTouchedOrderListForm.orderMoney floatValue] andOrderNoSting:currentTouchedOrderListForm.orderNo];
             break;
         case CZJOrderListCellBtnTypeGoEvaluate:
             [self performSegueWithIdentifier:@"segueToEvaluate" sender:self];
@@ -228,19 +218,23 @@ CZJPopPayViewDelegate
     }
 }
 
-- (void)showPopPayView:(float)orderMoney
+- (void)showPopPayView:(float)orderMoney andOrderNoSting:(NSString*)orderNostr
 {
+    orderNoString = orderNostr;
+    totalMoney = orderMoney;
     CZJPopPayViewController* payPopView = [[CZJPopPayViewController alloc]init];
     payPopView.delegate = self;
     payPopView.orderMoney = orderMoney;
     
-    self.popWindowInitialRect = VERTICALHIDERECT(320);
-    self.popWindowDestineRect = VERTICALSHOWRECT(320);
+    float popViewHeight = CZJBaseDataInstance.orderPaymentTypeAry.count * 70 + 60 +50.5;
+    self.popWindowInitialRect = VERTICALHIDERECT(0);
+    self.popWindowDestineRect = VERTICALSHOWRECT(popViewHeight);
     [CZJUtils showMyWindowOnTarget:self withMyVC:payPopView];
     __weak typeof(self) weak = self;
-    [payPopView setCancleBarItemHandle:^{
+    
+    hidePayViewBlock = ^{
         [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
-            weak.window.frame = self.popWindowInitialRect;
+            weak.window.frame = weak.popWindowInitialRect;
             weak.upView.alpha = 0.0;
         } completion:^(BOOL finished) {
             if (finished) {
@@ -251,13 +245,48 @@ CZJPopPayViewDelegate
                 weak.navigationController.interactivePopGestureRecognizer.enabled = YES;
             }
         }];
-    }];
+    };
+    [payPopView setCancleBarItemHandle:hidePayViewBlock];
 }
 
 #pragma mark- CZJPopPayViewDelegate
 - (void)payViewToPay:(id)sender
 {
-    
+    CZJOrderTypeForm* selectOrderTypeForm = (CZJOrderTypeForm*)sender;
+    NSDictionary* params = @{@"orderIds" : orderNoString, @"totalMoney" : [NSString stringWithFormat:@"%f",totalMoney]};
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    __weak typeof(self) weak = self;
+    [CZJBaseDataInstance generalPost:params success:^(id json) {
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        [CZJUtils performBlock:hidePayViewBlock afterDelay:0.5];
+        NSDictionary* dict = [[CZJUtils DataFromJson:json] valueForKey:@"msg"];
+        CZJPaymentOrderForm* paymentOrderForm = [[CZJPaymentOrderForm alloc] init];
+        paymentOrderForm.order_no = [dict valueForKey:@"payNo"];
+        paymentOrderForm.order_name = [NSString stringWithFormat:@"订单%@",[dict valueForKey:@"payNo"]];
+        paymentOrderForm.order_description = @"支付宝你个SB";
+        paymentOrderForm.order_price = [dict valueForKey:@"totalMoney"];
+        if ([selectOrderTypeForm.orderTypeName isEqualToString:@"微信支付"])
+        {
+            [CZJPaymentInstance weixinPay:self OrderInfo:paymentOrderForm Success:^(NSDictionary *message) {
+                DLog(@"微信支付成功");
+            } Fail:^(NSDictionary *message, NSError *error) {
+                [CZJUtils tipWithText:@"微信支付失败" andView:weak.view];
+            }];
+        }
+        if ([selectOrderTypeForm.orderTypeName isEqualToString:@"支付宝"])
+        {
+            [CZJPaymentInstance aliPay:self OrderInfo:paymentOrderForm Success:^(NSDictionary *message) {
+                DLog(@"支付宝支付成功");
+            } Fail:^(NSDictionary *message, NSError *error) {
+                [CZJUtils tipWithText:@"支付宝支付失败" andView:weak.view];
+            }];
+        }
+    } andServerAPI:kCZJServerAPIOrderToPay];
+
+}
+
+- (IBAction)mergeToPayAction:(id)sender
+{
 }
 
 #pragma mark - Navigation
@@ -297,4 +326,5 @@ CZJPopPayViewDelegate
         returnList.orderNo = currentTouchedOrderListForm.orderNo;
     }
 }
+
 @end

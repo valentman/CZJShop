@@ -17,7 +17,7 @@
 - (void)clickOrderListCellButton:(UIButton*)sender
                    andButtonType:(CZJOrderListCellButtonType)buttonType
                     andOrderForm:(CZJOrderListForm*)orderListForm;
-- (void)showPopPayView:(float)orderMoney;
+- (void)showPopPayView:(float)orderMoney andOrderNoSting:(NSString*)orderNostr;
 
 @end
 

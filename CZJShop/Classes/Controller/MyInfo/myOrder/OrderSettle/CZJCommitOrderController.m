@@ -57,8 +57,8 @@ CZJRedPacketCellDelegate
     BOOL isOrderTypeExpand;                     //支付方式是否展开
     
     id touchedCell;
-    float orderTotalPrice;                  //初始订单结算额
-    float orderFinalPrice;                  //经过使用余额和红包之后的订单结算额
+    float orderTotalPrice;                      //初始订单结算额
+    float orderFinalPrice;                      //经过使用余额和红包之后的订单结算额
     NSIndexPath* _currentChooseIndexPath;       //
     
 }
@@ -822,14 +822,31 @@ CZJRedPacketCellDelegate
     NSString* paramsjson = [CZJUtils JsonFromData:orderInfo];
     DLog(@"%@",paramsjson);
     NSDictionary* params = @{@"paramJson":[CZJUtils JsonFromData:orderInfo]};
+    
+    __weak typeof(self) weak = self;
     [CZJBaseDataInstance submitOrder:params Success:^(id json) {
         NSDictionary* dict = [[CZJUtils DataFromJson:json] valueForKey:@"msg"];
         CZJPaymentOrderForm* paymentOrderForm = [[CZJPaymentOrderForm alloc] init];
         paymentOrderForm.order_no = [dict valueForKey:@"payNo"];
         paymentOrderForm.order_name = [NSString stringWithFormat:@"订单%@",[dict valueForKey:@"payNo"]];
-        paymentOrderForm.order_description = @"";
+        paymentOrderForm.order_description = @"支付宝你个SB";
         paymentOrderForm.order_price = [dict valueForKey:@"totalMoney"];
-        [CZJPaymentInstance weixinPay:paymentOrderForm];
+        if ([_defaultOrderType.orderTypeName isEqualToString:@"微信支付"])
+        {
+            [CZJPaymentInstance weixinPay:self OrderInfo:paymentOrderForm Success:^(NSDictionary *message) {
+                DLog(@"微信支付成功");
+            } Fail:^(NSDictionary *message, NSError *error) {
+                [CZJUtils tipWithText:@"微信支付失败" andView:weak.view];
+            }];
+        }
+        if ([_defaultOrderType.orderTypeName isEqualToString:@"支付宝"])
+        {
+            [CZJPaymentInstance aliPay:self OrderInfo:paymentOrderForm Success:^(NSDictionary *message) {
+                DLog(@"支付宝支付成功");
+            } Fail:^(NSDictionary *message, NSError *error) {
+                [CZJUtils tipWithText:@"支付宝支付失败" andView:weak.view];
+            }];
+        }
     } fail:^{
         
     }];

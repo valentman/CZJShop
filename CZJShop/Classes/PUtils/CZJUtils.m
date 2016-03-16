@@ -581,7 +581,7 @@ void backLastView(id sender, SEL _cmd)
     
     //动画出现弹窗视图
     [UIView animateWithDuration:0.5 animations:^{
-        
+        target.windowAlpha = 1.0f;
         target.window.frame =  target.popWindowDestineRect;
         target.upView.alpha = 1.0;
     } completion:nil];

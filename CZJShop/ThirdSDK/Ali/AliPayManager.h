@@ -9,5 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @interface AliPayManager : NSObject
-- (NSString*)generateWithOrderDict:(NSDictionary*)dict;
+- (void)generateWithOrderDict:(NSDictionary*)dict
+                      Success:(paySuccess)success
+                         Fail:(payFail)fail;
 @end

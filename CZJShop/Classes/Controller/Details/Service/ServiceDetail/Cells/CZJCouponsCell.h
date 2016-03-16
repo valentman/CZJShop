@@ -17,6 +17,7 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *coupontNameWidth;
 @property (weak, nonatomic) IBOutlet UIImageView *arrowImg;
 @property (weak, nonatomic) IBOutlet UILabel *myDetailLabel;
+@property (weak, nonatomic) IBOutlet UIScrollView *couponScrollView;
 
 
 - (void)initWithCouponDatas:(NSArray*)coupons;

@@ -18,13 +18,5 @@
 		<key>isSelect</key>
 		<false/>
 	</dict>
-	<dict>
-		<key>orderTypeName</key>
-		<string>银联支付</string>
-		<key>orderTypeImg</key>
-		<string>commit_icon_yinlian</string>
-		<key>isSelect</key>
-		<false/>
-	</dict>
 </array>
 </plist>

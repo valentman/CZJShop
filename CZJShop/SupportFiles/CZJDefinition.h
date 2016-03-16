@@ -51,6 +51,8 @@ static NSString *const kCZJServerAPIGoodsCarModelList = @"chezhu/showGoodsCarMod
 static NSString *const kCZJServerAPIGoodsHotReco = @"chezhu/loadStoreRecommends.do";                //获取商品热门推荐
 static NSString *const kCZJServerAPIGetNearbyStores = @"chezhu/loadStores.do";                      //获取附近门店列表
 static NSString *const kCZJServerAPIGetCitys = @"chezhu/loadO2oCitys.do";                           //获取城市列表
+//static NSString *const kCZJServerAPIGetCitysChangeTime = @"chezhu/loadO2oCitysChangeTime.do";       //获取城市列表
+
 static NSString *const kCZJServerAPIGetServiceList = @"chezhu/searchServiceItemV2.do";              //获取附近门店服务列表
 static NSString *const kCZJServerAPIGetMapNearByStores = @"chezhu/loadMapStores.do";                //获取地图中心店附近门店列表
 static NSString *const kCZJServerAPILoadServiceTypes = @"chezhu/loadServiceTypes.do";               //得到服务分类
@@ -80,8 +82,8 @@ static NSString *const kCZJServerAPIRemoveAddr = @"chezhu/removeAddrV2.do";     
 static NSString *const kCZJServerAPISetDefaultAddr = @"chezhu/setDftAddrV2.do";                     //设置默认地址 (id)
 static NSString *const kCZJServerAPIUpdateAddr = @"chezhu/updateAddrV2.do";                         //修改地址
 static NSString *const kCZJServerAPISubmitOrder = @"chezhu/saveOrderV2.do";                         //提交订单
-//static NSString *const kCZJServerAPIPayWeixinNotify = @"chezhu/notifyForWeixin.do";                 //微信支付回调
-//static NSString *const kCZJServerAPIPayZhifubaoNotify = @"chezhu/notifyForZhifubao.do";             //支付宝支付回调
+static NSString *const kCZJServerAPIPayWeixinNotify = @"chezhu/notifyForWeixin.do";                 //微信支付回调
+static NSString *const kCZJServerAPIPayZhifubaoNotify = @"chezhu/notifyForZhifubao.do";             //支付宝支付回调
 //static NSString *const kCZJServerAPIChargeForWeixin = @"chezhu/chargeForWeixin.do";                 //充值微信支付回调
 //static NSString *const kCZJServerAPIChargeForZhifubao = @"chezhu/chargeForZhifubao.do";             //充值支付宝支付回调
 static NSString *const kCZJServerAPIGetWeixinPayParams = @"chezhu/getPayParams.do";                 //获取微信支付参数
@@ -112,7 +114,7 @@ static NSString *const kCZJServerAPIRemoveAttentions = @"chezhu/deleteAttentions
 
 //订单接口组
 static NSString *const kCZJServerAPIGetOrderList = @"chezhu/loadOrders.do";                         //获取订单列表
-//static NSString *const kCZJServerAPIOrderToPay = @"chezhu/mergePay.do";                              //订单列表去支付
+static NSString *const kCZJServerAPIOrderToPay = @"chezhu/mergePay.do";                             //订单列表去支付
 static NSString *const kCZJServerAPIGetOrderDetail = @"chezhu/loadOrder.do";                        //获取订单详情
 static NSString *const kCZJServerAPICarCheck = @"chezhu/viewCarChecks.do";                          //车况检查
 static NSString *const kCZJServerAPIBuildingProgress = @"chezhu/viewBuildProgress.do";              //施工进度
@@ -138,6 +140,7 @@ static NSString *const kCZJServerAPIRecharge = @"chezhu/charge.do";             
 static NSString *const kCZJServerAPIMyEvalutions = @"chezhu/loadMyEvaluations.do";                  // 获取我的评价列表
 static NSString *const kCZJServerAPIAddEvalution = @"chezhu/evalAdd.do";                            // 追加评论
 //static NSString *const kCZJServerAPIReplyEvalution = @"chezhu/evalReply.do";                               // 回复
+static NSString *const kCZJServerAPIZHIBAOCARD = @"chezhu/showWarrantyCenter.do";                   //质保卡查询
 
 
 //-----------------------系统常量定义---------------------------
@@ -238,11 +241,14 @@ static NSString *const kCZJNotifikOrderListType = @"kOrderListType";
 //-----------------------StoryBoardID常量定义---------------------------
 static NSString *const kCZJStoryBoardFileMain = @"Main";
 static NSString *const kCZJStoryBoardIDHomeView = @"homeViewSBID";
+static NSString *const kCZJStoryBoardIDMyInfoView = @"MyInfoSBID";
 static NSString *const kCZJStoryBoardIDStartPage = @"startPageSBID";
 static NSString *const kCZJStoryBoardIDGoodsDetailVC = @"goodsDetailSBID";              //商品或服务详情
 static NSString *const kCZJStoryBoardIDStoreDetailVC = @"storeDetailVC";                //门店详情
 static NSString *const kCZJStoryBoardIDPaymentSuccess = @"paymentSuccessSBID";          //订单支付成功
 static NSString *const kCZJStoryBoardIDCommitSettle = @"SBIDCommitSettle";
+static NSString *const kCZJStoryBoardIDMyOrderList = @"myOrderSBID";                   //订单列表
+
 
 
 

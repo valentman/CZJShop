@@ -54,17 +54,25 @@
                         <color key="textColor" red="0.50196081400000003" green="0.50196081400000003" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" alwaysBounceHorizontal="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hiO-LA-RbT">
+                        <rect key="frame" x="58" y="0.0" width="234" height="45"/>
+                        <animations/>
+                    </scrollView>
                 </subviews>
                 <animations/>
                 <constraints>
+                    <constraint firstItem="hiO-LA-RbT" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="0td-eJ-VJW"/>
                     <constraint firstItem="dsN-eo-QTX" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="6wd-c1-enS"/>
                     <constraint firstItem="dHM-Lu-HNW" firstAttribute="centerY" secondItem="dsN-eo-QTX" secondAttribute="centerY" id="A4Y-Sy-UqD"/>
+                    <constraint firstItem="hiO-LA-RbT" firstAttribute="leading" secondItem="dsN-eo-QTX" secondAttribute="trailing" constant="8" id="LDs-rq-T8Q"/>
                     <constraint firstAttribute="trailing" secondItem="dHM-Lu-HNW" secondAttribute="trailing" constant="15" id="LPj-ya-KZL"/>
                     <constraint firstItem="dsN-eo-QTX" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="Oub-nd-Cku"/>
                     <constraint firstAttribute="trailing" secondItem="8sx-1i-RwD" secondAttribute="trailing" constant="15" id="QEY-in-mJh"/>
+                    <constraint firstItem="8sx-1i-RwD" firstAttribute="leading" secondItem="hiO-LA-RbT" secondAttribute="trailing" constant="8" id="ata-nX-14t"/>
                     <constraint firstItem="8sx-1i-RwD" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="chX-QU-brG"/>
                     <constraint firstAttribute="trailing" secondItem="we5-Rl-N3A" secondAttribute="trailing" constant="10" id="fNG-Ck-9wx"/>
                     <constraint firstItem="we5-Rl-N3A" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="fgf-nu-3DQ"/>
+                    <constraint firstAttribute="bottom" secondItem="hiO-LA-RbT" secondAttribute="bottom" id="wW0-9M-vOU"/>
                 </constraints>
             </tableViewCellContentView>
             <animations/>
@@ -72,6 +80,7 @@
                 <outlet property="arrowImg" destination="8sx-1i-RwD" id="gCn-Ue-tfZ"/>
                 <outlet property="chooseButton" destination="we5-Rl-N3A" id="Evn-OI-e9W"/>
                 <outlet property="couponNameLabel" destination="dsN-eo-QTX" id="O0a-3L-UpN"/>
+                <outlet property="couponScrollView" destination="hiO-LA-RbT" id="9eS-HR-yVt"/>
                 <outlet property="coupontNameWidth" destination="YvX-6c-wmD" id="j7h-Ac-yf4"/>
                 <outlet property="myDetailLabel" destination="dHM-Lu-HNW" id="uUr-yB-J66"/>
             </connections>

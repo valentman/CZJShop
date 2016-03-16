@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface CZJOrderPaySuccessController : CZJViewController
-
+@property (strong, nonatomic)NSString* orderNo;
+@property (strong, nonatomic)NSString* orderPrice;
 @end

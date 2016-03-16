@@ -11,31 +11,31 @@
 @implementation Order
 
 - (NSString *)description {
-    NSMutableString * discription = [NSMutableString string];
+	NSMutableString * discription = [NSMutableString string];
     if (self.partner) {
         [discription appendFormat:@"partner=\"%@\"", self.partner];
     }
-    
+	
     if (self.seller) {
         [discription appendFormat:@"&seller_id=\"%@\"", self.seller];
     }
-    if (self.tradeNO) {
+	if (self.tradeNO) {
         [discription appendFormat:@"&out_trade_no=\"%@\"", self.tradeNO];
     }
-    if (self.productName) {
+	if (self.productName) {
         [discription appendFormat:@"&subject=\"%@\"", self.productName];
     }
-    
-    if (self.productDescription) {
+	
+	if (self.productDescription) {
         [discription appendFormat:@"&body=\"%@\"", self.productDescription];
     }
-    if (self.amount) {
+	if (self.amount) {
         [discription appendFormat:@"&total_fee=\"%@\"", self.amount];
     }
     if (self.notifyURL) {
         [discription appendFormat:@"&notify_url=\"%@\"", self.notifyURL];
     }
-    
+	
     if (self.service) {
         [discription appendFormat:@"&service=\"%@\"",self.service];//mobile.securitypay.pay
     }
@@ -52,17 +52,16 @@
     if (self.showUrl) {
         [discription appendFormat:@"&show_url=\"%@\"",self.showUrl];//m.alipay.com
     }
-//    if (self.rsaDate) {
-//        [discription appendFormat:@"&sign_date=\"%@\"",self.rsaDate];
-//    }
-//    if (self.appID) {
-//        [discription appendFormat:@"&app_id=\"%@\"",self.appID];
-//    }
-    for (NSString * key in [self.extraParams allKeys]) {
-        [discription appendFormat:@"&%@=\"%@\"", key, [self.extraParams objectForKey:key]];
+    if (self.rsaDate) {
+        [discription appendFormat:@"&sign_date=\"%@\"",self.rsaDate];
     }
-    NSLog(@"--%@",discription);
-    return discription;
+    if (self.appID) {
+        [discription appendFormat:@"&app_id=\"%@\"",self.appID];
+    }
+	for (NSString * key in [self.extraParams allKeys]) {
+		[discription appendFormat:@"&%@=\"%@\"", key, [self.extraParams objectForKey:key]];
+	}
+	return discription;
 }
 
 

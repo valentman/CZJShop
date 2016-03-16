@@ -20,7 +20,6 @@
 
 #define CZJPaymentInstance [CZJPaymentManager sharedCZJPaymentManager]
 
-#define alipaySuccseful  @"alipaySuccseful"
 
 typedef enum{
     eNone,

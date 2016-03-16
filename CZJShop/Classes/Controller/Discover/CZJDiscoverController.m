@@ -91,6 +91,7 @@ UITableViewDelegate
         UIView* dotTagView = [[cell contentView]viewWithTag:kDotViewTag];
         dotTagView.layer.cornerRadius = 2.5;
     }
+    UITabBarController* tabcontrl = self.tabBarController;
 }
 
 

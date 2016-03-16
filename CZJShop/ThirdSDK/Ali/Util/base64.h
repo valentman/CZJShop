@@ -59,7 +59,7 @@ int base64_self_test( int verbose );
 }
 #endif
 
-#import <Foundation/Foundation.h>
+
 @interface Base64 : NSObject
 
 + (NSData *)decodeString:(NSString *)string;

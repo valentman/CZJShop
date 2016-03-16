@@ -49,6 +49,7 @@
 #import "MBProgressHUD.h"
 #import "FDAlertView.h"
 #import "QiniuSDK.h"
+#import "OpenShare.h"
 
 //-------------------------系统---------------------------
 //检查系统版本
