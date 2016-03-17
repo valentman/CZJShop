@@ -130,6 +130,7 @@ UITableViewDelegate
 {
     static NSString *shoppingCaridentis = @"CZJReceiveCouponsCell";
     CZJReceiveCouponsCell *cell = [tableView dequeueReusableCellWithIdentifier:shoppingCaridentis];
+    cell.couponsViewLayoutWidth.constant = PJ_SCREEN_WIDTH - 40;
     if (self.coupons.count > 0)
     {
         CZJShoppingCouponsForm* couponForm = (CZJShoppingCouponsForm*)self.coupons[indexPath.row];

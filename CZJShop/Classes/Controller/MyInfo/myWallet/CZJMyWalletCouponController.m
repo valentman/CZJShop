@@ -21,23 +21,23 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [CZJUtils customizeNavigationBarForTarget:self];
     [self initViews];
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    self.navigationController.navigationBarHidden = NO;
 }
 
 - (void)initViews
 {
+    [self addCZJNaviBarView:CZJNaviBarViewTypeGeneral];
+    self.naviBarView.mainTitleLabel.text = @"优惠券";
+    self.naviBarView.buttomSeparator.hidden = YES;
+    
     CZJMyWalletCouponUnUsedController* unUsed = [[CZJMyWalletCouponUnUsedController alloc]init];
     CZJMyWalletCouponUsedController* used = [[CZJMyWalletCouponUsedController alloc]init];
     CZJMyWalletCouponOutOfTimeController* outOfTime = [[CZJMyWalletCouponOutOfTimeController alloc]init];
-    CGRect pageViewFrame = CGRectMake(0, StatusBar_HEIGHT + NavigationBar_HEIGHT, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - StatusBar_HEIGHT);
+    CGRect pageViewFrame = CGRectMake(0, StatusBar_HEIGHT + NavigationBar_HEIGHT, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT);
     CZJPageControlView* pageview = [[CZJPageControlView alloc]initWithFrame:pageViewFrame andPageIndex:0];
     [pageview setTitleArray:@[@"未使用",@"已使用",@"已过期"] andVCArray:@[unUsed, used, outOfTime]];
+    pageview.backgroundColor = CZJNAVIBARBGCOLOR;
+    
     [self.view addSubview:pageview];
 }
 
@@ -78,7 +78,7 @@ PullTableViewDelegate
 
 - (void)initViews
 {
-    CGRect viewRect = CGRectMake(0, 0, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT- 128);
+    CGRect viewRect = CGRectMake(0, 0, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT- 114);
     _myTableView = [[PullTableView alloc]initWithFrame:viewRect style:UITableViewStylePlain];
     
     _myTableView.backgroundColor = CZJNAVIBARBGCOLOR;

@@ -35,7 +35,6 @@ singleton_implementation(CZJLoginModelManager)
 
 - (BOOL)showAlertView:(id)info{
     NSDictionary* dict = [CZJUtils DataFromJson:info];
-    
     NSString *string = [[NSString alloc] initWithData:info encoding:NSUTF8StringEncoding];
     DLog(@"%@",string);
     

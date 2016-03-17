@@ -58,7 +58,6 @@
 
 
 @property (nonatomic, retain) NSMutableDictionary* discoverForms;
-@property (nonatomic, retain) NSMutableArray* orderStoreCouponAry;
 
 @property (nonatomic, retain) NSMutableArray* goodsTypesAry;
 @property (nonatomic, retain) NSMutableArray* serviceTypesAry;
@@ -240,12 +239,6 @@ singleton_interface(CZJBaseDataManager);
 - (void)submitOrder:(NSDictionary*)postParams
             Success:(CZJSuccessBlock)success
                fail:(CZJFailureBlock)fail;
-
-
-//获取可用优惠券列表
-- (void)loadUseableCouponsList:(NSDictionary*)postParams
-                        Success:(CZJSuccessBlock)success
-                           fail:(CZJFailureBlock)fail;
 
 //获取安装门店列表
 - (void)loadStoreSetupList:(NSDictionary*)postParams

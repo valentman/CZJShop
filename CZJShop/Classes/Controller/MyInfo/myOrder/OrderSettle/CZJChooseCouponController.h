@@ -11,15 +11,13 @@
 
 @protocol CZJChooseCouponControllerDelegate <NSObject>
 
-- (void)clickToConfirmUse;
+- (void)clickToConfirmUse:(NSMutableArray*)choosedCouponAry;
 
 @end
 
 
 @interface CZJChooseCouponController : CZJViewController
-{
-    NSString* _storeIds;
-}
-@property (strong, nonatomic) NSString* storeIds;
+@property (strong, nonatomic) NSArray* orderStores;
+@property (strong, nonatomic) NSArray* choosedCoupons;
 @property (weak, nonatomic)id<CZJChooseCouponControllerDelegate> delegate;
 @end

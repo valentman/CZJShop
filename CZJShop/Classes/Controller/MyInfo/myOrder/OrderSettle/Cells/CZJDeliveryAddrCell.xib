@@ -14,7 +14,14 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="84"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="commit_arrow_next.png" translatesAutoresizingMaskIntoConstraints="NO" id="3Es-jg-FZ5">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="commit_icon_line.png" translatesAutoresizingMaskIntoConstraints="NO" id="Kmw-by-dfR">
+                        <rect key="frame" x="0.0" y="82" width="320" height="2"/>
+                        <animations/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="2" id="SJa-Fm-I8c"/>
+                        </constraints>
+                    </imageView>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="commit_arrow_next.png" translatesAutoresizingMaskIntoConstraints="NO" id="3Es-jg-FZ5">
                         <rect key="frame" x="299" y="37" width="6" height="11"/>
                         <animations/>
                         <constraints>
@@ -81,9 +88,12 @@
                     <constraint firstItem="3Es-jg-FZ5" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="UEV-u8-eDF"/>
                     <constraint firstItem="fEv-Eo-Xra" firstAttribute="leading" secondItem="Wtm-MP-ueS" secondAttribute="trailing" constant="8" id="WPs-Y8-7fO"/>
                     <constraint firstAttribute="bottom" secondItem="W5e-ZG-uSM" secondAttribute="bottom" constant="15" id="YVn-bN-sGW"/>
+                    <constraint firstItem="Kmw-by-dfR" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="YbU-PS-RuD"/>
                     <constraint firstAttribute="trailing" secondItem="tkb-kF-Jf8" secondAttribute="trailing" constant="31" id="ZIh-rh-FBm"/>
                     <constraint firstItem="Wtm-MP-ueS" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="b9P-iv-a0k"/>
+                    <constraint firstAttribute="trailing" secondItem="Kmw-by-dfR" secondAttribute="trailing" id="etk-m9-Qrv"/>
                     <constraint firstItem="W5e-ZG-uSM" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="41" id="mDU-kk-siA"/>
+                    <constraint firstAttribute="bottom" secondItem="Kmw-by-dfR" secondAttribute="bottom" id="rgl-TV-Y69"/>
                     <constraint firstItem="9Zz-UF-2Kz" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="81" id="rxd-GM-cr0"/>
                     <constraint firstItem="Wtm-MP-ueS" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="xfb-CZ-esv"/>
                     <constraint firstAttribute="trailing" secondItem="3Es-jg-FZ5" secondAttribute="trailing" constant="15" id="yEG-O7-9Rc"/>
@@ -106,5 +116,6 @@
     <resources>
         <image name="commit_arrow_next.png" width="6" height="11"/>
         <image name="commit_icon_address.png" width="20" height="20"/>
+        <image name="commit_icon_line.png" width="375" height="3"/>
     </resources>
 </document>

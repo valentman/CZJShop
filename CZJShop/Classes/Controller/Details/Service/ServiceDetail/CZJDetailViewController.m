@@ -253,7 +253,6 @@ CZJStoreInfoHeaerCellDelegate
     NSString* apiUrl;
     if (CZJDetailTypeGoods == _detaiViewType)
     {
-        
         apiUrl = kCZJServerAPIGoodsDetail;
     }
     else if (CZJDetailTypeService == _detaiViewType)

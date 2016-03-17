@@ -11,8 +11,8 @@
 
 //----------------------------服务器接口-------------------------------
 //服务地址
-//static NSString *const kCZJServerAddr = @"http://192.168.0.251:8080/appserver/";
-static NSString *const kCZJServerAddr = @"http://101.201.197.202:8080/appserver/";
+static NSString *const kCZJServerAddr = @"http://192.168.0.251:8080/appserver/";
+//static NSString *const kCZJServerAddr = @"http://101.201.197.202:8080/appserver/";
 
 //首页接口组
 static NSString *const kCZJServerAPIShowHome = @"chezhu/showHomeV2.do";                             //获取首页数据
@@ -165,6 +165,7 @@ static NSString *const kCZJPlistFileCheckVersion = @"checkVersion.plist";       
 static NSString *const kCZJPlistFileStartInfo = @"StartInfo.plist";                         //开始界面信息文件
 static NSString *const kCZJPlistFileMessage = @"Message.plist";                             //信息管理文件
 static NSString *const kCZJPlistFileSearchHistory = @"SearchHistory.plist";                 //搜索栏历史文件
+static NSString *const kCZJPlistFileDefaultDeliveryAddr = @"UserDefaultDeliveryAddr.plist"; //默认收货地址
 
 
 
@@ -248,6 +249,7 @@ static NSString *const kCZJStoryBoardIDStoreDetailVC = @"storeDetailVC";        
 static NSString *const kCZJStoryBoardIDPaymentSuccess = @"paymentSuccessSBID";          //订单支付成功
 static NSString *const kCZJStoryBoardIDCommitSettle = @"SBIDCommitSettle";
 static NSString *const kCZJStoryBoardIDMyOrderList = @"myOrderSBID";                   //订单列表
+static NSString *const kCZJStoryBoardIDScanQR= @"scanQRSBID";                   //订单列表
 
 
 

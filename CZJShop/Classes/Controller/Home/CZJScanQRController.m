@@ -12,6 +12,7 @@
 #import "CZJDetailViewController.h"
 #import "CZJStoreDetailController.h"
 #import "CZJCommitOrderController.h"
+#import "CZJHomeViewController.h"
 
 @implementation CZJSCanQRForm
 @end
@@ -24,6 +25,7 @@ UIAlertViewDelegate
 {
     AVCaptureSession * _AVSession;
     CGSize transparentArea;
+    BOOL isHomeview;
 }
 @property (weak, nonatomic) IBOutlet UIView *preView;
 @property (weak, nonatomic) IBOutlet UIView *operatorView;
@@ -88,6 +90,21 @@ UIAlertViewDelegate
 {
     [self startReading];
     [self initViews];
+}
+
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    NSArray* views = self.navigationController.viewControllers;
+    isHomeview = [views.lastObject isKindOfClass:[CZJHomeViewController class]];
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    if (!isHomeview)
+    {
+        [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
+    }
 }
 
 - (void)didReceiveMemoryWarning {

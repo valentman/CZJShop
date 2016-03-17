@@ -10,6 +10,7 @@
 #import "CZJLoginController.h"
 #import "CZJShoppingCartController.h"
 #import "CZJSearchController.h"
+#import "CZJScanQRController.h"
 @interface CZJNaviagtionBarView ()<UISearchBarDelegate>
 {
     CGRect _selfBounds;
@@ -321,6 +322,14 @@
             {
                 [CZJUtils showLoginView:(UIViewController*)_delegate andNaviBar:self];
             }
+            break;
+            
+        case CZJButtonTypeHomeScan:
+        {
+            CZJScanQRController* scanVC = (CZJScanQRController*)[CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:kCZJStoryBoardIDScanQR];
+            [((UIViewController*)_delegate).navigationController pushViewController:scanVC animated:YES];
+        }
+            
             break;
             
         default:

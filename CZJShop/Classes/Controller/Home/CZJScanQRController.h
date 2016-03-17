@@ -12,7 +12,6 @@
 @interface CZJScanQRController : CZJViewController
 @end
 
-
 @interface CZJSCanQRForm : NSObject
 @property (strong, nonatomic) NSString* content;
 @property (strong, nonatomic) NSString* isLogin;

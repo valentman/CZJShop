@@ -1111,38 +1111,6 @@ singleton_implementation(CZJBaseDataManager);
                                    fail:failBlock];
 }
 
-- (void)loadUseableCouponsList:(NSDictionary*)postParams
-                        Success:(CZJSuccessBlock)success
-                           fail:(CZJFailureBlock)fail
-{
-    CZJSuccessBlock successBlock = ^(id json)
-    {
-        if ([self showAlertView:json])
-        {
-            NSDictionary* dict = [CZJUtils DataFromJson:json];
-            NSArray* tmpAry = [dict valueForKey:@"msg"];
-            for (NSDictionary* tmpDict in tmpAry)
-            {
-                CZJOrderStoreCouponsForm* form = [CZJOrderStoreCouponsForm objectWithKeyValues: tmpDict];
-                [self.orderStoreCouponAry addObject:form];
-            }
-        }
-        success(json);
-    };
-    
-    CZJFailureBlock failBlock = ^(){
-        [[CZJErrorCodeManager sharedCZJErrorCodeManager] ShowNetError];
-    };
-    
-    NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    [params setValuesForKeysWithDictionary:_params];
-    [params setValuesForKeysWithDictionary:postParams];
-    
-    [CZJNetWorkInstance postJSONWithUrl:kCZJServerAPIGetUseableCouponList
-                             parameters:params
-                                success:successBlock
-                                   fail:failBlock];
-}
 
 - (void)loadStoreSetupList:(NSDictionary*)postParams
                    Success:(CZJSuccessBlock)success

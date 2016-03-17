@@ -16,9 +16,11 @@
         float frameWidth = frame.size.width;
         float frameHeight = frame.size.height;
         
+        //背景框图
         NSString* imgName = [data.type isEqualToString:@"3"] ? @"coupon_icon_blue" : @"coupon_icon_red";
         UIImageView* bgImg = [[UIImageView alloc]initWithImage:[UIImage imageNamed:imgName]];
-        bgImg.frame = frame;
+        bgImg.frame =  CGRectMake(5 , frame.origin.y, frameWidth, frameHeight);
+        [self addSubview:bgImg];
         
         //店名
         UILabel* label_storeName = [[UILabel alloc] init];
@@ -27,18 +29,17 @@
         label_storeName.text = data.storeName;
         label_storeName.textColor = [UIColor redColor];
         label_storeName.frame =  CGRectMake(5 , 5, frameWidth - 10, 15);
+        [self addSubview:label_storeName];
         
         //优惠值
         UILabel* label_value = [[UILabel alloc] init];
         label_value.textAlignment = NSTextAlignmentCenter;
         label_value.font = [UIFont systemFontOfSize:11.0f];;
-        label_value.text = data.value;
+        label_value.text = [NSString stringWithFormat:@"￥%@",data.value];
         label_value.textColor = [UIColor redColor];
         label_value.frame = CGRectMake(5 , frameHeight - 15, frameWidth - 10, 15);
-        
-        [self addSubview:bgImg];
-        [self addSubview:label_storeName];
         [self addSubview:label_value];
+        
         return self;
     }
     return nil;
@@ -62,12 +63,8 @@
 
 - (void)setUseableCouponAry:(NSMutableArray*)useableAry
 {
-    NSArray* subviews = [_orderCouponScrollView subviews];
-    for (int i = 0; i <subviews.count; i++)
-    {
-        UIView* subview = subviews[i];
-        [subview removeFromSuperview];
-    }
+    [_orderCouponScrollView removeAllSubViews];
+    
     for (int i  = 0; i < useableAry.count; i++) {
         float height = _orderCouponScrollView.frame.size.height;
         float width = height * 144/64;

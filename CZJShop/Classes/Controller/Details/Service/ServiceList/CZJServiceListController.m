@@ -545,6 +545,8 @@
         CZJDetailViewController* serviceDetailCon = segue.destinationViewController;
         serviceDetailCon.storeItemPid = _choosedStoreitemPid;
         serviceDetailCon.detaiViewType = CZJDetailTypeService;
+        serviceDetailCon.promotionPrice = @"0";
+        serviceDetailCon.promotionType = CZJGoodsPromotionTypeGeneral;
     }
 }
 

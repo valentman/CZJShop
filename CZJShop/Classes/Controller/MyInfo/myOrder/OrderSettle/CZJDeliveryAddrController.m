@@ -30,7 +30,6 @@ CZJDeliveryAddrListCellDelegate
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-//    [CZJUtils customizeNavigationBarForTarget:self];
     
     
     _addrListAry = [NSMutableArray array];
@@ -150,7 +149,6 @@ CZJDeliveryAddrListCellDelegate
             if (i == indexPath.row)
             {
                 form.dftFlag = YES;
-                continue;
             }
         }
         [self.addrListTableView reloadData];

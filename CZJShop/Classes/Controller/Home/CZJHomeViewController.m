@@ -90,6 +90,7 @@ CZJMiaoShaCellDelegate
     [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
 }
 
+
 - (void)propertysInit
 {
     DLog();
@@ -623,7 +624,7 @@ CZJMiaoShaCellDelegate
     {
         _serviceTypeId = serviceForm.typeId;
         [USER_DEFAULT setValue:_serviceTypeId forKey:kUserDefaultServiceTypeID];
-        [self performSegueWithIdentifier:@"pushToServiceDetail" sender:self];
+        [self performSegueWithIdentifier:@"pushToServ\iceDetail" sender:self];
     }
 }
 
