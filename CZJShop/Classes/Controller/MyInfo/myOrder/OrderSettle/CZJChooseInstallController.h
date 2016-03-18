@@ -17,5 +17,6 @@
 @interface CZJChooseInstallController : CZJViewController
 
 @property (strong, nonatomic) NSString* storeItemPid;
+@property (strong, nonatomic) CZJOrderGoodsForm* orderGoodsForm;
 @property (weak, nonatomic) id<CZJChooseInstallControllerDelegate> delegate;
 @end

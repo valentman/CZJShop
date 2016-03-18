@@ -17,7 +17,7 @@ UITableViewDataSource,
 UITableViewDelegate
 >
 {
-    NSMutableArray* storeList;
+    NSArray* storeList;
     CZJNearbyStoreForm* selectdForm;
 }
 @property (weak, nonatomic) IBOutlet UITableView *myStoreListTableView;
@@ -37,18 +37,25 @@ UITableViewDelegate
     [super viewDidLoad];
     [self addCZJNaviBarView:CZJNaviBarViewTypeGeneral];
     self.naviBarView.mainTitleLabel.text = @"选择安装门店";
-    storeList = [NSMutableArray array];
     _promptLabelLayoutWidth.constant = PJ_SCREEN_WIDTH - 50;
 
     
     self.myStoreListTableView.delegate = self;
     self.myStoreListTableView.dataSource = self;
+    self.myStoreListTableView.tableFooterView = [[UIView alloc]init];
     UINib* nib = [UINib nibWithNibName:@"CZJChooseInstallStoreCell" bundle:nil];
     [self.myStoreListTableView registerNib:nib forCellReuseIdentifier:@"CZJChooseInstallStoreCell"];
     
-    [self getStoreListFromServer];
-    [self setupSelfAction:nil];
     
+    
+    if (!_orderGoodsForm.setupStoreId)
+    {
+        [self setupSelfAction:nil];
+    }
+    else
+    {
+        [self setupStoreAction:nil];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -57,15 +64,12 @@ UITableViewDelegate
 
 - (void)getStoreListFromServer
 {
-    NSDictionary* params = @{@"storeItemPid":_storeItemPid};
+    NSDictionary* params = @{@"storeItemPid":_orderGoodsForm.storeItemPid};
     [CZJBaseDataInstance loadStoreSetupList:params Success:^(id json) {
         NSDictionary* dict = [CZJUtils DataFromJson:json];
         NSArray* tmpAry = [dict valueForKey:@"msg"];
-        for (NSDictionary* tmpDict in tmpAry)
-        {
-            CZJNearbyStoreForm* form = [[CZJNearbyStoreForm alloc]initWithDictionary:tmpDict];
-            [storeList addObject:form];
-        }
+        storeList = [CZJNearbyStoreForm objectArrayWithKeyValuesArray:tmpAry];
+        [self.myStoreListTableView reloadData];
     } fail:nil];
 }
 
@@ -91,10 +95,20 @@ UITableViewDelegate
     cell.servicePriceLabel.text = [NSString stringWithFormat:@"￥%@",form.setupPrice];
     cell.otherLabel.text = form.distance;
     cell.starLabel.text = form.evaluationAvg;
-    cell.selectBtn.selected = NO;
     CGSize size = [CZJUtils calculateStringSizeWithString:form.addr Font:SYSTEMFONT(12) Width:PJ_SCREEN_WIDTH -170];
     cell.storeAddrLayoutWidth.constant = size.width;
     cell.storeAddrLayoutHeight.constant = size.height;
+    
+    if ([_orderGoodsForm.setupStoreId isEqualToString:form.storeId])
+    {
+        cell.selectBtn.selected = YES;
+        self.setupPriceLabel.text = [NSString stringWithFormat:@"￥%@",_orderGoodsForm.setupPrice];
+    }
+    else
+    {
+        cell.selectBtn.selected = NO;
+        self.setupPriceLabel.text = [NSString stringWithFormat:@"￥%@",@"0"];
+    }
     return cell;
 }
 
@@ -129,7 +143,8 @@ UITableViewDelegate
     [self.storeSetupBtn setBackgroundColor:[UIColor whiteColor]];
     self.storeSetupBtn.layer.borderColor = CZJGRAYCOLOR.CGColor;
     self.storeSetupBtn.layer.borderWidth = 0.5;
-
+    
+    self.setupPriceLabel.text = [NSString stringWithFormat:@"￥%@",@"0"];
 }
 
 - (IBAction)setupStoreAction:(id)sender
@@ -144,13 +159,19 @@ UITableViewDelegate
     [self.selfSetupBtn setBackgroundColor:[UIColor whiteColor]];
     self.selfSetupBtn.layer.borderColor = CZJGRAYCOLOR.CGColor;
     self.selfSetupBtn.layer.borderWidth = 0.5;
-    
-    [self.myStoreListTableView reloadData];
+    [self getStoreListFromServer];
 }
 
 - (IBAction)confirmToUseAction:(id)sender
 {
-    [self.delegate clickSelectInstallStore:selectdForm];
+    if (_selfSetupBtn.selected)
+    {
+        [self.delegate clickSelectInstallStore:nil];
+    }
+    if (_storeSetupBtn.selected)
+    {
+        [self.delegate clickSelectInstallStore:selectdForm];
+    }
     [self.navigationController popViewControllerAnimated:YES];
 }
 @end

@@ -33,6 +33,7 @@ static NSString *const kCZJServerAPIReplyList = @"chezhu/loadEvalReplys.do";    
 static NSString *const kCZJServerAPIGetKillTimeList = @"chezhu/loadSkillTimes.do";                  //得到秒杀哦点场
 static NSString *const kCZJServerAPIPGetSkillGoodsList = @"chezhu/loadSkillGoods.do";               //得到秒杀商品列表
 //static NSString *const kCZJServerAPIShowBrands = @"chezhu/showBrands.do";                           //更多品牌
+//static NSString *const kCZJServerAPIGetPromotionsList = @"chezhu/loadStorePromotions.do";           //获取促销信息(type/storeId)(type=0表示满减,type=1表示满赠)
 
 //分类接口组
 static NSString *const kCZJServerAPIGetCategoryData = @"chezhu/loadGoodsSubTypes.do";               //获取分类信息

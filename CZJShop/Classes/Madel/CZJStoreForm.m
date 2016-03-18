@@ -41,8 +41,8 @@
     NSArray* storelist = [dict valueForKey:@"msg"];
     for (id obj in storelist )
     {
-        CZJNearbyStoreForm* storelist =  [[CZJNearbyStoreForm alloc]initWithDictionary:obj];
-        [_storeListForms addObject:storelist];
+        CZJNearbyStoreForm* storeForm =  [CZJNearbyStoreForm objectWithKeyValues:obj];
+        [_storeListForms addObject:storeForm];
     }
 }
 
@@ -95,53 +95,10 @@
 
 
 @implementation CZJNearbyStoreForm
-@synthesize distance = _distance;
-@synthesize purchaseCount = _purchaseCount;
-@synthesize openingHours = _openingHours;
-@synthesize name = _name;
-@synthesize homeImg = _homeImg;
-@synthesize evalCount = _evalCount;
-@synthesize star = _star;
-@synthesize addr = _addr;
-@synthesize lng = _lng;
-@synthesize storeId = _storeId;
-@synthesize lat = _lat;
-@synthesize evaluationAvg = _evaluationAvg;
-@synthesize setupCount = _setupCount;
-@synthesize setupPrice = _setupPrice;
-@synthesize type = _type;
-
--(id)initWithDictionary:(NSDictionary*)dict{
-    if (self = [super init]) {
-        self.distance = [dict valueForKey:@"distance"];
-        self.purchaseCount = [NSString stringWithFormat:@"%@",[dict valueForKey:@"purchaseCount"]];
-        self.openingHours = [dict valueForKey:@"openingHours"];
-        self.name = [dict valueForKey:@"name"];
-        self.homeImg = [dict valueForKey:@"homeImg"];
-        self.evalCount = [NSString stringWithFormat:@"%@",[dict valueForKey:@"evalCount"]];
-        int rate = [[NSString stringWithFormat:@"%@",[dict valueForKey:@"star"]] floatValue] * 100 /5;
-        self.goodRate = [NSString stringWithFormat:@"%d", rate];
-        self.star = [self.goodRate stringByAppendingString:@"%"];
-        self.addr = [dict valueForKey:@"addr"];
-        self.lng = [dict valueForKey:@"lng"];
-        self.storeId = [dict valueForKey:@"storeId"];
-        self.lat = [dict valueForKey:@"lat"];
-        self.evaluationAvg = [dict valueForKey:@"evaluationAvg"];
-        self.setupCount = [dict valueForKey:@"setupCount"];
-        self.setupPrice = [dict valueForKey:@"setupPrice"];
-        self.type = [dict valueForKey:@"type"];
-        return self;
-        
-    }
-    return nil;
-}
-
 @end
 
 
-
 @implementation CZJStoreServiceForm
-
 @end
 
 

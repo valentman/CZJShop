@@ -93,7 +93,7 @@ UITableViewDelegate
                 }
             }
         }
-        _choosedCouponAry = [_choosedCoupons mutableCopy];
+        _choosedCouponAry = [NSMutableArray arrayWithArray:_choosedCoupons];
     }
     [_chooseCouponTableView reloadData];
     [self countCoupons];
@@ -232,7 +232,15 @@ UITableViewDelegate
     if ([storeCouponForm.selectedCouponId isEqualToString:couponForm.couponId])
     {
         storeCouponForm.selectedCouponId = @"";
-        [_choosedCouponAry removeObject:couponForm];
+        CZJShoppingCouponsForm* tmpcouponForm;
+        for (tmpcouponForm in _choosedCouponAry)
+        {
+            if ([tmpcouponForm.couponId isEqualToString:couponForm.couponId])
+            {
+                break;
+            }
+        }
+        [_choosedCouponAry removeObject:tmpcouponForm];
     }
     else
     {

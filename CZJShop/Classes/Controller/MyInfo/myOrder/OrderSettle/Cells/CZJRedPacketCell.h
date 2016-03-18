@@ -22,6 +22,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *selectBtn;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *redBackWidth;
 @property (weak, nonatomic) id<CZJRedPacketCellDelegate> delegate;
+@property (weak, nonatomic) IBOutlet UILabel *descLabel;
 
 - (IBAction)selectAction:(id)sender;
 @end

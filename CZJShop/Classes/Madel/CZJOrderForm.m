@@ -51,14 +51,14 @@
         self.gifts = [NSMutableArray array];
         self.items = [NSMutableArray array];
 
-        self.fullCutPrice = [dict valueForKey:@"fullCutPrice"] ? [dict valueForKey:@"fullCutPrice"] : @"0";
+        self.fullCutPrice = [dict valueForKey:@"fullCutPrice"] ? [dict valueForKey:@"fullCutPrice"] : @"";
         self.storeId = [dict valueForKey:@"storeId"] ? [dict valueForKey:@"storeId"] : @"";
         self.storeName = [dict valueForKey:@"storeName"] ? [dict valueForKey:@"storeName"] : @"";
         self.transportPrice = [dict valueForKey:@"transportPrice"] ? [dict valueForKey:@"transportPrice"] : @"0";
         self.note = [dict valueForKey:@"note"] ? [dict valueForKey:@"note"] : @"";
         self.companyId = [dict valueForKey:@"companyId"] ? [dict valueForKey:@"companyId"] : @"";
-        self.couponPrice = [dict valueForKey:@"couponPrice"] ? [dict valueForKey:@"couponPrice"] : @"0";
-        self.chezhuCouponPid = [dict valueForKey:@"chezhuCouponPid"] ? [dict valueForKey:@"chezhuCouponPid"] : @"0";
+        self.couponPrice = [dict valueForKey:@"couponPrice"] ? [dict valueForKey:@"couponPrice"] : @"";
+        self.chezhuCouponPid = [dict valueForKey:@"chezhuCouponPid"] ? [dict valueForKey:@"chezhuCouponPid"] : @"";
         self.orderPrice = [dict valueForKey:@"orderPrice"] ? [dict valueForKey:@"orderPrice"] : @"0";
         self.orderMoney = [dict valueForKey:@"orderMoney"] ? [dict valueForKey:@"orderMoney"] : @"0";
         self.totalSetupPrice = [dict valueForKey:@"totalSetupPrice"] ? [dict valueForKey:@"totalSetupPrice"] : @"0";
@@ -89,28 +89,12 @@
 {
     if (self = [super init])
     {
-        self.activityId =  @"0";
         self.costPrice =  @"0";
         self.currentPrice =  @"0";
-        self.itemCode = @"0";
-        self.itemCount = @"0";
-        self.itemImg = @"";
-        self.itemName = @"";
-        self.itemSku =  @"";
-        self.itemType = @"0";
-        self.storeItemPid = @"0";
-        self.typeId = @"";
-        self.vendorId = @"";
-        self.setupStoreName = @"";
-        self.selectdSetupStoreName = @"";
-        self.setupStoreId = @"0";
-        self.returnStatus = @"0";
         self.setupPrice = @"0";
-        self.orderItemPid = @"0";
         self.setmenuFlag = false;
         self.setupFlag = false;
         self.off = false;
-        self.counterKey = @"";
         return self;
     }
     return nil;

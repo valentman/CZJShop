@@ -78,17 +78,17 @@ CZJDeliveryAddrListCellDelegate
 #pragma mark-UITableViewDataSource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 1;
+    return _addrListAry.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return _addrListAry.count;
+    return 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    CZJAddrForm* form = (CZJAddrForm*)_addrListAry[indexPath.row];
+    CZJAddrForm* form = (CZJAddrForm*)_addrListAry[indexPath.section];
     CZJDeliveryAddrListCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJDeliveryAddrListCell" forIndexPath:indexPath];
     NSString* addrStr = [NSString stringWithFormat:@"%@ %@ %@ %@ ",form.province,form.city,form.county,form.addr];
 
@@ -115,23 +115,32 @@ CZJDeliveryAddrListCellDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    CZJAddrForm* form = (CZJAddrForm*)_addrListAry[indexPath.row];
+    CZJAddrForm* form = (CZJAddrForm*)_addrListAry[indexPath.section];
     [self.delegate clickChooseAddr:form];
     [self.navigationController popViewControllerAnimated:true];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    if (0 == section)
+    {
+        return 0;
+    }
+    return 10;
 }
 
 #pragma mark- CZJDeliveryAddrListCellDelegate
 - (void)clickEditAddrButton:(id)sender andIndexPath:(NSIndexPath*)indexPath
 {
-    _currentTouchIndexPath = indexPath.row;
+    _currentTouchIndexPath = indexPath.section;
     [self performSegueWithIdentifier:@"segueToAddDeliveryAddr" sender:sender];
 }
 
 - (void)clickDeleteAddrButton:(id)sender andIndexPath:(NSIndexPath *)indexPath
 {
-    NSDictionary* params = @{@"id" : ((CZJAddrForm*)_addrListAry[indexPath.row]).addrId};
+    NSDictionary* params = @{@"id" : ((CZJAddrForm*)_addrListAry[indexPath.section]).addrId};
     [CZJBaseDataInstance removeDeliveryAddr:params Success:^(id json){
-        [_addrListAry removeObjectAtIndex:indexPath.row];
+        [_addrListAry removeObjectAtIndex:indexPath.section];
         [_addrListTableView reloadData];
     } fail:^{
         
@@ -140,13 +149,13 @@ CZJDeliveryAddrListCellDelegate
 
 - (void)clickSetDefault:(id)sender andIndexPath:(NSIndexPath *)indexPath
 {
-    NSDictionary* params = @{@"id" : ((CZJAddrForm*)_addrListAry[indexPath.row]).addrId};
+    NSDictionary* params = @{@"id" : ((CZJAddrForm*)_addrListAry[indexPath.section]).addrId};
     [CZJBaseDataInstance setDefaultAddr:params Success:^(id json){
         for (int i = 0; i < _addrListAry.count; i ++)
         {
             CZJAddrForm* form = _addrListAry[i];
             form.dftFlag = NO;
-            if (i == indexPath.row)
+            if (i == indexPath.section)
             {
                 form.dftFlag = YES;
             }

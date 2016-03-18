@@ -37,11 +37,10 @@
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PJoe" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fEv-Eo-Xra">
-                        <rect key="frame" x="43" y="20" width="42" height="16"/>
+                        <rect key="frame" x="43" y="20" width="126" height="16"/>
                         <animations/>
                         <constraints>
                             <constraint firstAttribute="height" constant="16" id="gxh-Ub-Ygp"/>
-                            <constraint firstAttribute="width" constant="42" id="zVt-LV-3nw"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -84,6 +83,7 @@
                 <animations/>
                 <constraints>
                     <constraint firstItem="tkb-kF-Jf8" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="20" id="0XJ-Cg-KW1"/>
+                    <constraint firstItem="tkb-kF-Jf8" firstAttribute="leading" secondItem="fEv-Eo-Xra" secondAttribute="trailing" constant="20" id="BZD-YJ-apC"/>
                     <constraint firstItem="fEv-Eo-Xra" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="20" id="SgJ-pO-Hrm"/>
                     <constraint firstItem="3Es-jg-FZ5" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="UEV-u8-eDF"/>
                     <constraint firstItem="fEv-Eo-Xra" firstAttribute="leading" secondItem="Wtm-MP-ueS" secondAttribute="trailing" constant="8" id="WPs-Y8-7fO"/>

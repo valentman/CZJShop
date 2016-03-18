@@ -54,11 +54,20 @@ CZJRedPacketCellDelegate
     NSMutableArray* _useableStoreCouponAry;     //门店优惠券集合
     
     BOOL isOrderTypeExpand;                     //支付方式是否展开
+    BOOL isNeedReceiveAddr;                     //是否需要地址（商品和选择自行安装服务需要地址，选择门店安装不定需要地址）
+    BOOL isHaveSelfShop;                        //是否有车之健自营商品
     
     id touchedCell;
     float orderTotalPrice;                      //初始订单结算额
     float orderFinalPrice;                      //经过使用余额和红包之后的订单结算额
+    float useRedPacketPrice;                    //红包使用值
+    float useBalancePrice;                      //余额使用值
     NSIndexPath* _currentChooseIndexPath;       //
+    
+    NSString* choosedRedPacketName;             //选择红包名称（余额、红包）
+    UIButton* choosedRedPacketBtn;              //对应的按钮
+    
+    NSString* selfShopName;                     //车之健自营名称。
     
 }
 @property (weak, nonatomic) IBOutlet UITableView *myTableView;
@@ -76,7 +85,6 @@ CZJRedPacketCellDelegate
     [SVProgressHUD show];
     [self getSettleDataFromServer];
 }
-
 
 - (void)initDatas
 {
@@ -152,6 +160,8 @@ CZJRedPacketCellDelegate
 {
     orderFinalPrice = 0;
     orderTotalPrice = 0;
+    float totalCouponPrice = 0;
+    float totalSelfShopPrice = 0;
     //处理订单门店总额
     for (CZJOrderStoreForm* form in _orderStoreAry)
     {
@@ -172,6 +182,7 @@ CZJRedPacketCellDelegate
         }
         
         //orderMoney为单个门店加上优惠、运费、安装费
+        totalCouponPrice += [form.couponPrice floatValue];
         storeTotalPrice -= [form.fullCutPrice floatValue];
         storeTotalPrice -= [form.couponPrice floatValue];
         storeTotalPrice += [form.transportPrice floatValue];
@@ -181,6 +192,15 @@ CZJRedPacketCellDelegate
         
         //单个门店安装费
         form.totalSetupPrice = [NSString stringWithFormat:@"%.2f",storeTotalSetupPrice];
+        isNeedReceiveAddr = !storeTotalSetupPrice > 0.01;
+        
+        //判断当前门店是否是自营门店、名称以及商品结算总额
+        if (form.selfFlag)
+        {
+            isHaveSelfShop = YES;
+            selfShopName = form.storeName;
+            totalSelfShopPrice = storeTotalPrice;
+        }
         
         //单个门店留言，默认为空
         form.note = @"";
@@ -188,7 +208,56 @@ CZJRedPacketCellDelegate
         //订单总额
         orderTotalPrice += storeTotalPrice;
     }
-    orderFinalPrice = orderTotalPrice;
+    
+    float useableCount = 0;
+    if ([choosedRedPacketName isEqualToString:@"余额"])
+    {
+        useableCount = [_orderForm.cardMoney floatValue];
+        if (choosedRedPacketBtn.selected)
+        {
+            choosedRedPacketBtn.selected = !choosedRedPacketBtn.selected;
+            orderTotalPrice += useBalancePrice;
+            useBalancePrice = 0;
+        }
+        else
+        {
+            choosedRedPacketBtn.selected = !choosedRedPacketBtn.selected;
+            if (useableCount >= orderFinalPrice )
+            {
+                useBalancePrice = orderFinalPrice;
+            }
+            else
+            {
+                useBalancePrice = useableCount;
+            }
+        }
+        
+    }
+    if ([choosedRedPacketName isEqualToString:@"红包"])
+    {
+        useableCount = [_orderForm.redpacket floatValue];
+        if (choosedRedPacketBtn.selected)
+        {
+            choosedRedPacketBtn.selected = !choosedRedPacketBtn.selected;
+            orderTotalPrice += useRedPacketPrice;
+            useRedPacketPrice = 0;
+        }
+        else
+        {
+            choosedRedPacketBtn.selected = !choosedRedPacketBtn.selected;
+            if (useableCount >= totalSelfShopPrice )
+            {
+                useRedPacketPrice = totalSelfShopPrice;
+            }
+            else
+            {
+                useRedPacketPrice =  useableCount;
+            }
+        }
+    }
+    
+    
+    orderFinalPrice = orderTotalPrice - useBalancePrice - useRedPacketPrice;
     _totalPriceLabel.text = [NSString stringWithFormat:@"￥%.2f",orderFinalPrice];
     [self.myTableView reloadData];
 }
@@ -222,7 +291,14 @@ CZJRedPacketCellDelegate
     }
     else if (2 == section)
     {
-        return 3;
+        if (isHaveSelfShop)
+        {
+            return 3;
+        }
+        else
+        {
+            return 2;
+        }
     }
     else
     {
@@ -325,24 +401,28 @@ CZJRedPacketCellDelegate
             CZJRedPacketCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJRedPacketCell" forIndexPath:indexPath];
             [cell.redPacketImg setImage:IMAGENAMED(@"commit_icon_yue")];
             cell.redPacketNameLabel.text = @"余额";
-            cell.leftLabel.text = @"可用余额";
-            cell.leftCountLabel.text = [NSString stringWithFormat:@"￥%.1f",[_orderForm.cardMoney floatValue]];
+            cell.leftLabel.text = @"可用余额:";
+            NSString* balance = [NSString stringWithFormat:@"￥%.1f",[_orderForm.cardMoney floatValue] - useBalancePrice];
+            cell.leftCountLabel.text = balance;
+            cell.redBackWidth.constant = [CZJUtils calculateStringSizeWithString:balance Font:SYSTEMFONT(13) Width:200].width + 10;
             cell.delegate = self;
             return cell;
         }
-        if (1 == indexPath.row)
+        if (1 == indexPath.row && isHaveSelfShop)
         {
             CZJRedPacketCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJRedPacketCell" forIndexPath:indexPath];
             [cell.redPacketImg setImage:IMAGENAMED(@"commit_icon_hongbao")];
             cell.redPacketNameLabel.text = @"红包";
-            cell.leftLabel.text = @"可用红包";
-            NSString* redcount = [NSString stringWithFormat:@"￥%.1f",[_orderForm.redpacket floatValue]];
+            cell.leftLabel.text = @"可用红包:";
+            cell.descLabel.text = [NSString stringWithFormat:@"(仅限%@)",selfShopName];
+            NSString* redcount = [NSString stringWithFormat:@"￥%.1f",[_orderForm.redpacket floatValue] - useRedPacketPrice];
             cell.leftCountLabel.text = redcount;
             cell.redBackWidth.constant = [CZJUtils calculateStringSizeWithString:redcount Font:SYSTEMFONT(13) Width:200].width + 10;
             cell.delegate = self;
             return cell;
         }
-        if (2 == indexPath.row)
+        if ((2 == indexPath.row && isHaveSelfShop) ||
+            (1 == indexPath.row && !isHaveSelfShop))
         {
             CZJOrderCouponCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJOrderCouponCell" forIndexPath:indexPath];
             [cell setUseableCouponAry:_useableCouponsAry];
@@ -466,7 +546,7 @@ CZJRedPacketCellDelegate
                 cell.setupLabel.hidden = NO;
                 NSString* setupPriceStr = [NSString stringWithFormat:@"+￥%@",storeForm.totalSetupPrice];
                 cell.setupPriceLabel.text = setupPriceStr;
-                cell.setupPriceLayoutWidth.constant = [CZJUtils calculateTitleSizeWithString:setupPriceStr AndFontSize:12].width + 5;
+                cell.setupPriceLayoutWidth.constant = [CZJUtils calculateTitleSizeWithString:setupPriceStr AndFontSize:14].width + 5;
             }
             
             return cell;
@@ -632,7 +712,6 @@ CZJRedPacketCellDelegate
             [self performSegueWithIdentifier:@"segueToLeaveMessage" sender:self];
         }
     }
-    
 }
 
 
@@ -667,47 +746,34 @@ CZJRedPacketCellDelegate
 #pragma mark- CZJRedPacketCellDelegate  红包和余额使用
 - (void)clickToUseRedPacketCallBack:(id)sender andName:(NSString *)typeName
 {
-    float useableCount = 0;
-    if ([typeName isEqualToString:@"余额"])
+    if (!((UIButton*)sender).selected)
     {
-        useableCount = [_orderForm.cardMoney floatValue];
-    }
-    if ([typeName isEqualToString:@"红包"])
-    {
-        useableCount = [_orderForm.redpacket floatValue];
-    }
-    if (useableCount > orderTotalPrice)
-    {//如果红包或可用余额的金额大于需要支付的金额，则需要支付数量为0
-        if (((UIButton*)sender).selected)
-        {
-            orderFinalPrice = 0;
+        if (orderFinalPrice <= 0)
+        {//如果支付额已经为0了，点击不可用
+            [CZJUtils tipWithText:[NSString stringWithFormat:@"支付额已经为0,%@不可用",typeName] andView:self.view];
+            return;
         }
-        else
-        {
-            orderFinalPrice = orderTotalPrice;
+        if (([typeName isEqualToString:@"余额"] && [_orderForm.cardMoney floatValue] <= 0)||
+            ([typeName isEqualToString:@"红包"] && [_orderForm.redpacket floatValue] <= 0))
+        {//余额或者红包为0时，点击不可用
+            return;
         }
     }
-    else
-    {
-        if (((UIButton*)sender).selected)
-        {
-            orderFinalPrice = orderTotalPrice - useableCount;
-        }
-        else
-        {
-            orderFinalPrice += useableCount;
-        }
-    }
-    _totalPriceLabel.text = [NSString stringWithFormat:@"￥%.1f",orderFinalPrice];
+    choosedRedPacketBtn = (UIButton*)sender;
+    choosedRedPacketName = typeName;
+    [self dealWithOrderFormDatas];
 }
 
 #pragma mark- CZJChooseCouponControllerDelegate
 - (void)clickToConfirmUse:(NSMutableArray*)choosedCouponAry
 {//更新门店的优惠券使用
+    [_useableCouponsAry removeAllObjects];
     _useableCouponsAry = choosedCouponAry;
-    for (CZJShoppingCouponsForm* couposForm in _useableCouponsAry)
+    for (CZJOrderStoreForm* storeForm in _orderStoreAry)
     {
-        for (CZJOrderStoreForm* storeForm in _orderStoreAry)
+        storeForm.couponPrice = @"0";
+        storeForm.chezhuCouponPid = @"";
+        for (CZJShoppingCouponsForm* couposForm in _useableCouponsAry)
         {
             if ([storeForm.storeId isEqualToString:couposForm.storeId])
             {
@@ -724,8 +790,8 @@ CZJRedPacketCellDelegate
 #pragma mark- CZJOrderProductHeaderCellDelegate
 - (void)clickChooseSetupPlace:(id)sender andIndexPath:(NSIndexPath*)indexPath
 {
-    [self performSegueWithIdentifier:@"segueToChooseInstallStore" sender:sender];
     _currentChooseIndexPath = indexPath;
+    [self performSegueWithIdentifier:@"segueToChooseInstallStore" sender:sender];
 }
 
 #pragma mark- CZJChooseInstallControllerDelegate
@@ -736,6 +802,7 @@ CZJRedPacketCellDelegate
     CZJOrderGoodsForm* goodsForm = storeForm.items[_currentChooseIndexPath.row - 1];
     goodsForm.selectdSetupStoreName = nearByStoreForm.name;
     goodsForm.setupPrice = nearByStoreForm.setupPrice;
+    goodsForm.setupStoreId = nearByStoreForm.storeId;
     [self dealWithOrderFormDatas];
 }
 
@@ -771,8 +838,10 @@ CZJRedPacketCellDelegate
     if ([segue.identifier isEqualToString:@"segueToChooseInstallStore"])
     {
         CZJChooseInstallController* installCon = (CZJChooseInstallController*)segue.destinationViewController;
-        installCon.storeItemPid = (NSString*)sender;
+        CZJOrderStoreForm* storeForm = (CZJOrderStoreForm*)_orderStoreAry[_currentChooseIndexPath.section - 3];
+        CZJOrderGoodsForm* goodsForm = storeForm.items[_currentChooseIndexPath.row - 1];
         installCon.delegate = self;
+        installCon.orderGoodsForm = goodsForm;
     }
     if ([segue.identifier isEqualToString:@"segueToLeaveMessage"])
     {
@@ -801,7 +870,7 @@ CZJRedPacketCellDelegate
         {
             [orderInfo setObject:_currentChooseAddr.keyValues forKey:@"receiver"];
         }
-        else
+        else if (isNeedReceiveAddr)
         {
             [CZJUtils tipWithText:@"请填写收货人地址" andView:self.view];
             [self.myTableView setContentOffset:CGPointMake(0,0) animated:YES];

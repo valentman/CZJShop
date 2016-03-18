@@ -44,11 +44,7 @@ CZJNaviagtionBarViewDelegate
     [CZJBaseDataInstance loadOtherStoreList:params success:^(id json) {
         NSDictionary* dict = [CZJUtils DataFromJson:json];
         NSArray* tmpAry = [dict valueForKey:@"msg"];
-        for (NSDictionary* nearbyData in tmpAry)
-        {
-            CZJNearbyStoreForm* form = [[CZJNearbyStoreForm alloc]initWithDictionary:nearbyData];
-            [_sortedStoreArys addObject:form];
-        }
+        _sortedStoreArys = [[CZJNearbyStoreForm objectArrayWithKeyValuesArray:tmpAry] mutableCopy];
         self.storeTableView.delegate = self;
         self.storeTableView.dataSource = self;
         [self.storeTableView reloadData];

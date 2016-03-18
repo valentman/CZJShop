@@ -23,10 +23,10 @@
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="余额" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X6r-c6-l10">
-                        <rect key="frame" x="40" y="15" width="42" height="16"/>
+                        <rect key="frame" x="40" y="15" width="30" height="16"/>
                         <animations/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="42" id="Cg4-hn-i51"/>
+                            <constraint firstAttribute="width" constant="30" id="Cg4-hn-i51"/>
                             <constraint firstAttribute="height" constant="16" id="Gkr-XK-PZv"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
@@ -67,10 +67,23 @@
                         <color key="textColor" red="0.60000002379999995" green="0.60000002379999995" blue="0.60000002379999995" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8mI-WM-RYu">
+                        <rect key="frame" x="78" y="18" width="62" height="15"/>
+                        <animations/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="15" id="GZX-pW-ZFd"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                        <color key="textColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
                 <animations/>
                 <constraints>
+                    <constraint firstItem="8mI-WM-RYu" firstAttribute="centerY" secondItem="X6r-c6-l10" secondAttribute="centerY" constant="2" id="Huu-E9-oNI"/>
+                    <constraint firstItem="8mI-WM-RYu" firstAttribute="leading" secondItem="X6r-c6-l10" secondAttribute="trailing" constant="8" id="K92-4H-dgb"/>
                     <constraint firstItem="Kce-9v-6nc" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="MOb-kz-tBc"/>
+                    <constraint firstItem="9lK-KK-hlm" firstAttribute="leading" secondItem="8mI-WM-RYu" secondAttribute="trailing" constant="20" id="QPe-qN-8LX"/>
                     <constraint firstItem="fGk-hR-5sT" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="Rke-Ez-OzU"/>
                     <constraint firstItem="X6r-c6-l10" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="hkF-Za-XLC"/>
                     <constraint firstItem="9lK-KK-hlm" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="jij-lw-3Ui"/>
@@ -84,6 +97,7 @@
             </tableViewCellContentView>
             <animations/>
             <connections>
+                <outlet property="descLabel" destination="8mI-WM-RYu" id="JlI-UZ-IAR"/>
                 <outlet property="leftCountLabel" destination="a3U-UG-ab6" id="FG0-Kg-CpS"/>
                 <outlet property="leftLabel" destination="9lK-KK-hlm" id="XGj-t6-3va"/>
                 <outlet property="redBackWidth" destination="JPo-oE-BCg" id="TyN-c4-qRP"/>
