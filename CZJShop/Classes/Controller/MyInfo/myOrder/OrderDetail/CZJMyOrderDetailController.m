@@ -155,8 +155,17 @@ CZJPopPayViewDelegate
         receiverAddrForm = [CZJAddrForm objectWithKeyValues:[dict valueForKey:@"receiver"]];
         returnedOrdderDetailForm = [CZJReturnedOrderDetailForm objectWithKeyValues:[dict valueForKey:@"item"]];
         stageNum = [returnedOrdderDetailForm.returnStatus integerValue] - 1;
-        self.returnedDetailView.hidden = NO;
         orderType = 3;
+        
+        if ([returnedOrdderDetailForm.returnStatus floatValue] == 1)
+        {
+            self.returnedDetailView.hidden = NO;
+        }
+        else
+        {
+            self.cancelOrderView.hidden = NO;
+        }
+        
         [self.myTableView reloadData];
     } andServerAPI:kCZJServerAPIGetMyReturnedOrderDetail];
 }
@@ -350,6 +359,7 @@ CZJPopPayViewDelegate
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    //订单进度，收货地址为固定区域
     if (0 == indexPath.section)
     {
         if (0 == indexPath.row)
@@ -395,6 +405,7 @@ CZJPopPayViewDelegate
         }
     }
     
+    //详情区域需要区分是退货订单详情，还是一般订单详情
     if (CZJOrderDetailTypeReturned == self.orderDetailType)
     {
         if (0 == indexPath.row)
@@ -409,14 +420,36 @@ CZJPopPayViewDelegate
         }
         if (1 == indexPath.row)
         {
-            UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"resonCell"];
+            CZJTableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"resonCell"];
             if (!cell)
             {
-                 cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"resonCell"];
+                 cell = [[CZJTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"resonCell"];
             }
-            cell.detailTextLabel.text = returnedOrdderDetailForm.returnReason;
-            cell.detailTextLabel.textColor = LIGHTGRAYCOLOR;
-            cell.detailTextLabel.font = SYSTEMFONT(13);
+            
+            if (returnedOrdderDetailForm && !cell.isInit)
+            {
+                cell.isInit = YES;
+                int labeiHeight = [CZJUtils calculateStringSizeWithString:returnedOrdderDetailForm.returnReason Font:SYSTEMFONT(14) Width:PJ_SCREEN_WIDTH - 30].height;
+                labeiHeight = labeiHeight < 20 ? 20 : labeiHeight;
+                UILabel* contentLabel = [[UILabel alloc]initWithFrame:CGRectMake(15, 10, PJ_SCREEN_WIDTH - 30, labeiHeight)];
+                contentLabel.textAlignment = NSTextAlignmentLeft;
+                contentLabel.font = SYSTEMFONT(14);
+                contentLabel.textColor = RGB(192, 192, 192);
+                contentLabel.lineBreakMode = NSLineBreakByCharWrapping;
+                contentLabel.text = returnedOrdderDetailForm.returnReason;
+                [cell addSubview:contentLabel];
+                
+                NSInteger count = returnedOrdderDetailForm.returnImgs.count;
+                for (int i = 0; i < count; i++)
+                {
+                    UIImageView* returnimage = [[UIImageView alloc]init];
+                    [returnimage sd_setImageWithURL:[NSURL URLWithString:returnedOrdderDetailForm.returnImgs[i]] placeholderImage:DefaultPlaceHolderImage];
+                    CGRect imageFrame = [CZJUtils viewFramFromDynamic:CZJMarginMake(15, 10) size:CGSizeMake(78, 78) index:i divide:4];
+                    returnimage.frame = CGRectMake(imageFrame.origin.x, imageFrame.origin.y + labeiHeight + 10, 78, 78);
+                    [cell addSubview:returnimage];
+                }
+            }
+            
             cell.separatorInset = HiddenCellSeparator;
             return cell;
         }
@@ -740,16 +773,26 @@ CZJPopPayViewDelegate
         }
         if (1 == indexPath.row)
         {
-            return 150;
+            if (returnedOrdderDetailForm)
+            {
+                int labeiHeight = [CZJUtils calculateStringSizeWithString:returnedOrdderDetailForm.returnReason Font:SYSTEMFONT(14) Width:PJ_SCREEN_WIDTH - 30].height;
+                labeiHeight = labeiHeight < 20 ? 20 : labeiHeight;
+                NSInteger count = returnedOrdderDetailForm.returnImgs.count;
+                if (count>5)
+                {
+                    return 156 + labeiHeight + 20;
+                }
+                else
+                {
+                    return 78 + labeiHeight + 20;
+                }
+            }
         }
         if (2 == indexPath.row)
         {
             return 100;
         }
     }
-    
-
-
     return 0;
 }
 

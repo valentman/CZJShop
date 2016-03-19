@@ -61,6 +61,7 @@ CZJStarRateViewDelegate
         mygoodsform.itemSku = goodsForm.itemSku;
         mygoodsform.score = @"5";
         mygoodsform.message = @"";
+        mygoodsform.itemType = goodsForm.itemType;
         mygoodsform.evalImgs = [NSMutableArray array];
         [myEvaluationForm.items addObject:mygoodsform];
     }

@@ -44,16 +44,16 @@ static NSString *const kCZJServerAPIGoodsFilterList = @"chezhu/loadGoodsTypeAttr
 static NSString *const kCZJServerAPIGoodsBrandsList = @"chezhu/loadGoodsTypeBrands.do";             //获取商品品牌列表
 static NSString *const kCZJServerAPIGoodsPriceList = @"chezhu/loadGoodsTypePrices.do";              //获取商品价格列表
 static NSString *const kCZJServerAPIGoodsPicDetails = @"chezhu/showGoodsPicDetail.do";              //获取商品图文详情
+static NSString *const kCZJServerAPIGoodsHotReco = @"chezhu/loadStoreRecommends.do";                //获取商品热门推荐
 static NSString *const kCZJServerAPIGoodsBuyNoteDetail = @"chezhu/showGoodsNoteDetail.do";          //获取商品购买须知详情
 static NSString *const kCZJServerAPIGoodsAfterSaleDetail = @"chezhu/showGoodsAfterSale.do";         //获取商品售后详情
 static NSString *const kCZJServerAPIGoodsCarModelList = @"chezhu/showGoodsCarModels.do";            //获取商品适用车型
 
 //门店接口组
-static NSString *const kCZJServerAPIGoodsHotReco = @"chezhu/loadStoreRecommends.do";                //获取商品热门推荐
+
 static NSString *const kCZJServerAPIGetNearbyStores = @"chezhu/loadStores.do";                      //获取附近门店列表
 static NSString *const kCZJServerAPIGetCitys = @"chezhu/loadO2oCitys.do";                           //获取城市列表
 //static NSString *const kCZJServerAPIGetCitysChangeTime = @"chezhu/loadO2oCitysChangeTime.do";       //获取城市列表
-
 static NSString *const kCZJServerAPIGetServiceList = @"chezhu/searchServiceItemV2.do";              //获取附近门店服务列表
 static NSString *const kCZJServerAPIGetMapNearByStores = @"chezhu/loadMapStores.do";                //获取地图中心店附近门店列表
 static NSString *const kCZJServerAPILoadServiceTypes = @"chezhu/loadServiceTypes.do";               //得到服务分类

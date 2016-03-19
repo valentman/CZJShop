@@ -56,6 +56,8 @@ CZJRedPacketCellDelegate
     BOOL isOrderTypeExpand;                     //支付方式是否展开
     BOOL isNeedReceiveAddr;                     //是否需要地址（商品和选择自行安装服务需要地址，选择门店安装不定需要地址）
     BOOL isHaveSelfShop;                        //是否有车之健自营商品
+    BOOL isRedPacketSelectd;                    //红包是否选中
+    BOOL isBalanceSelectd;                      //余额是否选中
     
     id touchedCell;
     float orderTotalPrice;                      //初始订单结算额
@@ -65,6 +67,7 @@ CZJRedPacketCellDelegate
     NSIndexPath* _currentChooseIndexPath;       //
     
     NSString* choosedRedPacketName;             //选择红包名称（余额、红包）
+    NSString* choosedBalanceName;               //选择的余额
     UIButton* choosedRedPacketBtn;              //对应的按钮
     
     NSString* selfShopName;                     //车之健自营名称。
@@ -160,6 +163,8 @@ CZJRedPacketCellDelegate
 {
     orderFinalPrice = 0;
     orderTotalPrice = 0;
+    useRedPacketPrice = 0;
+    useBalancePrice = 0;
     float totalCouponPrice = 0;
     float totalSelfShopPrice = 0;
     //处理订单门店总额
@@ -194,7 +199,7 @@ CZJRedPacketCellDelegate
         form.totalSetupPrice = [NSString stringWithFormat:@"%.2f",storeTotalSetupPrice];
         isNeedReceiveAddr = !storeTotalSetupPrice > 0.01;
         
-        //判断当前门店是否是自营门店、名称以及商品结算总额
+        //判断当前门店是否是自营店、获取自营店名称以及自营店商品结算额
         if (form.selfFlag)
         {
             isHaveSelfShop = YES;
@@ -208,56 +213,45 @@ CZJRedPacketCellDelegate
         //订单总额
         orderTotalPrice += storeTotalPrice;
     }
-    
-    float useableCount = 0;
-    if ([choosedRedPacketName isEqualToString:@"余额"])
-    {
-        useableCount = [_orderForm.cardMoney floatValue];
-        if (choosedRedPacketBtn.selected)
-        {
-            choosedRedPacketBtn.selected = !choosedRedPacketBtn.selected;
-            orderTotalPrice += useBalancePrice;
-            useBalancePrice = 0;
-        }
-        else
-        {
-            choosedRedPacketBtn.selected = !choosedRedPacketBtn.selected;
-            if (useableCount >= orderFinalPrice )
-            {
-                useBalancePrice = orderFinalPrice;
-            }
-            else
-            {
-                useBalancePrice = useableCount;
-            }
-        }
-        
-    }
-    if ([choosedRedPacketName isEqualToString:@"红包"])
-    {
-        useableCount = [_orderForm.redpacket floatValue];
-        if (choosedRedPacketBtn.selected)
-        {
-            choosedRedPacketBtn.selected = !choosedRedPacketBtn.selected;
-            orderTotalPrice += useRedPacketPrice;
-            useRedPacketPrice = 0;
-        }
-        else
-        {
-            choosedRedPacketBtn.selected = !choosedRedPacketBtn.selected;
-            if (useableCount >= totalSelfShopPrice )
-            {
-                useRedPacketPrice = totalSelfShopPrice;
-            }
-            else
-            {
-                useRedPacketPrice =  useableCount;
-            }
-        }
-    }
-    
-    
     orderFinalPrice = orderTotalPrice - useBalancePrice - useRedPacketPrice;
+    
+    float useableCount = [_orderForm.redpacket floatValue];
+    if (!isRedPacketSelectd)
+    {
+        useRedPacketPrice = 0;
+    }
+    else
+    {
+        if (useableCount >= totalSelfShopPrice )
+        {
+            useRedPacketPrice = totalSelfShopPrice;
+        }
+        else
+        {
+            useRedPacketPrice =  useableCount;
+        }
+    }
+    orderFinalPrice = orderTotalPrice - useBalancePrice - useRedPacketPrice;
+    
+
+    useableCount = [_orderForm.cardMoney floatValue];
+    if (!isBalanceSelectd)
+    {
+        useBalancePrice = 0;
+    }
+    else
+    {
+        if (useableCount >= orderFinalPrice )
+        {
+            useBalancePrice = orderFinalPrice;
+        }
+        else
+        {
+            useBalancePrice = useableCount;
+        }
+    }
+    orderFinalPrice = orderTotalPrice - useBalancePrice - useRedPacketPrice;
+    
     _totalPriceLabel.text = [NSString stringWithFormat:@"￥%.2f",orderFinalPrice];
     [self.myTableView reloadData];
 }
@@ -687,19 +681,22 @@ CZJRedPacketCellDelegate
     }
     else if (1 == indexPath.section)
     {
-        for ( int i = 0; i < _orderTypeAry.count; i++)
+        if (isOrderTypeExpand)
         {
-            CZJOrderTypeForm* typeForm = _orderTypeAry[i];
-            typeForm.isSelect = NO;
-            if (i == indexPath.row)
+            for ( int i = 0; i < _orderTypeAry.count; i++)
             {
-                typeForm.isSelect = YES;
-                _defaultOrderType = typeForm;
+                CZJOrderTypeForm* typeForm = _orderTypeAry[i];
+                typeForm.isSelect = NO;
+                if (i == indexPath.row)
+                {
+                    typeForm.isSelect = YES;
+                    _defaultOrderType = typeForm;
+                }
             }
+            [self.myTableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationFade];
         }
-        [self.myTableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationFade];
     }
-    else if (2 == indexPath.section && 2 == indexPath.row)
+    else if (2 == indexPath.section && (isHaveSelfShop? 2 : 1) == indexPath.row)
     {
         [self performSegueWithIdentifier:@"segueToChooseCoupons" sender:self];
     }
@@ -761,6 +758,17 @@ CZJRedPacketCellDelegate
     }
     choosedRedPacketBtn = (UIButton*)sender;
     choosedRedPacketName = typeName;
+    if ([choosedRedPacketName isEqualToString:@"余额"])
+    {
+        choosedRedPacketBtn.selected = !choosedRedPacketBtn.selected;
+        isBalanceSelectd = choosedRedPacketBtn.selected;
+    }
+    if ([choosedRedPacketName isEqualToString:@"红包"])
+    {
+        choosedRedPacketBtn.selected = !choosedRedPacketBtn.selected;
+        isRedPacketSelectd = choosedRedPacketBtn.selected;
+    }
+    
     [self dealWithOrderFormDatas];
 }
 
