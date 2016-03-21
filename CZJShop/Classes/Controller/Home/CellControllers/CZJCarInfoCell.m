@@ -82,7 +82,8 @@
     [_infoView addSubview:lines];
     if (_infocount > 1)
     {
-        _autoScrollTimer = [NSTimer scheduledTimerWithTimeInterval:3.0 target:self selector:@selector(beginLoop:) userInfo:nil repeats:YES];
+        _autoScrollTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(beginLoop:) userInfo:nil repeats:YES];
+        [[NSRunLoop currentRunLoop] addTimer:_autoScrollTimer forMode:UITrackingRunLoopMode];
     }
 }
 
@@ -100,21 +101,22 @@
         {
             CarInfoBarView* view = (CarInfoBarView*)subview;
             __block CGRect frame = view.frame;
+            __weak typeof(self) weak = self;
             [UIView animateWithDuration:0.8
                                   delay:0
                                 options:UIViewAnimationOptionCurveEaseInOut
                              animations:^{
                                  //向上移动
-                                 frame = CGRectMake(frame.origin.x, frame.origin.y - self.frame.size.height, frame.size.width, frame.size.height);
+                                 frame = CGRectMake(frame.origin.x, frame.origin.y - weak.frame.size.height, frame.size.width, frame.size.height);
                                  view.frame = frame;
                              }
                              completion:^(BOOL finished){
                                  //移出去得barview又返回最下面
                                  if (finished)
                                  {
-                                     if (view.frame.origin.y == -self.frame.size.height)
+                                     if (view.frame.origin.y == -weak.frame.size.height)
                                      {
-                                         view.frame = CGRectMake(view.frame.origin.x, (_infocount-1) * self.frame.size.height, frame.size.width, frame.size.height);
+                                         view.frame = CGRectMake(view.frame.origin.x, (_infocount-1) * weak.frame.size.height, frame.size.width, frame.size.height);
                                      }
                                  }
                                  

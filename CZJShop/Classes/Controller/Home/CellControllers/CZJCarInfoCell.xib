@@ -15,24 +15,28 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="home_icon_new.png" translatesAutoresizingMaskIntoConstraints="NO" id="XX0-gM-ZQA">
-                        <rect key="frame" x="0.0" y="0.0" width="100" height="39"/>
+                        <rect key="frame" x="15" y="11" width="30" height="16"/>
                         <animations/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="100" id="EZu-lH-KAq"/>
-                            <constraint firstAttribute="height" constant="39" id="plX-UY-Ife"/>
+                            <constraint firstAttribute="width" constant="30" id="EZu-lH-KAq"/>
+                            <constraint firstAttribute="height" constant="16" id="plX-UY-Ife"/>
                         </constraints>
                     </imageView>
-                    <view clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vwU-hJ-zdz">
-                        <rect key="frame" x="110" y="0.0" width="210" height="39"/>
+                    <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vwU-hJ-zdz">
+                        <rect key="frame" x="65" y="0.0" width="255" height="38"/>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                 </subviews>
                 <animations/>
                 <constraints>
-                    <constraint firstItem="XX0-gM-ZQA" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="5SW-QE-sKj"/>
-                    <constraint firstItem="XX0-gM-ZQA" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="T3G-6Z-xfV"/>
+                    <constraint firstAttribute="bottom" secondItem="vwU-hJ-zdz" secondAttribute="bottom" id="0Ex-aG-F1z"/>
+                    <constraint firstItem="XX0-gM-ZQA" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="5SW-QE-sKj"/>
+                    <constraint firstItem="vwU-hJ-zdz" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="CX2-uS-kBQ"/>
+                    <constraint firstItem="XX0-gM-ZQA" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="Juc-WQ-h7S"/>
+                    <constraint firstAttribute="trailing" secondItem="vwU-hJ-zdz" secondAttribute="trailing" id="XXb-h3-npT"/>
+                    <constraint firstItem="vwU-hJ-zdz" firstAttribute="leading" secondItem="XX0-gM-ZQA" secondAttribute="trailing" constant="20" id="uQi-Mp-cjg"/>
                 </constraints>
             </tableViewCellContentView>
             <animations/>
@@ -44,6 +48,6 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="home_icon_new.png" width="85" height="39"/>
+        <image name="home_icon_new.png" width="30" height="16"/>
     </resources>
 </document>

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" alpha="0.84999999999999998" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="44" id="KGk-i7-Jjw" customClass="CZJStoreMapCell">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="70"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="69"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dgE-0R-LSS">
+                        <rect key="frame" x="100" y="0.0" width="1" height="69"/>
+                        <animations/>
+                        <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="1" id="Wcw-Vw-TYA">
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="constant">
+                                        <real key="value" value="0.5"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </constraint>
+                        </constraints>
+                    </view>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="32" textAlignment="center" lineBreakMode="characterWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yAc-rk-wQl">
+                        <rect key="frame" x="10" y="24" width="80" height="21"/>
+                        <animations/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="21" id="ctY-Rz-FCm"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="品尚车居兴蓉店" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EUA-EE-QZl">
+                        <rect key="frame" x="111" y="10" width="199" height="15"/>
+                        <animations/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="15" id="gl3-G7-fEj"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="成都市一环路南四段兴蓉街13号" textAlignment="natural" lineBreakMode="characterWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iL4-cm-Xb8">
+                        <rect key="frame" x="111" y="25" width="199" height="40"/>
+                        <animations/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="40" id="Nf4-PD-bdH"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                        <color key="textColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <animations/>
+                <constraints>
+                    <constraint firstItem="yAc-rk-wQl" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="14S-MP-3hP"/>
+                    <constraint firstAttribute="bottom" secondItem="dgE-0R-LSS" secondAttribute="bottom" id="1KR-Vi-P7I"/>
+                    <constraint firstItem="dgE-0R-LSS" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="100" id="6Vx-iU-rX3"/>
+                    <constraint firstItem="iL4-cm-Xb8" firstAttribute="top" secondItem="EUA-EE-QZl" secondAttribute="bottom" id="bFR-TP-m5n"/>
+                    <constraint firstItem="yAc-rk-wQl" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="esn-UW-151"/>
+                    <constraint firstItem="iL4-cm-Xb8" firstAttribute="leading" secondItem="dgE-0R-LSS" secondAttribute="trailing" constant="10" id="kIm-TA-9ko"/>
+                    <constraint firstItem="dgE-0R-LSS" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="kJC-uL-b4u"/>
+                    <constraint firstItem="dgE-0R-LSS" firstAttribute="leading" secondItem="yAc-rk-wQl" secondAttribute="trailing" constant="10" id="lij-sl-ZwO"/>
+                    <constraint firstAttribute="trailing" secondItem="iL4-cm-Xb8" secondAttribute="trailing" constant="10" id="qqD-NB-UKj"/>
+                    <constraint firstItem="EUA-EE-QZl" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="rJx-FA-htV"/>
+                    <constraint firstItem="EUA-EE-QZl" firstAttribute="leading" secondItem="dgE-0R-LSS" secondAttribute="trailing" constant="10" id="uVK-pQ-4h8"/>
+                    <constraint firstAttribute="trailing" secondItem="EUA-EE-QZl" secondAttribute="trailing" constant="10" id="yZu-XG-vbc"/>
+                </constraints>
+            </tableViewCellContentView>
+            <animations/>
+            <color key="backgroundColor" red="0.098039217289999994" green="0.098039217289999994" blue="0.098039217289999994" alpha="1" colorSpace="calibratedRGB"/>
+            <userDefinedRuntimeAttributes>
+                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                    <integer key="value" value="5"/>
+                </userDefinedRuntimeAttribute>
+            </userDefinedRuntimeAttributes>
+            <connections>
+                <outlet property="distanceLabel" destination="yAc-rk-wQl" id="0dU-xh-Vge"/>
+                <outlet property="distanceLabelHeight" destination="ctY-Rz-FCm" id="Xkl-xu-0jj"/>
+                <outlet property="separatorLeading" destination="6Vx-iU-rX3" id="fx7-k8-NWU"/>
+                <outlet property="storeAddrLabel" destination="iL4-cm-Xb8" id="942-Wq-tf3"/>
+                <outlet property="storeNameLabel" destination="EUA-EE-QZl" id="xda-D2-5nD"/>
+            </connections>
+            <point key="canvasLocation" x="468" y="325"/>
+        </tableViewCell>
+    </objects>
+</document>

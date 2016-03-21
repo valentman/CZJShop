@@ -1387,7 +1387,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <animations/>
                         <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
-                        <color key="separatorColor" patternImage="2E36AE50-FC3A-48F7-959F-C0700E59756B" colorSpace="pattern"/>
+                        <color key="separatorColor" patternImage="9B116B35-FA37-4E7B-8960-84F8AB0F9AF5" colorSpace="pattern"/>
                         <inset key="separatorInset" minX="15" minY="0.0" maxX="15" maxY="0.0"/>
                         <sections>
                             <tableViewSection id="t6n-nw-cfg" userLabel="Activity">
@@ -5532,7 +5532,7 @@
                             <constraint firstItem="vq8-q7-ReH" firstAttribute="leading" secondItem="b3e-hP-Z0j" secondAttribute="leading" id="uwv-iL-ihU"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="我的爱车" id="al0-1v-C8i"/>
+                    <navigationItem key="navigationItem" title="我的车辆" id="al0-1v-C8i"/>
                     <connections>
                         <outlet property="myTableView" destination="494-js-Zyr" id="8yq-4g-DIb"/>
                     </connections>
@@ -7120,7 +7120,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="2E36AE50-FC3A-48F7-959F-C0700E59756B" width="256" height="256">
+        <image name="9B116B35-FA37-4E7B-8960-84F8AB0F9AF5" width="256" height="256">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPT5YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQrLjE3OlUkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw
@@ -11499,7 +11499,7 @@ ohscgAWABoAJEADSIAohIl8QFE5TVElGRlJlcHJlc2VudGF0aW9ugAeACE8SAAQNHk1NACoABAAIdXiB
 AgAAAREABAAAAAIABADGARIAAwAAAAEAAQAAARUAAwAAAAEABAAAARYAAwAAAAEAgAAAARcABAAAAAIA
 BAC+ARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAQABADOh3MABwAADEgABADWAAAAAAAIAAgA
 CAAIAAIAAAACAAAAAAAIAAIACAABAAEAAQABAAAMSExpbm8CEAAAbW50clJHQiBYWVogB84AAgAJAAYA
-MQAAYWNzcE1TRlQAAAAASUVDIHNSR0IAAAAAAAAAAAAAAAEAAPbWAAEAAAAA0y1IUCAgAAAAAAAAAAAA
+MQAAYWNzcE1TRlQAAAAASUVDIHNSR0IAAAAAAAAAAAAAAAAAAPbWAAEAAAAA0y1IUCAgAAAAAAAAAAAA
 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAARY3BydAAAAVAAAAAzZGVzYwAAAYQA
 AABsd3RwdAAAAfAAAAAUYmtwdAAAAgQAAAAUclhZWgAAAhgAAAAUZ1hZWgAAAiwAAAAUYlhZWgAAAkAA
 AAAUZG1uZAAAAlQAAABwZG1kZAAAAsQAAACIdnVlZAAAA0wAAACGdmlldwAAA9QAAAAkbHVtaQAAA/gA
@@ -11563,11 +11563,11 @@ AAAAAAAEDtA
 </mutableData>
         </image>
         <image name="all_arrow_next.png" width="6" height="11"/>
-        <image name="all_btn_classify.png" width="22" height="22"/>
+        <image name="all_btn_classify.png" width="21" height="21"/>
         <image name="all_btn_discovery.png" width="22" height="22"/>
-        <image name="all_btn_home.png" width="22" height="22"/>
-        <image name="all_btn_my.png" width="22" height="22"/>
-        <image name="all_btn_shop.png" width="22" height="22"/>
+        <image name="all_btn_home.png" width="21" height="21"/>
+        <image name="all_btn_my.png" width="21" height="21"/>
+        <image name="all_btn_shop.png" width="21" height="21"/>
         <image name="all_btn_top.png" width="40" height="40"/>
         <image name="car_icon_add.png" width="20" height="20"/>
         <image name="chat_icon_service_deafult.png" width="40" height="40"/>

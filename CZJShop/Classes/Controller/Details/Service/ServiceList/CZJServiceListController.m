@@ -136,7 +136,7 @@
     self.naviBarView.detailType = CZJDetailTypeService;
     
     //下拉菜单筛选条件初始
-    NSArray* sortTypes = @[@"默认排序", @"距离最近", @"价格最低", @"价格最高", @"评分最高", @"销量最高"];
+    NSArray* sortTypes = @[@"默认排序", @"距离最近", @"价格最低", @"价格最高", @"评论最多", @"销量最高"];
     NSArray* storeTypes = @[@"筛选"];
     if ([CZJBaseDataInstance storeForm].provinceForms &&
         [CZJBaseDataInstance storeForm].provinceForms.count > 0) {

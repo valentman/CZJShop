@@ -37,7 +37,7 @@ static NSString *CarListCellIdentifierID = @"CarListCellIdentifierID";
 
 - (void)initTableView
 {
-    self.title = @"选择车辆";
+    self.title = @"选择品牌";
     
     UIView* topView = [[UIView alloc]initWithFrame:CGRectMake(0,-20, PJ_SCREEN_WIDTH, 64)];
     [self.view addSubview:topView];

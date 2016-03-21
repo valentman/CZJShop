@@ -278,6 +278,11 @@ ULog(xx, ##__VA_ARGS__); \
 #define IndentCellSeparator(num) UIEdgeInsetsMake(0, num, 0, num);
 
 #define CGPointMiddle CGPointMake(0.5, 0.5)
+#define CGPointButtomMiddle CGPointMake(0.5,1.0)
+#define CGPointButtomRight CGPointMake(1.0,1.0)
+#define CGPointButtomLeft CGPointMake(0,1.0)
+#define CGPointTopMiddle CGPointMake(0.5,0)
+#define CGPointTopRight CGPointMake(1.0,0)
 
 
 //------------------------单例宏---------------------------

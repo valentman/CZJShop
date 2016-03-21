@@ -378,6 +378,8 @@
 		EC4EF4C51C3A561400E0FA91 /* add_btn_edit@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = EC4EF4BF1C3A561400E0FA91 /* add_btn_edit@3x.png */; };
 		EC4EF4C61C3A561400E0FA91 /* add_icon_gou@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EC4EF4C01C3A561400E0FA91 /* add_icon_gou@2x.png */; };
 		EC4EF4C71C3A561400E0FA91 /* add_icon_gou@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = EC4EF4C11C3A561400E0FA91 /* add_icon_gou@3x.png */; };
+		EC55F3191C9F91FB00BC209F /* CZJStoreMapCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EC55F3171C9F91FB00BC209F /* CZJStoreMapCell.m */; settings = {ASSET_TAGS = (); }; };
+		EC55F31A1C9F91FB00BC209F /* CZJStoreMapCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EC55F3181C9F91FB00BC209F /* CZJStoreMapCell.xib */; settings = {ASSET_TAGS = (); }; };
 		EC583A031C48D4AF001401FC /* CZJStoreDetailForm.m in Sources */ = {isa = PBXBuildFile; fileRef = EC583A021C48D4AF001401FC /* CZJStoreDetailForm.m */; };
 		EC5A50281C97DF4900B8C1EF /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC5A50271C97DF4900B8C1EF /* CoreText.framework */; };
 		EC5A502A1C97FD5300B8C1EF /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = EC5A50291C97FD5300B8C1EF /* libc++.tbd */; };
@@ -1574,6 +1576,9 @@
 		EC4EF4BF1C3A561400E0FA91 /* add_btn_edit@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "add_btn_edit@3x.png"; sourceTree = "<group>"; };
 		EC4EF4C01C3A561400E0FA91 /* add_icon_gou@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "add_icon_gou@2x.png"; sourceTree = "<group>"; };
 		EC4EF4C11C3A561400E0FA91 /* add_icon_gou@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "add_icon_gou@3x.png"; sourceTree = "<group>"; };
+		EC55F3161C9F91FB00BC209F /* CZJStoreMapCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJStoreMapCell.h; sourceTree = "<group>"; };
+		EC55F3171C9F91FB00BC209F /* CZJStoreMapCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJStoreMapCell.m; sourceTree = "<group>"; };
+		EC55F3181C9F91FB00BC209F /* CZJStoreMapCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CZJStoreMapCell.xib; sourceTree = "<group>"; };
 		EC583A011C48D4AF001401FC /* CZJStoreDetailForm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJStoreDetailForm.h; sourceTree = "<group>"; };
 		EC583A021C48D4AF001401FC /* CZJStoreDetailForm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJStoreDetailForm.m; sourceTree = "<group>"; };
 		EC5A50271C97DF4900B8C1EF /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
@@ -3574,6 +3579,9 @@
 				EC303D211C4A1C62008B5A8C /* CZJStoreDetailMenuCell.h */,
 				EC303D221C4A1C62008B5A8C /* CZJStoreDetailMenuCell.m */,
 				EC303D231C4A1C62008B5A8C /* CZJStoreDetailMenuCell.xib */,
+				EC55F3161C9F91FB00BC209F /* CZJStoreMapCell.h */,
+				EC55F3171C9F91FB00BC209F /* CZJStoreMapCell.m */,
+				EC55F3181C9F91FB00BC209F /* CZJStoreMapCell.xib */,
 			);
 			path = CellController;
 			sourceTree = "<group>";
@@ -5598,6 +5606,7 @@
 				ECC4DED11C17FEA900FBD6A4 /* prodetail_icon_kefu01@3x.png in Resources */,
 				ECF8E9551C5C6DB300A98707 /* order_icon_gou@3x.png in Resources */,
 				EC26A30C1C2A386600B166A3 /* coupon_icon_blue@3x.png in Resources */,
+				EC55F31A1C9F91FB00BC209F /* CZJStoreMapCell.xib in Resources */,
 				EC2BF2C61C7DA74D003B94B5 /* chat_icon_face@2x.png in Resources */,
 				EC26A2FD1C2A386600B166A3 /* commit_icon_yue@2x.png in Resources */,
 				EC3400001C433D5A0063A071 /* my_icon_tuihuo@2x.png in Resources */,
@@ -6370,6 +6379,7 @@
 				ECC4DE471C17D67B00FBD6A4 /* UUDatePicker_DateModel.m in Sources */,
 				ECC4DDAB1C17D67B00FBD6A4 /* AliPayManager.m in Sources */,
 				EC0C93951C204168002A7FF5 /* CZJHotRecoCell.m in Sources */,
+				EC55F3191C9F91FB00BC209F /* CZJStoreMapCell.m in Sources */,
 				ECC4DDC21C17D67B00FBD6A4 /* LoadMoreTableFooterView.m in Sources */,
 				ECF8E9351C5C5BA100A98707 /* CALayer+UIColor.m in Sources */,
 				EC0F45151C9406BC00D7B39A /* CZJMiaoShaTimesView.m in Sources */,
