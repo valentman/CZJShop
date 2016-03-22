@@ -13,6 +13,7 @@
 #import "CZJStoreDetailController.h"
 #import "CZJCommitOrderController.h"
 #import "CZJHomeViewController.h"
+#import "CZJBaseDataManager.h"
 
 @implementation CZJSCanQRForm
 @end
@@ -225,7 +226,8 @@ UIAlertViewDelegate
         if ([[metadataObj type]isEqualToString:AVMetadataObjectTypeQRCode])
         {
             [_captureSession stopRunning];
-            NSDictionary* dict = [CZJUtils dictionaryFromJsonString:metadataObj.stringValue];
+            NSString* scanStr = metadataObj.stringValue;
+            NSDictionary* dict = [CZJUtils dictionaryFromJsonString:scanStr];
             CZJSCanQRForm* scanForm = [CZJSCanQRForm objectWithKeyValues:dict];
             [self performSelectorOnMainThread:@selector(stopReading:) withObject:scanForm waitUntilDone:NO];
             _isReading = NO;
@@ -248,20 +250,24 @@ UIAlertViewDelegate
     {
         switch ([scanForm.type integerValue]) {// 0超链接 1服务 2商品 3门店 4结算 5个人优惠码 6门店优惠码 7合作码
             case 0:// 0超链接
-                //            Intent urlIntent = new Intent(mContext,
-                //                                          AllInfoAtWebviewActivity.class);
-                //            urlIntent.putExtra("type", 9);
-                //            urlIntent.putExtra("url", bean.content);
-                //            startActivity(urlIntent);
             {
                 CZJWebViewController* webView = (CZJWebViewController*)[CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:@"webViewSBID"];
                 webView.cur_url = scanForm.content;
                 [self.navigationController pushViewController:webView animated:YES];
             }
-                
                 break;
                 
             case 1:
+            {
+                CZJDetailViewController* detailVC = (CZJDetailViewController*)[CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:kCZJStoryBoardIDGoodsDetailVC];
+                detailVC.storeItemPid = scanForm.content;
+                detailVC.detaiViewType = CZJDetailTypeService;
+                detailVC.promotionType = CZJGoodsPromotionTypeGeneral;
+                detailVC.promotionPrice = @"";
+                [self.navigationController pushViewController:detailVC animated:YES];
+            }
+                break;
+                
             case 2:// 1服务 2商品
             {
                 CZJDetailViewController* detailVC = (CZJDetailViewController*)[CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:kCZJStoryBoardIDGoodsDetailVC];
@@ -269,7 +275,6 @@ UIAlertViewDelegate
                 detailVC.detaiViewType = CZJDetailTypeGoods;
                 detailVC.promotionType = CZJGoodsPromotionTypeGeneral;
                 detailVC.promotionPrice = @"";
-                
                 [self.navigationController pushViewController:detailVC animated:YES];
             }
                 break;
@@ -286,25 +291,16 @@ UIAlertViewDelegate
             {
                 CZJCommitOrderController* settleOrder = (CZJCommitOrderController*)[CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:kCZJStoryBoardIDCommitSettle];
                 settleOrder.settleParamsAry = (NSArray*)scanForm.content;
+                [self.navigationController pushViewController:settleOrder animated:YES];
             }
                 break;
                 
             case 5:
-                //            showProgressDialog("处理中");
-                //            HandlerUtils.scanCode(bean.type, bean.content, codeHandler,
-                //                                  mContext);
-                break;
-                
             case 6:
-                //            showProgressDialog("处理中");
-                //            HandlerUtils.scanCode(bean.type, bean.content, codeHandler,
-                //                                  mContext);
-                break;
-                
             case 7:
-                //            showProgressDialog("处理中");
-                //            HandlerUtils.scanCode(bean.type, bean.content, codeHandler,
-                //                                  mContext);
+                [CZJBaseDataInstance generalPost:@{@"type": scanForm.type, @"content": scanForm.content} success:^(id json) {
+                    NSDictionary* dict = [CZJUtils DataFromJson:json];
+                } andServerAPI:kCZJServerAPIPGetScanCode];
                 break;
                 
             default:

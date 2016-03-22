@@ -61,7 +61,7 @@ CZJOrderListPayCellDelegate
     _orderTypeAry = CZJBaseDataInstance.orderPaymentTypeAry;
     for (CZJOrderTypeForm* form in _orderTypeAry)
     {
-        if ([form.orderTypeName isEqualToString:@"支付宝"])
+        if ([form.orderTypeName isEqualToString:@"支付宝支付"])
         {
             _selectedTypeForm = form;
             break;

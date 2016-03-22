@@ -27,7 +27,7 @@
         label_type.frame =  CGRectMake(10 , (frame.size.height - 20) / 2, 40, 20);
         
         _titleButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        _titleButton.frame = frame;
+        _titleButton.frame = CGRectMake(0, 0, frame.size.width, frame.size.height);
         
         UILabel* label_title = [[UILabel alloc] init];
         label_title.textAlignment = NSTextAlignmentLeft;
@@ -82,8 +82,8 @@
     [_infoView addSubview:lines];
     if (_infocount > 1)
     {
-        _autoScrollTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(beginLoop:) userInfo:nil repeats:YES];
-        [[NSRunLoop currentRunLoop] addTimer:_autoScrollTimer forMode:UITrackingRunLoopMode];
+        self.autoScrollTimer = [NSTimer scheduledTimerWithTimeInterval:3.0 target:self selector:@selector(beginLoop:) userInfo:nil repeats:YES];
+        [[NSRunLoop currentRunLoop] addTimer:self.autoScrollTimer forMode:UITrackingRunLoopMode];
     }
 }
 
@@ -102,25 +102,16 @@
             CarInfoBarView* view = (CarInfoBarView*)subview;
             __block CGRect frame = view.frame;
             __weak typeof(self) weak = self;
-            [UIView animateWithDuration:0.8
-                                  delay:0
-                                options:UIViewAnimationOptionCurveEaseInOut
-                             animations:^{
-                                 //向上移动
-                                 frame = CGRectMake(frame.origin.x, frame.origin.y - weak.frame.size.height, frame.size.width, frame.size.height);
-                                 view.frame = frame;
-                             }
-                             completion:^(BOOL finished){
-                                 //移出去得barview又返回最下面
-                                 if (finished)
-                                 {
-                                     if (view.frame.origin.y == -weak.frame.size.height)
-                                     {
-                                         view.frame = CGRectMake(view.frame.origin.x, (_infocount-1) * weak.frame.size.height, frame.size.width, frame.size.height);
-                                     }
-                                 }
-                                 
-                             }];
+            [UIView animateWithDuration:1.0 animations:^{
+                //向上移动
+                [view setPosition:CGPointMake(frame.origin.x, frame.origin.y - weak.frame.size.height) atAnchorPoint:CGPointZero];
+            } completion:^(BOOL finished) {
+                //回到图形队列的最下面位置
+                if (view.frame.origin.y == -weak.frame.size.height)
+                {
+                    [view setPosition:CGPointMake(frame.origin.x, (_infocount-1) * weak.frame.size.height) atAnchorPoint:CGPointZero];
+                }
+            }];
         }
     }
 }

@@ -273,7 +273,7 @@ CZJPopPayViewDelegate
                 [CZJUtils tipWithText:@"微信支付失败" andView:weak.view];
             }];
         }
-        if ([selectOrderTypeForm.orderTypeName isEqualToString:@"支付宝"])
+        if ([selectOrderTypeForm.orderTypeName isEqualToString:@"支付宝支付"])
         {
             [CZJPaymentInstance aliPay:self OrderInfo:paymentOrderForm Success:^(NSDictionary *message) {
                 DLog(@"支付宝支付成功");

@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -17,13 +18,15 @@
                         <rect key="frame" x="0.0" y="0.0" width="88" height="88"/>
                         <animations/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="88" id="e60-0J-dhd"/>
-                            <constraint firstAttribute="width" constant="88" id="qa3-43-2OL"/>
+                            <constraint firstAttribute="width" secondItem="UQU-yh-jjZ" secondAttribute="height" multiplier="1:1" id="m1q-oX-Xk8"/>
                         </constraints>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="23u-hU-07T">
-                        <rect key="frame" x="14" y="91" width="60" height="21"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="洗车" textAlignment="center" lineBreakMode="characterWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="23u-hU-07T">
+                        <rect key="frame" x="0.0" y="88" width="88" height="25"/>
                         <animations/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="25" id="e0v-qT-5FB"/>
+                        </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
@@ -34,13 +37,12 @@
             </view>
             <animations/>
             <constraints>
-                <constraint firstItem="23u-hU-07T" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="14" id="0nu-kk-3xV"/>
+                <constraint firstItem="23u-hU-07T" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="0nu-kk-3xV"/>
                 <constraint firstAttribute="trailing" secondItem="UQU-yh-jjZ" secondAttribute="trailing" id="30r-C6-qq2"/>
                 <constraint firstItem="UQU-yh-jjZ" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="FWF-YR-oDK"/>
-                <constraint firstAttribute="trailing" secondItem="23u-hU-07T" secondAttribute="trailing" constant="14" id="H8S-aE-WQp"/>
+                <constraint firstAttribute="trailing" secondItem="23u-hU-07T" secondAttribute="trailing" id="H8S-aE-WQp"/>
                 <constraint firstItem="UQU-yh-jjZ" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="dNg-Ki-SB6"/>
-                <constraint firstAttribute="bottom" secondItem="23u-hU-07T" secondAttribute="bottom" constant="8" id="vl2-GP-mjf"/>
-                <constraint firstItem="23u-hU-07T" firstAttribute="top" secondItem="UQU-yh-jjZ" secondAttribute="bottom" constant="3" id="x28-EM-ATE"/>
+                <constraint firstItem="23u-hU-07T" firstAttribute="top" secondItem="UQU-yh-jjZ" secondAttribute="bottom" id="x28-EM-ATE"/>
             </constraints>
             <size key="customSize" width="60" height="86"/>
             <connections>

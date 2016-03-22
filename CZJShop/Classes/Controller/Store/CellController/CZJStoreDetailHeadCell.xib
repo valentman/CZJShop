@@ -45,7 +45,7 @@
                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                         <inset key="titleEdgeInsets" minX="-15" minY="30" maxX="10" maxY="0.0"/>
                         <inset key="imageEdgeInsets" minX="20" minY="-10" maxX="0.0" maxY="0.0"/>
-                        <state key="normal" title="关注店铺" image="shop_icon_guanzhu.png">
+                        <state key="normal" title="关注门店" image="shop_icon_guanzhu.png">
                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
                         <connections>

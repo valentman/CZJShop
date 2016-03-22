@@ -15,6 +15,7 @@
     NSMutableArray* _imageArray;
 }
 @property (weak, nonatomic) IBOutlet ImagePlayerView *adBannerImageView;
+@property (weak, nonatomic) id <CZJImageViewTouchDelegate>delegate;
 
 - (void)initBannerOneWithDatas:(NSArray*)datas;
 - (void)initBannerWithImg:(NSString*)img;

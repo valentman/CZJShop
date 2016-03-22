@@ -335,39 +335,6 @@ UITableViewDelegate
 }
 
 #pragma mark -  MXPullDownMenuDelegate
-//距离最近筛选
-NSInteger compareDistance(CZJNearbyStoreForm* obj1, CZJNearbyStoreForm* obj2,void* context){
-    if ([obj1.distanceMeter intValue] > [obj2.distanceMeter intValue]) {
-        return (NSComparisonResult)NSOrderedDescending;
-    }
-    if ([obj1.distanceMeter intValue] < [obj1.distanceMeter intValue]) {
-        return (NSComparisonResult)NSOrderedAscending;
-    }
-    return (NSComparisonResult)NSOrderedSame;
-}
-
-//评分排序
-NSInteger compareJudgement(CZJNearbyStoreForm* obj1, CZJNearbyStoreForm* obj2,void* context){
-    if ([obj1.goodRate intValue] < [obj2.goodRate intValue]) {
-        return (NSComparisonResult)NSOrderedDescending;
-    }
-    if ([obj1.goodRate intValue] > [obj1.goodRate intValue]) {
-        return (NSComparisonResult)NSOrderedAscending;
-    }
-    return (NSComparisonResult)NSOrderedSame;
-}
-
-//销量排序
-NSInteger compareSales(CZJNearbyStoreForm* obj1, CZJNearbyStoreForm* obj2,void* context){
-    if ([obj1.purchaseCount intValue] < [obj2.purchaseCount intValue]) {
-        return (NSComparisonResult)NSOrderedDescending;
-    }
-    if ([obj1.purchaseCount intValue] > [obj1.purchaseCount intValue]) {
-        return (NSComparisonResult)NSOrderedAscending;
-    }
-    return (NSComparisonResult)NSOrderedSame;
-}
-
 - (void)PullDownMenu:(MXPullDownMenu *)pullDownMenu didSelectRowAtColumn:(NSInteger)column row:(NSInteger)row
 {
     if (1 == column)

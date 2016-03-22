@@ -9,7 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface CZJButton : UIButton
-
-
 - (void)setBadgeNum:(NSInteger)badgeNum;
+- (void)setBadgeLabelPosition:(CGPoint)pt;     //提供个性化的位置设置
 @end

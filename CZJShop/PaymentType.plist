@@ -4,7 +4,7 @@
 <array>
 	<dict>
 		<key>orderTypeName</key>
-		<string>支付宝</string>
+		<string>支付宝支付</string>
 		<key>orderTypeImg</key>
 		<string>commit_icon_zhifubao</string>
 		<key>isSelect</key>

@@ -15,17 +15,17 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Hc3-Rk-7VR">
-                        <rect key="frame" x="10" y="0.0" width="145" height="249"/>
+                        <rect key="frame" x="5" y="0.0" width="153" height="254"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="CTl-vq-b2b">
-                                <rect key="frame" x="0.0" y="0.0" width="145" height="173"/>
+                                <rect key="frame" x="0.0" y="0.0" width="153" height="173"/>
                                 <animations/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="173" id="XfI-gS-dhe"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="0.0" translatesAutoresizingMaskIntoConstraints="NO" id="Zr5-H6-Oxe">
-                                <rect key="frame" x="5" y="178" width="135" height="40"/>
+                                <rect key="frame" x="5" y="178" width="143" height="40"/>
                                 <animations/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="7NS-nC-yh8"/>
@@ -61,7 +61,7 @@
                         </constraints>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                <integer key="value" value="5"/>
+                                <integer key="value" value="0"/>
                             </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
                         <variation key="default">
@@ -71,17 +71,17 @@
                         </variation>
                     </view>
                     <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="d5U-jT-2Iq">
-                        <rect key="frame" x="165" y="0.0" width="145" height="249"/>
+                        <rect key="frame" x="163" y="0.0" width="152" height="254"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="zvW-L7-klX">
-                                <rect key="frame" x="0.0" y="0.0" width="145" height="173"/>
+                                <rect key="frame" x="0.0" y="0.0" width="152" height="173"/>
                                 <animations/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="173" id="ALz-6Y-iT2"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="0.0" translatesAutoresizingMaskIntoConstraints="NO" id="2n2-LF-dOT">
-                                <rect key="frame" x="5" y="178" width="135" height="40"/>
+                                <rect key="frame" x="5" y="178" width="142" height="40"/>
                                 <animations/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="MdH-GD-Kj9"/>
@@ -117,7 +117,7 @@
                         </constraints>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                <integer key="value" value="5"/>
+                                <integer key="value" value="0"/>
                             </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
                         <variation key="default">
@@ -128,16 +128,16 @@
                     </view>
                 </subviews>
                 <animations/>
-                <color key="backgroundColor" red="0.94117647058823528" green="0.94117647058823528" blue="0.94117647058823528" alpha="1" colorSpace="calibratedRGB"/>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 <constraints>
                     <constraint firstItem="d5U-jT-2Iq" firstAttribute="width" secondItem="Hc3-Rk-7VR" secondAttribute="width" id="B3d-Y4-ptE"/>
                     <constraint firstItem="Hc3-Rk-7VR" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="Itq-nN-JaE"/>
-                    <constraint firstItem="d5U-jT-2Iq" firstAttribute="leading" secondItem="Hc3-Rk-7VR" secondAttribute="trailing" constant="10" id="QtC-AA-Smv"/>
-                    <constraint firstAttribute="bottom" secondItem="Hc3-Rk-7VR" secondAttribute="bottom" constant="10" id="gdm-uy-SIV"/>
-                    <constraint firstItem="Hc3-Rk-7VR" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="kn0-CU-Ena"/>
-                    <constraint firstAttribute="bottom" secondItem="d5U-jT-2Iq" secondAttribute="bottom" constant="10" id="nfI-ya-ULv"/>
+                    <constraint firstItem="d5U-jT-2Iq" firstAttribute="leading" secondItem="Hc3-Rk-7VR" secondAttribute="trailing" constant="5" id="QtC-AA-Smv"/>
+                    <constraint firstAttribute="bottom" secondItem="Hc3-Rk-7VR" secondAttribute="bottom" constant="5" id="gdm-uy-SIV"/>
+                    <constraint firstItem="Hc3-Rk-7VR" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="5" id="kn0-CU-Ena"/>
+                    <constraint firstAttribute="bottom" secondItem="d5U-jT-2Iq" secondAttribute="bottom" constant="5" id="nfI-ya-ULv"/>
                     <constraint firstItem="d5U-jT-2Iq" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="piB-ah-wrB"/>
-                    <constraint firstAttribute="trailing" secondItem="d5U-jT-2Iq" secondAttribute="trailing" constant="10" id="qiI-qA-ayN"/>
+                    <constraint firstAttribute="trailing" secondItem="d5U-jT-2Iq" secondAttribute="trailing" constant="5" id="qiI-qA-ayN"/>
                 </constraints>
             </tableViewCellContentView>
             <animations/>

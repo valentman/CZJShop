@@ -336,15 +336,18 @@
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
-    return CGSizeMake(88, 120);
+    int width = (PJ_SCREEN_WIDTH - 120)/3;
+    int height = (width * 120)/88;
+    return CGSizeMake(width, height);
 }
 
 -(UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section{
-    return UIEdgeInsetsMake(0, 10, 0, 10);
+    return UIEdgeInsetsMake(10, 10, 0, 10);
 }
 
 -(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section{
-    NSInteger height = 80;
+    float ratio = 160.0 / 526.0;
+    NSInteger height = (kScreenWidth - 120)*ratio;
     rightMeun * title=self.allData[self.selectIndex];
     if (title.nextArray.count>0)
     {
@@ -356,6 +359,7 @@
             height = 0;
         }
     }
+    
     CGSize size={kScreenWidth, height};
     return size;
 }

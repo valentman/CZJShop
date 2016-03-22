@@ -48,6 +48,8 @@ CZJMiaoShaCellDelegate
     NSString* _serviceTypeId;
     NSString* _touchedStoreItemPid;
     BOOL isLoadSuccess;
+    
+    CZJCarInfoCell * carInfoCell;
 }
 @property (strong, nonatomic) IBOutlet PullTableView *homeTableView;
 @property (weak, nonatomic) IBOutlet UIButton *btnToTop;
@@ -73,23 +75,39 @@ CZJMiaoShaCellDelegate
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    [((CZJCarInfoCell*)[self.homeTableView dequeueReusableCellWithIdentifier:@"CZJCarInfoCell"]).autoScrollTimer setFireDate:[NSDate distantPast]];
+    
     [self.naviBarView refreshShopBadgeLabel];
     self.naviBarView.hidden = NO;
+    
+    //注册进入后台通知
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stopTimer) name:@"stopTimer" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(beginTimer) name:@"beginTimer" object:nil];
+}
+
+- (void)stopTimer
+{
+    [carInfoCell.autoScrollTimer setFireDate:[NSDate distantFuture]];
+}
+
+- (void)beginTimer
+{
+    [carInfoCell.autoScrollTimer setFireDate:[NSDate distantPast]];
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
     self.isJumpToAnotherView = YES;
+    [self beginTimer];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
-    [((CZJCarInfoCell*)[self.homeTableView dequeueReusableCellWithIdentifier:@"CZJCarInfoCell"]).autoScrollTimer setFireDate:[NSDate distantFuture]];
+    [self stopTimer];
     [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:@"stopTimer" object:nil];
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:@"beginTimer" object:nil];
 }
-
 
 - (void)propertysInit
 {
@@ -322,16 +340,16 @@ CZJMiaoShaCellDelegate
             
         case 2:
         {//汽车资讯
-            CZJCarInfoCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CZJCarInfoCell" forIndexPath:indexPath];
-            if (cell && _carInfoArray.count > 0 && !cell.isInit)
+            carInfoCell = [tableView dequeueReusableCellWithIdentifier:@"CZJCarInfoCell" forIndexPath:indexPath];
+            if (carInfoCell && _carInfoArray.count > 0 && !carInfoCell.isInit)
             {
-                [cell initWithCarInfoDatas:_carInfoArray andButtonClick:^(id data) {
+                [carInfoCell initWithCarInfoDatas:_carInfoArray andButtonClick:^(id data) {
                     CarInfoForm* carInfoForm = (CarInfoForm*)data;
-                    [self showWebViewWithURL:carInfoForm.url andTitle:@"汽车资讯"];
+                    [self showWebViewWithURL:carInfoForm.url];
                 }];
             }
-            [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
-            return cell;
+            [carInfoCell setSelectionStyle:UITableViewCellSelectionStyleNone];
+            return carInfoCell;
         }
             break;
             
@@ -367,6 +385,7 @@ CZJMiaoShaCellDelegate
         case 4:
         {//广告栏一
             CZJAdBanerCell *cell = (CZJAdBanerCell*)[tableView dequeueReusableCellWithIdentifier:@"CZJAdBanerCell" forIndexPath:indexPath];
+            cell.delegate = self;
             [cell initBannerOneWithDatas:_bannerOneArray];
             return cell;
         }
@@ -404,6 +423,7 @@ CZJMiaoShaCellDelegate
                 CZJBrandRecommendCell *cell = (CZJBrandRecommendCell*)[tableView dequeueReusableCellWithIdentifier:@"CZJBrandRecommendCell" forIndexPath:indexPath];
                 if (cell && _brandRecommentArray.count > 0 && !cell.isInit)
                 {
+                    cell.delegate = self;
                     [cell initBrandRecommendWithDatas:_brandRecommentArray];
                 }
                 return cell;
@@ -414,7 +434,7 @@ CZJMiaoShaCellDelegate
         case 7:
         {//广告条二
             CZJAdBanerPlusCell *cell = (CZJAdBanerPlusCell*)[tableView dequeueReusableCellWithIdentifier:@"CZJAdBanerPlusCell" forIndexPath:indexPath];
-            
+            cell.delegate = self;
             [cell initBannerTwoWithDatas:_bannerTwoArray];
             return cell;
         }
@@ -432,6 +452,7 @@ CZJMiaoShaCellDelegate
                 CZJSpecialRecommendCell *cell = (CZJSpecialRecommendCell*)[tableView dequeueReusableCellWithIdentifier:@"CZJSpecialRecommendCell" forIndexPath:indexPath];
                 if (cell && _specialRecommentArray.count > 0 && !cell.isInit)
                 {
+                    cell.delegate = self;
                     [cell initSpecialRecommendWithDatas:_specialRecommentArray];
                 }
                 return cell;
@@ -609,6 +630,11 @@ CZJMiaoShaCellDelegate
     {
         [self performSegueWithIdentifier:@"segueToMiaoSha" sender:nil];
     }
+    if (6 == indexPath.section && 0 == indexPath.row)
+    {
+        
+        [self showWebViewWithURL:@""];
+    }
 }
 
 
@@ -624,13 +650,13 @@ CZJMiaoShaCellDelegate
     {
         _serviceTypeId = serviceForm.typeId;
         [USER_DEFAULT setValue:_serviceTypeId forKey:kUserDefaultServiceTypeID];
-        [self performSegueWithIdentifier:@"pushToServ\iceDetail" sender:self];
+        [self performSegueWithIdentifier:@"pushToServiceDetail" sender:self];
     }
 }
 
 -(void)showActivityHtmlWithUrl:(NSString*)url
 {
-    [self showWebViewWithURL:url andTitle:@"活动详情"];
+    [self showWebViewWithURL:url];
 }
 
 #pragma mark- CZJMiaoShaCellDelegate
@@ -701,7 +727,7 @@ CZJMiaoShaCellDelegate
 }
 
 
-- (void)showWebViewWithURL:(NSString*)url andTitle:(NSString*)title
+- (void)showWebViewWithURL:(NSString*)url
 {
     CZJWebViewController* webView = (CZJWebViewController*)[CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:@"webViewSBID"];
     webView.cur_url = url;

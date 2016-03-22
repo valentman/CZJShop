@@ -13,6 +13,7 @@
 //服务地址
 //static NSString *const kCZJServerAddr = @"http://192.168.0.251:8080/appserver/";
 static NSString *const kCZJServerAddr = @"http://101.201.197.202:8080/appserver/";
+//static NSString *const kCZJServerAddr = @"http://m.chezhijian.com/appserver/";
 
 //首页接口组
 static NSString *const kCZJServerAPIShowHome = @"chezhu/showHomeV2.do";                             //获取首页数据
@@ -34,6 +35,8 @@ static NSString *const kCZJServerAPIGetKillTimeList = @"chezhu/loadSkillTimes.do
 static NSString *const kCZJServerAPIPGetSkillGoodsList = @"chezhu/loadSkillGoods.do";               //得到秒杀商品列表
 //static NSString *const kCZJServerAPIShowBrands = @"chezhu/showBrands.do";                           //更多品牌
 //static NSString *const kCZJServerAPIGetPromotionsList = @"chezhu/loadStorePromotions.do";           //获取促销信息(type/storeId)(type=0表示满减,type=1表示满赠)
+static NSString *const kCZJServerAPIPGetScanCode = @"chezhu/scanCode.do";                           //获取二维码信息
+
 
 //分类接口组
 static NSString *const kCZJServerAPIGetCategoryData = @"chezhu/loadGoodsSubTypes.do";               //获取分类信息

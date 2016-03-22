@@ -38,20 +38,21 @@
         {
             NSString* badgeStr = [NSString stringWithFormat:@"%ld", badgeNum];
             CGSize labelSize = [CZJUtils calculateTitleSizeWithString:badgeStr AndFontSize:10];
-            labelRect = CGRectMake(self.bounds.size.width - (labelSize.width < 15 ? 15 : labelSize.width),  -5, labelSize.width < 15 ? 15 : labelSize.width, 15);
+            [_badgeLabel setSize:CGSizeMake(labelSize.width < 15 ? 15 : labelSize.width, 15)];
             _badgeLabel.text = badgeStr;
             _badgeLabel.textColor = [UIColor whiteColor];
             _badgeLabel.textAlignment = NSTextAlignmentCenter;
             _badgeLabel.font = SYSTEMFONT(10);
             _badgeLabel.layer.cornerRadius = 7.5;
-            _badgeLabel.layer.borderWidth = 1;
-            _badgeLabel.layer.borderColor = [UIColor whiteColor].CGColor;
         }
-        self.badgeLabel.frame = labelRect;
+        [self setBadgeLabelPosition:CGPointMake(self.bounds.size.width, 0)];
         _badgeLabel.hidden = NO;
     }
-    
+}
 
+- (void)setBadgeLabelPosition:(CGPoint)pt
+{
+    [_badgeLabel setPosition:pt atAnchorPoint:CGPointTopRight];
 }
 
 @end

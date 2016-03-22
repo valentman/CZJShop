@@ -12,31 +12,31 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="85U-Li-Spc">
-                    <rect key="frame" x="125" y="-2" width="70" height="39"/>
+                    <rect key="frame" x="120" y="-2" width="80" height="39"/>
                     <subviews>
                         <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="推荐套餐" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iFn-90-Ol4">
-                            <rect key="frame" x="0.0" y="9" width="70" height="21"/>
+                            <rect key="frame" x="0.0" y="9" width="80" height="21"/>
                             <animations/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="推荐" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mlV-KQ-Vlp">
-                            <rect key="frame" x="35" y="9" width="35" height="21"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="猜您喜欢" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mlV-KQ-Vlp">
+                            <rect key="frame" x="20" y="9" width="60" height="21"/>
                             <animations/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="21" id="dj8-YY-7ZM"/>
-                                <constraint firstAttribute="width" constant="35" id="vqF-z5-6hj"/>
+                                <constraint firstAttribute="width" constant="60" id="vqF-z5-6hj"/>
                             </constraints>
-                            <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                            <color key="textColor" red="1" green="0.12874946139999999" blue="0.1621697557" alpha="1" colorSpace="calibratedRGB"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <color key="textColor" red="0.7019608021" green="0.7019608021" blue="0.7019608021" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="home_icon_recommend.png" translatesAutoresizingMaskIntoConstraints="NO" id="VtN-Fy-jal">
-                            <rect key="frame" x="0.0" y="9" width="25" height="21"/>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="home_icon_love.png" translatesAutoresizingMaskIntoConstraints="NO" id="VtN-Fy-jal">
+                            <rect key="frame" x="0.0" y="12" width="15" height="15"/>
                             <animations/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="21" id="gaH-Db-qFA"/>
-                                <constraint firstAttribute="width" constant="25" id="kCV-hq-6Q4"/>
+                                <constraint firstAttribute="height" constant="15" id="gaH-Db-qFA"/>
+                                <constraint firstAttribute="width" constant="15" id="kCV-hq-6Q4"/>
                             </constraints>
                         </imageView>
                     </subviews>
@@ -45,50 +45,47 @@
                     <constraints>
                         <constraint firstItem="VtN-Fy-jal" firstAttribute="leading" secondItem="85U-Li-Spc" secondAttribute="leading" id="1GX-qh-uOP"/>
                         <constraint firstAttribute="trailing" secondItem="mlV-KQ-Vlp" secondAttribute="trailing" id="1hg-IU-z8T"/>
-                        <constraint firstAttribute="width" constant="70" id="2v4-jm-ClT"/>
+                        <constraint firstAttribute="width" constant="80" id="2v4-jm-ClT"/>
                         <constraint firstAttribute="height" constant="39" id="A0q-QL-Kjq"/>
                         <constraint firstAttribute="trailing" secondItem="iFn-90-Ol4" secondAttribute="trailing" id="Bk4-qx-WGr"/>
                         <constraint firstItem="iFn-90-Ol4" firstAttribute="centerY" secondItem="85U-Li-Spc" secondAttribute="centerY" id="E86-xU-UqS"/>
                         <constraint firstItem="VtN-Fy-jal" firstAttribute="centerY" secondItem="85U-Li-Spc" secondAttribute="centerY" id="Kmj-u6-8OY"/>
-                        <constraint firstItem="mlV-KQ-Vlp" firstAttribute="top" secondItem="85U-Li-Spc" secondAttribute="top" constant="9" id="gmY-Fy-pAY"/>
                         <constraint firstItem="iFn-90-Ol4" firstAttribute="leading" secondItem="85U-Li-Spc" secondAttribute="leading" id="imd-yF-5xx"/>
-                        <constraint firstItem="VtN-Fy-jal" firstAttribute="top" secondItem="85U-Li-Spc" secondAttribute="top" constant="9" id="ojW-yn-f7p"/>
                         <constraint firstItem="mlV-KQ-Vlp" firstAttribute="centerY" secondItem="85U-Li-Spc" secondAttribute="centerY" id="yTS-YA-4sa"/>
                     </constraints>
-                    <variation key="default">
-                        <mask key="constraints">
-                            <exclude reference="ojW-yn-f7p"/>
-                            <exclude reference="gmY-Fy-pAY"/>
-                        </mask>
-                    </variation>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rKv-xt-YKG">
-                    <rect key="frame" x="15" y="17" width="100" height="1"/>
+                    <rect key="frame" x="15" y="17" width="95" height="1"/>
                     <animations/>
-                    <color key="backgroundColor" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
+                    <color key="backgroundColor" red="0.90196078431372551" green="0.90196078431372551" blue="0.90196078431372551" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="1" id="M7w-uS-mIH">
                             <userDefinedRuntimeAttributes>
                                 <userDefinedRuntimeAttribute type="number" keyPath="constant">
-                                    <real key="value" value="0.29999999999999999"/>
+                                    <real key="value" value="0.5"/>
                                 </userDefinedRuntimeAttribute>
                             </userDefinedRuntimeAttributes>
                         </constraint>
                     </constraints>
                 </view>
                 <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ee7-6B-fCj">
-                    <rect key="frame" x="205" y="17" width="100" height="1"/>
+                    <rect key="frame" x="210" y="17" width="95" height="1"/>
                     <animations/>
-                    <color key="backgroundColor" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
+                    <color key="backgroundColor" red="0.90196078431372551" green="0.90196078431372551" blue="0.90196078431372551" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="1" id="VSs-vZ-9B1">
                             <userDefinedRuntimeAttributes>
                                 <userDefinedRuntimeAttribute type="number" keyPath="constant">
-                                    <real key="value" value="0.29999999999999999"/>
+                                    <real key="value" value="0.5"/>
                                 </userDefinedRuntimeAttribute>
                             </userDefinedRuntimeAttributes>
                         </constraint>
                     </constraints>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="constant">
+                            <real key="value" value="0.5"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
                 </view>
             </subviews>
             <animations/>
@@ -113,12 +110,10 @@
                 <outlet property="recoLabel" destination="mlV-KQ-Vlp" id="JQd-e1-W0x"/>
                 <outlet property="recoMenuLabel" destination="iFn-90-Ol4" id="hIW-M3-vbm"/>
                 <outlet property="recoViewLayoutWidth" destination="2v4-jm-ClT" id="NdC-EW-rxV"/>
-                <outlet property="viewOneheight" destination="M7w-uS-mIH" id="3N8-lq-6Mk"/>
-                <outlet property="viewTowHeight" destination="VSs-vZ-9B1" id="exa-y1-R0n"/>
             </connections>
         </view>
     </objects>
     <resources>
-        <image name="home_icon_recommend.png" width="13" height="11"/>
+        <image name="home_icon_love.png" width="15" height="15"/>
     </resources>
 </document>

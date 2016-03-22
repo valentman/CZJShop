@@ -17,7 +17,7 @@
     SDWebImageCompletionBlock sdimgBlock = ^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL){};
     UIImageView* image_icon = [[UIImageView alloc] initWithImage:image];
     [image_icon sd_setImageWithURL:[NSURL URLWithString:img]
-                  placeholderImage:PNGIMAGE(@"home_btn_xiche")
+                  placeholderImage:DefaultPlaceHolderImage
                          completed:sdimgBlock];
     CGRect tmpRect = self.contentView.frame;
     image_icon.frame = tmpRect;
@@ -62,6 +62,7 @@
 #pragma mark- UICollectionViewDelegate
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPat
 {
+    [self.delegate showActivityHtmlWithUrl:((SpecialRecommendForm*)_specialRecommendDatas[indexPat.item]).url];
 }
 
 

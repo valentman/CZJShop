@@ -32,6 +32,7 @@
 #import "CZJGoodsDetailForm.h"
 #import "CZJStoreForm.h"
 #import "CZJCommitOrderController.h"
+#import "CZJPromotionController.h"
 
 
 #define kTagScrollView 1002
@@ -899,6 +900,16 @@ CZJStoreInfoHeaerCellDelegate
 - (IBAction)storeAction:(id)sender
 {
     
+}
+
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"segueToPromotion"])
+    {
+        CZJPromotionController* promotionVC = segue.destinationViewController;
+        
+    }
 }
 
 @end

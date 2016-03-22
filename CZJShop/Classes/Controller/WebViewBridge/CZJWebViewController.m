@@ -112,9 +112,9 @@ DZNEmptyDataSetDelegate
 
 
 #pragma mark - UIWebViewDelegate methods
-
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
 {
+    
     self.failedLoading = NO;
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     return YES;

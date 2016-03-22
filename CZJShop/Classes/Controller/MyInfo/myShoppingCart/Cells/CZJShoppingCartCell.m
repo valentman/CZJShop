@@ -80,7 +80,14 @@
         self.choosedCount = [shoppingGoodsInfo.itemCount integerValue];
         
         //加减数量控件
-        self.changeView = [[WLZ_ChangeCountView alloc]initWithFrame:CGRectMake(PJ_SCREEN_WIDTH - 125, 70 , 90, 30) chooseCount:1 totalCount: 99];
+        int width = 90;
+        if (iPhone4 || iPhone5)
+        {
+            width  = width * 0.8;
+        }
+        int heigh = width/3;
+        
+        self.changeView = [[WLZ_ChangeCountView alloc]initWithFrame:CGRectMake(PJ_SCREEN_WIDTH - width - 10, self.frame.size.height - 20 - heigh, width, heigh) chooseCount:1 totalCount: 99];
         self.changeView.layer.cornerRadius = 3;
         [self.contentView addSubview:self.changeView];
         self.changeView.numberFD.text = [NSString stringWithFormat:@"%ld", self.choosedCount];

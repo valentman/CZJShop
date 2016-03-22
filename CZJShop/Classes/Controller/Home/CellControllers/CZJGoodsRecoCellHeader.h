@@ -14,7 +14,4 @@
 @property (weak, nonatomic) IBOutlet UIImageView *recoImg;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *recoViewLayoutWidth;
 
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *viewOneheight;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *viewTowHeight;
-
 @end

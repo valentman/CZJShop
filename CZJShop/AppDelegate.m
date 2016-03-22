@@ -23,7 +23,7 @@
 #import "CZJOrderPaySuccessController.h"
 
 @interface AppDelegate ()
-
+@property (strong, nonatomic) UIView *lunchView;
 @end
 
 @implementation AppDelegate
@@ -36,9 +36,19 @@
     }
 }
 
+-(void)removeLun
+{
+    [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        [_lunchView setPosition:CGPointPositionMiddle atAnchorPoint:CGPointMiddle];
+        [_lunchView setAlpha:0];
+    } completion:^(BOOL finished) {
+        [_lunchView removeFromSuperview];
+    }];
+    
+}
+
 #pragma mark- AppDelegate
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    
     //-------------------1.版本更新检测------------------
     NSMutableDictionary* versionCheck_info = [CZJUtils readDictionaryFromDocumentsDirectoryWithPlistName:kCZJPlistFileCheckVersion];
     if (versionCheck_info && versionCheck_info.count > 0)
@@ -109,55 +119,55 @@
 
     
     //--------------------5.推送注册中心-----------------
-//    [XGPush startApp:kCZJPushServerAppId appKey:kCZJPushServerAppKey];
-//    CZJGeneralBlock successBlock = ^(void)
-//    {
-//        //如果变成需要注册状态
-//        if(![XGPush isUnRegisterStatus])
-//        {
-//            //iOS8推送类型注册
-//        #if __IPHONE_OS_VERSION_MAX_ALLOWED >= _IPHONE80_
-//            float sysVer = [[[UIDevice currentDevice] systemVersion] floatValue];
-//            if(sysVer < 8){
-//                [self registerPush];
-//            }
-//            else{
-//                [self registerPushForIOS8];
-//            }
-//        #else
-//            //iOS8之前注册push方法
-//            //注册Push服务，注册后才能收到推送
-//            [self registerPush];
-//        #endif
-//        }
-//    };
-//    [XGPush initForReregister:successBlock];
-//    
-//    //推送反馈(app不在前台运行时，点击推送激活时)
-//    [XGPush handleLaunching:launchOptions];
-//    
-//    //推送反馈回调版本示例
-//    CZJGeneralBlock _successBlock = ^(void){
-//        //成功之后的处理
-//        DLog(@"[XGPush]handleLaunching's successBlock");
-//    };
-//    
-//    CZJGeneralBlock _errorBlock = ^(void){
-//        //失败之后的处理
-//        DLog(@"[XGPush]handleLaunching's errorBlock");
-//    };
-//    
-//    [XGPush handleLaunching:launchOptions successCallback:_successBlock errorCallback:_errorBlock];
-//    
-//    DLog(@"--%@",[CZJLoginModelManager sharedCZJLoginModelManager].cityId);
-//    [XGPush setTag:[CZJLoginModelManager sharedCZJLoginModelManager].cityId];
-//    BOOL isLoginedIn = [USER_DEFAULT boolForKey:kCZJIsUserHaveLogined];
-//    if (isLoginedIn) {
-//        [CZJLoginModelInstance loginWithDefaultInfoSuccess:^()
-//         {
-//             [XGPush setAccount:[CZJLoginModelInstance cheZhuId]];
-//         }fail:^(){}];
-//    }
+    [XGPush startApp:kCZJPushServerAppId appKey:kCZJPushServerAppKey];
+    CZJGeneralBlock successBlock = ^(void)
+    {
+        //如果变成需要注册状态
+        if(![XGPush isUnRegisterStatus])
+        {
+            //iOS8推送类型注册
+        #if __IPHONE_OS_VERSION_MAX_ALLOWED >= _IPHONE80_
+            float sysVer = [[[UIDevice currentDevice] systemVersion] floatValue];
+            if(sysVer < 8){
+                [self registerPush];
+            }
+            else{
+                [self registerPushForIOS8];
+            }
+        #else
+            //iOS8之前注册push方法
+            //注册Push服务，注册后才能收到推送
+            [self registerPush];
+        #endif
+        }
+    };
+    [XGPush initForReregister:successBlock];
+    
+    //推送反馈(app不在前台运行时，点击推送激活时)
+    [XGPush handleLaunching:launchOptions];
+    
+    //推送反馈回调版本示例
+    CZJGeneralBlock _successBlock = ^(void){
+        //成功之后的处理
+        DLog(@"[XGPush]handleLaunching's successBlock");
+    };
+    
+    CZJGeneralBlock _errorBlock = ^(void){
+        //失败之后的处理
+        DLog(@"[XGPush]handleLaunching's errorBlock");
+    };
+    
+    [XGPush handleLaunching:launchOptions successCallback:_successBlock errorCallback:_errorBlock];
+    
+    DLog(@"--%@",[CZJLoginModelManager sharedCZJLoginModelManager].cityId);
+    [XGPush setTag:[CZJLoginModelManager sharedCZJLoginModelManager].cityId];
+    BOOL isLoginedIn = [USER_DEFAULT boolForKey:kCZJIsUserHaveLogined];
+    if (isLoginedIn) {
+        [CZJLoginModelInstance loginWithDefaultInfoSuccess:^()
+         {
+             [XGPush setAccount:[CZJLoginModelInstance cheZhuId]];
+         }fail:^(){}];
+    }
     
     
     //-----------------6.判断是否启动广告页面--------------
@@ -179,10 +189,22 @@
         storyboardId = kCZJStoryBoardIDHomeView;
     }
 
-    UIViewController *_CZJRootViewController = [CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:kCZJStoryBoardIDHomeView];
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    UIViewController *_CZJRootViewController = [CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:kCZJStoryBoardIDHomeView];
     self.window.rootViewController = _CZJRootViewController;
     [self.window makeKeyAndVisible];
+
+    //-------------------启动之后跳转到主页面中间转换页面-------------------
+    _lunchView = [[NSBundle mainBundle ]loadNibNamed:@"LaunchScreen" owner:nil options:nil][0];
+    [_lunchView setSize:CGSizeMake(PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT)];
+    [_lunchView setPosition:CGPointPositionMiddle atAnchorPoint:CGPointMiddle];
+    UIImageView *imageV = [[UIImageView alloc] initWithFrame:PJ_SCREEN_BOUNDS];
+    NSString *str = @"http://upload.chezhijian.com/@/yunying/201603/0b2cf7a75d6b41cba821ec2a7035e0b6.png";
+    [imageV sd_setImageWithURL:[NSURL URLWithString:str] placeholderImage:DefaultPlaceHolderImage];
+    [_lunchView addSubview:imageV];
+    [self.window addSubview:_lunchView];
+    [self.window bringSubviewToFront:_lunchView];
+    [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(removeLun) userInfo:nil repeats:NO];
     
     
     //---------------------7.分享设置---------------------
@@ -195,6 +217,7 @@
     //-------------------8.字典描述分类替换---------------
     [NSDictionary jr_swizzleMethod:@selector(description) withMethod:@selector(my_description) error:nil];
     
+    
     //-------------------9.开启帧数显示---------------
     [KMCGeigerCounter sharedGeigerCounter].enabled = YES;
 
@@ -204,14 +227,10 @@
 
 
 - (void)applicationWillResignActive:(UIApplication *)application {
-    
-    // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-    // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
-    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-    // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+    [[NSNotificationCenter defaultCenter]postNotificationName:@"stopTimer" object:nil];
     [self beingBackgroundUpdateTask];
     // 在这里加上你需要长久运行的代码
     [self endBackgroundUpdateTask];
@@ -232,7 +251,7 @@
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
-    // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+    [[NSNotificationCenter defaultCenter]postNotificationName:@"beginTimer" object:nil];
     
     //角标清0
     [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];

@@ -82,6 +82,33 @@
 @property(nonatomic, strong) NSString* normalCount;
 @end
 
+//--------------------详情页面评价简介Item信息---------------------
+@interface CZJDetailEvalItemInfo : NSObject
+@property(nonatomic, strong) NSString* added;
+@property(nonatomic, strong) NSString* chezhuId;
+@property(nonatomic, strong) NSString* chezhuMobile;
+@property(nonatomic, strong) NSString* counterKey;
+@property(nonatomic, strong) NSString* createTime;
+@property(nonatomic, strong) NSArray* evalImgs;
+@property(nonatomic, strong) NSString* evalLevel;
+@property(nonatomic, strong) NSString* evalTime;
+@property(nonatomic, strong) NSString* hasImg;
+@property(nonatomic, strong) NSString* head;
+@property(nonatomic, strong) NSString* ID;
+@property(nonatomic, strong) NSString* itemImg;
+@property(nonatomic, strong) NSString* itemName;
+@property(nonatomic, strong) NSString* itemSku;
+@property(nonatomic, strong) NSString* itemType;
+@property(nonatomic, strong) NSString* message;
+@property(nonatomic, strong) NSString* name;
+@property(nonatomic, strong) NSString* orderNo;
+@property(nonatomic, strong) NSString* orderTime;
+@property(nonatomic, strong) NSString* replyCount;
+@property(nonatomic, strong) NSString* score;
+@property(nonatomic, strong) NSString* storeId;
+@property(nonatomic, strong) NSString* storeItemPid;
+@end
+
 //---------------------券信息---------------------
 @interface CZJCouponForm : NSObject
 @property(nonatomic, strong) NSString* validServiceName;
@@ -103,4 +130,5 @@
 @property (nonatomic, strong)CZJStoreInfoForm* store;
 @property (nonatomic, strong)CZJDetailEvalInfo* evals;
 @property (nonatomic, strong)NSArray* coupons;
+@property (nonatomic, strong)NSArray* promotions;
 @end

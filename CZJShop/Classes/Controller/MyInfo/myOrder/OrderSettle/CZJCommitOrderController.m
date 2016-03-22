@@ -904,7 +904,7 @@ CZJRedPacketCellDelegate
                 [CZJUtils tipWithText:@"微信支付失败" andView:weak.view];
             }];
         }
-        if ([_defaultOrderType.orderTypeName isEqualToString:@"支付宝"])
+        if ([_defaultOrderType.orderTypeName isEqualToString:@"支付宝支付"])
         {
             [CZJPaymentInstance aliPay:self OrderInfo:paymentOrderForm Success:^(NSDictionary *message) {
             } Fail:^(NSDictionary *message, NSError *error) {

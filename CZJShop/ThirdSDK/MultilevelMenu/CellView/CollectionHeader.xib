@@ -12,7 +12,7 @@
             <autoresizingMask key="autoresizingMask"/>
             <subviews>
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="za1-pm-fBx">
-                    <rect key="frame" x="15" y="0.0" width="290" height="80"/>
+                    <rect key="frame" x="15" y="15" width="290" height="65"/>
                     <animations/>
                 </imageView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8EH-43-Sp8">
@@ -27,7 +27,7 @@
                 <constraint firstAttribute="trailing" secondItem="za1-pm-fBx" secondAttribute="trailing" constant="15" id="OSI-Zf-CxP"/>
                 <constraint firstItem="8EH-43-Sp8" firstAttribute="top" secondItem="U6b-Vx-4bR" secondAttribute="top" id="aKw-8N-d8I"/>
                 <constraint firstAttribute="trailing" secondItem="8EH-43-Sp8" secondAttribute="trailing" id="aMO-kx-lrY"/>
-                <constraint firstItem="za1-pm-fBx" firstAttribute="top" secondItem="U6b-Vx-4bR" secondAttribute="top" id="bvo-dI-4ED"/>
+                <constraint firstItem="za1-pm-fBx" firstAttribute="top" secondItem="U6b-Vx-4bR" secondAttribute="top" constant="15" id="bvo-dI-4ED"/>
                 <constraint firstAttribute="bottom" secondItem="za1-pm-fBx" secondAttribute="bottom" id="uIY-qA-dxD"/>
                 <constraint firstItem="za1-pm-fBx" firstAttribute="leading" secondItem="U6b-Vx-4bR" secondAttribute="leading" constant="15" id="zN9-JI-KoT"/>
             </constraints>

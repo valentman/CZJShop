@@ -378,7 +378,7 @@ CZJViewControllerDelegate
         else if (1 == indexPath.row)
         {
             CZJWebViewController* webView = (CZJWebViewController*)[CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:@"webViewSBID"];
-            webView.cur_url = kCZJServerAPIZHIBAOCARD;
+            webView.cur_url = [kCZJServerAddr stringByAppendingString:kCZJServerAPIZHIBAOCARD];
             [self.navigationController pushViewController:webView animated:YES];
         }
         else
@@ -426,7 +426,7 @@ CZJViewControllerDelegate
             {
                 segueId = @"";
                 CZJWebViewController* webView = (CZJWebViewController*)[CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:@"webViewSBID"];
-                webView.cur_url = kCZJServerAPIGetPoint;
+                webView.cur_url = [kCZJServerAddr stringByAppendingString:kCZJServerAPIGetPoint];
                 [self.navigationController pushViewController:webView animated:YES];
             }
                 break;

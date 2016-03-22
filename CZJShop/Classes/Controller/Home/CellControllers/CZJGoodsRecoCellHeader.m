@@ -12,8 +12,6 @@
 - (void)awakeFromNib {
     // Initialization code
     [super awakeFromNib];
-    self.viewOneheight.constant = 0.4;
-    self.viewTowHeight.constant = 0.4;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

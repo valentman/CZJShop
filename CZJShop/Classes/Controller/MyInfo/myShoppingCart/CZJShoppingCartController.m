@@ -132,7 +132,7 @@ UIGestureRecognizerDelegate
                 storeCartForm.isSelect = YES;
                 num = count*sale+ num;
             }
-            else
+            else if (!model.isSelect)
             {
                 allChoose = NO;
             }

@@ -14,13 +14,13 @@
 - (void)awakeFromNib {
     // Initialization code
     _imageViews = [NSMutableArray array];
-    [_oneImageView setTag:1];
+    [_oneImageView setTag:0];
     [_imageViews addObject:_oneImageView];
-    [_towImageView setTag:2];
+    [_towImageView setTag:1];
     [_imageViews addObject:_towImageView];
-    [_threeImageView setTag:3];
+    [_threeImageView setTag:2];
     [_imageViews addObject:_threeImageView];
-    [_fourImageView setTag:4];
+    [_fourImageView setTag:3];
     [_imageViews addObject:_fourImageView];
 }
 
@@ -47,8 +47,7 @@
 {
     UIImageView *imageView = (UIImageView *)tapGesture.view;
     NSInteger index = imageView.tag;
-    DLog(@"%ld",index);
-
+    [self.delegate showActivityHtmlWithUrl:((BrandRecommendForm*)_brandRecommendDatas[index]).url];
 }
 
 @end

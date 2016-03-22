@@ -80,7 +80,7 @@ singleton_implementation(CZJBaseDataManager);
     for (CZJOrderTypeForm* form in _orderPaymentTypeAry)
     {
         form.isSelect = NO;
-        if ([form.orderTypeName isEqualToString:@"支付宝"])
+        if ([form.orderTypeName isEqualToString:@"支付宝支付"])
         {
             form.isSelect = YES;
         }

@@ -120,7 +120,7 @@
         self.itemCount = [dict valueForKey:@"itemCount"];
         self.itemSku = [dict valueForKey:@"itemSku"];
         self.itemCode = [dict valueForKey:@"itemCode"];
-        self.isSelect = YES;
+        self.isSelect = NO;
         self.isDeleteSelect = NO;
         return self;
     }

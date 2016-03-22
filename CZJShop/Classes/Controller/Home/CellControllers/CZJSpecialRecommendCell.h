@@ -22,6 +22,7 @@ static NSString *CZJSpecialRecoCollectionViewCellIdentifier = @"CZJSpecialRecoCo
 }
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (weak, nonatomic) IBOutlet UICollectionViewFlowLayout *collectionViewLayout;
+@property (weak, nonatomic) id<CZJImageViewTouchDelegate> delegate;
 
 - (void)initSpecialRecommendWithDatas:(NSArray*)datas;
 @end

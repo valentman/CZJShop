@@ -18,6 +18,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView *towImageView;
 @property (weak, nonatomic) IBOutlet UIImageView *threeImageView;
 @property (weak, nonatomic) IBOutlet UIImageView *fourImageView;
+@property (weak, nonatomic) id<CZJImageViewTouchDelegate> delegate;
 
 
 
