@@ -87,7 +87,7 @@
         }
         int heigh = width/3;
         
-        self.changeView = [[WLZ_ChangeCountView alloc]initWithFrame:CGRectMake(PJ_SCREEN_WIDTH - width - 10, self.frame.size.height - 20 - heigh, width, heigh) chooseCount:1 totalCount: 99];
+        self.changeView = [[WLZ_ChangeCountView alloc]initWithFrame:CGRectMake(PJ_SCREEN_WIDTH - width - 10, (self.frame.size.height + self.goodImage.frame.size.height)*0.5 - heigh, width, heigh) chooseCount:1 totalCount: 99];
         self.changeView.layer.cornerRadius = 3;
         [self.contentView addSubview:self.changeView];
         self.changeView.numberFD.text = [NSString stringWithFormat:@"%ld", self.choosedCount];
@@ -111,7 +111,10 @@
     
     if(self.choosedCount>=99)
     {
-        [SVProgressHUD showErrorWithStatus:@"最多支持购买99个"];
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self animated:YES];
+        hud.mode = MBProgressHUDModeText;
+        hud.labelText = @"最多支持99个数量!";
+        [hud hide:YES afterDelay:2];
         self.choosedCount  = 99;
         _changeView.addButton.enabled = NO;
         _changeView.addButton.titleLabel.alpha = 0.5f;

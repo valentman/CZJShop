@@ -15,6 +15,8 @@
 #import "CZJStoreDetailController.h"
 #import "CZJSearchController.h"
 #import "CZJBackgroundPromptView.h"
+#import "CZJCommitOrderController.h"
+#import "CZJLoadingFailedAlertView.h"
 
 
 @interface CZJUtils ()<UIAlertViewDelegate>
@@ -666,6 +668,16 @@ void tapToHidePopViewAction(id sender, SEL _cmd)
     }];
 }
 
++ (void)showCommitOrderView:(UIViewController *)target andParams:(NSArray*)_settleOrderAry
+{
+    UINavigationController* commitVC = (UINavigationController*)[CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:@"OrderSettleNavi"];
+    CZJCommitOrderController* settleOrder = ((CZJCommitOrderController*)commitVC.topViewController);
+    settleOrder.settleParamsAry = _settleOrderAry;
+    [target presentViewController:commitVC animated:YES completion:^
+     {
+     }];
+}
+
 + (void)showShoppingCartView:(CZJViewController*)target  andNaviBar:(CZJNaviagtionBarView*)naviBar
 {
     //由storyboard根据LoginView获取到登录界面
@@ -696,21 +708,6 @@ void tapToHidePopViewAction(id sender, SEL _cmd)
     {
         target.window.frame = CGRectMake(0, PJ_SCREEN_HEIGHT, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT);
         
-    }
-    completion:^(BOOL finished)
-    {
-        if (finished) {
-            [target.window resignKeyWindow];
-            target.window  = nil;
-        }
-    }];
-}
-
-+ (void)removeShoppintCartViewFromCurrent:(CZJViewController*)target
-{
-    [UIView animateWithDuration:0.4f delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^
-    {
-        target.window.frame = CGRectMake(PJ_SCREEN_WIDTH, 0, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT);
     }
     completion:^(BOOL finished)
     {
@@ -857,6 +854,15 @@ void tapToHidePopViewAction(id sender, SEL _cmd)
     detailView.detaiViewType = detailtype;
     detailView.promotionPrice = @"";
     [navi pushViewController:detailView animated:true];
+}
+
+
++ (void)showReloadAlertViewOnTarget:(UIView*)targetView withReloadHandle:(CZJGeneralBlock)reloadhandle
+{
+    CZJLoadingFailedAlertView* loadingFaildView = [self getXibViewByName:@"CZJLoadingFailedAlertView"];
+    [loadingFaildView setReloadHandle:reloadhandle];
+    [loadingFaildView setPosition:CGPointMake(targetView.frame.size.width*0.5, targetView.frame.size.height*0.5) atAnchorPoint:CGPointMiddle];
+    [targetView addSubview:loadingFaildView];
 }
 
 

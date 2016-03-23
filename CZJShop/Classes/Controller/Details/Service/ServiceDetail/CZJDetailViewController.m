@@ -33,6 +33,7 @@
 #import "CZJStoreForm.h"
 #import "CZJCommitOrderController.h"
 #import "CZJPromotionController.h"
+#import "CZJStoreDetailController.h"
 
 
 #define kTagScrollView 1002
@@ -78,6 +79,7 @@ CZJStoreInfoHeaerCellDelegate
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *borderLineLayoutHeight;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *addProductToWidth;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *immediatelyBuyWidth;
+@property (weak, nonatomic) IBOutlet UIView *serviceView;
 
 @property (strong, nonatomic) UITableView* detailTableView;
 
@@ -100,8 +102,7 @@ CZJStoreInfoHeaerCellDelegate
     [self addCZJNaviBarView:CZJNaviBarViewTypeDetail];
     [self initDatas];
     [self initViews];
-    [SVProgressHUD show];
-    [SVProgressHUD setBackgroundColor:CLEARCOLOR];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [CZJUtils performBlock:^{
         [self getDataFromServer];
     } afterDelay:0.5];
@@ -248,7 +249,7 @@ CZJStoreInfoHeaerCellDelegate
         [webVie setTitleArray:@[@"图文详情",@"购买须知",@"包装售后",@"适用车型"] andVCArray:@[FController,SController,TController,AController]];
         [self.myScrollView addSubview:webVie];
         
-        [SVProgressHUD dismiss];
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
     };
     NSDictionary* param = @{@"storeItemPid":self.storeItemPid, @"promotionPrice":self.promotionPrice, @"promotionType":[NSString stringWithFormat:@"%ld",self.promotionType]};
     NSString* apiUrl;
@@ -809,10 +810,8 @@ CZJStoreInfoHeaerCellDelegate
                                     @"selfFlag" : goodsDetailForm.goods.selfFlag ? @"true" : @"false"
                                     };
         [_settleOrderAry addObject:storeDict];
-        CZJCommitOrderController* settleOrder = (CZJCommitOrderController*)[CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:@"SBIDCommitSettle"];
-        settleOrder.settleParamsAry = _settleOrderAry;
-        [self.navigationController pushViewController:settleOrder animated:true];
-        [CZJUtils tipWithText:@"结算成功" andView:nil];
+        
+        [CZJUtils showCommitOrderView:self andParams:_settleOrderAry];
     }
     else
     {
@@ -899,7 +898,8 @@ CZJStoreInfoHeaerCellDelegate
 
 - (IBAction)storeAction:(id)sender
 {
-    
+    CZJStoreDetailController* storeDetailVC = (CZJStoreDetailController*)[CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:@"storeDetailVC"];
+    [self.navigationController pushViewController:storeDetailVC animated:YES];
 }
 
 

@@ -16,5 +16,7 @@
 
 @interface CZJMyInfoShoppingCartCell : CZJTableViewCell
 @property (weak, nonatomic)id<CZJMyInfoShoppingCartCellDelegate> delegate;
+@property (weak, nonatomic) IBOutlet CZJButton *shoppingBtn;
+
 - (IBAction)clickAction:(id)sender;
 @end

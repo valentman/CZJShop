@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "ImagePlayerView.h"
 
-@interface CZJAdBanerCell : UITableViewCell<ImagePlayerViewDelegate>
+@interface CZJAdBanerCell : CZJTableViewCell<ImagePlayerViewDelegate>
 {
     NSArray* _bannerDatas;
     NSMutableArray* _imageArray;

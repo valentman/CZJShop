@@ -15,27 +15,6 @@
 + (NSDictionary *)objectClassInArray{
     return @{@"stores" : @"CZJOrderStoreForm"};
 }
-
-- (id) initWithDictionary:(NSDictionary*)dict
-{
-    if (self = [super init])
-    {
-        self.stores = [NSMutableArray array];
-        self.cardMoney = [dict valueForKey:@"cardMoney"];
-        self.needAddr = [dict valueForKey:@"needAddr"];
-        self.needCoupon = [dict valueForKey:@"needCoupon"];
-        self.needRedpacket = [dict valueForKey:@"needRedpacket"];
-        self.redpacket = [dict valueForKey:@"redpacket"];
-        NSArray* tmpAry = [dict valueForKey:@"stores"];
-        for (NSDictionary* storeDict in tmpAry)
-        {
-            CZJOrderStoreForm* form = [[CZJOrderStoreForm alloc]initWithDictionary:storeDict];
-            [self.stores addObject:form];
-        }
-        return self;
-    }
-    return nil;
-}
 @end
 
 
@@ -44,32 +23,23 @@
 {
     return @{@"items" : @"CZJOrderGoodsForm"};
 }
-- (id) initWithDictionary:(NSDictionary*)dict
+- (id) init
 {
     if (self = [super init])
     {
-        self.gifts = [NSMutableArray array];
-        self.items = [NSMutableArray array];
-
-        self.fullCutPrice = [dict valueForKey:@"fullCutPrice"] ? [dict valueForKey:@"fullCutPrice"] : @"";
-        self.storeId = [dict valueForKey:@"storeId"] ? [dict valueForKey:@"storeId"] : @"";
-        self.storeName = [dict valueForKey:@"storeName"] ? [dict valueForKey:@"storeName"] : @"";
-        self.transportPrice = [dict valueForKey:@"transportPrice"] ? [dict valueForKey:@"transportPrice"] : @"0";
-        self.note = [dict valueForKey:@"note"] ? [dict valueForKey:@"note"] : @"";
-        self.companyId = [dict valueForKey:@"companyId"] ? [dict valueForKey:@"companyId"] : @"";
-        self.couponPrice = [dict valueForKey:@"couponPrice"] ? [dict valueForKey:@"couponPrice"] : @"";
-        self.chezhuCouponPid = [dict valueForKey:@"chezhuCouponPid"] ? [dict valueForKey:@"chezhuCouponPid"] : @"";
-        self.orderPrice = [dict valueForKey:@"orderPrice"] ? [dict valueForKey:@"orderPrice"] : @"0";
-        self.orderMoney = [dict valueForKey:@"orderMoney"] ? [dict valueForKey:@"orderMoney"] : @"0";
-        self.totalSetupPrice = [dict valueForKey:@"totalSetupPrice"] ? [dict valueForKey:@"totalSetupPrice"] : @"0";
-        self.selfFlag = [dict valueForKey:@"selfFlag"] ? [dict valueForKey:@"selfFlag"] : @"";
-        self.hasCoupon = [dict valueForKey:@"hasCoupon"] ? [dict valueForKey:@"hasCoupon"] : @"";
-        self.gifts = [dict valueForKey:@"gifts"];
-        NSArray* itemsAry = [dict valueForKey:@"items"];
-        for (NSDictionary* goodDict in itemsAry)
-        {
-            [self.items addObject:[CZJOrderGoodsForm objectWithKeyValues:goodDict]];
-        }
+        self.fullCutPrice =  @"0";
+        self.storeId =  @"";
+        self.storeName =  @"";
+        self.transportPrice =  @"0";
+        self.note = @"";
+        self.companyId =  @"0";
+        self.couponPrice =  @"0";
+        self.chezhuCouponPid =  @"0";
+        self.orderPrice = @"0";
+        self.orderMoney =  @"0";
+        self.totalSetupPrice =  @"0";
+        self.selfFlag = @"0";
+        self.hasCoupon = @"0";
         return self;
     }
     return nil;

@@ -96,7 +96,8 @@ AMapSearchDelegate
     _mapView = [[MAMapView alloc] initWithFrame:CGRectMake(0, 64, CGRectGetWidth(self.view.bounds), CGRectGetHeight(self.view.bounds) - 64)];
     _mapView.delegate = self;
     _mapView.compassOrigin = CGPointMake(_mapView.compassOrigin.x, 14);     //右上角罗盘
-    _mapView.scaleOrigin = CGPointMake(_mapView.scaleOrigin.x, 22);         //左上角比例尺
+    _mapView.showsScale = false;
+//    _mapView.scaleOrigin = CGPointMake(_mapView.scaleOrigin.x, 22);         //左上角比例尺
     _mapView.showTraffic = NO;                                              //交通状况
     _mapView.showsUserLocation = YES;
     _mapView.userTrackingMode = MAUserTrackingModeFollow;
@@ -116,7 +117,7 @@ AMapSearchDelegate
     
     //添加NaviBarView
     [self addCZJNaviBarView:CZJNaviBarViewTypeGeneral];
-    self.naviBarView.mainTitleLabel.text = @"选择门店";
+    self.naviBarView.mainTitleLabel.text = @"附近门店";
     
     //添加中心位置图标按钮
     CGPoint pt = CGPointMake(PJ_SCREEN_WIDTH*0.5, PJ_SCREEN_HEIGHT*0.5);

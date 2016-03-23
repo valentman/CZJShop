@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CZJLimitBuyCellHeader : UITableViewCell
+@interface CZJLimitBuyCellHeader : CZJTableViewCell
 
 - (IBAction)showMoreLimitBuyInfo:(id)sender;
 

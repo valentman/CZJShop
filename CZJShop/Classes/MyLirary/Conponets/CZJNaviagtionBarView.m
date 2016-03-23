@@ -11,6 +11,8 @@
 #import "CZJShoppingCartController.h"
 #import "CZJSearchController.h"
 #import "CZJScanQRController.h"
+
+
 @interface CZJNaviagtionBarView ()<UISearchBarDelegate>
 {
     CGRect _selfBounds;
@@ -132,7 +134,7 @@
     [_btnShop addTarget:self action:@selector(clickButton:) forControlEvents:UIControlEventTouchUpInside];
     [_btnShop setTag:CZJButtonTypeHomeShopping];
     [_btnShop setHidden:YES];
-    
+    //购物车右上角数量角标
     _btnShopBadgeLabel = [[UILabel alloc]initWithFrame:CGRectMake(25, 0, 16, 16)];
     _btnShopBadgeLabel.textColor = [UIColor whiteColor];
     NSString* shoppingCartCount = [USER_DEFAULT valueForKey:kUserDefaultShoppingCartCount];
@@ -316,7 +318,8 @@
         case CZJButtonTypeHomeShopping:
             if ([USER_DEFAULT boolForKey:kCZJIsUserHaveLogined])
             {
-                [CZJUtils showShoppingCartView:(UIViewController*)_delegate andNaviBar:self];
+                CZJShoppingCartController* shoppingCart = (CZJShoppingCartController*)[CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:@"SBIDShoppingCart"];
+                [((UIViewController*)_delegate).navigationController pushViewController:shoppingCart animated:YES];
             }
             else
             {
@@ -353,10 +356,6 @@
     {
         [CZJUtils removeLoginViewFromCurrent:(UIViewController*)_delegate];
         [self refreshShopBadgeLabel];
-    }
-    else if ([controller isKindOfClass:[CZJShoppingCartController class]] )
-    {
-        [CZJUtils removeShoppintCartViewFromCurrent:(UIViewController*)_delegate];
     }
     else if ([controller isKindOfClass:[CZJSearchController class]])
     {

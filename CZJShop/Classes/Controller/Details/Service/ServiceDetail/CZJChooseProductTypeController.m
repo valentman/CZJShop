@@ -117,7 +117,7 @@ UITableViewDataSource
     
     if(choosedCount>=99)
     {
-        [SVProgressHUD showErrorWithStatus:@"最多支持购买99个"];
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES].labelText = @"最多支持购买99个";
         choosedCount  = 99;
         ((WLZ_ChangeCountView*)VIEWWITHTAG(addCellView, 1010)).addButton.enabled = NO;
     }

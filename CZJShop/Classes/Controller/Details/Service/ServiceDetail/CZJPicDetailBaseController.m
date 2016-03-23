@@ -55,18 +55,20 @@ UIWebViewDelegate
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
 {
-    [SVProgressHUD show];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     return YES;
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
 {
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     [self.myWebView.scrollView reloadEmptyDataSet];
 }
 
-- (void)webViewDidFinishLoad:(UIWebView *)webView{
-    [SVProgressHUD dismiss];
+- (void)webViewDidFinishLoad:(UIWebView *)webView
+{
+    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView

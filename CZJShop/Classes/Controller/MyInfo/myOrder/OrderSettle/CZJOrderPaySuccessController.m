@@ -57,4 +57,16 @@
     mydelegate.window.rootViewController = nil;
     mydelegate.window.rootViewController = _CZJRootViewController;
 }
+
+- (void)clickEventCallBack:(nullable id)sender
+{
+    UIButton* barButton = (UIButton*)sender;
+    switch (barButton.tag) {
+        case CZJButtonTypeNaviBarBack:
+            [self dismissViewControllerAnimated:YES completion:nil];
+            break;
+        default:
+            break;
+    }
+}
 @end

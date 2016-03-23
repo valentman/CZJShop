@@ -117,6 +117,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
     [hud setTag:kHudTag];
 	hud.removeFromSuperViewOnHide = YES;
 	[view addSubview:hud];
+    [view bringSubviewToFront:hud];
 	[hud show:animated];
 	return MB_AUTORELEASE(hud);
 }

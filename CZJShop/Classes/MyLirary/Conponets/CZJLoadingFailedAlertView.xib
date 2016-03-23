@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="KGk-i7-Jjw" customClass="CZJLoadingFailedAlertView">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="185"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="184"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="default_noweb.png" translatesAutoresizingMaskIntoConstraints="NO" id="Sd7-Xi-6wp">
+                        <rect key="frame" x="92" y="0.0" width="136" height="103"/>
+                        <animations/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="136" id="9xs-3r-sur"/>
+                            <constraint firstAttribute="height" constant="103" id="v3j-iW-rVD"/>
+                        </constraints>
+                    </imageView>
+                    <button clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UKV-2k-j7S">
+                        <rect key="frame" x="115" y="147" width="91" height="32"/>
+                        <animations/>
+                        <color key="backgroundColor" red="0.92941176470588238" green="0.88627450980392153" blue="0.88627450980392153" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="91" id="DuP-Lv-Ad1"/>
+                            <constraint firstAttribute="height" constant="32" id="F6X-wj-LJG"/>
+                        </constraints>
+                        <state key="normal" title="重新加载">
+                            <color key="titleColor" red="0.50196081400000003" green="0.50196081400000003" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
+                        </state>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                <integer key="value" value="3"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
+                                <real key="value" value="0.5"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="color" keyPath="layer.borderColorWithUIColor">
+                                <color key="value" red="0.80000000000000004" green="0.70196078431372544" blue="0.70196078431372544" alpha="1" colorSpace="calibratedRGB"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </button>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="亲，网速比蜗牛还慢慢慢..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vao-SP-4se">
+                        <rect key="frame" x="60" y="111" width="200" height="15"/>
+                        <animations/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="15" id="1Pp-u5-Ma6"/>
+                            <constraint firstAttribute="width" constant="200" id="KPj-ni-PEV"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <color key="textColor" red="0.7019608021" green="0.7019608021" blue="0.7019608021" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <animations/>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                <constraints>
+                    <constraint firstItem="Sd7-Xi-6wp" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="Ir4-j7-J9A"/>
+                    <constraint firstItem="vao-SP-4se" firstAttribute="top" secondItem="Sd7-Xi-6wp" secondAttribute="bottom" constant="8" id="Mc8-RE-sAv"/>
+                    <constraint firstItem="UKV-2k-j7S" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="Uxj-7a-ufs"/>
+                    <constraint firstItem="Sd7-Xi-6wp" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="atb-hM-fHV"/>
+                    <constraint firstItem="UKV-2k-j7S" firstAttribute="top" secondItem="vao-SP-4se" secondAttribute="bottom" constant="21" id="cgX-ke-ToX"/>
+                    <constraint firstItem="vao-SP-4se" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="d8u-WL-zzK"/>
+                </constraints>
+            </tableViewCellContentView>
+            <animations/>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <connections>
+                <outlet property="reloadBtn" destination="UKV-2k-j7S" id="0uh-jo-8e1"/>
+            </connections>
+            <point key="canvasLocation" x="509" y="262"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="default_noweb.png" width="135" height="102"/>
+    </resources>
+</document>

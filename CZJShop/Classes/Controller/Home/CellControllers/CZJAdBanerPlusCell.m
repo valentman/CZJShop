@@ -13,7 +13,7 @@
 @implementation CZJAdBanerPlusCell
 
 - (void)awakeFromNib {
-    // Initialization code
+    [super awakeFromNib];
     _imageArray = [NSMutableArray array];
 }
 

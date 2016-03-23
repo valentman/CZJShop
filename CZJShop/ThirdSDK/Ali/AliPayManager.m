@@ -79,10 +79,10 @@
     if (signedString != nil) {
         orderString = [NSString stringWithFormat:@"%@&sign=\"%@\"&sign_type=\"%@\"",
                        orderSpec, signedString, @"RSA"];
+        DLog(@"支付宝SB:%@",orderString);
         [[AlipaySDK defaultService] payOrder:orderString fromScheme:appScheme callback:^(NSDictionary *resultDic) {
             DLog(@"reslut-- = %@",[resultDic description]);
             if ([[resultDic valueForKey:@"resultStatus"] intValue] == 9000) {
-//                [[NSNotificationCenter defaultCenter] postNotificationName:kCZJAlipaySuccseful object:resultDic];
                 success(resultDic);
             }
             else

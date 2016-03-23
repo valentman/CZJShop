@@ -961,6 +961,7 @@ singleton_implementation(CZJBaseDataManager);
     
     CZJFailureBlock failBlock = ^(){
         [[CZJErrorCodeManager sharedCZJErrorCodeManager] ShowNetError];
+        fail();
     };
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];

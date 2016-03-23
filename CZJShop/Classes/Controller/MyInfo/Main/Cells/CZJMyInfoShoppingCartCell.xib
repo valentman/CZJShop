@@ -25,7 +25,7 @@
                                     <constraint firstAttribute="width" constant="1" id="CRC-2U-rQd"/>
                                 </constraints>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1n9-VY-INB">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1n9-VY-INB" customClass="CZJButton">
                                 <rect key="frame" x="28" y="0.0" width="50" height="50"/>
                                 <animations/>
                                 <constraints>
@@ -169,6 +169,9 @@
             <animations/>
             <rect key="contentStretch" x="0.0" y="0.0" width="0.0" height="0.0"/>
             <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+            <connections>
+                <outlet property="shoppingBtn" destination="1n9-VY-INB" id="Qtv-Dn-vHl"/>
+            </connections>
             <point key="canvasLocation" x="145" y="320"/>
         </tableViewCell>
     </objects>

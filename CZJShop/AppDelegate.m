@@ -38,7 +38,7 @@
 
 -(void)removeLun
 {
-    [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+    [UIView animateWithDuration:1.0 delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         [_lunchView setPosition:CGPointPositionMiddle atAnchorPoint:CGPointMiddle];
         [_lunchView setAlpha:0];
     } completion:^(BOOL finished) {
@@ -73,7 +73,6 @@
     //------------------3.登录设置----------------
     [CZJLoginModelInstance loginWithDefaultInfoSuccess:^
     {
-        [CZJBaseDataInstance loadShoppingCartCount:nil Success:nil fail:nil];
         if ([USER_DEFAULT valueForKey:kCZJUserName])
         {
             [USER_DEFAULT setObject:@"" forKey:kCZJUserName];
@@ -200,7 +199,7 @@
     [_lunchView setPosition:CGPointPositionMiddle atAnchorPoint:CGPointMiddle];
     UIImageView *imageV = [[UIImageView alloc] initWithFrame:PJ_SCREEN_BOUNDS];
     NSString *str = @"http://upload.chezhijian.com/@/yunying/201603/0b2cf7a75d6b41cba821ec2a7035e0b6.png";
-    [imageV sd_setImageWithURL:[NSURL URLWithString:str] placeholderImage:DefaultPlaceHolderImage];
+    [imageV sd_setImageWithURL:[NSURL URLWithString:str] placeholderImage:nil];
     [_lunchView addSubview:imageV];
     [self.window addSubview:_lunchView];
     [self.window bringSubviewToFront:_lunchView];
@@ -219,7 +218,7 @@
     
     
     //-------------------9.开启帧数显示---------------
-    [KMCGeigerCounter sharedGeigerCounter].enabled = YES;
+    [KMCGeigerCounter sharedGeigerCounter].enabled = false;
 
     return YES;
 }

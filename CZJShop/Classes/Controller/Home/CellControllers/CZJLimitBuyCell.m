@@ -13,7 +13,7 @@
 @implementation CZJLimitBuyCell
 
 - (void)awakeFromNib {
-    // Initialization code
+    [super awakeFromNib];
     _limitBuyDatas = [NSArray array];
 }
 

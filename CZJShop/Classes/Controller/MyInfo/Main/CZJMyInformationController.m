@@ -206,6 +206,9 @@ CZJViewControllerDelegate
         else if (1 == indexPath.row)
         {
             CZJMyInfoShoppingCartCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJMyInfoShoppingCartCell" forIndexPath:indexPath];
+            NSString* shoppingCartCount = [USER_DEFAULT valueForKey:kUserDefaultShoppingCartCount];
+            [cell.shoppingBtn setBadgeNum:[shoppingCartCount integerValue]];
+            [cell.shoppingBtn setBadgeLabelPosition:CGPointMake(cell.shoppingBtn.frame.size.width*0.95, 0)];
             cell.delegate = self;
             return cell;
         }
@@ -510,10 +513,6 @@ CZJViewControllerDelegate
     {
         [CZJUtils removeLoginViewFromCurrent:self];
         [self getMyInfoDataFromServer];
-    }
-    else if ([controller isKindOfClass: [CZJShoppingCartController class]])
-    {
-        [CZJUtils removeShoppintCartViewFromCurrent:self];
     }
 }
 

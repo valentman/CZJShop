@@ -12,7 +12,7 @@
 @implementation CZJBrandRecommendCell
 
 - (void)awakeFromNib {
-    // Initialization code
+    [super awakeFromNib];
     _imageViews = [NSMutableArray array];
     [_oneImageView setTag:0];
     [_imageViews addObject:_oneImageView];

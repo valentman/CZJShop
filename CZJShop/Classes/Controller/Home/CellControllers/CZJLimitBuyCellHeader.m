@@ -12,7 +12,7 @@
 
 - (void)awakeFromNib
 {
-    
+    [super awakeFromNib];
 }
 /*
 // Only override drawRect: if you perform custom drawing.

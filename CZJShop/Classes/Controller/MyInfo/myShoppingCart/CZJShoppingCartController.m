@@ -35,6 +35,9 @@ UIGestureRecognizerDelegate
 @property (weak, nonatomic) IBOutlet UILabel *allChooseLabel;
 @property (weak, nonatomic) IBOutlet UILabel *addUpLabel;
 @property (weak, nonatomic) IBOutlet UILabel *addUpNumLabel;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *settleBtnWidth;
+@property (weak, nonatomic) IBOutlet UIView *settleView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *settleViewButtom;
 
 
 - (IBAction)settleActioin:(id)sender;
@@ -56,6 +59,12 @@ UIGestureRecognizerDelegate
 {
     shoppingInfos = [NSMutableArray array];
     _selectedCount = 0;
+    if (iPhone5 || iPhone4)
+    {
+        _settleBtnWidth.constant = 100;
+    }
+    
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(getShoppingCartInfoFromServer) name:@"commitOrderSuccess" object:nil];
 }
 
 - (void)initViews
@@ -96,22 +105,35 @@ UIGestureRecognizerDelegate
     [self.naviBarView addSubview:rightBtn];
     self.naviBarView.mainTitleLabel.text = @"我的购物车";
     [self.naviBarView.btnBack addTarget:self action:@selector(backToLastView:) forControlEvents:UIControlEventTouchUpInside];
+    
+    self.settleView.hidden = YES;
 }
 
 
 - (void)getShoppingCartInfoFromServer
 {
+    __weak typeof(self) weak = self;
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     CZJSuccessBlock successBlock = ^(id json)
     {
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
         [shoppingInfos removeAllObjects];
+        self.settleView.hidden = NO;
+        self.settleViewButtom.constant = 0;
         shoppingInfos = [[CZJBaseDataInstance shoppingCartForm] shoppingCartList];
         [self.myTableView reloadData];
         [self calculateTotalPrice];
     };
+    CZJFailureBlock failBlock = ^{
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        [CZJUtils showReloadAlertViewOnTarget:weak.view withReloadHandle:^{
+            [weak getShoppingCartInfoFromServer];
+        }];
+    };
     [CZJBaseDataInstance loadShoppingCart:nil
                                      type:CZJHomeGetDataFromServerTypeOne
                                   Success:successBlock
-                                     fail:nil];
+                                     fail:failBlock];
 }
 
 //计算总价
@@ -181,7 +203,7 @@ UIGestureRecognizerDelegate
 - (void)backToLastView:(id)sender
 {
     [((CZJNaviagtionBarView*)self.delegate) refreshShopBadgeLabel];
-    [self.delegate didCancel:self];
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:@"commitOrderSuccess" object:nil];
     [self.navigationController popViewControllerAnimated:true];
 }
 
@@ -314,16 +336,16 @@ UIGestureRecognizerDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    CZJShoppingCartInfoForm* _shoppingcartInfo = (CZJShoppingCartInfoForm*)shoppingInfos[indexPath.section];
-    if (0 == indexPath.row)
-    {//跳转到门店详情
-        [CZJUtils showStoreDetailView:self.navigationController andStoreId:_shoppingcartInfo.storeId];
-    }
-    else
-    {//跳转到商品详情
-        CZJShoppingGoodsInfoForm* goodsInfo = (CZJShoppingGoodsInfoForm*)_shoppingcartInfo.items[indexPath.row -1];
-        [CZJUtils showGoodsServiceDetailView:self.navigationController andItemPid:goodsInfo.storeItemPid detailType:[goodsInfo.itemType integerValue]];
-    }
+//    CZJShoppingCartInfoForm* _shoppingcartInfo = (CZJShoppingCartInfoForm*)shoppingInfos[indexPath.section];
+//    if (0 == indexPath.row)
+//    {//跳转到门店详情
+//        [CZJUtils showStoreDetailView:self.navigationController andStoreId:_shoppingcartInfo.storeId];
+//    }
+//    else
+//    {//跳转到商品详情
+//        CZJShoppingGoodsInfoForm* goodsInfo = (CZJShoppingGoodsInfoForm*)_shoppingcartInfo.items[indexPath.row -1];
+//        [CZJUtils showGoodsServiceDetailView:self.navigationController andItemPid:goodsInfo.storeItemPid detailType:[goodsInfo.itemType integerValue]];
+//    }
 }
 
 
@@ -562,7 +584,7 @@ UIGestureRecognizerDelegate
         }
         if (_settleOrderAry.count > 0)
         {
-            [self performSegueWithIdentifier:@"segueToSettle" sender:nil];
+            [CZJUtils showCommitOrderView:self andParams:_settleOrderAry];
         }
         else
         {
@@ -612,14 +634,4 @@ UIGestureRecognizerDelegate
     }
 }
 
-
-#pragma mark - Navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    if ([segue.identifier isEqualToString:@"segueToSettle"])
-    {
-        CZJCommitOrderController* settleOrder = segue.destinationViewController;
-        settleOrder.settleParamsAry = _settleOrderAry;
-    }
-}
 @end

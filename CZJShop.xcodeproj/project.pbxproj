@@ -50,6 +50,10 @@
 		EC025FF41C21507000A8085E /* WyzAlbumViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EC025FF01C21507000A8085E /* WyzAlbumViewController.m */; };
 		EC04CA1C1C294BB300A90124 /* login_img_titlebase2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EC04CA1A1C294BB300A90124 /* login_img_titlebase2@2x.png */; };
 		EC04CA1D1C294BB300A90124 /* login_img_titlebase2@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = EC04CA1B1C294BB300A90124 /* login_img_titlebase2@3x.png */; };
+		EC0532AF1CA28FA6000933F5 /* CZJLoadingFailedAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = EC0532AD1CA28FA6000933F5 /* CZJLoadingFailedAlertView.m */; settings = {ASSET_TAGS = (); }; };
+		EC0532B01CA28FA6000933F5 /* CZJLoadingFailedAlertView.xib in Resources */ = {isa = PBXBuildFile; fileRef = EC0532AE1CA28FA6000933F5 /* CZJLoadingFailedAlertView.xib */; settings = {ASSET_TAGS = (); }; };
+		EC0532B31CA296CB000933F5 /* default_noweb@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EC0532B11CA296CB000933F5 /* default_noweb@2x.png */; settings = {ASSET_TAGS = (); }; };
+		EC0532B41CA296CB000933F5 /* default_noweb@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = EC0532B21CA296CB000933F5 /* default_noweb@3x.png */; settings = {ASSET_TAGS = (); }; };
 		EC05C4181C3E629A00C4ABA3 /* CZJOrderForm.m in Sources */ = {isa = PBXBuildFile; fileRef = EC05C4171C3E629A00C4ABA3 /* CZJOrderForm.m */; };
 		EC0C93641C1FC7C3002A7FF5 /* NIDropDown.m in Sources */ = {isa = PBXBuildFile; fileRef = EC0C93631C1FC7C3002A7FF5 /* NIDropDown.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		EC0C93681C2002B2002A7FF5 /* CZJDetailPicShowCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EC0C93661C2002B2002A7FF5 /* CZJDetailPicShowCell.m */; };
@@ -627,9 +631,6 @@
 		ECC4DE331C17D67B00FBD6A4 /* SKSTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = ECC4DD4D1C17D67B00FBD6A4 /* SKSTableView.m */; };
 		ECC4DE341C17D67B00FBD6A4 /* SKSTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = ECC4DD4F1C17D67B00FBD6A4 /* SKSTableViewCell.m */; };
 		ECC4DE351C17D67B00FBD6A4 /* SKSTableViewCellIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = ECC4DD511C17D67B00FBD6A4 /* SKSTableViewCellIndicator.m */; };
-		ECC4DE3B1C17D67B00FBD6A4 /* SVIndefiniteAnimatedView.m in Sources */ = {isa = PBXBuildFile; fileRef = ECC4DD661C17D67B00FBD6A4 /* SVIndefiniteAnimatedView.m */; };
-		ECC4DE3C1C17D67B00FBD6A4 /* SVProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = ECC4DD681C17D67B00FBD6A4 /* SVProgressHUD.bundle */; };
-		ECC4DE3D1C17D67B00FBD6A4 /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = ECC4DD6A1C17D67B00FBD6A4 /* SVProgressHUD.m */; };
 		ECC4DE3E1C17D67B00FBD6A4 /* AFNetworkActivityIndicatorManager.m in Sources */ = {isa = PBXBuildFile; fileRef = ECC4DD6D1C17D67B00FBD6A4 /* AFNetworkActivityIndicatorManager.m */; };
 		ECC4DE3F1C17D67B00FBD6A4 /* UIActivityIndicatorView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = ECC4DD6F1C17D67B00FBD6A4 /* UIActivityIndicatorView+AFNetworking.m */; };
 		ECC4DE401C17D67B00FBD6A4 /* UIAlertView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = ECC4DD711C17D67B00FBD6A4 /* UIAlertView+AFNetworking.m */; };
@@ -1158,6 +1159,11 @@
 		EC025FF01C21507000A8085E /* WyzAlbumViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WyzAlbumViewController.m; sourceTree = "<group>"; };
 		EC04CA1A1C294BB300A90124 /* login_img_titlebase2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "login_img_titlebase2@2x.png"; sourceTree = "<group>"; };
 		EC04CA1B1C294BB300A90124 /* login_img_titlebase2@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "login_img_titlebase2@3x.png"; sourceTree = "<group>"; };
+		EC0532AC1CA28FA6000933F5 /* CZJLoadingFailedAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJLoadingFailedAlertView.h; sourceTree = "<group>"; };
+		EC0532AD1CA28FA6000933F5 /* CZJLoadingFailedAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJLoadingFailedAlertView.m; sourceTree = "<group>"; };
+		EC0532AE1CA28FA6000933F5 /* CZJLoadingFailedAlertView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CZJLoadingFailedAlertView.xib; sourceTree = "<group>"; };
+		EC0532B11CA296CB000933F5 /* default_noweb@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "default_noweb@2x.png"; sourceTree = "<group>"; };
+		EC0532B21CA296CB000933F5 /* default_noweb@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "default_noweb@3x.png"; sourceTree = "<group>"; };
 		EC05C4161C3E5B5400C4ABA3 /* CZJOrderForm.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CZJOrderForm.h; sourceTree = "<group>"; };
 		EC05C4171C3E629A00C4ABA3 /* CZJOrderForm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJOrderForm.m; sourceTree = "<group>"; };
 		EC0C93621C1FC7C3002A7FF5 /* NIDropDown.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NIDropDown.h; sourceTree = "<group>"; };
@@ -2040,12 +2046,6 @@
 		ECC4DD4F1C17D67B00FBD6A4 /* SKSTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKSTableViewCell.m; sourceTree = "<group>"; };
 		ECC4DD501C17D67B00FBD6A4 /* SKSTableViewCellIndicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKSTableViewCellIndicator.h; sourceTree = "<group>"; };
 		ECC4DD511C17D67B00FBD6A4 /* SKSTableViewCellIndicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKSTableViewCellIndicator.m; sourceTree = "<group>"; };
-		ECC4DD651C17D67B00FBD6A4 /* SVIndefiniteAnimatedView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVIndefiniteAnimatedView.h; sourceTree = "<group>"; };
-		ECC4DD661C17D67B00FBD6A4 /* SVIndefiniteAnimatedView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVIndefiniteAnimatedView.m; sourceTree = "<group>"; };
-		ECC4DD671C17D67B00FBD6A4 /* SVProgressHUD-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SVProgressHUD-Prefix.pch"; sourceTree = "<group>"; };
-		ECC4DD681C17D67B00FBD6A4 /* SVProgressHUD.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SVProgressHUD.bundle; sourceTree = "<group>"; };
-		ECC4DD691C17D67B00FBD6A4 /* SVProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVProgressHUD.h; sourceTree = "<group>"; };
-		ECC4DD6A1C17D67B00FBD6A4 /* SVProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVProgressHUD.m; sourceTree = "<group>"; };
 		ECC4DD6C1C17D67B00FBD6A4 /* AFNetworkActivityIndicatorManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFNetworkActivityIndicatorManager.h; sourceTree = "<group>"; };
 		ECC4DD6D1C17D67B00FBD6A4 /* AFNetworkActivityIndicatorManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFNetworkActivityIndicatorManager.m; sourceTree = "<group>"; };
 		ECC4DD6E1C17D67B00FBD6A4 /* UIActivityIndicatorView+AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIActivityIndicatorView+AFNetworking.h"; sourceTree = "<group>"; };
@@ -2741,6 +2741,9 @@
 				EC4A4C741C86CCC7008A03EB /* CZJBackgroundPromptView.h */,
 				EC4A4C751C86CCC7008A03EB /* CZJBackgroundPromptView.m */,
 				EC4A4C761C86CCC7008A03EB /* CZJBackgroundPromptView.xib */,
+				EC0532AC1CA28FA6000933F5 /* CZJLoadingFailedAlertView.h */,
+				EC0532AD1CA28FA6000933F5 /* CZJLoadingFailedAlertView.m */,
+				EC0532AE1CA28FA6000933F5 /* CZJLoadingFailedAlertView.xib */,
 			);
 			path = Conponets;
 			sourceTree = "<group>";
@@ -3656,7 +3659,6 @@
 				ECC4DD271C17D67B00FBD6A4 /* SDWebImage */,
 				ECC4DD491C17D67B00FBD6A4 /* SKSTableView */,
 				ECF3D1751C8421F6008E4969 /* SVHTTPRequest */,
-				ECC4DD641C17D67B00FBD6A4 /* SVProgressHUD */,
 				EC1E43E01C40A76F006CC23C /* SVPullToRefresh */,
 				ECC4DD6B1C17D67B00FBD6A4 /* UIKit+AFNetworking */,
 				ECC4DD7D1C17D67B00FBD6A4 /* UUDatePicker_Block */,
@@ -4202,19 +4204,6 @@
 			path = SKSTableView;
 			sourceTree = "<group>";
 		};
-		ECC4DD641C17D67B00FBD6A4 /* SVProgressHUD */ = {
-			isa = PBXGroup;
-			children = (
-				ECC4DD651C17D67B00FBD6A4 /* SVIndefiniteAnimatedView.h */,
-				ECC4DD661C17D67B00FBD6A4 /* SVIndefiniteAnimatedView.m */,
-				ECC4DD671C17D67B00FBD6A4 /* SVProgressHUD-Prefix.pch */,
-				ECC4DD681C17D67B00FBD6A4 /* SVProgressHUD.bundle */,
-				ECC4DD691C17D67B00FBD6A4 /* SVProgressHUD.h */,
-				ECC4DD6A1C17D67B00FBD6A4 /* SVProgressHUD.m */,
-			);
-			path = SVProgressHUD;
-			sourceTree = "<group>";
-		};
 		ECC4DD6B1C17D67B00FBD6A4 /* UIKit+AFNetworking */ = {
 			isa = PBXGroup;
 			children = (
@@ -4745,6 +4734,8 @@
 		ECDB61331BFB551600882BB2 /* MyHome */ = {
 			isa = PBXGroup;
 			children = (
+				EC0532B11CA296CB000933F5 /* default_noweb@2x.png */,
+				EC0532B21CA296CB000933F5 /* default_noweb@3x.png */,
 				EC0FED361CA0F557001C25D7 /* all_icon_hot@2x.png */,
 				EC0FED371CA0F557001C25D7 /* all_icon_hot@3x.png */,
 				EC0FED381CA0F557001C25D7 /* all_icon_saoyisao@2x.png */,
@@ -5599,6 +5590,7 @@
 				EC4521491C5EFFE9003272C3 /* CZJOrderLogisticsCompCell.xib in Resources */,
 				ECDB61781BFB551600882BB2 /* all_btn_shop_sel@2x.png in Resources */,
 				ECB4B63C1C0E976F00925BCA /* shop_icon_heart@3x.png in Resources */,
+				EC0532B31CA296CB000933F5 /* default_noweb@2x.png in Resources */,
 				ECC4DEC41C17FEA900FBD6A4 /* prodetail_btn_shop@2x.png in Resources */,
 				EC5B86EF1C0D346B008EC732 /* CZJDiscoverCell.xib in Resources */,
 				ECFAFA8D1C5370EB004E1E16 /* car_icon_add@2x.png in Resources */,
@@ -5792,6 +5784,7 @@
 				EC26A2E81C2A386600B166A3 /* commit_icon_circle2_sel@3x.png in Resources */,
 				ECDE20041C23BBDF009DA3E5 /* CZJGoodsListCell.xib in Resources */,
 				ECFAFA8E1C5370EB004E1E16 /* car_icon_add@3x.png in Resources */,
+				EC0532B01CA28FA6000933F5 /* CZJLoadingFailedAlertView.xib in Resources */,
 				ECC4DE001C17D67B00FBD6A4 /* wl_map_icon_4@2x.png in Resources */,
 				ECD3D4381C734FD800C230BE /* icon-small-40@2x.png in Resources */,
 				ECD6FFAC1C805289005F8E52 /* commit_icon_del@2x.png in Resources */,
@@ -5820,7 +5813,6 @@
 				ECDB61701BFB551600882BB2 /* all_btn_my@2x.png in Resources */,
 				ECF2DCD31C5767F80096FF39 /* CZJRedPacketCell.xib in Resources */,
 				EC0FED481CA0F557001C25D7 /* all_icon_shopping@2x.png in Resources */,
-				ECC4DE3C1C17D67B00FBD6A4 /* SVProgressHUD.bundle in Resources */,
 				ECF2DCC91C5767F80096FF39 /* CZJOrderProductFooterCell.xib in Resources */,
 				EC26A3001C2A386600B166A3 /* commit_icon_zhifubao@3x.png in Resources */,
 				ECF8E97A1C5C6DE600A98707 /* order_icon_huan@2x.png in Resources */,
@@ -5987,6 +5979,7 @@
 				ECF2DCA21C5767F80096FF39 /* CZJMyInfoHeadCell.xib in Resources */,
 				EC0F00401C326D9300F124F8 /* shop_icon_goods@3x.png in Resources */,
 				ECD3D4231C72D6D000C230BE /* yue_icon_gonggao@3x.png in Resources */,
+				EC0532B41CA296CB000933F5 /* default_noweb@3x.png in Resources */,
 				EC34FFFC1C433D5A0063A071 /* my_icon_shop@2x.png in Resources */,
 				EC2BF2C81C7DA74D003B94B5 /* chat_icon_history@2x.png in Resources */,
 				ECC4DE491C17D67B00FBD6A4 /* WebViewJavascriptBridge.js.txt in Resources */,
@@ -6305,7 +6298,6 @@
 				ECC4DE351C17D67B00FBD6A4 /* SKSTableViewCellIndicator.m in Sources */,
 				EC4521561C5F2BA3003272C3 /* CZJOrderEvaluateController.m in Sources */,
 				EC5EEB5D1C45DC1100EEA368 /* CZJStoreDetailHeadCell.m in Sources */,
-				ECC4DE3D1C17D67B00FBD6A4 /* SVProgressHUD.m in Sources */,
 				ECC4DE551C17D67B00FBD6A4 /* ZXLocationManager.m in Sources */,
 				EC8A0BAD1C005C34002A2CED /* CZJBrandRecoCellHeader.m in Sources */,
 				ECD6FF891C800043005F8E52 /* QNSystem.m in Sources */,
@@ -6362,6 +6354,7 @@
 				ECC4DDED1C17D67B00FBD6A4 /* LXActivity.m in Sources */,
 				ECC4DDAA1C17D67B00FBD6A4 /* AFURLSessionManager.m in Sources */,
 				ECC4DDF71C17D67B00FBD6A4 /* MapViewController.m in Sources */,
+				EC0532AF1CA28FA6000933F5 /* CZJLoadingFailedAlertView.m in Sources */,
 				EC025FD21C21036E00A8085E /* MJRefreshBackStateFooter.m in Sources */,
 				ECF2DCAC1C5767F80096FF39 /* CZJMyInfoAttentionController.m in Sources */,
 				ECF2DC9D1C5767F80096FF39 /* CZJGeneralCell.m in Sources */,
@@ -6384,7 +6377,6 @@
 				ECE3D6831BFDEDDE00C63712 /* CZJActivityCell.m in Sources */,
 				ECC4DDA81C17D67B00FBD6A4 /* AFURLRequestSerialization.m in Sources */,
 				EC5EEB4F1C45DC0800EEA368 /* CZJStoreDetailController.m in Sources */,
-				ECC4DE3B1C17D67B00FBD6A4 /* SVIndefiniteAnimatedView.m in Sources */,
 				ECC4DDC01C17D67B00FBD6A4 /* EasyJSWebViewProxyDelegate.m in Sources */,
 				EC154CF11C1EBEB50004FAF5 /* CZJSerFilterTypeChooseCell.m in Sources */,
 				ECC4DE211C17D67B00FBD6A4 /* MKAnnotationView+WebCache.m in Sources */,

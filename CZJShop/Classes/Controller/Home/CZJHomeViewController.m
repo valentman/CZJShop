@@ -220,6 +220,9 @@ CZJMiaoShaCellDelegate
                                   page:self.page
                                Success:successBlock
                                   fail:failBlock];
+    [CZJBaseDataInstance loadShoppingCartCount:nil Success:^{
+        
+    } fail:nil];
 }
 
 

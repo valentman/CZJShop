@@ -28,6 +28,7 @@
 #import "CZJStoreForm.h"
 #import "CZJLeaveMessageView.h"
 #import "CZJPaymentManager.h"
+#import "CZJOrderPaySuccessController.h"
 
 
 @interface CZJCommitOrderController ()
@@ -40,7 +41,8 @@ CZJChooseCouponControllerDelegate,
 CZJOrderProductHeaderCellDelegate,
 CZJChooseInstallControllerDelegate,
 CZJLeaveMessageViewDelegate,
-CZJRedPacketCellDelegate
+CZJRedPacketCellDelegate,
+CZJNaviagtionBarViewDelegate
 >
 {
     CZJOrderForm* _orderForm;                   //服务器返回的订单页面是数据
@@ -85,7 +87,6 @@ CZJRedPacketCellDelegate
     [super viewDidLoad];
     [self initDatas];
     [self initViews];
-    [SVProgressHUD show];
     [self getSettleDataFromServer];
 }
 
@@ -150,7 +151,6 @@ CZJRedPacketCellDelegate
 {
     NSDictionary* parmas = @{@"cartsJson" : [CZJUtils JsonFromData:_settleParamsAry]};
     [CZJBaseDataInstance loadSettleOrder:parmas Success:^(id json){
-        [SVProgressHUD dismiss];
         _orderForm  = [CZJOrderForm objectWithKeyValues:[[CZJUtils DataFromJson:json] valueForKey:@"msg"]];
         _orderStoreAry = _orderForm.stores;
         [self dealWithOrderFormDatas];
@@ -867,10 +867,10 @@ CZJRedPacketCellDelegate
     {
         [_convertOrderStoreAry addObject: form.keyValues];
     }
-    NSMutableDictionary* orderInfo = [@{@"redpacket":_orderForm.redpacket,
-                                        @"cardMoney":_orderForm.cardMoney,
+    NSMutableDictionary* orderInfo = [@{@"redpacket":[NSString stringWithFormat:@"%.2f",useRedPacketPrice],
+                                        @"cardMoney":[NSString stringWithFormat:@"%.2f",useBalancePrice],
                                         @"stores":_convertOrderStoreAry,
-                                        @"totalMoney":[NSString stringWithFormat:@"%f",orderTotalPrice]}
+                                        @"totalMoney":[NSString stringWithFormat:@"%.2f",orderFinalPrice]}
                                       mutableCopy];
     //收货地址
     if (_orderForm.needAddr) {
@@ -887,32 +887,58 @@ CZJRedPacketCellDelegate
     }
     
     //获取支付订单编号
-    DLog(@"%@",[CZJUtils JsonFromData:orderInfo]);
     NSDictionary* params = @{@"paramJson":[CZJUtils JsonFromData:orderInfo]};
     __weak typeof(self) weak = self;
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES].mode = MBProgressHUDModeIndeterminate;
     [CZJBaseDataInstance submitOrder:params Success:^(id json) {
         NSDictionary* dict = [[CZJUtils DataFromJson:json] valueForKey:@"msg"];
-        CZJPaymentOrderForm* paymentOrderForm = [[CZJPaymentOrderForm alloc] init];
-        paymentOrderForm.order_no = [dict valueForKey:@"payNo"];
-        paymentOrderForm.order_name = [NSString stringWithFormat:@"订单%@",[dict valueForKey:@"payNo"]];
-        paymentOrderForm.order_description = @"支付宝你个SB";
-        paymentOrderForm.order_price = [dict valueForKey:@"totalMoney"];
-        if ([_defaultOrderType.orderTypeName isEqualToString:@"微信支付"])
+        [NSThread sleepForTimeInterval:1.0f];
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        if ([[dict valueForKey:@"totalMoney"] floatValue] <= 0.0)
         {
-            [CZJPaymentInstance weixinPay:self OrderInfo:paymentOrderForm Success:^(NSDictionary *message) {
-            } Fail:^(NSDictionary *message, NSError *error) {
-                [CZJUtils tipWithText:@"微信支付失败" andView:weak.view];
-            }];
+            CZJOrderPaySuccessController* paySuccessVC = (CZJOrderPaySuccessController*)[CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:kCZJStoryBoardIDPaymentSuccess];
+            paySuccessVC.orderNo = [dict valueForKey:@"payNo"];
+            paySuccessVC.orderPrice = [dict valueForKey:@"totalMoney"];
+            [weak.navigationController pushViewController:paySuccessVC animated:YES];
         }
-        if ([_defaultOrderType.orderTypeName isEqualToString:@"支付宝支付"])
+        else
         {
-            [CZJPaymentInstance aliPay:self OrderInfo:paymentOrderForm Success:^(NSDictionary *message) {
-            } Fail:^(NSDictionary *message, NSError *error) {
-                [CZJUtils tipWithText:@"支付宝支付失败" andView:weak.view];
-            }];
+            CZJPaymentOrderForm* paymentOrderForm = [[CZJPaymentOrderForm alloc] init];
+            paymentOrderForm.order_no = [dict valueForKey:@"payNo"];
+            paymentOrderForm.order_name = [NSString stringWithFormat:@"订单%@",[dict valueForKey:@"payNo"]];
+            paymentOrderForm.order_description = @"支付宝你个SB";
+            paymentOrderForm.order_price = [dict valueForKey:@"totalMoney"];
+            if ([_defaultOrderType.orderTypeName isEqualToString:@"微信支付"])
+            {
+                [CZJPaymentInstance weixinPay:self OrderInfo:paymentOrderForm Success:^(NSDictionary *message) {
+                } Fail:^(NSDictionary *message, NSError *error) {
+                    [CZJUtils tipWithText:@"微信支付失败" andView:weak.view];
+                }];
+            }
+            if ([_defaultOrderType.orderTypeName isEqualToString:@"支付宝支付"])
+            {
+                [CZJPaymentInstance aliPay:self OrderInfo:paymentOrderForm Success:^(NSDictionary *message) {
+                } Fail:^(NSDictionary *message, NSError *error) {
+                    [CZJUtils tipWithText:@"支付宝支付失败" andView:weak.view];
+                }];
+            }
         }
+
     } fail:^{
         
     }];
 }
+
+- (void)clickEventCallBack:(nullable id)sender
+{
+    UIButton* barButton = (UIButton*)sender;
+    switch (barButton.tag) {
+        case CZJButtonTypeNaviBarBack:
+            [self dismissViewControllerAnimated:YES completion:nil];
+            break;
+        default:
+            break;
+    }
+}
+
 @end

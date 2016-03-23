@@ -13,9 +13,8 @@
 @property(strong, nonatomic)NSString* needCoupon;
 @property(strong, nonatomic)NSString* needRedpacket;
 @property(strong, nonatomic)NSString* redpacket;
-@property(strong, nonatomic)NSMutableArray* stores;
+@property(strong, nonatomic)NSArray* stores;
 
-- (id) initWithDictionary:(NSDictionary*)dict;
 @end
 
 @interface CZJOrderStoreForm : NSObject
@@ -34,8 +33,7 @@
 @property(strong, nonatomic)NSString* totalSetupPrice;          //总计的安装费用
 @property(assign)BOOL selfFlag;                                 //是否是自营
 @property(assign)BOOL hasCoupon;                                //是否可以领取优惠券
-
-- (id) initWithDictionary:(NSDictionary*)dict;
+- (id) init;
 @end
 
 
