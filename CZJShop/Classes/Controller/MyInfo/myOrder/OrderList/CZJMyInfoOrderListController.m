@@ -11,11 +11,7 @@
 #import "NIDropDown.h"
 #import "CZJOrderForm.h"
 #import "CZJPageControlView.h"
-#import "CZJOrderListAllController.h"
-#import "CZJOrderListNoPayController.h"
-#import "CZJOrderListNoBuildController.h"
-#import "CZJOrderListNoReceiveController.h"
-#import "CZJOrderListNoEvaController.h"
+#import "CZJOrderListBaseController.h"
 #import "CZJMyOrderDetailController.h"
 #import "CZJOrderBuildingController.h"
 #import "CZJOrderEvaluateController.h"
@@ -317,6 +313,7 @@ CZJPopPayViewDelegate
         evalutaeDetailForm.items = currentTouchedOrderListForm.items;
         evalutaeDetailForm.createTime = currentTouchedOrderListForm.createTime;
         orderEvaluateVC.orderDetailForm = evalutaeDetailForm;
+        
         [orderEvaluateVC setOrderNo:currentTouchedOrderListForm.orderNo];
     }
     if ([segue.identifier isEqualToString:@"segueToMyReturnableList"])

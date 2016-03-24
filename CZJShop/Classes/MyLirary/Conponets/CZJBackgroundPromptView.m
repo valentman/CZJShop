@@ -12,8 +12,6 @@
 
 - (void)awakeFromNib {
     // Initialization code
-    [self.promptImageView setImage:IMAGENAMED(@"placeholder_instagram")];
-    self.promptLabel.text = @"该店无商品或服务";
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

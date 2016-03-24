@@ -16,7 +16,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *evalTime;
 @property (weak, nonatomic) IBOutlet UILabel *evalContent;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *evalContentLayoutHeight;
-@property (weak, nonatomic) IBOutlet UIImageView *addtionnalImage;
 @property (weak, nonatomic) IBOutlet UIImageView *starone;
 @property (weak, nonatomic) IBOutlet UIImageView *starTwo;
 @property (weak, nonatomic) IBOutlet UIImageView *starThr;

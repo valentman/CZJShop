@@ -152,7 +152,7 @@ CZJNaviagtionBarViewDelegate
     NSDictionary* parmas = @{@"cartsJson" : [CZJUtils JsonFromData:_settleParamsAry]};
     [CZJBaseDataInstance loadSettleOrder:parmas Success:^(id json){
         _orderForm  = [CZJOrderForm objectWithKeyValues:[[CZJUtils DataFromJson:json] valueForKey:@"msg"]];
-        _orderStoreAry = _orderForm.stores;
+        _orderStoreAry = [_orderForm.stores mutableCopy];
         [self dealWithOrderFormDatas];
     } fail:^{
         
@@ -862,6 +862,7 @@ CZJNaviagtionBarViewDelegate
 
 - (IBAction)goToSettleAction:(id)sender
 {
+    DLog(@"点击提交订单！！");
     NSMutableArray* _convertOrderStoreAry = [NSMutableArray array];
     for (CZJOrderStoreForm* form in _orderStoreAry)
     {
@@ -891,6 +892,7 @@ CZJNaviagtionBarViewDelegate
     __weak typeof(self) weak = self;
     [MBProgressHUD showHUDAddedTo:self.view animated:YES].mode = MBProgressHUDModeIndeterminate;
     [CZJBaseDataInstance submitOrder:params Success:^(id json) {
+        DLog(@"服务器请求订单编号返回");
         NSDictionary* dict = [[CZJUtils DataFromJson:json] valueForKey:@"msg"];
         [NSThread sleepForTimeInterval:1.0f];
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
@@ -910,6 +912,7 @@ CZJNaviagtionBarViewDelegate
             paymentOrderForm.order_price = [dict valueForKey:@"totalMoney"];
             if ([_defaultOrderType.orderTypeName isEqualToString:@"微信支付"])
             {
+                DLog(@"提交订单页面请求微信支付");
                 [CZJPaymentInstance weixinPay:self OrderInfo:paymentOrderForm Success:^(NSDictionary *message) {
                 } Fail:^(NSDictionary *message, NSError *error) {
                     [CZJUtils tipWithText:@"微信支付失败" andView:weak.view];
@@ -917,6 +920,7 @@ CZJNaviagtionBarViewDelegate
             }
             if ([_defaultOrderType.orderTypeName isEqualToString:@"支付宝支付"])
             {
+                DLog(@"提交订单页面请求支付宝支付");
                 [CZJPaymentInstance aliPay:self OrderInfo:paymentOrderForm Success:^(NSDictionary *message) {
                 } Fail:^(NSDictionary *message, NSError *error) {
                     [CZJUtils tipWithText:@"支付宝支付失败" andView:weak.view];

@@ -976,17 +976,17 @@ singleton_implementation(CZJBaseDataManager);
 }
 
 - (void)loadShoppingCartCount:(NSDictionary*)postParams
-                      Success:(CZJGeneralBlock)success
+                      Success:(CZJSuccessBlock)success
                          fail:(CZJFailureBlock)fail
 {
     CZJSuccessBlock successBlock = ^(id json)
     {
         if ([self showAlertView:json])
         {
-            NSDictionary* dict = [CZJUtils DataFromJson:json];
-            [USER_DEFAULT setObject:[dict valueForKey:@"msg"] forKey:kUserDefaultShoppingCartCount];
             if (success)
             {
+                NSDictionary* dict = [CZJUtils DataFromJson:json];
+                [USER_DEFAULT setObject:[dict valueForKey:@"msg"] forKey:kUserDefaultShoppingCartCount];
                 success(json);
             }
         }

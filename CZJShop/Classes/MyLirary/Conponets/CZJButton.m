@@ -18,6 +18,9 @@
 {
     if (0 == badgeNum)
     {
+        _badgeLabel.hidden = YES;
+        [_badgeLabel removeFromSuperview];
+        _badgeLabel = nil;
         return;
     }
     if (!VIEWWITHTAG(self, 99))

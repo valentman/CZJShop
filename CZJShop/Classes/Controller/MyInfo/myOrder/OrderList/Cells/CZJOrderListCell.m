@@ -45,6 +45,7 @@
 
 @property (weak, nonatomic) IBOutlet UIButton *viewBuildingProgressBtn;
 @property (weak, nonatomic) IBOutlet UIImageView *completeImg;
+@property (weak, nonatomic) IBOutlet UIImageView *QRCodeImage;
 
 //可退换货列表按钮
 - (IBAction)returnGoodsAction:(id)sender;
@@ -79,6 +80,68 @@
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 }
+
+- (void)generateQRCodeImage:(NSString*)ShareCode andTarget:(UIImageView*)QRCodeImage
+{
+    //二维码滤镜
+    CIFilter *filter=[CIFilter filterWithName:@"CIQRCodeGenerator"];
+    
+    //恢复滤镜的默认属性
+    [filter setDefaults];
+    
+    //将字符串转换成NSData
+    NSData *data=[ShareCode dataUsingEncoding:NSUTF8StringEncoding];
+    
+    //通过KVO设置滤镜inputmessage数据
+    [filter setValue:data forKey:@"inputMessage"];
+    
+    //获得滤镜输出的图像
+    CIImage *outputImage=[filter outputImage];
+    
+    //将CIImage转换成UIImage,并放大显示
+    BACK(^(){
+        UIImage* tmpImag=[self createNonInterpolatedUIImageFormCIImage:outputImage withSize:180];
+        
+        MAIN(^(){
+            QRCodeImage.image = tmpImag;
+//            CGRect qrFram = QRCodeImage.frame;
+//            DLog(@"qrframe: %f",qrFram.size.width);
+//            UIImageView* centerImage = [[UIImageView alloc]initWithImage:IMAGENAMED(@"icon-small-40")];
+//            centerImage.layer.cornerRadius = 5;
+//            centerImage.clipsToBounds = YES;
+//            [centerImage setSize:CGSizeMake(40, 40)];
+//            [centerImage setPosition:CGPointMake(0.5*QRCodeImage.frame.size.width, 0.5* QRCodeImage.frame.size.height) atAnchorPoint:CGPointMake(0.5, 0.5)];
+//            [QRCodeImage addSubview:centerImage];
+        });
+    });
+}
+
+
+//改变二维码大小
+- (UIImage *)createNonInterpolatedUIImageFormCIImage:(CIImage *)image withSize:(CGFloat) size {
+    
+    CGRect extent = CGRectIntegral(image.extent);
+    CGFloat scale = MIN(size/CGRectGetWidth(extent), size/CGRectGetHeight(extent));
+    
+    // 创建bitmap;
+    size_t width = CGRectGetWidth(extent) * scale;
+    size_t height = CGRectGetHeight(extent) * scale;
+    CGColorSpaceRef cs = CGColorSpaceCreateDeviceGray();
+    CGContextRef bitmapRef = CGBitmapContextCreate(nil, width, height, 8, 0, cs, (CGBitmapInfo)kCGImageAlphaNone);
+    CIContext *context = [CIContext contextWithOptions:nil];
+    CGImageRef bitmapImage = [context createCGImage:image fromRect:extent];
+    CGContextSetInterpolationQuality(bitmapRef, kCGInterpolationNone);
+    CGContextScaleCTM(bitmapRef, scale, scale);
+    CGContextDrawImage(bitmapRef, extent, bitmapImage);
+    
+    // 保存bitmap到图片
+    CGImageRef scaledImage = CGBitmapContextCreateImage(bitmapRef);
+    CGContextRelease(bitmapRef);
+    CGImageRelease(bitmapImage);
+    
+    return [UIImage imageWithCGImage:scaledImage];
+}
+
 
 - (void)setCellModelWithType:(CZJOrderListForm*)listForm andType:(CZJOrderType)orderType
 {
@@ -212,6 +275,22 @@
                 }
             }
         }
+        else if (2 == [listForm.type integerValue])
+        {
+            if (0 == [listForm.status integerValue])
+            {
+                self.noPayButtomView.hidden = NO;
+            }
+            else if (1 == [listForm.status integerValue])
+            {
+            }
+            else if (2 == [listForm.status integerValue])
+            {
+            }
+            else if (3 == [listForm.status integerValue])
+            {
+            }
+        }
     }
     else
     {
@@ -240,9 +319,11 @@
             }
             else if (4 == [listForm.status integerValue])
             {
+                self.stateDescLabel.hidden = YES;
+                self.stateDescLabel.text = @"";
+                self.completeImg.hidden = NO;
+                [self.completeImg setImage:IMAGENAMED(@"order_icon_wancheng")];
                 self.noEvalutionButtomView.hidden = NO;
-                self.stateDescLabel.hidden = NO;
-                self.stateDescLabel.text = @"待评价";
             }
         }
         else if (1 == [listForm.type integerValue])
@@ -251,13 +332,14 @@
             {
                 self.noBuildButtomView.hidden = NO;
                 self.stateDescLabel.hidden = NO;
-                self.stateDescLabel.text = @"待施工(等到店)";
+                self.stateDescLabel.text = @"待施工";
+                [self generateQRCodeImage:[NSString stringWithFormat:@"%@,%@",listForm.orderNo,listForm.storeId] andTarget:_QRCodeImage];
             }
             else if (1 == [listForm.status integerValue])
             {
                 self.noBuildButtomView.hidden = NO;
                 self.stateDescLabel.hidden = NO;
-                self.stateDescLabel.text = @"待施工(等门店)";
+                self.stateDescLabel.text = @"待施工";
             }
             else if (2 == [listForm.status integerValue])
             {
@@ -283,8 +365,41 @@
                 self.stateDescLabel.text = @"";
                 self.completeImg.hidden = NO;
                 [self.completeImg setImage:IMAGENAMED(@"order_icon_wancheng")];
+                self.noEvalutionButtomView.hidden = NO;
+                
             }
         }
+        else if (2 == [listForm.type integerValue])
+        {
+            if (0 == [listForm.status integerValue])
+            {
+            }
+            else if (1 == [listForm.status integerValue])
+            {
+            }
+            else if (2 == [listForm.status integerValue])
+            {
+                if (CZJOrderTypeNoBuild == orderType)
+                {
+                }
+                if (CZJOrderTypeAll == orderType)
+                {
+                }
+            }
+            else if (3 == [listForm.status integerValue])
+            {
+                
+            }
+            else if (4 == [listForm.status integerValue])
+            {
+                self.stateDescLabel.hidden = YES;
+                self.stateDescLabel.text = @"";
+                self.completeImg.hidden = NO;
+                [self.completeImg setImage:IMAGENAMED(@"order_icon_wancheng")];
+                self.noEvalutionButtomView.hidden = NO;
+            }
+        }
+
     }
 }
 

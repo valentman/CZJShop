@@ -18,7 +18,7 @@ UITableViewDelegate
 >
 {
     NSMutableArray* _coupons;
-    NSMutableDictionary* _params;
+    NSDictionary* _params;
 }
 
 @property (nonatomic, strong)NSMutableArray* coupons;
@@ -66,7 +66,7 @@ UITableViewDelegate
         _coupons = [[CZJBaseDataInstance shoppingCartForm] shoppingCouponsList];
         [self.tableView reloadData];
     };
-    
+    _params = @{@"storeId" : _storeId};
     [CZJBaseDataInstance loadShoppingCouponsCart:_params
                                          Success:successBlock
                                             fail:nil];

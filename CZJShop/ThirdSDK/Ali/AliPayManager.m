@@ -44,8 +44,6 @@
     NSString *seller = @"2088021227083481";
     NSString *privateKey = @"MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAK85vtYuZF7tvCsei4VNIfMToBlCIJBTPIJJMvTjaHQSdxVGeMd7yKuRHZ33SVRVkNjg2lYN2ufftDQSIsrP0dwep42hsQFzk225th7Kf945019xtYbt8wV5JVPPTZGw5hbOQMn97JIzn0Hj1ogmp7A6T0P1kYk7lKmIDUD7FgqPAgMBAAECgYAkHQ+izu7qza6BaIsyzwHXOk09x240sKMA6xswc4n8mi2m2d5cprtl+MOU4flgAz6WJEl7gOGD9owKS06WZByJHQlH/Ke5sGp/+VOY/YWSQZi257+GUQ7ClsCYSiIK8In/weZk4FILAYa7OZl+caIDk9bD/ZdFw1I3M+E4QC5YcQJBANiL91MRvs/RIwkoLC8JWphUiLOXgnUeZckYj0CPQ5hd5tVhJcBKSqGAd3RxqX0M6I4Eqzb+J16GrsCXwnlVnkcCQQDPJoDyuUue7B0q4toKsDFaIzDf/0/p0+Qss39r9USNJtt//NVpHSpfRiRmPrdeybQ1/5VYVmdA/rGGAXrD9m15AkEAjXIfgys8MBKzh++trKu3eXj+MhDtLgNFCS35pHnv9T6g4RAr0Ia2aPe5D16PDxe3b8ys6abpoFzpGPQIG6lJUQJAGNQFmpII9UhZip1cAvHxSFt1bTOdsWn7LDxrZlYkXEKvBl0YexvKy1aN4E9eDRdh6SL0FH1urMSaJHSi8T/lCQJAE+eXAGcNBSqsxU0l6ERxe25DYXOzlJ/zXh1kG8yYR9tVKVYVxqlGn6Mgsg10ae5Z07/3Eb+kUTRiYwmNb1FNfQ==";
     
-    
-    //--------------------
     /*
      *生成订单信息及签名
      */
@@ -79,9 +77,9 @@
     if (signedString != nil) {
         orderString = [NSString stringWithFormat:@"%@&sign=\"%@\"&sign_type=\"%@\"",
                        orderSpec, signedString, @"RSA"];
-        DLog(@"支付宝SB:%@",orderString);
+        DLog(@"支付宝管理类请求支付宝SDK接口提交支付信息:%@",orderSpec);
         [[AlipaySDK defaultService] payOrder:orderString fromScheme:appScheme callback:^(NSDictionary *resultDic) {
-            DLog(@"reslut-- = %@",[resultDic description]);
+            DLog(@"支付宝支付结果%@",[resultDic description]);
             if ([[resultDic valueForKey:@"resultStatus"] intValue] == 9000) {
                 success(resultDic);
             }

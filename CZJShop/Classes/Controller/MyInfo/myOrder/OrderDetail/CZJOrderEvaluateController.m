@@ -47,9 +47,14 @@ CZJStarRateViewDelegate
     myEvaluationForm = [[CZJMyEvaluationForm alloc] init];
     myEvaluationForm.orderNo = self.orderDetailForm.orderNo;
     myEvaluationForm.storeId = self.orderDetailForm.storeId;
-    myEvaluationForm.head = CZJBaseDataInstance.userInfoForm.chezhuHeadImg;
+    NSString* head = CZJBaseDataInstance.userInfoForm.chezhuHeadImg;
+    myEvaluationForm.head = head.length > 0 ? head : @"";
     myEvaluationForm.name = CZJBaseDataInstance.userInfoForm.chezhuName;
     myEvaluationForm.orderTime = self.orderDetailForm.createTime;
+    myEvaluationForm.descScore = @"5";
+    myEvaluationForm.serviceScore = @"5";
+    myEvaluationForm.deliveryScore = @"5";
+    myEvaluationForm.environmentScore = @"5";
     myEvaluationForm.items = [NSMutableArray array];
     for (CZJOrderGoodsForm* goodsForm in self.orderDetailForm.items)
     {
@@ -94,8 +99,14 @@ CZJStarRateViewDelegate
     [super didReceiveMemoryWarning];
 }
 
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    [self.view endEditing:YES];
+}
+
 - (void)picBtnTouched:(id)sender
 {
+    [self.view endEditing:YES];
     choosedSecionIndex = ((UIButton*)sender).tag;
     UIActionSheet *choiceSheet = [[UIActionSheet alloc] initWithTitle:nil
                                                              delegate:self
@@ -117,9 +128,17 @@ CZJStarRateViewDelegate
 {
     NSDictionary* dict = myEvaluationForm.keyValues;
     DLog(@"发表评价%@",[dict description]);
+    __weak typeof(self) weak = self;
     [CZJBaseDataInstance generalPost:@{@"paramJson" : [CZJUtils JsonFromData:dict]} success:^(id json)
     {
-        [CZJUtils tipWithText:@"发表评价成功，非常感谢！" andView:nil];
+        NSDictionary* dicts = [CZJUtils DataFromJson:json];
+        MBProgressHUD* hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        hud.mode = MBProgressHUDModeText;
+        hud.labelText = [dicts valueForKey:@"msg"];
+        [hud hide:YES afterDelay:1.5];
+        hud.completionBlock = ^{
+            [weak.navigationController popViewControllerAnimated:YES];
+        };
     } andServerAPI:kCZJServerAPISubmitComment];
 }
 
@@ -140,9 +159,11 @@ CZJStarRateViewDelegate
     if (0 <= indexPath.section && indexPath.section < self.orderDetailForm.items.count)
     {
         CZJMyEvaluationGoodsForm* returnedListForm = (CZJMyEvaluationGoodsForm*)myEvaluationForm.items[indexPath.section];
+        
         CZJOrderEvaluateCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJOrderEvaluateCell" forIndexPath:indexPath];
         cell.messageTextField.delegate = self;
         cell.starView.delegate = self;
+        cell.messageTextField.text = returnedListForm.message? returnedListForm.message : @"";
         cell.starView.ownerObject = returnedListForm;
         [cell.picBTn addTarget:self action:@selector(picBtnTouched:) forControlEvents:UIControlEventTouchUpInside];
         [cell.goodsImg sd_setImageWithURL:[NSURL URLWithString:returnedListForm.itemImg] placeholderImage:IMAGENAMED(@"")];

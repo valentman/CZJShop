@@ -129,6 +129,7 @@
 @property (strong, nonatomic)NSString*  timeOver;
 @property (strong, nonatomic)NSString*  transportPrice;
 @property (strong, nonatomic)NSString*  type;
+@property (strong, nonatomic)NSString* counterKey;
 @end
 
 

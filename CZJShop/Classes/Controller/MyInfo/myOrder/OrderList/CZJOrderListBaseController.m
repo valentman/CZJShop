@@ -20,6 +20,7 @@ CZJOrderListCellDelegate
 {
     float totalToPay;
     NSMutableArray* orderNoArys;
+
 }
 @property (strong, nonatomic)NSArray* orderList;
 @property (strong, nonatomic)UITableView* myTableView;
@@ -31,6 +32,29 @@ CZJOrderListCellDelegate
     [super viewDidLoad];
     orderNoArys = [NSMutableArray array];
     [self initViews];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    MBProgressHUD* hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    hud.completionBlock = ^{
+        if (_orderList.count == 0)
+        {
+            [CZJUtils showNoDataAlertViewOnTarget:self.view withPromptString:_noDataPrompt];
+        }
+        _myTableView.delegate = self;
+        _myTableView.dataSource = self;
+        [_myTableView reloadData];
+    };
+    [CZJUtils performBlock:^{
+        [self getOrderListFromServer];
+    } afterDelay:0.5];
+    DLog(@"params:%@",[_params description]);
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    DLog();
 }
 
 - (void)initViews
@@ -54,17 +78,15 @@ CZJOrderListCellDelegate
     [self.view addSubview:_myTableView];
     UINib *nib = [UINib nibWithNibName:@"CZJOrderListCell" bundle:nil];
     [_myTableView registerNib:nib forCellReuseIdentifier:@"CZJOrderListCell"];
-    
-
 }
+
+
 
 - (void)getOrderListFromServer
 {
     [CZJBaseDataInstance getOrderList:_params Success:^(id json) {
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
         _orderList = [CZJOrderListForm objectArrayWithKeyValuesArray:[[CZJUtils DataFromJson:json] valueForKey:@"msg" ]];
-        _myTableView.delegate = self;
-        _myTableView.dataSource = self;
-        [_myTableView reloadData];
     } fail:^{
         
     }];
@@ -190,5 +212,79 @@ CZJOrderListCellDelegate
     [self.delegate clickOrderListCellButton:btn
                               andButtonType:CZJOrderListCellBtnTypeSelectToPay
                                andOrderForm:orderListForm];
+}
+@end
+
+
+
+@implementation CZJOrderListAllController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    _noDataPrompt = @"无任何订单";
+    _params = @{@"type":@"0", @"page":@"1", @"timeType":@"0"};
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+}
+@end
+
+
+
+@implementation CZJOrderListNoPayController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    _noDataPrompt = @"无待付款订单";
+    _params = @{@"type":@"1", @"page":@"1", @"timeType":@"0"};
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+}
+@end
+
+
+
+@implementation CZJOrderListNoBuildController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    _noDataPrompt = @"无待施工订单";
+    _params = @{@"type":@"2", @"page":@"1", @"timeType":@"0"};
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+}
+@end
+
+
+
+@implementation CZJOrderListNoReceiveController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    _noDataPrompt = @"无待收货订单";
+    _params = @{@"type":@"3", @"page":@"1", @"timeType":@"0"};
+}
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+}
+@end
+
+
+
+@implementation CZJOrderListNoEvaController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    _noDataPrompt = @"无评价订单";
+    _params = @{@"type":@"4", @"page":@"1", @"timeType":@"0"};
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
 }
 @end

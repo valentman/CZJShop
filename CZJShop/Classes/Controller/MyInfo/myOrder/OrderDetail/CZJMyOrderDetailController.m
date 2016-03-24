@@ -253,6 +253,7 @@ CZJPopPayViewDelegate
                         }
                         else if (3 == [orderDetailForm.status integerValue])
                         {
+                            stageNum = 2;
                             _stageStr = @"等待买家收货";
                             self.noReceiveView.hidden = NO;  //退换货、查看物流、确认收货
                         }
@@ -283,8 +284,9 @@ CZJPopPayViewDelegate
                 }
                 else
                 {
-                    _stageStr = @"等待买家评价";
-                    stageNum = 2;
+                    stageLabelColor = UIColorFromRGB(0x48AB11);
+                    _stageStr = @"订单已完成";
+                    stageNum = 3;
                     orderType = 0;
                     if (0 == [orderDetailForm.type integerValue])
                     {
@@ -903,9 +905,9 @@ CZJPopPayViewDelegate
 - (IBAction)confirmReceiveGoodsAction:(id)sender
 {
     __weak typeof(self) weak = self;
-    [self showCZJAlertView:@"你要想好哦，确认收货就不能退款了哦" andConfirmHandler:^{
-        [CZJBaseDataInstance generalPost:@{} success:^(id json) {
-            [weak.myTableView reloadData];
+    [self showCZJAlertView:@"你要想好哦，确认收货就不能退货了哦" andConfirmHandler:^{
+        [CZJBaseDataInstance generalPost:@{@"orderNo":orderDetailForm.orderNo} success:^(id json) {
+            [weak getOrderDetailFromServer];
         } andServerAPI:kCZJServerAPIReceiveGoods];
         [weak hideWindow];
     } andCancleHandler:nil];

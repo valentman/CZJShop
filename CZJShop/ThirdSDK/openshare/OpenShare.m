@@ -25,6 +25,7 @@ static NSMutableDictionary *keys;
 }
 
 +(void)openURL:(NSString*)url{
+    DLog(@"OpenShare调用OpenUrl打开：%@",url);
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
 }
 +(BOOL)canOpen:(NSString*)url{

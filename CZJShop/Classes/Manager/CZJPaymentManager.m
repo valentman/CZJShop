@@ -28,6 +28,7 @@ singleton_implementation(CZJPaymentManager);
     _paymentOrderForm = _orderDict;
     //请求支付的uil
     [CZJBaseDataInstance generalPost:@{@"payMethod":@"1"} success:^(id json) {
+        DLog(@"支付管理单例类请求微信支付信息返回成功");
         NSDictionary* dict = [CZJUtils DataFromJson:json];
         NSDictionary* subDict = [dict valueForKey:@"msg"];
         NSString* appid = [subDict valueForKey:@"appid"];
@@ -36,10 +37,11 @@ singleton_implementation(CZJPaymentManager);
         payRequsestHandler* tst = [payRequsestHandler alloc];
         [tst init:appid mch_id:partnerid];
         [tst setKey:PARTNER_ID];
-        NSString* lk = [tst sendPayWithOrderInfo:[_orderDict keyValues]];
+        NSString* lk = [tst sendPayWithOrderInfo:[_paymentOrderForm keyValues]];
         
         __weak typeof(self) weak = self;
         if (lk) {
+            DLog(@"支付管理类生成订单信息微信支付URL");
             [OpenShare WeixinPay:lk Success:^(NSDictionary *message) {
                 [weak jumpToSuc:message];
             } Fail:^(NSDictionary *message, NSError *error) {
@@ -58,7 +60,8 @@ singleton_implementation(CZJPaymentManager);
     self.targetViewController = target;
     __weak typeof(self) weak = self;
     AliPayManager* tmp =[[AliPayManager alloc] init];
-    [tmp generateWithOrderDict:[_orderDict keyValues] Success:^(NSDictionary *message) {
+    DLog(@"支付管理单例类请求支付宝支付信息,AliPayManager:%@",tmp);
+    [tmp generateWithOrderDict:[_paymentOrderForm keyValues] Success:^(NSDictionary *message) {
         [weak jumpToSuc:message];
     } Fail:^(NSDictionary *message, NSError *error) {
         fail(message,error);

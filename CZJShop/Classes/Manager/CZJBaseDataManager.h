@@ -217,7 +217,7 @@ singleton_interface(CZJBaseDataManager);
 
 //获取购物车数量
 - (void)loadShoppingCartCount:(NSDictionary*)postParams
-                      Success:(CZJGeneralBlock)success
+                      Success:(CZJSuccessBlock)success
                          fail:(CZJFailureBlock)fail;
 
 //加入购物车

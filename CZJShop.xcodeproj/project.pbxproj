@@ -18,11 +18,6 @@
 		EC0223B71C59C7BB00600851 /* CZJTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EC0223AA1C59C7BB00600851 /* CZJTableViewCell.m */; settings = {ASSET_TAGS = (); }; };
 		EC0223B81C59C7BB00600851 /* CZJViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EC0223AC1C59C7BB00600851 /* CZJViewController.m */; settings = {ASSET_TAGS = (); }; };
 		EC0223B91C59C7BB00600851 /* LSPageScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = EC0223AE1C59C7BB00600851 /* LSPageScrollView.m */; settings = {ASSET_TAGS = (); }; };
-		EC0223BC1C59F3A100600851 /* CZJOrderListAllController.m in Sources */ = {isa = PBXBuildFile; fileRef = EC0223BB1C59F3A100600851 /* CZJOrderListAllController.m */; settings = {ASSET_TAGS = (); }; };
-		EC0223BF1C59F3B200600851 /* CZJOrderListNoPayController.m in Sources */ = {isa = PBXBuildFile; fileRef = EC0223BE1C59F3B200600851 /* CZJOrderListNoPayController.m */; settings = {ASSET_TAGS = (); }; };
-		EC0223C21C59F3C400600851 /* CZJOrderListNoBuildController.m in Sources */ = {isa = PBXBuildFile; fileRef = EC0223C11C59F3C400600851 /* CZJOrderListNoBuildController.m */; settings = {ASSET_TAGS = (); }; };
-		EC0223C51C59F3F200600851 /* CZJOrderListNoReceiveController.m in Sources */ = {isa = PBXBuildFile; fileRef = EC0223C41C59F3F200600851 /* CZJOrderListNoReceiveController.m */; settings = {ASSET_TAGS = (); }; };
-		EC0223C81C59F40900600851 /* CZJOrderListNoEvaController.m in Sources */ = {isa = PBXBuildFile; fileRef = EC0223C71C59F40900600851 /* CZJOrderListNoEvaController.m */; settings = {ASSET_TAGS = (); }; };
 		EC025FC81C21036E00A8085E /* MJRefreshAutoFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = EC025F9E1C21036E00A8085E /* MJRefreshAutoFooter.m */; };
 		EC025FC91C21036E00A8085E /* MJRefreshBackFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = EC025FA01C21036E00A8085E /* MJRefreshBackFooter.m */; };
 		EC025FCA1C21036E00A8085E /* MJRefreshComponent.m in Sources */ = {isa = PBXBuildFile; fileRef = EC025FA21C21036E00A8085E /* MJRefreshComponent.m */; };
@@ -139,6 +134,10 @@
 		EC10E7AA1BFC7BA300CDBFCD /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = EC10E7A91BFC7BA300CDBFCD /* libz.tbd */; };
 		EC10E7AC1BFC7CC000CDBFCD /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = EC10E7AB1BFC7CC000CDBFCD /* libsqlite3.0.tbd */; };
 		EC10E7AF1BFC801900CDBFCD /* CZJMessageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = EC10E7AE1BFC801900CDBFCD /* CZJMessageManager.m */; };
+		EC1512861CA3C1B100B92F2B /* default_nodata@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EC1512841CA3C1B100B92F2B /* default_nodata@2x.png */; settings = {ASSET_TAGS = (); }; };
+		EC1512871CA3C1B100B92F2B /* default_nodata@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = EC1512851CA3C1B100B92F2B /* default_nodata@3x.png */; settings = {ASSET_TAGS = (); }; };
+		EC15128A1CA3D3F000B92F2B /* label_icon_zengpin@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EC1512881CA3D3F000B92F2B /* label_icon_zengpin@2x.png */; settings = {ASSET_TAGS = (); }; };
+		EC15128B1CA3D3F000B92F2B /* label_icon_zengpin@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = EC1512891CA3D3F000B92F2B /* label_icon_zengpin@3x.png */; settings = {ASSET_TAGS = (); }; };
 		EC151DB41C8ED2F10089F7B2 /* CZJOrderPaySuccessController.m in Sources */ = {isa = PBXBuildFile; fileRef = EC151DB31C8ED2F10089F7B2 /* CZJOrderPaySuccessController.m */; settings = {ASSET_TAGS = (); }; };
 		EC151DB71C8EEC9A0089F7B2 /* CZJCommitReturnController.m in Sources */ = {isa = PBXBuildFile; fileRef = EC151DB61C8EEC9A0089F7B2 /* CZJCommitReturnController.m */; settings = {ASSET_TAGS = (); }; };
 		EC151DBB1C8EF3B60089F7B2 /* CZJCommitReturnTypeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EC151DB91C8EF3B60089F7B2 /* CZJCommitReturnTypeCell.m */; settings = {ASSET_TAGS = (); }; };
@@ -1097,16 +1096,6 @@
 		EC0223AC1C59C7BB00600851 /* CZJViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJViewController.m; sourceTree = "<group>"; };
 		EC0223AD1C59C7BB00600851 /* LSPageScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LSPageScrollView.h; sourceTree = "<group>"; };
 		EC0223AE1C59C7BB00600851 /* LSPageScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LSPageScrollView.m; sourceTree = "<group>"; };
-		EC0223BA1C59F3A100600851 /* CZJOrderListAllController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJOrderListAllController.h; sourceTree = "<group>"; };
-		EC0223BB1C59F3A100600851 /* CZJOrderListAllController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJOrderListAllController.m; sourceTree = "<group>"; };
-		EC0223BD1C59F3B200600851 /* CZJOrderListNoPayController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJOrderListNoPayController.h; sourceTree = "<group>"; };
-		EC0223BE1C59F3B200600851 /* CZJOrderListNoPayController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJOrderListNoPayController.m; sourceTree = "<group>"; };
-		EC0223C01C59F3C400600851 /* CZJOrderListNoBuildController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJOrderListNoBuildController.h; sourceTree = "<group>"; };
-		EC0223C11C59F3C400600851 /* CZJOrderListNoBuildController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJOrderListNoBuildController.m; sourceTree = "<group>"; };
-		EC0223C31C59F3F200600851 /* CZJOrderListNoReceiveController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJOrderListNoReceiveController.h; sourceTree = "<group>"; };
-		EC0223C41C59F3F200600851 /* CZJOrderListNoReceiveController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJOrderListNoReceiveController.m; sourceTree = "<group>"; };
-		EC0223C61C59F40900600851 /* CZJOrderListNoEvaController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJOrderListNoEvaController.h; sourceTree = "<group>"; };
-		EC0223C71C59F40900600851 /* CZJOrderListNoEvaController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJOrderListNoEvaController.m; sourceTree = "<group>"; };
 		EC025F9D1C21036E00A8085E /* MJRefreshAutoFooter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJRefreshAutoFooter.h; sourceTree = "<group>"; };
 		EC025F9E1C21036E00A8085E /* MJRefreshAutoFooter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJRefreshAutoFooter.m; sourceTree = "<group>"; };
 		EC025F9F1C21036E00A8085E /* MJRefreshBackFooter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJRefreshBackFooter.h; sourceTree = "<group>"; };
@@ -1280,6 +1269,10 @@
 		EC10E7AB1BFC7CC000CDBFCD /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
 		EC10E7AD1BFC801900CDBFCD /* CZJMessageManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJMessageManager.h; sourceTree = "<group>"; };
 		EC10E7AE1BFC801900CDBFCD /* CZJMessageManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJMessageManager.m; sourceTree = "<group>"; };
+		EC1512841CA3C1B100B92F2B /* default_nodata@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "default_nodata@2x.png"; sourceTree = "<group>"; };
+		EC1512851CA3C1B100B92F2B /* default_nodata@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "default_nodata@3x.png"; sourceTree = "<group>"; };
+		EC1512881CA3D3F000B92F2B /* label_icon_zengpin@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "label_icon_zengpin@2x.png"; sourceTree = "<group>"; };
+		EC1512891CA3D3F000B92F2B /* label_icon_zengpin@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "label_icon_zengpin@3x.png"; sourceTree = "<group>"; };
 		EC151DB21C8ED2F10089F7B2 /* CZJOrderPaySuccessController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJOrderPaySuccessController.h; sourceTree = "<group>"; };
 		EC151DB31C8ED2F10089F7B2 /* CZJOrderPaySuccessController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJOrderPaySuccessController.m; sourceTree = "<group>"; };
 		EC151DB51C8EEC9A0089F7B2 /* CZJCommitReturnController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJCommitReturnController.h; sourceTree = "<group>"; };
@@ -4315,6 +4308,8 @@
 		ECC4DE6F1C17FEA900FBD6A4 /* ServiceDetail */ = {
 			isa = PBXGroup;
 			children = (
+				EC1512881CA3D3F000B92F2B /* label_icon_zengpin@2x.png */,
+				EC1512891CA3D3F000B92F2B /* label_icon_zengpin@3x.png */,
 				EC3216571C5219660037D809 /* prodetail_icon_guanzhu01_sel@2x.png */,
 				EC3216581C5219660037D809 /* prodetail_icon_guanzhu01_sel@3x.png */,
 				EC3216591C5219660037D809 /* prodetail_icon_guanzhu02_sel@2x.png */,
@@ -4734,6 +4729,8 @@
 		ECDB61331BFB551600882BB2 /* MyHome */ = {
 			isa = PBXGroup;
 			children = (
+				EC1512841CA3C1B100B92F2B /* default_nodata@2x.png */,
+				EC1512851CA3C1B100B92F2B /* default_nodata@3x.png */,
 				EC0532B11CA296CB000933F5 /* default_noweb@2x.png */,
 				EC0532B21CA296CB000933F5 /* default_noweb@3x.png */,
 				EC0FED361CA0F557001C25D7 /* all_icon_hot@2x.png */,
@@ -5072,16 +5069,6 @@
 				ECF2DC491C5767F80096FF39 /* CZJMyInfoOrderListController.m */,
 				EC43DFDB1C5B63F600B3C412 /* CZJOrderListBaseController.h */,
 				EC43DFDC1C5B63F600B3C412 /* CZJOrderListBaseController.m */,
-				EC0223BA1C59F3A100600851 /* CZJOrderListAllController.h */,
-				EC0223BB1C59F3A100600851 /* CZJOrderListAllController.m */,
-				EC0223BD1C59F3B200600851 /* CZJOrderListNoPayController.h */,
-				EC0223BE1C59F3B200600851 /* CZJOrderListNoPayController.m */,
-				EC0223C01C59F3C400600851 /* CZJOrderListNoBuildController.h */,
-				EC0223C11C59F3C400600851 /* CZJOrderListNoBuildController.m */,
-				EC0223C31C59F3F200600851 /* CZJOrderListNoReceiveController.h */,
-				EC0223C41C59F3F200600851 /* CZJOrderListNoReceiveController.m */,
-				EC0223C61C59F40900600851 /* CZJOrderListNoEvaController.h */,
-				EC0223C71C59F40900600851 /* CZJOrderListNoEvaController.m */,
 				ECF8E97E1C5CAC0600A98707 /* CZJOrderListReturnedController.h */,
 				ECF8E97F1C5CAC0600A98707 /* CZJOrderListReturnedController.m */,
 				EC151DB51C8EEC9A0089F7B2 /* CZJCommitReturnController.h */,
@@ -5508,6 +5495,7 @@
 				EC26A2DC1C2A386600B166A3 /* commit_arrow_next@3x.png in Resources */,
 				EC28E2C61C152BA0003423F9 /* icon_map_cateid_20.png in Resources */,
 				EC0F00341C326D9300F124F8 /* shop_btn_call@3x.png in Resources */,
+				EC15128B1CA3D3F000B92F2B /* label_icon_zengpin@3x.png in Resources */,
 				ECB4B63E1C0E976F00925BCA /* shop_img_shop@3x.png in Resources */,
 				EC393F991C2E349400B17228 /* prodetail_icon_off@3x.png in Resources */,
 				EC0C93961C204168002A7FF5 /* CZJHotRecoCell.xib in Resources */,
@@ -5540,6 +5528,7 @@
 				ECC4DDFC1C17D67B00FBD6A4 /* wl_map_icon_1@2x.png in Resources */,
 				EC0C93691C2002B2002A7FF5 /* CZJDetailPicShowCell.xib in Resources */,
 				ECD3D4171C72D6D000C230BE /* share_icon_weixin@3x.png in Resources */,
+				EC15128A1CA3D3F000B92F2B /* label_icon_zengpin@2x.png in Resources */,
 				ECC4DE181C17D67B00FBD6A4 /* MXPullDownCollectionViewCell.xib in Resources */,
 				ECDB616B1BFB551600882BB2 /* all_btn_discovery_sel@3x.png in Resources */,
 				EC0F00331C326D9300F124F8 /* shop_btn_call@2x.png in Resources */,
@@ -5715,6 +5704,7 @@
 				ECCC32A81C50B6BC008A36CB /* hintInfo.plist in Resources */,
 				ECC4DECA1C17FEA900FBD6A4 /* prodetail_icon_guanzhu01@2x.png in Resources */,
 				ECF2DCC11C5767F80096FF39 /* CZJGiftCell.xib in Resources */,
+				EC1512871CA3C1B100B92F2B /* default_nodata@3x.png in Resources */,
 				EC0FED491CA0F557001C25D7 /* all_icon_shopping@3x.png in Resources */,
 				ECDB61621BFB551600882BB2 /* all_arrow_next@2x.png in Resources */,
 				EC0FED511CA0F557001C25D7 /* home_icon_miaosha@3x.png in Resources */,
@@ -5789,6 +5779,7 @@
 				ECD3D4381C734FD800C230BE /* icon-small-40@2x.png in Resources */,
 				ECD6FFAC1C805289005F8E52 /* commit_icon_del@2x.png in Resources */,
 				EC26A2EE1C2A386600B166A3 /* commit_icon_line@3x.png in Resources */,
+				EC1512861CA3C1B100B92F2B /* default_nodata@2x.png in Resources */,
 				EC0C937D1C201103002A7FF5 /* CZJEvalutionDescCell.xib in Resources */,
 				ECDB61681BFB551600882BB2 /* all_btn_discovery@2x.png in Resources */,
 				ECB4B6341C0E976F00925BCA /* icon_star_9@3x.png in Resources */,
@@ -6069,7 +6060,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EC0223BF1C59F3B200600851 /* CZJOrderListNoPayController.m in Sources */,
 				ECC4DE421C17D67B00FBD6A4 /* UIImageView+AFNetworking.m in Sources */,
 				EC1FD2431C7C85A900954D1E /* CZJOrderListNoPayButtomView.m in Sources */,
 				ECD6FF9E1C800043005F8E52 /* QNDes.m in Sources */,
@@ -6213,7 +6203,6 @@
 				ECC4DE281C17D67B00FBD6A4 /* SDWebImageManager.m in Sources */,
 				ECF8E9801C5CAC0600A98707 /* CZJOrderListReturnedController.m in Sources */,
 				ECD6FF861C800043005F8E52 /* QNNetworkInfo.m in Sources */,
-				EC0223C81C59F40900600851 /* CZJOrderListNoEvaController.m in Sources */,
 				ECD6FF7E1C800043005F8E52 /* GTM_Base64.m in Sources */,
 				ECC4DDE81C17D67B00FBD6A4 /* LJWKeyboardToolBar.m in Sources */,
 				EC583A031C48D4AF001401FC /* CZJStoreDetailForm.m in Sources */,
@@ -6227,7 +6216,6 @@
 				ECC4DDB41C17D67B00FBD6A4 /* MD5DataSigner.m in Sources */,
 				EC1FE7EB1C74121500318505 /* CZJMyWalletBalanceController.m in Sources */,
 				EC10E6871BFC24C800CDBFCD /* CommonUnit.m in Sources */,
-				EC0223C21C59F3C400600851 /* CZJOrderListNoBuildController.m in Sources */,
 				ECC4DE291C17D67B00FBD6A4 /* SDWebImagePrefetcher.m in Sources */,
 				ECC4DE451C17D67B00FBD6A4 /* UIWebView+AFNetworking.m in Sources */,
 				ECD6FF981C800043005F8E52 /* QNConfiguration.m in Sources */,
@@ -6465,12 +6453,10 @@
 				ECC4DE081C17D67B00FBD6A4 /* MJConst.m in Sources */,
 				EC151DB71C8EEC9A0089F7B2 /* CZJCommitReturnController.m in Sources */,
 				ECE3D67A1BFDE8F900C63712 /* CZJCategoryController.m in Sources */,
-				EC0223C51C59F3F200600851 /* CZJOrderListNoReceiveController.m in Sources */,
 				ECC4DE091C17D67B00FBD6A4 /* MJFoundation.m in Sources */,
 				EC10E6811BFC24C800CDBFCD /* CZJHomeViewController.m in Sources */,
 				ECC4DE231C17D67B00FBD6A4 /* SDImageCache.m in Sources */,
 				ECC4DE191C17D67B00FBD6A4 /* MXPullDownMenu.m in Sources */,
-				EC0223BC1C59F3A100600851 /* CZJOrderListAllController.m in Sources */,
 				EC10E7AF1BFC801900CDBFCD /* CZJMessageManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

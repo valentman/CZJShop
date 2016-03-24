@@ -37,7 +37,6 @@ UIGestureRecognizerDelegate
 @property (weak, nonatomic) IBOutlet UILabel *addUpNumLabel;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *settleBtnWidth;
 @property (weak, nonatomic) IBOutlet UIView *settleView;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *settleViewButtom;
 
 
 - (IBAction)settleActioin:(id)sender;
@@ -55,6 +54,16 @@ UIGestureRecognizerDelegate
     [self getShoppingCartInfoFromServer];
 }
 
+- (void)viewWillLayoutSubviews
+{
+    _settleView.frame = CGRectMake(0, PJ_SCREEN_HEIGHT - 50, PJ_SCREEN_WIDTH, 50);
+}
+
+- (void)viewDidLayoutSubviews
+{
+    _settleView.frame = CGRectMake(0, PJ_SCREEN_HEIGHT - 50, PJ_SCREEN_WIDTH, 50);
+}
+
 - (void)initDatas
 {
     shoppingInfos = [NSMutableArray array];
@@ -69,10 +78,9 @@ UIGestureRecognizerDelegate
 
 - (void)initViews
 {
+    self.view.backgroundColor = CZJNAVIBARGRAYBG;
     //tableview
     self.myTableView.tableFooterView = [[UIView alloc]init];
-    self.myTableView.delegate = self;
-    self.myTableView.dataSource = self;
     self.myTableView.backgroundColor = CZJNAVIBARGRAYBG;
     self.automaticallyAdjustsScrollViewInsets = NO;
     UINib* nib1 = [UINib nibWithNibName:@"CZJShoppingCartCell" bundle:nil];
@@ -106,7 +114,8 @@ UIGestureRecognizerDelegate
     self.naviBarView.mainTitleLabel.text = @"我的购物车";
     [self.naviBarView.btnBack addTarget:self action:@selector(backToLastView:) forControlEvents:UIControlEventTouchUpInside];
     
-    self.settleView.hidden = YES;
+    self.settleView.hidden = NO;
+    self.myTableView.hidden = YES;
 }
 
 
@@ -118,11 +127,21 @@ UIGestureRecognizerDelegate
     {
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
         [shoppingInfos removeAllObjects];
-        self.settleView.hidden = NO;
-        self.settleViewButtom.constant = 0;
         shoppingInfos = [[CZJBaseDataInstance shoppingCartForm] shoppingCartList];
-        [self.myTableView reloadData];
-        [self calculateTotalPrice];
+        if (shoppingInfos.count == 0)
+        {
+            [CZJUtils showNoDataAlertViewOnTarget:self.view withPromptString:@"您还未添加商品，去看看吧~"];
+            self.settleView.hidden = YES;
+        }
+        else
+        {
+            DLog(@"settleView.y:%f",_settleView.frame.origin.y);
+            self.settleView.hidden = NO;
+            self.myTableView.hidden = NO;
+            self.myTableView.delegate = self;
+            self.myTableView.dataSource = self;
+            [self calculateTotalPrice];
+        }
     };
     CZJFailureBlock failBlock = ^{
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
@@ -204,7 +223,7 @@ UIGestureRecognizerDelegate
 {
     [((CZJNaviagtionBarView*)self.delegate) refreshShopBadgeLabel];
     [[NSNotificationCenter defaultCenter]removeObserver:self name:@"commitOrderSuccess" object:nil];
-    [self.navigationController popViewControllerAnimated:true];
+//    [self.navigationController popViewControllerAnimated:true];
 }
 
 
@@ -301,7 +320,9 @@ UIGestureRecognizerDelegate
         {
             cell.indexPath = indexPath;
             cell.delegate = self;
+            cell.isEdit = self.isEdit;
             [cell setModels:goodsInfo];
+            
         }
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.separatorInset = HiddenCellSeparator;
@@ -351,7 +372,7 @@ UIGestureRecognizerDelegate
 
 -(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (self.isEdit || indexPath.row == 0)
+    if (indexPath.row == 0)
     {
         return UITableViewCellEditingStyleNone;
     }
@@ -374,13 +395,21 @@ UIGestureRecognizerDelegate
         CZJShoppingGoodsInfoForm *model = [ goodsList.items objectAtIndex:indexPath.row -1];
         NSDictionary* params = @{@"storeItemPids" : model.storeItemPid};
         [CZJBaseDataInstance removeProductFromShoppingCart:params Success:^{
-            [CZJBaseDataInstance loadShoppingCartCount:nil Success:nil fail:nil];
+            [CZJBaseDataInstance loadShoppingCartCount:nil Success:^(id json){
+                NSDictionary* dict = [CZJUtils DataFromJson:json];
+                [USER_DEFAULT setObject:[dict valueForKey:@"msg"] forKey:kUserDefaultShoppingCartCount];
+            } fail:nil];
             model.isSelect=NO;
             [goodsList.items removeObjectAtIndex:indexPath.row - 1];
             
             if (0 == goodsList.items.count ){
                 [shoppingInfos removeObjectAtIndex:indexPath.section];
-                [self.myTableView reloadData];
+                if (shoppingInfos.count == 0)
+                {
+                    [CZJUtils showNoDataAlertViewOnTarget:self.view withPromptString:@"您还未添加商品，去看看吧~"];
+                    self.settleView.hidden = YES;
+                    self.myTableView.hidden = YES;
+                }
             }
             else
             {
@@ -472,6 +501,7 @@ UIGestureRecognizerDelegate
     self.popWindowDestineRect = CGRectMake(0, 200, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - 200);
     self.popWindowInitialRect = CGRectMake(0, PJ_SCREEN_HEIGHT, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - 200);
     CZJReceiveCouponsController *receiveCouponsController = [[CZJReceiveCouponsController alloc] init];
+    receiveCouponsController.storeId = ((CZJShoppingCartInfoForm*)shoppingInfos[indexPath.section]).storeId;
     [CZJUtils showMyWindowOnTarget:self withMyVC:receiveCouponsController];
     
     __weak typeof(self) weak = self;
@@ -516,7 +546,10 @@ UIGestureRecognizerDelegate
         NSString* storeItemPids = [deleteAry componentsJoinedByString:@","];
         NSDictionary* params = @{@"storeItemPids" : storeItemPids};
         [CZJBaseDataInstance removeProductFromShoppingCart:params Success:^{
-            [CZJBaseDataInstance loadShoppingCartCount:nil Success:nil fail:nil];
+            [CZJBaseDataInstance loadShoppingCartCount:nil Success:^(id json){
+                NSDictionary* dict = [CZJUtils DataFromJson:json];
+                [USER_DEFAULT setObject:[dict valueForKey:@"msg"] forKey:kUserDefaultShoppingCartCount];
+            } fail:nil];
             
             //删除所选商品成功返回后，从本地商品数组中移除已删除的商品
             for (NSString* deleteStr in deleteAry)

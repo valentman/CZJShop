@@ -34,7 +34,7 @@
 #import "CZJCommitOrderController.h"
 #import "CZJPromotionController.h"
 #import "CZJStoreDetailController.h"
-
+#import "CZJUserEvalutionController.h"
 
 #define kTagScrollView 1002
 #define kTagTableView 1001
@@ -304,7 +304,7 @@ CZJStoreInfoHeaerCellDelegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (4 == section)
     {
-        return 3;
+        return 2 + _evalutionInfo.evalList.count;
     }
     if (5 == section)
     {
@@ -401,7 +401,6 @@ CZJStoreInfoHeaerCellDelegate
         {//评论数据
             if (0 == indexPath.row) {
                 CZJEvalutionHeaderCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CZJEvalutionHeaderCell" forIndexPath:indexPath];
-
                 if (_evalutionInfo) {
                     cell.goodRateLabel.text = _evalutionInfo.goodRate;
                     cell.personCountLabel.text = _evalutionInfo.evalCount;
@@ -409,23 +408,34 @@ CZJStoreInfoHeaerCellDelegate
                 [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
                 return cell;
             }
-            else if (1 == indexPath.row)
+            else if (_evalutionInfo.evalList.count + 1 > indexPath.row)
             {
                 CZJEvalutionDescCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJEvalutionDescCell" forIndexPath:indexPath];
                 if (_evalutionInfo.evalList.count > 0)
                 {
-                    CZJEvalutionsForm* evalutionForm  = (CZJEvalutionsForm*)_evalutionInfo.evalList[indexPath.row - 1];
-                    cell.evalWriter.text = evalutionForm.evalName;
+                    CZJDetailEvalItemInfo* evalutionForm  = (CZJDetailEvalItemInfo*)_evalutionInfo.evalList[indexPath.row - 1];
+                    cell.evalWriter.text = evalutionForm.name;
                     cell.evalTime.text = evalutionForm.evalTime;
-                    cell.evalContent.text = evalutionForm.evalDesc;
-                    [cell.addtionnalImage sd_setImageWithURL:[NSURL URLWithString:evalutionForm.imgs[0]]
-                                            placeholderImage:DefaultPlaceHolderImage];
-                    [cell setStar:[evalutionForm.evalStar intValue]];
+                    
+                    
+                    cell.evalContent.text = evalutionForm.message;
+                    CGSize contenSize = [CZJUtils calculateStringSizeWithString:evalutionForm.message Font:SYSTEMFONT(12) Width:PJ_SCREEN_WIDTH - 40];
+                    cell.evalContentLayoutHeight.constant = contenSize.height;
+                    
+                    for (int i = 0; i < evalutionForm.evalImgs.count; i++)
+                    {
+                        UIImageView* evaluateImage = [[UIImageView alloc]init];
+                        [evaluateImage sd_setImageWithURL:[NSURL URLWithString:evalutionForm.evalImgs[i]] placeholderImage:DefaultPlaceHolderImage];
+                        CGRect iamgeRect = [CZJUtils viewFramFromDynamic:CZJMarginMake(0, 10) size:CGSizeMake(78, 78) index:i divide:Divide];
+                        evaluateImage.frame = iamgeRect;
+                        [cell.picView addSubview:evaluateImage];
+                    }
+                    [cell setStar:[evalutionForm.score intValue]];
                 }
                 [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
                 return cell;
             }
-            else if (2 == indexPath.row)
+            else
             {
                 CZJEvalutionFooterCell* cell = (CZJEvalutionFooterCell*)[tableView dequeueReusableCellWithIdentifier:@"CZJEvalutionFooterCell"];
                 [cell setVisibleView:kLookAllEvalView];
@@ -533,11 +543,15 @@ CZJStoreInfoHeaerCellDelegate
             if (0 == indexPath.row) {
                 return 46;
             }
-            if (1 == indexPath.row) {
+            else if (_evalutionInfo.evalList.count + 1 > indexPath.row) {
                 //这里是动态改变的，暂时设一个固定值
-                return 160;
+                CZJDetailEvalItemInfo* evalutionForm  = (CZJDetailEvalItemInfo*)_evalutionInfo.evalList[indexPath.row - 1];
+                CGSize contenSize = [CZJUtils calculateStringSizeWithString:evalutionForm.message Font:SYSTEMFONT(12) Width:PJ_SCREEN_WIDTH - 40];
+                NSInteger row = evalutionForm.evalImgs.count / Divide + 1;
+                NSInteger cellHeight = 60 + (contenSize.height > 20 ? contenSize.height : 20) + row * 88;
+                return cellHeight;
             }
-            if (2 == indexPath.row)
+            else
             {
                 return 64;
             }
@@ -623,7 +637,7 @@ CZJStoreInfoHeaerCellDelegate
         }
         [CZJUtils showMyWindowOnTarget:self withMyVC:chooseProductTypeController];
     }
-    if (4 == indexPath.section && 2 ==indexPath.row)
+    if (4 == indexPath.section)
     {
         [self performSegueWithIdentifier:@"segueToUserEvalution" sender:self];
     }
@@ -799,7 +813,7 @@ CZJStoreInfoHeaerCellDelegate
                                    @"itemName" : goodsDetailForm.goods.itemName,
                                    @"itemSku" : goodsDetailForm.goods.itemSku,
                                    @"itemType" : goodsDetailForm.goods.itemType,
-                                   @"itemCount" : @"1",
+                                   @"itemCount" : @"1"
                                    };
         
         NSArray* itemAry = @[itemDict];
@@ -908,7 +922,12 @@ CZJStoreInfoHeaerCellDelegate
     if ([segue.identifier isEqualToString:@"segueToPromotion"])
     {
         CZJPromotionController* promotionVC = segue.destinationViewController;
-        
+    }
+    
+    if ([segue.identifier isEqualToString:@"segueToUserEvalution"])
+    {
+        CZJUserEvalutionController* userEvalutionVC = segue.destinationViewController;
+        userEvalutionVC.counterKey = goodsDetailForm.goods.counterKey;
     }
 }
 

@@ -96,6 +96,7 @@
                         detailType:(CZJDetailType)detailtype;
 
 + (void)showReloadAlertViewOnTarget:(UIView*)targetView withReloadHandle:(CZJGeneralBlock)reloadhandle;
++ (void)showNoDataAlertViewOnTarget:(UIView*)targetView withPromptString:(NSString*)promptStr;
 
 
 //-----------------------------其它处理方法---------------------------
@@ -141,4 +142,5 @@
 + (NSMutableArray*)getAggregationArrayFromArray:(NSArray*)sourcArray;
 
 + (UIView*)getBackgroundPromptViewWithPrompt:(NSString*)prompt;
+
 @end

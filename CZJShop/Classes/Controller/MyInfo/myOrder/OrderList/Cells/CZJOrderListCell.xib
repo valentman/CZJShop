@@ -595,6 +595,14 @@
                             <constraint firstAttribute="width" constant="80" id="gxa-ck-NXI"/>
                         </constraints>
                     </imageView>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="EAA-tE-ZwP">
+                        <rect key="frame" x="255" y="89" width="50" height="50"/>
+                        <animations/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="50" id="FY2-yc-N3I"/>
+                            <constraint firstAttribute="height" constant="50" id="NfK-lg-a96"/>
+                        </constraints>
+                    </imageView>
                 </subviews>
                 <animations/>
                 <constraints>
@@ -614,10 +622,12 @@
                     <constraint firstAttribute="trailing" secondItem="T5G-wd-irj" secondAttribute="trailing" id="CMS-Wr-yso"/>
                     <constraint firstItem="dHQ-Rm-Dwd" firstAttribute="top" secondItem="olv-eU-MRu" secondAttribute="bottom" id="D62-s8-eYh"/>
                     <constraint firstItem="Hot-z8-meb" firstAttribute="centerY" secondItem="kJX-tt-0LP" secondAttribute="centerY" id="D7S-si-5MJ"/>
+                    <constraint firstItem="EAA-tE-ZwP" firstAttribute="bottom" secondItem="mMI-LJ-3Tg" secondAttribute="bottom" id="DfT-xf-mt6"/>
                     <constraint firstItem="4gh-26-4M0" firstAttribute="leading" secondItem="hwo-gv-2Ur" secondAttribute="trailing" id="HSx-Aq-CQ4"/>
                     <constraint firstAttribute="trailing" secondItem="YBr-jZ-2wk" secondAttribute="trailing" constant="100" id="J3d-3Y-GdM"/>
                     <constraint firstAttribute="bottom" secondItem="faH-b7-feA" secondAttribute="bottom" id="LXt-gX-cnY"/>
                     <constraint firstItem="TiI-bq-QAu" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="3" id="N3U-8t-5MP"/>
+                    <constraint firstAttribute="trailing" secondItem="EAA-tE-ZwP" secondAttribute="trailing" constant="15" id="Pdb-tt-yKv"/>
                     <constraint firstItem="xrw-GJ-iwq" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="QJS-4e-KZo"/>
                     <constraint firstItem="Dcq-Gu-kLC" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="15" id="QN9-jb-nJd"/>
                     <constraint firstItem="YBr-jZ-2wk" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="Rak-Sn-jsn"/>
@@ -658,6 +668,7 @@
             </tableViewCellContentView>
             <animations/>
             <connections>
+                <outlet property="QRCodeImage" destination="EAA-tE-ZwP" id="xBM-XU-LeR"/>
                 <outlet property="buildingNoPaidButtomView" destination="6Yz-CB-vil" id="7Nw-3s-Enc"/>
                 <outlet property="buildingNoPaidButtomViews" destination="Rn6-8H-1Kj" id="EoJ-me-azy"/>
                 <outlet property="buildingPaidButtomView" destination="c6i-YI-YuZ" id="3Xo-H5-wwW"/>

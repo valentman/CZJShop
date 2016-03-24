@@ -11,6 +11,7 @@
 @interface CZJReceiveCouponsController : CZJFilterBaseController
 @property (nonatomic, copy) MGBasicBlock basicBlock;
 @property (nonatomic, strong)UITableView *tableView;
+@property (nonatomic, strong)NSString* storeId;
 
 - (void)setCancleBarItemHandle:(CZJGeneralBlock)basicBlock;
 - (void)setCouponsAry:(NSMutableArray*)coupons;

@@ -25,7 +25,7 @@ UITableViewDelegate,
 UITableViewDataSource
 >
 {
-    NSMutableDictionary* postParams;
+    NSDictionary* postParams;
     CZJEvalutionsForm* currentTouchedEvalutionForm;
 }
 @property (weak, nonatomic) IBOutlet CZJNaviagtionBarView *topNaviBarView;
@@ -69,8 +69,6 @@ UITableViewDataSource
     _badEvalutionAry = [NSMutableArray array];
     
     self.page = 1;
-    postParams = [NSMutableDictionary dictionary];
-    
 }
 
 - (void)initTopViews
@@ -103,7 +101,7 @@ UITableViewDataSource
 - (void)firstLoadAllTypeCommentsDataFromServer
 {
     __block int loadint = 0;
-    [postParams setValue:@(self.page) forKey:@"page"];
+    postParams =@{@"counterKey": _counterKey, @"page": [NSString stringWithFormat:@"%d",self.page],@"type":[NSString stringWithFormat:@"%ld",_currentSelectedSegment]};
     CZJSuccessBlock successBlock = ^(id json)
     {
         loadint++;
@@ -176,25 +174,25 @@ UITableViewDataSource
         cell.evalWriter.text = nil;
         NSInteger count = form.imgs.count;
         
-        CGRect imagerect = cell.addtionnalImage.frame;
-        for (int i = 0; i<count; i++)
-        {
-            UIImageView* image = [[UIImageView alloc]init];
-            [image sd_setImageWithURL:[NSURL URLWithString:form.imgs[i]] placeholderImage:DefaultPlaceHolderImage];
-            image.layer.cornerRadius = 2;
-            image.clipsToBounds = YES;
-            int divide = 4;
-            // 列数
-            int column = i%divide;
-            // 行数
-            int row = i/divide;
-            DLog(@"row:%d, column:%d", row, column);
-            // 很据列数和行数算出x、y
-            int childX = column * (imagerect.size.width + 10);
-            int childY = row * imagerect.size.height;
-            image.frame = CGRectMake(20 + childX , childY + contenSize.height + 40, imagerect.size.width, imagerect.size.height);
-            [cell addSubview:image];
-        }
+//        CGRect imagerect = cell.addtionnalImage.frame;
+//        for (int i = 0; i<count; i++)
+//        {
+//            UIImageView* image = [[UIImageView alloc]init];
+//            [image sd_setImageWithURL:[NSURL URLWithString:form.imgs[i]] placeholderImage:DefaultPlaceHolderImage];
+//            image.layer.cornerRadius = 2;
+//            image.clipsToBounds = YES;
+//            int divide = 4;
+//            // 列数
+//            int column = i%divide;
+//            // 行数
+//            int row = i/divide;
+//            DLog(@"row:%d, column:%d", row, column);
+//            // 很据列数和行数算出x、y
+//            int childX = column * (imagerect.size.width + 10);
+//            int childY = row * imagerect.size.height;
+//            image.frame = CGRectMake(20 + childX , childY + contenSize.height + 40, imagerect.size.width, imagerect.size.height);
+//            [cell addSubview:image];
+//        }
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
     }

@@ -11,12 +11,24 @@
 #import "CZJOrderLogisticsInfoCell.h"
 #import "CZJBaseDataManager.h"
 
+@implementation CZJLogisticsForm
++ (NSDictionary*)objectClassInArray
+{
+    return @{@"items" : @"CZJLogisticsGoodItemForm"};
+}
+@end
+
+@implementation CZJLogisticsGoodItemForm
+@end
+
 @interface CZJOrderLogisticsController ()
 <
 UITableViewDataSource,
 UITableViewDelegate
 >
-
+{
+    NSArray* logisticInfoAry;
+}
 @property (weak, nonatomic) IBOutlet UITableView *myTableView;
 @end
 
@@ -53,24 +65,23 @@ UITableViewDelegate
 
 - (void)getLogisticInfoFromServer
 {
-    NSDictionary* params = @{};
-    [CZJBaseDataInstance generalPost:nil success:^(id json) {
-        
-        
+    NSDictionary* params = @{@"orderNo":_orderNo};
+    [CZJBaseDataInstance generalPost:params success:^(id json) {
+        NSArray* tmp = [[CZJUtils DataFromJson:json] valueForKey:@"msg"];
+        logisticInfoAry = [CZJLogisticsForm objectArrayWithKeyValuesArray:tmp];
         [self.myTableView reloadData];
     } andServerAPI:kCZJServerAPIGET_LOGISTICSINFO];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 #pragma mark-UITableViewDataSource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     //动态
-    return 5;
+    return logisticInfoAry.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -80,15 +91,25 @@ UITableViewDelegate
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    CZJLogisticsForm* logisticsForm = logisticInfoAry[indexPath.section];
     if (0 == indexPath.row)
     {
         CZJOrderLogisticsInfoCell* cell =  [tableView dequeueReusableCellWithIdentifier:@"CZJOrderLogisticsInfoCell" forIndexPath:indexPath];
+        [cell.goodImg sd_setImageWithURL:nil placeholderImage:DefaultPlaceHolderImage];
+        cell.logisticsLabel.text = logisticsForm.expressName;
+        NSMutableArray* goodnameAry = [NSMutableArray array];
+        for (CZJLogisticsGoodItemForm* itemForm in logisticsForm.items)
+        {
+            [goodnameAry addObject:itemForm.itemName];
+        }
+        cell.goodNameLabel.text = [goodnameAry componentsJoinedByString:@";"];
         cell.separatorInset = UIEdgeInsetsMake(109, 20, 0, 20);
         return cell;
     }
     if (1 == indexPath.row)
     {
         CZJOrderLogisticsCompCell* cell =  [tableView dequeueReusableCellWithIdentifier:@"CZJOrderLogisticsCompCell" forIndexPath:indexPath];
+        cell.logisticsNoLabel.text = logisticsForm.expressNo;
         cell.separatorInset = HiddenCellSeparator;
         return cell;
     }

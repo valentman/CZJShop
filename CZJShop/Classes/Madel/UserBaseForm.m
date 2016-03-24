@@ -12,6 +12,7 @@
 -(id)init{
     if (self = [super init])
     {
+        self.chezhuHeadImg = @"";
         return self;
     }
     return nil;

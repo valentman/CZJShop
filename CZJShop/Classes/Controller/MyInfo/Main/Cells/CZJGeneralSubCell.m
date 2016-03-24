@@ -72,6 +72,7 @@
         }
         if (type == kCZJGeneralSubCellTypeOrder)
         {
+            [_btn setBadgeNum:0];
             [_btn setImage:IMAGENAMED([dict valueForKey:@"buttonImage"]) forState:UIControlStateNormal];
             [_btn setBadgeNum:[[dict valueForKey:@"budge"] integerValue]];
             [_btn setBadgeLabelPosition:CGPointMake(_btn.frame.size.width*0.75, _btn.frame.size.height*0.05)];

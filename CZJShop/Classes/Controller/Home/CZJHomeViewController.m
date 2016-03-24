@@ -220,8 +220,11 @@ CZJMiaoShaCellDelegate
                                   page:self.page
                                Success:successBlock
                                   fail:failBlock];
-    [CZJBaseDataInstance loadShoppingCartCount:nil Success:^{
-        
+    [USER_DEFAULT setObject:@"0" forKey:kUserDefaultShoppingCartCount];
+    [CZJBaseDataInstance loadShoppingCartCount:nil Success:^(id json){
+        NSDictionary* dict = [CZJUtils DataFromJson:json];
+        [USER_DEFAULT setObject:[dict valueForKey:@"msg"] forKey:kUserDefaultShoppingCartCount];
+        [self.naviBarView refreshShopBadgeLabel];
     } fail:nil];
 }
 

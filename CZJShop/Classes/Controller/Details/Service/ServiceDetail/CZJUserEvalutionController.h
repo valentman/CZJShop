@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface CZJUserEvalutionController : CZJViewController
-
+@property (strong, nonatomic)NSString* counterKey;
 @end

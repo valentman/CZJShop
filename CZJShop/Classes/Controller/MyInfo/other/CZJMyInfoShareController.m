@@ -31,7 +31,7 @@
     [super viewDidLoad];
     [CZJUtils customizeNavigationBarForTarget:self];
     [self initViews];
-    [self erweima];
+    [self generateQRCodeImage:_myShareCode andTarget:_myQRCode];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -61,9 +61,7 @@
     self.myCodeLabel.text = _myShareCode;
 }
 
-
-- (void)erweima
-
+- (void)generateQRCodeImage:(NSString*)ShareCode andTarget:(UIImageView*)QRCodeImage
 {
     //二维码滤镜
     CIFilter *filter=[CIFilter filterWithName:@"CIQRCodeGenerator"];
@@ -71,11 +69,11 @@
     //恢复滤镜的默认属性
     [filter setDefaults];
     
-    NSDictionary* myInfo = @{@"content" : _myShareCode,@"isLogin" : @"1", @"type" : @"5"};
+    NSDictionary* myInfo = @{@"content" : ShareCode,@"isLogin" : @"1", @"type" : @"5"};
     
     //将字符串转换成NSData
     NSData *data=[CZJUtils JsonFormData:myInfo];
-
+    
     //通过KVO设置滤镜inputmessage数据
     [filter setValue:data forKey:@"inputMessage"];
     
@@ -87,18 +85,19 @@
         UIImage* tmpImag=[self createNonInterpolatedUIImageFormCIImage:outputImage withSize:180];
         
         MAIN(^(){
-            _myQRCode.image = tmpImag;
-            CGRect qrFram = _myQRCode.frame;
+            QRCodeImage.image = tmpImag;
+            CGRect qrFram = QRCodeImage.frame;
             DLog(@"qrframe: %f",qrFram.size.width);
             UIImageView* centerImage = [[UIImageView alloc]initWithImage:IMAGENAMED(@"icon-small-40")];
             centerImage.layer.cornerRadius = 5;
             centerImage.clipsToBounds = YES;
             [centerImage setSize:CGSizeMake(40, 40)];
-            [centerImage setPosition:CGPointMake(0.5*_myQRCode.frame.size.width, 0.5* _myQRCode.frame.size.height) atAnchorPoint:CGPointMake(0.5, 0.5)];
-            [_myQRCode addSubview:centerImage];
+            [centerImage setPosition:CGPointMake(0.5*QRCodeImage.frame.size.width, 0.5* QRCodeImage.frame.size.height) atAnchorPoint:CGPointMake(0.5, 0.5)];
+            [QRCodeImage addSubview:centerImage];
         });
     });
 }
+
 
 //改变二维码大小
 - (UIImage *)createNonInterpolatedUIImageFormCIImage:(CIImage *)image withSize:(CGFloat) size {

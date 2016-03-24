@@ -48,7 +48,6 @@ CZJViewControllerDelegate
     [super viewDidLoad];
     [self initDatas];
     [self initViews];
-    [self getMyInfoDataFromServer];
     [self dealWithInitNavigationBar];
 }
 
@@ -68,7 +67,7 @@ CZJViewControllerDelegate
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    [self.myInfoTableView reloadData];
+    [self getMyInfoDataFromServer];
     DLog();
 }
 
@@ -123,7 +122,7 @@ CZJViewControllerDelegate
 - (void)getMyInfoDataFromServer
 {
     if ([USER_DEFAULT boolForKey:kCZJIsUserHaveLogined])
-    {//
+    {
         [CZJBaseDataInstance getUserInfo:nil Success:^(id json) {
             NSDictionary* dict = [[CZJUtils DataFromJson:json] valueForKey:@"msg"];
             myInfoForm = [CZJMyInfoForm objectWithKeyValues:dict];
