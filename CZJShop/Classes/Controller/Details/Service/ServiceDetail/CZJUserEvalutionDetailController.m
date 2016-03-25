@@ -35,7 +35,6 @@ CZJNaviagtionBarViewDelegate
 @property (weak, nonatomic) IBOutlet UIView *inputView;
 @property (weak, nonatomic) IBOutlet PullTableView *myTableView;
 @property (weak, nonatomic) IBOutlet UIButton *commitBtn;
-@property (weak, nonatomic) IBOutlet CZJNaviagtionBarView *myNaviBarView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *textViewLayoutHeight;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *inputViewLayoutHeight;
 
@@ -48,23 +47,30 @@ CZJNaviagtionBarViewDelegate
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    [self initViews];
+    [self registerForKeyboardNotifications];
+    [self getReplyDataFromServer];
+}
+
+- (void)initViews
+{
     _commitBtn.layer.cornerRadius = 5;
     _textView.layer.cornerRadius = 5;
-    
     _textView.delegate = self;
+    
+    self.view.backgroundColor = CZJTableViewBGColor;
     
     _originFrame = _inputView.frame;
     _inputViewSize = _originFrame.size;
     
-    CGRect mainViewBounds = self.navigationController.navigationBar.bounds;
-    CGRect viewBounds = CGRectMake(0, 0, mainViewBounds.size.width, 52);
-    [self.myNaviBarView initWithFrame:viewBounds AndType:CZJNaviBarViewTypeDetail].delegate = self;
-    [self.myNaviBarView setBackgroundColor:RGBA(239, 239, 239, 0)];
     self.myTableView.pullDelegate = self;
     self.myTableView.dataSource = self;
     self.myTableView.delegate = self;
+    self.myTableView.tableFooterView = [[UIView alloc] init];
+    self.myTableView.backgroundColor = CZJTableViewBGColor;
+    self.automaticallyAdjustsScrollViewInsets = NO;
     [self.myTableView reloadData];
+    
     //TableView初始化
     UINib *nib1=[UINib nibWithNibName:@"CZJEvalutionDetailCell" bundle:nil];
     UINib *nib2=[UINib nibWithNibName:@"CZJEvalutionDescCell" bundle:nil];
@@ -75,13 +81,10 @@ CZJNaviagtionBarViewDelegate
     [self.myTableView registerNib:nib2 forCellReuseIdentifier:@"CZJEvalutionDescCell"];
     [self.myTableView registerNib:nib3 forCellReuseIdentifier:@"CZJEvalutionFooterCell"];
     [self.myTableView registerNib:nib4 forCellReuseIdentifier:@"CZJEvalutionDetailReplyCell"];
-    [self registerForKeyboardNotifications];
-    [self getReplyDataFromServer];
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [_myNaviBarView refreshShopBadgeLabel];
+    
+    
+    [self addCZJNaviBarView:CZJNaviBarViewTypeGeneral];
+    self.naviBarView.mainTitleLabel.text = @"评价详情";
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -106,11 +109,12 @@ CZJNaviagtionBarViewDelegate
 
 - (void)getReplyDataFromServer
 {
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     CZJSuccessBlock successBlock = ^(id json)
     {
+        [MBProgressHUD hideAllHUDsForView:self.view animated:NO];
         userEvalutionReplys = [[CZJBaseDataInstance detailsForm] userEvalutionReplyForms];
-        [self.myTableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationFade];
-        
+        [self.myTableView reloadData];
     };
     [CZJBaseDataInstance loadUserEvalutionReplys:nil
                                             type:getDataTypeIsFresh
@@ -172,13 +176,13 @@ CZJNaviagtionBarViewDelegate
     //当前回复内容
     if (indexPath.section == 0)
     {
-        CZJEvalutionsForm* form = self.evalutionForm;
+        CZJEvaluateForm* form = self.evalutionForm;
         if (indexPath.row == 0)
         {
             CZJEvalutionDetailCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJEvalutionDetailCellHead" forIndexPath:indexPath];
 
-            [cell.evalWriteHeadImage sd_setImageWithURL:[NSURL URLWithString:form.evalHead] placeholderImage:DefaultPlaceHolderImage];
-            cell.evalWriterName.text = form.evalName;
+            [cell.evalWriteHeadImage sd_setImageWithURL:[NSURL URLWithString:form.head] placeholderImage:DefaultPlaceHolderImage];
+            cell.evalWriterName.text = form.name;
             cell.evalWriteTime.text = form.evalTime;
             return cell;
         }
@@ -186,42 +190,30 @@ CZJNaviagtionBarViewDelegate
         {
             CZJEvalutionDescCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJEvalutionDescCell" forIndexPath:indexPath];
             cell.arrowNextImage.hidden = YES;
-            [cell setStar:[form.evalStar intValue]];
-            CGSize contenSize = [CZJUtils calculateStringSizeWithString:form.evalDesc Font:SYSTEMFONT(13) Width:PJ_SCREEN_WIDTH - 40];
-            cell.evalContentLayoutHeight.constant = contenSize.height;
-            cell.evalContent.text = form.evalDesc;
+            [cell setStar:[form.score intValue]];
             cell.evalTime.text = nil;
             cell.evalWriter.text = nil;
-            NSInteger count = form.imgs.count;
             
-//            CGRect imagerect = cell.addtionnalImage.frame;
-//            for (int i = 0; i<count; i++)
-//            {
-//                UIImageView* image = [[UIImageView alloc]init];
-//                [image sd_setImageWithURL:[NSURL URLWithString:form.imgs[i]] placeholderImage:DefaultPlaceHolderImage];
-//                image.layer.cornerRadius = 2;
-//                image.clipsToBounds = YES;
-//                int divide = 4;
-//                // 列数
-//                int column = i%divide;
-//                // 行数
-//                int row = i/divide;
-//                DLog(@"row:%d, column:%d", row, column);
-//                // 很据列数和行数算出x、y
-//                int childX = column * (imagerect.size.width + 10);
-//                int childY = row * imagerect.size.height;
-//                image.frame = CGRectMake(20 + childX , childY + contenSize.height + 40, imagerect.size.width, imagerect.size.height);
-//                [cell addSubview:image];
-//            }
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.evalContent.text = _evalutionForm.message;
+            CGSize contenSize = [CZJUtils calculateStringSizeWithString:_evalutionForm.message Font:SYSTEMFONT(12) Width:PJ_SCREEN_WIDTH - 40];
+            cell.evalContentLayoutHeight.constant = contenSize.height;
+            
+            for (int i = 0; i < _evalutionForm.evalImgs.count; i++)
+            {
+                UIImageView* evaluateImage = [[UIImageView alloc]init];
+                [evaluateImage sd_setImageWithURL:[NSURL URLWithString:_evalutionForm.evalImgs[i]] placeholderImage:DefaultPlaceHolderImage];
+                CGRect iamgeRect = [CZJUtils viewFramFromDynamic:CZJMarginMake(0, 10) size:CGSizeMake(78, 78) index:i divide:Divide];
+                evaluateImage.frame = iamgeRect;
+                [cell.picView addSubview:evaluateImage];
+            }
             return cell;
         }
         if (2 == indexPath.row)
         {
             CZJEvalutionFooterCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJEvalutionFooterCell" forIndexPath:indexPath];
             [cell setVisibleView:kEvalDetailView];
-            cell.serviceName.text = form.purchaseItem;
-            cell.serviceTime.text = form.purchaseTime;
+            cell.serviceName.text = form.itemName;
+            cell.serviceTime.text = form.orderTime;
             cell.form = form;
             cell.evalutionReplyBtn.hidden = YES;
             return cell;
@@ -271,9 +263,10 @@ CZJNaviagtionBarViewDelegate
         }
         if (1 == indexPath.row) {
             //这里是动态改变的，暂时设一个固定值
-            CGSize contenSize = [CZJUtils calculateStringSizeWithString:self.evalutionForm.evalDesc Font:SYSTEMFONT(13) Width:PJ_SCREEN_WIDTH - 40];
-            
-            return contenSize.height + 40 + 10 + 80;
+            CGSize contenSize = [CZJUtils calculateStringSizeWithString:_evalutionForm.message Font:SYSTEMFONT(12) Width:PJ_SCREEN_WIDTH - 40];
+            NSInteger row = _evalutionForm.evalImgs.count / Divide + 1;
+            NSInteger cellHeight = 60 + (contenSize.height > 20 ? contenSize.height : 20) + row * 88;
+            return cellHeight;
         }
         if (2 == indexPath.row)
         {
@@ -295,6 +288,15 @@ CZJNaviagtionBarViewDelegate
         }
     }
     return 0;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    if (0 == section)
+    {
+        return 0;
+    }
+    return 10;
 }
 
 #pragma mark- CZJNaviagtionBarViewDelegate
@@ -362,11 +364,8 @@ CZJNaviagtionBarViewDelegate
         }
     }
     
-    
     NSString *comcatstr = [textView.text stringByReplacingCharactersInRange:range withString:text];
-    
     NSInteger caninputlen = MAX_INPUT - comcatstr.length;
-    
     if (caninputlen >= 0)
     {
         //加入动态计算高度
@@ -374,7 +373,6 @@ CZJNaviagtionBarViewDelegate
         CGRect frame = textView.frame;
         frame.size.height = size.height;
         
-//        textView.frame = frame;
         return YES;
     }
     else

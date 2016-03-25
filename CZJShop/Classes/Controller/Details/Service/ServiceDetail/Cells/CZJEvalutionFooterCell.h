@@ -23,7 +23,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *serviceName;
 @property (weak, nonatomic) IBOutlet UILabel *serviceTime;
 @property (weak, nonatomic) id<CZJImageViewTouchDelegate>delegate;
-@property (strong, nonatomic)CZJEvalutionsForm* form;
+@property (strong, nonatomic)CZJEvaluateForm* form;
 
 - (IBAction)replyEvalutionAction:(id)sender;
 - (void)setVisibleView:(NSInteger)type;

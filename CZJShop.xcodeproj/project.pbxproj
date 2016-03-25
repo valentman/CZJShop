@@ -134,6 +134,10 @@
 		EC10E7AA1BFC7BA300CDBFCD /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = EC10E7A91BFC7BA300CDBFCD /* libz.tbd */; };
 		EC10E7AC1BFC7CC000CDBFCD /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = EC10E7AB1BFC7CC000CDBFCD /* libsqlite3.0.tbd */; };
 		EC10E7AF1BFC801900CDBFCD /* CZJMessageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = EC10E7AE1BFC801900CDBFCD /* CZJMessageManager.m */; };
+		EC138F9B1CA51A4800E80856 /* my_icon_head@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EC138F971CA51A4800E80856 /* my_icon_head@2x.png */; settings = {ASSET_TAGS = (); }; };
+		EC138F9C1CA51A4800E80856 /* my_icon_head@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = EC138F981CA51A4800E80856 /* my_icon_head@3x.png */; settings = {ASSET_TAGS = (); }; };
+		EC138F9D1CA51A4800E80856 /* personal_icon_head@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EC138F991CA51A4800E80856 /* personal_icon_head@2x.png */; settings = {ASSET_TAGS = (); }; };
+		EC138F9E1CA51A4800E80856 /* personal_icon_head@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = EC138F9A1CA51A4800E80856 /* personal_icon_head@3x.png */; settings = {ASSET_TAGS = (); }; };
 		EC1512861CA3C1B100B92F2B /* default_nodata@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EC1512841CA3C1B100B92F2B /* default_nodata@2x.png */; settings = {ASSET_TAGS = (); }; };
 		EC1512871CA3C1B100B92F2B /* default_nodata@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = EC1512851CA3C1B100B92F2B /* default_nodata@3x.png */; settings = {ASSET_TAGS = (); }; };
 		EC15128A1CA3D3F000B92F2B /* label_icon_zengpin@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EC1512881CA3D3F000B92F2B /* label_icon_zengpin@2x.png */; settings = {ASSET_TAGS = (); }; };
@@ -1269,6 +1273,10 @@
 		EC10E7AB1BFC7CC000CDBFCD /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
 		EC10E7AD1BFC801900CDBFCD /* CZJMessageManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJMessageManager.h; sourceTree = "<group>"; };
 		EC10E7AE1BFC801900CDBFCD /* CZJMessageManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJMessageManager.m; sourceTree = "<group>"; };
+		EC138F971CA51A4800E80856 /* my_icon_head@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "my_icon_head@2x.png"; sourceTree = "<group>"; };
+		EC138F981CA51A4800E80856 /* my_icon_head@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "my_icon_head@3x.png"; sourceTree = "<group>"; };
+		EC138F991CA51A4800E80856 /* personal_icon_head@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "personal_icon_head@2x.png"; sourceTree = "<group>"; };
+		EC138F9A1CA51A4800E80856 /* personal_icon_head@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "personal_icon_head@3x.png"; sourceTree = "<group>"; };
 		EC1512841CA3C1B100B92F2B /* default_nodata@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "default_nodata@2x.png"; sourceTree = "<group>"; };
 		EC1512851CA3C1B100B92F2B /* default_nodata@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "default_nodata@3x.png"; sourceTree = "<group>"; };
 		EC1512881CA3D3F000B92F2B /* label_icon_zengpin@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "label_icon_zengpin@2x.png"; sourceTree = "<group>"; };
@@ -4729,6 +4737,10 @@
 		ECDB61331BFB551600882BB2 /* MyHome */ = {
 			isa = PBXGroup;
 			children = (
+				EC138F971CA51A4800E80856 /* my_icon_head@2x.png */,
+				EC138F981CA51A4800E80856 /* my_icon_head@3x.png */,
+				EC138F991CA51A4800E80856 /* personal_icon_head@2x.png */,
+				EC138F9A1CA51A4800E80856 /* personal_icon_head@3x.png */,
 				EC1512841CA3C1B100B92F2B /* default_nodata@2x.png */,
 				EC1512851CA3C1B100B92F2B /* default_nodata@3x.png */,
 				EC0532B11CA296CB000933F5 /* default_noweb@2x.png */,
@@ -5517,6 +5529,7 @@
 				EC2BF2D01C7DA74D003B94B5 /* chat_icon_shop@2x.png in Resources */,
 				ECD555711C91643D00BAC8A0 /* miaosha_icon_angle@3x.png in Resources */,
 				EC442B5C1BFEF5B100DC6F97 /* CZJMiaoShaCell.xib in Resources */,
+				EC138F9C1CA51A4800E80856 /* my_icon_head@3x.png in Resources */,
 				EC4521531C5F0CF0003272C3 /* CZJOrderEvalutateAllCell.xib in Resources */,
 				EC49970E1C75AA60007B0936 /* CZJMyWalletCardItemCell.xib in Resources */,
 				EC34FFFE1C433D5A0063A071 /* my_icon_shouhuo@2x.png in Resources */,
@@ -5579,6 +5592,7 @@
 				EC4521491C5EFFE9003272C3 /* CZJOrderLogisticsCompCell.xib in Resources */,
 				ECDB61781BFB551600882BB2 /* all_btn_shop_sel@2x.png in Resources */,
 				ECB4B63C1C0E976F00925BCA /* shop_icon_heart@3x.png in Resources */,
+				EC138F9E1CA51A4800E80856 /* personal_icon_head@3x.png in Resources */,
 				EC0532B31CA296CB000933F5 /* default_noweb@2x.png in Resources */,
 				ECC4DEC41C17FEA900FBD6A4 /* prodetail_btn_shop@2x.png in Resources */,
 				EC5B86EF1C0D346B008EC732 /* CZJDiscoverCell.xib in Resources */,
@@ -5763,6 +5777,7 @@
 				ECC4DEED1C17FEA900FBD6A4 /* prodetail_pop_base@3x.png in Resources */,
 				EC0C93781C2010E5002A7FF5 /* CZJEvalutionHeaderCell.xib in Resources */,
 				EC34FFE71C433D5A0063A071 /* my_icon_erweima@3x.png in Resources */,
+				EC138F9D1CA51A4800E80856 /* personal_icon_head@2x.png in Resources */,
 				EC393F8E1C2E349400B17228 /* prodetail_icon_coupon01@2x.png in Resources */,
 				EC0F00411C326D9300F124F8 /* shop_icon_guanzhu@2x.png in Resources */,
 				ECC4DED31C17FEA900FBD6A4 /* prodetail_icon_kefu02@3x.png in Resources */,
@@ -5874,6 +5889,7 @@
 				ECC4DEDC1C17FEA900FBD6A4 /* prodetail_icon_reply@2x.png in Resources */,
 				ECF8E9581C5C6DB300A98707 /* order_icon_greendot@2x.png in Resources */,
 				EC5B86E71C0D3315008EC732 /* find_icon_saoyisao@3x.png in Resources */,
+				EC138F9B1CA51A4800E80856 /* my_icon_head@2x.png in Resources */,
 				EC28E2C51C152BA0003423F9 /* icon_map_cateid_2.png in Resources */,
 				ECD3D4201C72D6D000C230BE /* yue_btn_chongzhi@2x.png in Resources */,
 				ECD3D4221C72D6D000C230BE /* yue_icon_gonggao@2x.png in Resources */,
@@ -6615,7 +6631,7 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.chezhijian.CZJShop;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "75f270e1-8d15-4ce3-974f-d66ad635987d";
 			};
 			name = Debug;
 		};
@@ -6657,7 +6673,7 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.chezhijian.CZJShop;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "75f270e1-8d15-4ce3-974f-d66ad635987d";
 			};
 			name = Release;
 		};

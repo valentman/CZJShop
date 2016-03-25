@@ -150,7 +150,6 @@ singleton_interface(CZJBaseDataManager);
 //获取评价列表
 - (void)loadUserEvalutions:(NSDictionary*)postParams
                       type:(CZJHomeGetDataFromServerType)type
-                   SegType:(CZJEvalutionType)segType
                    Success:(CZJGeneralBlock)success
                       fail:(CZJFailureBlock)fail;
 

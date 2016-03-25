@@ -83,9 +83,6 @@
                                 <state key="normal" title="(0)" image="prodetail_icon_reply">
                                     <color key="titleColor" red="0.60000002379999995" green="0.60000002379999995" blue="0.60000002379999995" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="boolean" keyPath="keyPath" value="YES"/>
-                                </userDefinedRuntimeAttributes>
                                 <connections>
                                     <action selector="replyEvalutionAction:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="eit-cQ-86N"/>
                                 </connections>

@@ -97,7 +97,7 @@
 
 + (void)showReloadAlertViewOnTarget:(UIView*)targetView withReloadHandle:(CZJGeneralBlock)reloadhandle;
 + (void)showNoDataAlertViewOnTarget:(UIView*)targetView withPromptString:(NSString*)promptStr;
-
++ (void)removeNoDataAlertViewFromTarget:(UIView*)targetView;
 
 //-----------------------------其它处理方法---------------------------
 //获取时间间隔

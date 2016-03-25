@@ -664,7 +664,6 @@ singleton_implementation(CZJBaseDataManager);
 
 - (void)loadUserEvalutions:(NSDictionary*)postParams
                       type:(CZJHomeGetDataFromServerType)type
-                   SegType:(CZJEvalutionType)segType
                    Success:(CZJGeneralBlock)success
                       fail:(CZJFailureBlock)fail
 {
@@ -672,23 +671,23 @@ singleton_implementation(CZJBaseDataManager);
     {
         if ([self showAlertView:json])
         {
-            NSDictionary* dict = [CZJUtils DataFromJson:json];
-            if (_detailsForm)
-            {
-                if (CZJHomeGetDataFromServerTypeOne == type)
-                {
+//            NSDictionary* dict = [CZJUtils DataFromJson:json];
+//            if (_detailsForm)
+//            {
+//                if (CZJHomeGetDataFromServerTypeOne == type)
+//                {
 //                    [_detailsForm setEvalutionInfoWithDictionary:dict WitySegType:segType];
-                }
-                else if ( CZJHomeGetDataFromServerTypeTwo == type)
-                {
-//                    [_detailsForm appendEvalutionInfoWithDictionary:dict WitySegType:segType];
-                }
-            }
-            else
-            {
-//                _detailsForm = [[CZJDetailForm alloc] initWithDictionary:dict];
-//                [_detailsForm setEvalutionInfoWithDictionary:dict WitySegType:segType];
-            }
+//                }
+//                else if ( CZJHomeGetDataFromServerTypeTwo == type)
+//                {
+////                    [_detailsForm appendEvalutionInfoWithDictionary:dict WitySegType:segType];
+//                }
+//            }
+//            else
+//            {
+////                _detailsForm = [[CZJDetailForm alloc] initWithDictionary:dict];
+////                [_detailsForm setEvalutionInfoWithDictionary:dict WitySegType:segType];
+//            }
             success(json);
         }
     };

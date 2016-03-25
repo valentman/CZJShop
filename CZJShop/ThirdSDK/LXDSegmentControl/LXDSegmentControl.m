@@ -78,14 +78,10 @@ NSString * const LXDSegmentControlIndexKey = @"LXDSegmentControlIndexKey";
         [item setTitle: itemTitle forState: UIControlStateNormal];
         if (_configuration.controlType == LXDSegmentControlTypeSelectBlock)
         {
-            item.layer.borderWidth = .5f;
-            item.layer.borderColor = [[UIColor lightGrayColor]CGColor];
-            UIEdgeInsets myedges = UIEdgeInsetsMake(5, 25, 5, 25);
-            item.titleEdgeInsets = myedges;
-            item.titleLabel.lineBreakMode = NSLineBreakByCharWrapping;
-            item.titleLabel.numberOfLines = 2;
+            item.layer.borderWidth = 0.25f;
+            item.layer.borderColor = _configuration.cornerColor.CGColor;
             item.titleLabel.textAlignment = NSTextAlignmentCenter;
-            item.titleLabel.font = SYSTEMFONT(13);
+            item.titleLabel.font = SYSTEMFONT(12);
         }
         [self addSubview: item];
         if (idx == 0) { [self clickSegmentItem: item]; }

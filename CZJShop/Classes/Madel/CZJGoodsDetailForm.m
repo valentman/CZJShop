@@ -18,21 +18,6 @@
 @end
 
 
-@implementation CZJDetailEvalInfo
-+ (NSDictionary *)objectClassInArray
-{
-    return @{@"evalList" : @"CZJDetailEvalItemInfo"};
-}
-@end
-
-@implementation CZJDetailEvalItemInfo
-
-+ (NSDictionary *)replacedKeyFromPropertyName{
-    return @{@"ID" : @"id"};
-}
-
-@end
-
 @implementation CZJCouponForm
 @end
 

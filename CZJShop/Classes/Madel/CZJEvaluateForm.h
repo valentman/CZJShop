@@ -9,33 +9,48 @@
 #import <Foundation/Foundation.h>
 @class CZJAddedMyEvalutionForm;
 
+//--------------------详情页面评价简介信息---------------------
+@interface CZJDetailEvalInfo : NSObject
+@property(nonatomic, strong) NSString* poorCount;
+@property(nonatomic, strong) NSArray* evalList;
+@property(nonatomic, strong) NSString* goodCount;
+@property(nonatomic, strong) NSString* goodRate;
+@property(nonatomic, strong) NSString* evalCount;
+@property(nonatomic, strong) NSString* hasImgCount;
+@property(nonatomic, strong) NSString* normalCount;
+@end
+
+//--------------------详情页面评价简介Item信息---------------------
 @interface CZJEvaluateForm : NSObject
-@property (assign, nonatomic)BOOL added;
-@property (strong, nonatomic)CZJAddedMyEvalutionForm* addedEval;
-@property (strong, nonatomic)NSString* chezhuId;
-@property (strong, nonatomic)NSString* chezhuMobile;
-@property (strong, nonatomic)NSString* counterKey;
-@property (strong, nonatomic)NSString* createTime;
-@property (strong, nonatomic)NSArray* evalImgs;
-@property (strong, nonatomic)NSString* evalLevel;
-@property (strong, nonatomic)NSString* evalTime;
-@property (strong, nonatomic)NSString* hasImg;
-@property (strong, nonatomic)NSString* head;
-@property (strong, nonatomic)NSString* evaluateID;
-@property (strong, nonatomic)NSString* itemImg;
-@property (strong, nonatomic)NSString* itemName;
-@property (strong, nonatomic)NSString* itemSku;
-@property (strong, nonatomic)NSString* message;
-@property (strong, nonatomic)NSString* name;
-@property (strong, nonatomic)NSString* orderNo;
-@property (strong, nonatomic)NSString* orderTime;
-@property (strong, nonatomic)NSString* replyCount;
-@property (strong, nonatomic)NSString* score;
-@property (strong, nonatomic)NSString* storeId;
-@property (strong, nonatomic)NSString* storeItemPid;
+@property (nonatomic, strong) NSString* added;
+@property (strong, nonatomic) CZJAddedMyEvalutionForm* addedEval;
+@property (nonatomic, strong) NSString* chezhuId;
+@property (nonatomic, strong) NSString* chezhuMobile;
+@property (nonatomic, strong) NSString* counterKey;
+@property (nonatomic, strong) NSString* createTime;
+@property (nonatomic, strong) NSArray* evalImgs;
+@property (nonatomic, strong) NSString* evalLevel;
+@property (nonatomic, strong) NSString* evalTime;
+@property (strong, nonatomic) NSString* evaluateID;
+@property (nonatomic, strong) NSString* hasImg;
+@property (nonatomic, strong) NSString* head;
+@property (nonatomic, strong) NSString* ID;
+@property (nonatomic, strong) NSString* itemImg;
+@property (nonatomic, strong) NSString* itemName;
+@property (nonatomic, strong) NSString* itemSku;
+@property (nonatomic, strong) NSString* itemType;
+@property (nonatomic, strong) NSString* message;
+@property (nonatomic, strong) NSString* name;
+@property (nonatomic, strong) NSString* orderNo;
+@property (nonatomic, strong) NSString* orderTime;
+@property (nonatomic, strong) NSString* replyCount;
+@property (nonatomic, strong) NSString* score;
+@property (nonatomic, strong) NSString* storeId;
+@property (nonatomic, strong) NSString* storeItemPid;
 @end
 
 
+//--------------------我的评价简介Item信息---------------------
 @interface CZJMyEvaluationForm : NSObject
 @property (strong, nonatomic)NSString* orderNo;
 @property (strong, nonatomic)NSString* serviceScore;
@@ -49,6 +64,8 @@
 @property (strong, nonatomic)NSMutableArray* items;
 @end
 
+
+//--------------------评价简介Item信息---------------------
 @interface CZJMyEvaluationGoodsForm : NSObject
 @property (strong, nonatomic)NSString* storeItemPid;
 @property (strong, nonatomic)NSString* itemName;
@@ -61,6 +78,8 @@
 @property (strong, nonatomic)NSMutableArray* evalImgs;
 @end
 
+
+//--------------------追加评价信息---------------------
 @interface CZJAddedMyEvalutionForm : NSObject
 @property (strong, nonatomic)NSArray* evalImgs;
 @property (strong, nonatomic)NSString* evalTime;

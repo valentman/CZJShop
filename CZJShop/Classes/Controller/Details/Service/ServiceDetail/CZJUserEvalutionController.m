@@ -15,6 +15,7 @@
 #import "CZJEvalutionDetailCell.h"
 #import "CZJEvalutionFooterCell.h"
 #import "CZJUserEvalutionDetailController.h"
+#import "CZJAddedEvalutionCell.h"
 @interface CZJUserEvalutionController ()
 <
 LXDSegmentControlDelegate,
@@ -26,9 +27,9 @@ UITableViewDataSource
 >
 {
     NSDictionary* postParams;
-    CZJEvalutionsForm* currentTouchedEvalutionForm;
+    CZJEvaluateForm* currentTouchedEvalutionForm;
+    BOOL isFirstLoad;
 }
-@property (weak, nonatomic) IBOutlet CZJNaviagtionBarView *topNaviBarView;
 @property (weak, nonatomic) IBOutlet LXDSegmentControl *segmentControl;
 @property (weak, nonatomic) IBOutlet PullTableView *myEvalTableView;
 
@@ -53,12 +54,6 @@ UITableViewDataSource
     [self firstLoadAllTypeCommentsDataFromServer];
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    [_topNaviBarView refreshShopBadgeLabel];
-}
-
 - (void)initDatas
 {
     _tmpEvalutionAry = [NSMutableArray array];
@@ -67,20 +62,19 @@ UITableViewDataSource
     _goodEvalutionAry = [NSMutableArray array];
     _middleEvalutionAry = [NSMutableArray array];
     _badEvalutionAry = [NSMutableArray array];
-    
+    isFirstLoad = YES;
     self.page = 1;
 }
 
 - (void)initTopViews
 {
-    CGRect mainViewBounds = self.navigationController.navigationBar.bounds;
-    CGRect viewBounds = CGRectMake(0, 0, mainViewBounds.size.width, 52);
-    [self.topNaviBarView initWithFrame:viewBounds AndType:CZJNaviBarViewTypeDetail].delegate = self;
-    [self.topNaviBarView setBackgroundColor:RGBA(239, 239, 239, 0)];
+    [self addCZJNaviBarView:CZJNaviBarViewTypeGeneral];
+    self.naviBarView.mainTitleLabel.text = @"评价";
+    self.view.backgroundColor = CZJNAVIBARBGCOLOR;
     
     //segment初始化
-    CGRect frame = CGRectMake(15, 10, PJ_SCREEN_WIDTH - 30, 45);
-    NSArray * items = @[@"全部100", @"有图90", @"好评90", @"中评70", @"差评10"];
+    CGRect frame = CGRectMake(15, 10, PJ_SCREEN_WIDTH - 30, 40);
+    NSArray * items = @[@"全部", @"有图", @"好评", @"中评", @"差评"];
     LXDSegmentControlConfiguration * select = [LXDSegmentControlConfiguration configurationWithControlType: LXDSegmentControlTypeSelectBlock items: items];
     UIView* segmentView = [LXDSegmentControl segmentControlWithFrame: frame configuration: select delegate: self];
     [self.segmentControl addSubview:segmentView];
@@ -89,29 +83,63 @@ UITableViewDataSource
     self.navigationController.interactivePopGestureRecognizer.enabled = true;
     
     //TableView初始化
-    UINib *nib1=[UINib nibWithNibName:@"CZJEvalutionDetailCell" bundle:nil];
-    UINib *nib2=[UINib nibWithNibName:@"CZJEvalutionDescCell" bundle:nil];
-    UINib *nib3=[UINib nibWithNibName:@"CZJEvalutionFooterCell" bundle:nil];
-    [self.myEvalTableView registerNib:nib1 forCellReuseIdentifier:@"CZJEvalutionDetailCell"];
-    [self.myEvalTableView registerNib:nib2 forCellReuseIdentifier:@"CZJEvalutionDescCell"];
-    [self.myEvalTableView registerNib:nib3 forCellReuseIdentifier:@"CZJEvalutionFooterCell"];
+    NSArray* nibArys = @[@"CZJEvalutionDetailCell",
+                         @"CZJEvalutionDescCell",
+                         @"CZJEvalutionFooterCell",
+                         @"CZJAddedEvalutionCell"
+                         ];
+    
+    for (id cells in nibArys) {
+        UINib *nib=[UINib nibWithNibName:cells bundle:nil];
+        [self.myEvalTableView registerNib:nib forCellReuseIdentifier:cells];
+    }
     self.myEvalTableView.tableFooterView = [[UIView alloc]init];
+    self.myEvalTableView.backgroundColor = CZJTableViewBGColor;
 }
 
 - (void)firstLoadAllTypeCommentsDataFromServer
 {
-    __block int loadint = 0;
-    postParams =@{@"counterKey": _counterKey, @"page": [NSString stringWithFormat:@"%d",self.page],@"type":[NSString stringWithFormat:@"%ld",_currentSelectedSegment]};
+    [self loaduserEvalutionsDataFromServer];
+}
+
+
+- (void)loaduserEvalutionsDataFromServer
+{
+    __block int loginInt = 0;
     CZJSuccessBlock successBlock = ^(id json)
     {
-        loadint++;
+        loginInt++;
+        NSArray* tmpAry = [[CZJUtils DataFromJson:json] valueForKey:@"msg"];
+        switch (loginInt)
+        {
+            case 1:
+                _allEvalutionAry = [[CZJEvaluateForm objectArrayWithKeyValuesArray:tmpAry] mutableCopy];
+                break;
+                
+            case 2:
+                _picEvalutionAry = [[CZJEvaluateForm objectArrayWithKeyValuesArray:tmpAry] mutableCopy];
+                break;
+                
+            case 3:
+                _goodEvalutionAry = [[CZJEvaluateForm objectArrayWithKeyValuesArray:tmpAry] mutableCopy];
+                break;
+                
+            case 4:
+                _middleEvalutionAry = [[CZJEvaluateForm objectArrayWithKeyValuesArray:tmpAry] mutableCopy];
+                break;
+                
+            case 5:
+                _badEvalutionAry = [[CZJEvaluateForm objectArrayWithKeyValuesArray:tmpAry] mutableCopy];
+                break;
+                
+            default:
+                break;
+        }
+        
         //五次请求数据返回完成后开始加载数据到表格上
-        if (loadint >= 5) {
-            _allEvalutionAry = [[CZJBaseDataInstance detailsForm] userEvalutionAllForms];
-            _picEvalutionAry = [[CZJBaseDataInstance detailsForm] userEvalutionWithPicForms];
-            _middleEvalutionAry = [[CZJBaseDataInstance detailsForm] userEvalutionMiddleForms];
-            _badEvalutionAry = [[CZJBaseDataInstance detailsForm] userEvalutionBadForms];
-            _goodEvalutionAry = [[CZJBaseDataInstance detailsForm] userEvalutionGoodForms];
+        if (loginInt >= 5 && isFirstLoad)
+        {
+            isFirstLoad = NO;
             _tmpEvalutionAry = _allEvalutionAry;
             self.myEvalTableView.delegate = self;
             self.myEvalTableView.dataSource = self;
@@ -120,15 +148,15 @@ UITableViewDataSource
         }
     };
     
+    
     for (int i = 0; i < 5; i++)
     {
+        postParams =@{@"counterKey": _counterKey, @"page": [NSString stringWithFormat:@"%d",self.page],@"type":[NSString stringWithFormat:@"%d",i]};
         [CZJBaseDataInstance loadUserEvalutions:postParams
-                                           type:0
-                                        SegType:i
+                                           type:CZJHomeGetDataFromServerTypeOne
                                         Success:successBlock
                                            fail:^{}];
     }
-    
 }
 
 
@@ -138,7 +166,6 @@ UITableViewDataSource
 
 
 #pragma mark - Table view data source
-
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     if (_tmpEvalutionAry.count > 0) {
         return _tmpEvalutionAry.count;
@@ -147,63 +174,77 @@ UITableViewDataSource
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 3;
+    CZJEvaluateForm* detailEvalForm = (CZJEvaluateForm* )_tmpEvalutionAry[section];
+    BOOL isHaveAdded = [detailEvalForm.added boolValue];
+    return isHaveAdded ? 4 : 3;
 }
 
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    CZJEvalutionsForm* form = (CZJEvalutionsForm*)_tmpEvalutionAry[indexPath.section];
+    DLog(@"%ld",indexPath.section);
+    CZJEvaluateForm* detailEvalform = (CZJEvaluateForm*)_tmpEvalutionAry[indexPath.section];
     if (indexPath.row == 0)
     {
         CZJEvalutionDetailCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJEvalutionDetailCell" forIndexPath:indexPath];
-        [cell.evalWriteHeadImage sd_setImageWithURL:[NSURL URLWithString:form.evalHead] placeholderImage:DefaultPlaceHolderImage];
-        cell.evalWriterName.text = form.evalName;
-        cell.evalWriteTime.text = form.evalTime;
+        [cell.evalWriteHeadImage sd_setImageWithURL:[NSURL URLWithString:detailEvalform.head] placeholderImage:DefaultPlaceHolderImage];
+        cell.evalWriterName.text = detailEvalform.name;
+        cell.evalWriteTime.text = detailEvalform.evalTime;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
     }
     if (indexPath.row == 1)
     {
         CZJEvalutionDescCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJEvalutionDescCell" forIndexPath:indexPath];
-        [cell setStar:[form.evalStar intValue]];
-        CGSize contenSize = [form.evalDesc boundingRectWithSize:CGSizeMake(PJ_SCREEN_WIDTH - 40, 0) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName: SYSTEMFONT(13)} context:nil].size;
-        cell.evalContentLayoutHeight.constant = contenSize.height;
-        cell.evalContent.text = form.evalDesc;
+        [cell setStar:[detailEvalform.score intValue]];
         cell.evalTime.text = nil;
         cell.evalWriter.text = nil;
-        NSInteger count = form.imgs.count;
         
-//        CGRect imagerect = cell.addtionnalImage.frame;
-//        for (int i = 0; i<count; i++)
-//        {
-//            UIImageView* image = [[UIImageView alloc]init];
-//            [image sd_setImageWithURL:[NSURL URLWithString:form.imgs[i]] placeholderImage:DefaultPlaceHolderImage];
-//            image.layer.cornerRadius = 2;
-//            image.clipsToBounds = YES;
-//            int divide = 4;
-//            // 列数
-//            int column = i%divide;
-//            // 行数
-//            int row = i/divide;
-//            DLog(@"row:%d, column:%d", row, column);
-//            // 很据列数和行数算出x、y
-//            int childX = column * (imagerect.size.width + 10);
-//            int childY = row * imagerect.size.height;
-//            image.frame = CGRectMake(20 + childX , childY + contenSize.height + 40, imagerect.size.width, imagerect.size.height);
-//            [cell addSubview:image];
-//        }
+        cell.evalContent.text = detailEvalform.message;
+        CGSize contenSize = [CZJUtils calculateStringSizeWithString:detailEvalform.message Font:SYSTEMFONT(12) Width:PJ_SCREEN_WIDTH - 40];
+        cell.evalContentLayoutHeight.constant = contenSize.height;
+        
+        for (int i = 0; i < detailEvalform.evalImgs.count; i++)
+        {
+            UIImageView* evaluateImage = [[UIImageView alloc]init];
+            [evaluateImage sd_setImageWithURL:[NSURL URLWithString:detailEvalform.evalImgs[i]] placeholderImage:DefaultPlaceHolderImage];
+            CGRect iamgeRect = [CZJUtils viewFramFromDynamic:CZJMarginMake(0, 10) size:CGSizeMake(78, 78) index:i divide:Divide];
+            evaluateImage.frame = iamgeRect;
+            [cell.picView addSubview:evaluateImage];
+        }
+        cell.separatorInset = HiddenCellSeparator;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
     }
-    if (2 == indexPath.row)
+    if ([detailEvalform.added boolValue] && 2 == indexPath.row)
+    {
+        CZJAddedEvalutionCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJAddedEvalutionCell" forIndexPath:indexPath];
+        cell.addedTimeLabel.text = detailEvalform.addedEval.evalTime;
+        cell.addedContentLabel.text = detailEvalform.addedEval.message;
+        float strHeight = [CZJUtils calculateStringSizeWithString:detailEvalform.addedEval.message Font:SYSTEMFONT(13) Width:PJ_SCREEN_WIDTH - 30].height;
+        cell.contentLabelHeight.constant = strHeight + 5;
+        
+        
+        for (int i = 0; i < detailEvalform.addedEval.evalImgs.count; i++)
+        {
+            NSString* url = detailEvalform.addedEval.evalImgs[i];
+            CGRect imageFrame = [CZJUtils viewFramFromDynamic:CZJMarginMake(0, 0) size:CGSizeMake(70, 70) index:i divide:Divide];
+            UIImageView* imageView = [[UIImageView alloc]initWithFrame:imageFrame];
+            [imageView sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:DefaultPlaceHolderImage];
+            [cell.picView addSubview:imageView];
+        }
+        return cell;
+    }
+    if (([detailEvalform.added boolValue] && 3 == indexPath.row)||
+        (![detailEvalform.added boolValue] && 2 == indexPath.row))
     {
         CZJEvalutionFooterCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJEvalutionFooterCell" forIndexPath:indexPath];
         [cell setVisibleView:kEvalDetailView];
-        cell.serviceName.text = form.purchaseItem;
-        cell.serviceTime.text = form.purchaseTime;
-        cell.form = form;
+        cell.delegate = self;
+        cell.addEvaluateBtn.hidden = YES;
+        cell.serviceName.text = detailEvalform.itemName;
+        cell.serviceTime.text = detailEvalform.orderTime;
+        cell.form = detailEvalform;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.separatorInset = HiddenCellSeparator;
         return cell;
     }
     return nil;
@@ -212,24 +253,48 @@ UITableViewDataSource
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    CZJEvaluateForm* evalutionForm  = (CZJEvaluateForm*)_tmpEvalutionAry[indexPath.section];
     if (0 == indexPath.row) {
         return 46;
     }
     if (1 == indexPath.row) {
         //这里是动态改变的，暂时设一个固定值
-        return 160;
+        
+        CGSize contenSize = [CZJUtils calculateStringSizeWithString:evalutionForm.message Font:SYSTEMFONT(12) Width:PJ_SCREEN_WIDTH - 40];
+        NSInteger row = evalutionForm.evalImgs.count / Divide + 1;
+        NSInteger cellHeight = 60 + (contenSize.height > 20 ? contenSize.height : 20) + row * 88;
+        return cellHeight;
     }
-    if (2 == indexPath.row)
+    if (2 == indexPath.row && [evalutionForm.added boolValue])
+    {
+        float strHeight = [CZJUtils calculateStringSizeWithString:evalutionForm.addedEval.message Font:SYSTEMFONT(13) Width:PJ_SCREEN_WIDTH - 40].height;
+        float picViewHeight = 0;
+        if (evalutionForm.addedEval.evalImgs.count != 0)
+        {
+            picViewHeight = 70*(evalutionForm.addedEval.evalImgs.count / Divide + 1);
+        }
+        return 30 + 10 + strHeight + 5 + picViewHeight + 10 + 15;
+    }
+    if ((2 == indexPath.row && ![evalutionForm.added boolValue])||
+        (3 == indexPath.row && [evalutionForm.added boolValue]))
     {
         return 64;
     }
     return 0;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    if (0 == section)
+    {
+        return 0;
+    }
+    return 10;
+}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    currentTouchedEvalutionForm = (CZJEvalutionsForm*)_tmpEvalutionAry[indexPath.section];
+    currentTouchedEvalutionForm = (CZJEvaluateForm*)_tmpEvalutionAry[indexPath.section];
     [self performSegueWithIdentifier:@"segueToUserEvalutionDetail" sender:self];
 }
 
@@ -257,26 +322,13 @@ UITableViewDataSource
     [self loadDataWithType:_currentSelectedSegment isRefreshType:CZJHomeGetDataFromServerTypeTwo];
 }
 
-NSInteger customSort(CZJEvalutionsForm* obj1, CZJEvalutionsForm* obj2,void* context){
-    if ([obj1 evalutionId] > [obj2 evalutionId]) {
-        return (NSComparisonResult)NSOrderedDescending;
-    }
-    
-    if ([obj1 evalutionId] < [obj2 evalutionId]) {
-        return (NSComparisonResult)NSOrderedAscending;
-    }
-    return (NSComparisonResult)NSOrderedSame;
-}
 
 -(void)loadDataWithType:(NSInteger)segType  isRefreshType:(CZJHomeGetDataFromServerType)type{
     
-    [postParams setValue:@(self.page) forKey:@"page"];
+    postParams =@{@"counterKey": _counterKey, @"page": [NSString stringWithFormat:@"%d",self.page],@"type":[NSString stringWithFormat:@"%ld",segType]};
     CZJSuccessBlock successBlock = ^(id json)
     {
         [self segmentControl:nil didSelectAtIndex:_currentSelectedSegment];
-
-        [self.myEvalTableView reloadData];
-        
         switch (type) {
             case CZJHomeGetDataFromServerTypeOne:
             {
@@ -302,31 +354,28 @@ NSInteger customSort(CZJEvalutionsForm* obj1, CZJEvalutionsForm* obj2,void* cont
                 }
                 self.myEvalTableView.pullTableIsLoadingMore = NO;
                 self.myEvalTableView.pullTableIsRefreshing = NO;
-                
             }
                 break;
                 
             default:
                 break;
         }
+        [self.myEvalTableView reloadData];
     };
-    [CZJBaseDataInstance loadUserEvalutions:postParams
-                                           type:0
-                                        SegType:_currentSelectedSegment
-                                        Success:successBlock
-                                           fail:^{}];
+    [CZJBaseDataInstance loadUserEvalutions:postParams type:type Success:successBlock fail:^{}];
 }
-
 
 
 
 #pragma mark- LXDSegmentControlDelegate
 - (void)segmentControl: (LXDSegmentControl *)segmentControl didSelectAtIndex: (NSUInteger)index
 {
-    DLog(@"select segment:%ld",index);
-    _currentSelectedSegment = index;
-    [self.myEvalTableView setContentOffset:CGPointZero];
-    [self reloadTableview];
+    if (!isFirstLoad)
+    {
+        _currentSelectedSegment = index;
+        [self.myEvalTableView setContentOffset:CGPointZero];
+        [self reloadTableview];
+    }
 }
 
 - (void)reloadTableview
@@ -355,14 +404,24 @@ NSInteger customSort(CZJEvalutionsForm* obj1, CZJEvalutionsForm* obj2,void* cont
         default:
             break;
     }
-    [self.myEvalTableView reloadData];
+    if (_tmpEvalutionAry.count == 0)
+    {
+        self.myEvalTableView.hidden = YES;
+        [CZJUtils showNoDataAlertViewOnTarget:self.view withPromptString:@"木有对应评价~~"];
+    }
+    else
+    {
+        [CZJUtils removeNoDataAlertViewFromTarget:self.view];
+        self.myEvalTableView.hidden = NO;
+        [self.myEvalTableView reloadData];
+    }
 }
 
 
 #pragma mark- CZJImageViewTouchDelegate
 - (void)showDetailInfoWithForm:(id)form
 {
-    currentTouchedEvalutionForm = (CZJEvalutionsForm*)form;
+    currentTouchedEvalutionForm = (CZJEvaluateForm*)form;
     [self performSegueWithIdentifier:@"segueToUserEvalutionDetail" sender:self];
 }
 
@@ -397,8 +456,4 @@ NSInteger customSort(CZJEvalutionsForm* obj1, CZJEvalutionsForm* obj2,void* cont
         detailcontroller.evalutionForm = currentTouchedEvalutionForm;
     }
 }
-
-
-
-
 @end

@@ -867,12 +867,22 @@ void tapToHidePopViewAction(id sender, SEL _cmd)
 
 + (void)showNoDataAlertViewOnTarget:(UIView*)targetView withPromptString:(NSString*)promptStr
 {
-    CZJBackgroundPromptView* nodataAlertView = [self getXibViewByName:@"CZJBackgroundPromptView"];
-    [nodataAlertView setPosition:CGPointMake(targetView.frame.size.width*0.5, targetView.frame.size.height*0.5) atAnchorPoint:CGPointMiddle];
-    nodataAlertView.promptLabel.text = promptStr;
-    [targetView addSubview:nodataAlertView];
+    if (!VIEWWITHTAG(targetView, 2525))
+    {
+        CZJBackgroundPromptView* nodataAlertView = [self getXibViewByName:@"CZJBackgroundPromptView"];
+        [nodataAlertView setPosition:CGPointMake(targetView.frame.size.width*0.5, targetView.frame.size.height*0.5) atAnchorPoint:CGPointMiddle];
+        nodataAlertView.promptLabel.text = promptStr;
+        nodataAlertView.tag = 2525;
+        [targetView addSubview:nodataAlertView];
+    }
 }
 
+
++ (void)removeNoDataAlertViewFromTarget:(UIView*)targetView
+{    
+    UIView* subVie = VIEWWITHTAG(targetView, 2525);
+    [subVie removeFromSuperview];
+}
 
 + (void)showStoreDetailView:(UINavigationController*)navi andStoreId:(NSString*)sid
 {

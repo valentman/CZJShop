@@ -21,6 +21,14 @@
 }
 @end
 
+@implementation CZJDetailEvalInfo
++ (NSDictionary *)objectClassInArray
+{
+    return @{@"evalList" : @"CZJEvaluateForm"};
+}
+@end
+
+
 @implementation CZJMyEvaluationGoodsForm
 
 @end

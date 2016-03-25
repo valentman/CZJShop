@@ -35,6 +35,7 @@
 #import "CZJPromotionController.h"
 #import "CZJStoreDetailController.h"
 #import "CZJUserEvalutionController.h"
+#import "CZJAddedEvalutionCell.h"
 
 #define kTagScrollView 1002
 #define kTagTableView 1001
@@ -175,7 +176,8 @@ CZJStoreInfoHeaerCellDelegate
                           @"CZJStoreInfoCell",
                           @"CZJHotRecommendCell",
                           @"CZJStoreInfoHeaerCell",
-                          @"CZJOrderTypeExpandCell"
+                          @"CZJOrderTypeExpandCell",
+                          @"CZJAddedEvalutionCell"
                           ];
     
     for (id cells in nibArys) {
@@ -413,7 +415,7 @@ CZJStoreInfoHeaerCellDelegate
                 CZJEvalutionDescCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJEvalutionDescCell" forIndexPath:indexPath];
                 if (_evalutionInfo.evalList.count > 0)
                 {
-                    CZJDetailEvalItemInfo* evalutionForm  = (CZJDetailEvalItemInfo*)_evalutionInfo.evalList[indexPath.row - 1];
+                    CZJEvaluateForm* evalutionForm  = (CZJEvaluateForm*)_evalutionInfo.evalList[indexPath.row - 1];
                     cell.evalWriter.text = evalutionForm.name;
                     cell.evalTime.text = evalutionForm.evalTime;
                     
@@ -431,6 +433,42 @@ CZJStoreInfoHeaerCellDelegate
                         [cell.picView addSubview:evaluateImage];
                     }
                     [cell setStar:[evalutionForm.score intValue]];
+                    
+                    
+                    if ([evalutionForm.added boolValue])
+                    {
+                        CGSize contentSize = [CZJUtils calculateStringSizeWithString:evalutionForm.message Font:SYSTEMFONT(12) Width:PJ_SCREEN_WIDTH - 40];
+                        NSInteger row = evalutionForm.evalImgs.count / Divide + 1;
+                        NSInteger cellHeight = 60 + (contentSize.height > 20 ? contentSize.height : 20) + row * 88;
+                        
+                        
+                        
+                        CZJAddedEvalutionCell* addedCell = [tableView dequeueReusableCellWithIdentifier:@"CZJAddedEvalutionCell" forIndexPath:indexPath];
+                        addedCell.addedTimeLabel.text = evalutionForm.addedEval.evalTime;
+                        addedCell.addedContentLabel.text = evalutionForm.addedEval.message;
+                        float strHeight = [CZJUtils calculateStringSizeWithString:evalutionForm.addedEval.message Font:SYSTEMFONT(13) Width:PJ_SCREEN_WIDTH - 30].height;
+                        addedCell.contentLabelHeight.constant = strHeight + 5;
+                        
+                        
+                        for (int i = 0; i < evalutionForm.addedEval.evalImgs.count; i++)
+                        {
+                            NSString* url = evalutionForm.addedEval.evalImgs[i];
+                            CGRect imageFrame = [CZJUtils viewFramFromDynamic:CZJMarginMake(0, 0) size:CGSizeMake(70, 70) index:i divide:Divide];
+                            UIImageView* imageView = [[UIImageView alloc]initWithFrame:imageFrame];
+                            [imageView sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:DefaultPlaceHolderImage];
+                            [addedCell.picView addSubview:imageView];
+                        }
+                        float picViewHeight = 0;
+                        if (evalutionForm.addedEval.evalImgs.count != 0)
+                        {
+                            picViewHeight = 70*(evalutionForm.addedEval.evalImgs.count / Divide + 1);
+                        }
+                        NSInteger addedHeight = 30 + 10 + strHeight + 5 + picViewHeight + 10 + 15;
+                        
+                        CGRect addcellFrame = CGRectMake(0, cellHeight, PJ_SCREEN_WIDTH, addedHeight);
+                        addedCell.frame = addcellFrame;
+                        [cell addSubview:addedCell];
+                    }
                 }
                 [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
                 return cell;
@@ -545,11 +583,24 @@ CZJStoreInfoHeaerCellDelegate
             }
             else if (_evalutionInfo.evalList.count + 1 > indexPath.row) {
                 //这里是动态改变的，暂时设一个固定值
-                CZJDetailEvalItemInfo* evalutionForm  = (CZJDetailEvalItemInfo*)_evalutionInfo.evalList[indexPath.row - 1];
+                CZJEvaluateForm* evalutionForm  = (CZJEvaluateForm*)_evalutionInfo.evalList[indexPath.row - 1];
                 CGSize contenSize = [CZJUtils calculateStringSizeWithString:evalutionForm.message Font:SYSTEMFONT(12) Width:PJ_SCREEN_WIDTH - 40];
                 NSInteger row = evalutionForm.evalImgs.count / Divide + 1;
                 NSInteger cellHeight = 60 + (contenSize.height > 20 ? contenSize.height : 20) + row * 88;
-                return cellHeight;
+                
+                NSInteger addedHeight = 0;
+                if ([evalutionForm.added boolValue])
+                {
+                    float strHeight = [CZJUtils calculateStringSizeWithString:evalutionForm.addedEval.message Font:SYSTEMFONT(13) Width:PJ_SCREEN_WIDTH - 40].height;
+                    float picViewHeight = 0;
+                    if (evalutionForm.addedEval.evalImgs.count != 0)
+                    {
+                        picViewHeight = 70*(evalutionForm.addedEval.evalImgs.count / Divide + 1);
+                    }
+                    addedHeight = 30 + 10 + strHeight + 5 + picViewHeight + 10 + 15;
+                }
+                return cellHeight + addedHeight;
+                
             }
             else
             {

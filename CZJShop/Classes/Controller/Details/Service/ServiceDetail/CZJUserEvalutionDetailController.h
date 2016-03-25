@@ -10,5 +10,5 @@
 #import "CZJDetailForm.h"
 
 @interface CZJUserEvalutionDetailController : CZJViewController
-@property(strong, nonatomic)CZJEvalutionsForm* evalutionForm;
+@property(strong, nonatomic)CZJEvaluateForm* evalutionForm;
 @end

@@ -17,22 +17,15 @@
     _seeAllEvalution .layer.borderColor = [[UIColor lightGrayColor]CGColor];
     _seeAllEvalution.layer.cornerRadius = 2;
     
-    
-    _evalutionReplyBtn.layer.borderWidth = 0.5;
-    _evalutionReplyBtn .layer.borderColor = [[UIColor lightGrayColor]CGColor];
-    _evalutionReplyBtn.layer.cornerRadius = 2;
-    
 }   
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
 }
 
 - (IBAction)replyEvalutionAction:(id)sender
 {
-    [self.delegate showDetailInfoWithIndex:[self.form.evalutionId integerValue]];
+    [self.delegate showDetailInfoWithForm:self.form];
 }
 
 - (void)setVisibleView:(NSInteger)type
