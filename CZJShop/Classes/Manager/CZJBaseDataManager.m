@@ -128,7 +128,7 @@ singleton_implementation(CZJBaseDataManager);
         [[CZJErrorCodeManager sharedCZJErrorCodeManager] ShowErrorInfoWithErrorCode:msgKey];
         return NO;
     }
-    DLog(@"网络返回数据：%@", [dict description]);
+//    DLog(@"网络返回数据：%@", [dict description]);
     return YES;
 }
 

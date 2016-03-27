@@ -32,6 +32,7 @@
 @property (strong, nonatomic)CZJOrderListNoPayButtomView* noPayButtomView;
 
 - (void)getOrderListFromServer;
+- (void)removeOrderlistControllerNotification;
 @end
 
 

@@ -32,6 +32,6 @@
 
 @protocol CZJFilterControllerDelegate <NSObject>
 
-- (void)chooseFilterOK;
+- (void)chooseFilterOK:(id)data;
 
 @end

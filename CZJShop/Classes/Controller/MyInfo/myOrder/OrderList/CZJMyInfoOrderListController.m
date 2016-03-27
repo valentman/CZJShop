@@ -35,6 +35,7 @@ CZJPopPayViewDelegate
     NSInteger currentIndex;
     CZJGeneralBlock hidePayViewBlock;
     float totalMoney;
+    NSArray* orderListAry;
 }
 @property (strong, nonatomic) UIView *backgroundView;
 @property (weak, nonatomic) IBOutlet UIView *settlePanelView;
@@ -111,10 +112,11 @@ CZJPopPayViewDelegate
     noReceiveVC.delegate =  self;
     CZJOrderListNoEvaController* noEvaVC = [[CZJOrderListNoEvaController alloc]init];
     noEvaVC.delegate = self;
+    orderListAry = @[allVC, nopayVC, nobuildVC,noReceiveVC, noEvaVC];
     
     CGRect pageViewFrame = CGRectMake(0, StatusBar_HEIGHT + NavigationBar_HEIGHT, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - StatusBar_HEIGHT);
     CZJPageControlView* pageview = [[CZJPageControlView alloc]initWithFrame:pageViewFrame andPageIndex:_orderListTypeIndex];
-    [pageview setTitleArray:@[@"全部",@"待付款",@"待施工",@"待收货",@"待评价"] andVCArray:@[allVC, nopayVC, nobuildVC,noReceiveVC, noEvaVC]];
+    [pageview setTitleArray:@[@"全部",@"待付款",@"待施工",@"待收货",@"待评价"] andVCArray:orderListAry];
     pageview.backgroundColor = CZJNAVIBARBGCOLOR;
     [self.view addSubview:pageview];
     
@@ -181,6 +183,9 @@ CZJPopPayViewDelegate
         {
             __weak typeof(self) weak = self;
             [self showCZJAlertView:@"你要想好哦，确认收货就不能退款了哦" andConfirmHandler:^{
+                [CZJBaseDataInstance generalPost:@{@"orderNo" : currentTouchedOrderListForm.orderNo} success:^(id json) {
+                    [[NSNotificationCenter defaultCenter] postNotificationName:kCZJNotifiRefreshOrderlist object:nil];
+                } andServerAPI:kCZJServerAPIReceiveGoods];
                 [weak hideWindow];
             } andCancleHandler:nil];
         }
@@ -195,8 +200,10 @@ CZJPopPayViewDelegate
         {
             __weak typeof(self) weak = self;
             [self showCZJAlertView:@"确定取消该订单" andConfirmHandler:^{
-                [CZJBaseDataInstance generalPost:@{} success:^(id json) {
-                    
+                [CZJBaseDataInstance generalPost:@{@"orderNo" : currentTouchedOrderListForm.orderNo} success:^(id json) {
+                    NSDictionary* dict = [CZJUtils DataFromJson:json];
+                    DLog(@"%@",[dict description]);
+                     [[NSNotificationCenter defaultCenter] postNotificationName:kCZJNotifiRefreshOrderlist object:nil];
                 } andServerAPI:kCZJServerAPICancelOrder];
                 [weak hideWindow];
             } andCancleHandler:nil];
@@ -321,6 +328,24 @@ CZJPopPayViewDelegate
         CZJOrderListReturnedController* returnList = segue.destinationViewController;
         returnList.returnListType = CZJReturnListTypeReturnable;
         returnList.orderNo = currentTouchedOrderListForm.orderNo;
+    }
+}
+
+
+
+#pragma mark- CZJNaviagtionBarViewDelegate
+- (void)clickEventCallBack:(nullable id)sender
+{
+    UIButton* barButton = (UIButton*)sender;
+    switch (barButton.tag) {
+        case CZJButtonTypeNaviBarBack:
+            for (CZJOrderListBaseController* baseOrderListVC in orderListAry) {
+                [baseOrderListVC removeOrderlistControllerNotification];
+            }
+            [self.navigationController popViewControllerAnimated:true];
+            break;
+        default:
+            break;
     }
 }
 

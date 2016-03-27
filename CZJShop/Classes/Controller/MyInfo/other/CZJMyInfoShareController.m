@@ -19,6 +19,7 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *separatorLineHeight;
 @property (weak, nonatomic) IBOutlet UIImageView *myQRCode;
 @property (weak, nonatomic) IBOutlet UILabel *myCodeLabel;
+@property (weak, nonatomic) IBOutlet UIView *shareView;
 
 - (IBAction)msgShareAction:(id)sender;
 - (IBAction)appShareAction:(id)sender;
@@ -37,6 +38,16 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     self.navigationController.navigationBarHidden = NO;
+}
+
+- (void)viewWillLayoutSubviews
+{
+    _shareView.frame = CGRectMake(0, PJ_SCREEN_HEIGHT - 60, PJ_SCREEN_WIDTH, 60);
+}
+
+- (void)viewDidLayoutSubviews
+{
+    _shareView.frame = CGRectMake(0, PJ_SCREEN_HEIGHT - 60, PJ_SCREEN_WIDTH, 60);
 }
 
 - (void)initViews

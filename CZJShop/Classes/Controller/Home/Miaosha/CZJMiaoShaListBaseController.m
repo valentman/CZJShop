@@ -71,6 +71,11 @@ UITableViewDelegate
     } andServerAPI:kCZJServerAPIPGetSkillGoodsList];
 }
 
+- (void)removeNotificationFromMiaoSha
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kCZJNotifikOrderListType object:nil];
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }

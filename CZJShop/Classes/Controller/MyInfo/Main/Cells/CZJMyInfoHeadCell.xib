@@ -108,7 +108,7 @@
                                     <constraint firstAttribute="height" constant="10" id="yLX-R8-StW"/>
                                 </constraints>
                             </imageView>
-                            <button clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eMl-OS-bcz" customClass="CZJButton">
+                            <button hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eMl-OS-bcz" customClass="CZJButton">
                                 <rect key="frame" x="270" y="35" width="35" height="35"/>
                                 <animations/>
                                 <constraints>
@@ -132,7 +132,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button clipsSubviews="YES" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="16x-VN-VbW" userLabel="ScanBtn" customClass="CZJButton">
-                                <rect key="frame" x="230" y="35" width="35" height="35"/>
+                                <rect key="frame" x="270" y="35" width="35" height="35"/>
                                 <animations/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="35" id="oo8-IS-zlc"/>
@@ -153,7 +153,7 @@
                             <constraint firstItem="xjl-0E-Qtk" firstAttribute="top" secondItem="l9O-3b-7et" secondAttribute="bottom" constant="2" id="OAn-jT-o2Q"/>
                             <constraint firstItem="eMl-OS-bcz" firstAttribute="top" secondItem="ABF-5Y-qOp" secondAttribute="top" constant="35" id="UZq-I6-qES"/>
                             <constraint firstItem="l9O-3b-7et" firstAttribute="top" secondItem="ABF-5Y-qOp" secondAttribute="top" constant="63" id="VRN-Jo-wNm"/>
-                            <constraint firstItem="eMl-OS-bcz" firstAttribute="leading" secondItem="16x-VN-VbW" secondAttribute="trailing" constant="5" id="Y74-RW-F1d"/>
+                            <constraint firstItem="eMl-OS-bcz" firstAttribute="trailing" secondItem="16x-VN-VbW" secondAttribute="trailing" id="Y74-RW-F1d"/>
                             <constraint firstItem="oNl-WR-M3f" firstAttribute="leading" secondItem="Hae-jB-KgM" secondAttribute="trailing" constant="2" id="c0u-FR-JFG"/>
                             <constraint firstAttribute="bottom" secondItem="Hae-jB-KgM" secondAttribute="bottom" constant="15" id="cnn-x1-Ya4"/>
                             <constraint firstItem="9At-Bf-k6a" firstAttribute="leading" secondItem="GWr-Xv-uRo" secondAttribute="trailing" constant="14" id="gXL-oC-D6r"/>
@@ -198,7 +198,7 @@
     </objects>
     <resources>
         <image name="all_arrow_next.png" width="6" height="11"/>
-        <image name="my_icon_head.png" width="74" height="74"/>
+        <image name="my_icon_head.png" width="68" height="68"/>
         <image name="my_icon_msg.png" width="31" height="31"/>
         <image name="my_icon_record.png" width="31" height="31"/>
         <image name="my_img_background.png" width="375" height="170"/>

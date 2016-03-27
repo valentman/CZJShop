@@ -30,10 +30,19 @@ CZJFilterControllerDelegate
 >
 {
     CZJHomeGetDataFromServerType _getdataType;
-    NSMutableDictionary* goodsListPostParams;
+    NSDictionary* goodsListPostParams;
     NSMutableArray* goodsListAry;
     BOOL isArrangeByList;
     NSString* _choosedStoreitemPid;
+    
+    NSString* citID;
+    NSString* sortType;
+    NSString* modelID;
+    NSString* brandID;
+    NSString* stockFlag;
+    NSString* promotionFlag;
+    NSString* recommendFlag;
+    NSString* attrJson;
 }
 
 @property (weak, nonatomic) IBOutlet MXPullDownMenu *pullDownMenuView;
@@ -62,26 +71,21 @@ CZJFilterControllerDelegate
 - (void)initDatas
 {
     goodsListAry = [NSMutableArray array];
-    goodsListPostParams = [NSMutableDictionary dictionary];
-    self.page = 1;
+    
     isArrangeByList = YES;
     _getdataType = CZJHomeGetDataFromServerTypeOne;
     
     
     //post参数初始化
-    if (self.searchStr)
-    {
-        [goodsListPostParams setObject:self.searchStr forKey:@"q"];
-    }
-    [goodsListPostParams setObject:@"0" forKey:@"cityId"];
-    [goodsListPostParams setObject:@"0" forKey:@"storeType"];
-    [goodsListPostParams setObject:@"" forKey:@"modelId"];
-    if (_typeId)
-    {
-        [goodsListPostParams setObject:self.typeId forKey:@"typeId"];
-    }
-    [goodsListPostParams setObject:[NSString stringWithFormat:@"%ld",self.page] forKey:@"page"];
-    
+    self.page = 1;
+    citID = CZJBaseDataInstance.userInfoForm.cityId;
+    sortType = @"0";
+    modelID = @"";
+    brandID = @"";
+    stockFlag = @"0";
+    recommendFlag = @"0";
+    promotionFlag = @"0";
+    attrJson = @"";
 }
 
 
@@ -115,6 +119,7 @@ CZJFilterControllerDelegate
 
 - (void)getGoodsListDataFromServer
 {
+    goodsListPostParams = @{@"sortType" : sortType, @"typeId" : self.typeId, @"q" : self.searchStr ? self.searchStr : @"", @"modelId" : modelID,@"brandId" : brandID,@"stockFlag" : stockFlag,@"promotionFlag" : promotionFlag,@"recommendFlag" : recommendFlag,@"attrJson" : attrJson, @"page" : [NSString stringWithFormat:@"%ld",self.page]};
     DLog(@"storeparameters:%@", [goodsListPostParams description]);
     CZJSuccessBlock successBlock = ^(id json) {
         [self dealWithArray];
@@ -264,13 +269,36 @@ CZJFilterControllerDelegate
 - (void)PullDownMenu:(MXPullDownMenu*)pullDownMenu didSelectRowAtColumn:(NSInteger)column row:(NSInteger)row
 {
     DLog(@"column:%ld, row:%ld",column, row);
+    if (0 == column)
+    {
+        sortType = [NSString stringWithFormat:@"%ld",row];
+    }
+    [self getGoodsListDataFromServer];
 }
 
 
-- (void)pullDownMenuDidSelectFiliterButton
+- (void)pullDownMenuDidSelectFiliterButton:(MXPullDownMenu*)pullDownMenu
 {
     [self actionBtn];
     self.navigationController.interactivePopGestureRecognizer.enabled = NO;
+}
+
+- (void)pullDownMenuDidSelectPriceButton:(MXPullDownMenu*)pullDownMenu
+{
+    if ([sortType floatValue] < 5)
+    {
+        sortType = @"5";
+    }
+    else if ([sortType isEqualToString:@"5"])
+    {
+        [pullDownMenu animateIndicator:YES];
+        sortType = @"6";
+    }
+    else if ([sortType isEqualToString:@"6"]) {
+        [pullDownMenu animateIndicator:NO];
+        sortType = @"5";
+    }
+    [self getGoodsListDataFromServer];
 }
 
 - (void)actionBtn{
@@ -379,10 +407,16 @@ CZJFilterControllerDelegate
 }
 
 #pragma mark -CZJServiceFilterDelegate
-- (void)chooseFilterOK
+- (void)chooseFilterOK:(id)data
 {
     //更新参数，重新请求数据刷新
-
+    modelID = [USER_DEFAULT valueForKey:kUserDefaultChoosedCarModelID] ?[USER_DEFAULT valueForKey:kUserDefaultChoosedCarModelID] : @"";
+    brandID = [USER_DEFAULT valueForKey:kUserDefaultChoosedBrandID] ? [USER_DEFAULT valueForKey:kUserDefaultChoosedBrandID] : @"";
+    stockFlag = [USER_DEFAULT valueForKey:kUSerDefaultStockFlag] ? [USER_DEFAULT valueForKey:kUSerDefaultStockFlag] : @"";
+    promotionFlag = [USER_DEFAULT valueForKey:kUSerDefaultPromotionFlag] ? [USER_DEFAULT valueForKey:kUSerDefaultPromotionFlag] : @"";
+    recommendFlag = [USER_DEFAULT valueForKey:kUSerDefaultRecommendFlag] ? [USER_DEFAULT valueForKey:kUSerDefaultPromotionFlag] : @"";
+    attrJson = data ? data :@"";
+    [self getGoodsListDataFromServer];
 }
 
 
@@ -406,6 +440,4 @@ CZJFilterControllerDelegate
         serviceDetailCon.promotionPrice = @"";
     }
 }
-
-
 @end

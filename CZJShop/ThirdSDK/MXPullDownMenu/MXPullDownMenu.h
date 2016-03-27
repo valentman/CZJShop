@@ -44,7 +44,8 @@ typedef NS_ENUM(NSInteger, CZJMXPullDownMenuType)
 - (void)PullDownMenu:(MXPullDownMenu*)pullDownMenu didSelectRowAtColumn:(NSInteger)column row:(NSInteger)row;
 - (void)pullDownMenu:(MXPullDownMenu*)pullDownMenu didSelectCityName:(NSString*)cityName;
 - (void)pullDownMenuFirstName:(NSString*)firstName andSecondName:(NSString*)secondName;
-- (void)pullDownMenuDidSelectFiliterButton;    //筛选按钮
+- (void)pullDownMenuDidSelectFiliterButton:(MXPullDownMenu*)pullDownMenu;     //筛选按钮
+- (void)pullDownMenuDidSelectPriceButton:(MXPullDownMenu*)pullDownMenu;       //价格按钮
 
 @end
 
@@ -60,6 +61,7 @@ UICollectionViewDelegate
 - (void)registNotification;
 - (void)removeNotificationObserve;
 - (NSString*)getMenuTitleByCurrentMenuIndex;
+- (void)animateIndicator:(BOOL)forward;                             //商品列表界面价格单独控制小三角的翻转
 @property (nonatomic) id<MXPullDownMenuDelegate> delegate;
 
 @end

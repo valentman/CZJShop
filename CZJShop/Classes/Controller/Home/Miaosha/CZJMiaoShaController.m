@@ -16,7 +16,8 @@
 
 @interface CZJMiaoShaController ()
 <
-CZJMiaoShaListDelegate
+CZJMiaoShaListDelegate,
+CZJNaviagtionBarViewDelegate
 >
 {
     CZJMiaoShaControllerForm* miaoShaControllerForm;
@@ -105,10 +106,6 @@ CZJMiaoShaListDelegate
     [self setTimestamp:[((CZJMiaoShaTimesForm*)miaoShaControllerForm.skillTimes[4]).skillTime integerValue] - [miaoShaControllerForm.currentTime integerValue]];
 }
 
-- (void)viewDidDisappear:(BOOL)animated
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:kCZJNotifikOrderListType object:nil];
-}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -178,5 +175,20 @@ CZJMiaoShaListDelegate
 - (void)updateDateIntervalButton:(NSNotification*)notif
 {
     currentIndex = [[notif.userInfo objectForKey:@"currentIndex"] integerValue];
+}
+
+- (void)clickEventCallBack:(id)sender
+{
+    UIButton* barButton = (UIButton*)sender;
+    switch (barButton.tag) {
+        case CZJButtonTypeNaviBarBack:
+            for (CZJMiaoShaListBaseController* baseMiaoshaVC in pageControls) {
+                [baseMiaoshaVC removeNotificationFromMiaoSha];
+            }
+            [self.navigationController popViewControllerAnimated:true];
+            break;
+        default:
+            break;
+    }
 }
 @end

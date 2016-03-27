@@ -198,7 +198,19 @@
             break;
         case kCZJSerFilterTypeChooseCellTypeGoods:
         {
-            
+            NSString* typeName = [NSString stringWithFormat:@"%d",_button.selected];
+            if (0 == tag)
+            {
+                [USER_DEFAULT setValue:typeName forKey:kUSerDefaultStockFlag];
+            }
+            if (1 == tag)
+            {
+                [USER_DEFAULT setValue:typeName forKey:kUSerDefaultPromotionFlag];
+            }
+            if (2 == tag)
+            {
+                [USER_DEFAULT setValue:typeName forKey:kUSerDefaultRecommendFlag];
+            }
         }
             break;
         case kCZJSerfilterTypeChooseCellTypeReturnGoods:

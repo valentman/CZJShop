@@ -162,13 +162,24 @@
     NSString *orderno   = [dict  valueForKey:@"order_no"];
     NSMutableDictionary *packageParams = [NSMutableDictionary dictionary];
     
+    NSString* noti;
+    if ([[dict valueForKey:@"order_for"]isEqualToString:@"pay"])   //订单支付回调
+    {
+        noti = kCZJServerAPIPayWeixinNotify;
+    }
+    if ([[dict valueForKey:@"order_for"]isEqualToString:@"charge"]) //充值支付回调
+    {
+        noti = kCZJServerAPIChargeForWeixin;
+    }
+    NSString* notify_url = [kCZJServerAddr stringByAppendingString:noti];
+    
     [packageParams setObject: appid             forKey:@"appid"];       //开放平台appid
     [packageParams setObject: mchid             forKey:@"mch_id"];      //商户号
     [packageParams setObject: device_info       forKey:@"device_info"]; //支付设备号或门店号
     [packageParams setObject: noncestr          forKey:@"nonce_str"];   //随机串
     [packageParams setObject: @"APP"            forKey:@"trade_type"];  //支付类型，固定为APP
     [packageParams setObject: order_name        forKey:@"body"];        //订单描述，展示给用户
-    [packageParams setObject: NOTIFY_URL        forKey:@"notify_url"];  //支付结果异步通知
+    [packageParams setObject: notify_url        forKey:@"notify_url"];  //支付结果异步通知
     [packageParams setObject: orderno           forKey:@"out_trade_no"];//商户订单号
     [packageParams setObject: @"196.168.1.1"    forKey:@"spbill_create_ip"];//发器支付的机器ip
     [packageParams setObject: order_price       forKey:@"total_fee"];       //订单金额，单位为分

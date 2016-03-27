@@ -1386,7 +1386,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <animations/>
                         <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
-                        <color key="separatorColor" patternImage="387994AA-58D7-4823-A66C-96620F681D1A" colorSpace="pattern"/>
+                        <color key="separatorColor" patternImage="36B4BD53-3076-4365-B98E-3B729256EDE3" colorSpace="pattern"/>
                         <inset key="separatorInset" minX="15" minY="0.0" maxX="15" maxY="0.0"/>
                         <sections>
                             <tableViewSection id="t6n-nw-cfg" userLabel="Activity">
@@ -2951,8 +2951,8 @@
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="000" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rRW-ma-lhD">
-                                        <rect key="frame" x="133" y="15" width="46" height="21"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="￥0.00" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rRW-ma-lhD">
+                                        <rect key="frame" x="135" y="15" width="44" height="21"/>
                                         <animations/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="21" id="StZ-gf-Kbt"/>
@@ -2974,7 +2974,7 @@
                                     <constraint firstAttribute="trailing" secondItem="v9I-ZH-dMY" secondAttribute="trailing" id="Qdz-sx-Tqw"/>
                                     <constraint firstItem="jzc-n5-Tgv" firstAttribute="leading" secondItem="Rqb-vX-9Q5" secondAttribute="trailing" constant="15" id="UI1-zQ-rGf"/>
                                     <constraint firstItem="SvA-ib-qCe" firstAttribute="top" secondItem="D9e-KM-VG1" secondAttribute="top" constant="10" id="YHT-h3-sEi"/>
-                                    <constraint firstItem="rRW-ma-lhD" firstAttribute="leading" secondItem="D9e-KM-VG1" secondAttribute="leading" constant="133" id="Ylc-f7-3fX"/>
+                                    <constraint firstItem="rRW-ma-lhD" firstAttribute="leading" secondItem="D9e-KM-VG1" secondAttribute="leading" constant="135" id="Ylc-f7-3fX"/>
                                     <constraint firstItem="Rqb-vX-9Q5" firstAttribute="top" secondItem="D9e-KM-VG1" secondAttribute="top" constant="15" id="cVz-yf-ear"/>
                                     <constraint firstItem="v9I-ZH-dMY" firstAttribute="leading" secondItem="D9e-KM-VG1" secondAttribute="leading" id="kOe-n6-h3F"/>
                                     <constraint firstItem="Rqb-vX-9Q5" firstAttribute="leading" secondItem="SvA-ib-qCe" secondAttribute="trailing" constant="8" id="kqo-6s-jon"/>
@@ -6817,83 +6817,106 @@
                                     <constraint firstAttribute="height" constant="1" id="pgR-mq-6c4"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hqR-dH-g1z">
-                                <rect key="frame" x="0.0" y="458" width="320" height="1"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VOi-6c-d5q">
+                                <rect key="frame" x="0.0" y="459" width="320" height="60"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hqR-dH-g1z">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="1"/>
+                                        <animations/>
+                                        <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="1" id="MBu-38-oHt">
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="constant">
+                                                        <real key="value" value="0.5"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                            </constraint>
+                                        </constraints>
+                                    </view>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7vf-TQ-kUV">
+                                        <rect key="frame" x="168" y="10" width="137" height="40"/>
+                                        <animations/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="40" id="hOz-0a-IG8"/>
+                                        </constraints>
+                                        <state key="normal" title="社交分享">
+                                            <color key="titleColor" red="1" green="0.40000000600000002" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                <integer key="value" value="3"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
+                                                <real key="value" value="0.5"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="layer.borderColorWithUIColor">
+                                                <color key="value" red="1" green="0.40000000600000002" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="appShareAction:" destination="2iS-Ey-dDr" eventType="touchUpInside" id="pVy-qS-sZ5"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="742-sW-FyC">
+                                        <rect key="frame" x="15" y="10" width="138" height="40"/>
+                                        <animations/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="40" id="Er2-nr-x7t"/>
+                                        </constraints>
+                                        <state key="normal" title="短信分享">
+                                            <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                <integer key="value" value="3"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
+                                                <real key="value" value="0.5"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="layer.borderColorWithUIColor">
+                                                <color key="value" red="0.098039217289999994" green="0.098039217289999994" blue="0.098039217289999994" alpha="1" colorSpace="calibratedRGB"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="msgShareAction:" destination="2iS-Ey-dDr" eventType="touchUpInside" id="cSx-jw-OxK"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
                                 <animations/>
-                                <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="1" id="MBu-38-oHt"/>
+                                    <constraint firstAttribute="height" constant="60" id="5Wi-En-ww9"/>
+                                    <constraint firstItem="7vf-TQ-kUV" firstAttribute="centerY" secondItem="VOi-6c-d5q" secondAttribute="centerY" id="6nS-cx-TkB"/>
+                                    <constraint firstItem="hqR-dH-g1z" firstAttribute="leading" secondItem="VOi-6c-d5q" secondAttribute="leading" id="FVC-ED-Lgz"/>
+                                    <constraint firstAttribute="trailing" secondItem="hqR-dH-g1z" secondAttribute="trailing" id="IOd-iK-Utt"/>
+                                    <constraint firstAttribute="trailing" secondItem="7vf-TQ-kUV" secondAttribute="trailing" constant="15" id="PJH-cD-8SZ"/>
+                                    <constraint firstItem="hqR-dH-g1z" firstAttribute="top" secondItem="VOi-6c-d5q" secondAttribute="top" id="SXu-mj-XhF"/>
+                                    <constraint firstItem="7vf-TQ-kUV" firstAttribute="leading" secondItem="742-sW-FyC" secondAttribute="trailing" constant="15" id="bhx-aQ-RHw"/>
+                                    <constraint firstItem="742-sW-FyC" firstAttribute="leading" secondItem="VOi-6c-d5q" secondAttribute="leading" constant="15" id="c8x-G6-Qop"/>
+                                    <constraint firstItem="742-sW-FyC" firstAttribute="centerY" secondItem="VOi-6c-d5q" secondAttribute="centerY" id="jX3-Lc-xTq"/>
+                                    <constraint firstItem="7vf-TQ-kUV" firstAttribute="width" secondItem="742-sW-FyC" secondAttribute="width" id="qsl-Dv-7U3"/>
                                 </constraints>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7vf-TQ-kUV">
-                                <rect key="frame" x="168" y="469" width="137" height="40"/>
-                                <animations/>
-                                <state key="normal" title="社交分享">
-                                    <color key="titleColor" red="1" green="0.40000000600000002" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                </state>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                        <integer key="value" value="3"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
-                                        <real key="value" value="0.5"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="color" keyPath="layer.borderColorWithUIColor">
-                                        <color key="value" red="1" green="0.40000000600000002" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                                <connections>
-                                    <action selector="appShareAction:" destination="2iS-Ey-dDr" eventType="touchUpInside" id="pVy-qS-sZ5"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="742-sW-FyC">
-                                <rect key="frame" x="15" y="469" width="138" height="40"/>
-                                <animations/>
-                                <state key="normal" title="短信分享">
-                                    <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                </state>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                        <integer key="value" value="3"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
-                                        <real key="value" value="0.5"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="color" keyPath="layer.borderColorWithUIColor">
-                                        <color key="value" red="0.098039217289999994" green="0.098039217289999994" blue="0.098039217289999994" alpha="1" colorSpace="calibratedRGB"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                                <connections>
-                                    <action selector="msgShareAction:" destination="2iS-Ey-dDr" eventType="touchUpInside" id="cSx-jw-OxK"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="uWs-Zv-fL8" firstAttribute="centerX" secondItem="TmD-sX-MBH" secondAttribute="centerX" id="2Jx-fW-X2E"/>
-                            <constraint firstItem="742-sW-FyC" firstAttribute="leading" secondItem="TmD-sX-MBH" secondAttribute="leading" constant="15" id="62e-tk-cqe"/>
+                            <constraint firstItem="VOi-6c-d5q" firstAttribute="leading" secondItem="TmD-sX-MBH" secondAttribute="leading" id="6fK-8h-RJZ"/>
                             <constraint firstItem="yMF-Ok-1nD" firstAttribute="centerX" secondItem="TmD-sX-MBH" secondAttribute="centerX" id="9J4-KB-3ae"/>
                             <constraint firstItem="uHz-Pm-FVA" firstAttribute="centerX" secondItem="TmD-sX-MBH" secondAttribute="centerX" id="BD7-0K-PVG"/>
-                            <constraint firstItem="742-sW-FyC" firstAttribute="top" secondItem="hqR-dH-g1z" secondAttribute="bottom" constant="10" id="Ccu-Xp-lYC"/>
-                            <constraint firstItem="uDV-kc-Uux" firstAttribute="top" secondItem="hqR-dH-g1z" secondAttribute="bottom" constant="60" id="Hmz-eU-aGI"/>
-                            <constraint firstAttribute="trailing" secondItem="hqR-dH-g1z" secondAttribute="trailing" id="JWC-50-q0f"/>
-                            <constraint firstAttribute="trailing" secondItem="7vf-TQ-kUV" secondAttribute="trailing" constant="15" id="K9z-73-n9i"/>
-                            <constraint firstItem="7vf-TQ-kUV" firstAttribute="top" secondItem="hqR-dH-g1z" secondAttribute="bottom" constant="10" id="KOL-H8-HnX"/>
                             <constraint firstItem="LTH-VM-72j" firstAttribute="centerX" secondItem="TmD-sX-MBH" secondAttribute="centerX" id="RAE-ZZ-aim"/>
-                            <constraint firstItem="7vf-TQ-kUV" firstAttribute="width" secondItem="742-sW-FyC" secondAttribute="width" id="Rdc-vL-mAa"/>
-                            <constraint firstItem="uDV-kc-Uux" firstAttribute="top" secondItem="7vf-TQ-kUV" secondAttribute="bottom" constant="10" id="STd-N6-JhT"/>
                             <constraint firstItem="LTH-VM-72j" firstAttribute="top" secondItem="4AC-RH-hh1" secondAttribute="bottom" constant="57" id="TCE-YH-yZa"/>
                             <constraint firstItem="yMF-Ok-1nD" firstAttribute="top" secondItem="LTH-VM-72j" secondAttribute="bottom" constant="20" id="UVQ-e8-WVe"/>
                             <constraint firstItem="uHz-Pm-FVA" firstAttribute="top" secondItem="TS1-p0-6QC" secondAttribute="bottom" constant="36" id="VWK-en-Bjt"/>
                             <constraint firstItem="TS1-p0-6QC" firstAttribute="leading" secondItem="TmD-sX-MBH" secondAttribute="leading" constant="10" id="XyU-Kj-bAw"/>
                             <constraint firstItem="LTH-VM-72j" firstAttribute="top" secondItem="uWs-Zv-fL8" secondAttribute="bottom" constant="8" id="aFi-G3-lkA"/>
-                            <constraint firstItem="uDV-kc-Uux" firstAttribute="top" secondItem="742-sW-FyC" secondAttribute="bottom" constant="10" id="caI-sK-xzf"/>
                             <constraint firstItem="JMQ-3X-2mi" firstAttribute="top" secondItem="uHz-Pm-FVA" secondAttribute="bottom" id="eVe-Z3-GX4"/>
-                            <constraint firstItem="7vf-TQ-kUV" firstAttribute="leading" secondItem="742-sW-FyC" secondAttribute="trailing" constant="15" id="euP-Kg-yqV"/>
+                            <constraint firstItem="uDV-kc-Uux" firstAttribute="top" secondItem="VOi-6c-d5q" secondAttribute="bottom" id="lDa-bV-qGA"/>
+                            <constraint firstAttribute="trailing" secondItem="VOi-6c-d5q" secondAttribute="trailing" id="psz-zs-niH"/>
                             <constraint firstItem="JMQ-3X-2mi" firstAttribute="centerX" secondItem="TmD-sX-MBH" secondAttribute="centerX" id="puu-5x-dy7"/>
                             <constraint firstItem="TS1-p0-6QC" firstAttribute="top" secondItem="4AC-RH-hh1" secondAttribute="bottom" constant="349" id="rWE-HD-0Dj"/>
-                            <constraint firstItem="hqR-dH-g1z" firstAttribute="leading" secondItem="TmD-sX-MBH" secondAttribute="leading" id="tZE-bj-MIh"/>
                             <constraint firstAttribute="trailing" secondItem="TS1-p0-6QC" secondAttribute="trailing" constant="10" id="ugJ-tx-ejS"/>
                         </constraints>
                     </view>
@@ -6903,6 +6926,7 @@
                         <outlet property="myQRCode" destination="LTH-VM-72j" id="3t9-YF-yMR"/>
                         <outlet property="separatorLineHeight" destination="MBu-38-oHt" id="VKB-5v-jlU"/>
                         <outlet property="separatorViewHeight" destination="pgR-mq-6c4" id="t5q-bc-yW8"/>
+                        <outlet property="shareView" destination="VOi-6c-d5q" id="YoC-HT-u05"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JQw-By-QAH" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -7128,7 +7152,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="387994AA-58D7-4823-A66C-96620F681D1A" width="256" height="256">
+        <image name="36B4BD53-3076-4365-B98E-3B729256EDE3" width="256" height="256">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPT5YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQrLjE3OlUkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw
@@ -11619,14 +11643,14 @@ AAAAAAAEDtA
     <inferredMetricsTieBreakers>
         <segue reference="IN0-Kp-x1L"/>
         <segue reference="ftO-I4-rYb"/>
+        <segue reference="qf8-R0-rau"/>
         <segue reference="9kg-PH-ln9"/>
-        <segue reference="OGv-AU-DWf"/>
-        <segue reference="yxJ-Kx-arp"/>
-        <segue reference="md8-5U-07U"/>
-        <segue reference="Eev-Mt-eBi"/>
+        <segue reference="DcO-CT-9a9"/>
+        <segue reference="qV1-hw-Cqi"/>
+        <segue reference="J2q-4Y-2ay"/>
         <segue reference="Yrw-VN-Mar"/>
         <segue reference="8Me-3r-Flt"/>
-        <segue reference="lel-ft-RgU"/>
         <segue reference="B1X-5g-nhm"/>
+        <segue reference="lel-ft-RgU"/>
     </inferredMetricsTieBreakers>
 </document>

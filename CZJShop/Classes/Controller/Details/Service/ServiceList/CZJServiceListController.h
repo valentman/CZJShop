@@ -25,7 +25,6 @@
 @property (strong, nonatomic) NSString* navTitleName;
 @property (strong, nonatomic) NSString* typeId;
 @property (assign, nonatomic) BOOL moreFlag;
-@property (assign, nonatomic) int  sortType;
 @property (weak, nonatomic) id <CZJViewControllerDelegate> delegate;
 
 

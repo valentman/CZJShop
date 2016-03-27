@@ -268,9 +268,17 @@
             }
                 break;
             case CZJMXPullDownMenuTypeGoods:
+            {
+                [self confiMenuWithSelectRow:indexPath.row];
+                [self.delegate PullDownMenu:self didSelectRowAtColumn:_currentSelectedMenudIndex row:indexPath.row];
+            }
+                break;
+                
             case CZJMXPullDownMenuTypeNone:
             {
             }
+                break;
+                
             default:
                 break;
         }
@@ -451,20 +459,22 @@
 
 - (void)touchMXPullDownMenuAtMenuIndex:(NSInteger)tapIndex
 {
-    //
-    for (int i = 0; i < _numOfMenu; i++)
-    {
-        [self animateTitle:_titles[i] show:(i == tapIndex) complete:^{
-            [self animateIndicator:_indicators[i] Forward:(i == tapIndex) complete:^{
-            }];
-        }];
-    }
+
     _selectIndex = -1;
     
+    //点击menuIndex时
     if ((CZJMXPullDownMenuTypeService == _menuType || CZJMXPullDownMenuTypeGoods== _menuType) &&
         2 == tapIndex)
     {//商品和服务模块筛选按钮
-        [self.delegate pullDownMenuDidSelectFiliterButton];
+        [self.delegate pullDownMenuDidSelectFiliterButton:self];
+        [self tapBackGround:nil];
+        return;
+    }
+    
+    if (CZJMXPullDownMenuTypeGoods== _menuType &&
+        1 == tapIndex)
+    {
+        [self.delegate pullDownMenuDidSelectPriceButton:self];
         [self tapBackGround:nil];
         return;
     }
@@ -474,6 +484,16 @@
         [self.delegate pullDownMenu:self didSelectCityName:_array[tapIndex][0]];
         [self tapBackGround:nil];
         return;
+    }
+    
+    
+    //
+    for (int i = 0; i < _numOfMenu; i++)
+    {
+        [self animateTitle:_titles[i] show:(i == tapIndex) complete:^{
+            [self animateIndicator:_indicators[i] Forward:(i == tapIndex) complete:^{
+            }];
+        }];
     }
     
     //如果点击的是当前已经显示出来的按钮，则该按钮就隐藏
@@ -533,7 +553,11 @@
     
     indicator.fillColor = forward ? _tableView.tintColor.CGColor : _menuColor.CGColor;
     
-    complete();
+    if (complete)
+    {
+        complete();
+    }
+    
 }
 
 - (void)animateTitle:(CATextLayer *)title show:(BOOL)show complete:(void(^)())complete
@@ -547,7 +571,9 @@
     CGFloat sizeWidth = (size.width < (self.frame.size.width / _numOfMenu) - 25) ? size.width : self.frame.size.width / _numOfMenu - 25;
     title.bounds = CGRectMake(0, 0, sizeWidth, size.height);
     
-    complete();
+    if (complete) {
+        complete();
+    }
 }
 
 - (void)animateBackGroundView:(UIView *)view show:(BOOL)show complete:(void(^)())complete
@@ -567,8 +593,10 @@
             [view removeFromSuperview];
         }];
     }
-    complete();
-    
+    if (complete)
+    {
+        complete();
+    }
 }
 
 - (void)animateTableView:(UITableView *)tableView show:(BOOL)show complete:(void(^)())complete
@@ -622,7 +650,9 @@
             }
         }];
     }
-    complete();
+    if (complete) {
+        complete();
+    }
 }
 
 
@@ -636,7 +666,9 @@
             }];
         }];
     }];
-    complete();
+    if (complete) {
+        complete();
+    }
     [[NSNotificationCenter defaultCenter]postNotificationName:@"MXPullDownMenuTitleChange" object:nil];
 }
 
@@ -791,6 +823,12 @@
     CATextLayer *title = (CATextLayer *)_titles[0];
     DLog(@"titlestring:%@",title.string);
     return title.string;
+}
+
+
+- (void)animateIndicator:(BOOL)forward
+{
+    [self animateIndicator:_indicators[1] Forward:forward complete:nil];
 }
 
 

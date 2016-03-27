@@ -23,6 +23,7 @@
 @property (weak, nonatomic)id<CZJMiaoShaListDelegate> delegate;
 
 - (void)getMiaoShaDataFromServer;
+- (void)removeNotificationFromMiaoSha;
 @end
 
 @interface CZJMiaoShaOneController : CZJMiaoShaListBaseController

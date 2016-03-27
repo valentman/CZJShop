@@ -30,31 +30,24 @@ CZJOrderListCellDelegate
 @synthesize params = _params;
 - (void)viewDidLoad {
     [super viewDidLoad];
-    orderNoArys = [NSMutableArray array];
+    [self initMyDatas];
     [self initViews];
+    [self getOrderListFromServer];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    MBProgressHUD* hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    hud.completionBlock = ^{
-        if (_orderList.count == 0)
-        {
-            [CZJUtils showNoDataAlertViewOnTarget:self.view withPromptString:_noDataPrompt];
-        }
-        _myTableView.delegate = self;
-        _myTableView.dataSource = self;
-        [_myTableView reloadData];
-    };
-    [CZJUtils performBlock:^{
-        [self getOrderListFromServer];
-    } afterDelay:0.5];
-    DLog(@"params:%@",[_params description]);
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(getOrderListFromServer) name:kCZJNotifiRefreshOrderlist object:nil];
 }
 
-- (void)viewDidDisappear:(BOOL)animated
+- (void)removeOrderlistControllerNotification
 {
-    DLog();
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kCZJNotifiRefreshOrderlist object:nil];
+}
+
+- (void)initMyDatas
+{
+    orderNoArys = [NSMutableArray array];
 }
 
 - (void)initViews
@@ -66,6 +59,10 @@ CZJOrderListCellDelegate
         CGRect buttomRect = CGRectMake(0, PJ_SCREEN_HEIGHT- 114 - 60, PJ_SCREEN_WIDTH,60);
         _noPayButtomView = [CZJUtils getXibViewByName:@"CZJOrderListNoPayButtomView"];
         _noPayButtomView.frame = buttomRect;
+        if (iPhone4 || iPhone5)
+        {
+            _noPayButtomView.goToPayWidth.constant = 100;
+        }
         [self.view addSubview:_noPayButtomView];
         [_noPayButtomView.allChooseBtn addTarget:self action:@selector(chooseAllActioin:) forControlEvents:UIControlEventTouchUpInside];
         [_noPayButtomView.goToPayBtn addTarget:self action:@selector(buttomViewGoToPay:) forControlEvents:UIControlEventTouchUpInside];
@@ -80,13 +77,23 @@ CZJOrderListCellDelegate
     [_myTableView registerNib:nib forCellReuseIdentifier:@"CZJOrderListCell"];
 }
 
-
-
 - (void)getOrderListFromServer
 {
+    MBProgressHUD* hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    hud.completionBlock = ^{
+        if (_orderList.count == 0)
+        {
+            [CZJUtils showNoDataAlertViewOnTarget:self.view withPromptString:_noDataPrompt];
+        }
+        _myTableView.delegate = self;
+        _myTableView.dataSource = self;
+        [_myTableView reloadData];
+    };
+    
     [CZJBaseDataInstance getOrderList:_params Success:^(id json) {
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
         _orderList = [CZJOrderListForm objectArrayWithKeyValuesArray:[[CZJUtils DataFromJson:json] valueForKey:@"msg" ]];
+        DLog(@"orderListCount:%ld",_orderList.count);
     } fail:^{
         
     }];
@@ -220,9 +227,9 @@ CZJOrderListCellDelegate
 @implementation CZJOrderListAllController
 
 - (void)viewDidLoad {
-    [super viewDidLoad];
     _noDataPrompt = @"无任何订单";
     _params = @{@"type":@"0", @"page":@"1", @"timeType":@"0"};
+    [super viewDidLoad];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -235,9 +242,9 @@ CZJOrderListCellDelegate
 @implementation CZJOrderListNoPayController
 
 - (void)viewDidLoad {
-    [super viewDidLoad];
     _noDataPrompt = @"无待付款订单";
     _params = @{@"type":@"1", @"page":@"1", @"timeType":@"0"};
+    [super viewDidLoad];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -250,9 +257,9 @@ CZJOrderListCellDelegate
 @implementation CZJOrderListNoBuildController
 
 - (void)viewDidLoad {
-    [super viewDidLoad];
     _noDataPrompt = @"无待施工订单";
     _params = @{@"type":@"2", @"page":@"1", @"timeType":@"0"};
+    [super viewDidLoad];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -265,9 +272,9 @@ CZJOrderListCellDelegate
 @implementation CZJOrderListNoReceiveController
 
 - (void)viewDidLoad {
-    [super viewDidLoad];
     _noDataPrompt = @"无待收货订单";
     _params = @{@"type":@"3", @"page":@"1", @"timeType":@"0"};
+    [super viewDidLoad];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -279,9 +286,9 @@ CZJOrderListCellDelegate
 @implementation CZJOrderListNoEvaController
 
 - (void)viewDidLoad {
-    [super viewDidLoad];
     _noDataPrompt = @"无评价订单";
     _params = @{@"type":@"4", @"page":@"1", @"timeType":@"0"};
+    [super viewDidLoad];
 }
 
 - (void)didReceiveMemoryWarning {

@@ -910,6 +910,7 @@ CZJNaviagtionBarViewDelegate
             paymentOrderForm.order_name = [NSString stringWithFormat:@"订单%@",[dict valueForKey:@"payNo"]];
             paymentOrderForm.order_description = @"支付宝你个SB";
             paymentOrderForm.order_price = [dict valueForKey:@"totalMoney"];
+            paymentOrderForm.order_for = @"pay";
             if ([_defaultOrderType.orderTypeName isEqualToString:@"微信支付"])
             {
                 DLog(@"提交订单页面请求微信支付");

@@ -12,5 +12,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *allChooseBtn;
 @property (weak, nonatomic) IBOutlet UILabel *totalLabel;
 @property (weak, nonatomic) IBOutlet UIButton *goToPayBtn;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *goToPayWidth;
 
 @end

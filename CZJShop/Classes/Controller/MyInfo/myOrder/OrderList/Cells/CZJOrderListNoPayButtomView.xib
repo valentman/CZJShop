@@ -74,7 +74,7 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="000" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vpp-uL-qqs">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="￥0.00" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vpp-uL-qqs">
                                 <rect key="frame" x="133" y="12" width="46" height="21"/>
                                 <animations/>
                                 <constraints>
@@ -118,6 +118,7 @@
             <connections>
                 <outlet property="allChooseBtn" destination="sTs-Dy-wB5" id="Vla-Xf-uHa"/>
                 <outlet property="goToPayBtn" destination="q8M-ZZ-4n7" id="nGc-IM-xcE"/>
+                <outlet property="goToPayWidth" destination="Zsi-j7-CHv" id="H46-yC-tc1"/>
                 <outlet property="totalLabel" destination="Vpp-uL-qqs" id="0EY-Gk-z6M"/>
             </connections>
             <point key="canvasLocation" x="159" y="183"/>

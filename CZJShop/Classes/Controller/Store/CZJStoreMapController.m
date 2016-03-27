@@ -16,7 +16,6 @@
 #import "CZJBaseDataManager.h"
 #import "CZJStoreForm.h"
 #import "ZXLocationManager.h"
-#import "CZJServiceListController.h"
 #import "CZJStoreDetailController.h"
 #import "CCLocationManager.h"
 #import "ZXLocationManager.h"

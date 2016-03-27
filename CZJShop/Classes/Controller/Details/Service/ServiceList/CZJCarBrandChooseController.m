@@ -398,7 +398,7 @@ static NSString *CarListCellIdentifierID = @"CarListCellIdentifierID";
     [self.navigationController popToRootViewControllerAnimated:true];
     [[NSNotificationCenter defaultCenter]postNotificationName:@"ChooseCartype" object:nil];
     [USER_DEFAULT setValue:((HaveCarsForm*)_haveCars[indexPath.row]).name forKey:kUserDefaultChoosedCarModelType];
-    
+    [USER_DEFAULT setValue:((HaveCarsForm*)_haveCars[indexPath.row]).modelId forKey:kUserDefaultChoosedCarModelID];
 }
 
 @end

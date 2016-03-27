@@ -88,8 +88,8 @@ static NSString *const kCZJServerAPIUpdateAddr = @"chezhu/updateAddrV2.do";     
 static NSString *const kCZJServerAPISubmitOrder = @"chezhu/saveOrderV2.do";                         //提交订单
 static NSString *const kCZJServerAPIPayWeixinNotify = @"chezhu/notifyForWeixin.do";                 //微信支付回调
 static NSString *const kCZJServerAPIPayZhifubaoNotify = @"chezhu/notifyForZhifubao.do";             //支付宝支付回调
-//static NSString *const kCZJServerAPIChargeForWeixin = @"chezhu/chargeForWeixin.do";                 //充值微信支付回调
-//static NSString *const kCZJServerAPIChargeForZhifubao = @"chezhu/chargeForZhifubao.do";             //充值支付宝支付回调
+static NSString *const kCZJServerAPIChargeForWeixin = @"chezhu/chargeForWeixin.do";                 //充值微信支付回调
+static NSString *const kCZJServerAPIChargeForZhifubao = @"chezhu/chargeForZhifubao.do";             //充值支付宝支付回调
 static NSString *const kCZJServerAPIGetWeixinPayParams = @"chezhu/getPayParams.do";                 //获取微信支付参数
 
 //门店详情接口组
@@ -182,11 +182,17 @@ static NSString *const kUserDefaultChoosedCarBrandImg = @"userdefaultchoosedcarb
 static NSString *const kUserDefaultChoosedCarBrandType = @"userdefaultchoosedcarbrand";     //选择的车品牌名称
 static NSString *const kUserDefaultChoosedCarSerialType = @"userdefaultchoosedcarserial";   //选择的车系名称
 static NSString *const kUserDefaultChoosedCarModelType = @"userdefaultchoosedcarmodel";     //选择的车型名称
+static NSString *const kUserDefaultChoosedCarModelID = @"userdefaultchoosedcarmodelID";     //选择的车型ID
+static NSString *const kUserDefaultChoosedBrandID = @"userdefaultchoosedgoodbrandID";       //选择的商品品牌ID
 static NSString *const kUserDefaultServicePlace = @"userdefaultserviceplace";               //上门服务
 static NSString *const kUserDefaultDetailStoreItemPid = @"DetailStoreItemPid";              //详情界面storeitemPid
 static NSString *const kUserDefaultDetailItemCode = @"DetailItemCode";                      //详情界面Itemcode
 static NSString *const kUserDefaultShoppingCartCount = @"ShoppingCartCount";                //购物车数量
 static NSString *const kUSerDefaultSexual = @"sexual";
+
+static NSString *const kUSerDefaultStockFlag = @"stockFlag";                                //有货与否
+static NSString *const kUSerDefaultPromotionFlag = @"promotionFlag";                        //促销与否
+static NSString *const kUSerDefaultRecommendFlag = @"recommendFlag";                        //推荐与否
 
 
 
@@ -241,6 +247,7 @@ static NSString *const kCZJRefreshNearCityData = @"refreshNearCityData";
 static NSString *const kCZJNotifiRefreshDetailView = @"refreshDetailView";
 static NSString *const kCZJNotifiPicDetailBack = @"PicDetailBack";
 static NSString *const kCZJNotifikOrderListType = @"kOrderListType";
+static NSString *const kCZJNotifiRefreshOrderlist = @"refreshOrderListNotify";
 
 
 //-----------------------StoryBoardID常量定义---------------------------

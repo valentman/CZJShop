@@ -28,7 +28,6 @@
 >
 {
     NSMutableArray* _serviceListArys;
-    NSMutableDictionary* storePostParams;
     CZJHomeGetDataFromServerType _getdataType;
     
     CGPoint pullDownMenuOriginPoint;
@@ -44,6 +43,14 @@
     
     MJRefreshAutoNormalFooter* refreshFooter;
     MJRefreshNormalHeader* refreshHeader;
+    
+    
+    NSString* cityID;           //城市ID
+    NSString* sortType;         //排序
+    NSString* modelId;          //车型
+    NSString* goHouseFlag;           //上门服务
+    NSString* goStoreFlag;           //到店服务
+    
 }
 @property (strong, nonatomic) UITableView *serviceTableView;
 @property (weak, nonatomic) IBOutlet UIView *refreshLocationBarView;
@@ -59,8 +66,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [CZJUtils hideSearchBarViewForTarget:self];
-    isFirstIn = YES;
+//    [CZJUtils hideSearchBarViewForTarget:self];
     [self initData];
     [self initTableViewAndPullDownMenu];
     [self initRefreshLocationBarView];
@@ -68,7 +74,6 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    DLog();
     self.navigationController.navigationBarHidden = YES;
     [self.naviBarView refreshShopBadgeLabel];
 }
@@ -101,23 +106,18 @@
 
 - (void)initData
 {
-    self.page = 1;
+    
+    isFirstIn = YES;
     _serviceListArys = [NSMutableArray array];
-    storePostParams = [[NSMutableDictionary alloc]init];
     _getdataType = CZJHomeGetDataFromServerTypeOne;
     
     //参数初始化
-    [storePostParams setObject:@"0" forKey:@"cityId"];
-    [storePostParams setObject:@"0" forKey:@"storeType"];
-    [storePostParams setObject:@"" forKey:@"modelId"];
-    if (_typeId)
-    {
-        [storePostParams setObject:_typeId forKey:@"typeId"];
-    }
-    [storePostParams setObject:[NSString stringWithFormat:@"%ld",(long)self.page] forKey:@"page"];
-    if (self.searchStr) {
-        [storePostParams setObject:self.searchStr forKey:@"q"];
-    }
+    cityID = CZJBaseDataInstance.userInfoForm.cityId;
+    sortType = @"0";
+    modelId = @"";
+    goStoreFlag = @"0";
+    goHouseFlag = @"0";
+    self.page = 1;
 }
 
 - (void)initTableViewAndPullDownMenu
@@ -151,7 +151,7 @@
 
 - (void)getStoreServiceListDataFromServer
 {
-    [storePostParams setObject:[NSString stringWithFormat:@"%ld",(long)self.page] forKey:@"page"];
+    NSDictionary* storePostParams = @{@"modelId" :modelId, @"typeId" :self.typeId, @"sortType" :sortType, @"q" :self.searchStr ? self.searchStr : @"", @"goHouseFlag":goHouseFlag ,@"goStoreFlag":goStoreFlag, @"page" : [NSString stringWithFormat:@"%ld",(long)self.page]};
     [[MBProgressHUD showHUDAddedTo:self.view animated:YES] setLabelText:@"刷新数据"];
     CZJSuccessBlock successBlock = ^(id json) {
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
@@ -217,6 +217,7 @@
     cell.purchasedCount.text = storeForm.purchaseCount;
     cell.purchasedCountWidth.constant = [CZJUtils calculateTitleSizeWithString:storeForm.purchaseCount AndFontSize:12].width + 5;
     cell.serviceTypeImg.hidden = !storeForm.goStoreFlag;
+    cell.separatorInset = HiddenCellSeparator;
     return cell;
 }
 
@@ -291,6 +292,7 @@
 - (void)initRefreshLocationBarView
 {
     [self.view.window addSubview:_refreshLocationBarView];
+    [self.view.window bringSubviewToFront:_refreshLocationBarView];
     _locationButton.tag = CZJViewMoveOrientationLeft;
     [_locationButton addTarget:self action:@selector(btnTouched:) forControlEvents:UIControlEventTouchUpInside];
     [self btnTouched:nil];
@@ -330,8 +332,7 @@
     [[MBProgressHUD showHUDAddedTo:self.view animated:YES] setLabelText:@"正在定位"];
     [[CCLocationManager shareLocation] getCity:^(NSString *addressString) {
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-        NSString* cityid = [CZJBaseDataInstance.storeForm getCityIDWithCityName:addressString];
-        [storePostParams setValue:cityid  forKey:@"cityId"];
+        cityID = [CZJBaseDataInstance.storeForm getCityIDWithCityName:addressString];
         _getdataType = CZJHomeGetDataFromServerTypeOne;
         [self getStoreServiceListDataFromServer];
         if (nil != addressString)
@@ -435,14 +436,15 @@
     
     DLog(@"%ld, %ld",column, row);
     _getdataType = CZJHomeGetDataFromServerTypeOne;
-    [storePostParams setValue:[NSString stringWithFormat:@"%ld",row]  forKey:@"storeType"];
+    sortType = [NSString stringWithFormat:@"%ld",row];
     [self getStoreServiceListDataFromServer];
 }
 
 
 - (void)pullDownMenu:(MXPullDownMenu *)pullDownMenu didSelectCityName:(NSString *)cityName
 {
-    [storePostParams setValue:[CZJBaseDataInstance.storeForm getCityIDWithCityName:cityName]  forKey:@"cityId"];
+    //根据城市名称
+    cityID = [CZJBaseDataInstance.storeForm getCityIDWithCityName:cityName];
     _getdataType = CZJHomeGetDataFromServerTypeOne;
     [self getStoreServiceListDataFromServer];
 }
@@ -523,17 +525,18 @@
 - (void)handleSwipe:(UISwipeGestureRecognizer *)gestureRecognizer
 {
     CGPoint location = [gestureRecognizer locationInView:self.view];
-    DLog();
     [self tapAction];
 }
 
 #pragma mark -CZJServiceFilterDelegate
-- (void)chooseFilterOK
+- (void)chooseFilterOK:(id)data
 {
     //更新参数，重新请求数据刷新
-    NSString* typeid = [USER_DEFAULT valueForKey:kUserDefaultServiceTypeID];
-    [storePostParams setValue:typeid forKey:@"typeId"];
     _getdataType = CZJHomeGetDataFromServerTypeOne;
+    modelId = [USER_DEFAULT valueForKeyPath:kUserDefaultChoosedCarModelID];
+    goHouseFlag = @"";
+    goStoreFlag = @"";
+    self.typeId = [USER_DEFAULT valueForKey:kUserDefaultServiceTypeID];
     [self getStoreServiceListDataFromServer];
 }
 

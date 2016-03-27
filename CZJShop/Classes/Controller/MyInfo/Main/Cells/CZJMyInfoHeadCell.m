@@ -37,7 +37,6 @@
     self.userNameLabel.text = userinfo.chezhuName;
     self.userPhoneLabel.text = userinfo.mobile;
     [self.userHeadImg sd_setImageWithURL:[NSURL URLWithString:userinfo.chezhuHeadImg] placeholderImage:IMAGENAMED(@"my_icon_head")];
-    self.userHeadImg.layer.cornerRadius = 38;
     self.userHeadImg.clipsToBounds = YES;
     self.userTypeLabel.text = userinfo.chezhuType;
     self.userTypeLabel.layer.cornerRadius = 9;

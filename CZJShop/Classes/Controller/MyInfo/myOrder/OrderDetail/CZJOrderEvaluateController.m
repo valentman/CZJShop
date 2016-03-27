@@ -137,6 +137,7 @@ CZJStarRateViewDelegate
         hud.labelText = [dicts valueForKey:@"msg"];
         [hud hide:YES afterDelay:1.5];
         hud.completionBlock = ^{
+            [[NSNotificationCenter defaultCenter] postNotificationName:kCZJNotifiRefreshOrderlist object:nil];
             [weak.navigationController popViewControllerAnimated:YES];
         };
     } andServerAPI:kCZJServerAPISubmitComment];
@@ -241,7 +242,9 @@ CZJStarRateViewDelegate
 {
     if (0 <= indexPath.section && indexPath.section < self.orderDetailForm.items.count)
     {
-        return 307;
+         CZJMyEvaluationGoodsForm* returnedListForm = (CZJMyEvaluationGoodsForm*)myEvaluationForm.items[indexPath.section];
+        int row = ceil(returnedListForm.evalImgs.count / Divide);
+        return 307 + 78 * row;
     }
     if (indexPath.section == self.orderDetailForm.items.count)
     {

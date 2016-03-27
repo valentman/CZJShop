@@ -38,7 +38,7 @@ CZJGoodsListFilterSubControllerDelegate
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"筛选";
-    self.arrTitle = @[@"仅看有货", @"促销", @"新品"];
+    self.arrTitle = @[@"仅看有货", @"促销", @"推荐"];
     goodsListFilterPostParams = [NSMutableDictionary dictionary];
     _brandAndPriceArys = @[@{@"name":@"品牌"},@{ @"name":@"价格"}];
     _filterConditionArys  = [NSMutableArray array];
@@ -116,7 +116,7 @@ CZJGoodsListFilterSubControllerDelegate
     }else{
         [self dismissViewControllerAnimated:YES completion:nil];
         [self cancelAction:bar];
-        [self.delegate chooseFilterOK];
+        [self.delegate chooseFilterOK:@""];         //attrijson
     }
 }
 

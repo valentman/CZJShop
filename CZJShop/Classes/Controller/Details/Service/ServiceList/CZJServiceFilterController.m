@@ -95,7 +95,7 @@
     }else{
         [self dismissViewControllerAnimated:YES completion:nil];
         [self cancelAction:bar];
-        [self.delegate chooseFilterOK];
+        [self.delegate chooseFilterOK:nil];
     }
 }
 

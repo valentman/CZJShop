@@ -175,7 +175,7 @@ CZJViewControllerDelegate
     }
     if (3 == section)
     {
-        return 3;
+        return 2;
     }
     else
     {
@@ -271,13 +271,6 @@ CZJViewControllerDelegate
             CZJGeneralCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJGeneralCell" forIndexPath:indexPath];
             [cell.imageView setImage:IMAGENAMED(@"my_icon_serve")];
             cell.nameLabel.text = @"服务与反馈";
-            return cell;
-        }
-        if (1 == indexPath.row)
-        {
-            CZJGeneralCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJGeneralCell" forIndexPath:indexPath];
-            [cell.imageView setImage:IMAGENAMED(@"my_icon_zhibao")];
-            cell.nameLabel.text = @"质保卡查询";
             return cell;
         }
         else
@@ -376,12 +369,6 @@ CZJViewControllerDelegate
     {
         if (indexPath.row == 0) {
             segueIdentifer = @"segueToService";
-        }
-        else if (1 == indexPath.row)
-        {
-            CZJWebViewController* webView = (CZJWebViewController*)[CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:@"webViewSBID"];
-            webView.cur_url = [kCZJServerAddr stringByAppendingString:kCZJServerAPIZHIBAOCARD];
-            [self.navigationController pushViewController:webView animated:YES];
         }
         else
         {

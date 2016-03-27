@@ -445,7 +445,7 @@ void backLastView(id sender, SEL _cmd)
         hud.yOffset = 20.f;
         hud.removeFromSuperViewOnHide = YES;
         [hud setYOffset:PJ_SCREEN_HEIGHT/4];
-        [hud hide:YES afterDelay:3];
+        [hud hide:YES afterDelay:1];
     }
 }
 

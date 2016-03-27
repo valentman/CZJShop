@@ -55,7 +55,19 @@
     order.productName = [dict valueForKey:@"order_name"];
     order.productDescription =[dict valueForKey:@"order_description"];
     order.amount = [dict valueForKey:@"order_price"];
-    order.notifyURL =  @"http://101.201.197.202:8080/appserver/chezhu/notifyForZhifubao.do"; //回调URL
+    
+    //根据支付场景确定支付回调（订单支付回调、充值支付回调）
+    NSString* noti;
+    if ([[dict valueForKey:@"order_for"]isEqualToString:@"pay"])  //订单支付回调
+    {
+        noti = kCZJServerAPIPayZhifubaoNotify;
+    }
+    if ([[dict valueForKey:@"order_for"]isEqualToString:@"charge"]) //充值支付回调
+    {
+        noti = kCZJServerAPIChargeForZhifubao;
+    }
+    NSString* notify_url = [kCZJServerAddr stringByAppendingString:noti];
+    order.notifyURL =  notify_url; //回调URL
     
     //下面的参数是固定的，不需要改变
     order.service = @"mobile.securitypay.pay";

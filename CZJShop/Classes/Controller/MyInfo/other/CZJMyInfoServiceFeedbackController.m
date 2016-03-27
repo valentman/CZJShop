@@ -53,17 +53,20 @@ UITableViewDelegate
         [self.myTableView registerNib:nib forCellReuseIdentifier:cells];
     }
     
-    CZJOrderTypeForm* onlineService = [[CZJOrderTypeForm alloc]init];
-    onlineService.orderTypeName = @"在线客服";
-    onlineService.orderTypeImg = @"serve_icon_kefu";
+//    CZJOrderTypeForm* onlineService = [[CZJOrderTypeForm alloc]init];
+//    onlineService.orderTypeName = @"在线客服";
+//    onlineService.orderTypeImg = @"serve_icon_kefu";
     CZJOrderTypeForm* phoneAsk = [[CZJOrderTypeForm alloc]init];
     phoneAsk.orderTypeName = @"电话咨询";
     phoneAsk.orderTypeImg = @"serve_icon_call";
     CZJOrderTypeForm* feedback = [[CZJOrderTypeForm alloc]init];
     feedback.orderTypeName = @"意见反馈";
     feedback.orderTypeImg = @"my_icon_serve";
+    CZJOrderTypeForm* zhibaoCard = [[CZJOrderTypeForm alloc]init];
+    zhibaoCard.orderTypeName = @"质保卡查询";
+    zhibaoCard.orderTypeImg = @"my_icon_zhibao";
     
-    cellArray = @[onlineService,phoneAsk,feedback];
+    cellArray = @[phoneAsk,feedback,zhibaoCard];
     
     [self.myTableView reloadData];
 }
@@ -92,6 +95,11 @@ UITableViewDelegate
     cell.contentNameLabel.text = form.orderTypeName;
     cell.contentNamelabelWidth.constant = 100;
     [cell.orderCouponScrollView removeFromSuperview];
+    if (indexPath.row == cellArray.count - 1)
+    {
+        cell.separatorInset = HiddenCellSeparator;
+    }
+    
     return cell;
 }
 
@@ -107,13 +115,19 @@ UITableViewDelegate
     {
         
     }
-    if (1 == indexPath.row)
+    if (0 == indexPath.row)
     {
         [CZJUtils callHotLine:@"400-800-1100" AndTarget:self.view];
     }
-    if (2 == indexPath.row )
+    if (1 == indexPath.row )
     {
         [self performSegueWithIdentifier:@"segueToOpinionFeedback" sender:self];
+    }
+    if (2 == indexPath.row)
+    {
+        CZJWebViewController* webView = (CZJWebViewController*)[CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:@"webViewSBID"];
+        webView.cur_url = [kCZJServerAddr stringByAppendingString:kCZJServerAPIZHIBAOCARD];
+        [self.navigationController pushViewController:webView animated:YES];
     }
 
 }
