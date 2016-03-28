@@ -28,6 +28,7 @@ UIGestureRecognizerDelegate
     NSMutableArray* shoppingInfos;
     NSInteger _selectedCount;
     NSMutableArray* _settleOrderAry;
+    UIButton* editBtn;
 }
 @property (weak, nonatomic) IBOutlet UITableView *myTableView;
 @property (weak, nonatomic) IBOutlet UIButton *settleBtn;
@@ -97,20 +98,21 @@ UIGestureRecognizerDelegate
     }];
     
     //右按钮
-    UIButton *rightBtn = [[ UIButton alloc ] initWithFrame : CGRectMake(PJ_SCREEN_WIDTH - 59 , 0 , 44 , 44 )];
-    [rightBtn setTitle:@"编辑" forState:UIControlStateNormal];
-    [rightBtn setTitle:@"完成" forState:UIControlStateSelected];
-    [rightBtn addTarget:self action:@selector(edit:) forControlEvents:UIControlEventTouchUpInside];
-    [rightBtn setTitleColor:BLACKCOLOR forState:UIControlStateNormal];
-    [rightBtn setSelected:NO];
-    rightBtn.titleLabel.font = SYSTEMFONT(18);
+    editBtn = [[ UIButton alloc ] initWithFrame : CGRectMake(PJ_SCREEN_WIDTH - 59 , 0 , 44 , 44 )];
+    [editBtn setTitle:@"编辑" forState:UIControlStateNormal];
+    [editBtn setTitle:@"完成" forState:UIControlStateSelected];
+    [editBtn addTarget:self action:@selector(edit:) forControlEvents:UIControlEventTouchUpInside];
+    [editBtn setTitleColor:BLACKCOLOR forState:UIControlStateNormal];
+    [editBtn setSelected:NO];
+    editBtn.hidden = YES;
+    editBtn.titleLabel.font = SYSTEMFONT(18);
     
     [_allChooseBtn setImage:IMAGENAMED(@"commit_btn_circle.png") forState:UIControlStateNormal];
     [_allChooseBtn setImage:IMAGENAMED(@"commit_btn_circle_sel.png") forState:UIControlStateSelected];
     _allChooseBtn.selected = NO;
     
     [self addCZJNaviBarView:CZJNaviBarViewTypeGeneral];
-    [self.naviBarView addSubview:rightBtn];
+    [self.naviBarView addSubview:editBtn];
     self.naviBarView.mainTitleLabel.text = @"我的购物车";
     [self.naviBarView.btnBack addTarget:self action:@selector(backToLastView:) forControlEvents:UIControlEventTouchUpInside];
     
@@ -123,6 +125,7 @@ UIGestureRecognizerDelegate
 {
     __weak typeof(self) weak = self;
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    self.settleView.hidden = YES;
     CZJSuccessBlock successBlock = ^(id json)
     {
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
@@ -137,6 +140,7 @@ UIGestureRecognizerDelegate
         {
             DLog(@"settleView.y:%f",_settleView.frame.origin.y);
             self.settleView.hidden = NO;
+            editBtn.hidden = NO;
             self.myTableView.hidden = NO;
             self.myTableView.delegate = self;
             self.myTableView.dataSource = self;

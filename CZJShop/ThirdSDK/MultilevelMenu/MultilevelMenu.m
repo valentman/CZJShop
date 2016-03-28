@@ -20,10 +20,11 @@
 
 
 @interface MultilevelMenu()
-
+{
+    NSString* currentTypeID;
+}
 @property(strong,nonatomic ) UITableView * leftTablew;
 @property(strong,nonatomic ) UICollectionView * rightCollection;
-
 @property(assign,nonatomic) BOOL isReturnLastOffset;
 
 @end
@@ -130,8 +131,10 @@
     
 }
 
-- (void)getCategoryDataFromServer:(NSString*)typeId
+- (void)getCategoryDataFromServer
 {
+    __weak typeof(self) weak = self;
+    [MBProgressHUD showHUDAddedTo:self.rightCollection animated:YES];
     //从服务器获取数据成功返回回调
     CZJSuccessBlock successBlock = ^(id json){
         NSDictionary* tempdata = [CZJUtils DataFromJson:json];
@@ -153,9 +156,14 @@
         [self.rightCollection reloadData];
     };
     
-    CZJFailureBlock failBlock = ^{};
+    CZJFailureBlock failBlock = ^{
+        [MBProgressHUD hideAllHUDsForView:self animated:YES];
+        [CZJUtils showReloadAlertViewOnTarget:self.rightCollection withReloadHandle:^{
+            [weak getCategoryDataFromServer];
+        }];
+    };
     
-    [CZJBaseDataInstance showCategoryTypeId:typeId success:successBlock fail:failBlock];
+    [CZJBaseDataInstance showCategoryTypeId:currentTypeID success:successBlock fail:failBlock];
 }
 
 #pragma mark-----------------------左边的tablewView 代理-------------------------
@@ -224,7 +232,7 @@
     self.selectIndex = indexPath.row;
     cell.selected = YES;
     rightMeun * title=self.allData[indexPath.row];
-    NSString* typeID = title.ID;
+    currentTypeID = title.ID;
     NSArray* nextAry = title.nextArray;
 
     UILabel * line=(UILabel*)[cell viewWithTag:100];
@@ -243,7 +251,7 @@
     }
     
     if (nextAry.count <= 0) {
-        [self getCategoryDataFromServer:typeID];
+        [self getCategoryDataFromServer];
     }
     else
     {
