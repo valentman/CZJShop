@@ -45,7 +45,6 @@
         self.leftSeparatorColor=UIColorFromRGB(0xE5E5E5);
         self.leftUnSelectBgColor=UIColorFromRGB(0xF3F4F6);
         self.leftUnSelectColor=[UIColor blackColor];
-        
         _selectIndex=1;
         _allData=data;
         
@@ -110,6 +109,7 @@
     self.leftTablew.backgroundColor=leftBgColor;
    
 }
+
 -(void)setLeftSelectBgColor:(UIColor *)leftSelectBgColor{
     
     _leftSelectBgColor=leftSelectBgColor;
@@ -117,16 +117,19 @@
     
     self.backgroundColor=leftSelectBgColor;
 }
+
 -(void)setLeftSeparatorColor:(UIColor *)leftSeparatorColor{
     _leftSeparatorColor=leftSeparatorColor;
     self.leftTablew.separatorColor=leftSeparatorColor;
 }
+
 -(void)reloadData{
     
     [self.leftTablew reloadData];
     [self.rightCollection reloadData];
     
 }
+
 - (void)getCategoryDataFromServer:(NSString*)typeId
 {
     //从服务器获取数据成功返回回调
@@ -173,8 +176,9 @@
     if (!cell) {
         cell=[[NSBundle mainBundle] loadNibNamed:@"MultilevelTableViewCell" owner:self options:nil][0];
         
-        UILabel * label=[[UILabel alloc] initWithFrame:CGRectMake(kLeftWidth-0.5, 0, 0.5, 44)];
+        UILabel * label=[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 0, 44)];
         label.backgroundColor=tableView.separatorColor;
+        label.textAlignment = NSTextAlignmentCenter;
         [cell addSubview:label];
         label.tag=100;
     }
@@ -336,7 +340,7 @@
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
-    int width = (PJ_SCREEN_WIDTH - 120)/3;
+    int width = (PJ_SCREEN_WIDTH - ((iPhone5 || iPhone4) ? 128 : 140))/3;
     int height = (width * 120)/88;
     return CGSizeMake(width, height);
 }

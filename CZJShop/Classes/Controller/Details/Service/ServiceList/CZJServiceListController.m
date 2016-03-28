@@ -449,7 +449,7 @@
     [self getStoreServiceListDataFromServer];
 }
 
-- (void)pullDownMenuDidSelectFiliterButton
+- (void)pullDownMenuDidSelectFiliterButton:(MXPullDownMenu*)pullDownMenu
 {
     [self actionBtn];
     self.navigationController.interactivePopGestureRecognizer.enabled = NO;

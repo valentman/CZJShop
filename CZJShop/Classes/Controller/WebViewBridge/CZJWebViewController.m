@@ -53,6 +53,8 @@ DZNEmptyDataSetDelegate
     self.myWebView = [[UIWebView alloc]initWithFrame:CGRectMake(0, 64, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - 64)];
     self.myWebView.delegate = self;
     [self.view addSubview:self.myWebView];
+    self.view.backgroundColor = CZJNAVIBARBGCOLOR;
+    self.myWebView.backgroundColor = CZJNAVIBARBGCOLOR;
     
     //URLRequest
     if (_cur_url)

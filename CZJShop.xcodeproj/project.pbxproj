@@ -730,6 +730,7 @@
 		ECC4DEFA1C17FEA900FBD6A4 /* shaixuan_icon_hot@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = ECC4DEB41C17FEA900FBD6A4 /* shaixuan_icon_hot@2x.png */; };
 		ECC4DEFB1C17FEA900FBD6A4 /* shaixuan_icon_hot@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = ECC4DEB51C17FEA900FBD6A4 /* shaixuan_icon_hot@3x.png */; };
 		ECC4DEFD1C1802E100FBD6A4 /* AMap.bundle in Resources */ = {isa = PBXBuildFile; fileRef = ECC4DEFC1C1802E100FBD6A4 /* AMap.bundle */; };
+		ECC4FD641CA8E45E00944E30 /* CZJFilterForm.m in Sources */ = {isa = PBXBuildFile; fileRef = ECC4FD631CA8E45E00944E30 /* CZJFilterForm.m */; settings = {ASSET_TAGS = (); }; };
 		ECCC32A61C50B6BC008A36CB /* errorInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = ECCC32A21C50B6BC008A36CB /* errorInfo.plist */; settings = {ASSET_TAGS = (); }; };
 		ECCC32A71C50B6BC008A36CB /* errortype.plist in Resources */ = {isa = PBXBuildFile; fileRef = ECCC32A31C50B6BC008A36CB /* errortype.plist */; settings = {ASSET_TAGS = (); }; };
 		ECCC32A81C50B6BC008A36CB /* hintInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = ECCC32A41C50B6BC008A36CB /* hintInfo.plist */; settings = {ASSET_TAGS = (); }; };
@@ -2165,6 +2166,8 @@
 		ECC4DEB41C17FEA900FBD6A4 /* shaixuan_icon_hot@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "shaixuan_icon_hot@2x.png"; sourceTree = "<group>"; };
 		ECC4DEB51C17FEA900FBD6A4 /* shaixuan_icon_hot@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "shaixuan_icon_hot@3x.png"; sourceTree = "<group>"; };
 		ECC4DEFC1C1802E100FBD6A4 /* AMap.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = AMap.bundle; path = MAMapKit.framework/Versions/2.5.0.002286d.60159/Resources/AMap.bundle; sourceTree = "<group>"; };
+		ECC4FD621CA8E45E00944E30 /* CZJFilterForm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJFilterForm.h; sourceTree = "<group>"; };
+		ECC4FD631CA8E45E00944E30 /* CZJFilterForm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJFilterForm.m; sourceTree = "<group>"; };
 		ECCC32A21C50B6BC008A36CB /* errorInfo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = errorInfo.plist; sourceTree = "<group>"; };
 		ECCC32A31C50B6BC008A36CB /* errortype.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = errortype.plist; sourceTree = "<group>"; };
 		ECCC32A41C50B6BC008A36CB /* hintInfo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = hintInfo.plist; sourceTree = "<group>"; };
@@ -3035,6 +3038,8 @@
 				ECD6FFA31C802001005F8E52 /* CZJEvaluateForm.m */,
 				EC6555661C966E6A00F68ECC /* CZJPaymentOrderForm.h */,
 				EC6555671C966E6A00F68ECC /* CZJPaymentOrderForm.m */,
+				ECC4FD621CA8E45E00944E30 /* CZJFilterForm.h */,
+				ECC4FD631CA8E45E00944E30 /* CZJFilterForm.m */,
 			);
 			name = Madel;
 			path = Classes/Madel;
@@ -6253,6 +6258,7 @@
 				ECC4DE1A1C17D67B00FBD6A4 /* OpenShare+Alipay.m in Sources */,
 				EC025FCA1C21036E00A8085E /* MJRefreshComponent.m in Sources */,
 				EC0223B71C59C7BB00600851 /* CZJTableViewCell.m in Sources */,
+				ECC4FD641CA8E45E00944E30 /* CZJFilterForm.m in Sources */,
 				ECF2DCAA1C5767F80096FF39 /* CZJStoreAttentionHeadCell.m in Sources */,
 				ECF2DCB61C5767F80096FF39 /* CZJSexSelectController.m in Sources */,
 				ECFFB9531C103CC500811C2E /* CZJStoreViewController.m in Sources */,

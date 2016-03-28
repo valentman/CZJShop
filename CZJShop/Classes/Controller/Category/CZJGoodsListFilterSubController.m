@@ -13,10 +13,11 @@
 {
     NSMutableDictionary* goodsListFilterSubPostParams;
     NSMutableDictionary* currentSelectedBackDict;
+    NSInteger _selectIndex;
 }
 @property (nonatomic, strong) UITableView *tableView;
-@property(assign,nonatomic) NSInteger selectIndex;
 @property(assign)NSIndexPath* selelctIndexPathZero;
+@property(assign)NSIndexPath* selelctIndexPath;
 
 @end
 
@@ -52,11 +53,12 @@
     self.navigationItem.rightBarButtonItem = rightItem;
     [rightItem setTag:1001];
     
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0,0, PJ_SCREEN_WIDTH-50, PJ_SCREEN_HEIGHT) style:UITableViewStyleGrouped];
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 64, PJ_SCREEN_WIDTH-50, PJ_SCREEN_HEIGHT) style:UITableViewStylePlain];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     self.tableView.separatorStyle = UITableViewCellSelectionStyleNone;
     self.tableView.clipsToBounds = true;
+    self.automaticallyAdjustsScrollViewInsets = NO;
     [self.view addSubview:self.tableView];
     if ([self.subFilterName isEqualToString:@"品牌"] ||
         [self.subFilterName isEqualToString:@"价格"]) {
@@ -77,18 +79,23 @@
 {
     [goodsListFilterSubPostParams setObject:self.typeId forKey:@"typeId"];
     CZJSuccessBlock successBlock = ^(id json) {
-        NSDictionary* dict = [CZJUtils DataFromJson:json];
+        NSArray* dict = [[CZJUtils DataFromJson:json] valueForKey:@"msg"];
+        DLog(@"%@",[dict description]);
         
-        self.subFilterArys = [dict valueForKey:@"msg"];
+        if ([self.subFilterName isEqualToString:@"品牌"])
+        {
+            self.subFilterArys = [CZJFilterBrandItemForm objectArrayWithKeyValuesArray:dict];
+        }
+        if ([self.subFilterName isEqualToString:@"价格"])
+        {
+            self.subFilterArys = [CZJFilterPriceItemForm objectArrayWithKeyValuesArray:dict];
+        }
         [self.tableView reloadData];
-        //默认点击第一个
         
+        
+        //默认点击第一个
         if (self.subFilterArys.count>0  && self.selectdCondictionArys.count == 0) {
             [self tableView:self.tableView didSelectRowAtIndexPath: self.selelctIndexPathZero];
-        }
-        else if ([self.subFilterName isEqualToString:@"价格"])
-        {
-            
         }
     };
     
@@ -100,9 +107,7 @@
 
 - (void)navBackBarAction:(UIBarButtonItem *)bar{
     if (self.navigationController.viewControllers.count > 1) {
-        
         [currentSelectedBackDict setObject:self.selectdCondictionArys.count > 0 ? self.selectdCondictionArys : [NSMutableArray array] forKey:self.subFilterName];
-        DLog(@"%@",[currentSelectedBackDict description]);
         
         if ([self.delegate respondsToSelector:@selector(sendChoosedDataBack:)])
         {
@@ -148,15 +153,25 @@
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.textLabel.font = [UIFont systemFontOfSize:14];
     
-    NSString* name = [_subFilterArys[indexPath.row] valueForKey:@"value"];
-    if ([self.subFilterName isEqualToString:@"品牌"] ||
-        [self.subFilterName isEqualToString:@"价格"]) {
-        name = [_subFilterArys[indexPath.row] valueForKey:@"name"];
+    NSString* name = @"";
+    id obj = self.subFilterArys[indexPath.row];
+    
+    if ([self.subFilterName isEqualToString:@"品牌"])
+    {
+        name = ((CZJFilterBrandItemForm*)obj).name;
+    }
+    else if ([self.subFilterName isEqualToString:@"价格"])
+    {
+        name = ((CZJFilterPriceItemForm*)obj).name;
+    }
+    else
+    {
+        name = ((CZJFilterCategoryItemForm*)obj).value;
     }
     cell.textLabel.text = name;
     
     //在没有选择任何选项的时候
-    if (0 == self.selectIndex && indexPath.row != 0)
+    if (0 == _selectIndex && indexPath.row != 0)
     {
         [[cell viewWithTag:5001] setHidden:YES];
         cell.isSelected = NO;
@@ -164,32 +179,32 @@
     }
     
     //如果在这选择页面选择了退出到第一个界面，再返回来的时候，需要呈现已选的选项
-    DLog(@"cout:%ld",self.selectdCondictionArys.count);
     if (self.selectdCondictionArys.count > 0 && indexPath.row != 0)
     {
-        for (NSDictionary* dict in self.selectdCondictionArys)
+        for (id filterOjc in self.selectdCondictionArys)
         {
-            DLog(@"%@",[dict description]);
             NSString* subName;
-            if ([self.subFilterName isEqualToString:@"品牌"] ||
-                [self.subFilterName isEqualToString:@"价格"])
+            if ([self.subFilterName isEqualToString:@"品牌"])
             {
-                subName = [dict valueForKey:@"name"];
+                subName = ((CZJFilterBrandItemForm*)filterOjc).name;
+            }
+            else if ([self.subFilterName isEqualToString:@"价格"])
+            {
+                subName = ((CZJFilterPriceItemForm*)filterOjc).name;
             }
             else
             {
-                subName = [dict valueForKey:@"value"];
+                subName = ((CZJFilterCategoryItemForm*)filterOjc).value;
             }
-
+            
             if ([subName isEqualToString:name])
             {
                 if ([self.subFilterName isEqualToString:@"价格"]) {
-//                    [self tableView:self.tableView didSelectRowAtIndexPath: self.selelctIndexPathZero];
-//                    [self tableView:self.tableView didDeselectRowAtIndexPath:indexPath];
-//                    [self tableView:self.tableView didSelectRowAtIndexPath:indexPath];
                     [[cell viewWithTag:5001] setHidden:NO];
                     cell.isSelected = YES;
                     cell.textLabel.textColor = [UIColor redColor];
+                    [self tableView:self.tableView didSelectRowAtIndexPath:indexPath];
+                    _selelctIndexPath = indexPath;
                 }
                 else
                 {
@@ -214,13 +229,26 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (self.selectIndex == 0)
+    if ([self.subFilterName isEqualToString:@"价格"])
     {
-        [self tableView:tableView didDeselectRowAtIndexPath:self.selelctIndexPathZero];
+        if (_selectIndex == _selelctIndexPath.row) {
+            [self tableView:tableView didDeselectRowAtIndexPath:self.selelctIndexPath];
+        }
+        if (_selectIndex == 0)
+        {
+            [self tableView:tableView didDeselectRowAtIndexPath:self.selelctIndexPathZero];
+        }
     }
-    self.selectIndex = indexPath.row;
+    else
+    {
+        if (_selectIndex == 0)
+        {
+            [self tableView:tableView didDeselectRowAtIndexPath:self.selelctIndexPathZero];
+        }
+    }
+    _selectIndex = indexPath.row;
     CZJTableViewCell* cell = [tableView cellForRowAtIndexPath:indexPath];
-    if (self.selectIndex == 0)
+    if (_selectIndex == 0)
     {
         [[cell viewWithTag:5001] setHidden:NO];
         cell.isSelected = YES;
@@ -249,16 +277,23 @@
             cell.isSelected = YES;
             cell.textLabel.textColor = [UIColor redColor];
 
+            if ([self.subFilterName isEqualToString:@"价格"])
+            {
+                [self.selectdCondictionArys removeAllObjects];
+            }
             [self.selectdCondictionArys addObject:self.subFilterArys[indexPath.row]];
         }
         
-        if (![self.subFilterName isEqualToString:@"价格"] && 0 != self.selectIndex)
+        if (![self.subFilterName isEqualToString:@"价格"] && 0 != _selectIndex)
         {
             CZJTableViewCell* cellfirst = [tableView cellForRowAtIndexPath:self.selelctIndexPathZero];
             [[cellfirst viewWithTag:5001] setHidden:YES];
             cellfirst.isSelected = NO;
             cellfirst.textLabel.textColor = [UIColor blackColor];
         }
+        
+        //俩种情况会选择全部（1.去选掉所有可选选项时，2.选择所有可选项时）
+        DLog(@"%ld,%ld",self.selectdCondictionArys.count,self.subFilterArys.count);
         if (self.selectdCondictionArys.count == 0 ||
             self.selectdCondictionArys.count >= self.subFilterArys.count - 1)
         {
@@ -278,9 +313,9 @@
         [[cell viewWithTag:5001] setHidden:YES];
         cell.isSelected = NO;
         [self.selectdCondictionArys removeObject:self.subFilterArys[indexPath.row]];
-        DLog(@"%ld",self.selectdCondictionArys.count);
+        DLog(@"selectcount:%ld",self.selectdCondictionArys.count);
     }
-    else if (self.selectIndex == 0)
+    else if (_selectIndex == 0)
     {
         [[cell viewWithTag:5001] setHidden:YES];
         cell.isSelected = NO;

@@ -30,7 +30,7 @@
     [navigationBarAppearance setBackgroundImage:[UIImage imageNamed:@"nav_bargound"] forBarMetrics:UIBarMetricsDefault];
     self.navigationController.toolbar.translucent = NO;
     self.navigationController.navigationBar.shadowImage =[UIImage imageNamed:@"nav_bargound"];
-    
+    self.automaticallyAdjustsScrollViewInsets = NO;
 
     
 

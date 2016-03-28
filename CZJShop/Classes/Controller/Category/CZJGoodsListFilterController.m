@@ -21,30 +21,43 @@ UITableViewDelegate,
 CZJGoodsListFilterSubControllerDelegate
 >
 {
-    NSMutableDictionary* goodsListFilterPostParams;
+    NSMutableArray* _filterConditionArys;
+    NSMutableArray* _selectedConditionArys;
+    NSMutableArray* _brandIDArys;
+    NSMutableArray* _arrtrIDArys;
+    NSString* startPrice;
+    NSString* endPrice;
+    NSArray* _arrTitle;
 }
 @property (nonatomic, copy) MGBasicBlock basicBlock;
 @property (nonatomic, strong) UITableView *tableView;
-@property (nonatomic, strong) NSArray *arrTitle;
-@property (nonatomic, strong) NSArray *conditionKeys;
-@property (nonatomic, strong) NSArray* brandAndPriceArys;
-@property (nonatomic, strong) NSMutableArray* filterConditionArys;
-@property (nonatomic, strong) NSMutableArray* selectedConditionArys;
-
 @end
 
 @implementation CZJGoodsListFilterController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"筛选";
-    self.arrTitle = @[@"仅看有货", @"促销", @"推荐"];
-    goodsListFilterPostParams = [NSMutableDictionary dictionary];
-    _brandAndPriceArys = @[@{@"name":@"品牌"},@{ @"name":@"价格"}];
-    _filterConditionArys  = [NSMutableArray array];
-    _selectedConditionArys = [NSMutableArray array];
+    [self initFilterDatas];
     [self initViewsAndButtons];
     [self getGoodsFilterListFromServer];
+}
+
+- (void)initFilterDatas
+{
+    self.title = @"筛选";
+    _arrTitle = @[@"仅看有货", @"促销", @"推荐"];
+    _filterConditionArys  = [NSMutableArray array];
+    _brandIDArys = [NSMutableArray array];
+    
+    startPrice = @"";
+    endPrice = @"";
+    
+    CZJFilterBrandForm* brandForm = [[CZJFilterBrandForm alloc]init];
+    brandForm.name = @"品牌";
+    CZJFilterPriceForm* priceForm = [[CZJFilterPriceForm alloc]init];
+    priceForm.name = @"价格";
+    [_filterConditionArys addObject:brandForm];
+    [_filterConditionArys addObject:priceForm];
 }
 
 - (void)initViewsAndButtons
@@ -59,12 +72,13 @@ CZJGoodsListFilterSubControllerDelegate
     self.navigationItem.rightBarButtonItem = rightItem;
     [rightItem setTag:1001];
     
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0,0, PJ_SCREEN_WIDTH-50, PJ_SCREEN_HEIGHT) style:UITableViewStyleGrouped];
-    self.tableView.delegate = self;
-    self.tableView.dataSource = self;
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0,64, PJ_SCREEN_WIDTH-50, PJ_SCREEN_HEIGHT) style:UITableViewStylePlain];
     self.tableView.separatorStyle = UITableViewCellSelectionStyleNone;
+    self.tableView.tableFooterView = [[UIView alloc]init];
     self.tableView.clipsToBounds = true;
+    self.automaticallyAdjustsScrollViewInsets = NO;
     [self.view addSubview:self.tableView];
+
     
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(refreshTableView:) name:@"ChooseCartype" object:nil];
 }
@@ -76,54 +90,49 @@ CZJGoodsListFilterSubControllerDelegate
 
 - (void)getGoodsFilterListFromServer
 {
-    [goodsListFilterPostParams setObject:self.typeId forKey:@"typeId"];
+    NSDictionary* params = @{@"typeId" : self.typeId};
     CZJSuccessBlock successBlock = ^(id json) {
-        NSDictionary* dict = [CZJUtils DataFromJson:json];
-        [self.filterConditionArys removeAllObjects];
-        [self.filterConditionArys addObjectsFromArray:_brandAndPriceArys];
-        [self.filterConditionArys addObjectsFromArray:[dict valueForKey:@"msg"]];
-        
-        DLog(@"%@", [self.filterConditionArys description]);
-        
-        for (id obj in self.filterConditionArys)
-        {
-            NSMutableDictionary* dict = [@{[obj valueForKey:@"name"]:[NSMutableArray array]} mutableCopy];
-            [self.selectedConditionArys addObject:dict];
-        }
+        NSArray* dict = [[CZJUtils DataFromJson:json] valueForKey:@"msg"];
+        [_filterConditionArys addObjectsFromArray:[CZJFilterCategoryForm objectArrayWithKeyValuesArray:dict]];
+
+        self.tableView.delegate = self;
+        self.tableView.dataSource = self;
         [self.tableView reloadData];
     };
     
-    [CZJBaseDataInstance loadGoodsFilterTypes:goodsListFilterPostParams
+    [CZJBaseDataInstance loadGoodsFilterTypes:params
                                       success:successBlock
                                          fail:^{}];
 }
 
 
 - (void)setCancleBarItemHandle:(MGBasicBlock)basicBlock{
-    
     self.basicBlock = basicBlock;
 }
 
 - (void)cancelAction:(UIBarButtonItem *)bar{
-    
     if(self.basicBlock)self.basicBlock();
     [[NSNotificationCenter defaultCenter]removeObserver:self name:@"ChooseCartype" object:nil];
-    
 }
+
 - (void)navBackBarAction:(UIBarButtonItem *)bar{
     if (self.navigationController.viewControllers.count > 1) {
         [self.navigationController popViewControllerAnimated:YES];
     }else{
         [self dismissViewControllerAnimated:YES completion:nil];
         [self cancelAction:bar];
-        [self.delegate chooseFilterOK:@""];         //attrijson
+        
+        DLog(@"%ld, %ld",_brandIDArys.count, _arrtrIDArys.count);
+        [USER_DEFAULT setValue:[_brandIDArys componentsJoinedByString:@","] forKey:kUserDefaultChoosedBrandID];
+        [USER_DEFAULT setValue:startPrice forKey:kUserDefaultStartPrice];
+        [USER_DEFAULT setValue:endPrice forKey:kUserDefaultEndPrice];
+        
+        [self.delegate chooseFilterOK:_arrtrIDArys];         //attrijson
     }
 }
 
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 #pragma mark- UITableViewDatasource
@@ -146,9 +155,8 @@ CZJGoodsListFilterSubControllerDelegate
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    
     if (0 == indexPath.section)
-    {
+    {//选择车型和商品类型选择
         if (0 == indexPath.row) {
             UITableViewCell* cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"cell0"];
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -163,7 +171,7 @@ CZJGoodsListFilterSubControllerDelegate
             CZJSerFilterTypeChooseCell* cell = [[CZJSerFilterTypeChooseCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell1"];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             
-            [cell setButtonDatas:self.arrTitle WithType:kCZJSerFilterTypeChooseCellTypeGoods];
+            [cell setButtonDatas:_arrTitle WithType:kCZJSerFilterTypeChooseCellTypeGoods];
             return cell;
         }
     }
@@ -176,56 +184,69 @@ CZJGoodsListFilterSubControllerDelegate
         }
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        NSString* categoryname = [[self.selectedConditionArys[indexPath.row] allKeys]firstObject];
+        
+        CZJFilterBaseForm* filterObject = _filterConditionArys[indexPath.row];
+        
+        //筛选条件名称
+        NSString* categoryname = filterObject.name;
         cell.textLabel.text = categoryname;
         cell.textLabel.font = [UIFont systemFontOfSize:14];
         cell.detailTextLabel.textColor = [UIColor grayColor];
         
-        NSMutableString* detailContent = [[NSMutableString alloc]init];
-        NSMutableArray* obj =[self.selectedConditionArys[indexPath.row] valueForKey:categoryname];
+        //筛选条件
+        NSString* detailContent = [[NSMutableString alloc]init];
+        NSMutableArray* obj = filterObject.selectedItems;
         if (obj.count == 0) {
             detailContent = [@"全部" mutableCopy];
         }
         else
         {
-            NSArray* conditions = [self.selectedConditionArys[indexPath.row] valueForKey:categoryname];
-            for (NSDictionary* dict in conditions) {
-                NSString* subName;
-                if ([categoryname isEqualToString:@"品牌"] ||
-                    [categoryname isEqualToString:@"价格"])
-                {
-                    subName = [dict valueForKey:@"name"];
+            NSArray* conditions = filterObject.selectedItems;
+            NSMutableArray* conditionNames = [NSMutableArray array];
+            NSMutableArray* arrIDAry = [NSMutableArray array];
+            [_brandIDArys removeAllObjects];
+            for (id object in conditions) {
+                if ([object isKindOfClass:[CZJFilterBrandItemForm class]])
+                {//品牌
+                    [conditionNames addObject: ((CZJFilterBrandItemForm*)object).name];
+                    [_brandIDArys addObject:((CZJFilterBrandItemForm*)object).brandId];
                 }
-                else
-                {
-                    subName = [dict valueForKey:@"value"];
+                if ([object isKindOfClass:[CZJFilterPriceItemForm class]])
+                {//价格
+                    [conditionNames addObject: ((CZJFilterPriceItemForm*)object).name];
+                    startPrice = ((CZJFilterPriceItemForm*)object).startPrice;
+                    endPrice = ((CZJFilterPriceItemForm*)object).endPrice;
                 }
-                [detailContent appendString:subName];
-                if (![dict isEqualToDictionary:[conditions lastObject]]) {
-                    [detailContent appendString:@"、"];
+                if ([object isKindOfClass:[CZJFilterCategoryItemForm class]])
+                {//其他动态改变的筛选条件
+                    [conditionNames addObject:((CZJFilterCategoryItemForm*)object).value];
+                    [arrIDAry addObject:((CZJFilterCategoryItemForm*)object).attrId];
                 }
+                detailContent = [conditionNames componentsJoinedByString:@"、"];
             }
             cell.detailTextLabel.textColor = [UIColor redColor];
+            
+            if ([filterObject isKindOfClass:[CZJFilterCategoryForm class]])
+            {
+                NSDictionary* attrIDDict = @{@"attrId" : ((CZJFilterCategoryForm*)filterObject).attrId,
+                                             @"valueIds": arrIDAry};
+                [_arrtrIDArys addObject:attrIDDict];
+            }
         }
         cell.detailTextLabel.text = detailContent;
         return cell;
     }
-
     return nil;
 }
 
 
 #pragma mark - UITableViewDelegate
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
-    return 0.001f;
-}
-
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     if (0 == section) {
         return 10;
     }
-    return 0;
+    return 10;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -238,19 +259,15 @@ CZJGoodsListFilterSubControllerDelegate
         }
         else if (1 == indexPath.row)
         {
-
             return  55;
         }
     }
     if (1 == indexPath.section)
     {
-
         return 44;
-
     }
     return 0;
 }
-
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
@@ -261,21 +278,24 @@ CZJGoodsListFilterSubControllerDelegate
     }
     if (1 == indexPath.section)
     {
+        CZJFilterBaseForm* touchedCategory = ((CZJFilterBaseForm*)_filterConditionArys[indexPath.row]);
         CZJGoodsListFilterSubController *svc = [[CZJGoodsListFilterSubController alloc] init];
         svc.typeId = self.typeId;
         svc.delegate = self;
-        svc.subFilterName = [_filterConditionArys[indexPath.row] valueForKey:@"name"];
+        svc.subFilterName = touchedCategory.name;
         svc.selectdCondictionArys = [NSMutableArray array];
         
-        NSArray* currentAry = [self.selectedConditionArys[indexPath.row] valueForKey:svc.subFilterName];
+        NSArray* currentAry = touchedCategory.selectedItems;
         if (currentAry.count > 0) {
+            //如果是品牌或是价格，
             [svc.selectdCondictionArys setArray:currentAry];
         }
         
+        //非品牌和价格筛选项，须传相应筛选条件到下一个VC
         if (![svc.subFilterName isEqualToString:@"品牌"] &&
             ![svc.subFilterName isEqualToString:@"价格"])
         {
-            svc.subFilterArys = [_filterConditionArys[indexPath.row] valueForKey:@"items"];
+            svc.subFilterArys = ((CZJFilterCategoryForm*)touchedCategory).items;
         }
         [self.navigationController pushViewController:svc animated:YES];
     }
@@ -288,16 +308,15 @@ CZJGoodsListFilterSubControllerDelegate
     NSMutableDictionary* dictone = (NSMutableDictionary*)data;
     NSArray* allKeysOne = [dictone allKeys];
     NSString* nameChoose = [allKeysOne firstObject];
-    for (id dict in self.selectedConditionArys)
+    for (CZJFilterBaseForm* baseForm in _filterConditionArys)
     {
-        NSMutableDictionary* dicts = (NSMutableDictionary*)dict;
-        NSArray* allkeys = [dicts allKeys];
-        NSString* nameOne = [allkeys firstObject];
-        if ([nameChoose isEqualToString:nameOne]) {
-            [dict setObject:[dictone objectForKey:nameChoose] forKey:nameOne];
+        if ([baseForm.name isEqualToString:nameChoose])
+        {
+            baseForm.selectedItems = [dictone valueForKey:nameChoose];
             break;
         }
     }
+    [_arrtrIDArys removeAllObjects];
     [self.tableView reloadData];
 }
 

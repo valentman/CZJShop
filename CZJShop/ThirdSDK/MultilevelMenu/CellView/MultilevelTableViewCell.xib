@@ -14,7 +14,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="100" height="43"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eJ2-ih-FZh">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eJ2-ih-FZh">
                         <rect key="frame" x="0.0" y="11" width="100" height="21"/>
                         <animations/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -23,6 +23,12 @@
                     </label>
                 </subviews>
                 <animations/>
+                <constraints>
+                    <constraint firstItem="eJ2-ih-FZh" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="11" id="RfQ-hG-NVF"/>
+                    <constraint firstAttribute="trailing" secondItem="eJ2-ih-FZh" secondAttribute="trailing" id="VdR-mG-clq"/>
+                    <constraint firstItem="eJ2-ih-FZh" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="ZjJ-7I-ZOB"/>
+                    <constraint firstAttribute="bottom" secondItem="eJ2-ih-FZh" secondAttribute="bottom" constant="11" id="ylG-dw-set"/>
+                </constraints>
             </tableViewCellContentView>
             <animations/>
             <connections>

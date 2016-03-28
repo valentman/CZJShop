@@ -42,7 +42,7 @@
         btn.layer.borderWidth = 0.5;
         btn.layer.cornerRadius = 5.0;
         btn.backgroundColor = [UIColor whiteColor];
-        [btn.titleLabel setFont:[UIFont systemFontOfSize:12]];
+        [btn.titleLabel setFont:SYSTEMFONT(12)];
         [self.contentView addSubview:btn];
         [_currentButtons addObject:btn];
     }

@@ -12,7 +12,7 @@
 #define kCellSizeWith ((PJ_SCREEN_WIDTH - 50)/3.0f) //cell等分成三等份 按钮宽度
 #define kCellLeftMargin (((PJ_SCREEN_WIDTH - 50) - 3*kButtonWidth) / 4)
 #define kButtonHeight 38              //按钮高度
-#define kButtonWidth 96              //按钮高度
+#define kButtonWidth   (iPhone4 || iPhone5) ? 60 : 96              //按钮高度
 
 #define kButtonTopMargin 15       //按钮距顶部margin
 #define kButtonVertMargin 15      // 垂直margin
@@ -32,6 +32,8 @@
     DLog(@"%f",self.bounds.size.height);
     cellType = type;
     NSUInteger buttonCount = self.buttonDatas.count;
+    int buttonWidth = (iPhone4 || iPhone5) ? 70 : 96;
+    int buttonLeftMargin = (((PJ_SCREEN_WIDTH - 50) - 3*buttonWidth) / 4);
     //先初始化按钮
     for (int i = 0; i< buttonCount; i++)
     {
@@ -46,15 +48,18 @@
             row = 1;
         }
         // 很据列数和行数算出x、y
-        int childX = column * (kButtonWidth + kCellLeftMargin);
+        
+        int childX = column * (buttonWidth + buttonLeftMargin);
         int childY = row * (kButtonHeight + kButtonVertMargin);
         if (cellType == kCZJSerfilterTypeChooseCellTypeReturnGoods)
         {
             childY = 20;
         }
-        child.frame = CGRectMake(childX + kCellLeftMargin, childY, kButtonWidth, kButtonHeight);
+        
+        child.frame = CGRectMake(childX + buttonLeftMargin, childY, buttonWidth, kButtonHeight);
         child.hidden = NO;
-        child.titleLabel.font = [UIFont systemFontOfSize:15];
+        UIFont* font = (iPhone4 || iPhone5) ? SYSTEMFONT(12) : SYSTEMFONT(14);
+        child.titleLabel.font = font;
         [child addTarget:self action:@selector(selectedBtnClick:) forControlEvents:UIControlEventTouchUpInside];
         
         //根据传入的内容的不同，button的标题的获取方式不同

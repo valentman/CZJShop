@@ -30,6 +30,7 @@ UIWebViewDelegate
     self.myWebView.delegate = self;
     [self.view addSubview:_myWebView];
     _myWebView.scrollView.delegate = self;
+    _myWebView.backgroundColor = CZJNAVIBARBGCOLOR;
     
     _myLabel = [[UILabel alloc]initWithFrame:CGRectMake(PJ_SCREEN_WIDTH/2 - 75, 10, 150, 20)];
     _myLabel.textColor = [UIColor whiteColor];

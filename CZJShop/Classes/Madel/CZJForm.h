@@ -25,4 +25,5 @@
 #import "CZJGoodsDetailForm.h"
 #import "CZJEvaluateForm.h"
 #import "CZJPaymentOrderForm.h"
+#import "CZJFilterForm.h"
 

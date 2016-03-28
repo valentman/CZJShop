@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-#define kLeftWidth 100
+#define kLeftWidth ((iPhone4 || iPhone5) ? 88 : 100)
 typedef void (^SelectBlock)(NSInteger, NSInteger, id);
 
 @interface MultilevelMenu : UIView<UITableViewDataSource,UITableViewDelegate,UICollectionViewDelegateFlowLayout,UICollectionViewDataSource,UICollectionViewDelegate>

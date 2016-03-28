@@ -247,7 +247,7 @@ CZJStoreInfoHeaerCellDelegate
         AController.detaiViewType = self.detaiViewType;
         
         CZJPageControlView* webVie = [[CZJPageControlView alloc]initWithFrame:CGRectMake(0, (PJ_SCREEN_HEIGHT-50), PJ_SCREEN_WIDTH, (PJ_SCREEN_HEIGHT-114)) andPageIndex:kPagePicDetail];
-        
+        webVie.backgroundColor = CZJNAVIBARBGCOLOR;
         [webVie setTitleArray:@[@"图文详情",@"购买须知",@"包装售后",@"适用车型"] andVCArray:@[FController,SController,TController,AController]];
         [self.myScrollView addSubview:webVie];
         

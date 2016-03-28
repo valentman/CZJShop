@@ -42,6 +42,8 @@ CZJFilterControllerDelegate
     NSString* stockFlag;
     NSString* promotionFlag;
     NSString* recommendFlag;
+    NSString* startPrice;
+    NSString* endPrice;
     NSString* attrJson;
 }
 
@@ -86,6 +88,8 @@ CZJFilterControllerDelegate
     recommendFlag = @"0";
     promotionFlag = @"0";
     attrJson = @"";
+    startPrice = @"";
+    endPrice = @"";
 }
 
 
@@ -119,7 +123,19 @@ CZJFilterControllerDelegate
 
 - (void)getGoodsListDataFromServer
 {
-    goodsListPostParams = @{@"sortType" : sortType, @"typeId" : self.typeId, @"q" : self.searchStr ? self.searchStr : @"", @"modelId" : modelID,@"brandId" : brandID,@"stockFlag" : stockFlag,@"promotionFlag" : promotionFlag,@"recommendFlag" : recommendFlag,@"attrJson" : attrJson, @"page" : [NSString stringWithFormat:@"%ld",self.page]};
+    goodsListPostParams = @{@"itemType" : @"1",
+                            @"sortType" : sortType,
+                            @"typeId" : self.typeId,
+                            @"q" : (self.searchStr ? self.searchStr : @""),
+                            @"modelId" : modelID,
+                            @"brandId" : brandID,
+                            @"stockFlag" : stockFlag,
+                            @"promotionFlag" : promotionFlag,
+                            @"recommendFlag" : recommendFlag,
+                            @"attrJson" : attrJson,
+                            @"startPrice" : startPrice,
+                            @"endPrice" : endPrice,
+                            @"page" : [NSString stringWithFormat:@"%ld",self.page]};
     DLog(@"storeparameters:%@", [goodsListPostParams description]);
     CZJSuccessBlock successBlock = ^(id json) {
         [self dealWithArray];
@@ -158,7 +174,6 @@ CZJFilterControllerDelegate
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 
@@ -416,6 +431,9 @@ CZJFilterControllerDelegate
     promotionFlag = [USER_DEFAULT valueForKey:kUSerDefaultPromotionFlag] ? [USER_DEFAULT valueForKey:kUSerDefaultPromotionFlag] : @"";
     recommendFlag = [USER_DEFAULT valueForKey:kUSerDefaultRecommendFlag] ? [USER_DEFAULT valueForKey:kUSerDefaultPromotionFlag] : @"";
     attrJson = data ? data :@"";
+    DLog(@"%@",attrJson.keyValues);
+    startPrice = [USER_DEFAULT valueForKey:kUserDefaultStartPrice];
+    endPrice = [USER_DEFAULT valueForKey:kUserDefaultEndPrice];
     [self getGoodsListDataFromServer];
 }
 
