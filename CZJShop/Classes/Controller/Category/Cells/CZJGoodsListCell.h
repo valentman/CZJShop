@@ -14,5 +14,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *goodRate;
 @property (weak, nonatomic) IBOutlet UILabel *puchaseCount;
 @property (weak, nonatomic) IBOutlet UILabel *goodsName;
+@property (weak, nonatomic) IBOutlet UIImageView *imageOne;
+@property (weak, nonatomic) IBOutlet UIImageView *imageTwo;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *purchaseCountWidth;
 
 @end

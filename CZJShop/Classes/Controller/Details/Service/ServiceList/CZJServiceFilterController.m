@@ -132,7 +132,7 @@
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.textLabel.text = @"选择车型";
         cell.detailTextLabel.text = [USER_DEFAULT valueForKey:kUserDefaultChoosedCarModelType];
-        cell.detailTextLabel.textColor = [UIColor redColor];
+        cell.detailTextLabel.textColor = CZJREDCOLOR;
         cell.textLabel.font = [UIFont systemFontOfSize:16];
         return cell;
     }

@@ -52,7 +52,7 @@
     NSString* goStoreFlag;           //到店服务
     
 }
-@property (strong, nonatomic) UITableView *serviceTableView;
+@property (strong, nonatomic) IBOutlet UITableView *serviceTableView;
 @property (weak, nonatomic) IBOutlet UIView *refreshLocationBarView;
 @property (weak, nonatomic) IBOutlet UILabel *locationNameLabel;
 @property (weak, nonatomic) IBOutlet UIButton *locationButton;
@@ -66,10 +66,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-//    [CZJUtils hideSearchBarViewForTarget:self];
     [self initData];
     [self initTableViewAndPullDownMenu];
     [self initRefreshLocationBarView];
+    [self getStoreServiceListDataFromServer];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -80,7 +80,6 @@
 
 - (void)viewDidAppear:(BOOL)animated
 {
-    DLog();
     pullDownMenuOriginPoint = _pullDownMenu.frame.origin;
     naviBraviewOriginPoint = self.naviBarView.frame.origin;
     if (isFirstIn) {
@@ -89,13 +88,19 @@
         _locationButton.tag = CZJViewMoveOrientationLeft;
         isFirstIn = NO;
     }
-    
     [_pullDownMenu registNotification];
 }
 
 - (void)viewDidLayoutSubviews
 {
-    DLog();
+    self.serviceTableView.frame = CGRectMake(0, 114, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - 114);
+    self.refreshLocationBarView.frame = CGRectMake(PJ_SCREEN_WIDTH - 40, PJ_SCREEN_HEIGHT - 100, PJ_SCREEN_WIDTH, 35);
+}
+
+- (void)viewWillLayoutSubviews
+{
+    self.serviceTableView.frame = CGRectMake(0, 114, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - 114);
+    self.refreshLocationBarView.frame = CGRectMake(PJ_SCREEN_WIDTH - 40, PJ_SCREEN_HEIGHT - 100, PJ_SCREEN_WIDTH, 35);
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -106,7 +111,6 @@
 
 - (void)initData
 {
-    
     isFirstIn = YES;
     _serviceListArys = [NSMutableArray array];
     _getdataType = CZJHomeGetDataFromServerTypeOne;
@@ -123,7 +127,6 @@
 - (void)initTableViewAndPullDownMenu
 {
     //门店服务列表
-    self.serviceTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 110, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - 110) style:UITableViewStylePlain];
     self.serviceTableView.dataSource = self;
     self.serviceTableView.delegate = self;
     self.serviceTableView.tableFooterView = [[UIView alloc]init];
@@ -185,6 +188,7 @@
         else
         {
             _serviceListArys = [[CZJStoreServiceForm objectArrayWithKeyValuesArray:dict] mutableCopy];
+            DLog(@"%@",[[dict keyValues] description]);
             [self.serviceTableView reloadData];
         }
     };
@@ -210,13 +214,24 @@
     NSString* currentPrice = [NSString stringWithFormat:@"￥%@",storeForm.currentPrice];
     cell.currentPrice.text = currentPrice;
     cell.priceLabelWidth.constant = [CZJUtils calculateTitleSizeWithString:currentPrice AndFontSize:15].width + 5;
-    NSString* orginPrice = [NSString stringWithFormat:@"￥%@",storeForm.originalPrice];
-    [cell.originPrice setAttributedText:[CZJUtils stringWithDeleteLine:orginPrice]];
-    cell.originPriceLabelWidth.constant = [CZJUtils calculateTitleSizeWithString:orginPrice AndFontSize:12].width + 5;
     cell.goodRate.text = storeForm.goodEvalRate;
     cell.purchasedCount.text = storeForm.purchaseCount;
     cell.purchasedCountWidth.constant = [CZJUtils calculateTitleSizeWithString:storeForm.purchaseCount AndFontSize:12].width + 5;
     cell.serviceTypeImg.hidden = !storeForm.goStoreFlag;
+    
+    if (storeForm.newlyFlag && !storeForm.promotionFlag)
+    {
+        [cell.imageOne setImage:IMAGENAMED(@"label_icon_new")];
+    }
+    else if (!storeForm.newlyFlag && storeForm.promotionFlag)
+    {
+        [cell.imageOne setImage:IMAGENAMED(@"label_icon_cu")];
+    }
+    else if (storeForm.newlyFlag && storeForm.promotionFlag)
+    {
+        [cell.imageOne setImage:IMAGENAMED(@"label_icon_new")];
+        [cell.imageTwo setImage:IMAGENAMED(@"label_icon_cu")];
+    }
     cell.separatorInset = HiddenCellSeparator;
     return cell;
 }
@@ -291,11 +306,9 @@
 #pragma mark- 定位功能区
 - (void)initRefreshLocationBarView
 {
-    [self.view.window addSubview:_refreshLocationBarView];
-    [self.view.window bringSubviewToFront:_refreshLocationBarView];
+    [self.view bringSubviewToFront:_refreshLocationBarView];
     _locationButton.tag = CZJViewMoveOrientationLeft;
     [_locationButton addTarget:self action:@selector(btnTouched:) forControlEvents:UIControlEventTouchUpInside];
-    [self btnTouched:nil];
 }
 
 - (void)btnTouched:(id)sender

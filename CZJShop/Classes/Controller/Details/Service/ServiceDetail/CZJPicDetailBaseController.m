@@ -39,6 +39,8 @@ UIWebViewDelegate
     _myLabel.text = @"下拉回到“商品详情”";
     _myLabel.alpha = 0;
     [self.view addSubview:_myLabel];
+    
+    [self loadWebPageWithString:_detailUrl];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -75,8 +77,6 @@ UIWebViewDelegate
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     float contentOffsetY = [scrollView contentOffset].y;
-    DLog(@"tag:%ld, %f",scrollView.tag, contentOffsetY);
-    
     if (contentOffsetY < 0)
     {
         float fbsOffset = fabs(contentOffsetY);
@@ -99,7 +99,6 @@ UIWebViewDelegate
     }
 }
 
-
 - (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset NS_AVAILABLE_IOS(5_0)
 {
     if (_isBack)
@@ -108,4 +107,91 @@ UIWebViewDelegate
     }
 }
 
+@end
+
+
+
+@implementation CZJPicDetailController
+
+- (void)viewDidLoad {
+    NSString* apiType;
+    if (CZJDetailTypeGoods == self.detaiViewType)
+    {
+        apiType = kCZJServerAPIGoodsPicDetails;
+    }
+    else
+    {
+        apiType = kCZJServerAPIServicePicDetail;
+    }
+    self.detailUrl = [NSString stringWithFormat:@"%@%@?storeItemPid=%@&itemCode=%@", kCZJServerAddr, apiType,[USER_DEFAULT valueForKey:kUserDefaultDetailStoreItemPid], [USER_DEFAULT valueForKey:kUserDefaultDetailItemCode]];
+    [super viewDidLoad];
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+}
+@end
+
+
+
+@implementation CZJBuyNoticeController
+- (void)viewDidLoad {
+    NSString* apiType;
+    if (CZJDetailTypeGoods == self.detaiViewType)
+    {
+        apiType = kCZJServerAPIGoodsBuyNoteDetail;
+    }
+    else
+    {
+        apiType = kCZJServerAPIServiceBuyNoteDetail;
+    }
+    self.detailUrl = [NSString stringWithFormat:@"%@%@?storeItemPid=%@&itemCode=%@", kCZJServerAddr, apiType,[USER_DEFAULT valueForKey:kUserDefaultDetailStoreItemPid], [USER_DEFAULT valueForKey:kUserDefaultDetailItemCode]];
+    [super viewDidLoad];
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+}
+@end
+
+
+@implementation CZJAfterServiceController
+- (void)viewDidLoad {
+    NSString* apiType;
+    if (CZJDetailTypeGoods == self.detaiViewType)
+    {
+        apiType = kCZJServerAPIGoodsAfterSaleDetail;
+    }
+    else
+    {
+        apiType = kCZJServerAPIServicePicDetail;
+    }
+    self.detailUrl = [NSString stringWithFormat:@"%@%@?storeItemPid=%@&itemCode=%@", kCZJServerAddr, apiType,[USER_DEFAULT valueForKey:kUserDefaultDetailStoreItemPid], [USER_DEFAULT valueForKey:kUserDefaultDetailItemCode]];
+    [super viewDidLoad];
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+}
+@end
+
+
+@implementation CZJApplicableCarController
+- (void)viewDidLoad {
+    NSString* apiType;
+    if (CZJDetailTypeGoods == self.detaiViewType)
+    {
+        apiType = kCZJServerAPIGoodsCarModelList;
+    }
+    else
+    {
+        apiType = kCZJServerAPIServiceCarModelsList;
+    }
+    self.detailUrl = [NSString stringWithFormat:@"%@%@?storeItemPid=%@&itemCode=%@", kCZJServerAddr, apiType,[USER_DEFAULT valueForKey:kUserDefaultDetailStoreItemPid], [USER_DEFAULT valueForKey:kUserDefaultDetailItemCode]];
+    [super viewDidLoad];
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+}
 @end

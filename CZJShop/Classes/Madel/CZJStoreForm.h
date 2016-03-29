@@ -54,8 +54,6 @@
 @property(nonatomic, strong) NSString* currentPrice;
 @property(nonatomic, strong) NSString* distance;
 @property(nonatomic, strong) NSString* evalCount;
-@property(nonatomic, strong) NSString* goHouseFlag;
-@property(nonatomic, strong) NSString* goStoreFlag;
 @property(nonatomic, strong) NSString* goodEvalRate;
 @property(nonatomic, strong) NSString* itemImg;
 @property(nonatomic, strong) NSString* itemName;
@@ -64,5 +62,10 @@
 @property(nonatomic, strong) NSString* purchaseCount;
 @property(nonatomic, strong) NSString* storeItemPid;
 @property(nonatomic, strong) NSString* storeName;
+@property(nonatomic, assign) BOOL promotionFlag;
+@property(nonatomic, assign) BOOL newlyFlag;
+@property(nonatomic, assign) BOOL goHouseFlag;
+@property(nonatomic, assign) BOOL goStoreFlag;
+
 @end
 

@@ -72,22 +72,6 @@
 @end
 
 
-//---------------------券信息---------------------
-@interface CZJCouponForm : NSObject
-@property(nonatomic, strong) NSString* validServiceName;
-@property(nonatomic, strong) NSString* validStartTime;
-@property(nonatomic, strong) NSString* storeName;
-@property(nonatomic, strong) NSString* validServiceId;
-@property(nonatomic, assign) BOOL taked;
-@property(nonatomic, strong) NSString* name;
-@property(nonatomic, strong) NSString* value;
-@property(nonatomic, strong) NSString* validEndTime;
-@property(nonatomic, strong) NSString* couponId;
-@property(nonatomic, strong) NSString* type;
-@property(nonatomic, strong) NSString* validMoney;
-@property(nonatomic, strong) NSString* storeId;
-@end
-
 @interface CZJGoodsDetailForm : NSObject
 @property (nonatomic, strong)CZJGoodsDetail* goods;
 @property (nonatomic, strong)CZJStoreInfoForm* store;

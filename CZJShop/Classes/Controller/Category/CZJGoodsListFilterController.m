@@ -22,7 +22,6 @@ CZJGoodsListFilterSubControllerDelegate
 >
 {
     NSMutableArray* _filterConditionArys;
-    NSMutableArray* _selectedConditionArys;
     NSMutableArray* _brandIDArys;
     NSMutableArray* _arrtrIDArys;
     NSString* startPrice;
@@ -39,15 +38,24 @@ CZJGoodsListFilterSubControllerDelegate
     [super viewDidLoad];
     [self initFilterDatas];
     [self initViewsAndButtons];
-    [self getGoodsFilterListFromServer];
+    if (_selectedConditionArys.count == 0)
+    {
+        [self getGoodsFilterListFromServer];
+    }
+    else
+    {
+        _filterConditionArys = [_selectedConditionArys mutableCopy];
+        [self.tableView reloadData];
+    }
 }
 
 - (void)initFilterDatas
 {
     self.title = @"筛选";
-    _arrTitle = @[@"仅看有货", @"促销", @"推荐"];
+    _arrTitle = @[@"推荐", @"促销", @"有货"];
     _filterConditionArys  = [NSMutableArray array];
     _brandIDArys = [NSMutableArray array];
+    _arrtrIDArys = [NSMutableArray array];
     
     startPrice = @"";
     endPrice = @"";
@@ -76,6 +84,8 @@ CZJGoodsListFilterSubControllerDelegate
     self.tableView.separatorStyle = UITableViewCellSelectionStyleNone;
     self.tableView.tableFooterView = [[UIView alloc]init];
     self.tableView.clipsToBounds = true;
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
     self.automaticallyAdjustsScrollViewInsets = NO;
     [self.view addSubview:self.tableView];
 
@@ -94,9 +104,7 @@ CZJGoodsListFilterSubControllerDelegate
     CZJSuccessBlock successBlock = ^(id json) {
         NSArray* dict = [[CZJUtils DataFromJson:json] valueForKey:@"msg"];
         [_filterConditionArys addObjectsFromArray:[CZJFilterCategoryForm objectArrayWithKeyValuesArray:dict]];
-
-        self.tableView.delegate = self;
-        self.tableView.dataSource = self;
+        
         [self.tableView reloadData];
     };
     
@@ -122,12 +130,42 @@ CZJGoodsListFilterSubControllerDelegate
         [self dismissViewControllerAnimated:YES completion:nil];
         [self cancelAction:bar];
         
-        DLog(@"%ld, %ld",_brandIDArys.count, _arrtrIDArys.count);
+        [_brandIDArys removeAllObjects];
+        [_arrtrIDArys removeAllObjects];
+        for (CZJFilterBaseForm* baseForm in _filterConditionArys)
+        {
+            CZJFilterBaseForm* filterObject = (CZJFilterBaseForm*)baseForm;
+            NSArray* conditions = filterObject.selectedItems;
+            NSMutableArray* arrIDAry = [NSMutableArray array];
+            for (id object in conditions) {
+                if ([object isKindOfClass:[CZJFilterBrandItemForm class]])
+                {//品牌
+                    [_brandIDArys addObject:((CZJFilterBrandItemForm*)object).brandId];
+                }
+                if ([object isKindOfClass:[CZJFilterPriceItemForm class]])
+                {//价格
+                    startPrice = ((CZJFilterPriceItemForm*)object).startPrice;
+                    endPrice = ((CZJFilterPriceItemForm*)object).endPrice;
+                }
+                if ([object isKindOfClass:[CZJFilterCategoryItemForm class]])
+                {//其他动态改变的筛选条件
+                    [arrIDAry addObject:((CZJFilterCategoryItemForm*)object).valueId];
+                }
+            }
+            
+            if ([filterObject isKindOfClass:[CZJFilterCategoryForm class]])
+            {
+                NSDictionary* attrIDDict = @{@"attrId" : ((CZJFilterCategoryForm*)filterObject).attrId,
+                                             @"valueIds": arrIDAry};
+                [_arrtrIDArys addObject:attrIDDict];
+            }
+        }
+        
         [USER_DEFAULT setValue:[_brandIDArys componentsJoinedByString:@","] forKey:kUserDefaultChoosedBrandID];
         [USER_DEFAULT setValue:startPrice forKey:kUserDefaultStartPrice];
         [USER_DEFAULT setValue:endPrice forKey:kUserDefaultEndPrice];
         
-        [self.delegate chooseFilterOK:_arrtrIDArys];         //attrijson
+        [self.delegate chooseGoodFilterOk:_filterConditionArys andData:_arrtrIDArys];
     }
 }
 
@@ -138,33 +176,45 @@ CZJGoodsListFilterSubControllerDelegate
 #pragma mark- UITableViewDatasource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     
-    return 2;
+    return 4;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     
-    if (0 == section)
+    if (1 == section)
     {
         return 2;
     }
-    if (1 == section)
+    if (2 == section)
     {
         return _filterConditionArys.count;
     }
-    return 0;
+    return 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (0 == indexPath.section)
     {//选择车型和商品类型选择
-        if (0 == indexPath.row) {
+        UITableViewCell* cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"cell0"];
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.textLabel.text = @"选择车型";
+        cell.textLabel.font = SYSTEMFONT(14);
+        
+        cell.detailTextLabel.text = [USER_DEFAULT valueForKey:kUserDefaultChoosedCarModelType];
+        cell.detailTextLabel.textColor = CZJREDCOLOR;
+        cell.detailTextLabel.font = SYSTEMFONT(14);
+        return cell;
+    }
+    
+    if (1 == indexPath.section)
+    {
+        if (0 == indexPath.row)
+        {
             UITableViewCell* cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"cell0"];
-            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            cell.textLabel.text = @"选择车型";
-            cell.detailTextLabel.text = [USER_DEFAULT valueForKey:kUserDefaultChoosedCarModelType];
-            cell.detailTextLabel.textColor = [UIColor redColor];
-            cell.textLabel.font = [UIFont systemFontOfSize:16];
+            cell.textLabel.text = @"类别";
+            cell.textLabel.font = [UIFont systemFontOfSize:14];
             return cell;
         }
         if (1 == indexPath.row) {
@@ -175,7 +225,7 @@ CZJGoodsListFilterSubControllerDelegate
             return cell;
         }
     }
-    if (1 == indexPath.section)
+    if (2 == indexPath.section)
     {
         UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"cell2"];
         if (!cell)
@@ -192,6 +242,7 @@ CZJGoodsListFilterSubControllerDelegate
         cell.textLabel.text = categoryname;
         cell.textLabel.font = [UIFont systemFontOfSize:14];
         cell.detailTextLabel.textColor = [UIColor grayColor];
+        cell.detailTextLabel.font = SYSTEMFONT(14);
         
         //筛选条件
         NSString* detailContent = [[NSMutableString alloc]init];
@@ -203,37 +254,36 @@ CZJGoodsListFilterSubControllerDelegate
         {
             NSArray* conditions = filterObject.selectedItems;
             NSMutableArray* conditionNames = [NSMutableArray array];
-            NSMutableArray* arrIDAry = [NSMutableArray array];
-            [_brandIDArys removeAllObjects];
             for (id object in conditions) {
                 if ([object isKindOfClass:[CZJFilterBrandItemForm class]])
                 {//品牌
                     [conditionNames addObject: ((CZJFilterBrandItemForm*)object).name];
-                    [_brandIDArys addObject:((CZJFilterBrandItemForm*)object).brandId];
                 }
                 if ([object isKindOfClass:[CZJFilterPriceItemForm class]])
                 {//价格
                     [conditionNames addObject: ((CZJFilterPriceItemForm*)object).name];
-                    startPrice = ((CZJFilterPriceItemForm*)object).startPrice;
-                    endPrice = ((CZJFilterPriceItemForm*)object).endPrice;
                 }
                 if ([object isKindOfClass:[CZJFilterCategoryItemForm class]])
                 {//其他动态改变的筛选条件
                     [conditionNames addObject:((CZJFilterCategoryItemForm*)object).value];
-                    [arrIDAry addObject:((CZJFilterCategoryItemForm*)object).attrId];
                 }
                 detailContent = [conditionNames componentsJoinedByString:@"、"];
             }
-            cell.detailTextLabel.textColor = [UIColor redColor];
-            
-            if ([filterObject isKindOfClass:[CZJFilterCategoryForm class]])
-            {
-                NSDictionary* attrIDDict = @{@"attrId" : ((CZJFilterCategoryForm*)filterObject).attrId,
-                                             @"valueIds": arrIDAry};
-                [_arrtrIDArys addObject:attrIDDict];
-            }
+            cell.detailTextLabel.textColor = CZJREDCOLOR;
         }
         cell.detailTextLabel.text = detailContent;
+        return cell;
+    }
+    if (3 == indexPath.section)
+    {
+        UITableViewCell* cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"cell5"];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        UIButton* resetBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [resetBtn addTarget:self action:@selector(resetFilterConditioins) forControlEvents:UIControlEventTouchUpInside];
+        resetBtn.frame = CGRectMake(0, 0, 85, 30);
+        [resetBtn setPosition:CGPointMake((PJ_SCREEN_WIDTH - 50)*0.5, cell.frame.size.height*0.5) atAnchorPoint:CGPointMiddle];
+        [resetBtn setImage:[UIImage imageNamed:@"shaixuan_btn_refresh@3x"] forState:UIControlStateNormal];
+        [cell addSubview:resetBtn];
         return cell;
     }
     return nil;
@@ -243,15 +293,17 @@ CZJGoodsListFilterSubControllerDelegate
 #pragma mark - UITableViewDelegate
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    if (0 == section) {
+    if (1 == section ||
+        2 == section)
+    {
         return 10;
     }
-    return 10;
+    return 0;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (0 == indexPath.section)
+    if (1 == indexPath.section)
     {
         if (0 == indexPath.row)
         {
@@ -259,12 +311,17 @@ CZJGoodsListFilterSubControllerDelegate
         }
         else if (1 == indexPath.row)
         {
-            return  55;
+            return  50;
         }
     }
-    if (1 == indexPath.section)
+    if (2 == indexPath.section ||
+        0 == indexPath.section)
     {
         return 44;
+    }
+    if (3 == indexPath.section)
+    {
+        return 100;
     }
     return 0;
 }
@@ -276,7 +333,7 @@ CZJGoodsListFilterSubControllerDelegate
         CZJCarBrandChooseController *svc = [[CZJCarBrandChooseController alloc] init];
         [self.navigationController pushViewController:svc animated:YES];
     }
-    if (1 == indexPath.section)
+    if (2 == indexPath.section)
     {
         CZJFilterBaseForm* touchedCategory = ((CZJFilterBaseForm*)_filterConditionArys[indexPath.row]);
         CZJGoodsListFilterSubController *svc = [[CZJGoodsListFilterSubController alloc] init];
@@ -302,6 +359,17 @@ CZJGoodsListFilterSubControllerDelegate
 }
 
 
+- (void)resetFilterConditioins
+{
+    for (CZJFilterBaseForm* baseForm in _filterConditionArys)
+    {
+        CZJFilterBaseForm* filterObject = (CZJFilterBaseForm*)baseForm;
+        [filterObject.selectedItems removeAllObjects];
+        [self.tableView reloadData];
+    }
+}
+
+
 #pragma mark- CZJGoodsListFilterSubControllerDelegate
 - (void)sendChoosedDataBack:(id)data
 {
@@ -316,7 +384,6 @@ CZJGoodsListFilterSubControllerDelegate
             break;
         }
     }
-    [_arrtrIDArys removeAllObjects];
     [self.tableView reloadData];
 }
 

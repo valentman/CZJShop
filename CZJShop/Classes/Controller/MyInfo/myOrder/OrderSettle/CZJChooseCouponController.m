@@ -174,8 +174,8 @@ UITableViewDelegate
             bgImgStr = @"coupon_icon_base_red";
         }
         [cell.couponBgImg setImage:IMAGENAMED(bgImgStr)];
-        cell.couponPriceLabel.textColor = [UIColor redColor];
-        cell.storeNameLabel.textColor = [UIColor redColor];
+        cell.couponPriceLabel.textColor = CZJREDCOLOR;
+        cell.storeNameLabel.textColor = CZJREDCOLOR;
         
         if ([storeCouponForm.selectedCouponId isEqualToString:couponForm.couponId])
         {

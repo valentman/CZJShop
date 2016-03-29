@@ -14,12 +14,12 @@
     NSMutableDictionary* _carSeries;         //汽车指定品牌车系列表
     NSMutableArray* _carModels;              //汽车车型
     NSMutableArray* _hotBrands;              //热门品牌
-    NSMutableArray* _haveCarsForms;      //已有车辆
+    NSArray* _haveCarsForms;      //已有车辆
 }
 @property(nonatomic,strong)NSMutableDictionary* carBrandsForms;
 @property(nonatomic,strong)NSMutableDictionary* carSeries;
 @property(nonatomic,strong)NSMutableArray* carModels;
-@property(nonatomic,strong)NSMutableArray* haveCarsForms;
+@property(nonatomic,strong)NSArray* haveCarsForms;
 @property(nonatomic,strong)NSMutableArray* hotBrands;
 
 - (id)initWithDictionary:(NSDictionary*)dictionary;
@@ -36,6 +36,7 @@
 @property(nonatomic, strong) NSString* initial;
 @property(nonatomic, strong) NSString* name;
 @property(nonatomic, strong) NSString* brandId;
+@property(nonatomic, assign) BOOL popular;
 
 - (id)initWithDictionary:(NSDictionary*)dict;
 @end
@@ -61,11 +62,18 @@
 
 //---------------------已有车辆信息----------------------
 @interface HaveCarsForm : NSObject
+@property(nonatomic, strong) NSString* brandId;
+@property(nonatomic, strong) NSString* brandName;
+@property(nonatomic, strong) NSString* chezhuId;
+@property(nonatomic, assign) BOOL dftFlag;
+@property(nonatomic, strong) NSString* haveCarID;
+@property(nonatomic, assign) BOOL isselect;
+@property(nonatomic, strong) NSString* logo;
 @property(nonatomic, strong) NSString* modelId;
-@property(nonatomic, strong) NSString* icon;
-@property(nonatomic, strong) NSString* carId;
-@property(nonatomic, strong) NSString* name;
-@property(nonatomic, strong) NSString* dftFlag;
-
-- (id)initWithDictionary:(NSDictionary*)dict;
+@property(nonatomic, strong) NSString* modelName;
+@property(nonatomic, strong) NSString* number;
+@property(nonatomic, strong) NSString* numberPlate;
+@property(nonatomic, strong) NSString* prov;
+@property(nonatomic, strong) NSString* seriesId;
+@property(nonatomic, strong) NSString* seriesName;
 @end

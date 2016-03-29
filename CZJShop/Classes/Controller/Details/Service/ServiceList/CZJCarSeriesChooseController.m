@@ -32,7 +32,6 @@ UITableViewDataSource
     self.title = @"选择车系";
     self.view.backgroundColor = CZJNAVIBARBGCOLOR;
     [self initTableView];
-
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -50,26 +49,13 @@ UITableViewDataSource
 {
     _carSes = [[CZJBaseDataInstance carForm] carSeries];
     _keys = [_carSes allKeys];
-    [_curCarBrandLogo sd_setImageWithURL:[NSURL URLWithString:self.carBrand.icon]
-                        placeholderImage:[UIImage imageNamed:@"default_icon_car"]
-                               completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL){
-
-                               }];
-        _curCarBrandName.text = self.carBrand.name;
 }
 
 
 - (void)initTableView
 {
     NSInteger width = PJ_SCREEN_WIDTH - (CZJCarListTypeFilter == _carlistType ? kMGLeftSpace  : 0);
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 64, width, PJ_SCREEN_HEIGHT)];
-    self.tableView.delegate = self;
-    self.tableView.dataSource = self;
-    self.tableView.clipsToBounds = YES;
-    
-    UIView *v = [[UIView alloc] initWithFrame:CGRectMake(0,0,320,80)];
-    self.tableView.tableFooterView = v;
-    [self.view addSubview:self.tableView];
+
     
     self.topView = [[UIView alloc]initWithFrame:CGRectMake(0, StatusBar_HEIGHT + NavigationBar_HEIGHT, PJ_SCREEN_WIDTH, 64)];
     [self.topView setBackgroundColor:[UIColor whiteColor]];
@@ -83,6 +69,21 @@ UITableViewDataSource
     _curCarBrandName.font = [UIFont systemFontOfSize:16];
     _curCarBrandName.textAlignment = NSTextAlignmentLeft;
     [self.view addSubview:_curCarBrandName];
+    
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 64 + 64, width, PJ_SCREEN_HEIGHT - 128)];
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    self.tableView.clipsToBounds = YES;
+    self.automaticallyAdjustsScrollViewInsets = NO;
+    self.tableView.tableFooterView = [[UIView alloc]init];
+    [self.view addSubview:self.tableView];
+    
+    [_curCarBrandLogo sd_setImageWithURL:[NSURL URLWithString:self.carBrand.icon]
+                        placeholderImage:[UIImage imageNamed:@"default_icon_car"]
+                               completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL){
+                                   
+                               }];
+    _curCarBrandName.text = self.carBrand.name;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -106,7 +107,7 @@ UITableViewDataSource
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CarSesCellIdentifierID];
     if (!cell) {
         cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CarSesCellIdentifierID];
-        UILabel* nameLabel = [[UILabel alloc]initWithFrame:CGRectMake(50, 5, PJ_SCREEN_WIDTH - 75, 18)];
+        UILabel* nameLabel = [[UILabel alloc]initWithFrame:CGRectMake(50, 16, PJ_SCREEN_WIDTH - 75, 18)];
         [cell addSubview:nameLabel];
         nameLabel.font = SYSTEMFONT(14);
         [nameLabel setTag:1999];
@@ -122,7 +123,7 @@ UITableViewDataSource
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 55;
+    return 50;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

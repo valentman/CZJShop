@@ -44,6 +44,7 @@
 {
     [_shoppingCouponsList removeAllObjects];
     NSArray* tmpAry = [dict valueForKey:@"msg"];
+    DLog(@"%@",[dict description]);
     for (NSDictionary* tmpdict in tmpAry) {
         CZJShoppingCouponsForm* form = [[CZJShoppingCouponsForm alloc]initWithDictionary:tmpdict];
         [_shoppingCouponsList addObject:form];

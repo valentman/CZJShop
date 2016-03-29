@@ -59,6 +59,7 @@
 
 //---------------------购物券信息---------------------
 @interface CZJShoppingCouponsForm : NSObject
+@property(nonatomic, strong) NSString* validServiceName;
 @property(nonatomic, strong) NSString* validStartTime;
 @property(nonatomic, strong) NSString* storeName;
 @property(nonatomic, strong) NSString* validServiceId;

@@ -79,7 +79,7 @@ UITableViewDelegate
     storePostParams = [[NSMutableDictionary alloc]init];
     _getdataType = CZJHomeGetDataFromServerTypeOne;
     _refreshLocationBarView.layer.borderWidth = 1.5;
-    _refreshLocationBarView.layer.borderColor = [UIColor redColor].CGColor;
+    _refreshLocationBarView.layer.borderColor = CZJREDCOLOR.CGColor;
     
     //下拉菜单筛选条件初始
     NSArray* sortTypes = @[@"默认排序", @"距离最近", @"评分最高", @"销量最高"];

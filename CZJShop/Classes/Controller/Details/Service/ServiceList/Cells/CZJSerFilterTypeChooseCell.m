@@ -11,7 +11,7 @@
 
 #define kCellSizeWith ((PJ_SCREEN_WIDTH - 50)/3.0f) //cell等分成三等份 按钮宽度
 #define kCellLeftMargin (((PJ_SCREEN_WIDTH - 50) - 3*kButtonWidth) / 4)
-#define kButtonHeight 38              //按钮高度
+#define kButtonHeight 34              //按钮高度
 #define kButtonWidth   (iPhone4 || iPhone5) ? 60 : 96              //按钮高度
 
 #define kButtonTopMargin 15       //按钮距顶部margin
@@ -48,7 +48,6 @@
             row = 1;
         }
         // 很据列数和行数算出x、y
-        
         int childX = column * (buttonWidth + buttonLeftMargin);
         int childY = row * (kButtonHeight + kButtonVertMargin);
         if (cellType == kCZJSerfilterTypeChooseCellTypeReturnGoods)
@@ -103,6 +102,18 @@
             {
                 NSString* name = self.buttonDatas[i];
                 [child setTitle:name forState:UIControlStateNormal];
+                if (0 == i && [[USER_DEFAULT valueForKey:kUSerDefaultRecommendFlag] floatValue] == 1)
+                {
+                    [self selectedBtnClick:child];
+                }
+                if (1 == i && [[USER_DEFAULT valueForKey:kUSerDefaultPromotionFlag] floatValue] == 1)
+                {
+                    [self selectedBtnClick:child];
+                }
+                if (2 == i && [[USER_DEFAULT valueForKey:kUSerDefaultStockFlag] floatValue] == 1)
+                {
+                    [self selectedBtnClick:child];
+                }
             }
                 break;
                 
@@ -143,7 +154,7 @@
         if (_button.selected) {
             [_button setSelected:false];
             [_button setBackgroundColor:[UIColor whiteColor]];
-            _button.layer.borderColor = RGB(180, 180, 180).CGColor;
+            _button.layer.borderColor = RGB(120, 120, 120).CGColor;
             _button.layer.borderWidth = 0.5;
             _button.titleLabel.textColor = [UIColor grayColor];
             [_button setImage:[UIImage imageNamed:@""] forState:UIControlStateSelected];
@@ -206,7 +217,7 @@
             NSString* typeName = [NSString stringWithFormat:@"%d",_button.selected];
             if (0 == tag)
             {
-                [USER_DEFAULT setValue:typeName forKey:kUSerDefaultStockFlag];
+                [USER_DEFAULT setValue:typeName forKey:kUSerDefaultRecommendFlag];
             }
             if (1 == tag)
             {
@@ -214,7 +225,7 @@
             }
             if (2 == tag)
             {
-                [USER_DEFAULT setValue:typeName forKey:kUSerDefaultRecommendFlag];
+                [USER_DEFAULT setValue:typeName forKey:kUSerDefaultStockFlag];
             }
         }
             break;

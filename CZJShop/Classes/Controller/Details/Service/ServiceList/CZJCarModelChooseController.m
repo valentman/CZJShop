@@ -100,11 +100,9 @@ UITableViewDelegate
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    // Return the number of rows in the section.
     return [_carModels count];
 }
 
@@ -113,7 +111,7 @@ UITableViewDelegate
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CarModelCellIdentifierID];
     if (!cell) {
         cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CarModelCellIdentifierID];
-        UILabel* nameLabel = [[UILabel alloc]initWithFrame:CGRectMake(50, 5, PJ_SCREEN_WIDTH - 75, 18)];
+        UILabel* nameLabel = [[UILabel alloc]initWithFrame:CGRectMake(50, 16, PJ_SCREEN_WIDTH - 75, 18)];
         nameLabel.font = SYSTEMFONT(14);
         [nameLabel setTag:1999];
         nameLabel.textAlignment = NSTextAlignmentLeft;
@@ -126,7 +124,7 @@ UITableViewDelegate
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 55;
+    return 50;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

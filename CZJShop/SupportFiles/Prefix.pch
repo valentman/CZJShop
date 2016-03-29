@@ -34,6 +34,7 @@
 #import "CZJTextView.h"
 #import "CZJForm.h"
 #import "CZJDeletableImageView.h"
+#import "CZJCouponBarItemView.h"
 
 #import "CALayer+UIColor.h"
 #import "UIView+Frame.h"
@@ -185,7 +186,10 @@
 #define GRAYCOLOR  [UIColor grayColor]
 #define LIGHTGRAYCOLOR [UIColor lightGrayColor]
 
+
+
 //本项目自定义颜色
+#define CZJBLUECOLOR RGB(44, 148, 255)
 #define CZJREDCOLOR RGB(251, 70, 78)
 #define CZJGRAYCOLOR RGB(180, 180, 180)
 #define CZJTableViewBGColor RGB(245, 245, 245)

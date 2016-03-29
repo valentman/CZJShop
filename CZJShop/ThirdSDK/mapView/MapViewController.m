@@ -458,7 +458,7 @@
     if ([overlay isKindOfClass:[MKPolyline class]]){
         MKPolylineView *lineview=[[MKPolylineView alloc] initWithOverlay:overlay] ;
         //路线颜色
-        lineview.strokeColor=[UIColor redColor];
+        lineview.strokeColor= CZJREDCOLOR;
         lineview.lineWidth = 5.0;
         return lineview;
     }
@@ -491,7 +491,7 @@
             rendererForOverlay:(id<MKOverlay>)overlay{
     MKPolylineRenderer *renderer = [[MKPolylineRenderer alloc] initWithOverlay:overlay];
     renderer.lineWidth = 5.0;
-    renderer.strokeColor = [UIColor redColor];
+    renderer.strokeColor = CZJREDCOLOR;
     return renderer;
 }
 #pragma mark - 检测应用是否开启定位服务

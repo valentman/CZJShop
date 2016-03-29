@@ -11,7 +11,6 @@
 @interface CZJStoreServiceCell : CZJTableViewCell
 @property (weak, nonatomic) IBOutlet UILabel *serviceItemName;
 @property (weak, nonatomic) IBOutlet UILabel *currentPrice;
-@property (weak, nonatomic) IBOutlet UILabel *originPrice;
 @property (weak, nonatomic) IBOutlet UIImageView *serviceTypeImg;
 @property (weak, nonatomic) IBOutlet UILabel *purchasedCount;
 @property (weak, nonatomic) IBOutlet UILabel *storeName;
@@ -19,7 +18,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *goodRate;
 @property (weak, nonatomic) IBOutlet UIImageView *serviceImg;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *priceLabelWidth;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *originPriceLabelWidth;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *purchasedCountWidth;
+@property (weak, nonatomic) IBOutlet UIImageView *imageOne;
+@property (weak, nonatomic) IBOutlet UIImageView *imageTwo;
 
 @end

@@ -137,6 +137,7 @@
     [MBProgressHUD showHUDAddedTo:self.rightCollection animated:YES];
     //从服务器获取数据成功返回回调
     CZJSuccessBlock successBlock = ^(id json){
+        [MBProgressHUD hideAllHUDsForView:self.rightCollection animated:YES];
         NSDictionary* tempdata = [CZJUtils DataFromJson:json];
         DLog(@"%@",[tempdata description]);
         //分类数据信息
@@ -157,7 +158,7 @@
     };
     
     CZJFailureBlock failBlock = ^{
-        [MBProgressHUD hideAllHUDsForView:self animated:YES];
+        [MBProgressHUD hideAllHUDsForView:self.rightCollection animated:YES];
         [CZJUtils showReloadAlertViewOnTarget:self.rightCollection withReloadHandle:^{
             [weak getCategoryDataFromServer];
         }];

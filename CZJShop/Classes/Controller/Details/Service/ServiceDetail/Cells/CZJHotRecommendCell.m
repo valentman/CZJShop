@@ -26,34 +26,32 @@
 {
     self.isInit = YES;
     NSMutableArray* hotRecoCells = [NSMutableArray array];
-    __block int cellHeight = 0;
-    __block int cellWidth = 0;
-    //得到第一个UIView
+    __block int cellHeight = (iPhone5 || iPhone4) ? 160 : 160;
+    __block int cellWidth = (iPhone5 || iPhone4) ? 80 : 100;
+    //初始化HotRecoCell
     for (CZJStoreServiceForm* form in hotRecommends)
     {
         CZJHotRecoCell* cell = [CZJUtils getXibViewByName:@"CZJHotRecoCell"];
-        ;
+        
+        //品牌图片
         [cell.hotRecoImage sd_setImageWithURL:[NSURL URLWithString:form.itemImg] placeholderImage:DefaultPlaceHolderImage];
-        
-        NSDictionary *dic = @{NSFontAttributeName: SYSTEMFONT(12)};
-        CGSize hotSize = [form.itemName boundingRectWithSize:CGSizeMake(100, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading  attributes:dic context:nil].size;
+        //品牌名称
         cell.hotRecoName.text = form.itemName;
+        CGSize hotSize = [CZJUtils calculateStringSizeWithString:form.itemName Font:SYSTEMFONT(12) Width:80];
+        cell.hotRecoNameLayoutHeight.constant = hotSize.height > 30 ? hotSize.height : 30;
+        //品牌价格
+        cell.hotRecoPrice.text = [NSString stringWithFormat:@"￥%@",form.currentPrice];
         
-        DLog(@"%@,%f,%f",form.itemName,hotSize.width,hotSize.height);
-        if (hotSize.height > 30)
-        {
-            hotSize.height = 30;
-        }
-        cell.hotRecoNameLayoutHeight.constant = hotSize.height;
         [hotRecoCells addObject:cell];
-        cellHeight = cell.frame.size.height;
-        cellWidth = cell.frame.size.width;
     }
-    
-    CGSize hotSize = CGSizeMake(PJ_SCREEN_WIDTH - 40, self.hotRecoPageScrollView.frame.size.height);
-    CGRect hotRect = CGRectMake(20, 44, hotSize.width, hotSize.height);
+    //布局到PageScrollView上
+    CGSize hotSize = CGSizeMake(PJ_SCREEN_WIDTH, self.hotRecoPageScrollView.frame.size.height);
+    CGRect hotRect = CGRectMake(0, 44, hotSize.width, hotSize.height);
+    int horiMiddleMargin = (PJ_SCREEN_WIDTH - 3 * cellWidth) / 3;
+    int vertiMiddleMargin = 10;
     NSInteger numbers = hotRecommends.count / 6;
-    UIView* pageView = [[LSPageScrollView alloc]initWithFrame:hotRect numberOfItem:numbers itemSize:hotSize complete:^(NSArray *items) {
+    UIView* pageView = [[LSPageScrollView alloc]initWithFrame:hotRect numberOfItem:numbers itemSize:hotSize complete:^(NSArray *items)
+    {
         for (int i = 0; i < items.count; i++)
         {
             UIView* view = items[i];
@@ -61,7 +59,6 @@
             {
                 CZJHotRecoCell* cell = hotRecoCells[j];
                 int x = j - i*6;
-                
                 int divide = 3;
                 // 列数
                 int column = x%divide;
@@ -69,12 +66,11 @@
                 int row = x/divide;
                 DLog(@"row:%d, column:%d", row, column);
                 // 很据列数和行数算出x、y
-                int childX = column * (cellWidth + 35);
-                int childY = row * cellHeight;
-                cell.frame = CGRectMake(childX , childY, hotRect.size.width, hotRect.size.height);
+                int childX = column * (cellWidth + horiMiddleMargin);
+                int childY = row * (cellHeight + vertiMiddleMargin);
+                cell.frame = CGRectMake(childX + 20, childY, hotRect.size.width, hotRect.size.height);
                 [view addSubview:cell];
             }
-
         }
     }];
     [self.contentView addSubview:pageView];

@@ -74,7 +74,7 @@
     
     self.scrollView.delegate = self;
     
-    self.pageControl.backgroundColor = [UIColor redColor];
+    self.pageControl.backgroundColor = CZJREDCOLOR;
     // UIPageControl
     if (!self.pageControl) {
         self.pageControl = [[UIPageControl alloc] init];
@@ -84,7 +84,7 @@
     self.pageControl.numberOfPages = self.count;
     self.pageControl.currentPage = 0;
     self.pageControl.pageIndicatorTintColor = [UIColor whiteColor];
-    self.pageControl.currentPageIndicatorTintColor = [UIColor redColor];
+    self.pageControl.currentPageIndicatorTintColor = CZJREDCOLOR;
     
     [self.pageControl addTarget:self action:@selector(handleClickPageControl:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:self.pageControl];

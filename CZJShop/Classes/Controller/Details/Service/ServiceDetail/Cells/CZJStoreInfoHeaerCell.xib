@@ -45,10 +45,10 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gq0-Bx-9Su">
-                        <rect key="frame" x="225" y="25" width="80" height="30"/>
+                        <rect key="frame" x="225" y="23" width="80" height="35"/>
                         <animations/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="30" id="CGa-61-A9f"/>
+                            <constraint firstAttribute="height" constant="35" id="CGa-61-A9f"/>
                             <constraint firstAttribute="width" constant="80" id="ks8-sc-oU0"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>

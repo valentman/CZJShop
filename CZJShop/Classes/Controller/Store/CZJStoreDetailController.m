@@ -213,7 +213,7 @@ MKMapViewDelegate
     _imgsArray = [dict valueForKey:@"imgs"];
     _activityArray = [CZJStoreDetailActivityForm objectArrayWithKeyValuesArray:[dict valueForKey:@"activitys"]];
     _bannerOneArray = [CZJStoreDetailBannerForm objectArrayWithKeyValuesArray:[dict valueForKey:@"banners"]];
-    _couponsArray = [CZJCouponForm objectArrayWithKeyValuesArray:[dict valueForKey:@"coupons"]];
+    _couponsArray = [CZJShoppingCouponsForm objectArrayWithKeyValuesArray:[dict valueForKey:@"coupons"]];
     _goodsTypesArray = [CZJStoreDetailTypesForm objectArrayWithKeyValuesArray:[dict valueForKey:@"goodsTypes"]];
     CZJBaseDataInstance.goodsTypesAry = [_goodsTypesArray mutableCopy];
     _nativeRecommendArray = [CZJStoreDetailGoodsAndServiceForm objectArrayWithKeyValuesArray:[dict valueForKey:@"recommends"]];

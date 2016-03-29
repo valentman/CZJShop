@@ -150,7 +150,7 @@
     }
     _btnShopBadgeLabel.font = [UIFont boldSystemFontOfSize:10];
     _btnShopBadgeLabel.textAlignment = NSTextAlignmentCenter;
-    _btnShopBadgeLabel.layer.backgroundColor = [UIColor redColor].CGColor;
+    _btnShopBadgeLabel.layer.backgroundColor = CZJREDCOLOR.CGColor;
     _btnShopBadgeLabel.layer.cornerRadius = 8;
     [_btnShop addSubview:_btnShopBadgeLabel];
     
@@ -234,15 +234,20 @@
             
             btnBackRect =  CGRectMake(14, 2, 40, 40);
              _btnBack.frame = btnBackRect;
-            [_btnBack setBackgroundImage:[UIImage imageNamed:@"prodetail_btn_back"] forState:UIControlStateNormal];
+            _btnBack.backgroundColor = RGB(230, 230, 230);
+            _btnBack.layer.cornerRadius = 20;
            
             btnMoreRect = CGRectMake(CGRectGetMaxX(_selfBounds) - 54, 2, 40, 40);
             _btnMore.frame = btnMoreRect;
-            [_btnMore setBackgroundImage:[UIImage imageNamed:@"prodetail_btn_more"] forState:UIControlStateNormal];
+            _btnMore.layer.cornerRadius = 20;
+            _btnMore.backgroundColor = RGB(230, 230, 230);
+            [_btnMore setBackgroundImage:[UIImage imageNamed:@"prodetail_btn_morenor"] forState:UIControlStateNormal];
 
-            shopBtnImageName = @"prodetail_btn_shop";
+            shopBtnImageName = @"prodetail_btn_shopnor";
             btnShopRect = CGRectMake(CGRectGetMaxX(_selfBounds) - 112, 2, 40, 40);
             _btnShop.frame = btnShopRect;
+            _btnShop.layer.cornerRadius = 20;
+            _btnShop.backgroundColor = RGB(230, 230, 230);
             [_btnShop setBackgroundImage:[UIImage imageNamed:shopBtnImageName] forState:UIControlStateNormal];
             break;
             

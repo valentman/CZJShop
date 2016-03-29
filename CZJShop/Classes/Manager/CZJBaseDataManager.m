@@ -542,7 +542,6 @@ singleton_implementation(CZJBaseDataManager);
             NSDictionary* dict = [CZJUtils DataFromJson:json];
             if (_detailsForm)
             {
-//                [_detailsForm setNewRecommendDictionary:dict WithType:type];
             }
             success(json);
         }
@@ -562,7 +561,7 @@ singleton_implementation(CZJBaseDataManager);
     }
     else if (CZJDetailTypeService == type)
     {
-        apiUrl = kCZJServerAPIServiceHotReco;
+        apiUrl = kCZJServerAPIGoodsHotReco;
     }
     
     [CZJNetWorkInstance postJSONWithUrl:apiUrl

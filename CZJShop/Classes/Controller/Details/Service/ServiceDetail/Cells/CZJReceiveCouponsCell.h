@@ -23,6 +23,9 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *couponsViewLeadingToSuperView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *couponsViewLayoutWidth;
 @property (weak, nonatomic) IBOutlet UILabel *useableLimitLabel;
+@property (weak, nonatomic) IBOutlet UILabel *couonTypeNameLabel;
+
+
 
 - (void)setCellIsTaken:(BOOL)taken andServiceType:(BOOL)isService;
 @end

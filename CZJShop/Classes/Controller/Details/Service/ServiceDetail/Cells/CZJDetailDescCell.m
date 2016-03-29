@@ -12,7 +12,7 @@
 
 - (void)awakeFromNib {
     // Initialization code
-    _miaoShaLabel.layer.borderColor = [UIColor redColor].CGColor;
+    _miaoShaLabel.layer.borderColor = CZJREDCOLOR.CGColor;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

@@ -326,7 +326,7 @@ CZJNaviagtionBarViewDelegate
             if (_currentChooseAddr.dftFlag)
             {
                 cell.defaultLabel.hidden = NO;
-                cell.defaultLabel.layer.backgroundColor = [[UIColor redColor]CGColor];
+                cell.defaultLabel.layer.backgroundColor = CZJREDCOLOR.CGColor;
                 cell.defaultLabel.layer.cornerRadius = 3;
                 cell.defaultLabel.textColor = [UIColor whiteColor];
                 cell.deliveryAddrLayoutLeading.constant = 80;

@@ -16,7 +16,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7ir-Km-l8A" customClass="LSPageScrollView">
-                        <rect key="frame" x="20" y="44" width="280" height="344"/>
+                        <rect key="frame" x="10" y="44" width="300" height="344"/>
                         <animations/>
                         <color key="backgroundColor" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
@@ -37,8 +37,8 @@
                     <constraint firstItem="7ir-Km-l8A" firstAttribute="top" secondItem="dhp-Rv-6Yg" secondAttribute="bottom" constant="10" id="4tj-Z5-Kbe"/>
                     <constraint firstItem="dhp-Rv-6Yg" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="14" id="b77-d2-yfz"/>
                     <constraint firstAttribute="bottom" secondItem="7ir-Km-l8A" secondAttribute="bottom" constant="15" id="bNM-i8-SJW"/>
-                    <constraint firstItem="7ir-Km-l8A" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="fWZ-yh-Mtl"/>
-                    <constraint firstAttribute="trailing" secondItem="7ir-Km-l8A" secondAttribute="trailing" constant="20" id="s39-zx-lyY"/>
+                    <constraint firstItem="7ir-Km-l8A" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="fWZ-yh-Mtl"/>
+                    <constraint firstAttribute="trailing" secondItem="7ir-Km-l8A" secondAttribute="trailing" constant="10" id="s39-zx-lyY"/>
                     <constraint firstItem="dhp-Rv-6Yg" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="5" id="uSE-C8-72Y"/>
                 </constraints>
             </tableViewCellContentView>

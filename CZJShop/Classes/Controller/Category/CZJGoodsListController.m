@@ -32,6 +32,7 @@ CZJFilterControllerDelegate
     CZJHomeGetDataFromServerType _getdataType;
     NSDictionary* goodsListPostParams;
     NSMutableArray* goodsListAry;
+    NSArray* currentChooseFilterArys;
     BOOL isArrangeByList;
     NSString* _choosedStoreitemPid;
     
@@ -69,11 +70,21 @@ CZJFilterControllerDelegate
     [self.naviBarView refreshShopBadgeLabel];
 }
 
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [USER_DEFAULT setValue:@"" forKey:kUserDefaultChoosedBrandID];
+    [USER_DEFAULT setValue:@"" forKey:kUserDefaultStartPrice];
+    [USER_DEFAULT setValue:@"" forKey:kUserDefaultEndPrice];
+    [USER_DEFAULT setValue:@"" forKey:kUSerDefaultStockFlag];
+    [USER_DEFAULT setValue:@"" forKey:kUSerDefaultPromotionFlag];
+    [USER_DEFAULT setValue:@"" forKey:kUSerDefaultRecommendFlag];
+}
+
 
 - (void)initDatas
 {
     goodsListAry = [NSMutableArray array];
-    
+    currentChooseFilterArys = [NSArray array];
     isArrangeByList = YES;
     _getdataType = CZJHomeGetDataFromServerTypeOne;
     
@@ -208,7 +219,22 @@ CZJFilterControllerDelegate
     cell.goodPrice.text = [rmb stringByAppendingString:goodsForm.currentPrice];
     cell.goodRate.text = goodsForm.goodEvalRate;
     cell.puchaseCount.text = goodsForm.purchaseCount;
+    cell.purchaseCountWidth.constant = [CZJUtils calculateTitleSizeWithString:goodsForm.purchaseCount AndFontSize:13].width;
     [cell.goodImageView sd_setImageWithURL:[NSURL URLWithString:goodsForm.itemImg] placeholderImage:DefaultPlaceHolderImage];
+    
+    if (goodsForm.newlyFlag && !goodsForm.promotionFlag)
+    {
+        [cell.imageOne setImage:IMAGENAMED(@"label_icon_new")];
+    }
+    else if (!goodsForm.newlyFlag && goodsForm.promotionFlag)
+    {
+        [cell.imageOne setImage:IMAGENAMED(@"label_icon_cu")];
+    }
+    else if (goodsForm.newlyFlag && goodsForm.promotionFlag)
+    {
+        [cell.imageOne setImage:IMAGENAMED(@"label_icon_new")];
+        [cell.imageTwo setImage:IMAGENAMED(@"label_icon_cu")];
+    }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
     
@@ -327,6 +353,7 @@ CZJFilterControllerDelegate
     CZJGoodsListFilterController *goodsListFilterController = [[CZJGoodsListFilterController alloc] init];
     goodsListFilterController.delegate = self;
     goodsListFilterController.typeId = self.typeId;
+    goodsListFilterController.selectedConditionArys = currentChooseFilterArys;
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:goodsListFilterController];
     goodsListFilterController.view.frame = window.bounds;
     window.rootViewController = nav;
@@ -422,8 +449,9 @@ CZJFilterControllerDelegate
 }
 
 #pragma mark -CZJServiceFilterDelegate
-- (void)chooseFilterOK:(id)data
+- (void)chooseGoodFilterOk:(NSArray *)selectAry andData:(id)data
 {
+    currentChooseFilterArys = selectAry;
     //更新参数，重新请求数据刷新
     modelID = [USER_DEFAULT valueForKey:kUserDefaultChoosedCarModelID] ?[USER_DEFAULT valueForKey:kUserDefaultChoosedCarModelID] : @"";
     brandID = [USER_DEFAULT valueForKey:kUserDefaultChoosedBrandID] ? [USER_DEFAULT valueForKey:kUserDefaultChoosedBrandID] : @"";

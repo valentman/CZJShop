@@ -21,7 +21,7 @@
 
 - (void)setCellIsTaken:(BOOL)taken andServiceType:(BOOL)isService;
 {
-    UIColor* untakenColor = isService ? [UIColor blueColor] : [UIColor redColor];
+    UIColor* untakenColor = isService ? CZJBLUECOLOR : CZJREDCOLOR;
     UIColor* textColor = taken ? [UIColor grayColor] : untakenColor;
     self.couponPriceLabel.textColor = textColor;
     self.storeNameLabel.textColor = textColor;

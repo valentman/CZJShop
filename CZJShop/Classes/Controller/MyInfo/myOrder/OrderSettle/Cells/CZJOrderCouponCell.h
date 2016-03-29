@@ -9,11 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "CZJShoppingCartForm.h"
 
-
-@interface CouponBarView : UIView
-- (instancetype)initWithFrame:(CGRect)frame AndData:(CZJShoppingCouponsForm*)data;
-@end
-
 @interface CZJOrderCouponCell : CZJTableViewCell
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *orderCouponImg;
 @property (weak, nonatomic) IBOutlet UIScrollView *orderCouponScrollView;

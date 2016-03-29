@@ -82,7 +82,7 @@
     
     cell.layer.borderWidth = 5;
     cell.layer.borderColor = (__bridge CGColorRef _Nullable)([UIColor lightGrayColor]);
-    cell.backgroundColor = [UIColor redColor];
+    cell.backgroundColor = CZJREDCOLOR;
     
     NSInteger index = indexPath.row;
     NSString* _imgString = ((SpecialRecommendForm*)_specialRecommendDatas[index]).img;

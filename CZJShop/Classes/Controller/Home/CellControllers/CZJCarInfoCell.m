@@ -19,11 +19,11 @@
         label_type.textAlignment = NSTextAlignmentCenter;
         label_type.font = [UIFont systemFontOfSize:13.0f];;
         label_type.text = data.type;
-        label_type.textColor = [UIColor redColor];
+        label_type.textColor = CZJREDCOLOR;
         label_type.clipsToBounds = YES;
         label_type.layer.cornerRadius = 5;
         label_type.layer.borderWidth = 0.5;
-        label_type.layer.borderColor = [UIColor redColor].CGColor;
+        label_type.layer.borderColor = CZJREDCOLOR.CGColor;
         label_type.frame =  CGRectMake(10 , (frame.size.height - 20) / 2, 40, 20);
         
         _titleButton = [UIButton buttonWithType:UIButtonTypeCustom];

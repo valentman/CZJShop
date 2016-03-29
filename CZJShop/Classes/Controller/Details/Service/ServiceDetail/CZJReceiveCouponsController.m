@@ -64,6 +64,7 @@ UITableViewDelegate
 {
     CZJSuccessBlock successBlock = ^(id json){
         _coupons = [[CZJBaseDataInstance shoppingCartForm] shoppingCouponsList];
+        DLog(@"%@",[_coupons.keyValues description]);
         [self.tableView reloadData];
     };
     _params = @{@"storeId" : _storeId};
@@ -134,7 +135,30 @@ UITableViewDelegate
     if (self.coupons.count > 0)
     {
         CZJShoppingCouponsForm* couponForm = (CZJShoppingCouponsForm*)self.coupons[indexPath.row];
-        NSString* priceStri = [NSString stringWithFormat:@"￥%@",couponForm.value];
+        NSString* priceStri;
+
+        switch ([couponForm.type integerValue])
+        {
+            case 1://代金券
+                priceStri = [NSString stringWithFormat:@"￥%@",couponForm.value];
+                break;
+                
+            case 2://满减券
+                priceStri = [NSString stringWithFormat:@"￥%@",couponForm.value];
+                
+                break;
+                
+            case 3://项目券
+                priceStri = @"项目券";
+                cell.couonTypeNameLabel.text = couponForm.name;
+                cell.useableLimitLabel.text = @"凭券到店消费";
+//                cell.couponPriceLabel.font = BOLDSYSTEMFONT(28);
+                break;
+                
+            default:
+                break;
+        }
+        
         CGSize priceSize = [CZJUtils calculateTitleSizeWithString:priceStri WithFont:SYSTEMFONT(45)];
         cell.couponPriceLabelLayout.constant = priceSize.width + 5;
         cell.couponPriceLabel.text = priceStri;
@@ -146,7 +170,6 @@ UITableViewDelegate
         cell.storeNameLabelLayoutWidth.constant = width;
         cell.storeNameLabel.text = storeNameStr;
         cell.receiveTimeLabel.text = couponForm.validEndTime;
-        cell.useableLimitLabel.text = couponForm.name;
         
         [cell setCellIsTaken:couponForm.taked andServiceType:![couponForm.validServiceId isEqualToString:@"0"]];
         

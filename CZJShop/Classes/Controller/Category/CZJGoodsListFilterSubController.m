@@ -202,7 +202,7 @@
                 if ([self.subFilterName isEqualToString:@"价格"]) {
                     [[cell viewWithTag:5001] setHidden:NO];
                     cell.isSelected = YES;
-                    cell.textLabel.textColor = [UIColor redColor];
+                    cell.textLabel.textColor = CZJREDCOLOR;
                     [self tableView:self.tableView didSelectRowAtIndexPath:indexPath];
                     _selelctIndexPath = indexPath;
                 }
@@ -210,7 +210,7 @@
                 {
                     [[cell viewWithTag:5001] setHidden:NO];
                     cell.isSelected = YES;
-                    cell.textLabel.textColor = [UIColor redColor];
+                    cell.textLabel.textColor = CZJREDCOLOR;
                 }
             }
         }
@@ -252,7 +252,7 @@
     {
         [[cell viewWithTag:5001] setHidden:NO];
         cell.isSelected = YES;
-        cell.textLabel.textColor = [UIColor redColor];
+        cell.textLabel.textColor = CZJREDCOLOR;
         [self.selectdCondictionArys removeAllObjects];
         [self.tableView reloadData];
     }
@@ -275,7 +275,7 @@
             }
             [[cell viewWithTag:5001] setHidden:NO];
             cell.isSelected = YES;
-            cell.textLabel.textColor = [UIColor redColor];
+            cell.textLabel.textColor = CZJREDCOLOR;
 
             if ([self.subFilterName isEqualToString:@"价格"])
             {
