@@ -93,13 +93,27 @@ PullTableViewDelegate
 
 - (void)getCouponListFromServer
 {
+    __weak typeof(self) weak = self;
     [CZJBaseDataInstance generalPost:_params success:^(id json) {
         NSArray* dict = [[CZJUtils DataFromJson:json] valueForKey:@"msg"];
         _couponList = [CZJShoppingCouponsForm objectArrayWithKeyValuesArray:dict];
-        self.myTableView.delegate = self;
-        self.myTableView.dataSource = self;
-        self.myTableView.pullDelegate = self;
-        [self.myTableView reloadData];
+        if (_couponList.count == 0)
+        {
+            [CZJUtils showNoDataAlertViewOnTarget:self.view withPromptString:@"木有对应优惠券/(ToT)/~~"];
+            self.view.hidden = YES;
+        }
+        else
+        {
+            self.myTableView.delegate = self;
+            self.myTableView.dataSource = self;
+            self.myTableView.pullDelegate = self;
+            [self.myTableView reloadData];
+        }
+    }  fail:^{
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        [CZJUtils showReloadAlertViewOnTarget:weak.view withReloadHandle:^{
+            [weak getCouponListFromServer];
+        }];
     } andServerAPI:kCZJServerAPIShowCouponsList];
 }
 

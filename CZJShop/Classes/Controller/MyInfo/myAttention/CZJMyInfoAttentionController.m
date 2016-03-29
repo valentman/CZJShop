@@ -125,7 +125,10 @@ UITableViewDelegate
 - (void)getDataAttentionDataFromServer
 {
     NSDictionary* params = @{@"type" : _currentType};
+    __weak typeof(self) weak = self;
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [CZJBaseDataInstance loadMyAttentionList:params success:^(id json) {
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
         NSDictionary* dict = [CZJUtils DataFromJson:json];
         NSArray* tmpAry = [dict valueForKey:@"msg"];
         for (int i = 0; i < tmpAry.count ; i++)
@@ -164,14 +167,29 @@ UITableViewDelegate
             case 0:
                 tmpArray = goodsAttentionAry;
                 _isGoodsTouched = YES;
+                if (tmpArray.count == 0)
+                {
+                    [CZJUtils showNoDataAlertViewOnTarget:self.view withPromptString:@"木有关注的服务/(ToT)/~~"];
+                    return;
+                }
                 break;
             case 1:
                 tmpArray = serviceAttentionAry;
                 _isServiceTouched = YES;
+                if (tmpArray.count == 0)
+                {
+                    [CZJUtils showNoDataAlertViewOnTarget:self.view withPromptString:@"木有关注的商品/(ToT)/~~"];
+                    return;
+                }
                 break;
             case 3:
                 tmpArray = storeAttentionAry;
                 _isStoreTouched = YES;
+                if (tmpArray.count == 0)
+                {
+                    [CZJUtils showNoDataAlertViewOnTarget:self.view withPromptString:@"木有关注的门店/(ToT)/~~"];
+                    return;
+                }
                 break;
             default:
                 break;
@@ -183,7 +201,10 @@ UITableViewDelegate
         [self.myTableView reloadData];
         VIEWWITHTAG(self.naviBarView, 1999).hidden = tmpArray.count == 0 ? YES : NO;
     } fail:^{
-        
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        [CZJUtils showReloadAlertViewOnTarget:weak.view withReloadHandle:^{
+            [weak getDataAttentionDataFromServer];
+        }];
     }];
 }
 
@@ -196,6 +217,7 @@ UITableViewDelegate
     UIButton* itemButton = (UIButton*)sender;
     itemButton.selected = !itemButton.selected;
     self.isEdit = !self.isEdit;
+    
     [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
         self.buttomView.frame = CGRectMake(0, self.isEdit ? PJ_SCREEN_HEIGHT - 50 : PJ_SCREEN_HEIGHT, PJ_SCREEN_WIDTH, 50);
     } completion:^(BOOL finished) {

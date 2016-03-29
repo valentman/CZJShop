@@ -48,6 +48,8 @@ singleton_implementation(CZJPaymentManager);
                 fail(message,error);
             }];
         }
+    }  fail:^{
+        
     } andServerAPI:kCZJServerAPIGetWeixinPayParams];
 }
 

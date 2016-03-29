@@ -56,11 +56,17 @@ UITableViewDataSource
 - (void)getRedPacketInfoFromSever
 {
     NSDictionary* params = @{};
-//    [CZJBaseDataInstance generalPost:params success:^(id json) {
-//        
-//    } andServerAPI:nil];
+    __weak typeof(self) weak = self;
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [CZJBaseDataInstance generalPost:params success:^(id json) {
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+    }  fail:^{
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        [CZJUtils showReloadAlertViewOnTarget:weak.view withReloadHandle:^{
+            [weak getRedPacketInfoFromSever];
+        }];
+    } andServerAPI:nil];
     [self.myTableView reloadData];
-    
 }
 
 - (void)didReceiveMemoryWarning {

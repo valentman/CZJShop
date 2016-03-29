@@ -140,6 +140,8 @@ CZJStarRateViewDelegate
             [[NSNotificationCenter defaultCenter] postNotificationName:kCZJNotifiRefreshOrderlist object:nil];
             [weak.navigationController popViewControllerAnimated:YES];
         };
+    }  fail:^{
+        
     } andServerAPI:kCZJServerAPISubmitComment];
 }
 

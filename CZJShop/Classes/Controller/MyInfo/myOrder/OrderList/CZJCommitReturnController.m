@@ -441,9 +441,10 @@ CZJLeaveMessageViewDelegate
 {
     NSDictionary* dict = submitReturnForm.keyValues;
     DLog(@"退货%@",[dict description]);
-    [CZJBaseDataInstance generalPost:@{@"paramJson" : [CZJUtils JsonFromData:dict]} success:^(id json)
-     {
+    [CZJBaseDataInstance generalPost:@{@"paramJson" : [CZJUtils JsonFromData:dict]} success:^(id json){
          [CZJUtils tipWithText:@"发表评价成功，非常感谢！" andView:nil];
+     }  fail:^{
+         
      } andServerAPI:kCZJServerAPISubmitReturnOrder];
 }
 

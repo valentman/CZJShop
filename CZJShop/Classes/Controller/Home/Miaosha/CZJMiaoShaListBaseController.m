@@ -68,6 +68,8 @@ UITableViewDelegate
         NSArray* tmpAry = [[CZJUtils DataFromJson:json]valueForKey:@"msg"];
         miaoShaAry = [CZJMiaoShaCellForm objectArrayWithKeyValuesArray:tmpAry];
         [self.myTableView reloadData];
+    }  fail:^{
+        
     } andServerAPI:kCZJServerAPIPGetSkillGoodsList];
 }
 

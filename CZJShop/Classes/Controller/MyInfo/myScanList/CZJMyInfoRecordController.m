@@ -67,18 +67,30 @@ UITableViewDelegate
 
 - (void)getScanListFromServer
 {
+    __weak typeof(self) weak = self;
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     NSDictionary* params = @{@"": @""};
     [CZJBaseDataInstance loadScanList:params Success:^(id json) {
         NSDictionary* dict = [CZJUtils DataFromJson:json];
         [scanListAry removeAllObjects];
         scanListAry = [[dict valueForKey:@"msg"] mutableCopy];
         VIEWWITHTAG(self.navigationController.navigationBar, 1999).hidden = (scanListAry.count == 0);
-        self.myTableView.hidden = (scanListAry.count == 0);
-        self.myTableView.delegate = self;
-        self.myTableView.dataSource = self;
-        [self.myTableView reloadData];
+        if (scanListAry.count == 0)
+        {
+            [CZJUtils showNoDataAlertViewOnTarget:self.view withPromptString:@"木有浏览记录/(ToT)/~~"];
+        }
+        else
+        {
+            self.myTableView.hidden = (scanListAry.count == 0);
+            self.myTableView.delegate = self;
+            self.myTableView.dataSource = self;
+            [self.myTableView reloadData];
+        }
     } fail:^{
-        
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        [CZJUtils showReloadAlertViewOnTarget:weak.view withReloadHandle:^{
+            [weak getScanListFromServer];
+        }];
     }];
 }
 
@@ -89,14 +101,19 @@ UITableViewDelegate
 
 - (void)edit:(id)sender
 {
-    [CZJBaseDataInstance clearScanList:nil Success:^(id json) {
-        [scanListAry removeAllObjects];
-        VIEWWITHTAG(self.navigationController.navigationBar, 1999).hidden = (scanListAry.count == 0);
-        self.myTableView.hidden = (scanListAry.count == 0);
-        [self.myTableView reloadData];
-    } fail:^{
-        
-    }];
+    __weak typeof(self) weak = self;
+    [self showCZJAlertView:@"确认清除浏览记录？" andConfirmHandler:^{
+        [CZJBaseDataInstance clearScanList:nil Success:^(id json) {
+            [scanListAry removeAllObjects];
+            VIEWWITHTAG(self.navigationController.navigationBar, 1999).hidden = (scanListAry.count == 0);
+            self.myTableView.hidden = (scanListAry.count == 0);
+            [self.myTableView reloadData];
+        } fail:^{
+            [CZJUtils tipWithText:@"服务器异常，清除失败" andView:weak.view];
+        }];
+        [weak hideWindow];
+    } andCancleHandler:nil];
+
 }
 
 #pragma mark-UITableViewDataSource

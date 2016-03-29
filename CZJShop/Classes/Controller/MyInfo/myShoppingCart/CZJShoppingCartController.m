@@ -133,7 +133,7 @@ UIGestureRecognizerDelegate
         shoppingInfos = [[CZJBaseDataInstance shoppingCartForm] shoppingCartList];
         if (shoppingInfos.count == 0)
         {
-            [CZJUtils showNoDataAlertViewOnTarget:self.view withPromptString:@"您还未添加商品，去看看吧~"];
+            [CZJUtils showNoDataAlertViewOnTarget:self.view withPromptString:@"木有商品，快去添加吧/(ToT)/~~"];
             self.settleView.hidden = YES;
         }
         else
@@ -410,7 +410,7 @@ UIGestureRecognizerDelegate
                 [shoppingInfos removeObjectAtIndex:indexPath.section];
                 if (shoppingInfos.count == 0)
                 {
-                    [CZJUtils showNoDataAlertViewOnTarget:self.view withPromptString:@"您还未添加商品，去看看吧~"];
+                    [CZJUtils showNoDataAlertViewOnTarget:self.view withPromptString:@"木有商品，快去添加吧/(ToT)/~~"];
                     self.settleView.hidden = YES;
                     self.myTableView.hidden = YES;
                 }

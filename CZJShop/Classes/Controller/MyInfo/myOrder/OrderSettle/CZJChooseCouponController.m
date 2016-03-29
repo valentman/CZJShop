@@ -63,6 +63,8 @@ UITableViewDelegate
         NSArray* tmpAry = [dict valueForKey:@"msg"];
         _storeAry = [CZJOrderStoreCouponsForm objectArrayWithKeyValuesArray:tmpAry];
         [weak dealWithCouponData];
+    }  fail:^{
+        
     } andServerAPI:kCZJServerAPIGetUseableCouponList];
 }
 

@@ -75,6 +75,8 @@ UITableViewDataSource
     [CZJBaseDataInstance generalPost:params success:^(id json) {
         returnedOrderListAry = [CZJReturnedOrderListForm objectArrayWithKeyValuesArray:[[CZJUtils DataFromJson:json] valueForKey:@"msg"]];
         [self.myTableView reloadData];
+    }  fail:^{
+        
     } andServerAPI:api];
 
 }

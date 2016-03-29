@@ -109,13 +109,27 @@ PullTableViewDelegate
 
 - (void)getCardListFromServer
 {
+    __weak typeof(self) weak = self;
     [CZJBaseDataInstance generalPost:_params success:^(id json) {
         NSArray* dict = [[CZJUtils DataFromJson:json]valueForKey:@"msg"];
         _cardList = [CZJMyCardInfoForm objectArrayWithKeyValuesArray:dict];
-        self.myTableView.dataSource = self;
-        self.myTableView.delegate = self;
-        self.myTableView.pullDelegate = self;
-        [self.myTableView reloadData];
+        if (_cardList.count == 0)
+        {
+            [CZJUtils showNoDataAlertViewOnTarget:self.view withPromptString:@"木有对应套餐卡/(ToT)/~~"];
+            self.view.hidden = YES;
+        }
+        else
+        {
+            self.myTableView.dataSource = self;
+            self.myTableView.delegate = self;
+            self.myTableView.pullDelegate = self;
+            [self.myTableView reloadData];
+        }
+    }  fail:^{
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        [CZJUtils showReloadAlertViewOnTarget:weak.view withReloadHandle:^{
+            [weak getCardListFromServer];
+        }];
     } andServerAPI:kCZJServerAPIShowCardList];
 }
 

@@ -55,8 +55,11 @@ VPImageCropperDelegate
                              @"addImgs":picAry};
     DLog(@"%@",[params description]);
     [CZJBaseDataInstance generalPost:params success:^(id json) {
-        
-    } andServerAPI:kCZJServerAPIAddEvalution];
+                                 
+    }fail:^{
+    
+    }
+    andServerAPI:kCZJServerAPIAddEvalution];
 }
 
 - (IBAction)addPicAction:(id)sender

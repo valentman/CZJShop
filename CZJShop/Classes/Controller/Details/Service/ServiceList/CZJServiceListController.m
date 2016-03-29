@@ -137,6 +137,7 @@
     //导航栏
     [self addCZJNaviBarView:CZJNaviBarViewTypeBack];
     self.naviBarView.detailType = CZJDetailTypeService;
+    self.naviBarView.buttomSeparator.hidden = YES;
     
     //下拉菜单筛选条件初始
     NSArray* sortTypes = @[@"默认排序", @"距离最近", @"价格最低", @"价格最高", @"评论最多", @"销量最高"];
@@ -193,7 +194,9 @@
         }
     };
     
-    [CZJBaseDataInstance generalPost:storePostParams success:successBlock andServerAPI:kCZJServerAPIGetServiceList];
+    [CZJBaseDataInstance generalPost:storePostParams success:successBlock  fail:^{
+        
+    } andServerAPI:kCZJServerAPIGetServiceList];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -342,9 +345,7 @@
         
     }];
     
-    [[MBProgressHUD showHUDAddedTo:self.view animated:YES] setLabelText:@"正在定位"];
     [[CCLocationManager shareLocation] getCity:^(NSString *addressString) {
-        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
         cityID = [CZJBaseDataInstance.storeForm getCityIDWithCityName:addressString];
         _getdataType = CZJHomeGetDataFromServerTypeOne;
         [self getStoreServiceListDataFromServer];

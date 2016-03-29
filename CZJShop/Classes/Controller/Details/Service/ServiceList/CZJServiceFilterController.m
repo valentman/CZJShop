@@ -47,6 +47,8 @@
         NSDictionary* dict = [CZJUtils DataFromJson:json];
         _aviableServiceAry = [[ServiceForm objectArrayWithKeyValuesArray:[dict valueForKey:@"msg"]] mutableCopy];
         [self.tableView reloadData];
+    }  fail:^{
+        
     } andServerAPI:kCZJServerAPILoadServiceTypes];
 }
 

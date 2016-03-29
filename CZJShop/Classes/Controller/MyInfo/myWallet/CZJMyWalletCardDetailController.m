@@ -61,6 +61,8 @@ UITableViewDelegate
         NSArray* dict = [[CZJUtils DataFromJson:json] valueForKey:@"msg"];
         _cardDetailAry = [CZJCardDetailInfoForm objectArrayWithKeyValuesArray:dict];
         [self.myTableView reloadData];
+    }  fail:^{
+        
     } andServerAPI:kCZJServerAPIShowCardDetail];
     
 }

@@ -80,6 +80,12 @@
             {
                 NSString* name = self.buttonDatas[i];
                 [child setTitle:name forState:UIControlStateNormal];
+                if ([name isEqualToString:@"上门服务"])
+                {
+                    [child setEnabled:true];
+                    child.backgroundColor = RGB(192,192, 192);
+                    child.layer.borderWidth = 0;
+                }
                 if ([name isEqualToString:[USER_DEFAULT valueForKey:kUserDefaultServicePlace]])
                 {
                     [self selectedBtnClick:child];

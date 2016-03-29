@@ -117,6 +117,8 @@ singleton_implementation(CZJBaseDataManager);
             self.curCityID = [dict valueForKey:@"cityId"];
             self.curProvinceID = [dict valueForKey:@"provinceId"];
             [self initParameters];
+        } fail:^{
+        
         } andServerAPI:kCZJServerAPIGetCityIdByName];
     }
 }
@@ -851,25 +853,33 @@ singleton_implementation(CZJBaseDataManager);
 - (void)attentionStore:(NSDictionary*)postParams
                success:(CZJSuccessBlock)success
 {
-    [self generalPost:postParams success:success andServerAPI:kCZJServerAPIAttentionStore];
+    [self generalPost:postParams success:success  fail:^{
+        
+    } andServerAPI:kCZJServerAPIAttentionStore];
 }
 
 - (void)cancleAttentionStore:(NSDictionary*)postParams
                success:(CZJSuccessBlock)success
 {
-    [self generalPost:postParams success:success andServerAPI:kCZJServerAPICancelAttentionStore];
+    [self generalPost:postParams success:success  fail:^{
+        
+    } andServerAPI:kCZJServerAPICancelAttentionStore];
 }
 
 - (void)attentionGoods:(NSDictionary*)postParams
                success:(CZJSuccessBlock)success
 {
-    [self generalPost:postParams success:success andServerAPI:kCZJServerAPIAttentaionGoods];
+    [self generalPost:postParams success:success  fail:^{
+        
+    } andServerAPI:kCZJServerAPIAttentaionGoods];
 }
 
 - (void)cancleAttentionGoods:(NSDictionary*)postParams
                success:(CZJSuccessBlock)success
 {
-    [self generalPost:postParams success:success andServerAPI:kCZJServerAPICancleAttentionGoods];
+    [self generalPost:postParams success:success  fail:^{
+        
+    } andServerAPI:kCZJServerAPICancleAttentionGoods];
 }
 
 - (void)loadOtherStoreList:(NSDictionary*)postParams
@@ -1275,6 +1285,7 @@ singleton_implementation(CZJBaseDataManager);
 
 - (void)generalPost:(NSDictionary*)postParams
             success:(CZJSuccessBlock)success
+               fail:(CZJFailureBlock)fail
        andServerAPI:(NSString*)api
 {
     CZJSuccessBlock successBlock = ^(id json){
@@ -1286,6 +1297,7 @@ singleton_implementation(CZJBaseDataManager);
     
     CZJFailureBlock failBlock = ^(){
         [[CZJErrorCodeManager sharedCZJErrorCodeManager] ShowNetError];
+        fail();
     };
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];

@@ -70,6 +70,8 @@ UITableViewDelegate
         NSArray* tmp = [[CZJUtils DataFromJson:json] valueForKey:@"msg"];
         logisticInfoAry = [CZJLogisticsForm objectArrayWithKeyValuesArray:tmp];
         [self.myTableView reloadData];
+    }  fail:^{
+        
     } andServerAPI:kCZJServerAPIGET_LOGISTICSINFO];
 }
 

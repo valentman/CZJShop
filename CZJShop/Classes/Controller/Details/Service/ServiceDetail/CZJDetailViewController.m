@@ -207,8 +207,11 @@ CZJStoreInfoHeaerCellDelegate
 
 - (void)getDataFromServer
 {
+    __weak typeof(self) weak = self;
     CZJSuccessBlock successBlock = ^(id json)
     {
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        
         NSDictionary* dict = [[CZJUtils DataFromJson:json] valueForKey:@"msg"];
         goodsDetailForm = [CZJGoodsDetailForm objectWithKeyValues:dict];
         DLog(@"goodsDetailForm:%@",[goodsDetailForm.keyValues description]);
@@ -246,7 +249,7 @@ CZJStoreInfoHeaerCellDelegate
         [webVie setTitleArray:@[@"图文详情",@"购买须知",@"包装售后",@"适用车型"] andVCArray:@[FController,SController,TController,AController]];
         [self.myScrollView addSubview:webVie];
         
-        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        
     };
     NSDictionary* param = @{@"storeItemPid":self.storeItemPid, @"promotionPrice":self.promotionPrice, @"promotionType":[NSString stringWithFormat:@"%ld",self.promotionType]};
     NSString* apiUrl;
@@ -259,7 +262,12 @@ CZJStoreInfoHeaerCellDelegate
         apiUrl = kCZJServerAPIServiceDetail;
     }
     
-    [CZJBaseDataInstance generalPost:param success:successBlock andServerAPI:apiUrl];
+    [CZJBaseDataInstance generalPost:param success:successBlock  fail:^{
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        [CZJUtils showReloadAlertViewOnTarget:weak.view withReloadHandle:^{
+            [weak getDataFromServer];
+        }];
+    } andServerAPI:apiUrl];
 }
 
 - (void)getHotRecommendDataFromServer
@@ -315,6 +323,10 @@ CZJStoreInfoHeaerCellDelegate
     if (2 == section && _couponForms.count <= 0)
     {
         return 0;
+    }
+    if (6 == section)
+    {
+        return _recommendServiceForms.count > 0 ? 1 : 0;
     }
     return 1;
 }

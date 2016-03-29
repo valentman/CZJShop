@@ -203,6 +203,8 @@ AMapSearchDelegate
             }
         }
         [self performSelectorOnMainThread:@selector(updateUI)withObject:_annotations waitUntilDone:YES];
+    }  fail:^{
+        
     } andServerAPI:kCZJServerAPIGetMapNearByStores];
 }
 

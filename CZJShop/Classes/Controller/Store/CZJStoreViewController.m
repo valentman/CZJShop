@@ -83,7 +83,7 @@ UITableViewDelegate
     
     //下拉菜单筛选条件初始
     NSArray* sortTypes = @[@"默认排序", @"距离最近", @"评分最高", @"销量最高"];
-    NSArray* storeTypes = @[@"全部分类",@"一站式", @"快修快保", @"装饰美容" , @"维修厂"];
+    NSArray* storeTypes = @[@"全部",@"一站式", @"快修快保", @"装饰美容" , @"维修厂"];
     if ([CZJBaseDataInstance storeForm].provinceForms &&
         [CZJBaseDataInstance storeForm].provinceForms.count > 0) {
         NSArray* menuArray = @[[CZJBaseDataInstance storeForm].provinceForms, sortTypes,storeTypes];
@@ -120,7 +120,10 @@ UITableViewDelegate
 
 - (void)getStoreDataFromServer
 {
+    __weak typeof(self) weak = self;
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     CZJSuccessBlock successBlock = ^(id json) {
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
         [self dealWithArray];
         [self.storeTableView reloadData];
         
@@ -132,10 +135,16 @@ UITableViewDelegate
         self.storeTableView.pullTableIsRefreshing = NO;
     };
 
+    CZJFailureBlock failBlock = ^{
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        [CZJUtils showReloadAlertViewOnTarget:weak.view withReloadHandle:^{
+            [weak getStoreDataFromServer];
+        }];
+    };
     [CZJBaseDataInstance showStoreWithParams:storePostParams
                                         type:_getdataType
                                      success:successBlock
-                                        fail:^{}];
+                                        fail:failBlock];
 }
 
 - (void)dealWithArray
@@ -302,7 +311,7 @@ UITableViewDelegate
     cell.dealCount.text = storeForm.purchaseCount;
     cell.storeDistance.text = storeForm.distance;
     cell.storeLocation.text = storeForm.addr;
-    cell.feedbackRate.text = storeForm.star;
+    cell.feedbackRate.text = storeForm.evaluationAvg;
     [cell.storeCellImageView sd_setImageWithURL:[NSURL URLWithString:storeForm.homeImg] placeholderImage:DefaultPlaceHolderImage];
     TOCK;
     return cell;
@@ -361,7 +370,7 @@ UITableViewDelegate
 
 
 #pragma mark- CZJNaviagtionBarViewDelegate
-- (void)clickEventCallBack:(nullable id)sender
+- (void)clickEventCallBack:(id)sender
 {
     [self performSegueWithIdentifier:@"segueToNearby" sender:nil];
 }

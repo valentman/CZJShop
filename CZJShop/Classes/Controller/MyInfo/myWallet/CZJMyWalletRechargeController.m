@@ -146,6 +146,8 @@ UITextFieldDelegate
                 [CZJUtils tipWithText:@"支付宝支付失败" andView:weak.view];
             }];
         }
+    }  fail:^{
+        
     } andServerAPI:kCZJServerAPIRecharge];
 }
 

@@ -407,7 +407,7 @@ UITableViewDataSource
     if (_tmpEvalutionAry.count == 0)
     {
         self.myEvalTableView.hidden = YES;
-        [CZJUtils showNoDataAlertViewOnTarget:self.view withPromptString:@"木有对应评价~~"];
+        [CZJUtils showNoDataAlertViewOnTarget:self.view withPromptString:@"木有对应评价/(ToT)/~~"];
     }
     else
     {

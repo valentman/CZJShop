@@ -60,12 +60,25 @@ UITableViewDelegate
 - (void)getMyEvalutionDataFromServer
 {
     NSDictionary* param = @{@"page":@"1"};
+    __weak typeof(self) weak = self;
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [CZJBaseDataInstance generalPost:param success:^(id json) {
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         NSDictionary* dict = [[CZJUtils DataFromJson:json] valueForKey:@"msg"];
         myEvaluationAry = [CZJEvaluateForm objectArrayWithKeyValuesArray:dict];
-        [self.myTableView reloadData];
+        if (myEvaluationAry.count == 0)
+        {
+            [CZJUtils showNoDataAlertViewOnTarget:self.view withPromptString:@"木有评价记录/(ToT)/~~"];
+        }
+        else
+        {
+            [self.myTableView reloadData];
+        }
+    }  fail:^{
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        [CZJUtils showReloadAlertViewOnTarget:weak.view withReloadHandle:^{
+            [weak getMyEvalutionDataFromServer];
+        }];
     } andServerAPI:kCZJServerAPIMyEvalutions];
 }
 

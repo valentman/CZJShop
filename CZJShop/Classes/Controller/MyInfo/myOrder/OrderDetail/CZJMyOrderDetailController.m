@@ -167,6 +167,8 @@ CZJPopPayViewDelegate
         }
         
         [self.myTableView reloadData];
+    }  fail:^{
+        
     } andServerAPI:kCZJServerAPIGetMyReturnedOrderDetail];
 }
 
@@ -910,6 +912,8 @@ CZJPopPayViewDelegate
             [weak getOrderDetailFromServer];
         } andServerAPI:kCZJServerAPIReceiveGoods];
         [weak hideWindow];
+    }  fail:^{
+        
     } andCancleHandler:nil];
 }
 
@@ -923,6 +927,8 @@ CZJPopPayViewDelegate
     __weak typeof(self) weak = self;
     [self showCZJAlertView:@"确定取消该订单" andConfirmHandler:^{
         [CZJBaseDataInstance generalPost:@{} success:^(id json) {
+            
+        }  fail:^{
             
         } andServerAPI:kCZJServerAPICancelOrder];
         [weak hideWindow];
@@ -949,6 +955,8 @@ CZJPopPayViewDelegate
     __weak typeof(self) weak = self;
     [self showCZJAlertView:@"确定取消退换货" andConfirmHandler:^{
         [CZJBaseDataInstance generalPost:nil success:^(id json) {
+            
+        }  fail:^{
             
         } andServerAPI:kCZJServerAPICancelReturnOrder];
         [weak hideWindow];

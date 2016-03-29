@@ -36,6 +36,8 @@
         self.balanceLabel.text = [dict valueForKey:@"money"];
         self.balanceLabelWidth.constant = [CZJUtils calculateTitleSizeWithString:[dict valueForKey:@"money"] AndFontSize:24].width + 5;
         self.notificationLabel.text = [dict valueForKey:@"title"];
+    }  fail:^{
+        
     } andServerAPI:kCZJServerAPIGetBalanceInfo];
 }
 

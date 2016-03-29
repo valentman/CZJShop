@@ -376,6 +376,7 @@ singleton_interface(CZJBaseDataManager);
 //通用
 - (void)generalPost:(NSDictionary*)postParams
             success:(CZJSuccessBlock)success
+               fail:(CZJFailureBlock)fail
        andServerAPI:(NSString*)api;
 
 @end

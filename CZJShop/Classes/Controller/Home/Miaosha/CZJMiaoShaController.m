@@ -45,6 +45,8 @@ CZJNaviagtionBarViewDelegate
         NSDictionary* dict = [[CZJUtils DataFromJson:json] objectForKey:@"msg"];
         miaoShaControllerForm = [CZJMiaoShaControllerForm  objectWithKeyValues:dict];
         [self initMiaoShaPageView];
+    }  fail:^{
+        
     } andServerAPI:kCZJServerAPIGetKillTimeList];
 }
 

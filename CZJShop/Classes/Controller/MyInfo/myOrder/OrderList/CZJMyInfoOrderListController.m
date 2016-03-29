@@ -185,6 +185,8 @@ CZJPopPayViewDelegate
             [self showCZJAlertView:@"你要想好哦，确认收货就不能退款了哦" andConfirmHandler:^{
                 [CZJBaseDataInstance generalPost:@{@"orderNo" : currentTouchedOrderListForm.orderNo} success:^(id json) {
                     [[NSNotificationCenter defaultCenter] postNotificationName:kCZJNotifiRefreshOrderlist object:nil];
+                }  fail:^{
+                    
                 } andServerAPI:kCZJServerAPIReceiveGoods];
                 [weak hideWindow];
             } andCancleHandler:nil];
@@ -204,6 +206,8 @@ CZJPopPayViewDelegate
                     NSDictionary* dict = [CZJUtils DataFromJson:json];
                     DLog(@"%@",[dict description]);
                      [[NSNotificationCenter defaultCenter] postNotificationName:kCZJNotifiRefreshOrderlist object:nil];
+                }  fail:^{
+                    
                 } andServerAPI:kCZJServerAPICancelOrder];
                 [weak hideWindow];
             } andCancleHandler:nil];
@@ -284,6 +288,8 @@ CZJPopPayViewDelegate
                 [CZJUtils tipWithText:@"支付宝支付失败" andView:weak.view];
             }];
         }
+    }  fail:^{
+        
     } andServerAPI:kCZJServerAPIOrderToPay];
 
 }
