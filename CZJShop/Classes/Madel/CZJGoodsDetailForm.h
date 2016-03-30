@@ -79,3 +79,18 @@
 @property (nonatomic, strong)NSArray* coupons;
 @property (nonatomic, strong)NSArray* promotions;
 @end
+
+
+
+@interface CZJPromotionItemForm : NSObject
+@property(nonatomic, strong) NSString* desc;
+@property(nonatomic, strong) NSString* name;
+@property(nonatomic, strong) NSString* type;
+@end
+
+
+@interface CZJPromotionDetailForm : NSObject
+@property (nonatomic, strong)NSArray* gifts;
+@property (nonatomic, strong)NSArray* items;
+@property(nonatomic, strong) NSString* rule;
+@end

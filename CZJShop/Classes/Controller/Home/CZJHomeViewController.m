@@ -111,7 +111,6 @@ CZJMiaoShaCellDelegate
 
 - (void)propertysInit
 {
-    DLog();
     //隐藏toTop按钮
     self.btnToTop.hidden = YES;
     self.isFirst = YES;
@@ -138,7 +137,6 @@ CZJMiaoShaCellDelegate
 
 - (void)dealWithInitTableView
 {
-    DLog();
     self.homeTableView.pullDelegate = self;
     self.homeTableView.delegate = self;
     self.homeTableView.dataSource = self;
@@ -539,17 +537,17 @@ CZJMiaoShaCellDelegate
     
     switch (indexPath.section) {
         case 0:
-            return 200;
+            return 210;
             break;
         case 1:
-            return 180;
+            return 170;
             break;
         case 2:
-            return 39;
+            return 40;
             break;
         case 3:
             if (0 == indexPath.row) {
-                return 35;
+                return 40;
             }
             if (1 == indexPath.row) {
                 return 135;
@@ -560,7 +558,7 @@ CZJMiaoShaCellDelegate
             break;
         case 5:
             if (0 == indexPath.row) {
-                return 35;
+                return 40;
             }
             if (1 == indexPath.row) {
                 return 135;
@@ -568,22 +566,22 @@ CZJMiaoShaCellDelegate
             break;
         case 6:
             if (0 == indexPath.row) {
-                return 35;
+                return 40;
             }
             if (1 == indexPath.row) {
-                return 153;
+                return 188;
             }
             break;
             
         case 7:
-            return 250;
+            return 100;
             break;
         case 8:
             if (0 == indexPath.row) {
-                return 35;
+                return 40;
             }
             if (1 == indexPath.row) {
-                return 200;
+                return 250;
             }
             break;
         case 9:

@@ -62,7 +62,6 @@ UITableViewDelegate
     CGRect currentFrame = _refreshLocationBarView.frame;
     _refreshLocationBarView.frame = CGRectMake(30, currentFrame.origin.y, currentFrame.size.width, currentFrame.size.height);
     _locationButton.tag = CZJViewMoveOrientationLeft;
-    [self btnTouched:nil];
     self.navigationController.interactivePopGestureRecognizer.enabled = true;
     [_pullDownMenu registNotification];
 }
@@ -312,7 +311,28 @@ UITableViewDelegate
     cell.storeDistance.text = storeForm.distance;
     cell.storeLocation.text = storeForm.addr;
     cell.feedbackRate.text = storeForm.evaluationAvg;
+    cell.purchaseCountWidth.constant = [CZJUtils calculateTitleSizeWithString:storeForm.purchaseCount AndFontSize:14].width + 5;
+    cell.imageOne.hidden = YES;
+    cell.imageTwo.hidden = YES;
     [cell.storeCellImageView sd_setImageWithURL:[NSURL URLWithString:storeForm.homeImg] placeholderImage:DefaultPlaceHolderImage];
+    
+    if (storeForm.promotionFlag && !storeForm.couponFlag)
+    {
+        cell.imageOne.hidden = NO;
+        [cell.imageOne setImage:IMAGENAMED(@"label_icon_cu")];
+    }
+    if (!storeForm.promotionFlag && storeForm.couponFlag)
+    {
+        cell.imageOne.hidden = NO;
+        [cell.imageOne setImage:IMAGENAMED(@"label_icon_quan")];
+    }
+    if (storeForm.promotionFlag && storeForm.couponFlag)
+    {
+        cell.imageOne.hidden = NO;
+        cell.imageTwo.hidden = NO;
+        [cell.imageOne setImage:IMAGENAMED(@"label_icon_cu")];
+        [cell.imageTwo setImage:IMAGENAMED(@"label_icon_quan")];
+    }
     TOCK;
     return cell;
     

@@ -13,5 +13,5 @@
 @property (weak, nonatomic) IBOutlet LSPageScrollView *hotRecoPageScrollView;
 
 
-- (void)setHotRecommendDatas:(NSArray*)hotRecommends;
+- (void)setHotRecommendDatas:(NSArray*)hotRecommends andButtonHandler:(CZJButtonClickHandler)buttonBlock;
 @end

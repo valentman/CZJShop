@@ -41,6 +41,7 @@
     NSArray* storelist = [dict valueForKey:@"msg"];
     for (id obj in storelist )
     {
+        DLog(@"%@",[obj description]);
         CZJNearbyStoreForm* storeForm =  [CZJNearbyStoreForm objectWithKeyValues:obj];
         [_storeListForms addObject:storeForm];
     }

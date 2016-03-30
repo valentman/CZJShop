@@ -36,7 +36,7 @@ static NSString *CZJServiceCollectionViewCellIdentifier = @"CZJServiceCollection
 }
 @property (weak, nonatomic) IBOutlet CZJAFIndexedCollectionView *collectionView;
 @property (weak, nonatomic) IBOutlet UICollectionViewFlowLayout *CZJAFCollectionLayout;
-@property (assign) NSArray* services;
+@property (nonatomic, strong) NSMutableArray* services;
 @property (nonatomic,weak) id<CZJServiceCellDelegate> delegate;
 
 

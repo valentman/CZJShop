@@ -286,6 +286,8 @@ ULog(xx, ##__VA_ARGS__); \
 #define CGPointButtomLeft CGPointMake(0,1.0)
 #define CGPointTopMiddle CGPointMake(0.5,0)
 #define CGPointTopRight CGPointMake(1.0,0)
+#define CGPointLeftMiddle CGPointMake(0,0.5)
+#define CGPointRightMiddle CGPointMake(1.0,0.5)
 
 #define CGPointPositionMiddle CGPointMake(PJ_SCREEN_WIDTH*0.5,PJ_SCREEN_HEIGHT*0.5)
 

@@ -33,7 +33,7 @@ UIWebViewDelegate
     _myWebView.backgroundColor = CZJNAVIBARBGCOLOR;
     
     _myLabel = [[UILabel alloc]initWithFrame:CGRectMake(PJ_SCREEN_WIDTH/2 - 75, 10, 150, 20)];
-    _myLabel.textColor = [UIColor whiteColor];
+    _myLabel.textColor = RGB(30, 30, 30);
     _myLabel.font = SYSTEMFONT(12);
     _myLabel.textAlignment = NSTextAlignmentCenter;
     _myLabel.text = @"下拉回到“商品详情”";

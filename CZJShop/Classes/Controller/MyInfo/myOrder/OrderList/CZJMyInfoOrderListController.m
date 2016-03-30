@@ -182,7 +182,7 @@ CZJPopPayViewDelegate
         case CZJOrderListCellBtnTypeConfirm:
         {
             __weak typeof(self) weak = self;
-            [self showCZJAlertView:@"你要想好哦，确认收货就不能退款了哦" andConfirmHandler:^{
+            [self showCZJAlertView:@"亲,是否确认收货" andConfirmHandler:^{
                 [CZJBaseDataInstance generalPost:@{@"orderNo" : currentTouchedOrderListForm.orderNo} success:^(id json) {
                     [[NSNotificationCenter defaultCenter] postNotificationName:kCZJNotifiRefreshOrderlist object:nil];
                 }  fail:^{
@@ -201,7 +201,7 @@ CZJPopPayViewDelegate
         case CZJOrderListCellBtnTypeCancel:
         {
             __weak typeof(self) weak = self;
-            [self showCZJAlertView:@"确定取消该订单" andConfirmHandler:^{
+            [self showCZJAlertView:@"亲,是否确认取消订单" andConfirmHandler:^{
                 [CZJBaseDataInstance generalPost:@{@"orderNo" : currentTouchedOrderListForm.orderNo} success:^(id json) {
                     NSDictionary* dict = [CZJUtils DataFromJson:json];
                     DLog(@"%@",[dict description]);

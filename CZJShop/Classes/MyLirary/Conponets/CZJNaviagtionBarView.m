@@ -88,6 +88,7 @@
     _customSearchBar.placeholder = @"搜索服务、商品、门店";
     [_customSearchBar setTag:CZJButtonTypeSearchBar];
     _customSearchBar.hidden = NO;
+    _customSearchBar.alpha = 0.9;
     for (UIView *subView in self.customSearchBar.subviews)
     {
         for (UIView *secondLevelSubview in subView.subviews){

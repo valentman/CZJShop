@@ -83,7 +83,7 @@
     //def
     for (int i = 0; i<_num; i++) {
         UIImageView* imgv = [[UIImageView alloc] initWithFrame:CGRectZero];
-        imgv.backgroundColor = [UIColor lightGrayColor];
+        imgv.backgroundColor = RGB(220, 220, 220);
         [pagebgview addSubview:imgv];
         [markimgs addObject:imgv];
         imgv.image = _defaultPageIndicatorImage;
@@ -96,7 +96,7 @@
     
     //cur
     moveMark = [[UIImageView alloc] initWithFrame:CGRectZero];
-    moveMark.backgroundColor = [UIColor blueColor];
+    moveMark.backgroundColor = CZJREDCOLOR;
     moveMark.image = _currentPageIndicatorImage;
 
     if (_currentPageIndicatorImage) {
@@ -109,8 +109,8 @@
 
 - (void)reloadPageViewSize{
     
-    CGSize pageSize_def = CGSizeMake(12, 12);
-    CGSize pageSize_cur = CGSizeMake(12, 12);
+    CGSize pageSize_def = CGSizeMake(20, 6);
+    CGSize pageSize_cur = CGSizeMake(20, 6);
     
     if (_defaultPageIndicatorImage) {
         //

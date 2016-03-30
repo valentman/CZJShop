@@ -17,10 +17,21 @@
 @implementation CZJStoreInfoForm
 @end
 
-
 @implementation CZJGoodsDetailForm
 + (NSDictionary *)objectClassInArray
 {
-    return @{@"coupons" : @"CZJShoppingCouponsForm"};
+    return @{@"coupons" : @"CZJShoppingCouponsForm",
+             @"promotions" : @"CZJPromotionItemForm"};
+}
+@end
+
+@implementation CZJPromotionItemForm
+@end
+
+@implementation CZJPromotionDetailForm
++ (NSDictionary *)objectClassInArray
+{
+    return @{@"gifts" : @"CZJGoodsDetail",
+             @"items" : @"CZJGoodsDetail"};
 }
 @end

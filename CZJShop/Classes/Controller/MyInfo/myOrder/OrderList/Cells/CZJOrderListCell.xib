@@ -191,32 +191,6 @@
                     <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dHQ-Rm-Dwd" userLabel="noReceiveButtomView">
                         <rect key="frame" x="135" y="154" width="185" height="61"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qlf-PB-pb9">
-                                <rect key="frame" x="15" y="19" width="70" height="27"/>
-                                <animations/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="27" id="Y4E-tj-NvP"/>
-                                    <constraint firstAttribute="width" constant="70" id="gi5-5a-55d"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                <state key="normal" title="退换货">
-                                    <color key="titleColor" red="0.29803922770000002" green="0.29803922770000002" blue="0.29803922770000002" alpha="1" colorSpace="calibratedRGB"/>
-                                </state>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                        <real key="value" value="3.5"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
-                                        <real key="value" value="0.5"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="color" keyPath="layer.borderColorFromUIColor">
-                                        <color key="value" red="0.29803922770000002" green="0.29803922770000002" blue="0.29803922770000002" alpha="1" colorSpace="calibratedRGB"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                                <connections>
-                                    <action selector="returnGoodsAction:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="OvN-oq-OY6"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="M7n-3i-Mj6">
                                 <rect key="frame" x="100" y="19" width="70" height="27"/>
                                 <animations/>
@@ -248,9 +222,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="M7n-3i-Mj6" secondAttribute="bottom" constant="15" id="Fyq-MM-Bvw"/>
-                            <constraint firstItem="M7n-3i-Mj6" firstAttribute="leading" secondItem="qlf-PB-pb9" secondAttribute="trailing" constant="15" id="bdB-a3-5fX"/>
                             <constraint firstAttribute="trailing" secondItem="M7n-3i-Mj6" secondAttribute="trailing" constant="15" id="dxK-JM-sP9"/>
-                            <constraint firstAttribute="bottom" secondItem="qlf-PB-pb9" secondAttribute="bottom" constant="15" id="ydm-sm-tdF"/>
                         </constraints>
                     </view>
                     <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6Yz-CB-vil" userLabel="buildingNoPaidButtomView">

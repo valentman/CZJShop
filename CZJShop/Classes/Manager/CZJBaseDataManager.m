@@ -1293,6 +1293,10 @@ singleton_implementation(CZJBaseDataManager);
         {
             success(json);
         }
+        else
+        {
+            fail();
+        }
     };
     
     CZJFailureBlock failBlock = ^(){

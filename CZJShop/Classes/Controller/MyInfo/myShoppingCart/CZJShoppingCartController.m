@@ -117,18 +117,17 @@ UIGestureRecognizerDelegate
     [self.naviBarView.btnBack addTarget:self action:@selector(backToLastView:) forControlEvents:UIControlEventTouchUpInside];
     
     self.settleView.hidden = NO;
-    self.myTableView.hidden = YES;
 }
 
 
 - (void)getShoppingCartInfoFromServer
 {
     __weak typeof(self) weak = self;
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [MBProgressHUD showHUDAddedTo:self.myTableView animated:YES];
     self.settleView.hidden = YES;
     CZJSuccessBlock successBlock = ^(id json)
     {
-        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        [MBProgressHUD hideAllHUDsForView:self.myTableView animated:NO];
         [shoppingInfos removeAllObjects];
         shoppingInfos = [[CZJBaseDataInstance shoppingCartForm] shoppingCartList];
         if (shoppingInfos.count == 0)
@@ -141,14 +140,13 @@ UIGestureRecognizerDelegate
             DLog(@"settleView.y:%f",_settleView.frame.origin.y);
             self.settleView.hidden = NO;
             editBtn.hidden = NO;
-            self.myTableView.hidden = NO;
             self.myTableView.delegate = self;
             self.myTableView.dataSource = self;
             [self calculateTotalPrice];
         }
     };
     CZJFailureBlock failBlock = ^{
-        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        [MBProgressHUD hideAllHUDsForView:self.myTableView animated:NO];
         [CZJUtils showReloadAlertViewOnTarget:weak.view withReloadHandle:^{
             [weak getShoppingCartInfoFromServer];
         }];
@@ -412,12 +410,13 @@ UIGestureRecognizerDelegate
                 {
                     [CZJUtils showNoDataAlertViewOnTarget:self.view withPromptString:@"木有商品，快去添加吧/(ToT)/~~"];
                     self.settleView.hidden = YES;
-                    self.myTableView.hidden = YES;
+                    editBtn.hidden = YES;
+                    [self.myTableView reloadData];
                 }
             }
             else
             {
-                [self.myTableView reloadSections:[NSIndexSet indexSetWithIndex:indexPath.section] withRowAnimation:UITableViewRowAnimationFade];
+                [self.myTableView reloadData];
             }
 
         } fail:^{

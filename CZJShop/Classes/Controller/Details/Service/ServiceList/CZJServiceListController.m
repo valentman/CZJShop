@@ -16,6 +16,7 @@
 #import "CZJServiceFilterController.h"
 #import "CZJDetailViewController.h"
 #import "CZJStoreDetailController.h"
+#import "CZJRefreshLocationBarView.h"
 
 @interface CZJServiceListController ()
 <
@@ -40,10 +41,8 @@
     float lastContentOffsetY;
     
     MXPullDownMenu* _pullDownMenu;
-    
     MJRefreshAutoNormalFooter* refreshFooter;
     MJRefreshNormalHeader* refreshHeader;
-    
     
     NSString* cityID;           //城市ID
     NSString* sortType;         //排序
@@ -52,14 +51,9 @@
     NSString* goStoreFlag;           //到店服务
     
 }
-@property (strong, nonatomic) IBOutlet UITableView *serviceTableView;
-@property (weak, nonatomic) IBOutlet UIView *refreshLocationBarView;
-@property (weak, nonatomic) IBOutlet UILabel *locationNameLabel;
-@property (weak, nonatomic) IBOutlet UIButton *locationButton;
-
-
+@property (strong, nonatomic) UITableView *serviceTableView;
+@property (strong, nonatomic)  CZJRefreshLocationBarView *refreshLocationBarView;
 @property (assign, nonatomic)NSInteger page;
-
 @end
 
 @implementation CZJServiceListController
@@ -85,7 +79,7 @@
     if (isFirstIn) {
         CGRect currentFrame = _refreshLocationBarView.frame;
         _refreshLocationBarView.frame = CGRectMake(30, currentFrame.origin.y, currentFrame.size.width, currentFrame.size.height);
-        _locationButton.tag = CZJViewMoveOrientationLeft;
+        _refreshLocationBarView.locationButton.tag = CZJViewMoveOrientationLeft;
         isFirstIn = NO;
     }
     [_pullDownMenu registNotification];
@@ -93,13 +87,11 @@
 
 - (void)viewDidLayoutSubviews
 {
-    self.serviceTableView.frame = CGRectMake(0, 114, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - 114);
     self.refreshLocationBarView.frame = CGRectMake(PJ_SCREEN_WIDTH - 40, PJ_SCREEN_HEIGHT - 100, PJ_SCREEN_WIDTH, 35);
 }
 
 - (void)viewWillLayoutSubviews
 {
-    self.serviceTableView.frame = CGRectMake(0, 114, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - 114);
     self.refreshLocationBarView.frame = CGRectMake(PJ_SCREEN_WIDTH - 40, PJ_SCREEN_HEIGHT - 100, PJ_SCREEN_WIDTH, 35);
 }
 
@@ -126,13 +118,24 @@
 
 - (void)initTableViewAndPullDownMenu
 {
-    //门店服务列表
-    self.serviceTableView.dataSource = self;
-    self.serviceTableView.delegate = self;
+    
+    self.serviceTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 114, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - 114) style:UITableViewStylePlain];
     self.serviceTableView.tableFooterView = [[UIView alloc]init];
+    self.serviceTableView.delegate = self;
+    self.serviceTableView.dataSource = self;
+    self.serviceTableView.clipsToBounds = NO;
+    self.serviceTableView.showsVerticalScrollIndicator = NO;
+    self.serviceTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.automaticallyAdjustsScrollViewInsets = NO;
+    self.serviceTableView.backgroundColor = CZJTableViewBGColor;
     [self.view addSubview:self.serviceTableView];
+    //门店服务列表
     UINib *nib2=[UINib nibWithNibName:@"CZJStoreServiceCell" bundle:nil];
     [self.serviceTableView registerNib:nib2 forCellReuseIdentifier:@"CZJStoreServiceCell"];
+    
+    _refreshLocationBarView = [CZJUtils getXibViewByName:@"CZJRefreshLocationBarView"];
+    [_refreshLocationBarView setPosition:CGPointMake(PJ_SCREEN_WIDTH - 50, PJ_SCREEN_HEIGHT - 100) atAnchorPoint:CGPointLeftMiddle];
+    [self.view addSubview:_refreshLocationBarView];
     
     //导航栏
     [self addCZJNaviBarView:CZJNaviBarViewTypeBack];
@@ -155,6 +158,7 @@
 
 - (void)getStoreServiceListDataFromServer
 {
+    __weak typeof(self) weak = self;
     NSDictionary* storePostParams = @{@"modelId" :modelId, @"typeId" :self.typeId, @"sortType" :sortType, @"q" :self.searchStr ? self.searchStr : @"", @"goHouseFlag":goHouseFlag ,@"goStoreFlag":goStoreFlag, @"page" : [NSString stringWithFormat:@"%ld",(long)self.page]};
     [[MBProgressHUD showHUDAddedTo:self.view animated:YES] setLabelText:@"刷新数据"];
     CZJSuccessBlock successBlock = ^(id json) {
@@ -195,7 +199,10 @@
     };
     
     [CZJBaseDataInstance generalPost:storePostParams success:successBlock  fail:^{
-        
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        [CZJUtils showReloadAlertViewOnTarget:weak.view withReloadHandle:^{
+            [weak getStoreServiceListDataFromServer];
+        }];
     } andServerAPI:kCZJServerAPIGetServiceList];
 }
 
@@ -222,16 +229,22 @@
     cell.purchasedCountWidth.constant = [CZJUtils calculateTitleSizeWithString:storeForm.purchaseCount AndFontSize:12].width + 5;
     cell.serviceTypeImg.hidden = !storeForm.goStoreFlag;
     
+    cell.imageOne.hidden = YES;
+    cell.imageTwo.hidden = YES;
     if (storeForm.newlyFlag && !storeForm.promotionFlag)
     {
+        cell.imageOne.hidden = NO;
         [cell.imageOne setImage:IMAGENAMED(@"label_icon_new")];
     }
     else if (!storeForm.newlyFlag && storeForm.promotionFlag)
     {
+        cell.imageOne.hidden = NO;
         [cell.imageOne setImage:IMAGENAMED(@"label_icon_cu")];
     }
     else if (storeForm.newlyFlag && storeForm.promotionFlag)
     {
+        cell.imageOne.hidden = NO;
+        cell.imageTwo.hidden = NO;
         [cell.imageOne setImage:IMAGENAMED(@"label_icon_new")];
         [cell.imageTwo setImage:IMAGENAMED(@"label_icon_cu")];
     }
@@ -278,7 +291,7 @@
             _isTouch = NO;
             DLog(@"下拉");
             [[UIApplication sharedApplication]setStatusBarHidden:NO];
-            [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+            [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
                 self.naviBarView.frame = CGRectMake(0, 20, PJ_SCREEN_WIDTH, 44);
                 _pullDownMenu.frame = CGRectMake(0, 64, PJ_SCREEN_WIDTH, 46);
                 self.serviceTableView.frame = CGRectMake(0, 110, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - 110);
@@ -291,7 +304,7 @@
             _isTouch = NO;
             DLog(@"上拉");
             [[UIApplication sharedApplication]setStatusBarHidden:YES];
-            [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+            [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
                 self.naviBarView.frame = CGRectMake(0, -110, PJ_SCREEN_WIDTH, 44);
                 _pullDownMenu.frame = CGRectMake(0, -46, PJ_SCREEN_WIDTH, 46);
                 self.serviceTableView.frame = CGRectMake(0, 0, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT);
@@ -310,13 +323,13 @@
 - (void)initRefreshLocationBarView
 {
     [self.view bringSubviewToFront:_refreshLocationBarView];
-    _locationButton.tag = CZJViewMoveOrientationLeft;
-    [_locationButton addTarget:self action:@selector(btnTouched:) forControlEvents:UIControlEventTouchUpInside];
+    _refreshLocationBarView.locationButton.tag = CZJViewMoveOrientationLeft;
+    [_refreshLocationBarView.locationButton addTarget:self action:@selector(btnTouched:) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)btnTouched:(id)sender
 {
-    if (CZJViewMoveOrientationLeft == _locationButton.tag)
+    if (CZJViewMoveOrientationLeft == _refreshLocationBarView.locationButton.tag)
     {
         [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(moveLocationBarViewOut) object:nil];
     }
@@ -327,18 +340,18 @@
 - (void)storeStartLocation
 {
     if (![[CCLocationManager shareLocation] isLocationEnable]) {
-        self.locationNameLabel.text = @"亲，未开启定位功能哦~";
+        _refreshLocationBarView.locationNameLabel.text = @"亲，未开启定位功能哦~";
         return;
     }
     [self startSpin];
     [[CCLocationManager shareLocation] getAddress:^(NSString *addressString) {
         [self stopSpin];
-        self.locationNameLabel.text = addressString;
-        if (_locationButton.tag == CZJViewMoveOrientationRight)
+        _refreshLocationBarView.locationNameLabel.text = addressString;
+        if (_refreshLocationBarView.locationButton.tag == CZJViewMoveOrientationRight)
         {
             [self performSelector:@selector(moveLocationBarViewIn) withObject:nil afterDelay:0.5];
         }
-        if (_locationButton.tag == CZJViewMoveOrientationLeft)
+        if (_refreshLocationBarView.locationButton.tag == CZJViewMoveOrientationLeft)
         {
             [self performSelector:@selector(moveLocationBarViewOut) withObject:nil afterDelay:2.0];
         }
@@ -363,7 +376,7 @@
                           delay: 0.0f
                         options: options
                      animations: ^{
-                         _locationButton.transform = CGAffineTransformRotate(_locationButton.transform, M_PI / 2);
+                         _refreshLocationBarView.locationButton.transform = CGAffineTransformRotate(_refreshLocationBarView.locationButton.transform, M_PI / 2);
                      }
                      completion: ^(BOOL finished) {
                          if (finished) {
@@ -406,10 +419,10 @@
     switch (orient) {
         case CZJViewMoveOrientationLeft:
             originX = 30;
-            [_locationButton setTag:CZJViewMoveOrientationLeft];
+            [_refreshLocationBarView.locationButton setTag:CZJViewMoveOrientationLeft];
             break;
         case CZJViewMoveOrientationRight:
-            [_locationButton setTag:CZJViewMoveOrientationRight];
+            [_refreshLocationBarView.locationButton setTag:CZJViewMoveOrientationRight];
             originX = PJ_SCREEN_WIDTH - 40;
             break;
             

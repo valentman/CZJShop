@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6250" systemVersion="Mavericks" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -99,6 +99,22 @@
                         <color key="textColor" red="1" green="0.40000000600000002" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ZoM-mr-C5V" userLabel="imageOne">
+                        <rect key="frame" x="178" y="46" width="12" height="12"/>
+                        <animations/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="12" id="5wb-6I-OkC"/>
+                            <constraint firstAttribute="width" constant="12" id="tbC-Jg-S8O"/>
+                        </constraints>
+                    </imageView>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="PDL-pf-Ujv" userLabel="imageTwo">
+                        <rect key="frame" x="195" y="46" width="12" height="12"/>
+                        <animations/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="12" id="QNa-df-YGN"/>
+                            <constraint firstAttribute="height" constant="12" id="kMR-F0-pNR"/>
+                        </constraints>
+                    </imageView>
                 </subviews>
                 <animations/>
                 <constraints>
@@ -109,14 +125,18 @@
                     <constraint firstItem="Btz-3H-0iR" firstAttribute="centerY" secondItem="e4f-cn-c5Q" secondAttribute="centerY" id="CqY-rZ-bvq"/>
                     <constraint firstAttribute="trailing" secondItem="rIv-hj-ga4" secondAttribute="trailing" constant="14" id="Hbk-2Y-xVS"/>
                     <constraint firstItem="e4f-cn-c5Q" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="IzD-lO-bLC"/>
+                    <constraint firstItem="ZoM-mr-C5V" firstAttribute="centerY" secondItem="e4f-cn-c5Q" secondAttribute="centerY" id="L3G-it-DGl"/>
                     <constraint firstItem="Qlq-dA-3Ww" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="OkV-Ml-FiJ"/>
                     <constraint firstItem="rPR-2t-GcR" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="QgA-FX-bYy"/>
                     <constraint firstItem="rIv-hj-ga4" firstAttribute="centerY" secondItem="TZM-2i-bFt" secondAttribute="centerY" id="Tbv-fe-N30"/>
                     <constraint firstItem="Qlq-dA-3Ww" firstAttribute="trailing" secondItem="rPR-2t-GcR" secondAttribute="leading" id="Xzx-fL-L0I"/>
+                    <constraint firstItem="PDL-pf-Ujv" firstAttribute="centerY" secondItem="ZoM-mr-C5V" secondAttribute="centerY" id="aPl-w8-rsL"/>
                     <constraint firstItem="TZM-2i-bFt" firstAttribute="leading" secondItem="HQO-oF-ybd" secondAttribute="trailing" constant="14" id="bBM-HU-nrn"/>
                     <constraint firstItem="HQO-oF-ybd" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="bd8-aj-que"/>
                     <constraint firstAttribute="bottom" secondItem="TZM-2i-bFt" secondAttribute="bottom" constant="17" id="eZy-eY-CIK"/>
+                    <constraint firstItem="ZoM-mr-C5V" firstAttribute="leading" secondItem="Btz-3H-0iR" secondAttribute="trailing" constant="5" id="fLJ-cy-qOi"/>
                     <constraint firstItem="Qlq-dA-3Ww" firstAttribute="centerY" secondItem="rPR-2t-GcR" secondAttribute="centerY" id="gEM-X1-H9h"/>
+                    <constraint firstItem="PDL-pf-Ujv" firstAttribute="leading" secondItem="ZoM-mr-C5V" secondAttribute="trailing" constant="5" id="p6O-wW-kRD"/>
                     <constraint firstItem="HQO-oF-ybd" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="14" id="pS6-fs-iEA"/>
                     <constraint firstItem="e4f-cn-c5Q" firstAttribute="leading" secondItem="HQO-oF-ybd" secondAttribute="trailing" constant="14" id="qf9-Bf-FkX"/>
                     <constraint firstItem="e4f-cn-c5Q" firstAttribute="centerY" secondItem="HQO-oF-ybd" secondAttribute="centerY" id="yPK-WV-M3G"/>
@@ -124,8 +144,8 @@
                 </constraints>
                 <variation key="default">
                     <mask key="constraints">
-                        <exclude reference="gEM-X1-H9h"/>
                         <exclude reference="9Xt-UA-i6D"/>
+                        <exclude reference="gEM-X1-H9h"/>
                     </mask>
                 </variation>
             </tableViewCellContentView>
@@ -133,6 +153,9 @@
             <connections>
                 <outlet property="dealCount" destination="Btz-3H-0iR" id="fxx-Yn-74z"/>
                 <outlet property="feedbackRate" destination="rPR-2t-GcR" id="ZnL-1W-2BC"/>
+                <outlet property="imageOne" destination="ZoM-mr-C5V" id="9mw-oT-xuM"/>
+                <outlet property="imageTwo" destination="PDL-pf-Ujv" id="v6J-W6-uB4"/>
+                <outlet property="purchaseCountWidth" destination="Pgb-M0-eKk" id="SjD-Pf-cdP"/>
                 <outlet property="storeCellImageView" destination="HQO-oF-ybd" id="6T2-vj-Cty"/>
                 <outlet property="storeDistance" destination="rIv-hj-ga4" id="Ibb-sP-uky"/>
                 <outlet property="storeLocation" destination="TZM-2i-bFt" id="u8N-KV-SBL"/>

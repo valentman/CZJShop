@@ -46,6 +46,9 @@ CZJFilterControllerDelegate
     NSString* startPrice;
     NSString* endPrice;
     NSString* attrJson;
+    
+    MJRefreshAutoNormalFooter* refreshFooter;
+    MJRefreshNormalHeader* refreshHeader;
 }
 
 @property (weak, nonatomic) IBOutlet MXPullDownMenu *pullDownMenuView;
@@ -148,6 +151,7 @@ CZJFilterControllerDelegate
                             @"endPrice" : endPrice,
                             @"page" : [NSString stringWithFormat:@"%ld",self.page]};
     DLog(@"storeparameters:%@", [goodsListPostParams description]);
+    __weak typeof(self) weak = self;
     CZJSuccessBlock successBlock = ^(id json) {
         [self dealWithArray];
         if (isArrangeByList) {
@@ -173,7 +177,12 @@ CZJFilterControllerDelegate
     [CZJBaseDataInstance loadGoodsList:goodsListPostParams
                                   type:_getdataType
                                success:successBlock
-                                  fail:^{}];
+                                  fail:^{
+                                      [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+                                      [CZJUtils showReloadAlertViewOnTarget:weak.view withReloadHandle:^{
+                                          [weak getGoodsListDataFromServer];
+                                      }];
+                                  }];
 }
 
 
@@ -203,10 +212,49 @@ CZJFilterControllerDelegate
     [self getGoodsListDataFromServer];;
 }
 
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView
-{
-    
-}
+//- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+//{
+//    float contentOffsetY = [scrollView contentOffset].y;
+//    
+//    //判断是否是上拉（isDraggingDown = false）还是下滑（isDraggingDown = true）
+//    bool isDraggingDown = (lastContentOffsetY - contentOffsetY) > 0 ;
+//    lastContentOffsetY = contentOffsetY;
+//    if (UIGestureRecognizerStateChanged == scrollView.panGestureRecognizer.state)
+//    {
+//        if (isDraggingDown &&
+//            self.naviBarView.frame.origin.y < 0 &&
+//            _isTouch)
+//        {
+//            _isTouch = NO;
+//            DLog(@"下拉");
+//            [[UIApplication sharedApplication]setStatusBarHidden:NO];
+//            [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
+//                self.naviBarView.frame = CGRectMake(0, 20, PJ_SCREEN_WIDTH, 44);
+//                _pullDownMenu.frame = CGRectMake(0, 64, PJ_SCREEN_WIDTH, 46);
+//                self.serviceTableView.frame = CGRectMake(0, 110, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - 110);
+//            } completion:nil];
+//        }
+//        else if (!isDraggingDown &&
+//                 _pullDownMenu.frame.origin.y > 0 &&
+//                 _isTouch)
+//        {
+//            _isTouch = NO;
+//            DLog(@"上拉");
+//            [[UIApplication sharedApplication]setStatusBarHidden:YES];
+//            [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
+//                self.naviBarView.frame = CGRectMake(0, -110, PJ_SCREEN_WIDTH, 44);
+//                _pullDownMenu.frame = CGRectMake(0, -46, PJ_SCREEN_WIDTH, 46);
+//                self.serviceTableView.frame = CGRectMake(0, 0, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT);
+//            } completion:nil];
+//        }
+//    }
+//}
+//
+//- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+//{
+//    _isTouch = YES;
+//    DLog();
+//}
 
 
 #pragma mark - Table view data source
@@ -222,16 +270,22 @@ CZJFilterControllerDelegate
     cell.purchaseCountWidth.constant = [CZJUtils calculateTitleSizeWithString:goodsForm.purchaseCount AndFontSize:13].width;
     [cell.goodImageView sd_setImageWithURL:[NSURL URLWithString:goodsForm.itemImg] placeholderImage:DefaultPlaceHolderImage];
     
+    cell.imageOne.hidden = YES;
+    cell.imageTwo.hidden = YES;
     if (goodsForm.newlyFlag && !goodsForm.promotionFlag)
     {
+        cell.imageOne.hidden = NO;
         [cell.imageOne setImage:IMAGENAMED(@"label_icon_new")];
     }
     else if (!goodsForm.newlyFlag && goodsForm.promotionFlag)
     {
+        cell.imageOne.hidden = NO;
         [cell.imageOne setImage:IMAGENAMED(@"label_icon_cu")];
     }
     else if (goodsForm.newlyFlag && goodsForm.promotionFlag)
     {
+        cell.imageOne.hidden = NO;
+        cell.imageTwo.hidden = NO;
         [cell.imageOne setImage:IMAGENAMED(@"label_icon_new")];
         [cell.imageTwo setImage:IMAGENAMED(@"label_icon_cu")];
     }

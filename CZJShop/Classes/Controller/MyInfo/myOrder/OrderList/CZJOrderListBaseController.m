@@ -79,6 +79,7 @@ CZJOrderListCellDelegate
 
 - (void)getOrderListFromServer
 {
+    __weak typeof(self) weak = self;
     MBProgressHUD* hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     hud.completionBlock = ^{
         if (_orderList.count == 0)
@@ -93,9 +94,15 @@ CZJOrderListCellDelegate
     [CZJBaseDataInstance getOrderList:_params Success:^(id json) {
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
         _orderList = [CZJOrderListForm objectArrayWithKeyValuesArray:[[CZJUtils DataFromJson:json] valueForKey:@"msg" ]];
-        DLog(@"orderListCount:%ld",_orderList.count);
+        for (CZJOrderListForm* form in _orderList)
+        {
+            DLog(@"%@",[form.keyValues description]);
+        }
     } fail:^{
-        
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        [CZJUtils showReloadAlertViewOnTarget:weak.view withReloadHandle:^{
+            [weak getOrderListFromServer];
+        }];
     }];
 }
 

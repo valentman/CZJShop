@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CZJStoreInfoCell : UITableViewCell
+@interface CZJStoreInfoCell : CZJTableViewCell
 @property (weak, nonatomic) IBOutlet UILabel *attentionNumber;
 @property (weak, nonatomic) IBOutlet UILabel *goodsNumber;
 @property (weak, nonatomic) IBOutlet UILabel *serviceNumber;

@@ -11,6 +11,7 @@
 @interface CZJGeneralCell : CZJTableViewCell
 @property (weak, nonatomic) IBOutlet UIImageView *headImgView;
 
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *nameLabelWidth;
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *detailLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *arrowImg;

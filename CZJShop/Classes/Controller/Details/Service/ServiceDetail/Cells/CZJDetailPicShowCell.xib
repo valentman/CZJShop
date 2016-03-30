@@ -43,6 +43,6 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="all_btn_shop.png" width="22" height="22"/>
+        <image name="all_btn_shop.png" width="21" height="21"/>
     </resources>
 </document>

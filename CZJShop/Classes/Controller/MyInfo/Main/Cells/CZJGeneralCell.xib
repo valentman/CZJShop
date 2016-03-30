@@ -84,6 +84,7 @@
                 <outlet property="imageViewHeight" destination="JWh-ZT-qgF" id="3nS-l4-zX9"/>
                 <outlet property="imageViewWidth" destination="bbM-Gb-VdH" id="Ohe-zR-hpZ"/>
                 <outlet property="nameLabel" destination="NBw-VK-z46" id="32p-lm-ELl"/>
+                <outlet property="nameLabelWidth" destination="1Qb-Np-JL8" id="pvV-rj-K9N"/>
             </connections>
             <point key="canvasLocation" x="226" y="324"/>
         </tableViewCell>

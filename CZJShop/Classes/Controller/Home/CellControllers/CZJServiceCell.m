@@ -13,9 +13,8 @@
 - (void)initServiceCollectionViewCellWithData:(ServiceForm*)obj
 {
     //图片
-    UIImage* image = [UIImage imageNamed:@"home_btn_xiche"];
     SDWebImageCompletionBlock sdimgBlock = ^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL){};
-    UIImageView* image_icon = [[UIImageView alloc] initWithImage:image];
+    UIImageView* image_icon = [[UIImageView alloc] init];
     [image_icon sd_setImageWithURL:[NSURL URLWithString:obj.img]
                   placeholderImage:PNGIMAGE( @"home_btn_xiche")
                          completed:sdimgBlock];
@@ -28,8 +27,8 @@
     
     //布局
     CGRect tmpRect = self.contentView.frame;
-    image_icon.frame = CGRectMake((tmpRect.size.width - 45) / 2 , 0, 45, 45);
-    label_name.frame = CGRectMake(0 , 45 + 6, tmpRect.size.width, 25);
+    image_icon.frame = CGRectMake((tmpRect.size.width - 40) / 2 , 0, 40, 40);
+    label_name.frame = CGRectMake(0 , 40 + 7, tmpRect.size.width, 15);
     [self setHighlighted:NO];
     [self.contentView addSubview:image_icon];
     [self.contentView addSubview:label_name];
@@ -44,15 +43,14 @@
 @implementation CZJServiceCell
 
 - (void)awakeFromNib {
-    
     // Initialization code
     self.CZJAFCollectionLayout.itemSize = CGSizeMake(PJ_SCREEN_WIDTH/5, 75);
-
     [self.collectionView registerClass:[ServiceCollectionViewCell class]
             forCellWithReuseIdentifier:CZJServiceCollectionViewCellIdentifier];
     self.collectionView.dataSource = self;
     self.collectionView.delegate = self;
     [self.collectionView setBackgroundColor:[UIColor whiteColor]];
+    _services = [NSMutableArray array];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -61,7 +59,7 @@
 
 - (void)initServiceCellWithDatas:(NSArray *)datas{
     self.isInit = YES;
-    _services = datas;
+    _services = [datas mutableCopy];
     [self.collectionView reloadData];
 }
 

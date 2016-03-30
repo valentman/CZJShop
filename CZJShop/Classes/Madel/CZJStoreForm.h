@@ -46,6 +46,8 @@
 @property(nonatomic, strong) NSString* setupCount;
 @property(nonatomic, strong) NSString* setupPrice;
 @property(nonatomic, strong) NSString* type;
+@property(nonatomic, assign) BOOL couponFlag;
+@property(nonatomic, assign) BOOL promotionFlag;
 @end
 
 

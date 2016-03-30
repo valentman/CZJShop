@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface CZJPromotionController : CZJViewController
-
+@property (strong, nonatomic) NSString* storeId;
+@property (strong, nonatomic) NSString* type;
 @end

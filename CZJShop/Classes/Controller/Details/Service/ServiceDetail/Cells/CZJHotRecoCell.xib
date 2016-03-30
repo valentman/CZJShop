@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -21,8 +22,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="101" height="101"/>
                         <animations/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="101" id="6lv-b6-m0s"/>
-                            <constraint firstAttribute="width" constant="101" id="VuP-V5-3Qz"/>
+                            <constraint firstAttribute="width" secondItem="j1B-v7-hMk" secondAttribute="height" multiplier="1:1" id="hEW-Km-Flc"/>
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="0.0" translatesAutoresizingMaskIntoConstraints="NO" id="ufB-t6-wMF">
@@ -54,9 +54,12 @@
             <animations/>
             <constraints>
                 <constraint firstItem="xZK-iB-Urf" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="74c-Eg-u0R"/>
+                <constraint firstItem="j1B-v7-hMk" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="Ava-2P-mN6"/>
                 <constraint firstAttribute="trailing" secondItem="ufB-t6-wMF" secondAttribute="trailing" id="BMv-Ve-Ota"/>
                 <constraint firstAttribute="trailing" secondItem="j1B-v7-hMk" secondAttribute="trailing" id="Bbk-GT-iFU"/>
+                <constraint firstItem="j1B-v7-hMk" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="IjR-Xm-IvC"/>
                 <constraint firstAttribute="trailing" secondItem="xZK-iB-Urf" secondAttribute="trailing" id="NAs-06-aH4"/>
+                <constraint firstAttribute="trailing" secondItem="j1B-v7-hMk" secondAttribute="trailing" id="QjR-TK-EWl"/>
                 <constraint firstItem="ufB-t6-wMF" firstAttribute="top" secondItem="j1B-v7-hMk" secondAttribute="bottom" constant="5" id="Yp5-et-5zA"/>
                 <constraint firstItem="j1B-v7-hMk" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="b02-Hz-BC6"/>
                 <constraint firstItem="ufB-t6-wMF" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="dUK-s1-KIO"/>

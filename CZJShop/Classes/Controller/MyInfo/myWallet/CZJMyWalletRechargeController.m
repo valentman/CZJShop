@@ -61,6 +61,10 @@ UITextFieldDelegate
     }
     
     [self.myTableView reloadData];
+    UILabel *paddingView = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 10, 25)];
+    self.rechargeTextField.leftView = paddingView;
+    self.rechargeTextField.leftViewMode = UITextFieldViewModeAlways;
+    self.rechargeTextField.delegate = self;
 }
 
 - (void)didReceiveMemoryWarning {

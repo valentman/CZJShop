@@ -10,7 +10,7 @@
 
 @interface CZJGoodsAttentionForm : NSObject
 @property(strong, nonatomic) NSString* chezhuId;
-@property(strong, nonatomic) NSDictionary* createTime;
+@property(strong, nonatomic) NSString* createTime;
 @property(strong, nonatomic) NSString* currentPrice;
 @property(strong, nonatomic) NSString* attentionID;
 @property(strong, nonatomic) NSString* itemImg;
@@ -19,20 +19,20 @@
 @property(strong, nonatomic) NSString* storeItemPid;
 @property(assign)BOOL isSelected;
 
-- (id)initWithDictionary:(NSDictionary*)dict;
+- (id)init;
 @end
 
 
 @interface CZJStoreAttentionForm : NSObject
 @property(strong, nonatomic) NSString* attentionCount;
 @property(strong, nonatomic) NSString* chezhuId;
-@property(strong, nonatomic) NSDictionary* createTime;
+@property(strong, nonatomic) NSString* createTime;
 @property(strong, nonatomic) NSString* homeImg;
 @property(strong, nonatomic) NSString* attentionID;
 @property(strong, nonatomic) NSString* name;
 @property(strong, nonatomic) NSString* storeId;
 @property(assign)BOOL isSelected;
 
-- (id)initWithDictionary:(NSDictionary*)dict;
+- (id)init;
 @end
 

@@ -27,9 +27,9 @@ UITableViewDelegate
 >
 {
     NSString* _currentType;
-    NSMutableArray* serviceAttentionAry;
-    NSMutableArray* goodsAttentionAry;
-    NSMutableArray* storeAttentionAry;
+    NSArray* serviceAttentionAry;
+    NSArray* goodsAttentionAry;
+    NSArray* storeAttentionAry;
     NSMutableArray* tmpArray;
     NSMutableArray* deleteIdAry;
     
@@ -42,8 +42,6 @@ UITableViewDelegate
 @property (weak, nonatomic) IBOutlet PullTableView *myTableView;
 @property (weak, nonatomic) IBOutlet UIButton *selectAllBtn;
 @property (weak, nonatomic) IBOutlet UIView *buttomView;
-@property (weak, nonatomic) IBOutlet UIView *sepratorView;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *sepratorViewHeight;
 @property (assign) BOOL isEdit;
 
 
@@ -53,11 +51,8 @@ UITableViewDelegate
 @end
 
 @implementation CZJMyInfoAttentionController
-@synthesize isEdit = _isEdit;
 - (void)viewDidLoad {
     [super viewDidLoad];
-    _sepratorViewHeight.constant = 0.5;
-    [self addCZJNaviBarView:CZJNaviBarViewTypeGeneral];
     [self initDatas];
     [self initViews];
 }
@@ -76,15 +71,19 @@ UITableViewDelegate
     tmpArray = [NSMutableArray array];
     deleteIdAry = [NSMutableArray array];
     
-    _isEdit = YES;
+    _isEdit = NO;
     _isServiceTouched = NO;
     _isGoodsTouched = NO;
     _isStoreTouched = NO;
+    self.buttomView.hidden = !_isEdit;
+    
 }
 
 - (void)initViews
 {
-    [CZJUtils customizeNavigationBarForTarget:self hiddenButton:YES];
+    [self addCZJNaviBarView:CZJNaviBarViewTypeGeneral];
+    self.naviBarView.delegate = self;
+    
     //右按钮
     UIButton *rightBtn = [[ UIButton alloc ] initWithFrame : CGRectMake(PJ_SCREEN_WIDTH - 59 , 0 , 44 , 44 )];
     [rightBtn setTitle:@"编辑" forState:UIControlStateNormal];
@@ -116,9 +115,6 @@ UITableViewDelegate
     NSArray * items = @[@"服务", @"商品", @"门店"];
     LXDSegmentControlConfiguration * scale = [LXDSegmentControlConfiguration configurationWithControlType: LXDSegmentControlTypeScaleTitle items: items];
     LXDSegmentControl * scaleControl = [LXDSegmentControl segmentControlWithFrame: frame configuration: scale delegate: self];
-    
-    
-     self.naviBarView.delegate = self;
     [self.naviBarView addSubview: scaleControl];
 }
 
@@ -126,74 +122,51 @@ UITableViewDelegate
 {
     NSDictionary* params = @{@"type" : _currentType};
     __weak typeof(self) weak = self;
+    [tmpArray removeAllObjects];
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [CZJBaseDataInstance loadMyAttentionList:params success:^(id json) {
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
         NSDictionary* dict = [CZJUtils DataFromJson:json];
         NSArray* tmpAry = [dict valueForKey:@"msg"];
-        for (int i = 0; i < tmpAry.count ; i++)
-        {
-            NSDictionary* tmpDict = tmpAry[i];
-            switch ([_currentType integerValue])
-            {
-                case 0:
-                {
-                    CZJGoodsAttentionForm* form = [[CZJGoodsAttentionForm alloc]initWithDictionary:tmpDict];
-                    [goodsAttentionAry addObject:form];
-                    
-                }
-                    break;
-                case 1:
-                {
-                    CZJGoodsAttentionForm* form = [[CZJGoodsAttentionForm alloc]initWithDictionary:tmpDict];
-                    [serviceAttentionAry addObject:form];
-                    
-                }
-                    break;
-                case 3:
-                {
-                    CZJStoreAttentionForm* form = [[CZJStoreAttentionForm alloc]initWithDictionary:tmpDict];
-                    [storeAttentionAry addObject:form];
-                    
-                }
-                    break;
-                    
-                default:
-                    break;
-            }
-        }
         switch ([_currentType integerValue])
         {
             case 0:
-                tmpArray = goodsAttentionAry;
+                goodsAttentionAry = [[CZJGoodsAttentionForm objectArrayWithKeyValuesArray:tmpAry] mutableCopy];
                 _isGoodsTouched = YES;
-                if (tmpArray.count == 0)
-                {
-                    [CZJUtils showNoDataAlertViewOnTarget:self.view withPromptString:@"木有关注的服务/(ToT)/~~"];
-                    return;
-                }
-                break;
-            case 1:
-                tmpArray = serviceAttentionAry;
-                _isServiceTouched = YES;
+                tmpArray = [goodsAttentionAry mutableCopy];
                 if (tmpArray.count == 0)
                 {
                     [CZJUtils showNoDataAlertViewOnTarget:self.view withPromptString:@"木有关注的商品/(ToT)/~~"];
                     return;
                 }
                 break;
-            case 3:
-                tmpArray = storeAttentionAry;
+                
+            case 1:
+                serviceAttentionAry = [[CZJGoodsAttentionForm objectArrayWithKeyValuesArray:tmpAry] mutableCopy];
+                _isServiceTouched = YES;
+                tmpArray = [serviceAttentionAry mutableCopy];
+                if (tmpArray.count == 0)
+                {
+                    [CZJUtils showNoDataAlertViewOnTarget:self.view withPromptString:@"木有关注的服务/(ToT)/~~"];
+                    return;
+                }
+                break;
+                
+            case 2:
+                storeAttentionAry = [[CZJStoreAttentionForm objectArrayWithKeyValuesArray:tmpAry]mutableCopy];
                 _isStoreTouched = YES;
+                tmpArray = [storeAttentionAry mutableCopy];
                 if (tmpArray.count == 0)
                 {
                     [CZJUtils showNoDataAlertViewOnTarget:self.view withPromptString:@"木有关注的门店/(ToT)/~~"];
                     return;
                 }
                 break;
+                
             default:
                 break;
         }
+        self.myTableView.hidden = NO;
         self.myTableView.pullDelegate = self;
         self.myTableView.dataSource = self;
         self.myTableView.delegate = self;
@@ -217,13 +190,7 @@ UITableViewDelegate
     UIButton* itemButton = (UIButton*)sender;
     itemButton.selected = !itemButton.selected;
     self.isEdit = !self.isEdit;
-    
-    [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
-        self.buttomView.frame = CGRectMake(0, self.isEdit ? PJ_SCREEN_HEIGHT - 50 : PJ_SCREEN_HEIGHT, PJ_SCREEN_WIDTH, 50);
-    } completion:^(BOOL finished) {
-        
-    }];
-
+    self.buttomView.hidden = !self.isEdit;
     [self.myTableView reloadData];
 }
 
@@ -274,19 +241,11 @@ UITableViewDelegate
 #pragma mark-UITableViewDataSource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    if ([_currentType isEqualToString:@"2"])
-    {
-        return tmpArray.count;
-    }
     return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if ([_currentType isEqualToString:@"2"])
-    {//门店关注列表
-        return 2;
-    }
     return tmpArray.count;
 }
 
@@ -295,26 +254,17 @@ UITableViewDelegate
     if ([_currentType isEqualToString:@"2"])
     {
         CZJStoreAttentionForm* form = tmpArray[indexPath.section];
-        if (0 == indexPath.row)
-        {
-            CZJStoreAttentionHeadCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJStoreAttentionHeadCell" forIndexPath:indexPath];
-            [cell.storeImg sd_setImageWithURL:[NSURL URLWithString:form.homeImg] placeholderImage:DefaultPlaceHolderImage];
-            cell.storeNameLabel.text = form.name;
-            CGSize attentionSize = [CZJUtils calculateTitleSizeWithString:form.attentionCount AndFontSize:14];
-            cell.attentionCountLabel.text = form.attentionCount;
-            cell.attentionCountLayoutWidth.constant = attentionSize.width;
-            cell.selectBtn.selected = form.isSelected;
-            [UIView animateWithDuration:1.0 delay:0.1 options:UIViewAnimationOptionCurveLinear animations:^{
-                cell.viewLayoutLeading.constant = self.isEdit ? 30 : 0;
-            } completion:nil];
-            return cell;
-        }
-        else
-        {
-            CZJStoreAttentionCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJStoreAttentionCell" forIndexPath:indexPath];
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            return cell;
-        }
+        CZJStoreAttentionHeadCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJStoreAttentionHeadCell" forIndexPath:indexPath];
+        [cell.storeImg sd_setImageWithURL:[NSURL URLWithString:form.homeImg] placeholderImage:DefaultPlaceHolderImage];
+        cell.storeNameLabel.text = form.name;
+        CGSize attentionSize = [CZJUtils calculateTitleSizeWithString:form.attentionCount AndFontSize:14];
+        cell.attentionCountLabel.text = form.attentionCount;
+        cell.attentionCountLayoutWidth.constant = attentionSize.width;
+        cell.selectBtn.selected = form.isSelected;
+        [UIView animateWithDuration:1.0 delay:0.1 options:UIViewAnimationOptionCurveLinear animations:^{
+            cell.viewLayoutLeading.constant = self.isEdit ? 30 : 0;
+        } completion:nil];
+        return cell;
     }
     else
     {
@@ -340,15 +290,8 @@ UITableViewDelegate
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if ([_currentType isEqualToString:@"2"])
-    {//门店关注列表
-        if (0 == indexPath.row)
-        {
-            return 76;
-        }
-        else
-        {
-            return 167;
-        }
+    {
+        return 106;
     }
     return 126;
 }
@@ -405,13 +348,12 @@ UITableViewDelegate
 - (void)segmentControl: (LXDSegmentControl *)segmentControl didSelectAtIndex: (NSUInteger)index
 {
     DLog(@"%ld",index);
+    [CZJUtils removeNoDataAlertViewFromTarget:self.view];
+    [tmpArray removeAllObjects];
+    self.myTableView.hidden = YES;
     self.isEdit = NO;
     ((UIButton*)VIEWWITHTAG(self.naviBarView, 1999)).selected = NO;
-    [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
-        self.buttomView.frame = CGRectMake(0, self.isEdit ? PJ_SCREEN_HEIGHT - 50 : PJ_SCREEN_HEIGHT, PJ_SCREEN_WIDTH, 50);
-    } completion:^(BOOL finished) {
-        
-    }];
+    self.buttomView.hidden = !_isEdit;
     if (1 == index)
     {
         _currentType = [NSString stringWithFormat:@"%ld",index - 1];
@@ -443,16 +385,32 @@ UITableViewDelegate
     {
         if (0 == index)
         {
-            tmpArray = serviceAttentionAry;
+            tmpArray = [serviceAttentionAry mutableCopy];
+            if (tmpArray.count == 0)
+            {
+                [CZJUtils showNoDataAlertViewOnTarget:self.view withPromptString:@"木有关注的服务/(ToT)/~~"];
+                return;
+            }
         }
         else if (1 == index)
         {
-            tmpArray = goodsAttentionAry;
+            tmpArray = [goodsAttentionAry mutableCopy];
+            if (tmpArray.count == 0)
+            {
+                [CZJUtils showNoDataAlertViewOnTarget:self.view withPromptString:@"木有关注的商品/(ToT)/~~"];
+                return;
+            }
         }
         else
         {
-            tmpArray = storeAttentionAry;
+            tmpArray = [storeAttentionAry mutableCopy];
+            if (tmpArray.count == 0)
+            {
+                [CZJUtils showNoDataAlertViewOnTarget:self.view withPromptString:@"木有关注的门店/(ToT)/~~"];
+                return;
+            }
         }
+        self.myTableView.hidden = NO;
         [self.myTableView reloadData];
     }
     VIEWWITHTAG(self.naviBarView, 1999).hidden = tmpArray.count == 0 ? YES : NO;

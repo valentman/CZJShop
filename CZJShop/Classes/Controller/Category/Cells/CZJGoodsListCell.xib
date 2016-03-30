@@ -22,7 +22,7 @@
                             <constraint firstAttribute="height" constant="101" id="ppq-Uy-wbX"/>
                         </constraints>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="商品名字商品名字" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="0.0" translatesAutoresizingMaskIntoConstraints="NO" id="WDt-8b-L3C">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="0.0" translatesAutoresizingMaskIntoConstraints="NO" id="WDt-8b-L3C">
                         <rect key="frame" x="121" y="12" width="184" height="52"/>
                         <animations/>
                         <constraints>
@@ -54,7 +54,7 @@
                         <color key="textColor" red="0.60000002379999995" green="0.60000002379999995" blue="0.60000002379999995" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="100%" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gA2-wL-ftj">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gA2-wL-ftj">
                         <rect key="frame" x="151" y="99" width="40" height="14"/>
                         <animations/>
                         <constraints>
@@ -65,7 +65,7 @@
                         <color key="textColor" red="0.60000002379999995" green="0.60000002379999995" blue="0.60000002379999995" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10000" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="29G-Gq-7s8">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="29G-Gq-7s8">
                         <rect key="frame" x="221" y="99" width="42" height="14"/>
                         <animations/>
                         <constraints>
@@ -129,9 +129,11 @@
             </tableViewCellContentView>
             <animations/>
             <connections>
+                <outlet property="dealName" destination="UQI-kx-Ka7" id="xoD-4E-afb"/>
                 <outlet property="goodImageView" destination="asO-Mt-BCZ" id="SEp-py-q39"/>
                 <outlet property="goodPrice" destination="6VK-2q-B8z" id="caY-aJ-uUz"/>
                 <outlet property="goodRate" destination="gA2-wL-ftj" id="EoF-2l-sye"/>
+                <outlet property="goodRateName" destination="svd-tm-QEU" id="Ucv-TH-Gl8"/>
                 <outlet property="goodsName" destination="WDt-8b-L3C" id="PcQ-UJ-LKq"/>
                 <outlet property="imageOne" destination="jFR-oW-m9G" id="G3h-M8-NTX"/>
                 <outlet property="imageTwo" destination="D1s-st-Fkh" id="g06-Qz-Xk2"/>

@@ -15,5 +15,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *storeLocation;
 @property (weak, nonatomic) IBOutlet UILabel *storeDistance;
 @property (weak, nonatomic) IBOutlet UILabel *feedbackRate;
+@property (weak, nonatomic) IBOutlet UIImageView *imageOne;
+@property (weak, nonatomic) IBOutlet UIImageView *imageTwo;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *purchaseCountWidth;
 
 @end

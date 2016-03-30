@@ -6,7 +6,7 @@
 //  Copyright (c) 2015年  sen. All rights reserved.
 //
 
-#define PAGECONTROL_jx  5  //缩略点之间的间隙
+#define PAGECONTROL_jx  8  //缩略点之间的间隙
 
 #import <UIKit/UIKit.h>
 

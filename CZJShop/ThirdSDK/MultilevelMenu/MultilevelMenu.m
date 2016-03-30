@@ -145,7 +145,7 @@
         rightMeun* tempMenu = self.allData[self.selectIndex];
         for (id dict in types) {
             rightMeun* menu = [[rightMeun alloc]init];
-            menu.ID = [dict valueForKey:@"typeId"];
+            menu.ID = [NSString stringWithFormat:@"%ld",[[dict valueForKey:@"typeId"] integerValue]];
             menu.meunName = [dict valueForKey:@"name"];
             menu.urlName = [dict valueForKey:@"img"];
             [tempMenu.nextArray addObject:menu];
@@ -292,6 +292,7 @@
     rightMeun * touchedItemMeun=title.nextArray[indexPath.item];
     if (self.block)
     {
+        DLog(@"%ld, %ld",self.selectIndex,indexPath.item)
         self.block(self.selectIndex,indexPath.item,touchedItemMeun);
     }
 }

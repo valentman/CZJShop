@@ -13,15 +13,14 @@
 - (void)awakeFromNib {
     // Initialization code
     [_cellBtn addTarget:self action:@selector(btnTouch:) forControlEvents:UIControlEventTouchUpInside];
-    _hotRecoImage.layer.borderWidth = 0.5;
-    _hotRecoImage.layer.cornerRadius = 2;
-    _hotRecoImage.clipsToBounds = YES;
-    _hotRecoImage.layer.borderColor = [[UIColor lightGrayColor]CGColor];
 }
 
 - (void)btnTouch:(id)sender
 {
-    
+    if (self.hotBtnClick)
+    {
+        self.hotBtnClick(self.hotRecoData);
+    }
 }
 
 @end

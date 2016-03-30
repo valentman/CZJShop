@@ -193,6 +193,7 @@
         self.numLabel.text = [NSString stringWithFormat:@"×%@",goodsForm.itemCount];
     }
     
+    //-----------------------------------未付款----------------------------------
     if (!listForm.paidFlag)
     {
         //区分是服务和商品：type==0为商品，type==1为服务
@@ -292,6 +293,8 @@
             }
         }
     }
+    
+    //-----------------------------------已付款----------------------------------
     else
     {
         if (0 == [listForm.type integerValue])
@@ -343,21 +346,15 @@
             }
             else if (2 == [listForm.status integerValue])
             {
-                if (CZJOrderTypeNoBuild == orderType)
-                {
-                    self.buildingPaidButtomView.hidden = NO;
-                }
-                if (CZJOrderTypeAll == orderType)
-                {
-                    self.buildingNoPaidButtomView.hidden = NO;
-                }
-                
+                self.buildingPaidButtomView.hidden = NO;
                 self.stateDescLabel.hidden = NO;
                 self.stateDescLabel.text = @"施工中";
             }
             else if (3 == [listForm.status integerValue])
             {
-                
+                self.buildingPaidButtomView.hidden = NO;
+                self.stateDescLabel.hidden = NO;
+                self.stateDescLabel.text = @"已施工";
             }
             else if (4 == [listForm.status integerValue])
             {
@@ -396,7 +393,7 @@
                 self.stateDescLabel.text = @"";
                 self.completeImg.hidden = NO;
                 [self.completeImg setImage:IMAGENAMED(@"order_icon_wancheng")];
-                self.noEvalutionButtomView.hidden = NO;
+                self.noEvalutionButtomView.hidden = listForm.evaluated;
             }
         }
 

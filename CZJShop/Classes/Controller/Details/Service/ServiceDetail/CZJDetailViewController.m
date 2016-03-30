@@ -33,6 +33,7 @@
 #import "CZJUserEvalutionController.h"
 #import "CZJAddedEvalutionCell.h"
 #import "CZJReceiveCouponsController.h"
+#import "CZJGeneralCell.h"
 
 #define kTagScrollView 1002
 #define kTagTableView 1001
@@ -214,7 +215,7 @@ CZJStoreInfoHeaerCellDelegate
         
         NSDictionary* dict = [[CZJUtils DataFromJson:json] valueForKey:@"msg"];
         goodsDetailForm = [CZJGoodsDetailForm objectWithKeyValues:dict];
-        DLog(@"goodsDetailForm:%@",[goodsDetailForm.keyValues description]);
+//        DLog(@"goodsDetailForm:%@",[goodsDetailForm.keyValues description]);
         //根据购买类型显示底部“加入购物车”与否（0表示是商品，显示“加入购物车”，1则表示服务，只显示“立即购买”）
         if (0 == [goodsDetailForm.goods.buyType floatValue])
         {
@@ -229,7 +230,6 @@ CZJStoreInfoHeaerCellDelegate
         
         [self dealWithData];
         [self.detailTableView reloadData];
-        tableViewContentSizeHeight = self.detailTableView.mj_contentH - self.detailTableView.mj_h;
 
         //获取热门商品或服务
         [self getHotRecommendDataFromServer];
@@ -248,8 +248,6 @@ CZJStoreInfoHeaerCellDelegate
         webVie.backgroundColor = CZJNAVIBARBGCOLOR;
         [webVie setTitleArray:@[@"图文详情",@"购买须知",@"包装售后",@"适用车型"] andVCArray:@[FController,SController,TController,AController]];
         [self.myScrollView addSubview:webVie];
-        
-        
     };
     NSDictionary* param = @{@"storeItemPid":self.storeItemPid, @"promotionPrice":self.promotionPrice, @"promotionType":[NSString stringWithFormat:@"%ld",self.promotionType]};
     NSString* apiUrl;
@@ -275,9 +273,13 @@ CZJStoreInfoHeaerCellDelegate
     CZJSuccessBlock successBlock = ^(id json)
     {
         NSArray* dict = [[CZJUtils DataFromJson:json]valueForKey:@"msg"];
+        DLog(@"hotrecommend:%@",[dict description]);
         _recommendServiceForms = [CZJStoreServiceForm objectArrayWithKeyValuesArray:dict];
-        DLog(@"%@",[_recommendServiceForms.keyValues description]);
-        [self.detailTableView reloadSections:[NSIndexSet indexSetWithIndex:6] withRowAnimation:UITableViewRowAnimationFade];
+        [self.detailTableView reloadData];
+        
+        //推荐商品获取完成后再计算TableView的contentSize
+        DLog(@"contentSizeHeight:%f, frameHeight:%f",self.detailTableView.mj_contentH,self.detailTableView.mj_h)
+        tableViewContentSizeHeight = self.detailTableView.mj_contentH - self.detailTableView.mj_h;
     };
     
     [CZJBaseDataInstance loadDetailHotRecommendWithType:self.detaiViewType
@@ -304,15 +306,15 @@ CZJStoreInfoHeaerCellDelegate
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 3 + (goodsDetailForm == nil ? 0 : 5);
+    return 3 + (goodsDetailForm == nil ? 0 : 6);
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (4 == section)
+    if (5 == section)
     {
         return _evalutionInfo.evalList.count;
     }
-    if (5 == section)
+    if (6 == section)
     {
         return 2;
     }
@@ -324,9 +326,13 @@ CZJStoreInfoHeaerCellDelegate
     {
         return 0;
     }
-    if (6 == section)
+    if (7 == section)
     {
         return _recommendServiceForms.count > 0 ? 1 : 0;
+    }
+    if (4 == section)
+    {
+        return goodsDetailForm.promotions.count > 0 ? 1 : 0;
     }
     return 1;
 }
@@ -404,6 +410,51 @@ CZJStoreInfoHeaerCellDelegate
             break;
             
         case 4:
+        {//促销
+            CZJCouponsCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CZJCouponsCell" forIndexPath:indexPath];
+            cell.arrowImg.hidden = YES;
+            cell.couponNameLabel.text = @"促销";
+            cell.couponScrollView.clipsToBounds = NO;
+            if (goodsDetailForm.promotions.count > 0)
+            {
+                NSInteger range = goodsDetailForm.promotions.count > 2 ? 2 : goodsDetailForm.promotions.count;
+                for (int i = 0 ; i < range; i++)
+                {
+                    CZJPromotionItemForm* promotionItem = (CZJPromotionItemForm*)goodsDetailForm.promotions[i];
+                    CZJGeneralCell* promotionItemCell = [CZJUtils getXibViewByName:@"CZJGeneralCell"];
+                    NSString* imageName;
+                    if ([promotionItem.type integerValue] == 0)
+                    {
+                        imageName = @"label_icon_jian";
+                    }
+                    else
+                    {
+                        imageName = @"label_icon_zengpin";
+                    }
+                    promotionItemCell.imageViewHeight.constant = 15;
+                    promotionItemCell.imageViewWidth.constant = 30;
+                    [promotionItemCell.headImgView setImage:IMAGENAMED(imageName)];
+                    promotionItemCell.nameLabelWidth.constant = PJ_SCREEN_WIDTH - 130;
+                    promotionItemCell.nameLabel.text = promotionItem.desc;
+                    promotionItemCell.nameLabel.font = SYSTEMFONT(13);
+                    promotionItemCell.nameLabel.textColor = RGB(109, 109, 109);
+                    CGRect cellRect = CGRectMake(-20, 15 + i * 30, PJ_SCREEN_WIDTH - 40, 15);
+                    promotionItemCell.frame = cellRect;
+                    
+                    UIButton* tapButton = [UIButton buttonWithType:UIButtonTypeCustom];
+                    [tapButton addTarget:self action:@selector(tapPromotionCell:) forControlEvents:UIControlEventTouchUpInside];
+                    tapButton.frame = CGRectMake(0, -5, promotionItemCell.frame.size.width, promotionItemCell.frame.size.height + 10);
+                    tapButton.tag = [promotionItem.type integerValue];
+                    [promotionItemCell addSubview:tapButton];
+                    
+                    [cell.couponScrollView addSubview:promotionItemCell];
+                }
+            }
+            return cell;
+        }
+            break;
+            
+        case 5:
         {//评论数据
             if (0 == indexPath.row) {
                 CZJEvalutionHeaderCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CZJEvalutionHeaderCell" forIndexPath:indexPath];
@@ -485,7 +536,7 @@ CZJStoreInfoHeaerCellDelegate
             }
         }
             break;
-        case 5:
+        case 6:
         {//门店信息介绍
             if (0 == indexPath.row)
             {
@@ -499,6 +550,14 @@ CZJStoreInfoHeaerCellDelegate
                     cell.storeAddrLayoutWidth.constant = PJ_SCREEN_WIDTH - 200;
                     cell.storeNameLayoutWidth.constant = PJ_SCREEN_WIDTH - 200;
                     cell.attentionStore.selected = _storeInfo.attentionFlag;
+                    if (_storeInfo.attentionFlag)
+                    {
+                        [cell.attentionStore setTitle:@"已关注" forState:UIControlStateNormal];
+                    }
+                    else
+                    {
+                        [cell.attentionStore setTitle:@"关注门店" forState:UIControlStateNormal];
+                    }
                     cell.delegate = self;
                 }
                 [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
@@ -521,22 +580,28 @@ CZJStoreInfoHeaerCellDelegate
         }
             break;
             
-        case 6:
+        case 7:
         {//热门推荐
             CZJHotRecommendCell *cell = (CZJHotRecommendCell*)[tableView dequeueReusableCellWithIdentifier:@"CZJHotRecommendCell" forIndexPath:indexPath];
-            if (!cell.isInit && _recommendServiceForms.count > 0) {
-                [cell setHotRecommendDatas:_recommendServiceForms];
-            }
             
-            [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+            if (!cell.isInit && _recommendServiceForms.count > 0) {
+                __weak typeof(self) weak = self;
+                [cell setHotRecommendDatas:_recommendServiceForms andButtonHandler:^(id data) {
+                    CZJStoreServiceForm* hotRecommendGood = (CZJStoreServiceForm*)data;
+                    CZJDetailViewController* detailVC = (CZJDetailViewController*)[CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:kCZJStoryBoardIDGoodsDetailVC];
+                    detailVC.storeItemPid = hotRecommendGood.storeItemPid;
+                    detailVC.promotionType = CZJGoodsPromotionTypeGeneral;
+                    detailVC.promotionPrice = @"";
+                    [weak.navigationController pushViewController:detailVC animated:YES];
+                }];
+            }
             cell.separatorInset = HiddenCellSeparator;
             return cell;
         }
-        case 7:
+        case 8:
         {//上拉查看图文详情
             CZJOrderTypeExpandCell *cell = (CZJOrderTypeExpandCell*)[tableView dequeueReusableCellWithIdentifier:@"CZJOrderTypeExpandCell" forIndexPath:indexPath];
             [cell setCellType:CZJCellTypeDetail];
-            [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
             cell.separatorInset = HiddenCellSeparator;
             return cell;
         }
@@ -579,6 +644,9 @@ CZJStoreInfoHeaerCellDelegate
             return 46;
             break;
         case 4:
+            return 75;
+            break;
+        case 5:
             if (0 == indexPath.row) {
                 return 46;
             }
@@ -608,7 +676,7 @@ CZJStoreInfoHeaerCellDelegate
                 return 64;
             }
             break;
-        case 5:
+        case 6:
             if (0 == indexPath.row)
             {
                 return 81;
@@ -618,11 +686,11 @@ CZJStoreInfoHeaerCellDelegate
                 return 131;
             }
             break;
-        case 6:
-            return 404;
+        case 7:
+            return (iPhone4 || iPhone5) ? 400 : 400;
             break;
             
-        case 7:
+        case 8:
             return 46;
             break;
             
@@ -637,7 +705,8 @@ CZJStoreInfoHeaerCellDelegate
     if (0 == section ||
         1 == section ||
         2 == section ||
-        3 == section)
+        3 == section ||
+        4 == section)
     {
         return 0;
     }
@@ -692,6 +761,9 @@ CZJStoreInfoHeaerCellDelegate
     }
     if (4 == indexPath.section)
     {
+    }
+    if (6 == indexPath.section)
+    {
         [self performSegueWithIdentifier:@"segueToUserEvalution" sender:self];
     }
 }
@@ -704,11 +776,12 @@ CZJStoreInfoHeaerCellDelegate
     switch (barButton.tag) {
         case CZJButtonTypeNaviBarMore:
         {
-            NSArray * arr = @[@{@"消息" : @"prodetail_icon_msg"},
+            NSArray * arr = @[
+//                              @{@"消息" : @"prodetail_icon_msg"},
                               @{@"首页":@"prodetail_icon_home"},
                               @{@"分享" :@"prodetail_icon_share"}];
             if(dropDown == nil) {
-                CGRect rect = CGRectMake(PJ_SCREEN_WIDTH - 120 - 14, StatusBar_HEIGHT + 78, 120, 150);
+                CGRect rect = CGRectMake(PJ_SCREEN_WIDTH - 120 - 14, StatusBar_HEIGHT + 78, 120, 100);
                 _backgroundView.hidden = NO;
                 dropDown = [[NIDropDown alloc]showDropDown:_backgroundView Frame:rect WithObjects:arr  andType:CZJNIDropDownTypeNormal];
                 dropDown.delegate = self;
@@ -764,6 +837,7 @@ CZJStoreInfoHeaerCellDelegate
     }
     if ([btnStr isEqualToString:@"首页"])
     {
+        [self.navigationController popToRootViewControllerAnimated:YES];
     }
     if ([btnStr isEqualToString:@"分享"])
     {
@@ -799,6 +873,7 @@ CZJStoreInfoHeaerCellDelegate
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     float contentOffsetY = [scrollView contentOffset].y;
+     DLog(@"contentOffsetY:%f, tableViewContentSizeHeight:%f",contentOffsetY, tableViewContentSizeHeight);
     if (kTagTableView == scrollView.tag && contentOffsetY <=0)
     {
         [self.naviBarView setBackgroundColor:CZJNAVIBARBGCOLORALPHA(0)];
@@ -834,12 +909,12 @@ CZJStoreInfoHeaerCellDelegate
 {
     float contentOffsetY = [scrollView contentOffset].y;
 
-    if (isButtom && kTagTableView == scrollView.tag && contentOffsetY >= tableViewContentSizeHeight + 30)
+    if (isButtom && kTagTableView == scrollView.tag && contentOffsetY >= tableViewContentSizeHeight + 40)
     {
         [self.myScrollView setContentOffset:CGPointMake(0, (PJ_SCREEN_HEIGHT-114)) animated:true];
         isButtom = NO;
     }
-//    DLog(@"velocity.y:%f, offset:%f",velocity.y, targetContentOffset->y);
+    DLog(@"contentOffsetY:%f, velocity.y:%f, offset:%f",contentOffsetY,velocity.y, targetContentOffset->y);
 }
 
 
@@ -975,16 +1050,21 @@ CZJStoreInfoHeaerCellDelegate
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if ([segue.identifier isEqualToString:@"segueToPromotion"])
-    {
-        CZJPromotionController* promotionVC = segue.destinationViewController;
-    }
-    
     if ([segue.identifier isEqualToString:@"segueToUserEvalution"])
     {
         CZJUserEvalutionController* userEvalutionVC = segue.destinationViewController;
         userEvalutionVC.counterKey = goodsDetailForm.goods.counterKey;
     }
+}
+
+- (void)tapPromotionCell:(id)sender
+{
+    DLog(@"%ld",((UIButton*)sender).tag);
+    
+    CZJPromotionController* promotionVC = (CZJPromotionController*)[CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:@"promotionSBID"];
+    promotionVC.type = [NSString stringWithFormat:@"%ld",((UIButton*)sender).tag];
+    promotionVC.storeId = goodsDetailForm.goods.storeId;
+    [self.navigationController pushViewController:promotionVC animated:YES];
 }
 
 @end

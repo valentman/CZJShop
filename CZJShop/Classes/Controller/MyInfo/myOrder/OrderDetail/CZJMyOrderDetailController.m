@@ -75,6 +75,9 @@ CZJPopPayViewDelegate
 //查看车检结果、去评价
 @property (weak, nonatomic) IBOutlet UIView *carCheckEvaluateView;
 
+//退换货、去评价
+@property (weak, nonatomic) IBOutlet UIView *returnOrEvaluate;
+
 //联系车之健 取消退换货 提醒卖家同意
 @property (weak, nonatomic) IBOutlet UIView *returnedDetailView;
 
@@ -93,7 +96,6 @@ CZJPopPayViewDelegate
 - (IBAction)gotoEvaluateAction:(id)sender;
 - (IBAction)contactServiceAction:(id)sender;
 - (IBAction)cancelReturnGoodsAction:(id)sender;
-- (IBAction)remindSellerAction:(id)sender;
 @end
 
 @implementation CZJMyOrderDetailController
@@ -174,14 +176,19 @@ CZJPopPayViewDelegate
 
 - (void)getOrderDetailFromServer
 {
+    __weak typeof(self) weak = self;
     NSDictionary* params = @{@"orderNo":self.orderNo};
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [CZJBaseDataInstance getOrderDetail:params Success:^(id json) {
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
         NSDictionary* dict = [[CZJUtils DataFromJson:json] valueForKey:@"msg"];
+        DLog(@"%@",[dict description]);
         builderData = [dict valueForKey:@"build"];
         orderDetailForm = [CZJOrderDetailForm objectWithKeyValues:dict];
         receiverAddrForm = orderDetailForm.receiver;
         [self.myTableView reloadData];
         
+        //-----------------------------------未付款----------------------------------
         if (!orderDetailForm.paidFlag)
         {
             //type==0为商品，type==1为服务
@@ -217,6 +224,7 @@ CZJPopPayViewDelegate
             }
         }
         
+        //-----------------------------------已付款----------------------------------
         else
         {
             if (orderDetailForm.evaluated)
@@ -275,12 +283,12 @@ CZJPopPayViewDelegate
                         else if (2 == [orderDetailForm.status integerValue])
                         {
                             _stageStr = @"门店正在施工";
-                            self.carCheckBuildingProgressView.hidden = NO; //查看车检结果、查看施工进度
+                            self.onlyCarCheckView.hidden = NO; //查看车检结果、查看施工进度
                         }
                         else if (3 == [orderDetailForm.status integerValue])
                         {
                             _stageStr = @"门店正在施工";
-                            self.carCheckBuildingProgressView.hidden = NO; //查看车检结果、查看施工进度
+                            self.onlyCarCheckView.hidden = NO; //查看车检结果、查看施工进度
                         }
                     }
                 }
@@ -290,19 +298,27 @@ CZJPopPayViewDelegate
                     _stageStr = @"订单已完成";
                     stageNum = 3;
                     orderType = 0;
-                    if (0 == [orderDetailForm.type integerValue])
+                    if (2 == [orderDetailForm.type integerValue] )
                     {
                         self.goEvaluateView.hidden = NO;            //去评价
                     }
-                    else
+                    if (0 == [orderDetailForm.type integerValue])
+                    {
+                        self.returnOrEvaluate.hidden = NO;        //退换货、去评价
+                    }
+                    if (1 == [orderDetailForm.type integerValue])
                     {
                         self.carCheckEvaluateView.hidden = NO;      //查看车检结果、去评价
                     }
                 }
             }
         }
-    } fail:^{
         
+    } fail:^{
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        [CZJUtils showReloadAlertViewOnTarget:weak.view withReloadHandle:^{
+            [weak getOrderDetailFromServer];
+        }];
     }];
 }
 
@@ -334,7 +350,7 @@ CZJPopPayViewDelegate
 {
     if (0 == section)
     {
-        return 1 + (receiverAddrForm.receiver == nil ? 0 : 1);
+        return 1 + ([receiverAddrForm.receiver isEqualToString:@""] ? 0 : 1);
     }
     
     if (CZJOrderDetailTypeGeneral == self.orderDetailType)
@@ -910,11 +926,12 @@ CZJPopPayViewDelegate
     [self showCZJAlertView:@"你要想好哦，确认收货就不能退货了哦" andConfirmHandler:^{
         [CZJBaseDataInstance generalPost:@{@"orderNo":orderDetailForm.orderNo} success:^(id json) {
             [weak getOrderDetailFromServer];
+            [[NSNotificationCenter defaultCenter]postNotificationName:kCZJNotifiRefreshOrderlist object:nil];
+        } fail:^{
+            
         } andServerAPI:kCZJServerAPIReceiveGoods];
         [weak hideWindow];
-    }  fail:^{
-        
-    } andCancleHandler:nil];
+    }  andCancleHandler:nil];
 }
 
 - (IBAction)viewLogisticsAction:(id)sender
@@ -926,8 +943,9 @@ CZJPopPayViewDelegate
 {
     __weak typeof(self) weak = self;
     [self showCZJAlertView:@"确定取消该订单" andConfirmHandler:^{
-        [CZJBaseDataInstance generalPost:@{} success:^(id json) {
-            
+        [CZJBaseDataInstance generalPost:@{@"orderNo":orderDetailForm.orderNo} success:^(id json) {
+            [[NSNotificationCenter defaultCenter]postNotificationName:kCZJNotifiRefreshOrderlist object:nil];
+            [weak.navigationController popViewControllerAnimated:YES];
         }  fail:^{
             
         } andServerAPI:kCZJServerAPICancelOrder];

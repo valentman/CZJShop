@@ -12,6 +12,7 @@
 
 - (void)awakeFromNib {
     // Initialization code
+    [super awakeFromNib];
     _contactServerButton.layer.borderColor = [UIColor lightGrayColor].CGColor;
     _intoStoreButton.layer.borderColor = [UIColor lightGrayColor].CGColor;
 }
