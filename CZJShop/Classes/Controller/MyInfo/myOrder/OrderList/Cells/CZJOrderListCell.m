@@ -326,7 +326,7 @@
                 self.stateDescLabel.text = @"";
                 self.completeImg.hidden = NO;
                 [self.completeImg setImage:IMAGENAMED(@"order_icon_wancheng")];
-                self.noEvalutionButtomView.hidden = NO;
+                self.noEvalutionButtomView.hidden = listForm.evaluated;
             }
         }
         else if (1 == [listForm.type integerValue])
@@ -362,7 +362,7 @@
                 self.stateDescLabel.text = @"";
                 self.completeImg.hidden = NO;
                 [self.completeImg setImage:IMAGENAMED(@"order_icon_wancheng")];
-                self.noEvalutionButtomView.hidden = NO;
+                self.noEvalutionButtomView.hidden = listForm.evaluated;
                 
             }
         }

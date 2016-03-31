@@ -12,14 +12,12 @@
 #import "CZJGoodsRecoCollectionCell.h"
 #import "CZJGoodsListCell.h"
 #import "CZJBaseDataManager.h"
-#import "CZJGoodsForm.h"
 #import "CZJGoodsListFilterController.h"
 #import "CZJDetailViewController.h"
 
 
 @interface CZJGoodsListController ()
 <
-PullTableViewDelegate,
 MXPullDownMenuDelegate,
 UITableViewDelegate,
 UITableViewDataSource,
@@ -29,7 +27,7 @@ CZJNaviagtionBarViewDelegate,
 CZJFilterControllerDelegate
 >
 {
-    CZJHomeGetDataFromServerType _getdataType;
+    __block CZJHomeGetDataFromServerType _getdataType;
     NSDictionary* goodsListPostParams;
     NSMutableArray* goodsListAry;
     NSArray* currentChooseFilterArys;
@@ -47,13 +45,19 @@ CZJFilterControllerDelegate
     NSString* endPrice;
     NSString* attrJson;
     
-    MJRefreshAutoNormalFooter* refreshFooter;
-    MJRefreshNormalHeader* refreshHeader;
+    BOOL _isTouch;
+    float lastContentOffsetY;
+    
+    MJRefreshAutoNormalFooter* tableRefreshFooter;
+    MJRefreshAutoNormalFooter* collectionRefreshFooter;
+    
+    CGPoint pullDownMenuOriginPoint;        //下拉列表区原始位置
+    CGPoint naviBraviewOriginPoint;         //导航栏原始位置
 }
 
-@property (weak, nonatomic) IBOutlet MXPullDownMenu *pullDownMenuView;
-@property (weak, nonatomic) IBOutlet PullTableView *myGoodsTableView;
-@property (weak, nonatomic) IBOutlet UICollectionView *myGoodsCollectionView;
+@property (strong, nonatomic) MXPullDownMenu *pullDownMenuView;
+@property (strong, nonatomic) UITableView* myTableView;
+@property (strong, nonatomic) UICollectionView *myGoodsCollectionView;
 
 @property (assign, nonatomic)NSInteger page;
 
@@ -68,29 +72,12 @@ CZJFilterControllerDelegate
     [self getGoodsListDataFromServer];
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    [self.naviBarView refreshShopBadgeLabel];
-}
-
-- (void)viewDidDisappear:(BOOL)animated
-{
-    [USER_DEFAULT setValue:@"" forKey:kUserDefaultChoosedBrandID];
-    [USER_DEFAULT setValue:@"" forKey:kUserDefaultStartPrice];
-    [USER_DEFAULT setValue:@"" forKey:kUserDefaultEndPrice];
-    [USER_DEFAULT setValue:@"" forKey:kUSerDefaultStockFlag];
-    [USER_DEFAULT setValue:@"" forKey:kUSerDefaultPromotionFlag];
-    [USER_DEFAULT setValue:@"" forKey:kUSerDefaultRecommendFlag];
-}
-
-
 - (void)initDatas
 {
     goodsListAry = [NSMutableArray array];
     currentChooseFilterArys = [NSArray array];
     isArrangeByList = YES;
     _getdataType = CZJHomeGetDataFromServerTypeOne;
-    
     
     //post参数初始化
     self.page = 1;
@@ -106,7 +93,6 @@ CZJFilterControllerDelegate
     endPrice = @"";
 }
 
-
 - (void)initViews
 {
     //导航栏添加搜索栏
@@ -118,21 +104,37 @@ CZJFilterControllerDelegate
     NSArray* storeTypes = @[@"价格"];
     NSArray* filterTypes = @[@"筛选"];
     NSArray* menuArray = @[sortTypes,storeTypes,filterTypes];
-    [self.pullDownMenuView initWithArray:menuArray AndType:CZJMXPullDownMenuTypeGoods WithFrame:self.pullDownMenuView.frame].delegate = self;
+    _pullDownMenuView  = [[MXPullDownMenu alloc]initWithArray:menuArray AndType:CZJMXPullDownMenuTypeGoods WithFrame:CGRectMake(0, 64, PJ_SCREEN_WIDTH, 46)];
+    _pullDownMenuView.delegate = self;
+    _pullDownMenuView.frame = CGRectMake(0, 64, PJ_SCREEN_WIDTH, 46);
+    [self.view addSubview:_pullDownMenuView];
     
     //TableView
-    self.myGoodsTableView.delegate = self;
-    self.myGoodsTableView.dataSource = self;
+    self.myTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 110, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - 110) style:UITableViewStylePlain];
+    self.myTableView.tableFooterView = [[UIView alloc]init];
+    self.myTableView.delegate = self;
+    self.myTableView.dataSource = self;
+    self.myTableView.clipsToBounds = YES;
+    self.myTableView.showsVerticalScrollIndicator = NO;
+    self.myTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.automaticallyAdjustsScrollViewInsets = NO;
+    self.myTableView.backgroundColor = CZJTableViewBGColor;
+    [self.view addSubview:self.myTableView];
+    
     UINib* nib1 = [UINib nibWithNibName:@"CZJGoodsListCell" bundle:nil];
-    [self.myGoodsTableView registerNib:nib1 forCellReuseIdentifier:@"CZJGoodsListCell"];
-    self.myGoodsTableView.tableFooterView = [[UIView alloc] init];
+    [self.myTableView registerNib:nib1 forCellReuseIdentifier:@"CZJGoodsListCell"];
+    
     
     //CollectionView
+    UICollectionViewFlowLayout* goodCollectioinLayout = [[UICollectionViewFlowLayout alloc]init];
+    [goodCollectioinLayout setScrollDirection:UICollectionViewScrollDirectionVertical];
+    self.myGoodsCollectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(0, 110, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - 110) collectionViewLayout:goodCollectioinLayout];
     self.myGoodsCollectionView.delegate = self;
     self.myGoodsCollectionView.dataSource = self;
     self.myGoodsCollectionView.backgroundColor = [UIColor clearColor];
     UINib *nib=[UINib nibWithNibName:kCZJCollectionCellReuseIdGoodReco bundle:nil];
     [self.myGoodsCollectionView registerNib: nib forCellWithReuseIdentifier:kCZJCollectionCellReuseIdGoodReco];
+    [self.view addSubview:self.myGoodsCollectionView];
 }
 
 - (void)getGoodsListDataFromServer
@@ -152,44 +154,127 @@ CZJFilterControllerDelegate
                             @"page" : [NSString stringWithFormat:@"%ld",self.page]};
     DLog(@"storeparameters:%@", [goodsListPostParams description]);
     __weak typeof(self) weak = self;
+    [CZJUtils removeReloadAlertViewFromTarget:self.view];
+//    [[MBProgressHUD showHUDAddedTo:self.view animated:YES] setLabelText:@"刷新数据"];
     CZJSuccessBlock successBlock = ^(id json) {
-        [self dealWithArray];
+        [MBProgressHUD hideAllHUDsForView:weak.view animated:YES];
+        //返回数据回来还未解析到本地数组中时就添加下拉刷新footer
+        if (goodsListAry.count == 0)
+        {
+            tableRefreshFooter = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^(){
+                _getdataType = CZJHomeGetDataFromServerTypeTwo;
+                weak.page++;
+                [weak getGoodsListDataFromServer];;
+            }];
+            collectionRefreshFooter = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^(){
+                _getdataType = CZJHomeGetDataFromServerTypeTwo;
+                weak.page++;
+                [weak getGoodsListDataFromServer];;
+            }];
+            weak.myTableView.footer = tableRefreshFooter;
+            weak.myGoodsCollectionView.footer = collectionRefreshFooter;
+            weak.myTableView.footer.hidden = YES;
+            weak.myGoodsCollectionView.footer.hidden = YES;
+        }
         if (isArrangeByList) {
-            [self.myGoodsCollectionView setHidden:YES];
-            [self.myGoodsTableView setHidden:NO];
-            [self.myGoodsTableView reloadData];
+            [weak.myTableView.footer endRefreshing];
         }
         else
         {
-            [self.myGoodsTableView setHidden:YES];
-            [self.myGoodsCollectionView setHidden:NO];
-            [self.myGoodsCollectionView reloadData];
+            [weak.myGoodsCollectionView.footer endRefreshing];
         }
         
-        if (self.myGoodsTableView.pullTableIsRefreshing == YES)
-        {
-            self.myGoodsTableView.pullLastRefreshDate = [NSDate date];
+        
+        //解析返回的数据
+        NSArray* dict = [[CZJUtils DataFromJson:json] valueForKey:@"msg"];
+        if (CZJHomeGetDataFromServerTypeTwo == _getdataType)
+        {//如果是下拉刷新类型添加返回数据到当前数组中
+            NSArray* tmpAry = [CZJStoreServiceForm objectArrayWithKeyValuesArray:dict];
+            if (tmpAry.count > 0)
+            {
+                [goodsListAry addObjectsFromArray:tmpAry];
+                if (tmpAry.count < 20)
+                {
+                    [tableRefreshFooter noticeNoMoreData];
+                    [collectionRefreshFooter noticeNoMoreData];
+                }
+                if (isArrangeByList) {
+                    [weak.myGoodsCollectionView setHidden:YES];
+                    [weak.myTableView setHidden:NO];
+                    [weak.myTableView reloadData];
+                }
+                else
+                {
+                    [weak.myTableView setHidden:YES];
+                    [weak.myGoodsCollectionView setHidden:NO];
+                    [weak.myGoodsCollectionView reloadData];
+                }
+            }
+            else
+            {
+                [tableRefreshFooter noticeNoMoreData];
+                [collectionRefreshFooter noticeNoMoreData];
+            }
         }
-        self.myGoodsTableView.pullTableIsLoadingMore = NO;
-        self.myGoodsTableView.pullTableIsRefreshing = NO;
+        else
+        {
+            //如果是第一次进入数据请求
+            goodsListAry = [[CZJStoreServiceForm objectArrayWithKeyValuesArray:dict] mutableCopy];
+            if (goodsListAry.count == 0)
+            {
+                [CZJUtils showNoDataAlertViewOnTarget:self.view withPromptString:@"木有该品类商品/(ToT)/~~"];
+            }
+            else
+            {
+                weak.myTableView.footer.hidden = NO;
+                weak.myGoodsCollectionView.footer.hidden = NO;
+                if (isArrangeByList) {
+                    [weak.myGoodsCollectionView setHidden:YES];
+                    [weak.myTableView setHidden:NO];
+                    [weak.myTableView reloadData];
+                }
+                else
+                {
+                    [weak.myTableView setHidden:YES];
+                    [weak.myGoodsCollectionView setHidden:NO];
+                    [weak.myGoodsCollectionView reloadData];
+                }
+            }
+        }
+        
     };
     
     [CZJBaseDataInstance loadGoodsList:goodsListPostParams
                                   type:_getdataType
                                success:successBlock
                                   fail:^{
-                                      [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+                                      [MBProgressHUD hideAllHUDsForView:weak.view animated:YES];
                                       [CZJUtils showReloadAlertViewOnTarget:weak.view withReloadHandle:^{
                                           [weak getGoodsListDataFromServer];
                                       }];
                                   }];
 }
 
-
-- (void)dealWithArray
+- (void)viewWillAppear:(BOOL)animated
 {
-    [goodsListAry removeAllObjects];
-    goodsListAry = [[CZJBaseDataInstance goodsForm] goodsList];
+    [self.naviBarView refreshShopBadgeLabel];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    //获取导航栏和下拉栏原始位置，为了上拉或下拉时动画
+    pullDownMenuOriginPoint = _pullDownMenuView.frame.origin;
+    naviBraviewOriginPoint = self.naviBarView.frame.origin;
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [USER_DEFAULT setValue:@"" forKey:kUserDefaultChoosedBrandID];
+    [USER_DEFAULT setValue:@"" forKey:kUserDefaultStartPrice];
+    [USER_DEFAULT setValue:@"" forKey:kUserDefaultEndPrice];
+    [USER_DEFAULT setValue:@"" forKey:kUSerDefaultStockFlag];
+    [USER_DEFAULT setValue:@"" forKey:kUSerDefaultPromotionFlag];
+    [USER_DEFAULT setValue:@"" forKey:kUSerDefaultRecommendFlag];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -197,64 +282,66 @@ CZJFilterControllerDelegate
 }
 
 
-#pragma mark- PullTableViewDelegate
-- (void)pullTableViewDidTriggerRefresh:(PullTableView*)pullTableView
-{
-    _getdataType = CZJHomeGetDataFromServerTypeOne;
-    [self getGoodsListDataFromServer];
-    self.page = 1;
-}
-
-- (void)pullTableViewDidTriggerLoadMore:(PullTableView*)pullTableView
-{
-    _getdataType = CZJHomeGetDataFromServerTypeTwo;
-    self.page++;
-    [self getGoodsListDataFromServer];;
-}
-
-//- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+//#pragma mark- PullTableViewDelegate
+//- (void)pullTableViewDidTriggerRefresh:(PullTableView*)pullTableView
 //{
-//    float contentOffsetY = [scrollView contentOffset].y;
-//    
-//    //判断是否是上拉（isDraggingDown = false）还是下滑（isDraggingDown = true）
-//    bool isDraggingDown = (lastContentOffsetY - contentOffsetY) > 0 ;
-//    lastContentOffsetY = contentOffsetY;
-//    if (UIGestureRecognizerStateChanged == scrollView.panGestureRecognizer.state)
-//    {
-//        if (isDraggingDown &&
-//            self.naviBarView.frame.origin.y < 0 &&
-//            _isTouch)
-//        {
-//            _isTouch = NO;
-//            DLog(@"下拉");
-//            [[UIApplication sharedApplication]setStatusBarHidden:NO];
-//            [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
-//                self.naviBarView.frame = CGRectMake(0, 20, PJ_SCREEN_WIDTH, 44);
-//                _pullDownMenu.frame = CGRectMake(0, 64, PJ_SCREEN_WIDTH, 46);
-//                self.serviceTableView.frame = CGRectMake(0, 110, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - 110);
-//            } completion:nil];
-//        }
-//        else if (!isDraggingDown &&
-//                 _pullDownMenu.frame.origin.y > 0 &&
-//                 _isTouch)
-//        {
-//            _isTouch = NO;
-//            DLog(@"上拉");
-//            [[UIApplication sharedApplication]setStatusBarHidden:YES];
-//            [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
-//                self.naviBarView.frame = CGRectMake(0, -110, PJ_SCREEN_WIDTH, 44);
-//                _pullDownMenu.frame = CGRectMake(0, -46, PJ_SCREEN_WIDTH, 46);
-//                self.serviceTableView.frame = CGRectMake(0, 0, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT);
-//            } completion:nil];
-//        }
-//    }
+//    _getdataType = CZJHomeGetDataFromServerTypeOne;
+//    [self getGoodsListDataFromServer];
+//    self.page = 1;
 //}
 //
-//- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+//- (void)pullTableViewDidTriggerLoadMore:(PullTableView*)pullTableView
 //{
-//    _isTouch = YES;
-//    DLog();
+//    _getdataType = CZJHomeGetDataFromServerTypeTwo;
+//    self.page++;
+//    [self getGoodsListDataFromServer];;
 //}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    float contentOffsetY = [scrollView contentOffset].y;
+    
+    //判断是否是上拉（isDraggingDown = false）还是下滑（isDraggingDown = true）
+    bool isDraggingDown = (lastContentOffsetY - contentOffsetY) > 0 ;
+    lastContentOffsetY = contentOffsetY;
+    if (UIGestureRecognizerStateChanged == scrollView.panGestureRecognizer.state)
+    {
+        if (isDraggingDown &&
+            self.naviBarView.frame.origin.y < 0 &&
+            _isTouch)
+        {
+            _isTouch = NO;
+            DLog(@"下拉");
+            [[UIApplication sharedApplication]setStatusBarHidden:NO];
+            [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
+                self.naviBarView.frame = CGRectMake(0, 20, PJ_SCREEN_WIDTH, 44);
+                _pullDownMenuView.frame = CGRectMake(0, 64, PJ_SCREEN_WIDTH, 46);
+                self.myTableView.frame = CGRectMake(0, 110, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - 110);
+                self.myGoodsCollectionView.frame = CGRectMake(0, 110, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - 110);
+            } completion:nil];
+        }
+        else if (!isDraggingDown &&
+                 _pullDownMenuView.frame.origin.y > 0 &&
+                 _isTouch)
+        {
+            _isTouch = NO;
+            DLog(@"上拉");
+            [[UIApplication sharedApplication]setStatusBarHidden:YES];
+            [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
+                self.naviBarView.frame = CGRectMake(0, -110, PJ_SCREEN_WIDTH, 44);
+                _pullDownMenuView.frame = CGRectMake(0, -46, PJ_SCREEN_WIDTH, 46);
+                self.myTableView.frame = CGRectMake(0, 0, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT);
+                self.myGoodsCollectionView.frame = CGRectMake(0, 0, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT);
+            } completion:nil];
+        }
+    }
+}
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
+    _isTouch = YES;
+    DLog();
+}
 
 
 #pragma mark - Table view data source
@@ -487,7 +574,7 @@ CZJFilterControllerDelegate
     if (isArrangeByList)
     {
         isArrangeByList = NO;
-        [self.myGoodsTableView setHidden:YES];
+        [self.myTableView setHidden:YES];
         [self.myGoodsCollectionView setHidden:NO];
         [self.myGoodsCollectionView reloadData];
         [self.naviBarView.btnArrange setBackgroundImage:[UIImage imageNamed:@"pro_btn_list"] forState:UIControlStateNormal];
@@ -496,8 +583,8 @@ CZJFilterControllerDelegate
     {
         isArrangeByList = YES;
         [self.myGoodsCollectionView setHidden:YES];
-        [self.myGoodsTableView setHidden:NO];
-        [self.myGoodsTableView reloadData];
+        [self.myTableView setHidden:NO];
+        [self.myTableView reloadData];
         [self.naviBarView.btnArrange setBackgroundImage:[UIImage imageNamed:@"pro_btn_large"] forState:UIControlStateNormal];
     }
 }

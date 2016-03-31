@@ -45,7 +45,7 @@ CZJPopPayViewDelegate
 @property (weak, nonatomic) IBOutlet UITableView *myTableView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *separatorViewHeight;
 
-//退换货 确认收货 查看物流
+//确认收货 查看物流
 @property (weak, nonatomic) IBOutlet UIView *noReceiveView;
 
 //取消订单
@@ -77,13 +77,12 @@ CZJPopPayViewDelegate
 
 //退换货、去评价
 @property (weak, nonatomic) IBOutlet UIView *returnOrEvaluate;
+@property (weak, nonatomic) IBOutlet UIView *returnOnly;
 
 //联系车之健 取消退换货 提醒卖家同意
 @property (weak, nonatomic) IBOutlet UIView *returnedDetailView;
 
 @property (weak, nonatomic) IBOutlet UIView *buttomLineView;
-
-
 
 
 - (IBAction)returnGoodsAction:(id)sender;
@@ -228,20 +227,23 @@ CZJPopPayViewDelegate
         else
         {
             if (orderDetailForm.evaluated)
-            {
+            {//
                 stageLabelColor = UIColorFromRGB(0x48AB11);
                 _stageStr = @"订单已完成";
                 stageNum = 3;
                 orderType = 0;
-                if ([orderDetailForm.type integerValue] == 0)
+                if ( 0 == [orderDetailForm.type integerValue])
                 {
                     self.buttomLineView.hidden = YES;
+                    self.returnOnly.hidden = !orderDetailForm.returnFlag;
                 }
-                else
+                else if (1 == [orderDetailForm.type integerValue])
                 {
                     self.onlyCarCheckView.hidden = NO;  //查看车检结果
                 }
-                
+                else if (2 == [orderDetailForm.type integerValue])
+                {
+                }
             }
             else
             {
@@ -525,9 +527,9 @@ CZJPopPayViewDelegate
                 if (goodsForm.setupFlag)
                 {
                     cell.arrowImg.hidden = YES;
-                    cell.selectedSetupStoreNameLabel.text = goodsForm.setupStoreName;
+                    cell.selectedSetupStoreNameLabel.hidden = NO;
+                    cell.selectedSetupStoreNameLabel.text = goodsForm.selectdSetupStoreName == nil? @"自行安装" : goodsForm.selectdSetupStoreName;
                     cell.storeNameLabelTailing.constant = 15;
-                    
                 }
                 cell.separatorInset = UIEdgeInsetsMake(goodsForm.setupFlag ? 138 : 108, 20, 0, 20);
                 return cell;

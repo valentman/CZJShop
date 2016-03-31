@@ -14,6 +14,7 @@
 #import "CZJStoreCell.h"
 #import "CCLocationManager.h"
 #import "CZJStoreDetailController.h"
+#import "CZJRefreshLocationBarView.h"
 
 @interface CZJStoreViewController ()
 <
@@ -29,24 +30,23 @@ UITableViewDelegate
     NSMutableDictionary* storePostParams;
     CZJHomeGetDataFromServerType _getdataType;
     BOOL _isAnimate;
+    BOOL isFirstIn;
     
     NSString* storeType;
     NSString* sortType;
+    NSString* cityID;
 }
 
 
 @property (weak, nonatomic) IBOutlet MXPullDownMenu *pullDownMenu;
 @property (weak, nonatomic) IBOutlet PullTableView *storeTableView;
-@property (weak, nonatomic) IBOutlet UIView *refreshLocationBarView;
-@property (weak, nonatomic) IBOutlet UILabel *locationNameLabel;
-@property (weak, nonatomic) IBOutlet UIButton *locationButton;
-@property (nonatomic,retain)NSString* curLocationCityName;
+@property (strong, nonatomic) CZJRefreshLocationBarView *refreshLocationBarView;
+
 @property (assign, nonatomic)NSInteger page;
 
 @end
 
 @implementation CZJStoreViewController
-@synthesize curLocationCityName = _curLocationCityName;
 @synthesize page = _page;
 
 - (void)viewDidLoad {
@@ -59,9 +59,17 @@ UITableViewDelegate
 
 - (void)viewDidAppear:(BOOL)animated
 {
-    CGRect currentFrame = _refreshLocationBarView.frame;
-    _refreshLocationBarView.frame = CGRectMake(30, currentFrame.origin.y, currentFrame.size.width, currentFrame.size.height);
-    _locationButton.tag = CZJViewMoveOrientationLeft;
+    //定位刷新栏,初始显示页面时执行弹出动画
+    __weak typeof(self) weak = self;
+    if (isFirstIn) {
+        [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+            [_refreshLocationBarView setPosition:CGPointMake(30, PJ_SCREEN_HEIGHT - 85) atAnchorPoint:CGPointLeftMiddle];
+            _refreshLocationBarView.locationButton.tag = CZJViewMoveOrientationLeft;
+        } completion:^(BOOL finished) {
+            [weak btnTouched:nil];
+        }];
+        isFirstIn = NO;
+    }
     self.navigationController.interactivePopGestureRecognizer.enabled = true;
     [_pullDownMenu registNotification];
 }
@@ -74,6 +82,7 @@ UITableViewDelegate
 - (void)initDatas
 {
     //变量数据初始
+    isFirstIn = YES;
     self.page = 1;
     storePostParams = [[NSMutableDictionary alloc]init];
     _getdataType = CZJHomeGetDataFromServerTypeOne;
@@ -115,6 +124,17 @@ UITableViewDelegate
     
     [self addCZJNaviBarView:CZJNaviBarViewTypeMain];
     self.naviBarView.mainTitleLabel.text = @"门店";
+}
+
+- (void)initRefreshLocationBarView
+{
+    _refreshLocationBarView = [CZJUtils getXibViewByName:@"CZJRefreshLocationBarView"];
+    _refreshLocationBarView.frame = CGRectMake(PJ_SCREEN_WIDTH - 50, PJ_SCREEN_HEIGHT - 85, PJ_SCREEN_WIDTH + 50, 35);
+    [_refreshLocationBarView setPosition:CGPointMake(PJ_SCREEN_WIDTH - 50, PJ_SCREEN_HEIGHT - 85) atAnchorPoint:CGPointLeftMiddle];
+    [self.view addSubview:_refreshLocationBarView];
+    [self.view bringSubviewToFront:_refreshLocationBarView];
+    _refreshLocationBarView.locationButton.tag = CZJViewMoveOrientationLeft;
+    [_refreshLocationBarView.locationButton addTarget:self action:@selector(btnTouched:) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)getStoreDataFromServer
@@ -159,17 +179,9 @@ UITableViewDelegate
 
 
 #pragma mark- 定位功能区
-- (void)initRefreshLocationBarView
-{
-    [self.window addSubview:_refreshLocationBarView];
-    _locationButton.tag = CZJViewMoveOrientationLeft;
-    [_locationButton addTarget:self action:@selector(btnTouched:) forControlEvents:UIControlEventTouchUpInside];
-    [self btnTouched:nil];
-}
-
 - (void)btnTouched:(id)sender
 {
-    if (CZJViewMoveOrientationLeft == _locationButton.tag)
+    if (CZJViewMoveOrientationLeft == _refreshLocationBarView.locationButton.tag)
     {
         [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(moveLocationBarViewOut) object:nil];
     }
@@ -180,26 +192,26 @@ UITableViewDelegate
 - (void)storeStartLocation
 {
     if (![[CCLocationManager shareLocation] isLocationEnable]) {
-        self.locationNameLabel.text = @"亲，未开启定位功能哦~";
+        _refreshLocationBarView.locationNameLabel.text = @"亲，未开启定位功能哦~";
         return;
     }
     [self startSpin];
     [[CCLocationManager shareLocation] getAddress:^(NSString *addressString) {
         [self stopSpin];
-        self.locationNameLabel.text = addressString;
-        if (_locationButton.tag == CZJViewMoveOrientationRight)
+        _refreshLocationBarView.locationNameLabel.text = addressString;
+        if (_refreshLocationBarView.locationButton.tag == CZJViewMoveOrientationRight)
         {
             [self performSelector:@selector(moveLocationBarViewIn) withObject:nil afterDelay:0.5];
         }
-        if (_locationButton.tag == CZJViewMoveOrientationLeft)
+        if (_refreshLocationBarView.locationButton.tag == CZJViewMoveOrientationLeft)
         {
-            [self performSelector:@selector(moveLocationBarViewOut) withObject:nil afterDelay:2.0];
+            [self performSelector:@selector(moveLocationBarViewOut) withObject:nil afterDelay:1.0];
         }
         
     }];
+    
     [[CCLocationManager shareLocation] getCity:^(NSString *addressString) {
-        NSString* cityid = [CZJBaseDataInstance.storeForm getCityIDWithCityName:addressString];
-        [storePostParams setValue:cityid  forKey:@"cityId"];
+        cityID = [CZJBaseDataInstance.storeForm getCityIDWithCityName:addressString];
         _getdataType = CZJHomeGetDataFromServerTypeOne;
         [self getStoreDataFromServer];
         if (nil != addressString)
@@ -216,7 +228,7 @@ UITableViewDelegate
                           delay: 0.0f
                         options: options
                      animations: ^{
-                         _locationButton.transform = CGAffineTransformRotate(_locationButton.transform, M_PI / 2);
+                         _refreshLocationBarView.locationButton.transform = CGAffineTransformRotate(_refreshLocationBarView.locationButton.transform, M_PI / 2);
                      }
                      completion: ^(BOOL finished) {
                          if (finished) {
@@ -259,10 +271,10 @@ UITableViewDelegate
     switch (orient) {
         case CZJViewMoveOrientationLeft:
             originX = 30;
-            [_locationButton setTag:CZJViewMoveOrientationLeft];
+            [_refreshLocationBarView.locationButton setTag:CZJViewMoveOrientationLeft];
             break;
         case CZJViewMoveOrientationRight:
-            [_locationButton setTag:CZJViewMoveOrientationRight];
+            [_refreshLocationBarView.locationButton setTag:CZJViewMoveOrientationRight];
             originX = PJ_SCREEN_WIDTH - 40;
             break;
             
@@ -274,10 +286,11 @@ UITableViewDelegate
     } completion:^(BOOL finished) {
         if (finished && CZJViewMoveOrientationLeft == orient)
         {
-            [self performSelector:@selector(moveLocationBarViewOut) withObject:nil afterDelay:4.0];
+            [self performSelector:@selector(moveLocationBarViewOut) withObject:nil afterDelay:1.5];
         }
     }];
 }
+
 
 #pragma mark- PullTableViewDelegate
 - (void)pullTableViewDidTriggerRefresh:(PullTableView*)pullTableView

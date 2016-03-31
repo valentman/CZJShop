@@ -66,6 +66,10 @@ CZJDeliveryAddrListCellDelegate
     for (NSDictionary* dict in tmpAry)
     {
         CZJAddrForm* form  = [CZJAddrForm objectWithKeyValues:dict];
+        if (form.dftFlag)
+        {//每次更新地址之后都将更新地址中得默认地址存到本地
+            [CZJUtils writeDictionaryToDocumentsDirectory:[form.keyValues mutableCopy] withPlistName:kCZJPlistFileDefaultDeliveryAddr];
+        }
         [_addrListAry addObject:form];
     }
     [self.addrListTableView reloadData];

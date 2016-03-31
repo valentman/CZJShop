@@ -11,21 +11,19 @@
 
 @implementation SpecialRecoCollectionViewCell
 
-- (void)initSpecialRecoCollectionViewCellWithData:(NSString*)img
+- (instancetype)initWithFrame:(CGRect)frame
 {
-    UIImage* image = [UIImage imageNamed:@"home_btn_xiche"];
-    SDWebImageCompletionBlock sdimgBlock = ^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL){};
-    UIImageView* image_icon = [[UIImageView alloc] initWithImage:image];
-    [image_icon sd_setImageWithURL:[NSURL URLWithString:img]
-                  placeholderImage:DefaultPlaceHolderImage
-                         completed:sdimgBlock];
-    CGRect tmpRect = self.contentView.frame;
-    image_icon.frame = tmpRect;
-    [self.contentView addSubview:image_icon];
+    if (self == [super initWithFrame:frame])
+    {
+        _spcialRecoIcon = [[UIImageView alloc] init];
+        CGRect tmpRect = self.contentView.frame;
+        _spcialRecoIcon.frame = tmpRect;
+        [self.contentView addSubview:_spcialRecoIcon];
+        return self;
+    }
+    return nil;
 }
-
 @end
-
 
 
 @implementation CZJSpecialRecommendCell
@@ -47,8 +45,6 @@
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
 }
 
 - (void)initSpecialRecommendWithDatas:(NSArray*)datas
@@ -72,21 +68,15 @@
 }
 
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
-    DLog(@"%ld",_specialRecommendDatas.count);
     return _specialRecommendDatas.count;
 }
 
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
-    
     SpecialRecoCollectionViewCell *cell=[collectionView dequeueReusableCellWithReuseIdentifier:CZJSpecialRecoCollectionViewCellIdentifier forIndexPath:indexPath];
-    
-    cell.layer.borderWidth = 5;
-    cell.layer.borderColor = (__bridge CGColorRef _Nullable)([UIColor lightGrayColor]);
-    cell.backgroundColor = CZJREDCOLOR;
     
     NSInteger index = indexPath.row;
     NSString* _imgString = ((SpecialRecommendForm*)_specialRecommendDatas[index]).img;
-    [cell initSpecialRecoCollectionViewCellWithData:_imgString];
+    [cell.spcialRecoIcon sd_setImageWithURL:[NSURL URLWithString:_imgString] placeholderImage:DefaultPlaceHolderImage];
     return cell;
 }
 @end

@@ -22,7 +22,7 @@
 @property(nonatomic,strong)NSArray* haveCarsForms;
 @property(nonatomic,strong)NSMutableArray* hotBrands;
 
-- (id)initWithDictionary:(NSDictionary*)dictionary;
+- (id)init;
 - (void)setNewCarBrandsFormDictionary:(NSDictionary*)dict;
 - (void)setNewCarSeriesWithDict:(NSDictionary*)dict AndBrandName:(NSString*)brandName;
 - (void)setNewCarModelsWithDict:(NSDictionary*)dict;

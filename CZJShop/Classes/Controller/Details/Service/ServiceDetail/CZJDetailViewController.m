@@ -576,7 +576,6 @@ CZJStoreInfoHeaerCellDelegate
                 [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
                 return cell;
             }
-            
         }
             break;
             

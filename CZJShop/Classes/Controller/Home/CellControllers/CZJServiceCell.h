@@ -10,9 +10,11 @@
 #import "HomeForm.h"
 
 @interface ServiceCollectionViewCell : UICollectionViewCell
-@property (weak, nonatomic) UIImageView *serviceIcon;
-@property (weak, nonatomic) UILabel *serviceName;
 
+@property (strong, nonatomic) UIImageView *serviceIcon;
+@property (strong, nonatomic) UILabel *serviceName;
+
+- (instancetype)initWithFrame:(CGRect)frame;
 - (void)initServiceCollectionViewCellWithData:(ServiceForm*)obj;
 @end
 

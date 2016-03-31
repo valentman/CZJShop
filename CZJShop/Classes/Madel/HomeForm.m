@@ -25,24 +25,37 @@
 @synthesize serverTime;
 
 
-//推荐商品分页返回数据
--(void)appendGoodsRecommendDataWith:(NSDictionary*)dictionary{
-    if ([dictionary valueForKey:@"msg"]) {
-        NSArray* recommends = [dictionary valueForKey:@"msg"];
-        _goodRecommentForms = [[GoodsRecommendForm objectArrayWithKeyValuesArray:recommends] mutableCopy];
-        float count = (int)_goodRecommentForms.count;
-        float count2 = ceilf(count/2);
-        [_goodRecommendFromGroupedAry removeAllObjects];
-        for (int i  = 0; i < count2; i++)
-        {
-            NSMutableArray* array = [NSMutableArray array];
-            [_goodRecommendFromGroupedAry addObject:array];
-        }
-        for (int i = 0; i < count; i++) {
-            int index = i / 2;
-            [_goodRecommendFromGroupedAry[index] addObject:_goodRecommentForms[i]];
-        }
+-(id)init{
+    if (self = [super init])
+    {
+        _activityFroms = [NSMutableArray array];
+        _serviceForms = [NSMutableArray array];
+        _carInfoForms = [NSMutableArray array];
+        _secSkillForms = [NSMutableArray array];
+        _bannerOneForms = [NSMutableArray array];
+        _bannerTwoForms = [NSMutableArray array];
+        _limitBuyForms = [NSMutableArray array];
+        _brandRecommendForms = [NSMutableArray array];
+        _specialRecommendForms = [NSMutableArray array];
+        _goodRecommentForms = [NSMutableArray array];
+        _goodRecommendFromGroupedAry = [NSMutableArray array];
+        return self;
     }
+    return self;
+}
+
+-(void)cleanData{
+    [_activityFroms removeAllObjects];
+    [_serviceForms removeAllObjects];
+    [_carInfoForms removeAllObjects];
+    [_secSkillForms removeAllObjects];
+    [_bannerOneForms removeAllObjects];
+    [_limitBuyForms removeAllObjects];
+    [_brandRecommendForms removeAllObjects];
+    [_bannerTwoForms removeAllObjects];
+    [_specialRecommendForms removeAllObjects];
+    [_goodRecommentForms removeAllObjects];
+    [_goodRecommendFromGroupedAry removeAllObjects];
 }
 
 -(void)setNewDictionary:(NSDictionary*)dictionary{
@@ -62,153 +75,17 @@
     serverTime = dictionary[@"msg"][@"currentTime"];
 }
 
--(id)initWithDictionary:(NSDictionary*)dictionary Type:(int)type{
-    
-    if (self = [super init]) {
-        
-        if (!type) {
-            if (_activityFroms) {
-                [_activityFroms removeAllObjects];
-            }
-            else{
-                _activityFroms = [NSMutableArray array];
-            }
-            
-            if (_serviceForms) {
-                [_serviceForms removeAllObjects];
-            }
-            else{
-                _serviceForms = [NSMutableArray array];
-            }
-            
-            if (_carInfoForms) {
-                [_carInfoForms removeAllObjects];
-            }
-            else{
-                _carInfoForms = [NSMutableArray array];
-            }
-            
-            if (_secSkillForms) {
-                [_secSkillForms removeAllObjects];
-            }
-            else{
-                _secSkillForms = [NSMutableArray array];
-            }
-            
-            if (_bannerOneForms) {
-                [_bannerOneForms removeAllObjects];
-            }
-            else{
-                _bannerOneForms = [NSMutableArray array];
-            }
-            
-            if (_bannerTwoForms) {
-                [_bannerTwoForms removeAllObjects];
-            }
-            else{
-                _bannerTwoForms = [NSMutableArray array];
-            }
-            
-            if (_limitBuyForms) {
-                [_limitBuyForms removeAllObjects];
-            }
-            else{
-                _limitBuyForms = [NSMutableArray array];
-            }
-            
-            if (_brandRecommendForms) {
-                [_brandRecommendForms removeAllObjects];
-            }
-            else{
-                _brandRecommendForms = [NSMutableArray array];
-            }
-            
-            if (_specialRecommendForms) {
-                [_specialRecommendForms removeAllObjects];
-            }
-            else{
-                _specialRecommendForms = [NSMutableArray array];
-            }
-            
-            if (_goodRecommentForms) {
-                [_goodRecommentForms removeAllObjects];
-            }
-            else{
-                _goodRecommentForms = [NSMutableArray array];
-            }
-            if (_goodRecommendFromGroupedAry) {
-                [_goodRecommendFromGroupedAry removeAllObjects];
-            }
-            else
-            {
-                _goodRecommendFromGroupedAry = [NSMutableArray array];
-            }
-        }
-        else
-        {
-            if (!_activityFroms) {
-                _activityFroms = [NSMutableArray array];
-            }
-            
-            if (!_serviceForms) {
-                _serviceForms = [NSMutableArray array];
-            }
-            
-            if (!_carInfoForms) {
-                _carInfoForms = [NSMutableArray array];
-            }
-            
-            if (!_secSkillForms) {
-                _secSkillForms = [NSMutableArray array];
-            }
-            
-            if (!_bannerOneForms) {
-                _bannerOneForms = [NSMutableArray array];
-            }
-            
-            if (!_bannerTwoForms) {
-                _bannerTwoForms = [NSMutableArray array];
-            }
-            
-            if (!_limitBuyForms) {
-                _limitBuyForms = [NSMutableArray array];
-            }
-            
-            if (!_brandRecommendForms) {
-                _brandRecommendForms = [NSMutableArray array];
-            }
-            
-            if (!_specialRecommendForms) {
-                _specialRecommendForms = [NSMutableArray array];
-            }
-            
-            if (!_goodRecommentForms) {
-                _goodRecommentForms = [NSMutableArray array];
-            }
-            if (!_goodRecommendFromGroupedAry) {
-                _goodRecommendFromGroupedAry = [NSMutableArray array];
-            }
-        }
 
-        [self setNewDictionary:dictionary];
-        return self;
+//推荐商品分页返回数据
+-(void)appendGoodsRecommendDataWith:(NSDictionary*)dictionary
+{
+    if ([dictionary valueForKey:@"msg"]) {
+        NSArray* recommends = [dictionary valueForKey:@"msg"];
+        _goodRecommentForms = [[GoodsRecommendForm objectArrayWithKeyValuesArray:recommends] mutableCopy];
+        [_goodRecommendFromGroupedAry addObjectsFromArray:[CZJUtils getAggregationArrayFromArray:_goodRecommentForms]];
     }
-    return self;
 }
 
--(void)cleanData{
-    [_activityFroms removeAllObjects];
-    [_serviceForms removeAllObjects];
-    [_carInfoForms removeAllObjects];
-    [_secSkillForms removeAllObjects];
-    [_bannerOneForms removeAllObjects];
-    [_limitBuyForms removeAllObjects];
-    [_brandRecommendForms removeAllObjects];
-    [_bannerTwoForms removeAllObjects];
-    [_specialRecommendForms removeAllObjects];
-    [_goodRecommentForms removeAllObjects];
-    [_goodRecommendFromGroupedAry removeAllObjects];
-}
 @end
 
 //----------------------活动----------------------

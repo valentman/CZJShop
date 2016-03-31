@@ -10,29 +10,31 @@
 
 @implementation ServiceCollectionViewCell
 
+- (instancetype)initWithFrame:(CGRect)frame
+{
+    if (self == [super initWithFrame:frame])
+    {
+        _serviceName = [[UILabel alloc] init];
+        _serviceName.textAlignment = NSTextAlignmentCenter;
+        _serviceName.font = [UIFont systemFontOfSize:12.0f];;
+        _serviceName.frame = CGRectMake(0 , 40 + 7, frame.size.width, 15);
+        [self.contentView addSubview:_serviceName];
+        
+        _serviceIcon = [[UIImageView alloc] init];
+        _serviceIcon.frame = CGRectMake((frame.size.width - 40) / 2 , 0, 40, 40);
+        [self.contentView addSubview:_serviceIcon];
+        
+        return self;
+    }
+    return nil;
+}
+
 - (void)initServiceCollectionViewCellWithData:(ServiceForm*)obj
 {
-    //图片
-    SDWebImageCompletionBlock sdimgBlock = ^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL){};
-    UIImageView* image_icon = [[UIImageView alloc] init];
-    [image_icon sd_setImageWithURL:[NSURL URLWithString:obj.img]
-                  placeholderImage:PNGIMAGE( @"home_btn_xiche")
-                         completed:sdimgBlock];
-    
-    //标题
-    UILabel* label_name = [[UILabel alloc] init];
-    label_name.textAlignment = NSTextAlignmentCenter;
-    label_name.font = [UIFont systemFontOfSize:12.0f];;
-    label_name.text = obj.name;
-    
-    //布局
-    CGRect tmpRect = self.contentView.frame;
-    image_icon.frame = CGRectMake((tmpRect.size.width - 40) / 2 , 0, 40, 40);
-    label_name.frame = CGRectMake(0 , 40 + 7, tmpRect.size.width, 15);
-    [self setHighlighted:NO];
-    [self.contentView addSubview:image_icon];
-    [self.contentView addSubview:label_name];
-    
+    [_serviceIcon sd_setImageWithURL:[NSURL URLWithString:obj.img]
+                  placeholderImage:DefaultPlaceHolderImage
+                         completed:nil];
+    _serviceName.text = obj.name;
 }
 @end
 
@@ -49,6 +51,7 @@
             forCellWithReuseIdentifier:CZJServiceCollectionViewCellIdentifier];
     self.collectionView.dataSource = self;
     self.collectionView.delegate = self;
+    self.collectionView.scrollEnabled = NO;
     [self.collectionView setBackgroundColor:[UIColor whiteColor]];
     _services = [NSMutableArray array];
 }
@@ -86,7 +89,6 @@
 }
 
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
-    
     ServiceCollectionViewCell *cell=[collectionView dequeueReusableCellWithReuseIdentifier:CZJServiceCollectionViewCellIdentifier forIndexPath:indexPath];
     [cell initServiceCollectionViewCellWithData:_services[indexPath.row]];
     return cell;

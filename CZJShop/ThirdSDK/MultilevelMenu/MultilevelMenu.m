@@ -135,6 +135,7 @@
 {
     __weak typeof(self) weak = self;
     [MBProgressHUD showHUDAddedTo:self.rightCollection animated:YES];
+    [CZJUtils removeReloadAlertViewFromTarget:self.rightCollection];
     //从服务器获取数据成功返回回调
     CZJSuccessBlock successBlock = ^(id json){
         [MBProgressHUD hideAllHUDsForView:self.rightCollection animated:YES];

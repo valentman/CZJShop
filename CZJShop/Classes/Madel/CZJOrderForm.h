@@ -122,6 +122,7 @@
 @property (strong, nonatomic)NSString*  orderPrice;
 @property (assign, nonatomic)BOOL  paidFlag;
 @property (strong, nonatomic)CZJAddrForm*  receiver;
+@property (assign, nonatomic)BOOL  returnFlag;
 @property (strong, nonatomic)NSString*  setupPrice;
 @property (strong, nonatomic)NSString*  status;
 @property (strong, nonatomic)NSString*  storeId;

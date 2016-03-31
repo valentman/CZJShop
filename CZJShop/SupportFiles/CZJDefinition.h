@@ -163,7 +163,7 @@ static NSString *const kCZJOpenShareWeixinAppId = @"wxe3d6ba717d704a6e";
 
 
 //----------------------本地Plist文件名
-static NSString *const kCZJPlistFileCitys = @"Citys.plist";                                 //城市列表文件
+static NSString *const kCZJPlistFileProvinceCitys = @"ProvinceCitys.plist";                 //省份城市列表文件
 static NSString *const kCZJPlistFileCheckVersion = @"checkVersion.plist";                   //版本检测信息文件
 static NSString *const kCZJPlistFileStartInfo = @"StartInfo.plist";                         //开始界面信息文件
 static NSString *const kCZJPlistFileMessage = @"Message.plist";                             //信息管理文件

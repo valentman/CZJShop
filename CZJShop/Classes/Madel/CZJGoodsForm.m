@@ -11,7 +11,7 @@
 @implementation CZJGoodsForm
 @synthesize goodsList = _goodsList;
 
-- (id)initWithDictionary:(NSDictionary*)dict WithType:(CZJHomeGetDataFromServerType)type
+- (id)init
 {
     if (self  = [super init])
     {

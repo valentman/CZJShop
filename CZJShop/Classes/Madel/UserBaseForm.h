@@ -51,7 +51,7 @@
 
 
 @property(nonatomic,strong)DeafualtCarModel* defaultCar;
-
+- (id)init;
 - (void)setUserInfoWithDictionary:(NSDictionary*)dictionary;
 - (void)setCityIdAndCityName:(NSDictionary*)dictionary;
 @end

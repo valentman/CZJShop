@@ -12,7 +12,7 @@
 @synthesize shoppingCartList = _shoppingCartList;
 @synthesize shoppingCouponsList = _shoppingCouponsList;
 
-- (id)initWithDictionary:(NSDictionary*)dict
+- (id)init
 {
     if (self  = [super init])
     {

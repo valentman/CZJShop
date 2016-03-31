@@ -37,7 +37,6 @@
 UISearchBarDelegate,
 UITableViewDelegate,
 UITableViewDataSource,
-PullTableViewDelegate,
 CZJNaviagtionBarViewDelegate,
 CZJImageViewTouchDelegate,
 CZJServiceCellDelegate,
@@ -49,9 +48,12 @@ CZJMiaoShaCellDelegate
     NSString* _touchedStoreItemPid;
     BOOL isLoadSuccess;
     
+    CZJHomeGetDataFromServerType _refreshType;
+    MJRefreshAutoNormalFooter* refreshFooter;
+    MJRefreshGifHeader* refreshHeader;
     CZJCarInfoCell * carInfoCell;
 }
-@property (strong, nonatomic) IBOutlet PullTableView *homeTableView;
+@property (strong, nonatomic) IBOutlet UITableView *homeTableView;
 @property (weak, nonatomic) IBOutlet UIButton *btnToTop;
 
 - (IBAction)tapToTop:(id)sender;
@@ -68,7 +70,7 @@ CZJMiaoShaCellDelegate
     [self dealWithInitNavigationBar];
     [self dealWithInitTableView];
     [self dealWithInitTabbar];
-    [self getHomeDataFromServer:CZJHomeGetDataFromServerTypeOne];
+    [self getHomeDataFromServer];
     [self.homeTableView reloadData];
     [CZJUtils setExtraCellLineHidden:self.homeTableView];
 }
@@ -115,7 +117,8 @@ CZJMiaoShaCellDelegate
     self.btnToTop.hidden = YES;
     self.isFirst = YES;
     self.isJumpToAnotherView = NO;
-    self.page = 1;
+    self.page = 0;
+    _refreshType = CZJHomeGetDataFromServerTypeOne;
 }
 
 - (void)dealWithInitNavigationBar
@@ -137,7 +140,6 @@ CZJMiaoShaCellDelegate
 
 - (void)dealWithInitTableView
 {
-    self.homeTableView.pullDelegate = self;
     self.homeTableView.delegate = self;
     self.homeTableView.dataSource = self;
     [self.homeTableView setDelegate:self];
@@ -168,64 +170,91 @@ CZJMiaoShaCellDelegate
         UINib *nib=[UINib nibWithNibName:cells bundle:nil];
         [self.homeTableView registerNib:nib forCellReuseIdentifier:cells];
     }
+    
+    //添加MJRefresh上拉下拉刷新控件
+    __weak typeof(self) weak = self;
+    refreshHeader = [MJRefreshGifHeader headerWithRefreshingBlock:^{
+        _refreshType = CZJHomeGetDataFromServerTypeOne;
+        weak.page = 0;
+        [refreshFooter resetNoMoreData];
+        [weak getHomeDataFromServer];
+    }];
+    self.homeTableView.header = refreshHeader;
+    refreshFooter = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^(){
+        _refreshType = CZJHomeGetDataFromServerTypeTwo;
+        weak.page++;
+        [weak getRecommendDataFromServer];;
+    }];
+        weak.homeTableView.footer = refreshFooter;
 }
 
 - (void)dealWithInitTabbar
 {
     //TabBarItem选中颜色设置及右上角标记设置
-    UITabBarController* tabcontrl = self.tabBarController;
+//    UITabBarController* tabcontrl = self.tabBarController;
     [self.tabBarController.tabBar setTintColor:RGB(235, 20, 20)];
 //        NSArray *items = self.tabBarController.tabBar.items;
 //        [[items objectAtIndex:eTabBarItemShop] setBadgeValue:@"1"];
 }
 
 
-- (void)getHomeDataFromServer:(CZJHomeGetDataFromServerType)dataType
+- (void)getHomeDataFromServer
 {
-    if (_errorView) {
-        [_errorView removeFromSuperview];
-    }
-    
-    //从服务器获取数据成功返回回调
-    CZJSuccessBlock successBlock = ^(id json){
-        isLoadSuccess = YES;
-        [self dealWithArray];
-        [self.homeTableView reloadData];
-        if (self.homeTableView.pullTableIsRefreshing == YES)
+    //进入首页即获取首页数据
+    __weak typeof(self) weak = self;
+    [CZJBaseDataInstance generalPost:nil success:^(id json) {
+        [CZJBaseDataInstance.homeForm setNewDictionary:[CZJUtils DataFromJson:json]];
+        if (CZJBaseDataInstance.storeForm.provinceForms.count == 0)
         {
-            self.homeTableView.pullLastRefreshDate = [NSDate date];
+            [CZJBaseDataInstance getAreaInfos];
         }
-        self.homeTableView.pullTableIsLoadingMore = NO;
-        self.homeTableView.pullTableIsRefreshing = NO;
+        [weak dealWithArray];
+        [weak.homeTableView reloadData];
+        [weak.homeTableView.header endRefreshing];
+        refreshFooter.hidden = NO;
         
-        switch (dataType) {
-            case CZJHomeGetDataFromServerTypeOne:
-                [self loadMoreTable];
-                break;
-                
-            case CZJHomeGetDataFromServerTypeTwo:
-                self.page++;
-                break;
-                
-            default:
-                break;
-        }
-    };
+    } fail:nil andServerAPI:kCZJServerAPIShowHome];
     
-    CZJFailureBlock failBlock = ^{};
-    
-    [CZJBaseDataInstance  showHomeType:dataType
-                                  page:self.page
-                               Success:successBlock
-                                  fail:failBlock];
+    //获取购物车数量（登录状态）
     [USER_DEFAULT setObject:@"0" forKey:kUserDefaultShoppingCartCount];
-    [CZJBaseDataInstance loadShoppingCartCount:nil Success:^(id json){
-        NSDictionary* dict = [CZJUtils DataFromJson:json];
-        [USER_DEFAULT setObject:[dict valueForKey:@"msg"] forKey:kUserDefaultShoppingCartCount];
-        [self.naviBarView refreshShopBadgeLabel];
-    } fail:nil];
+    if ([USER_DEFAULT boolForKey:kCZJIsUserHaveLogined])
+    {
+        [CZJBaseDataInstance loadShoppingCartCount:nil Success:^(id json){
+            NSDictionary* dict = [CZJUtils DataFromJson:json];
+            [USER_DEFAULT setObject:[dict valueForKey:@"msg"] forKey:kUserDefaultShoppingCartCount];
+            [weak.naviBarView refreshShopBadgeLabel];
+        } fail:nil];
+    }
 }
 
+- (void)getRecommendDataFromServer
+{
+    //随机码，每五分钟更新一次随机码获取不同的推荐商品
+    srand((unsigned)time(0));
+    int randNum = [[USER_DEFAULT valueForKey:kUserDefaultRandomCode]intValue];
+    if ([CZJUtils isTimeCrossFiveMin:5] && 1 == self.page)
+    {
+        randNum = rand()%900000+100000;
+        [USER_DEFAULT setObject:@(randNum) forKey:kUserDefaultRandomCode];
+    }
+    NSDictionary* recommendParams = @{@"page" : @(self.page), @"randomCode" : @(randNum)};
+    __weak typeof(self) weak = self;
+    [CZJBaseDataInstance generalPost:recommendParams success:^(id json) {
+        //推荐商品分页返回数据
+        NSArray* tmpAry = [[CZJUtils DataFromJson:json] valueForKey:@"msg"];
+        if (tmpAry.count < 20)
+        {
+            [refreshFooter noticeNoMoreData];
+        }
+        else
+        {
+            [weak.homeTableView.footer endRefreshing];
+        }
+        [CZJBaseDataInstance.homeForm  appendGoodsRecommendDataWith:[CZJUtils DataFromJson:json]];
+        [weak dealWithArray];
+        [weak.homeTableView reloadData];
+    } fail:nil andServerAPI:kCZJServerAPIGetRecoGoods];
+}
 
 - (void)dealWithArray
 {
@@ -241,75 +270,10 @@ CZJMiaoShaCellDelegate
     _goodsRecommentArray = [CZJBaseDataInstance  homeForm].goodRecommendFromGroupedAry;
 }
 
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
 
-
-#pragma mark- PullTableViewDelegate
-- (void)pullTableViewDidTriggerRefresh:(PullTableView*)pullTableView
-{
-    [self performSelector:@selector(refreshTable) withObject:nil afterDelay:0.1];
-}
-
-- (void)refreshTable
-{
-    self.page = 1;
-    [self getHomeDataFromServer:CZJHomeGetDataFromServerTypeOne];
-}
-
-- (void)pullTableViewDidTriggerLoadMore:(PullTableView*)pullTableView
-{
-    [self performSelector:@selector(loadMoreTable) withObject:nil afterDelay:0.1];
-}
-
-- (void)loadMoreTable
-{
-    srand((unsigned)time(0));
-    if ([CZJUtils isTimeCrossFiveMin:5] && 1 == self.page)
-    {
-        int randNum = rand()%900000+100000;
-        [USER_DEFAULT setObject:@(randNum) forKey:kUserDefaultRandomCode];
-    }
-    [self getHomeDataFromServer:CZJHomeGetDataFromServerTypeTwo];
-}
-
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView
-{
-    if (!_isJumpToAnotherView) {
-        return;
-    }
-    float contentOffsetY = [scrollView contentOffset].y;
-    if (contentOffsetY < 0) {
-        [UIView animateWithDuration:0.2f animations:^{
-            [self.naviBarView setAlpha:0.0];
-        }];
-        [self.naviBarView setBackgroundColor:RGBA(235, 35, 38, 0)];
-    }
-    else
-    {
-        [UIView animateWithDuration:0.2f animations:^{
-            [self.naviBarView setAlpha:1.0];
-        }];
-        
-        float alphaValue = contentOffsetY / 200;
-        if (alphaValue > 0.8)
-        {
-            alphaValue = 0.8;
-        }
-        [self.naviBarView setBackgroundColor:RGBA(235, 35, 38, alphaValue)];
-    }
-    
-    if (contentOffsetY > 600)
-    {
-        self.btnToTop.hidden = NO;
-    }
-    else
-    {
-        self.btnToTop.hidden = YES;
-    }
-}
 
 
 #pragma mark - Table view data source
@@ -332,7 +296,7 @@ CZJMiaoShaCellDelegate
         case 1:
         {//服务列表
             CZJServiceCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJServiceCell" forIndexPath:indexPath];
-            if (cell && _serviceArray.count > 0 && !cell.isInit)
+            if ((cell && _serviceArray.count > 0 && !cell.isInit) || (CZJHomeGetDataFromServerTypeOne == _refreshType))
             {
                 [cell initServiceCellWithDatas:_serviceArray];
                 cell.delegate = self;
@@ -483,7 +447,6 @@ CZJMiaoShaCellDelegate
                 if (cell && _goodsRecommentArray.count > 0)
                 {
                     [cell initGoodsRecommendWithDatas:_goodsRecommentArray[indexPath.row - 1]];
-
                 }
                 return cell;
             }
@@ -600,7 +563,7 @@ CZJMiaoShaCellDelegate
     return 0;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     
     if (isLoadSuccess)
     {
@@ -638,6 +601,43 @@ CZJMiaoShaCellDelegate
     {
         
         [self showWebViewWithURL:@""];
+    }
+}
+
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    if (!_isJumpToAnotherView) {
+        return;
+    }
+    float contentOffsetY = [scrollView contentOffset].y;
+    if (contentOffsetY < 0) {
+        [UIView animateWithDuration:0.2f animations:^{
+            [self.naviBarView setAlpha:0.0];
+        }];
+        [self.naviBarView setBackgroundColor:RGBA(235, 35, 38, 0)];
+    }
+    else
+    {
+        [UIView animateWithDuration:0.2f animations:^{
+            [self.naviBarView setAlpha:1.0];
+        }];
+        
+        float alphaValue = contentOffsetY / 200;
+        if (alphaValue > 0.8)
+        {
+            alphaValue = 0.8;
+        }
+        [self.naviBarView setBackgroundColor:RGBA(235, 35, 38, alphaValue)];
+    }
+    
+    if (contentOffsetY > 600)
+    {
+        self.btnToTop.hidden = NO;
+    }
+    else
+    {
+        self.btnToTop.hidden = YES;
     }
 }
 

@@ -20,7 +20,7 @@
 @property(nonatomic, strong) NSMutableArray* recommendServiceForms;
 @property(nonatomic, strong) NSMutableArray* userEvalutionReplyForms;
 @property(nonatomic, strong) NSString* purchaseCount;
-
+- (id)init;
 @end
 
 

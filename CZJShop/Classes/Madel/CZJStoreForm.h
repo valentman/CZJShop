@@ -19,7 +19,7 @@
 @property (nonatomic, strong) NSMutableArray* provinceForms;
 @property (nonatomic, strong) NSMutableArray* cityForms;
 
-- (id)initWithDictionary:(NSDictionary*)dict;
+- (id)init;
 - (void)setNewStoreListDataWithDictionary:(NSDictionary*)dict;
 - (void)appendStoreListData:(NSDictionary*)dict;
 - (void)setNewProvinceDataWithDictionary:(NSDictionary*)dict;

@@ -29,20 +29,17 @@
 >
 {
     NSMutableArray* _serviceListArys;
-    CZJHomeGetDataFromServerType _getdataType;
+    __block CZJHomeGetDataFromServerType _getdataType;
     
-    CGPoint pullDownMenuOriginPoint;
-    CGPoint naviBraviewOriginPoint;
+    CGPoint pullDownMenuOriginPoint;        //下拉列表区原始位置
+    CGPoint naviBraviewOriginPoint;         //导航栏原始位置
     
     BOOL _isAnimate;
-    BOOL _isOutOfScreen;
     BOOL _isTouch;
-    float lastY;
     float lastContentOffsetY;
     
     MXPullDownMenu* _pullDownMenu;
     MJRefreshAutoNormalFooter* refreshFooter;
-    MJRefreshNormalHeader* refreshHeader;
     
     NSString* cityID;           //城市ID
     NSString* sortType;         //排序
@@ -52,7 +49,7 @@
     
 }
 @property (strong, nonatomic) UITableView *serviceTableView;
-@property (strong, nonatomic)  CZJRefreshLocationBarView *refreshLocationBarView;
+@property (strong, nonatomic) CZJRefreshLocationBarView *refreshLocationBarView;
 @property (assign, nonatomic)NSInteger page;
 @end
 
@@ -64,41 +61,6 @@
     [self initTableViewAndPullDownMenu];
     [self initRefreshLocationBarView];
     [self getStoreServiceListDataFromServer];
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    self.navigationController.navigationBarHidden = YES;
-    [self.naviBarView refreshShopBadgeLabel];
-}
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    pullDownMenuOriginPoint = _pullDownMenu.frame.origin;
-    naviBraviewOriginPoint = self.naviBarView.frame.origin;
-    if (isFirstIn) {
-        CGRect currentFrame = _refreshLocationBarView.frame;
-        _refreshLocationBarView.frame = CGRectMake(30, currentFrame.origin.y, currentFrame.size.width, currentFrame.size.height);
-        _refreshLocationBarView.locationButton.tag = CZJViewMoveOrientationLeft;
-        isFirstIn = NO;
-    }
-    [_pullDownMenu registNotification];
-}
-
-- (void)viewDidLayoutSubviews
-{
-    self.refreshLocationBarView.frame = CGRectMake(PJ_SCREEN_WIDTH - 40, PJ_SCREEN_HEIGHT - 100, PJ_SCREEN_WIDTH, 35);
-}
-
-- (void)viewWillLayoutSubviews
-{
-    self.refreshLocationBarView.frame = CGRectMake(PJ_SCREEN_WIDTH - 40, PJ_SCREEN_HEIGHT - 100, PJ_SCREEN_WIDTH, 35);
-}
-
-- (void)viewDidDisappear:(BOOL)animated
-{
-    [[UIApplication sharedApplication]setStatusBarHidden:NO];
-    [_pullDownMenu removeNotificationObserve];
 }
 
 - (void)initData
@@ -118,8 +80,7 @@
 
 - (void)initTableViewAndPullDownMenu
 {
-    
-    self.serviceTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 114, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - 114) style:UITableViewStylePlain];
+    self.serviceTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 110, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - 110) style:UITableViewStylePlain];
     self.serviceTableView.tableFooterView = [[UIView alloc]init];
     self.serviceTableView.delegate = self;
     self.serviceTableView.dataSource = self;
@@ -132,10 +93,6 @@
     //门店服务列表
     UINib *nib2=[UINib nibWithNibName:@"CZJStoreServiceCell" bundle:nil];
     [self.serviceTableView registerNib:nib2 forCellReuseIdentifier:@"CZJStoreServiceCell"];
-    
-    _refreshLocationBarView = [CZJUtils getXibViewByName:@"CZJRefreshLocationBarView"];
-    [_refreshLocationBarView setPosition:CGPointMake(PJ_SCREEN_WIDTH - 50, PJ_SCREEN_HEIGHT - 100) atAnchorPoint:CGPointLeftMiddle];
-    [self.view addSubview:_refreshLocationBarView];
     
     //导航栏
     [self addCZJNaviBarView:CZJNaviBarViewTypeBack];
@@ -155,35 +112,87 @@
     }
 }
 
+- (void)initRefreshLocationBarView
+{
+    _refreshLocationBarView = [CZJUtils getXibViewByName:@"CZJRefreshLocationBarView"];
+    _refreshLocationBarView.frame = CGRectMake(PJ_SCREEN_WIDTH - 50, PJ_SCREEN_HEIGHT - 35, PJ_SCREEN_WIDTH + 50, 35);
+    [_refreshLocationBarView setPosition:CGPointMake(PJ_SCREEN_WIDTH - 50, PJ_SCREEN_HEIGHT - 35) atAnchorPoint:CGPointLeftMiddle];
+    [self.view addSubview:_refreshLocationBarView];
+    [self.view bringSubviewToFront:_refreshLocationBarView];
+    _refreshLocationBarView.locationButton.tag = CZJViewMoveOrientationLeft;
+    [_refreshLocationBarView.locationButton addTarget:self action:@selector(btnTouched:) forControlEvents:UIControlEventTouchUpInside];
+}
+
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    self.navigationController.navigationBarHidden = YES;
+    [self.naviBarView refreshShopBadgeLabel];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    //获取导航栏和下拉栏原始位置，为了上拉或下拉时动画
+    pullDownMenuOriginPoint = _pullDownMenu.frame.origin;
+    naviBraviewOriginPoint = self.naviBarView.frame.origin;
+    
+    //定位刷新栏,初始显示页面时执行弹出动画
+    __weak typeof(self) weak = self;
+    if (isFirstIn) {
+        [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+            [_refreshLocationBarView setPosition:CGPointMake(30, PJ_SCREEN_HEIGHT - 35) atAnchorPoint:CGPointLeftMiddle];
+            _refreshLocationBarView.locationButton.tag = CZJViewMoveOrientationLeft;
+        } completion:^(BOOL finished) {
+            [weak btnTouched:nil];
+        }];
+        isFirstIn = NO;
+    }
+    [_pullDownMenu registNotification];
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [[UIApplication sharedApplication]setStatusBarHidden:NO];
+    [_pullDownMenu removeNotificationObserve];
+}
 
 - (void)getStoreServiceListDataFromServer
 {
-    __weak typeof(self) weak = self;
+    
     NSDictionary* storePostParams = @{@"modelId" :modelId, @"typeId" :self.typeId, @"sortType" :sortType, @"q" :self.searchStr ? self.searchStr : @"", @"goHouseFlag":goHouseFlag ,@"goStoreFlag":goStoreFlag, @"page" : [NSString stringWithFormat:@"%ld",(long)self.page]};
+    
+    __weak typeof(self) weak = self;
+    [CZJUtils removeReloadAlertViewFromTarget:self.view];
     [[MBProgressHUD showHUDAddedTo:self.view animated:YES] setLabelText:@"刷新数据"];
     CZJSuccessBlock successBlock = ^(id json) {
-        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        [MBProgressHUD hideAllHUDsForView:weak.view animated:YES];
+        
+        //返回数据回来还未解析到本地数组中时就添加下拉刷新footer
         if (_serviceListArys.count == 0)
         {
             refreshFooter = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^(){
                 _getdataType = CZJHomeGetDataFromServerTypeTwo;
-                self.page++;
-                [self getStoreServiceListDataFromServer];;
+                weak.page++;
+                [weak getStoreServiceListDataFromServer];;
             }];
-            self.serviceTableView.footer = refreshFooter;
+            weak.serviceTableView.footer = refreshFooter;
+            weak.serviceTableView.footer.hidden = YES;
         }
+        else
+        {
+            weak.serviceTableView.footer.hidden = NO;
+        }
+        [weak.serviceTableView.footer endRefreshing];
         
-        [self.serviceTableView.header endRefreshing];
-        [self.serviceTableView.footer endRefreshing];
-        
+        //解析返回的数据
         NSArray* dict = [[CZJUtils DataFromJson:json] valueForKey:@"msg"];
         if (_getdataType == CZJHomeGetDataFromServerTypeTwo)
-        {
+        {//如果是下拉刷新类型添加返回数据到当前数组中
             NSArray* tmpAry = [CZJStoreServiceForm objectArrayWithKeyValuesArray:dict];
             if (tmpAry.count > 0)
             {
                 [_serviceListArys addObjectsFromArray:tmpAry];
-                [self.serviceTableView reloadData];
+                [weak.serviceTableView reloadData];
             }
             else
             {
@@ -191,15 +200,19 @@
             }
         }
         else
-        {
+        {//如果是第一次进入数据请求
             _serviceListArys = [[CZJStoreServiceForm objectArrayWithKeyValuesArray:dict] mutableCopy];
-            DLog(@"%@",[[dict keyValues] description]);
-            [self.serviceTableView reloadData];
+            if (_serviceListArys.count == 0)
+            {
+                [CZJUtils showNoDataAlertViewOnTarget:weak.view withPromptString:@""];
+            }
+            
+            [weak.serviceTableView reloadData];
         }
     };
     
     [CZJBaseDataInstance generalPost:storePostParams success:successBlock  fail:^{
-        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        [MBProgressHUD hideAllHUDsForView:weak.view animated:YES];
         [CZJUtils showReloadAlertViewOnTarget:weak.view withReloadHandle:^{
             [weak getStoreServiceListDataFromServer];
         }];
@@ -320,13 +333,6 @@
 }
 
 #pragma mark- 定位功能区
-- (void)initRefreshLocationBarView
-{
-    [self.view bringSubviewToFront:_refreshLocationBarView];
-    _refreshLocationBarView.locationButton.tag = CZJViewMoveOrientationLeft;
-    [_refreshLocationBarView.locationButton addTarget:self action:@selector(btnTouched:) forControlEvents:UIControlEventTouchUpInside];
-}
-
 - (void)btnTouched:(id)sender
 {
     if (CZJViewMoveOrientationLeft == _refreshLocationBarView.locationButton.tag)
@@ -353,7 +359,7 @@
         }
         if (_refreshLocationBarView.locationButton.tag == CZJViewMoveOrientationLeft)
         {
-            [self performSelector:@selector(moveLocationBarViewOut) withObject:nil afterDelay:2.0];
+            [self performSelector:@selector(moveLocationBarViewOut) withObject:nil afterDelay:1.0];
         }
         
     }];
@@ -434,7 +440,7 @@
     } completion:^(BOOL finished) {
         if (finished && CZJViewMoveOrientationLeft == orient)
         {
-            [self performSelector:@selector(moveLocationBarViewOut) withObject:nil afterDelay:4.0];
+            [self performSelector:@selector(moveLocationBarViewOut) withObject:nil afterDelay:1.5];
         }
     }];
 }

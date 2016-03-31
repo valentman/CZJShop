@@ -18,7 +18,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="169"/>
                         <animations/>
                     </imageView>
-                    <view opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ffc-NE-hbV">
+                    <view hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ffc-NE-hbV">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="170"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="my_icon_head.png" translatesAutoresizingMaskIntoConstraints="NO" id="QYr-dW-RDs">
@@ -51,7 +51,7 @@
                             <constraint firstItem="1vL-Ah-IXg" firstAttribute="centerX" secondItem="ffc-NE-hbV" secondAttribute="centerX" id="ziD-3x-YHr"/>
                         </constraints>
                     </view>
-                    <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ABF-5Y-qOp">
+                    <view hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ABF-5Y-qOp">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="170"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="my_icon_head.png" translatesAutoresizingMaskIntoConstraints="NO" id="GWr-Xv-uRo">

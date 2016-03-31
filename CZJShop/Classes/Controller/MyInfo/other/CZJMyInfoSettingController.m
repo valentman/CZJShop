@@ -24,6 +24,7 @@ UITableViewDataSource
 //创建TableView，注册Cell
 @property (strong, nonatomic)UITableView* myTableView;
 - (IBAction)exitLoginAction:(id)sender;
+@property (weak, nonatomic) IBOutlet UIButton *exitBtn;
 
 @end
 
@@ -65,11 +66,12 @@ UITableViewDataSource
     }
     
     [self.myTableView reloadData];
+    
+    self.exitBtn.hidden = ![USER_DEFAULT boolForKey:kCZJIsUserHaveLogined];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 #pragma mark-UITableViewDataSource
@@ -163,7 +165,9 @@ UITableViewDataSource
 
 - (IBAction)exitLoginAction:(id)sender
 {
+    //清楚所有数据
     [USER_DEFAULT setObject:[NSNumber numberWithBool:NO] forKey:kCZJIsUserHaveLogined];
+    [USER_DEFAULT setObject:@"0" forKey:kUserDefaultShoppingCartCount];
     [CZJBaseDataInstance refreshChezhuID:@""];
     CZJBaseDataInstance.userInfoForm = nil;
     [self.navigationController popViewControllerAnimated:YES];

@@ -10,7 +10,17 @@
 #import "CZJStoreForm.h"
 
 @implementation CZJDetailForm
-
+- (id)init
+{
+    if (self = [super init])
+    {
+        _recommendServiceForms = [NSMutableArray array];
+        _couponForms = [NSMutableArray array];
+        _userEvalutionReplyForms = [NSMutableArray array];
+        return self;
+    }
+    return nil;
+}
 @end
 
 @implementation CZJEvalutionReplyForm

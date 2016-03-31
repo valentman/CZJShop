@@ -15,7 +15,7 @@
 }
 @property(nonatomic, strong)NSMutableArray* goodsList;
 
-- (id)initWithDictionary:(NSDictionary*)dict WithType:(CZJHomeGetDataFromServerType)type;
+- (id)init;
 - (void)setNewDictionary:(NSDictionary*)dict WithType:(CZJHomeGetDataFromServerType)type;
 - (void)appendNewGoodsData:(NSDictionary*)dict;
 - (void)resetData;

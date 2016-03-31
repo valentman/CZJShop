@@ -17,7 +17,7 @@
 #import "CZJStoreForm.h"
 #import "CZJCarForm.h"
 #import "CZJDetailForm.h"
-#import "CZJGoodsForm.h"
+//#import "CZJGoodsForm.h"
 #import "CZJShoppingCartForm.h"
 #import "CZJOrderForm.h"
 #import "UserBaseForm.h"
@@ -28,7 +28,7 @@
 @synthesize carForm = _carForm;
 @synthesize storeForm = _storeForm;
 @synthesize params = _params;
-@synthesize goodsForm = _goodsForm;
+//@synthesize goodsForm = _goodsForm;
 @synthesize shoppingCartForm = _shoppingCartForm;
 @synthesize discoverForms = _discoverForms;
 @synthesize goodsTypesAry = _goodsTypesAry;
@@ -45,12 +45,24 @@ singleton_implementation(CZJBaseDataManager);
 {
     if (self = [super init])
     {
-        _params = [NSMutableDictionary alloc];
+        _params = [NSMutableDictionary dictionary];
         _discoverForms = [NSMutableDictionary dictionary];
         _orderStoreCouponAry = [NSMutableArray array];
         _serviceTypesAry = [NSMutableArray array];
         _goodsTypesAry = [NSMutableArray array];
         _orderPaymentTypeAry = [NSArray array];
+        
+        _homeForm = [[HomeForm alloc]init];
+        _carForm = [[CZJCarForm alloc]init];
+        _detailsForm = [[CZJDetailForm alloc]init];
+//        _goodsForm = [[CZJGoodsForm alloc]init];
+        _storeForm = [[CZJStoreForm alloc]init];
+        _shoppingCartForm = [[CZJShoppingCartForm alloc]init];
+        _userInfoForm = [[UserBaseForm alloc]init];
+//        _carBrandForm = [[CarBrandsForm alloc]init];
+//        _carSerialForm = [[CarSeriesForm alloc]init];
+//        _carModealForm = [[CarModelForm alloc]init];
+        
         [self initParameters];
         [self getAreaInfos];
         
@@ -141,22 +153,27 @@ singleton_implementation(CZJBaseDataManager);
         if ([self showAlertView:json])
         {
             NSDictionary* newdict = [[CZJUtils DataFromJson:json] valueForKey:@"msg"];
-            if (_storeForm)
-            {
+            
+            //省份信息写入缓存
+            [CZJUtils writeDictionaryToDocumentsDirectory:[newdict mutableCopy] withPlistName:kCZJPlistFileProvinceCitys];
+//            if (_storeForm)
+//            {
                 [_storeForm setNewProvinceDataWithDictionary:newdict];
-            }
-            else
-            {
-                _storeForm = [[CZJStoreForm alloc]initWithDictionary:newdict];
-                [_storeForm setNewProvinceDataWithDictionary:newdict];
-            }
+//            }
+//            else
+//            {
+//                _storeForm = [[CZJStoreForm alloc]initWithDictionary:newdict];
+//                [_storeForm setNewProvinceDataWithDictionary:newdict];
+//            }
         }
     };
 
+    CZJFailureBlock failBlock = ^{
+    };
     [CZJNetWorkInstance postJSONWithUrl:kCZJServerAPIGetCitys
                              parameters:_params
                                 success:successBlock
-                                   fail:^{}];
+                                   fail:failBlock];
 }
 
 
@@ -178,14 +195,10 @@ singleton_implementation(CZJBaseDataManager);
         {
             if (dataType == CZJHomeGetDataFromServerTypeOne)
             {
-                [_homeForm cleanData];//刷新则清空主页数据,京东也是这样的
-                if (_homeForm)
+                [_homeForm setNewDictionary:[CZJUtils DataFromJson:json]];
+                if (_storeForm.provinceForms.count == 0)
                 {
-                    [_homeForm setNewDictionary:[CZJUtils DataFromJson:json]];
-                }
-                else
-                {
-                    _homeForm = [[HomeForm  alloc] initWithDictionary:[CZJUtils DataFromJson:json] Type:CZJHomeGetDataFromServerTypeOne];
+                    [self getAreaInfos];
                 }
             }
             else if (dataType == CZJHomeGetDataFromServerTypeTwo)
@@ -284,19 +297,8 @@ singleton_implementation(CZJBaseDataManager);
     CZJSuccessBlock successBlock = ^(id json){
         if ([self showAlertView:json])
         {
-            NSDictionary* dict = [CZJUtils DataFromJson:json];
-            if (_goodsForm)
-            {
-                [_goodsForm setNewDictionary:dict WithType:type];
-            }
-            else
-            {
-                _goodsForm = [[CZJGoodsForm alloc] initWithDictionary:dict WithType:type];
-                [_goodsForm setNewDictionary:dict WithType:type];
-            }
-            
+            success(json);
         }
-        success(json);
     };
     
     CZJFailureBlock failBlock = ^(){
@@ -385,15 +387,15 @@ singleton_implementation(CZJBaseDataManager);
         if ([self showAlertView:json])
         {
             NSDictionary* dict = [CZJUtils DataFromJson:json];
-            if (_carForm)
-            {
+//            if (_carForm)
+//            {
                 [_carForm setNewCarBrandsFormDictionary:dict];
-            }
-            else
-            {
-                _carForm = [[CZJCarForm alloc]initWithDictionary:dict];
-                [_carForm setNewCarBrandsFormDictionary:dict];
-            }
+//            }
+//            else
+//            {
+//                _carForm = [[CZJCarForm alloc]initWithDictionary:dict];
+//                [_carForm setNewCarBrandsFormDictionary:dict];
+//            }
             success(json);
         }
     };
@@ -426,15 +428,15 @@ singleton_implementation(CZJBaseDataManager);
         if ([self showAlertView:json])
         {
             NSDictionary* dict = [CZJUtils DataFromJson:json];
-            if (_carForm)
-            {
+//            if (_carForm)
+//            {
                 [_carForm setNewCarSeriesWithDict:dict AndBrandName:brandName];
-            }
-            else
-            {
-                _carForm = [[CZJCarForm alloc]initWithDictionary:dict];
-                [_carForm setNewCarSeriesWithDict:dict AndBrandName:brandName];
-            }
+//            }
+//            else
+//            {
+//                _carForm = [[CZJCarForm alloc]initWithDictionary:dict];
+//                [_carForm setNewCarSeriesWithDict:dict AndBrandName:brandName];
+//            }
             DLog(@"login suc");
             success();
         }
@@ -464,15 +466,15 @@ singleton_implementation(CZJBaseDataManager);
         if ([self showAlertView:json])
         {
             NSDictionary* dict = [CZJUtils DataFromJson:json];
-            if (_carForm)
-            {
+//            if (_carForm)
+//            {
                 [_carForm setNewCarModelsWithDict:dict ];
-            }
-            else
-            {
-                _carForm = [[CZJCarForm alloc]initWithDictionary:dict];
-                [_carForm setNewCarModelsWithDict:dict ];
-            }
+//            }
+//            else
+//            {
+//                _carForm = [[CZJCarForm alloc]initWithDictionary:dict];
+//                [_carForm setNewCarModelsWithDict:dict ];
+//            }
             success(json);
         }
     };
@@ -541,10 +543,6 @@ singleton_implementation(CZJBaseDataManager);
     {
         if ([self showAlertView:json])
         {
-            NSDictionary* dict = [CZJUtils DataFromJson:json];
-            if (_detailsForm)
-            {
-            }
             success(json);
         }
     };
@@ -607,15 +605,15 @@ singleton_implementation(CZJBaseDataManager);
         if ([self showAlertView:json])
         {
             NSDictionary* dict = [CZJUtils DataFromJson:json];
-            if (_shoppingCartForm)
-            {
+//            if (_shoppingCartForm)
+//            {
                 [_shoppingCartForm setNewCouponsDictionary:dict];
-            }
-            else
-            {
-                _shoppingCartForm  = [[CZJShoppingCartForm alloc]initWithDictionary:dict];
-                [_shoppingCartForm setNewCouponsDictionary:dict];
-            }
+//            }
+//            else
+//            {
+//                _shoppingCartForm  = [[CZJShoppingCartForm alloc]initWithDictionary:dict];
+//                [_shoppingCartForm setNewCouponsDictionary:dict];
+//            }
             
             success(json);
         }
@@ -717,24 +715,24 @@ singleton_implementation(CZJBaseDataManager);
     {
         if ([self showAlertView:json])
         {
-            NSDictionary* dict = [CZJUtils DataFromJson:json];
-            if (_detailsForm)
-            {
-                
-                if (CZJHomeGetDataFromServerTypeOne == type)
-                {
-//                    [_detailsForm setEvalutionReplyWithDictionary:dict];
-                }
-                else if ( CZJHomeGetDataFromServerTypeTwo == type)
-                {
-//                    [_detailsForm appendEvalutionReplyWithDictionary:dict];
-                }
-            }
-            else
-            {
-//                _detailsForm = [[CZJDetailForm alloc] initWithDictionary:dict];
-//                [_detailsForm setEvalutionReplyWithDictionary:dict];
-            }
+//            NSDictionary* dict = [CZJUtils DataFromJson:json];
+//            if (_detailsForm)
+//            {
+//                
+//                if (CZJHomeGetDataFromServerTypeOne == type)
+//                {
+////                    [_detailsForm setEvalutionReplyWithDictionary:dict];
+//                }
+//                else if ( CZJHomeGetDataFromServerTypeTwo == type)
+//                {
+////                    [_detailsForm appendEvalutionReplyWithDictionary:dict];
+//                }
+//            }
+//            else
+//            {
+////                _detailsForm = [[CZJDetailForm alloc] initWithDictionary:dict];
+////                [_detailsForm setEvalutionReplyWithDictionary:dict];
+//            }
             success(json);
         }
     };
@@ -764,8 +762,8 @@ singleton_implementation(CZJBaseDataManager);
         if ([self showAlertView:json])
         {
             NSDictionary* dict = [CZJUtils DataFromJson:json];
-            if (_storeForm)
-            {
+//            if (_storeForm)
+//            {
                 if (CZJHomeGetDataFromServerTypeOne == type) {
                     [_storeForm setNewStoreListDataWithDictionary:dict];
                 }
@@ -773,12 +771,12 @@ singleton_implementation(CZJBaseDataManager);
                 {
                     [_storeForm appendStoreListData:dict];
                 }
-            }
-            else
-            {
-                _storeForm = [[CZJStoreForm alloc]initWithDictionary:dict];
-                [_storeForm setNewStoreListDataWithDictionary:dict];
-            }
+//            }
+//            else
+//            {
+//                _storeForm = [[CZJStoreForm alloc]initWithDictionary:dict];
+//                [_storeForm setNewStoreListDataWithDictionary:dict];
+//            }
         }
         success(json);
     };
@@ -947,8 +945,8 @@ singleton_implementation(CZJBaseDataManager);
         if ([self showAlertView:json])
         {
             NSDictionary* dict = [CZJUtils DataFromJson:json];
-            if (_shoppingCartForm)
-            {
+//            if (_shoppingCartForm)
+//            {
                 if (CZJHomeGetDataFromServerTypeOne == type) {
                     [_shoppingCartForm setNewShoppingCartDictionary:dict];
                 }
@@ -956,13 +954,13 @@ singleton_implementation(CZJBaseDataManager);
                 {
                     [_shoppingCartForm appendNewShoppingCartData:dict];
                 }
-                
-            }
-            else
-            {
-                _shoppingCartForm = [[CZJShoppingCartForm alloc] initWithDictionary:dict];
-                [_shoppingCartForm setNewShoppingCartDictionary:dict];
-            }
+//                
+//            }
+//            else
+//            {
+//                _shoppingCartForm = [[CZJShoppingCartForm alloc] initWithDictionary:dict];
+//                [_shoppingCartForm setNewShoppingCartDictionary:dict];
+//            }
             success(json);
         }
     };
@@ -1480,10 +1478,10 @@ singleton_implementation(CZJBaseDataManager);
     CZJSuccessBlock successBlock = ^(id json){
         if ([self showAlertView:json])
         {
-            if (!_userInfoForm)
-            {
-                _userInfoForm = [[UserBaseForm alloc]init];
-            }
+//            if (!_userInfoForm)
+//            {
+//                _userInfoForm = [[UserBaseForm alloc]init];
+//            }
             [_userInfoForm setUserInfoWithDictionary:[CZJUtils DataFromJson:json]];
             success(json);
         }

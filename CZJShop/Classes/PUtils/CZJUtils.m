@@ -859,10 +859,19 @@ void tapToHidePopViewAction(id sender, SEL _cmd)
 
 + (void)showReloadAlertViewOnTarget:(UIView*)targetView withReloadHandle:(CZJGeneralBlock)reloadhandle
 {
-    CZJLoadingFailedAlertView* loadingFaildView = [self getXibViewByName:@"CZJLoadingFailedAlertView"];
-    [loadingFaildView setReloadHandle:reloadhandle];
-    [loadingFaildView setPosition:CGPointMake(targetView.frame.size.width*0.5, targetView.frame.size.height*0.5) atAnchorPoint:CGPointMiddle];
-    [targetView addSubview:loadingFaildView];
+    if (!VIEWWITHTAG(targetView, 2626))
+    {    CZJLoadingFailedAlertView* loadingFaildView = [self getXibViewByName:@"CZJLoadingFailedAlertView"];
+        [loadingFaildView setReloadHandle:reloadhandle];
+        [loadingFaildView setPosition:CGPointMake(targetView.frame.size.width*0.5, targetView.frame.size.height*0.5) atAnchorPoint:CGPointMiddle];
+        loadingFaildView.tag = 2626;
+        [targetView addSubview:loadingFaildView];
+    }
+}
+
++ (void)removeReloadAlertViewFromTarget:(UIView*)targetView
+{
+    UIView* subVie = VIEWWITHTAG(targetView, 2626);
+    [subVie removeFromSuperview];
 }
 
 + (void)showNoDataAlertViewOnTarget:(UIView*)targetView withPromptString:(NSString*)promptStr
@@ -876,7 +885,6 @@ void tapToHidePopViewAction(id sender, SEL _cmd)
         [targetView addSubview:nodataAlertView];
     }
 }
-
 
 + (void)removeNoDataAlertViewFromTarget:(UIView*)targetView
 {    

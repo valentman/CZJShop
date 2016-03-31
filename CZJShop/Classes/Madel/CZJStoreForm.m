@@ -14,10 +14,12 @@
 @synthesize provinceForms = _provinceForms;
 @synthesize cityForms = _cityForms;
 
-- (id)initWithDictionary:(NSDictionary*)dict
+- (id)init
 {
     if (self = [super init]) {
-        
+        _provinceForms = [NSMutableArray array];
+        _cityForms = [NSMutableArray array];
+        _storeListForms = [NSMutableArray array];
         return self;
     }
     return nil;
@@ -25,14 +27,7 @@
 
 - (void)setNewStoreListDataWithDictionary:(NSDictionary*)dict
 {
-    if (_storeListForms)
-    {
-        [_storeListForms removeAllObjects];
-    }
-    else
-    {
-        _storeListForms = [NSMutableArray array];
-    }
+    [_storeListForms removeAllObjects];
     [self appendStoreListData:dict];
 }
 
@@ -41,7 +36,6 @@
     NSArray* storelist = [dict valueForKey:@"msg"];
     for (id obj in storelist )
     {
-        DLog(@"%@",[obj description]);
         CZJNearbyStoreForm* storeForm =  [CZJNearbyStoreForm objectWithKeyValues:obj];
         [_storeListForms addObject:storeForm];
     }
@@ -49,18 +43,11 @@
 
 - (void)setNewProvinceDataWithDictionary:(NSDictionary*)dict
 {
-    if (_provinceForms)
-    {
-        [_provinceForms removeAllObjects];
-        [_cityForms removeAllObjects];
-    }
-    else
-    {
-        _provinceForms = [NSMutableArray array];
-        _cityForms = [NSMutableArray array];
-    }
-    _cityForms = [[CZJCitysForm objectArrayWithKeyValuesArray:[dict valueForKey:@"citys"]]mutableCopy];
+    [_provinceForms removeAllObjects];
+    [_cityForms removeAllObjects];
 
+    _cityForms = [[CZJCitysForm objectArrayWithKeyValuesArray:[dict valueForKey:@"citys"]]mutableCopy];
+    
     NSArray* provinces = [dict valueForKey:@"provinces"];
     for (id proObj in provinces )
     {

@@ -96,6 +96,7 @@
                         detailType:(CZJDetailType)detailtype;
 
 + (void)showReloadAlertViewOnTarget:(UIView*)targetView withReloadHandle:(CZJGeneralBlock)reloadhandle;
++ (void)removeReloadAlertViewFromTarget:(UIView*)targetView;
 + (void)showNoDataAlertViewOnTarget:(UIView*)targetView withPromptString:(NSString*)promptStr;
 + (void)removeNoDataAlertViewFromTarget:(UIView*)targetView;
 

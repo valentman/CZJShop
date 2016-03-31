@@ -38,7 +38,7 @@
 @property(nonatomic,strong) NSString* coupon;
 @property(nonatomic, strong) NSString* serverTime;
 
--(id)initWithDictionary:(NSDictionary*)dictionary Type:(int)type;
+-(id)init;
 -(void)appendGoodsRecommendDataWith:(NSDictionary*)dictionary;
 -(void)setNewDictionary:(NSDictionary*)dictionary;
 -(void)cleanData;

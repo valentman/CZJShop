@@ -16,7 +16,7 @@
 #import "CZJProvinceForm.h"
 #import "CZJStoreMAAroundForm.h"
 #import "CZJCarForm.h"
-#import "CZJGoodsForm.h"
+//#import "CZJGoodsForm.h"
 #import "CZJShoppingCartForm.h"
 #import "CZJOrderForm.h"
 #import "CZJStoreDetailForm.h"

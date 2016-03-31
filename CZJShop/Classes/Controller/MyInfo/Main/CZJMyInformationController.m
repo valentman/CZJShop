@@ -68,6 +68,7 @@ CZJViewControllerDelegate
 - (void)viewWillAppear:(BOOL)animated
 {
     [self getMyInfoDataFromServer];
+    [self.myInfoTableView reloadData];
     DLog();
 }
 

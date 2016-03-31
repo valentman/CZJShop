@@ -14,7 +14,7 @@
 @synthesize carModels = _carModels;
 @synthesize carSeries = _carSeries;
 
--(id)initWithDictionary:(NSDictionary*)dictionary
+-(id)init
 {
     if (self = [super init])
     {

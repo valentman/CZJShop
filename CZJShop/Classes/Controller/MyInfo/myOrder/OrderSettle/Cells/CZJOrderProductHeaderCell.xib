@@ -184,6 +184,7 @@
                 <outlet property="storeNameLabelTailing" destination="wl9-g8-weZ" id="jeU-ij-t8u"/>
                 <outlet property="totalPriceLabel" destination="xNv-DC-hi0" id="v8D-F0-FVX"/>
             </connections>
+            <point key="canvasLocation" x="105" y="207"/>
         </tableViewCell>
     </objects>
     <resources>

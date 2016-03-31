@@ -10,9 +10,8 @@
 
 
 @interface SpecialRecoCollectionViewCell : UICollectionViewCell
-@property (weak, nonatomic) UIImageView *spcialRecoIcon;
-
-- (void)initSpecialRecoCollectionViewCellWithData:(NSString*)img;
+@property (strong, nonatomic) UIImageView *spcialRecoIcon;
+- (instancetype)initWithFrame:(CGRect)frame;
 @end
 
 static NSString *CZJSpecialRecoCollectionViewCellIdentifier = @"CZJSpecialRecoCollectionViewCellIdentifier";
