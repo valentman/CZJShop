@@ -118,6 +118,7 @@ CZJStoreInfoHeaerCellDelegate
     [self registNotification];
     self.navigationController.interactivePopGestureRecognizer.delegate = self;
     self.navigationController.navigationBarHidden = YES;
+    [[UIApplication sharedApplication]setStatusBarHidden:NO];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -310,29 +311,30 @@ CZJStoreInfoHeaerCellDelegate
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    if (2 == section && _couponForms.count <= 0)
+    {
+        return 0;
+    }
+    if (4 == section)
+    {
+        return goodsDetailForm.promotions.count > 0 ? 1 : 0;
+    }
     if (5 == section)
     {
         return _evalutionInfo.evalList.count;
     }
     if (6 == section)
     {
-        return 2;
+    
+        return _goodsDetail.selfFlag ? 0 : 2;
     }
     if (CZJDetailTypeService == self.detaiViewType && 3 == section)
     {//服务详情界面去掉已选cell
         return 0;
     }
-    if (2 == section && _couponForms.count <= 0)
-    {
-        return 0;
-    }
     if (7 == section)
     {
         return _recommendServiceForms.count > 0 ? 1 : 0;
-    }
-    if (4 == section)
-    {
-        return goodsDetailForm.promotions.count > 0 ? 1 : 0;
     }
     return 1;
 }
@@ -761,7 +763,7 @@ CZJStoreInfoHeaerCellDelegate
     if (4 == indexPath.section)
     {
     }
-    if (6 == indexPath.section)
+    if (5 == indexPath.section)
     {
         [self performSegueWithIdentifier:@"segueToUserEvalution" sender:self];
     }

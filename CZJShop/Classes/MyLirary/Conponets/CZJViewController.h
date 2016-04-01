@@ -38,6 +38,9 @@
 /* 自定导航栏 */
 @property (nonatomic, strong) CZJNaviagtionBarView* naviBarView;
 
+/* typeID */
+@property (strong, nonatomic) NSString *typeId;
+
 
 - (void)addCZJNaviBarView:(CZJNaviBarViewType)naviBarViewType;
 

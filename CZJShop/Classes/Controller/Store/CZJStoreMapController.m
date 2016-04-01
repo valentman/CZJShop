@@ -96,7 +96,6 @@ AMapSearchDelegate
     _mapView.delegate = self;
     _mapView.compassOrigin = CGPointMake(_mapView.compassOrigin.x, 14);     //右上角罗盘
     _mapView.showsScale = false;
-//    _mapView.scaleOrigin = CGPointMake(_mapView.scaleOrigin.x, 22);         //左上角比例尺
     _mapView.showTraffic = NO;                                              //交通状况
     _mapView.showsUserLocation = YES;
     _mapView.userTrackingMode = MAUserTrackingModeFollow;
@@ -124,6 +123,7 @@ AMapSearchDelegate
     [locationView setSize:CGSizeMake(iPhone5 || iPhone4 ? PJ_SCREEN_WIDTH*0.65 : PJ_SCREEN_WIDTH * 0.5, 65)];
     locationView.separatorLeading.constant = locationView.frame.size.width * 0.33;
     [locationView setPosition:CGPointMake(pt.x, pt.y - 10) atAnchorPoint:CGPointButtomMiddle];
+    [locationView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapGesture:)]];
     [self.view addSubview:locationView];
     
     UIImageView* downArrow = [[UIImageView alloc]init];
@@ -196,6 +196,7 @@ AMapSearchDelegate
             locationView.distanceLabel.text = distancStr;
             locationView.storeNameLabel.text = nearForm.name;
             locationView.storeAddrLabel.text = nearForm.addr;
+            locationView.storeId = nearForm.storeId;
             
             if (([arroundStores count] > 0) && (location.longitude == 0) && (location.latitude == 0))
             {
@@ -225,7 +226,6 @@ NSInteger compareDistance(CZJNearbyStoreForm* obj1, CZJNearbyStoreForm* obj2,voi
 
 //更新地图上标注点
 -(void)updateUI{
-    NSLog(@"个数:%ld",(unsigned long)_annotations.count);
     for (int i = 0; i < _annotations.count; i++) {
         [_mapView addAnnotation:_annotations[i]];
     }
@@ -290,17 +290,15 @@ NSInteger compareDistance(CZJNearbyStoreForm* obj1, CZJNearbyStoreForm* obj2,voi
 #pragma mark - 跳转到门店详情
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"mapToStoreDetail"]) {
-        CZJStoreDetailController* ctr = segue.destinationViewController;
-        ctr.storeId = @"";
+        CZJStoreDetailController* storeDetailVC = segue.destinationViewController;
+        storeDetailVC.storeId = locationView.storeId;
     }
 }
 
-- (void)jumpToOther:(id)info{
-    if (!_isJumped) {
-        _isJumped = YES;
-        _curItemId = [info object];
-        [self performSegueWithIdentifier:@"mapToStoreDetail" sender:self];
-    }
+- (void)handleTapGesture:(UITapGestureRecognizer*)getsture
+{
+    [self performSegueWithIdentifier:@"mapToStoreDetail" sender:nil];
 }
+
 @end
 

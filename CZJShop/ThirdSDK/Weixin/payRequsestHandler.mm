@@ -162,16 +162,15 @@
     NSString *orderno   = [dict  valueForKey:@"order_no"];
     NSMutableDictionary *packageParams = [NSMutableDictionary dictionary];
     
-    NSString* noti;
+    NSString* notify_url = @"";
     if ([[dict valueForKey:@"order_for"]isEqualToString:@"pay"])   //订单支付回调
     {
-        noti = kCZJServerAPIPayWeixinNotify;
+        notify_url = [NSString stringWithFormat:@"%@%@",kCZJServerAddr,kCZJServerAPIPayWeixinNotify];
     }
     if ([[dict valueForKey:@"order_for"]isEqualToString:@"charge"]) //充值支付回调
     {
-        noti = kCZJServerAPIChargeForWeixin;
+        notify_url = [NSString stringWithFormat:@"%@%@",kCZJServerAddr,kCZJServerAPIChargeForWeixin];;
     }
-    NSString* notify_url = [kCZJServerAddr stringByAppendingString:noti];
     
     [packageParams setObject: appid             forKey:@"appid"];       //开放平台appid
     [packageParams setObject: mchid             forKey:@"mch_id"];      //商户号

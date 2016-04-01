@@ -272,6 +272,7 @@ CZJPopPayViewDelegate
         paymentOrderForm.order_name = [NSString stringWithFormat:@"订单%@",[dict valueForKey:@"payNo"]];
         paymentOrderForm.order_description = @"支付宝你个SB";
         paymentOrderForm.order_price = [dict valueForKey:@"totalMoney"];
+        paymentOrderForm.order_for = @"pay";
         if ([selectOrderTypeForm.orderTypeName isEqualToString:@"微信支付"])
         {
             [CZJPaymentInstance weixinPay:self OrderInfo:paymentOrderForm Success:^(NSDictionary *message) {

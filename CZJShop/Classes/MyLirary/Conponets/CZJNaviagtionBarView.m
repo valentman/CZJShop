@@ -370,7 +370,6 @@
         [CZJUtils removeSearchVCFromCurrent:(UIViewController*)_delegate];
     }
     
-    
     if ([self.delegate respondsToSelector:@selector(removeShoppingOrLoginView:)])
     {
         [self.delegate removeShoppingOrLoginView:self];

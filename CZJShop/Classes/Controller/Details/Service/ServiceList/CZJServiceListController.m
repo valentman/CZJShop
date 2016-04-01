@@ -206,8 +206,9 @@
             {
                 [CZJUtils showNoDataAlertViewOnTarget:weak.view withPromptString:@""];
             }
-            
             [weak.serviceTableView reloadData];
+            
+            weak.serviceTableView.footer.hidden = weak.serviceTableView.mj_contentH < weak.serviceTableView.frame.size.height;
         }
     };
     
@@ -314,6 +315,10 @@
                  _pullDownMenu.frame.origin.y > 0 &&
                  _isTouch)
         {
+            if (self.serviceTableView.mj_contentH < self.serviceTableView.frame.size.height)
+            {//如果返回的内容都没超过一个屏幕的高度，上拉下滑移动导航栏就没意义
+                return;
+            }
             _isTouch = NO;
             DLog(@"上拉");
             [[UIApplication sharedApplication]setStatusBarHidden:YES];

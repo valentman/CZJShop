@@ -317,11 +317,13 @@ UITableViewDelegate
         case CZJDetailTypeService:
         {
             vc = (CZJServiceListController*)[CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:@"serviceListSBID"];
+            vc.typeId = @"";
         }
             break;
         case CZJDetailTypeGoods:
         {
             vc = (CZJGoodsListController*)[CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:@"goodListSBID"];
+            vc.typeId = @"";
         }
             break;
         case CZJDetailTypeStore:
@@ -335,6 +337,8 @@ UITableViewDelegate
             break;
     }
     [self cancelSerchAction:nil];
+
+    [self.view endEditing:YES];
     if ([self.parent isKindOfClass:[UIViewController class]])
     {
         vc.searchStr = searchStr;

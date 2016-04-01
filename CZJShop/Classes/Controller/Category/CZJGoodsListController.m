@@ -28,13 +28,12 @@ CZJFilterControllerDelegate
 >
 {
     __block CZJHomeGetDataFromServerType _getdataType;
-    NSDictionary* goodsListPostParams;
     NSMutableArray* goodsListAry;
     NSArray* currentChooseFilterArys;
     BOOL isArrangeByList;
     NSString* _choosedStoreitemPid;
     
-    NSString* citID;
+//    NSString* citID;
     NSString* sortType;
     NSString* modelID;
     NSString* brandID;
@@ -81,7 +80,8 @@ CZJFilterControllerDelegate
     
     //post参数初始化
     self.page = 1;
-    citID = CZJBaseDataInstance.userInfoForm.cityId;
+//    self.typeId = @"";
+//    citID = CZJBaseDataInstance.userInfoForm.cityId;
     sortType = @"0";
     modelID = @"";
     brandID = @"";
@@ -139,19 +139,20 @@ CZJFilterControllerDelegate
 
 - (void)getGoodsListDataFromServer
 {
-    goodsListPostParams = @{@"itemType" : @"1",
-                            @"sortType" : sortType,
-                            @"typeId" : self.typeId,
-                            @"q" : (self.searchStr ? self.searchStr : @""),
-                            @"modelId" : modelID,
-                            @"brandId" : brandID,
-                            @"stockFlag" : stockFlag,
-                            @"promotionFlag" : promotionFlag,
-                            @"recommendFlag" : recommendFlag,
-                            @"attrJson" : attrJson,
-                            @"startPrice" : startPrice,
-                            @"endPrice" : endPrice,
-                            @"page" : [NSString stringWithFormat:@"%ld",self.page]};
+    DLog(@"%@,%@,%@,%@,%@,%@,%@,%@,%@,%@,%@,%@",sortType,self.typeId,self.searchStr,modelID,brandID,stockFlag,promotionFlag,recommendFlag,attrJson,startPrice,endPrice,@(self.page));
+    NSDictionary* goodsListPostParams = @{@"itemType" : @"1",
+                                          @"sortType" : sortType,
+                                          @"typeId" : self.typeId,
+                                          @"q" : (self.searchStr ? self.searchStr : @""),
+                                          @"modelId" : modelID,
+                                          @"brandId" : brandID,
+                                          @"stockFlag" : stockFlag,
+                                          @"promotionFlag" : promotionFlag,
+                                          @"recommendFlag" : recommendFlag,
+                                          @"attrJson" : attrJson,
+                                          @"startPrice" : startPrice,
+                                          @"endPrice" : endPrice,
+                                          @"page" : @(self.page)};
     DLog(@"storeparameters:%@", [goodsListPostParams description]);
     __weak typeof(self) weak = self;
     [CZJUtils removeReloadAlertViewFromTarget:self.view];
@@ -226,19 +227,20 @@ CZJFilterControllerDelegate
             }
             else
             {
-                weak.myTableView.footer.hidden = NO;
-                weak.myGoodsCollectionView.footer.hidden = NO;
                 if (isArrangeByList) {
                     [weak.myGoodsCollectionView setHidden:YES];
                     [weak.myTableView setHidden:NO];
                     [weak.myTableView reloadData];
+                    weak.myTableView.footer.hidden = weak.myTableView.mj_contentH < weak.myTableView.frame.size.height;
                 }
                 else
                 {
                     [weak.myTableView setHidden:YES];
                     [weak.myGoodsCollectionView setHidden:NO];
                     [weak.myGoodsCollectionView reloadData];
+                    weak.myGoodsCollectionView.footer.hidden = weak.myGoodsCollectionView.mj_contentH < weak.myGoodsCollectionView.frame.size.height;;
                 }
+                
             }
         }
         
@@ -265,6 +267,8 @@ CZJFilterControllerDelegate
     //获取导航栏和下拉栏原始位置，为了上拉或下拉时动画
     pullDownMenuOriginPoint = _pullDownMenuView.frame.origin;
     naviBraviewOriginPoint = self.naviBarView.frame.origin;
+    
+    [[UIApplication sharedApplication]setStatusBarHidden:(self.naviBarView.frame.origin.y < 0)];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -324,6 +328,12 @@ CZJFilterControllerDelegate
                  _pullDownMenuView.frame.origin.y > 0 &&
                  _isTouch)
         {
+            if ((isArrangeByList && self.myTableView.mj_contentH < self.myTableView.frame.size.height) ||
+                (!isArrangeByList && self.myGoodsCollectionView.mj_contentH < self.myGoodsCollectionView.frame.size.height))
+            {
+                return;
+            }
+            
             _isTouch = NO;
             DLog(@"上拉");
             [[UIApplication sharedApplication]setStatusBarHidden:YES];

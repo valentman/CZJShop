@@ -134,7 +134,7 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="my_icon_head.png" width="74" height="74"/>
+        <image name="my_icon_head.png" width="68" height="68"/>
         <image name="shop_icon_guanzhu.png" width="18" height="16"/>
     </resources>
 </document>

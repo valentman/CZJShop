@@ -57,16 +57,15 @@
     order.amount = [dict valueForKey:@"order_price"];
     
     //根据支付场景确定支付回调（订单支付回调、充值支付回调）
-    NSString* noti;
+    NSString* notify_url = @"";
     if ([[dict valueForKey:@"order_for"]isEqualToString:@"pay"])  //订单支付回调
     {
-        noti = kCZJServerAPIPayZhifubaoNotify;
+        notify_url = [NSString stringWithFormat:@"%@%@",kCZJServerAddr, kCZJServerAPIPayZhifubaoNotify];
     }
     if ([[dict valueForKey:@"order_for"]isEqualToString:@"charge"]) //充值支付回调
     {
-        noti = kCZJServerAPIChargeForZhifubao;
+        notify_url = [NSString stringWithFormat:@"%@%@",kCZJServerAddr, kCZJServerAPIChargeForZhifubao];
     }
-    NSString* notify_url = [kCZJServerAddr stringByAppendingString:noti];
     order.notifyURL =  notify_url; //回调URL
     
     //下面的参数是固定的，不需要改变

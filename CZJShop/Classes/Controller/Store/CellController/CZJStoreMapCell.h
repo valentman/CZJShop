@@ -15,4 +15,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *storeNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *storeAddrLabel;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *distanceLabelHeight;
+
+@property (strong, nonatomic)NSString* storeId;
 @end

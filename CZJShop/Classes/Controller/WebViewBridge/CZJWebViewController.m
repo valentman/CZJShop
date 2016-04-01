@@ -31,7 +31,6 @@ DZNEmptyDataSetDelegate
 {
     [super viewDidLoad];
     [self initViews];
-    
 }
 
 - (void)initViews
@@ -41,7 +40,6 @@ DZNEmptyDataSetDelegate
     [self.naviBarView.btnMore setBackgroundImage:IMAGENAMED(@"") forState:UIControlStateNormal];
     [self.naviBarView.btnMore setTitle:@"关闭" forState:UIControlStateNormal];
     [self.naviBarView.btnMore setTitleColor:BLACKCOLOR forState:UIControlStateNormal];
-    [self.naviBarView.btnMore addTarget:self action:@selector(clickEventCallBack:) forControlEvents:UIControlEventTouchUpInside];
     
     //webView接口
     self.webViewJSI = [CZJWebViewJSI bridgeForWebView:_myWebView webViewDelegate:self];
@@ -116,15 +114,12 @@ DZNEmptyDataSetDelegate
 #pragma mark - UIWebViewDelegate methods
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
 {
-    
     self.failedLoading = NO;
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     return YES;
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
 {
-    [MBProgressHUD hideHUDForView:self.view animated:YES];
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     self.failedLoading = YES;
     [self.myWebView.scrollView reloadEmptyDataSet];
@@ -133,14 +128,12 @@ DZNEmptyDataSetDelegate
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView{
     self.naviBarView.mainTitleLabel.text = [webView stringByEvaluatingJavaScriptFromString:@"document.title"];
-    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
 }
 
 
 #pragma mark - jsActionDelegate
 -(void)callUp:(NSString*)tel
 {
-    
 }
 
 -(void)moreCommentActionWithId:(NSDictionary*)dict

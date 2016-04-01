@@ -44,8 +44,6 @@ singleton_implementation(CZJErrorCodeManager)
     if ([_errorTypeDictionary  objectForKey:errorCode]) {
         errorType = [ _errorTypeDictionary valueForKey:errorCode];
     }
-    
-    
     if ([errorType  isEqualToString:@"1"]) {
         [self showErrorWranAsSheetWithError:errorDescription ];
     }else
@@ -89,6 +87,17 @@ singleton_implementation(CZJErrorCodeManager)
 }
 
 - (void)ShowNetError{
+    UIWindow *window = [[UIApplication sharedApplication] keyWindow];
+    NSArray *windowViews = [window subviews];
+    if(windowViews && [windowViews count] > 0)
+    {
+        UIView *subView = [windowViews objectAtIndex:[windowViews count]-1];
+        for(UIView *aSubView in subView.subviews)
+        {
+            [aSubView.layer removeAllAnimations];
+        }
+        [CZJUtils tipWithText:@"网络连接失败，请检查网络~" andView:subView];
+    }
     return;
 //    FDAlertView *alert = [[FDAlertView alloc] initWithTitle:kCZJTitle icon:nil message:kCZJMessageNet delegate:self buttonTitles:kCZJConfirmTitle,nil];
 //    [alert setMessageColor:[UIColor redColor] fontSize:0];

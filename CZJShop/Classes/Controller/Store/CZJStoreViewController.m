@@ -18,7 +18,6 @@
 
 @interface CZJStoreViewController ()
 <
-PullTableViewDelegate,
 MXPullDownMenuDelegate,
 CZJNaviagtionBarViewDelegate,
 UITableViewDataSource,
@@ -29,6 +28,7 @@ UITableViewDelegate
     NSMutableArray* _sortedStoreArys;
     NSMutableDictionary* storePostParams;
     CZJHomeGetDataFromServerType _getdataType;
+    MJRefreshAutoNormalFooter* refreshFooter;
     BOOL _isAnimate;
     BOOL isFirstIn;
     
@@ -39,7 +39,7 @@ UITableViewDelegate
 
 
 @property (weak, nonatomic) IBOutlet MXPullDownMenu *pullDownMenu;
-@property (weak, nonatomic) IBOutlet PullTableView *storeTableView;
+@property (weak, nonatomic) IBOutlet UITableView *storeTableView;
 @property (strong, nonatomic) CZJRefreshLocationBarView *refreshLocationBarView;
 
 @property (assign, nonatomic)NSInteger page;
@@ -113,16 +113,24 @@ UITableViewDelegate
 
 - (void)dealWithTableView
 {
-    self.storeTableView.pullDelegate = self;
     self.storeTableView.dataSource = self;
     self.storeTableView.delegate = self;
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.storeTableView.tableFooterView = [[UIView alloc] init];
-    
     UINib *nib=[UINib nibWithNibName:@"CZJStoreCell" bundle:nil];
     [self.storeTableView registerNib:nib forCellReuseIdentifier:@"CZJStoreCell"];
+    __weak typeof(self) weak = self;
+    refreshFooter = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^(){
+        _getdataType = CZJHomeGetDataFromServerTypeTwo;
+        weak.page++;
+        [weak getStoreDataFromServer];;
+    }];
+    weak.storeTableView.footer = refreshFooter;
+    
     
     [self addCZJNaviBarView:CZJNaviBarViewTypeMain];
+    self.naviBarView.btnBack.hidden = (self.searchStr == nil);
+    self.naviBarView.btnMore.hidden = !(self.searchStr == nil);
     self.naviBarView.mainTitleLabel.text = @"门店";
 }
 
@@ -141,17 +149,30 @@ UITableViewDelegate
 {
     __weak typeof(self) weak = self;
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [CZJUtils removeNoDataAlertViewFromTarget:self.view];
     CZJSuccessBlock successBlock = ^(id json) {
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-        [self dealWithArray];
-        [self.storeTableView reloadData];
-        
-        if (self.storeTableView.pullTableIsRefreshing == YES)
+        //返回数据回来还未解析到本地数组中时就添加下拉刷新footer
+        if (_sortedStoreArys.count == 0)
         {
-            self.storeTableView.pullLastRefreshDate = [NSDate date];
+            weak.storeTableView.footer.hidden = YES;
         }
-        self.storeTableView.pullTableIsLoadingMore = NO;
-        self.storeTableView.pullTableIsRefreshing = NO;
+        else
+        {
+            weak.storeTableView.footer.hidden = NO;
+        }
+        [weak.storeTableView.footer endRefreshing];
+        
+        [self dealWithArray];
+        if (_sortedStoreArys.count == 0)
+        {
+            [CZJUtils showNoDataAlertViewOnTarget:self.view withPromptString:@"无相关门店/(ToT)/~~"];
+        }
+        else
+        {
+            [self.storeTableView reloadData];
+            weak.storeTableView.footer.hidden = weak.storeTableView.mj_contentH < weak.storeTableView.frame.size.height;
+        }
     };
 
     CZJFailureBlock failBlock = ^{
@@ -291,22 +312,6 @@ UITableViewDelegate
     }];
 }
 
-
-#pragma mark- PullTableViewDelegate
-- (void)pullTableViewDidTriggerRefresh:(PullTableView*)pullTableView
-{
-    _getdataType = CZJHomeGetDataFromServerTypeOne;
-    [self getStoreDataFromServer];
-    self.page = 1;
-}
-
-- (void)pullTableViewDidTriggerLoadMore:(PullTableView*)pullTableView
-{
-    _getdataType = CZJHomeGetDataFromServerTypeTwo;
-    self.page++;
-    [self getStoreDataFromServer];;
-}
-
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     
@@ -405,7 +410,20 @@ UITableViewDelegate
 #pragma mark- CZJNaviagtionBarViewDelegate
 - (void)clickEventCallBack:(id)sender
 {
-    [self performSegueWithIdentifier:@"segueToNearby" sender:nil];
+    UIButton* btn = (UIButton*)sender;
+    switch (btn.tag) {
+        case CZJButtonTypeNaviBarBack:
+            [self.navigationController popViewControllerAnimated:YES];
+            break;
+            
+        case CZJButtonTypeMap:
+            [self performSegueWithIdentifier:@"segueToNearby" sender:nil];
+            break;
+            
+        default:
+            break;
+    }
+    
 }
 
 

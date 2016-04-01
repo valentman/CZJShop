@@ -10,7 +10,6 @@
 #import "HomeForm.h"
 
 @implementation CZJAdBanerCell
-
 - (void)awakeFromNib {
     // Initialization code
     [super awakeFromNib];
@@ -33,10 +32,10 @@
     [self loadImageData];
 }
 
-- (void)initBannerWithImg:(NSString*)img
+- (void)initBannerWithImg:(NSArray*)img
 {
     [_imageArray removeAllObjects];
-    [_imageArray addObject:img];
+    _imageArray = [img mutableCopy];
     [self loadImageData];
     self.adBannerImageView.hidePageControl = YES;
 }
@@ -65,6 +64,10 @@
     NSLog(@"did tap index = %d", (int)index);
     ActivityForm* tmp = [_bannerDatas objectAtIndex:index];
     [self.delegate showActivityHtmlWithUrl:tmp.url];
+    if (self.buttonClick)
+    {
+        self.buttonClick(@(index));
+    }
 }
 
 @end

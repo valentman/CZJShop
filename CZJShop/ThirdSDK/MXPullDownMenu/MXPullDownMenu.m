@@ -256,6 +256,8 @@
                 {
                     _containCitys = CZJBaseDataInstance.goodsTypesAry;
                 }
+                
+                
                 if (_containCitys.count > 0)
                 {
                     [_subCollectionView reloadData];
@@ -404,9 +406,9 @@
         }
         else
         {
-            _selectedCityName = ((CZJStoreDetailTypesForm*)[_containCitys objectAtIndex:indexPath.row]).name;
+            _selectedCityName = ((CZJStoreDetailTypesForm*)[_containCitys objectAtIndex:indexPath.row]).typeId;
         }
-        [self.delegate pullDownMenuFirstName:cell.cityName.text andSecondName:_selectedCityName];
+        [self.delegate pullDownMenuFirstName:_array[_currentSelectedMenudIndex][_selectIndex] andSecondName:_selectedCityName];
     }
     else
     {

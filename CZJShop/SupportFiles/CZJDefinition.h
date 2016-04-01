@@ -146,6 +146,14 @@ static NSString *const kCZJServerAPIAddEvalution = @"chezhu/evalAdd.do";        
 static NSString *const kCZJServerAPIZHIBAOCARD = @"chezhu/showWarrantyCenter.do";                   //质保卡查询
 
 
+
+static NSString *const SUOLUE_PIC_200 = @"?imageView2/1/w/200/h/200/q/75";
+static NSString *const SUOLUE_PIC_500 = @"?imageView2/1/w/600/h/600/q/75";
+static NSString *const SUOLUE_PIC_800 = @"?imageView2/1/w/800/h/800/q/75";
+static NSString *const SUOLUE_PIC_400 = @"?imageView2/1/w/400/h/400/q/75";
+static NSString *const SUOLUE_PIC_150 = @"?imageView2/1/w/150/h/150/q/75";
+
+
 //-----------------------系统常量定义---------------------------
 //在应用商店中本APP的地址
 static NSString *const kCZJAPPURL = @"https://itunes.apple.com/us/app/id1035567397";

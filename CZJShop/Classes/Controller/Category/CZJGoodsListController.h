@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface CZJGoodsListController : CZJViewController
-@property (strong, nonatomic) NSString *typeId;
+//@property (strong, nonatomic) NSString *typeId;
 @end

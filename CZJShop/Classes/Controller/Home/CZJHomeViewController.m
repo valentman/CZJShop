@@ -185,7 +185,7 @@ CZJMiaoShaCellDelegate
         weak.page++;
         [weak getRecommendDataFromServer];;
     }];
-        weak.homeTableView.footer = refreshFooter;
+    self.homeTableView.footer = refreshFooter;
 }
 
 - (void)dealWithInitTabbar
@@ -213,7 +213,9 @@ CZJMiaoShaCellDelegate
         [weak.homeTableView.header endRefreshing];
         refreshFooter.hidden = NO;
         
-    } fail:nil andServerAPI:kCZJServerAPIShowHome];
+    } fail:^{
+        [refreshHeader endRefreshing];
+    } andServerAPI:kCZJServerAPIShowHome];
     
     //获取购物车数量（登录状态）
     [USER_DEFAULT setObject:@"0" forKey:kUserDefaultShoppingCartCount];
@@ -567,7 +569,7 @@ CZJMiaoShaCellDelegate
     
     if (isLoadSuccess)
     {
-        if ((_carInfoArray.count == 0 && section == 2)||
+        if (
             (_miaoShaArray.count == 0 && section == 3)||
             (_limitBuyArray.count == 0 && section == 5)||
             (_brandRecommentArray.count == 0 && section == 6)||
@@ -578,7 +580,7 @@ CZJMiaoShaCellDelegate
     }
     else
     {
-        if ((section == 2)||
+        if (
             (section == 3)||
             (section == 5)||
             (section == 6)||
@@ -736,6 +738,5 @@ CZJMiaoShaCellDelegate
     CZJWebViewController* webView = (CZJWebViewController*)[CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:@"webViewSBID"];
     webView.cur_url = url;
     [self.navigationController pushViewController:webView animated:YES];
-    
 }
 @end

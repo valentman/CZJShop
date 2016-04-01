@@ -15,16 +15,15 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fkF-ZN-9CY">
-                        <rect key="frame" x="5" y="5" width="24" height="24"/>
+                        <rect key="frame" x="0.0" y="0.0" width="35" height="34"/>
                         <animations/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="24" id="XPt-1s-3Py"/>
-                            <constraint firstAttribute="height" constant="24" id="iQW-iE-0wV"/>
+                            <constraint firstAttribute="width" constant="35" id="FH3-1i-FbO"/>
                         </constraints>
-                        <state key="normal" title="Button" image="shop_icon_location.png"/>
+                        <state key="normal" image="shop_icon_location.png"/>
                     </button>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="当前地址：" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TAl-kW-HYW">
-                        <rect key="frame" x="39" y="10" width="60" height="15"/>
+                        <rect key="frame" x="40" y="10" width="60" height="15"/>
                         <animations/>
                         <constraints>
                             <constraint firstAttribute="height" constant="15" id="cTb-CD-6f9"/>
@@ -35,7 +34,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="定位中" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gwC-8O-TRU">
-                        <rect key="frame" x="100" y="10" width="220" height="15"/>
+                        <rect key="frame" x="101" y="10" width="219" height="15"/>
                         <animations/>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                         <color key="textColor" red="1" green="0.12874946139999999" blue="0.1621697557" alpha="1" colorSpace="calibratedRGB"/>
@@ -46,12 +45,14 @@
                 <color key="backgroundColor" red="1" green="0.96965161369999997" blue="0.89060680530000003" alpha="1" colorSpace="calibratedRGB"/>
                 <constraints>
                     <constraint firstAttribute="trailing" secondItem="gwC-8O-TRU" secondAttribute="trailing" id="6AI-LL-c7y"/>
-                    <constraint firstItem="TAl-kW-HYW" firstAttribute="leading" secondItem="fkF-ZN-9CY" secondAttribute="trailing" constant="10" id="eOw-dM-fNV"/>
+                    <constraint firstItem="fkF-ZN-9CY" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="P1x-u8-kFs"/>
+                    <constraint firstItem="fkF-ZN-9CY" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="aYX-aB-bLS"/>
+                    <constraint firstItem="TAl-kW-HYW" firstAttribute="leading" secondItem="fkF-ZN-9CY" secondAttribute="trailing" constant="5" id="eOw-dM-fNV"/>
                     <constraint firstItem="TAl-kW-HYW" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="fW9-Tf-HU6"/>
                     <constraint firstItem="gwC-8O-TRU" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="i55-wD-0nL"/>
+                    <constraint firstAttribute="bottom" secondItem="fkF-ZN-9CY" secondAttribute="bottom" id="tIb-xq-KYk"/>
                     <constraint firstItem="gwC-8O-TRU" firstAttribute="leading" secondItem="TAl-kW-HYW" secondAttribute="trailing" constant="1" id="ubw-Hj-YD6"/>
                     <constraint firstItem="fkF-ZN-9CY" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="vBR-gZ-A5m"/>
-                    <constraint firstItem="fkF-ZN-9CY" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="5" id="wGj-p8-acR"/>
                 </constraints>
                 <userDefinedRuntimeAttributes>
                     <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">

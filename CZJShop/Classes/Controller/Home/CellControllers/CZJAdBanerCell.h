@@ -12,11 +12,11 @@
 @interface CZJAdBanerCell : CZJTableViewCell<ImagePlayerViewDelegate>
 {
     NSArray* _bannerDatas;
-    NSMutableArray* _imageArray;
 }
 @property (weak, nonatomic) IBOutlet ImagePlayerView *adBannerImageView;
 @property (weak, nonatomic) id <CZJImageViewTouchDelegate>delegate;
+@property (strong, nonatomic)NSMutableArray* imageArray;
 
 - (void)initBannerOneWithDatas:(NSArray*)datas;
-- (void)initBannerWithImg:(NSString*)img;
+- (void)initBannerWithImg:(NSArray*)img;
 @end

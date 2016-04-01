@@ -805,8 +805,8 @@ singleton_implementation(CZJBaseDataManager);
     CZJSuccessBlock successBlock = ^(id json){
         if ([self showAlertView:json])
         {
+            success(json);
         }
-        success(json);
     };
     
     CZJFailureBlock failBlock = ^(){
@@ -817,7 +817,7 @@ singleton_implementation(CZJBaseDataManager);
     [params setValuesForKeysWithDictionary:self.params];
     [params setValuesForKeysWithDictionary:postParams];
     
-    [CZJNetWorkInstance postJSONWithUrl:kCZJServerAPIGetStoreDetail
+    [CZJNetWorkInstance postJSONWithUrl:kCZJServerAPILoadGoodsInStore
                              parameters:params
                                 success:successBlock
                                    fail:failBlock];
@@ -830,8 +830,8 @@ singleton_implementation(CZJBaseDataManager);
     CZJSuccessBlock successBlock = ^(id json){
         if ([self showAlertView:json])
         {
+            success(json);
         }
-        success(json);
     };
     
     CZJFailureBlock failBlock = ^(){
@@ -842,7 +842,7 @@ singleton_implementation(CZJBaseDataManager);
     [params setValuesForKeysWithDictionary:self.params];
     [params setValuesForKeysWithDictionary:postParams];
     
-    [CZJNetWorkInstance postJSONWithUrl:kCZJServerAPILoadGoodsInStore
+    [CZJNetWorkInstance postJSONWithUrl:kCZJServerAPIGetStoreDetail
                              parameters:params
                                 success:successBlock
                                    fail:failBlock];
