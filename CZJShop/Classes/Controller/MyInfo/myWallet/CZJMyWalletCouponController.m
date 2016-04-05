@@ -14,7 +14,6 @@
 #import "CZJShoppingCartForm.h"
 
 @interface CZJMyWalletCouponController ()
-
 @end
 
 @implementation CZJMyWalletCouponController
@@ -56,10 +55,12 @@ UITableViewDelegate,
 PullTableViewDelegate
 >
 {
-    
+    MJRefreshAutoNormalFooter* refreshFooter;
+    __block CZJHomeGetDataFromServerType _getdataType;
+    __block NSInteger page;
 }
-@property (strong, nonatomic)NSArray* couponList;
-@property (strong, nonatomic)PullTableView* myTableView;
+@property (strong, nonatomic)NSMutableArray* couponList;
+@property (strong, nonatomic)UITableView* myTableView;
 @end
 @implementation CZJMyWalletCouponListBaseController
 
@@ -69,17 +70,10 @@ PullTableViewDelegate
     [self initViews];
 }
 
-- (void)viewDidDisappear:(BOOL)animated
-{
-    self.myTableView.pullTableIsRefreshing = NO;
-    self.myTableView.pullTableIsLoadingMore = NO;
-}
-
-
 - (void)initViews
 {
     CGRect viewRect = CGRectMake(0, 0, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT- 114);
-    _myTableView = [[PullTableView alloc]initWithFrame:viewRect style:UITableViewStylePlain];
+    _myTableView = [[UITableView alloc]initWithFrame:viewRect style:UITableViewStylePlain];
     
     _myTableView.backgroundColor = CZJNAVIBARBGCOLOR;
     _myTableView.tableFooterView = [[UIView alloc]init];
@@ -89,26 +83,58 @@ PullTableViewDelegate
     
     UINib *nib = [UINib nibWithNibName:@"CZJReceiveCouponsCell" bundle:nil];
     [_myTableView registerNib:nib forCellReuseIdentifier:@"CZJReceiveCouponsCell"];
+    
+    __weak typeof(self) weak = self;
+    refreshFooter = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^(){
+        _getdataType = CZJHomeGetDataFromServerTypeTwo;
+        page++;
+        [weak getCouponListFromServer];;
+    }];
+    self.myTableView.footer = refreshFooter;
+    self.myTableView.footer.hidden = YES;
 }
 
 - (void)getCouponListFromServer
 {
     __weak typeof(self) weak = self;
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [CZJUtils removeNoDataAlertViewFromTarget:self.view];
+    [_params setValue:@(page) forKey:@"page"];
     [CZJBaseDataInstance generalPost:_params success:^(id json) {
-        NSArray* dict = [[CZJUtils DataFromJson:json] valueForKey:@"msg"];
-        _couponList = [CZJShoppingCouponsForm objectArrayWithKeyValuesArray:dict];
-        if (_couponList.count == 0)
+        
+        //========获取数据返回，判断数据大于0不==========
+        NSArray* tmpAry = [[CZJUtils DataFromJson:json] valueForKey:@"msg"];
+        if (CZJHomeGetDataFromServerTypeTwo == _getdataType)
         {
-            [CZJUtils showNoDataAlertViewOnTarget:self.view withPromptString:@"木有对应优惠券/(ToT)/~~"];
-            self.view.hidden = YES;
+            [_couponList addObjectsFromArray: [CZJShoppingCouponsForm objectArrayWithKeyValuesArray:tmpAry]];
+            if (tmpAry.count < 20)
+            {
+                [refreshFooter noticeNoMoreData];
+            }
+            else
+            {
+                [weak.myTableView.footer endRefreshing];
+            }
         }
         else
         {
+            _couponList = [[CZJShoppingCouponsForm objectArrayWithKeyValuesArray:tmpAry] mutableCopy];
+        }
+        
+        if (_couponList.count == 0)
+        {
+            self.myTableView.hidden = YES;
+            [CZJUtils showNoDataAlertViewOnTarget:self.view withPromptString:@"木有对应优惠券/(ToT)/~~"];
+        }
+        else
+        {
+            self.myTableView.hidden = (_couponList.count == 0);
             self.myTableView.delegate = self;
             self.myTableView.dataSource = self;
-            self.myTableView.pullDelegate = self;
             [self.myTableView reloadData];
+            self.myTableView.footer.hidden = self.myTableView.mj_contentH < self.myTableView.frame.size.height;
         }
+
     }  fail:^{
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
         [CZJUtils showReloadAlertViewOnTarget:weak.view withReloadHandle:^{
@@ -204,12 +230,13 @@ PullTableViewDelegate
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self getCouponUnUsedListFromServer];
+    _params = @{@"type":@"0", @"page":@"1"};
+    [self getCouponListFromServer];
 }
 
 - (void)getCouponUnUsedListFromServer
 {
-    _params = @{@"type":@"0", @"page":@"1"};
+    
     [super getCouponListFromServer];
 }
 
@@ -222,13 +249,8 @@ PullTableViewDelegate
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self getCouponUsedListFromServer];
-}
-
-- (void)getCouponUsedListFromServer
-{
     _params = @{@"type":@"1", @"page":@"1"};
-    [super getCouponListFromServer];
+    [self getCouponListFromServer];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -240,13 +262,8 @@ PullTableViewDelegate
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self getCouponOutOfTimeListFromServer];
-}
-
-- (void)getCouponOutOfTimeListFromServer
-{
     _params = @{@"type":@"2", @"page":@"1"};
-    [super getCouponListFromServer];
+    [self getCouponListFromServer];
 }
 
 - (void)didReceiveMemoryWarning {

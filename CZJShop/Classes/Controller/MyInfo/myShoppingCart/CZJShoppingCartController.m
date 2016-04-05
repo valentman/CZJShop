@@ -29,6 +29,10 @@ UIGestureRecognizerDelegate
     NSInteger _selectedCount;
     NSMutableArray* _settleOrderAry;
     UIButton* editBtn;
+    
+    MJRefreshAutoNormalFooter* refreshFooter;
+    __block CZJHomeGetDataFromServerType _getdataType;
+    __block NSInteger page;
 }
 @property (weak, nonatomic) IBOutlet UITableView *myTableView;
 @property (weak, nonatomic) IBOutlet UIButton *settleBtn;
@@ -73,8 +77,11 @@ UIGestureRecognizerDelegate
     {
         _settleBtnWidth.constant = 100;
     }
+    page = 1;
+    _getdataType = CZJHomeGetDataFromServerTypeOne;
     
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(getShoppingCartInfoFromServer) name:@"commitOrderSuccess" object:nil];
+    
 }
 
 - (void)initViews
@@ -95,6 +102,14 @@ UIGestureRecognizerDelegate
             [self.myTableView.header endRefreshing];
         }];
     }];
+    __weak typeof(self) weak = self;
+    refreshFooter = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^(){
+        _getdataType = CZJHomeGetDataFromServerTypeTwo;
+        page++;
+        [weak getShoppingCartInfoFromServer];;
+    }];
+    self.myTableView.footer = refreshFooter;
+    self.myTableView.footer.hidden = YES;
     
     //右按钮
     editBtn = [[ UIButton alloc ] initWithFrame : CGRectMake(PJ_SCREEN_WIDTH - 59 , 0 , 44 , 44 )];
@@ -124,9 +139,32 @@ UIGestureRecognizerDelegate
     __weak typeof(self) weak = self;
     [MBProgressHUD showHUDAddedTo:self.myTableView animated:YES];
     self.settleView.hidden = YES;
+    [CZJUtils removeNoDataAlertViewFromTarget:self.view];
     CZJSuccessBlock successBlock = ^(id json)
     {
         [MBProgressHUD hideAllHUDsForView:self.myTableView animated:NO];
+        
+        //========获取数据返回，判断数据大于0不==========
+        NSDictionary* dict = [CZJUtils DataFromJson:json];
+        NSArray* tmpAry = [dict valueForKey:@"msg"];
+        if (CZJHomeGetDataFromServerTypeTwo == _getdataType)
+        {
+            [CZJBaseDataInstance.shoppingCartForm appendNewShoppingCartData:dict];
+            if (tmpAry.count < 20)
+            {
+                [refreshFooter noticeNoMoreData];
+            }
+            else
+            {
+                [weak.myTableView.footer endRefreshing];
+            }
+        }
+        else
+        {
+            [CZJBaseDataInstance.shoppingCartForm setNewShoppingCartDictionary:dict];
+        }
+        
+        
         [shoppingInfos removeAllObjects];
         shoppingInfos = [[CZJBaseDataInstance shoppingCartForm] shoppingCartList];
         if (shoppingInfos.count == 0)
@@ -144,7 +182,10 @@ UIGestureRecognizerDelegate
             self.myTableView.delegate = self;
             self.myTableView.dataSource = self;
             [self calculateTotalPrice];
+            [self.myTableView reloadData];
+            self.myTableView.footer.hidden = self.myTableView.mj_contentH < self.myTableView.frame.size.height;
         }
+
     };
     CZJFailureBlock failBlock = ^{
         [MBProgressHUD hideAllHUDsForView:self.myTableView animated:NO];
@@ -152,7 +193,7 @@ UIGestureRecognizerDelegate
             [weak getShoppingCartInfoFromServer];
         }];
     };
-    [CZJBaseDataInstance loadShoppingCart:nil
+    [CZJBaseDataInstance loadShoppingCart:@{@"page" : @(page)}
                                      type:CZJHomeGetDataFromServerTypeOne
                                   Success:successBlock
                                      fail:failBlock];

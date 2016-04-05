@@ -73,31 +73,33 @@ UITableViewDelegate,
 PullTableViewDelegate
 >
 {
-    
+    MJRefreshAutoNormalFooter* refreshFooter;
+    __block CZJHomeGetDataFromServerType _getdataType;
+    __block NSInteger page;
 }
-@property (strong, nonatomic)NSArray* cardList;
-@property (strong, nonatomic)PullTableView* myTableView;
+@property (strong, nonatomic)NSMutableArray* cardList;
+@property (strong, nonatomic)UITableView* myTableView;
 @end
 @implementation CZJMyWalletCardListBaseController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    _cardList = [NSMutableArray array];
+    [self initMyDatas];
     [self initViews];
 }
 
-- (void)viewDidDisappear:(BOOL)animated
+- (void)initMyDatas
 {
-    self.myTableView.pullTableIsRefreshing = NO;
-    self.myTableView.pullTableIsLoadingMore = NO;
+    _cardList = [NSMutableArray array];
+    page = 1;
+    _getdataType = CZJHomeGetDataFromServerTypeOne;
 }
 
 - (void)initViews
 {
     CGRect viewRect = CGRectMake(0, 0, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT- 128);
-    _myTableView = [[PullTableView alloc]initWithFrame:viewRect style:UITableViewStylePlain];
-    
-    _myTableView.backgroundColor = CZJTableViewBGColor;
+    _myTableView = [[UITableView alloc]initWithFrame:viewRect style:UITableViewStylePlain];
+    _myTableView.backgroundColor = WHITECOLOR;
     _myTableView.tableFooterView = [[UIView alloc]init];
     _myTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     _myTableView.bounces = YES;
@@ -105,28 +107,62 @@ PullTableViewDelegate
     
     UINib *nib = [UINib nibWithNibName:@"CZJMyWalletCardCell" bundle:nil];
     [_myTableView registerNib:nib forCellReuseIdentifier:@"CZJMyWalletCardCell"];
+    
+    __weak typeof(self) weak = self;
+    refreshFooter = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^(){
+        _getdataType = CZJHomeGetDataFromServerTypeTwo;
+        page++;
+        [weak getCardListFromServer];;
+    }];
+    self.myTableView.footer = refreshFooter;
+    self.myTableView.footer.hidden = YES;
+    
 }
 
 - (void)getCardListFromServer
 {
     __weak typeof(self) weak = self;
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [CZJUtils removeNoDataAlertViewFromTarget:self.view];
+    [_params setValue:@(page) forKey:@"page"];
     [CZJBaseDataInstance generalPost:_params success:^(id json) {
-        NSArray* dict = [[CZJUtils DataFromJson:json]valueForKey:@"msg"];
-        _cardList = [CZJMyCardInfoForm objectArrayWithKeyValuesArray:dict];
-        if (_cardList.count == 0)
+        [MBProgressHUD hideAllHUDsForView:self.view animated:NO];
+        
+        //========获取数据返回，判断数据大于0不==========
+        NSArray* tmpAry = [[CZJUtils DataFromJson:json] valueForKey:@"msg"];
+        if (CZJHomeGetDataFromServerTypeTwo == _getdataType)
         {
-            [CZJUtils showNoDataAlertViewOnTarget:self.view withPromptString:@"木有对应套餐卡/(ToT)/~~"];
-            self.view.hidden = YES;
+            [_cardList addObjectsFromArray: [CZJMyCardInfoForm objectArrayWithKeyValuesArray:tmpAry]];
+            if (tmpAry.count < 20)
+            {
+                [refreshFooter noticeNoMoreData];
+            }
+            else
+            {
+                [weak.myTableView.footer endRefreshing];
+            }
         }
         else
         {
-            self.myTableView.dataSource = self;
-            self.myTableView.delegate = self;
-            self.myTableView.pullDelegate = self;
-            [self.myTableView reloadData];
+            _cardList = [[CZJMyCardInfoForm objectArrayWithKeyValuesArray:tmpAry] mutableCopy];
         }
+        
+        if (_cardList.count == 0)
+        {
+            self.myTableView.hidden = YES;
+            [CZJUtils showNoDataAlertViewOnTarget:self.view withPromptString:@"木有对应套餐卡/(ToT)/~~"];
+        }
+        else
+        {
+            self.myTableView.hidden = (_cardList.count == 0);
+            self.myTableView.delegate = self;
+            self.myTableView.dataSource = self;
+            [self.myTableView reloadData];
+            self.myTableView.footer.hidden = self.myTableView.mj_contentH < self.myTableView.frame.size.height;
+        }
+
     }  fail:^{
-        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        [MBProgressHUD hideAllHUDsForView:self.view animated:NO];
         [CZJUtils showReloadAlertViewOnTarget:weak.view withReloadHandle:^{
             [weak getCardListFromServer];
         }];
@@ -189,16 +225,6 @@ PullTableViewDelegate
     }
 }
 
-#pragma mark- pullTableviewDelegate
-- (void)pullTableViewDidTriggerRefresh:(PullTableView*)pullTableView
-{
-}
-
-- (void)pullTableViewDidTriggerLoadMore:(PullTableView*)pullTableView
-{
-    
-}
-
 @end
 
 
@@ -206,13 +232,9 @@ PullTableViewDelegate
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self getCardUnUsedListFromServer];
-}
-
-- (void)getCardUnUsedListFromServer
-{
+    [self initMyDatas];
     _params = @{@"type":@"0", @"page":@"1"};
-    [super getCardListFromServer];
+    [self getCardUnUsedListFromServer];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -225,13 +247,9 @@ PullTableViewDelegate
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self getCardUsedListFromServer];
-}
-
-- (void)getCardUsedListFromServer
-{
+    [self initMyDatas];
     _params = @{@"type":@"1", @"page":@"1"};
-    [super getCardListFromServer];
+    [self getCardUsedListFromServer];
 }
 
 - (void)didReceiveMemoryWarning {

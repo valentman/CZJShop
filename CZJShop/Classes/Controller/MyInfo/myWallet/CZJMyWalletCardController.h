@@ -26,6 +26,7 @@
 @property (strong, nonatomic)NSDictionary* params;
 @property (weak, nonatomic) id<CZJMyWalletCardListCellDelegate> delegate;
 
+- (void)initMyDatas;
 - (void)getCardListFromServer;
 @end
 
