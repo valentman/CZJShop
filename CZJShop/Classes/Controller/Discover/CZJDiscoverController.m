@@ -52,7 +52,7 @@ UITableViewDelegate
     self.myTableView.clipsToBounds = NO;
     self.myTableView.showsVerticalScrollIndicator = NO;
     self.automaticallyAdjustsScrollViewInsets = NO;
-    self.myTableView.backgroundColor = CZJTableViewBGColor;
+    self.myTableView.backgroundColor = WHITECOLOR;
     [self.view addSubview:self.myTableView];
     NSArray* nibArys = @[@"CZJGeneralCell"
                          ];
@@ -146,11 +146,6 @@ UITableViewDelegate
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 50;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-{
-    return 10;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

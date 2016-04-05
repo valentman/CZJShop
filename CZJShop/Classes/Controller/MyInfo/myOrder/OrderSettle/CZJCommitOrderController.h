@@ -9,8 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface CZJCommitOrderController : CZJViewController
-
 @property(strong, nonatomic)NSArray* settleParamsAry;
-
-
+@property (assign, nonatomic) BOOL isUseCouponAble;
 @end

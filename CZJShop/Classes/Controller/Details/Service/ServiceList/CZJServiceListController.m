@@ -372,7 +372,7 @@
     [[CCLocationManager shareLocation] getCity:^(NSString *addressString) {
         cityID = [CZJBaseDataInstance.storeForm getCityIDWithCityName:addressString];
         _getdataType = CZJHomeGetDataFromServerTypeOne;
-        [self getStoreServiceListDataFromServer];
+//        [self getStoreServiceListDataFromServer];
         if (nil != addressString)
         {
             [[NSNotificationCenter defaultCenter]postNotificationName:kCZJChangeCurCityName object:self userInfo:@{@"cityname" : addressString}];

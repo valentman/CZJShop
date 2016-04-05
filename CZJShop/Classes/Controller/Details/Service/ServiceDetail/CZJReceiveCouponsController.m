@@ -145,14 +145,12 @@ UITableViewDelegate
                 
             case 2://满减券
                 priceStri = [NSString stringWithFormat:@"￥%@",couponForm.value];
-                
                 break;
                 
             case 3://项目券
                 priceStri = @"项目券";
                 cell.couonTypeNameLabel.text = couponForm.name;
                 cell.useableLimitLabel.text = @"凭券到店消费";
-//                cell.couponPriceLabel.font = BOLDSYSTEMFONT(28);
                 break;
                 
             default:
@@ -172,8 +170,6 @@ UITableViewDelegate
         cell.receiveTimeLabel.text = couponForm.validEndTime;
         
         [cell setCellIsTaken:couponForm.taked andServiceType:![couponForm.validServiceId isEqualToString:@"0"]];
-        
-        
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;

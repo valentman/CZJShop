@@ -31,6 +31,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [CZJUtils customizeNavigationBarForTarget:self];
+    [self addCZJNaviBarView:CZJNaviBarViewTypeGeneral];
+    self.naviBarView.btnBack.hidden = YES;
     [self initViews];
     [self generateQRCodeImage:_myShareCode andTarget:_myQRCode];
 }

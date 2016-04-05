@@ -81,6 +81,7 @@ CZJPopPayViewDelegate
 
 //联系车之健 取消退换货 提醒卖家同意
 @property (weak, nonatomic) IBOutlet UIView *returnedDetailView;
+@property (weak, nonatomic) IBOutlet UIView *cancleReturnView;
 
 @property (weak, nonatomic) IBOutlet UIView *buttomLineView;
 
@@ -158,15 +159,27 @@ CZJPopPayViewDelegate
         stageNum = [returnedOrdderDetailForm.returnStatus integerValue] - 1;
         orderType = 3;
         
-        if ([returnedOrdderDetailForm.returnStatus floatValue] == 1)
+        switch ([returnedOrdderDetailForm.returnStatus integerValue])
         {
-            self.returnedDetailView.hidden = NO;
+            case 1:
+                self.returnedDetailView.hidden = NO;
+                _stageStr = @"等待卖家同意";
+                break;
+            case 2:
+                self.cancleReturnView.hidden = NO;
+                _stageStr = @"卖家已同意，请寄回商品";
+                break;
+            case 3:
+                self.cancleReturnView.hidden = NO;
+                _stageStr = @"卖家已收货";
+                break;
+            case 4:
+                _stageStr = @"退换货成功";
+                break;
+                
+            default:
+                break;
         }
-        else
-        {
-            self.cancelOrderView.hidden = NO;
-        }
-        
         [self.myTableView reloadData];
     }  fail:^{
         
@@ -975,7 +988,8 @@ CZJPopPayViewDelegate
     __weak typeof(self) weak = self;
     [self showCZJAlertView:@"确定取消退换货" andConfirmHandler:^{
         [CZJBaseDataInstance generalPost:nil success:^(id json) {
-            
+            [[NSNotificationCenter defaultCenter]postNotificationName:kCZJNotifiRefreshReturnOrderlist object:nil];
+            [weak.navigationController popViewControllerAnimated:YES];
         }  fail:^{
             
         } andServerAPI:kCZJServerAPICancelReturnOrder];

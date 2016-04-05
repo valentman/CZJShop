@@ -23,14 +23,15 @@
 
 @interface CZJOrderListBaseController : UIViewController
 {
-    NSDictionary* _params;
+    NSMutableDictionary* _params;
     NSString* _noDataPrompt;
 }
-@property (strong, nonatomic)NSDictionary* params;
+@property (strong, nonatomic)NSMutableDictionary* params;
 @property (strong, nonatomic)NSString* noDataPrompt;
 @property (weak, nonatomic)id<CZJOrderListDelegate> delegate;
 @property (strong, nonatomic)CZJOrderListNoPayButtomView* noPayButtomView;
 
+- (void)initMyDatas;
 - (void)getOrderListFromServer;
 - (void)removeOrderlistControllerNotification;
 @end

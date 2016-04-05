@@ -17,9 +17,12 @@ UITableViewDelegate
 >
 {
     NSMutableArray* scanListAry;
+    MJRefreshAutoNormalFooter* refreshFooter;
+    __block CZJHomeGetDataFromServerType _getdataType;
 }
 
-@property (weak, nonatomic) IBOutlet UITableView *myTableView;
+@property (strong, nonatomic) UITableView *myTableView;
+@property (assign, nonatomic) NSInteger page;
 @end
 
 @implementation CZJMyInfoRecordController
@@ -38,6 +41,9 @@ UITableViewDelegate
 - (void)initViews
 {
     scanListAry = [NSMutableArray array];
+    self.page = 1;
+    _getdataType = CZJHomeGetDataFromServerTypeOne;
+    
     [CZJUtils customizeNavigationBarForTarget:self];
     //右按钮
     UIButton *rightBtn = [[ UIButton alloc ] initWithFrame : CGRectMake(0 , 0 , 44 , 44 )];
@@ -58,25 +64,65 @@ UITableViewDelegate
         self.navigationItem.rightBarButtonItem = rightItem;
     }
     
+    [self addCZJNaviBarView:CZJNaviBarViewTypeGeneral];
+    self.naviBarView.btnBack.hidden = YES;
+    
+    
+    self.myTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 64, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - StatusBar_HEIGHT - NavigationBar_HEIGHT) style:UITableViewStylePlain];
+    self.myTableView.tableFooterView = [[UIView alloc]init];
+    self.myTableView.clipsToBounds = YES;
+    self.myTableView.showsVerticalScrollIndicator = NO;
+    self.myTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.automaticallyAdjustsScrollViewInsets = NO;
+    self.myTableView.backgroundColor = CZJTableViewBGColor;
+    self.automaticallyAdjustsScrollViewInsets = NO;
+    [self.view addSubview:self.myTableView];
+    
     UINib *nib=[UINib nibWithNibName:@"CZJGoodsAttentionCell" bundle:nil];
     [self.myTableView registerNib:nib forCellReuseIdentifier:@"CZJGoodsAttentionCell"];
-    self.myTableView.tableFooterView = [[UIView alloc]init];
     
+    __weak typeof(self) weak = self;
+    refreshFooter = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^(){
+        _getdataType = CZJHomeGetDataFromServerTypeTwo;
+        weak.page++;
+        [weak getScanListFromServer];;
+    }];
+    self.myTableView.footer = refreshFooter;
+    self.myTableView.footer.hidden = YES;
 }
 
 - (void)getScanListFromServer
 {
     __weak typeof(self) weak = self;
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    NSDictionary* params = @{@"": @""};
+    NSDictionary* params = @{@"page": @(self.page)};
+    [CZJUtils removeNoDataAlertViewFromTarget:self.view];
     [CZJBaseDataInstance loadScanList:params Success:^(id json) {
-        NSDictionary* dict = [CZJUtils DataFromJson:json];
-        [scanListAry removeAllObjects];
-        scanListAry = [[dict valueForKey:@"msg"] mutableCopy];
+        [MBProgressHUD hideAllHUDsForView:self.view animated:NO];
+        
+        //========获取数据返回，判断数据大于0不==========
+        NSArray* tmpAry = [[CZJUtils DataFromJson:json] valueForKey:@"msg"];
+        if (CZJHomeGetDataFromServerTypeTwo == _getdataType)
+        {
+            [scanListAry addObjectsFromArray: [CZJMyScanRecordForm objectArrayWithKeyValuesArray:tmpAry]];
+            if (tmpAry.count < 20)
+            {
+                [refreshFooter noticeNoMoreData];
+            }
+            else
+            {
+                [weak.myTableView.footer endRefreshing];
+            }
+        }
+        else
+        {
+            scanListAry = [[CZJMyScanRecordForm objectArrayWithKeyValuesArray:tmpAry] mutableCopy];
+        }
+        
         VIEWWITHTAG(self.navigationController.navigationBar, 1999).hidden = (scanListAry.count == 0);
         if (scanListAry.count == 0)
         {
+            self.myTableView.hidden = YES;
             [CZJUtils showNoDataAlertViewOnTarget:self.view withPromptString:@"木有浏览记录/(ToT)/~~"];
         }
         else
@@ -85,9 +131,11 @@ UITableViewDelegate
             self.myTableView.delegate = self;
             self.myTableView.dataSource = self;
             [self.myTableView reloadData];
+            self.myTableView.footer.hidden = self.myTableView.mj_contentH < self.myTableView.frame.size.height;
         }
-    } fail:^{
-        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+    }
+    fail:^{
+        [MBProgressHUD hideAllHUDsForView:self.view animated:NO];
         [CZJUtils showReloadAlertViewOnTarget:weak.view withReloadHandle:^{
             [weak getScanListFromServer];
         }];
@@ -96,7 +144,6 @@ UITableViewDelegate
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 - (void)edit:(id)sender
@@ -108,6 +155,7 @@ UITableViewDelegate
             VIEWWITHTAG(self.navigationController.navigationBar, 1999).hidden = (scanListAry.count == 0);
             self.myTableView.hidden = (scanListAry.count == 0);
             [self.myTableView reloadData];
+            [CZJUtils showNoDataAlertViewOnTarget:self.view withPromptString:@"木有浏览记录/(ToT)/~~"];
         } fail:^{
             [CZJUtils tipWithText:@"服务器异常，清除失败" andView:weak.view];
         }];

@@ -17,7 +17,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [CZJUtils customizeNavigationBarForTarget:self];
-    
+    [self addCZJNaviBarView:CZJNaviBarViewTypeGeneral];
+    self.naviBarView.btnBack.hidden = YES;
 }
 
 - (void)viewWillAppear:(BOOL)animated

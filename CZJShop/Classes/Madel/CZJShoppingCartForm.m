@@ -165,3 +165,15 @@
     return nil;
 }
 @end
+
+
+@implementation CZJSettleOrderForm
++(NSDictionary*)objectClassInArray
+{
+    return @{@"items" : @"CZJsettleOrderGoodItemForm"};
+}
+@end
+
+
+@implementation CZJsettleOrderGoodItemForm
+@end

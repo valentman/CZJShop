@@ -9,6 +9,8 @@
 #import "CZJWebViewController.h"
 #import "CZJWebViewJSI.h"
 #import "UIScrollView+EmptyDataSet.h"
+#import "IMYWebView.h"
+#import "CZJCommitOrderController.h"
 
 @interface CZJWebViewController ()
 <
@@ -35,17 +37,14 @@ DZNEmptyDataSetDelegate
 
 - (void)initViews
 {
+    //导航栏
     [self addCZJNaviBarView:CZJNaviBarViewTypeGeneral];
     self.naviBarView.btnMore.hidden = NO;
     [self.naviBarView.btnMore setBackgroundImage:IMAGENAMED(@"") forState:UIControlStateNormal];
     [self.naviBarView.btnMore setTitle:@"关闭" forState:UIControlStateNormal];
     [self.naviBarView.btnMore setTitleColor:BLACKCOLOR forState:UIControlStateNormal];
     
-    //webView接口
-    self.webViewJSI = [CZJWebViewJSI bridgeForWebView:_myWebView webViewDelegate:self];
-    self.webViewJSI.JSIDelegate = self;
-    
-    //webView
+    //WebView定义
     self.myWebView.scrollView.emptyDataSetDelegate = self;
     self.myWebView.scrollView.emptyDataSetSource = self;
     self.myWebView = [[UIWebView alloc]initWithFrame:CGRectMake(0, 64, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - 64)];
@@ -53,6 +52,11 @@ DZNEmptyDataSetDelegate
     [self.view addSubview:self.myWebView];
     self.view.backgroundColor = CZJNAVIBARBGCOLOR;
     self.myWebView.backgroundColor = CZJNAVIBARBGCOLOR;
+    
+    //webView JS交互接口
+    self.webViewJSI = [CZJWebViewJSI bridgeForWebView:_myWebView webViewDelegate:self];
+    self.webViewJSI.JSIDelegate = self;
+    
     
     //URLRequest
     if (_cur_url)
@@ -63,7 +67,6 @@ DZNEmptyDataSetDelegate
 }
 
 - (void)loadHtml:(NSURL*)surl{
-    DLog(@"%@",surl);
     [self.myWebView loadRequest:[NSURLRequest requestWithURL:surl]];
 }
 
@@ -80,6 +83,7 @@ DZNEmptyDataSetDelegate
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
+    [[NSURLCache sharedURLCache] removeAllCachedResponses];
 }
 
 
@@ -111,7 +115,7 @@ DZNEmptyDataSetDelegate
 }
 
 
-#pragma mark - UIWebViewDelegate methods
+#pragma mark - UIWebViewDelegate （WebView代理方法）
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
 {
     self.failedLoading = NO;
@@ -128,61 +132,45 @@ DZNEmptyDataSetDelegate
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView{
     self.naviBarView.mainTitleLabel.text = [webView stringByEvaluatingJavaScriptFromString:@"document.title"];
-}
-
-
-#pragma mark - jsActionDelegate
--(void)callUp:(NSString*)tel
-{
-}
-
--(void)moreCommentActionWithId:(NSDictionary*)dict
-{
-}
-
--(void)guidedSystemWithLng:(double)lng Lat:(double)lat CityName:(NSString*)name
-{
-}
-
--(void)viewServiceItemWithId:(NSString*)itemId
-{
     
+    //网上找的解决Webview内存泄露的方法：
+    //http://blog.csdn.net/primer_programer/article/details/24855329
+    [USER_DEFAULT setInteger:0 forKey:@"WebKitCacheModelPreferenceKey"];
+    [USER_DEFAULT setBool:NO forKey:@"WebKitDiskImageCacheEnabled"];//自己添加的，原文没有提到。
+    [USER_DEFAULT setBool:NO forKey:@"WebKitOfflineWebApplicationCacheEnabled"];//自己添加的，原文没有提到。
+    [USER_DEFAULT synchronize];
 }
 
--(void)buyWithInfo:(NSDictionary*)dict
-{
-    
-}
 
--(void)setTitle:(NSString*)msg
+#pragma mark - jsActionDelegate （JS网页交互代理）
+- (void)showGoodsOrServiceInfo:(NSString*)storeItemPid andType:(CZJDetailType)detaiType;
 {
-}
-
--(void)showCarType:(NSString*)msg
-{
-}
-
--(void)showToast:(NSString*)msg
-{
-}
-
-- (void)showGoodsOrServiceInfo:(NSString*)storeItemPid
-{
+    [CZJUtils showGoodsServiceDetailView:self.navigationController andItemPid:storeItemPid detailType:detaiType];
 }
 
 - (void)showStoreInfo:(NSString*)storeId
 {
+    [CZJUtils showStoreDetailView:self.navigationController andStoreId:storeId];
 }
 
-- (void)toSettleOrder:(NSString*)goodsInfo andCount:(int)count
+- (void)toSettleOrder:(NSArray*)_settleOrderAry andCouponUsable:(BOOL)couponUseable
 {
+    if ([USER_DEFAULT boolForKey:kCZJIsUserHaveLogined])
+    {
+        UINavigationController* commitVC = (UINavigationController*)[CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:@"OrderSettleNavi"];
+        CZJCommitOrderController* settleOrder = ((CZJCommitOrderController*)commitVC.topViewController);
+        settleOrder.settleParamsAry = _settleOrderAry;
+        settleOrder.isUseCouponAble = couponUseable;
+        [self presentViewController:commitVC animated:YES completion:nil];
+    }
+    else
+    {
+        [CZJUtils showLoginView:self andNaviBar:self.naviBarView];
+    }
 }
 
-
-#pragma mark - Navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+-(void)showToast:(NSString*)msg
 {
+    [CZJUtils tipWithText:msg andView:self.navigationController.view];
 }
-
-
 @end

@@ -75,3 +75,29 @@
 
 - (id)initWithDictionary:(NSDictionary*)dict;
 @end
+
+
+//---------------------提交订单信息---------------------
+@interface CZJSettleOrderForm : NSObject
+@property(nonatomic, strong) NSString* companyId;
+@property(nonatomic, strong) NSString* selfFlag;
+@property(nonatomic, strong) NSString* storeId;
+@property(nonatomic, strong) NSString* storeName;
+@property(nonatomic, strong) NSArray* items;
+@end
+
+//-----------------提交订单中得商品信息-------------------
+@interface CZJsettleOrderGoodItemForm : NSObject
+@property(nonatomic, strong) NSString* activityId;
+@property(nonatomic, strong) NSString* storeItemPid;
+@property(nonatomic, strong) NSString* itemCode;
+@property(nonatomic, strong) NSString* itemName;
+@property(nonatomic, strong) NSString* itemSku;
+@property(nonatomic, strong) NSString* itemImg;
+@property(nonatomic, strong) NSString* costPrice;
+@property(nonatomic, strong) NSString* currentPrice;
+@property(nonatomic, strong) NSString* itemType;
+@property(nonatomic, strong) NSString* itemCount;
+@property(nonatomic, strong) NSString* setmenuFlag;
+@property(nonatomic, strong) NSString* typeId;
+@end

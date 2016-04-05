@@ -170,7 +170,7 @@
     _mainTitleLabel.hidden = YES;
     
     _buttomSeparator = [[UIView alloc]initWithFrame:CGRectMake(0, 43, PJ_SCREEN_WIDTH, 0.5)];
-    _buttomSeparator.backgroundColor = LIGHTGRAYCOLOR;
+    _buttomSeparator.backgroundColor = CZJNAVIBARBGCOLOR;
     _buttomSeparator.hidden = YES;
     
     switch (type) {

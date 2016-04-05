@@ -61,3 +61,11 @@
 @property(strong, nonatomic) NSString*  totalPrice;
 @property(strong, nonatomic) NSString*  useCount;
 @end
+
+
+@interface CZJRedpacketInfoForm : NSObject
+@property(strong, nonatomic) NSString*  name;
+@property(strong, nonatomic) NSString*  value;
+@property(strong, nonatomic) NSString*  curValue;
+@property(strong, nonatomic) NSString*  takeTime;
+@end

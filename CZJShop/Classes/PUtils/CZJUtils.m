@@ -673,6 +673,7 @@ void tapToHidePopViewAction(id sender, SEL _cmd)
     UINavigationController* commitVC = (UINavigationController*)[CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:@"OrderSettleNavi"];
     CZJCommitOrderController* settleOrder = ((CZJCommitOrderController*)commitVC.topViewController);
     settleOrder.settleParamsAry = _settleOrderAry;
+    settleOrder.isUseCouponAble = YES;
     [target presentViewController:commitVC animated:YES completion:^
      {
      }];

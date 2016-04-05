@@ -103,7 +103,7 @@ CZJViewControllerDelegate
 {
     self.myInfoTableView.delegate = self;
     self.myInfoTableView.dataSource = self;
-    self.myInfoTableView.backgroundColor = CZJNAVIBARGRAYBG;
+    self.myInfoTableView.backgroundColor = WHITECOLOR;
     NSArray* nibArys = @[@"CZJMyInfoHeadCell",
                          @"CZJMyInfoShoppingCartCell",
                          @"CZJGeneralCell",

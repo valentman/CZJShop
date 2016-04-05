@@ -51,9 +51,10 @@
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
     if (webView != _webView) { return; }
-    //is js insert
+    //是否有 javaScript嵌入在网页中
     if (![[webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"typeof window.%@ == 'object'", kBridgeName]] isEqualToString:@"true"]) {
-        //get class method dynamically
+        
+        //获取该类自己本身的方法名列表，在本项目中就是继承自该类的CZJWebViewJSI类的方法列表
         unsigned int methodCount = 0;
         Method *methods = class_copyMethodList([self class], &methodCount);
         NSMutableString *methodList = [NSMutableString string];
@@ -76,6 +77,8 @@
         NSString *js = [NSString stringWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:nil];
         
         [CZJBaseDataInstance getSomeInfoSuccess:^(id dic){
+            NSString* javastring = [NSString stringWithFormat:js, methodList,dic];
+            DLog(@"javastring:%@",javastring);
             [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:js, methodList,dic]];
         }];
     }
@@ -116,7 +119,7 @@
         }
         //ignore warning
         #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
-        SEL selector = NSSelectorFromString([args count]>0?[function stringByAppendingString:@":"]:function);
+        SEL selector = NSSelectorFromString([args count] > 0 ? [function stringByAppendingString:@":"] : function);
         if ([self respondsToSelector:selector]) {
             [self performSelector:selector withObject:args];
         }

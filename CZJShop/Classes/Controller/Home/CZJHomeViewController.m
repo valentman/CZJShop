@@ -148,6 +148,7 @@ CZJMiaoShaCellDelegate
     self.homeTableView.rowHeight = UITableViewAutomaticDimension;
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.homeTableView.clipsToBounds = NO;
+    self.homeTableView.backgroundColor = CZJTableViewBGColor;
     
     NSArray* nibArys = @[@"CZJActivityCell",
                          @"CZJServiceCell",
@@ -255,7 +256,9 @@ CZJMiaoShaCellDelegate
         [CZJBaseDataInstance.homeForm  appendGoodsRecommendDataWith:[CZJUtils DataFromJson:json]];
         [weak dealWithArray];
         [weak.homeTableView reloadData];
-    } fail:nil andServerAPI:kCZJServerAPIGetRecoGoods];
+    } fail:^{
+        [weak.homeTableView.footer endRefreshing];
+    } andServerAPI:kCZJServerAPIGetRecoGoods];
 }
 
 - (void)dealWithArray
@@ -441,7 +444,7 @@ CZJMiaoShaCellDelegate
             else
             {
                 CZJGoodsRecommendCell* cell = (CZJGoodsRecommendCell*)[tableView dequeueReusableCellWithIdentifier:@"CZJGoodsRecommendCell" forIndexPath:indexPath];
-                cell.backgroundColor = CZJTableViewBGColor;
+//                cell.backgroundColor = CZJTableViewBGColor;
                 cell.delegate = self;
                 float width = (PJ_SCREEN_WIDTH - 30) / 2;
                 cell.imageOneHeight.constant = width;

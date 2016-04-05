@@ -67,6 +67,7 @@
 @property(assign)BOOL setupFlag;                                //是否到店安装
 @property(assign)BOOL setmenuFlag;                              //是否是套餐
 @property(assign)BOOL off;                                      //是否已下架
+@property(assign)BOOL vendorFlag;
 @property(strong, nonatomic)NSString* typeId;
 @property(strong, nonatomic)NSString* vendorId;                 //供应商ID
 @property(strong, nonatomic)NSString* selectdSetupStoreName;    //安装门店名字
@@ -76,6 +77,7 @@
 @property(strong, nonatomic)NSString* setupPrice;               //安装费
 @property(strong, nonatomic)NSString* orderItemPid;
 @property(strong, nonatomic)NSString* counterKey;               //
+
 
 @end
 

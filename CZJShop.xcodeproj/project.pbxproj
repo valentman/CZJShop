@@ -155,6 +155,11 @@
 		EC154CF71C1EBEB50004FAF5 /* CZJServiceFilterController.m in Sources */ = {isa = PBXBuildFile; fileRef = EC154CEC1C1EBEB50004FAF5 /* CZJServiceFilterController.m */; };
 		EC154CF81C1EBEB50004FAF5 /* CZJServiceListController.m in Sources */ = {isa = PBXBuildFile; fileRef = EC154CEE1C1EBEB50004FAF5 /* CZJServiceListController.m */; };
 		EC154CFC1C1EBF000004FAF5 /* CZJDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EC154CFB1C1EBF000004FAF5 /* CZJDetailViewController.m */; };
+		EC19BDEB1CAF839400353A2A /* IMYWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = EC19BDE71CAF839400353A2A /* IMYWebView.m */; settings = {ASSET_TAGS = (); }; };
+		EC19BDEC1CAF839400353A2A /* IMY_NJKWebViewProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = EC19BDEA1CAF839400353A2A /* IMY_NJKWebViewProgress.m */; settings = {ASSET_TAGS = (); }; };
+		EC19BDF31CAF91A900353A2A /* WebViewJavascriptBridge_JS.m in Sources */ = {isa = PBXBuildFile; fileRef = EC19BDEE1CAF91A900353A2A /* WebViewJavascriptBridge_JS.m */; settings = {ASSET_TAGS = (); }; };
+		EC19BDF41CAF91A900353A2A /* WebViewJavascriptBridgeBase.m in Sources */ = {isa = PBXBuildFile; fileRef = EC19BDF01CAF91A900353A2A /* WebViewJavascriptBridgeBase.m */; settings = {ASSET_TAGS = (); }; };
+		EC19BDF51CAF91A900353A2A /* WKWebViewJavascriptBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = EC19BDF21CAF91A900353A2A /* WKWebViewJavascriptBridge.m */; settings = {ASSET_TAGS = (); }; };
 		EC1C89091C8D720000B96602 /* CZJHotBrandViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EC1C89071C8D720000B96602 /* CZJHotBrandViewCell.m */; settings = {ASSET_TAGS = (); }; };
 		EC1C890A1C8D720000B96602 /* CZJHotBrandViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EC1C89081C8D720000B96602 /* CZJHotBrandViewCell.xib */; settings = {ASSET_TAGS = (); }; };
 		EC1E43DE1C40A214006CC23C /* KMCGeigerCounter.m in Sources */ = {isa = PBXBuildFile; fileRef = EC1E43DC1C40A214006CC23C /* KMCGeigerCounter.m */; };
@@ -535,10 +540,6 @@
 		ECC4DDBA1C17D67B00FBD6A4 /* MAMapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ECC4DC611C17D67A00FBD6A4 /* MAMapKit.framework */; };
 		ECC4DDBB1C17D67B00FBD6A4 /* AnimatedGif.m in Sources */ = {isa = PBXBuildFile; fileRef = ECC4DC641C17D67A00FBD6A4 /* AnimatedGif.m */; };
 		ECC4DDBC1C17D67B00FBD6A4 /* CCLocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = ECC4DC671C17D67A00FBD6A4 /* CCLocationManager.m */; };
-		ECC4DDBD1C17D67B00FBD6A4 /* easyjs-inject.js in Resources */ = {isa = PBXBuildFile; fileRef = ECC4DC6A1C17D67A00FBD6A4 /* easyjs-inject.js */; };
-		ECC4DDBE1C17D67B00FBD6A4 /* EasyJSDataFunction.m in Sources */ = {isa = PBXBuildFile; fileRef = ECC4DC6C1C17D67A00FBD6A4 /* EasyJSDataFunction.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		ECC4DDBF1C17D67B00FBD6A4 /* EasyJSWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = ECC4DC6E1C17D67A00FBD6A4 /* EasyJSWebView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		ECC4DDC01C17D67B00FBD6A4 /* EasyJSWebViewProxyDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = ECC4DC701C17D67A00FBD6A4 /* EasyJSWebViewProxyDelegate.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		ECC4DDC11C17D67B00FBD6A4 /* EGORefreshTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = ECC4DC741C17D67A00FBD6A4 /* EGORefreshTableHeaderView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		ECC4DDC21C17D67B00FBD6A4 /* LoadMoreTableFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = ECC4DC761C17D67A00FBD6A4 /* LoadMoreTableFooterView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		ECC4DDC31C17D67B00FBD6A4 /* MessageInterceptor.m in Sources */ = {isa = PBXBuildFile; fileRef = ECC4DC781C17D67A00FBD6A4 /* MessageInterceptor.m */; };
@@ -650,7 +651,6 @@
 		ECC4DE461C17D67B00FBD6A4 /* UUDatePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = ECC4DD7F1C17D67B00FBD6A4 /* UUDatePicker.m */; };
 		ECC4DE471C17D67B00FBD6A4 /* UUDatePicker_DateModel.m in Sources */ = {isa = PBXBuildFile; fileRef = ECC4DD811C17D67B00FBD6A4 /* UUDatePicker_DateModel.m */; };
 		ECC4DE481C17D67B00FBD6A4 /* VPImageCropperViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ECC4DD841C17D67B00FBD6A4 /* VPImageCropperViewController.m */; };
-		ECC4DE491C17D67B00FBD6A4 /* WebViewJavascriptBridge.js.txt in Resources */ = {isa = PBXBuildFile; fileRef = ECC4DD871C17D67B00FBD6A4 /* WebViewJavascriptBridge.js.txt */; };
 		ECC4DE4A1C17D67B00FBD6A4 /* WebViewJavascriptBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = ECC4DD881C17D67B00FBD6A4 /* WebViewJavascriptBridge.m */; };
 		ECC4DE4B1C17D67B00FBD6A4 /* WebViewJsBridge.js in Resources */ = {isa = PBXBuildFile; fileRef = ECC4DD8B1C17D67B00FBD6A4 /* WebViewJsBridge.js */; };
 		ECC4DE4C1C17D67B00FBD6A4 /* WebViewJsBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = ECC4DD8C1C17D67B00FBD6A4 /* WebViewJsBridge.m */; };
@@ -1329,6 +1329,16 @@
 		EC154CEE1C1EBEB50004FAF5 /* CZJServiceListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJServiceListController.m; sourceTree = "<group>"; };
 		EC154CFA1C1EBF000004FAF5 /* CZJDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJDetailViewController.h; sourceTree = "<group>"; };
 		EC154CFB1C1EBF000004FAF5 /* CZJDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJDetailViewController.m; sourceTree = "<group>"; };
+		EC19BDE61CAF839400353A2A /* IMYWebView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IMYWebView.h; sourceTree = "<group>"; };
+		EC19BDE71CAF839400353A2A /* IMYWebView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IMYWebView.m; sourceTree = "<group>"; };
+		EC19BDE91CAF839400353A2A /* IMY_NJKWebViewProgress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IMY_NJKWebViewProgress.h; sourceTree = "<group>"; };
+		EC19BDEA1CAF839400353A2A /* IMY_NJKWebViewProgress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IMY_NJKWebViewProgress.m; sourceTree = "<group>"; };
+		EC19BDED1CAF91A900353A2A /* WebViewJavascriptBridge_JS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewJavascriptBridge_JS.h; sourceTree = "<group>"; };
+		EC19BDEE1CAF91A900353A2A /* WebViewJavascriptBridge_JS.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewJavascriptBridge_JS.m; sourceTree = "<group>"; };
+		EC19BDEF1CAF91A900353A2A /* WebViewJavascriptBridgeBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewJavascriptBridgeBase.h; sourceTree = "<group>"; };
+		EC19BDF01CAF91A900353A2A /* WebViewJavascriptBridgeBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewJavascriptBridgeBase.m; sourceTree = "<group>"; };
+		EC19BDF11CAF91A900353A2A /* WKWebViewJavascriptBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WKWebViewJavascriptBridge.h; sourceTree = "<group>"; };
+		EC19BDF21CAF91A900353A2A /* WKWebViewJavascriptBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WKWebViewJavascriptBridge.m; sourceTree = "<group>"; };
 		EC1C89061C8D720000B96602 /* CZJHotBrandViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJHotBrandViewCell.h; sourceTree = "<group>"; };
 		EC1C89071C8D720000B96602 /* CZJHotBrandViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJHotBrandViewCell.m; sourceTree = "<group>"; };
 		EC1C89081C8D720000B96602 /* CZJHotBrandViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CZJHotBrandViewCell.xib; sourceTree = "<group>"; };
@@ -1900,13 +1910,6 @@
 		ECC4DC641C17D67A00FBD6A4 /* AnimatedGif.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnimatedGif.m; sourceTree = "<group>"; };
 		ECC4DC661C17D67A00FBD6A4 /* CCLocationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCLocationManager.h; sourceTree = "<group>"; };
 		ECC4DC671C17D67A00FBD6A4 /* CCLocationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCLocationManager.m; sourceTree = "<group>"; };
-		ECC4DC6A1C17D67A00FBD6A4 /* easyjs-inject.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "easyjs-inject.js"; sourceTree = "<group>"; };
-		ECC4DC6B1C17D67A00FBD6A4 /* EasyJSDataFunction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EasyJSDataFunction.h; sourceTree = "<group>"; };
-		ECC4DC6C1C17D67A00FBD6A4 /* EasyJSDataFunction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EasyJSDataFunction.m; sourceTree = "<group>"; };
-		ECC4DC6D1C17D67A00FBD6A4 /* EasyJSWebView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EasyJSWebView.h; sourceTree = "<group>"; };
-		ECC4DC6E1C17D67A00FBD6A4 /* EasyJSWebView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EasyJSWebView.m; sourceTree = "<group>"; };
-		ECC4DC6F1C17D67A00FBD6A4 /* EasyJSWebViewProxyDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EasyJSWebViewProxyDelegate.h; sourceTree = "<group>"; };
-		ECC4DC701C17D67A00FBD6A4 /* EasyJSWebViewProxyDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EasyJSWebViewProxyDelegate.m; sourceTree = "<group>"; };
 		ECC4DC731C17D67A00FBD6A4 /* EGORefreshTableHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EGORefreshTableHeaderView.h; sourceTree = "<group>"; };
 		ECC4DC741C17D67A00FBD6A4 /* EGORefreshTableHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EGORefreshTableHeaderView.m; sourceTree = "<group>"; };
 		ECC4DC751C17D67A00FBD6A4 /* LoadMoreTableFooterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadMoreTableFooterView.h; sourceTree = "<group>"; };
@@ -2099,7 +2102,6 @@
 		ECC4DD831C17D67B00FBD6A4 /* VPImageCropperViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VPImageCropperViewController.h; sourceTree = "<group>"; };
 		ECC4DD841C17D67B00FBD6A4 /* VPImageCropperViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VPImageCropperViewController.m; sourceTree = "<group>"; };
 		ECC4DD861C17D67B00FBD6A4 /* WebViewJavascriptBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewJavascriptBridge.h; sourceTree = "<group>"; };
-		ECC4DD871C17D67B00FBD6A4 /* WebViewJavascriptBridge.js.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = WebViewJavascriptBridge.js.txt; sourceTree = "<group>"; };
 		ECC4DD881C17D67B00FBD6A4 /* WebViewJavascriptBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewJavascriptBridge.m; sourceTree = "<group>"; };
 		ECC4DD8A1C17D67B00FBD6A4 /* WebViewJsBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewJsBridge.h; sourceTree = "<group>"; };
 		ECC4DD8B1C17D67B00FBD6A4 /* WebViewJsBridge.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = WebViewJsBridge.js; sourceTree = "<group>"; };
@@ -3247,6 +3249,25 @@
 			path = Cells;
 			sourceTree = "<group>";
 		};
+		EC19BDE51CAF839400353A2A /* IMYWebView */ = {
+			isa = PBXGroup;
+			children = (
+				EC19BDE61CAF839400353A2A /* IMYWebView.h */,
+				EC19BDE71CAF839400353A2A /* IMYWebView.m */,
+				EC19BDE81CAF839400353A2A /* UIWebViewProgress */,
+			);
+			path = IMYWebView;
+			sourceTree = "<group>";
+		};
+		EC19BDE81CAF839400353A2A /* UIWebViewProgress */ = {
+			isa = PBXGroup;
+			children = (
+				EC19BDE91CAF839400353A2A /* IMY_NJKWebViewProgress.h */,
+				EC19BDEA1CAF839400353A2A /* IMY_NJKWebViewProgress.m */,
+			);
+			path = UIWebViewProgress;
+			sourceTree = "<group>";
+		};
 		EC1E43DA1C40A214006CC23C /* KMCGeigerCounter */ = {
 			isa = PBXGroup;
 			children = (
@@ -3691,13 +3712,13 @@
 				ECC4DC651C17D67A00FBD6A4 /* CCLocation */,
 				ECC4DC681C17D67A00FBD6A4 /* DaiDodgeKeyboard */,
 				EC0C93611C1FC7C3002A7FF5 /* DropDownMenu */,
-				ECC4DC691C17D67A00FBD6A4 /* EasyJSWebView */,
 				ECC4DC711C17D67A00FBD6A4 /* EGOTableViewPullRefresh */,
 				ECC4DC841C17D67A00FBD6A4 /* EmptyDataSet */,
 				ECC4DC891C17D67A00FBD6A4 /* FDAlertView */,
 				EC5CCDB91C3CB27E00D4D8B6 /* GKHLocationPicker */,
 				ECC4DC8C1C17D67A00FBD6A4 /* Html5 */,
 				ECC4DC8D1C17D67A00FBD6A4 /* ImagePlayerView */,
+				EC19BDE51CAF839400353A2A /* IMYWebView */,
 				ECC4DC901C17D67A00FBD6A4 /* jrswizzle-semver-1.x */,
 				ECC4DCAA1C17D67B00FBD6A4 /* JTImageButton */,
 				ECC4DCAD1C17D67B00FBD6A4 /* JXBAdPageView */,
@@ -3922,20 +3943,6 @@
 			children = (
 			);
 			path = DaiDodgeKeyboard;
-			sourceTree = "<group>";
-		};
-		ECC4DC691C17D67A00FBD6A4 /* EasyJSWebView */ = {
-			isa = PBXGroup;
-			children = (
-				ECC4DC6A1C17D67A00FBD6A4 /* easyjs-inject.js */,
-				ECC4DC6B1C17D67A00FBD6A4 /* EasyJSDataFunction.h */,
-				ECC4DC6C1C17D67A00FBD6A4 /* EasyJSDataFunction.m */,
-				ECC4DC6D1C17D67A00FBD6A4 /* EasyJSWebView.h */,
-				ECC4DC6E1C17D67A00FBD6A4 /* EasyJSWebView.m */,
-				ECC4DC6F1C17D67A00FBD6A4 /* EasyJSWebViewProxyDelegate.h */,
-				ECC4DC701C17D67A00FBD6A4 /* EasyJSWebViewProxyDelegate.m */,
-			);
-			path = EasyJSWebView;
 			sourceTree = "<group>";
 		};
 		ECC4DC711C17D67A00FBD6A4 /* EGOTableViewPullRefresh */ = {
@@ -4310,8 +4317,13 @@
 		ECC4DD851C17D67B00FBD6A4 /* WebViewJavascriptBridge */ = {
 			isa = PBXGroup;
 			children = (
+				EC19BDED1CAF91A900353A2A /* WebViewJavascriptBridge_JS.h */,
+				EC19BDEE1CAF91A900353A2A /* WebViewJavascriptBridge_JS.m */,
+				EC19BDEF1CAF91A900353A2A /* WebViewJavascriptBridgeBase.h */,
+				EC19BDF01CAF91A900353A2A /* WebViewJavascriptBridgeBase.m */,
+				EC19BDF11CAF91A900353A2A /* WKWebViewJavascriptBridge.h */,
+				EC19BDF21CAF91A900353A2A /* WKWebViewJavascriptBridge.m */,
 				ECC4DD861C17D67B00FBD6A4 /* WebViewJavascriptBridge.h */,
-				ECC4DD871C17D67B00FBD6A4 /* WebViewJavascriptBridge.js.txt */,
 				ECC4DD881C17D67B00FBD6A4 /* WebViewJavascriptBridge.m */,
 			);
 			path = WebViewJavascriptBridge;
@@ -5573,7 +5585,6 @@
 				EC2BF2CB1C7DA74D003B94B5 /* chat_icon_img@3x.png in Resources */,
 				EC7982191C24EC43003FC433 /* pro_btn_list@3x.png in Resources */,
 				ECE8E8FF1CAA6592005530AD /* label_icon_cu@2x.png in Resources */,
-				ECC4DDBD1C17D67B00FBD6A4 /* easyjs-inject.js in Resources */,
 				EC4521351C5EF483003272C3 /* CZJOrderBuildingImagesCell.xib in Resources */,
 				ECD3D4261C72D6D000C230BE /* yue_img_bj@2x.png in Resources */,
 				ECC4DED01C17FEA900FBD6A4 /* prodetail_icon_kefu01@2x.png in Resources */,
@@ -6087,7 +6098,6 @@
 				EC0532B41CA296CB000933F5 /* default_noweb@3x.png in Resources */,
 				EC34FFFC1C433D5A0063A071 /* my_icon_shop@2x.png in Resources */,
 				EC2BF2C81C7DA74D003B94B5 /* chat_icon_history@2x.png in Resources */,
-				ECC4DE491C17D67B00FBD6A4 /* WebViewJavascriptBridge.js.txt in Resources */,
 				EC303D251C4A1C62008B5A8C /* CZJStoreDetailMenuCell.xib in Resources */,
 				EC442B611BFEF5D100DC6F97 /* CZJAdBanerCell.xib in Resources */,
 				ECDB5DD41BFADB0500882BB2 /* Main.storyboard in Resources */,
@@ -6290,6 +6300,7 @@
 				ECE8E91D1CAA8880005530AD /* CZJCouponBarItemView.m in Sources */,
 				EC6340AD1C8FC29A00DDFB76 /* CZJCommitReturnReasonCell.m in Sources */,
 				EC154CFC1C1EBF000004FAF5 /* CZJDetailViewController.m in Sources */,
+				EC19BDEC1CAF839400353A2A /* IMY_NJKWebViewProgress.m in Sources */,
 				EC2518251C22959300C6754A /* CZJEvalutionDetailCell.m in Sources */,
 				ECC4DDB51C17D67B00FBD6A4 /* NSDataEx.m in Sources */,
 				EC0C93861C20114D002A7FF5 /* CZJStoreInfoHeaerCell.m in Sources */,
@@ -6307,7 +6318,6 @@
 				ECC4DE4A1C17D67B00FBD6A4 /* WebViewJavascriptBridge.m in Sources */,
 				EC6555651C9667B400F68ECC /* CZJPaymentManager.m in Sources */,
 				ECD6FFA41C802001005F8E52 /* CZJEvaluateForm.m in Sources */,
-				ECC4DDBF1C17D67B00FBD6A4 /* EasyJSWebView.m in Sources */,
 				EC442B601BFEF5D100DC6F97 /* CZJAdBanerCell.m in Sources */,
 				EC8A0BAA1C005C07002A2CED /* CZJLimitBuyCellHeader.m in Sources */,
 				EC025FF21C21507000A8085E /* CALayer+Transition.m in Sources */,
@@ -6369,7 +6379,6 @@
 				ECF2DCB31C5767F80096FF39 /* CZJMyCarListController.m in Sources */,
 				ECD3D42D1C72F70400C230BE /* ShareMessage.m in Sources */,
 				EC5EEB5B1C45DC1100EEA368 /* CZJStoreDescribeTwoCell.m in Sources */,
-				ECC4DDBE1C17D67B00FBD6A4 /* EasyJSDataFunction.m in Sources */,
 				EC4ACB951C562C6800E3523F /* CZJSearchController.m in Sources */,
 				ECC4DE401C17D67B00FBD6A4 /* UIAlertView+AFNetworking.m in Sources */,
 				EC25182C1C229BC100C6754A /* CZJUserEvalutionDetailController.m in Sources */,
@@ -6386,6 +6395,7 @@
 				ECC4DE1F1C17D67B00FBD6A4 /* OpenShare.m in Sources */,
 				ECD6FF9D1C800043005F8E52 /* QNUpToken.m in Sources */,
 				ECC4DDBB1C17D67B00FBD6A4 /* AnimatedGif.m in Sources */,
+				EC19BDEB1CAF839400353A2A /* IMYWebView.m in Sources */,
 				ECFA85D41C1BD3C3009F9177 /* CZJFilterBaseController.m in Sources */,
 				ECC4DDCF1C17D67B00FBD6A4 /* FDAlertView.m in Sources */,
 				EC10E6881BFC24C800CDBFCD /* CZJUtils.m in Sources */,
@@ -6481,7 +6491,6 @@
 				ECE3D6831BFDEDDE00C63712 /* CZJActivityCell.m in Sources */,
 				ECC4DDA81C17D67B00FBD6A4 /* AFURLRequestSerialization.m in Sources */,
 				EC5EEB4F1C45DC0800EEA368 /* CZJStoreDetailController.m in Sources */,
-				ECC4DDC01C17D67B00FBD6A4 /* EasyJSWebViewProxyDelegate.m in Sources */,
 				EC154CF11C1EBEB50004FAF5 /* CZJSerFilterTypeChooseCell.m in Sources */,
 				ECC4DE211C17D67B00FBD6A4 /* MKAnnotationView+WebCache.m in Sources */,
 				ECF7088C1C8139220010C657 /* CZJMyEvaluationController.m in Sources */,
@@ -6517,6 +6526,8 @@
 				EC28E2931C152318003423F9 /* CZJCustomAnnotationView.m in Sources */,
 				ECF2DCF41C5769840096FF39 /* CZJOrderDetailCell.m in Sources */,
 				ECD555761C917A7800BAC8A0 /* CZJMiaoShaListBaseController.m in Sources */,
+				EC19BDF41CAF91A900353A2A /* WebViewJavascriptBridgeBase.m in Sources */,
+				EC19BDF51CAF91A900353A2A /* WKWebViewJavascriptBridge.m in Sources */,
 				EC025FD31C21036E00A8085E /* MJRefreshGifHeader.m in Sources */,
 				ECC4DDB01C17D67B00FBD6A4 /* Order.m in Sources */,
 				EC025FD81C21036E00A8085E /* UIScrollView+MJExtension.m in Sources */,
@@ -6533,6 +6544,7 @@
 				ECD5F0FC1C2D66C7002012F7 /* CZJChoosedProductCell.m in Sources */,
 				EC3216751C522D2F0037D809 /* CZJAttentionForm.m in Sources */,
 				ECDB5DCB1BFADB0500882BB2 /* main.m in Sources */,
+				EC19BDF31CAF91A900353A2A /* WebViewJavascriptBridge_JS.m in Sources */,
 				ECD6FF8A1C800043005F8E52 /* QNUrlSafeBase64.m in Sources */,
 				ECC4DE471C17D67B00FBD6A4 /* UUDatePicker_DateModel.m in Sources */,
 				ECC4DDAB1C17D67B00FBD6A4 /* AliPayManager.m in Sources */,

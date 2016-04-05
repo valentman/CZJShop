@@ -40,12 +40,15 @@
         }
         
         _block=selectIndex;
-        self.leftSelectColor= RGB(240, 50, 50);
-        self.leftSelectBgColor=[UIColor whiteColor];
-        self.leftBgColor=UIColorFromRGB(0xF3F4F6);
-        self.leftSeparatorColor=UIColorFromRGB(0xE5E5E5);
-        self.leftUnSelectBgColor=UIColorFromRGB(0xF3F4F6);
-        self.leftUnSelectColor=[UIColor blackColor];
+        self.leftTitleSelectColor = RGB(240, 50, 50);
+        self.leftTitleUnSelectColor = BLACKCOLOR;
+        
+        self.leftSelectBgColor = CZJNAVIBARBGCOLOR;
+        self.leftBgColor = WHITECOLOR;
+        self.leftUnSelectBgColor = WHITECOLOR;
+        
+        self.leftSeparatorColor = UIColorFromRGB(0xE5E5E5);
+        
         _selectIndex=1;
         _allData=data;
         
@@ -73,13 +76,12 @@
          */
         UICollectionViewFlowLayout *flowLayout=[[UICollectionViewFlowLayout alloc] init];
         flowLayout.minimumInteritemSpacing=0.f;//左右间隔
-        flowLayout.minimumLineSpacing=0.f;
+        flowLayout.minimumLineSpacing=10.f;
         float leftMargin =0;
         self.rightCollection=[[UICollectionView alloc] initWithFrame:CGRectMake(kLeftWidth+leftMargin,0,kScreenWidth-kLeftWidth-leftMargin*2,frame.size.height) collectionViewLayout:flowLayout];
         
         self.rightCollection.delegate=self;
         self.rightCollection.dataSource=self;
-        self.rightCollection.backgroundColor = [UIColor blueColor];
         self.rightCollection.clipsToBounds =NO;
         
         //注册可用视图
@@ -105,17 +107,15 @@
     return self;
 }
 
+//---------颜色配置--------
 -(void)setLeftBgColor:(UIColor *)leftBgColor{
     _leftBgColor=leftBgColor;
     self.leftTablew.backgroundColor=leftBgColor;
-   
 }
 
 -(void)setLeftSelectBgColor:(UIColor *)leftSelectBgColor{
-    
     _leftSelectBgColor=leftSelectBgColor;
     self.rightCollection.backgroundColor=leftSelectBgColor;
-    
     self.backgroundColor=leftSelectBgColor;
 }
 
@@ -125,7 +125,6 @@
 }
 
 -(void)reloadData{
-    
     [self.leftTablew reloadData];
     [self.rightCollection reloadData];
     
@@ -198,12 +197,12 @@
     UILabel * line=(UILabel*)[cell viewWithTag:100];
     
     if (indexPath.row==self.selectIndex) {
-        cell.titile.textColor=self.leftSelectColor;
+        cell.titile.textColor=self.leftTitleSelectColor;
         cell.backgroundColor=self.leftSelectBgColor;
         line.backgroundColor=cell.backgroundColor;
     }
     else{
-        cell.titile.textColor=self.leftUnSelectColor;
+        cell.titile.textColor=self.leftTitleUnSelectColor;
         cell.backgroundColor=self.leftUnSelectBgColor;
         line.backgroundColor=tableView.separatorColor;
     }
@@ -229,7 +228,7 @@
         [self tableView:tableView didDeselectRowAtIndexPath:self.selelctIndexPath];
     }
     MultilevelTableViewCell * cell=(MultilevelTableViewCell*)[tableView cellForRowAtIndexPath:indexPath];
-    cell.titile.textColor=self.leftSelectColor;
+    cell.titile.textColor=self.leftTitleSelectColor;
     cell.backgroundColor=self.leftSelectBgColor;
     self.selectIndex = indexPath.row;
     cell.selected = YES;
@@ -264,7 +263,7 @@
 -(void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath{
     
     MultilevelTableViewCell * cell=(MultilevelTableViewCell*)[tableView cellForRowAtIndexPath:indexPath];
-    cell.titile.textColor=self.leftUnSelectColor;
+    cell.titile.textColor=self.leftTitleUnSelectColor;
     UILabel * line=(UILabel*)[cell viewWithTag:100];
     line.backgroundColor=tableView.separatorColor;
     cell.backgroundColor=self.leftUnSelectBgColor;
@@ -293,12 +292,11 @@
     rightMeun * touchedItemMeun=title.nextArray[indexPath.item];
     if (self.block)
     {
-        DLog(@"%ld, %ld",self.selectIndex,indexPath.item)
         self.block(self.selectIndex,indexPath.item,touchedItemMeun);
     }
 }
 
-
+//返回CollectionCell
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     
     MultilevelCollectionViewCell *cell=[collectionView dequeueReusableCellWithReuseIdentifier:kMultilevelCollectionViewCell forIndexPath:indexPath];
@@ -306,13 +304,14 @@
     rightMeun * itemMenu=title.nextArray[indexPath.item];
 
     cell.titile.text=itemMenu.meunName;
-    cell.imageView.backgroundColor=UIColorFromRGB(0xF8FCF8);
     [cell.imageView sd_setImageWithURL:[NSURL URLWithString:itemMenu.urlName] placeholderImage:[UIImage imageNamed:kImageDefaultName]];
     return cell;
 }
 
-- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath{
-    
+
+//返回CollectionView广告Cell
+- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
+{
     NSString *reuseIdentifier;
     if ([kind isEqualToString: UICollectionElementKindSectionFooter ]){
         reuseIdentifier = @"footer";
@@ -321,7 +320,6 @@
     }
     
     rightMeun * title=self.allData[self.selectIndex];
-    
     CollectionHeader *view =  [collectionView dequeueReusableSupplementaryViewOfKind :kind   withReuseIdentifier:reuseIdentifier   forIndexPath:indexPath];
     [view.bannerBtn addTarget:self action:@selector(bannerADClick:) forControlEvents:UIControlEventTouchUpInside];
     if ([kind isEqualToString:UICollectionElementKindSectionHeader]){
@@ -350,16 +348,15 @@
     return view;
 }
 
+//返回collectionCell尺寸
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
-    int width = (PJ_SCREEN_WIDTH - ((iPhone5 || iPhone4) ? 128 : 140))/3;
-    int height = (width * 120)/88;
+    int width = (iPhone4 || iPhone5) ? 65 : (PJ_SCREEN_WIDTH - 140)/3;
+    int height = width + 25;
     return CGSizeMake(width, height);
 }
 
--(UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section{
-    return UIEdgeInsetsMake(10, 10, 0, 10);
-}
 
+//返回Header广告栏长宽尺寸
 -(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section{
     float ratio = 160.0 / 526.0;
     NSInteger height = (kScreenWidth - 120)*ratio;
@@ -380,6 +377,12 @@
 }
 
 
+//返回
+-(UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section{
+    return UIEdgeInsetsMake(0, 10, 10, 10);
+}
+
+
 #pragma mark---记录滑动的坐标
 -(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
@@ -391,9 +394,7 @@
 -(void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
 {
     if ([scrollView isEqual:self.rightCollection]) {
-        
         rightMeun * title=self.allData[self.selectIndex];
-        
         title.offsetScorller=scrollView.contentOffset.y;
         self.isReturnLastOffset=NO;
     }
@@ -429,7 +430,6 @@
             self.block(self.selectIndex, -1, url);
         }
     }
-    
 }
 
 

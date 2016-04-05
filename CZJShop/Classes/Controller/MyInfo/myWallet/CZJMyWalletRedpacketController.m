@@ -15,8 +15,15 @@
 UITableViewDelegate,
 UITableViewDataSource
 >
-
+{
+    MJRefreshAutoNormalFooter* refreshFooter;
+    __block CZJHomeGetDataFromServerType _getdataType;
+    
+    NSMutableArray* redpacketAry;
+}
 @property (weak, nonatomic) IBOutlet UITableView *myTableView;
+@property (assign, nonatomic) NSInteger page;
+@property (weak, nonatomic) IBOutlet UIView *verticalSeparatorView;
 @end
 
 @implementation CZJMyWalletRedpacketController
@@ -24,6 +31,7 @@ UITableViewDataSource
 - (void)viewDidLoad {
     [super viewDidLoad];
     [CZJUtils customizeNavigationBarForTarget:self];
+    [self initMyDatas];
     [self initViews];
     [self getRedPacketInfoFromSever];
 }
@@ -31,6 +39,12 @@ UITableViewDataSource
 - (void)viewWillAppear:(BOOL)animated
 {
     self.navigationController.navigationBarHidden = NO;
+}
+
+- (void)initMyDatas
+{
+    self.page = 1;
+    redpacketAry = [NSMutableArray array];
 }
 
 - (void)initViews
@@ -51,21 +65,70 @@ UITableViewDataSource
         UINib *nib=[UINib nibWithNibName:cells bundle:nil];
         [self.myTableView registerNib:nib forCellReuseIdentifier:cells];
     }
+    
+    //添加下拉刷新控件
+    __weak typeof(self) weak = self;
+    refreshFooter = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^(){
+        _getdataType = CZJHomeGetDataFromServerTypeTwo;
+        weak.page++;
+        [weak getRedPacketInfoFromSever];;
+    }];
+    self.myTableView.footer = refreshFooter;
+    self.myTableView.footer.hidden = YES;
+    
 }
 
 - (void)getRedPacketInfoFromSever
 {
-    NSDictionary* params = @{};
+    NSDictionary* params = @{@"page" : @(self.page)};
     __weak typeof(self) weak = self;
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [CZJUtils removeNoDataAlertViewFromTarget:self.view];
     [CZJBaseDataInstance generalPost:params success:^(id json) {
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        DLog(@"%@",[CZJUtils DataFromJson:json]);
+        
+        //========获取数据返回，判断数据大于0不==========
+        NSArray* tmpAry = [[CZJUtils DataFromJson:json] valueForKey:@"msg"];
+        if (CZJHomeGetDataFromServerTypeTwo == _getdataType)
+        {
+            [redpacketAry addObjectsFromArray: [CZJRedpacketInfoForm objectArrayWithKeyValuesArray:tmpAry]];
+            if (tmpAry.count < 20)
+            {
+                [refreshFooter noticeNoMoreData];
+            }
+            else
+            {
+                [weak.myTableView.footer endRefreshing];
+            }
+        }
+        else
+        {
+            redpacketAry = [[CZJMyScanRecordForm objectArrayWithKeyValuesArray:tmpAry] mutableCopy];
+        }
+        
+        if (redpacketAry.count == 0)
+        {
+            self.myTableView.hidden = YES;
+            self.verticalSeparatorView.hidden = YES;
+            [CZJUtils showNoDataAlertViewOnTarget:self.view withPromptString:@"木有红包使用记录/(ToT)/~~"];
+            UIView* subVie = VIEWWITHTAG(self.view, 2525);
+            [subVie setPosition:CGPointMake(PJ_SCREEN_WIDTH*0.5, PJ_SCREEN_HEIGHT*0.7) atAnchorPoint:CGPointMiddle];
+        }
+        else
+        {
+            self.myTableView.hidden = (redpacketAry.count == 0);
+            self.myTableView.delegate = self;
+            self.myTableView.dataSource = self;
+            [self.myTableView reloadData];
+            self.myTableView.footer.hidden = self.myTableView.mj_contentH < self.myTableView.frame.size.height;
+        }
     }  fail:^{
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
         [CZJUtils showReloadAlertViewOnTarget:weak.view withReloadHandle:^{
             [weak getRedPacketInfoFromSever];
         }];
-    } andServerAPI:nil];
+    } andServerAPI:kCZJServerAPIGetRedPacketInfo];
     [self.myTableView reloadData];
 }
 

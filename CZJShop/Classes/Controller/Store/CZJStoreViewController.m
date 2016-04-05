@@ -26,7 +26,6 @@ UITableViewDelegate
 {
     NSMutableArray* _storeArys;
     NSMutableArray* _sortedStoreArys;
-    NSMutableDictionary* storePostParams;
     CZJHomeGetDataFromServerType _getdataType;
     MJRefreshAutoNormalFooter* refreshFooter;
     BOOL _isAnimate;
@@ -84,10 +83,10 @@ UITableViewDelegate
     //变量数据初始
     isFirstIn = YES;
     self.page = 1;
-    storePostParams = [[NSMutableDictionary alloc]init];
+    cityID = CZJBaseDataInstance.userInfoForm.cityId;
     _getdataType = CZJHomeGetDataFromServerTypeOne;
-    _refreshLocationBarView.layer.borderWidth = 1.5;
-    _refreshLocationBarView.layer.borderColor = CZJREDCOLOR.CGColor;
+    storeType = @"0";
+    sortType = @"0";
     
     //下拉菜单筛选条件初始
     NSArray* sortTypes = @[@"默认排序", @"距离最近", @"评分最高", @"销量最高"];
@@ -97,17 +96,6 @@ UITableViewDelegate
         NSArray* menuArray = @[[CZJBaseDataInstance storeForm].provinceForms, sortTypes,storeTypes];
         [self.pullDownMenu initWithArray:menuArray AndType:CZJMXPullDownMenuTypeStore WithFrame:self.pullDownMenu.frame].delegate = self;
     }
-    
-    //参数初始化
-    if (self.searchStr)
-    {
-        [storePostParams setObject:self.searchStr forKey:@"q"];
-    }
-
-    [storePostParams setObject:@"0" forKey:@"cityId"];
-    [storePostParams setObject:@"0" forKey:@"storeType"];
-    [storePostParams setObject:@"0" forKey:@"sortType"];
-    [storePostParams setObject:[NSString stringWithFormat:@"%ld",self.page] forKey:@"page"];
 }
 
 
@@ -126,6 +114,7 @@ UITableViewDelegate
         [weak getStoreDataFromServer];;
     }];
     weak.storeTableView.footer = refreshFooter;
+    weak.storeTableView.footer.hidden = YES;
     
     
     [self addCZJNaviBarView:CZJNaviBarViewTypeMain];
@@ -150,9 +139,32 @@ UITableViewDelegate
     __weak typeof(self) weak = self;
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [CZJUtils removeNoDataAlertViewFromTarget:self.view];
+    
+    
+    NSDictionary* params = @{@"q" : (self.searchStr ? self.searchStr : @""),
+                             @"cityId" : cityID,
+                             @"storeType" : storeType,
+                             @"sortType" : sortType,
+                             @"page" : @(self.page)};
     CZJSuccessBlock successBlock = ^(id json) {
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-        //返回数据回来还未解析到本地数组中时就添加下拉刷新footer
+        
+        NSDictionary* dict = [CZJUtils DataFromJson:json];
+        NSArray* tmpAry = [dict valueForKey:@"msg"];
+        if (tmpAry.count == 0)
+        {
+            [weak.storeTableView.footer noticeNoMoreData];
+            return;
+        }
+        if (CZJHomeGetDataFromServerTypeOne == _getdataType) {
+            [CZJBaseDataInstance.storeForm setNewStoreListDataWithDictionary:dict];
+        }
+        else
+        {
+            [CZJBaseDataInstance.storeForm appendStoreListData:dict];
+        }
+        
+        //返回数据回来还未解析到本地数组中时就不显示下拉刷新
         if (_sortedStoreArys.count == 0)
         {
             weak.storeTableView.footer.hidden = YES;
@@ -181,7 +193,7 @@ UITableViewDelegate
             [weak getStoreDataFromServer];
         }];
     };
-    [CZJBaseDataInstance showStoreWithParams:storePostParams
+    [CZJBaseDataInstance showStoreWithParams:params
                                         type:_getdataType
                                      success:successBlock
                                         fail:failBlock];
@@ -321,7 +333,6 @@ UITableViewDelegate
 #pragma mark - Table view data source
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    TICK;
     CZJStoreCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJStoreCell" forIndexPath:indexPath];
     CZJNearbyStoreForm* storeForm = (CZJNearbyStoreForm*)_sortedStoreArys[indexPath.row];
     cell.storeName.text = storeForm.name;
@@ -351,7 +362,6 @@ UITableViewDelegate
         [cell.imageOne setImage:IMAGENAMED(@"label_icon_cu")];
         [cell.imageTwo setImage:IMAGENAMED(@"label_icon_quan")];
     }
-    TOCK;
     return cell;
     
 }
@@ -387,12 +397,10 @@ UITableViewDelegate
     if (1 == column)
     {
         sortType = [NSString stringWithFormat:@"%ld", row];
-        [storePostParams setValue:sortType forKey:@"sortType"];
     }
     if (2 == column)
     {
         storeType = [NSString stringWithFormat:@"%ld", row];
-        [storePostParams setValue:storeType forKey:@"storeType"];
     }
     _getdataType = CZJHomeGetDataFromServerTypeOne;
     [self getStoreDataFromServer];
@@ -401,7 +409,7 @@ UITableViewDelegate
 
 - (void)pullDownMenu:(MXPullDownMenu *)pullDownMenu didSelectCityName:(NSString *)cityName
 {
-    [storePostParams setValue:[CZJBaseDataInstance.storeForm getCityIDWithCityName:cityName]  forKey:@"cityId"];
+    cityID = [CZJBaseDataInstance.storeForm getCityIDWithCityName:cityName];
     _getdataType = CZJHomeGetDataFromServerTypeOne;
     [self getStoreDataFromServer];
 }

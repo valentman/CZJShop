@@ -34,3 +34,7 @@
     return @{@"ID" : @"id",};
 }
 @end
+
+
+@implementation CZJRedpacketInfoForm
+@end

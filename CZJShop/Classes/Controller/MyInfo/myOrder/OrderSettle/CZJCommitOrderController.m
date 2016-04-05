@@ -117,6 +117,11 @@ CZJNaviagtionBarViewDelegate
     }
 }
 
+- (void)setIsUseCouponAble:(BOOL)isUseCouponAble
+{
+    _isUseCouponAble = isUseCouponAble;
+}
+
 - (void)initViews
 {
     self.myTableView.delegate = self;
@@ -264,7 +269,7 @@ CZJNaviagtionBarViewDelegate
 #pragma mark-UITableViewDataSource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 3 + _orderStoreAry.count;
+    return 5 + _orderStoreAry.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -274,7 +279,7 @@ CZJNaviagtionBarViewDelegate
         return 1;
     }
     else if (1 == section)
-    {
+    {//付款方式选择
         if (isOrderTypeExpand) {
             return _orderTypeAry.count + 1;
         }
@@ -284,22 +289,23 @@ CZJNaviagtionBarViewDelegate
         }
     }
     else if (2 == section)
-    {
-        if (isHaveSelfShop)
-        {
-            return 3;
-        }
-        else
-        {
-            return 2;
-        }
+    {//余额
+        return 1;
+    }
+    else if (3 == section)
+    {//红包
+        return isHaveSelfShop ? 1 : 0;
+    }
+    else if (4 == section)
+    {//优惠券
+        return _isUseCouponAble ? 1 : 0;
     }
     else
-    {
+    {//门店商品
         NSInteger itemCount = 0;
         NSInteger giftCount = 0;
         BOOL isHaveFullCut = NO;
-        CZJOrderStoreForm* storeform = (CZJOrderStoreForm*)_orderStoreAry[section - 3];
+        CZJOrderStoreForm* storeform = (CZJOrderStoreForm*)_orderStoreAry[section - 5];
         itemCount = storeform.items.count;
         giftCount = storeform.gifts.count;
         isHaveFullCut = ([storeform.fullCutPrice floatValue] > 0.01) || ([storeform.couponPrice floatValue] > 0.01);
@@ -390,38 +396,34 @@ CZJNaviagtionBarViewDelegate
     }
     else if (2 == indexPath.section)
     {
-        if (0 == indexPath.row)
-        {
-            CZJRedPacketCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJRedPacketCell" forIndexPath:indexPath];
-            [cell.redPacketImg setImage:IMAGENAMED(@"commit_icon_yue")];
-            cell.redPacketNameLabel.text = @"余额";
-            cell.leftLabel.text = @"可用余额:";
-            NSString* balance = [NSString stringWithFormat:@"￥%.1f",[_orderForm.cardMoney floatValue] - useBalancePrice];
-            cell.leftCountLabel.text = balance;
-            cell.redBackWidth.constant = [CZJUtils calculateStringSizeWithString:balance Font:SYSTEMFONT(13) Width:200].width + 10;
-            cell.delegate = self;
-            return cell;
-        }
-        if (1 == indexPath.row && isHaveSelfShop)
-        {
-            CZJRedPacketCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJRedPacketCell" forIndexPath:indexPath];
-            [cell.redPacketImg setImage:IMAGENAMED(@"commit_icon_hongbao")];
-            cell.redPacketNameLabel.text = @"红包";
-            cell.leftLabel.text = @"可用红包:";
-            cell.descLabel.text = [NSString stringWithFormat:@"(仅限%@)",selfShopName];
-            NSString* redcount = [NSString stringWithFormat:@"￥%.1f",[_orderForm.redpacket floatValue] - useRedPacketPrice];
-            cell.leftCountLabel.text = redcount;
-            cell.redBackWidth.constant = [CZJUtils calculateStringSizeWithString:redcount Font:SYSTEMFONT(13) Width:200].width + 10;
-            cell.delegate = self;
-            return cell;
-        }
-        if ((2 == indexPath.row && isHaveSelfShop) ||
-            (1 == indexPath.row && !isHaveSelfShop))
-        {
-            CZJOrderCouponCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJOrderCouponCell" forIndexPath:indexPath];
-            [cell setUseableCouponAry:_useableCouponsAry];
-            return cell;
-        }
+        CZJRedPacketCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJRedPacketCell" forIndexPath:indexPath];
+        [cell.redPacketImg setImage:IMAGENAMED(@"commit_icon_yue")];
+        cell.redPacketNameLabel.text = @"余额";
+        cell.leftLabel.text = @"可用余额:";
+        NSString* balance = [NSString stringWithFormat:@"￥%.1f",[_orderForm.cardMoney floatValue] - useBalancePrice];
+        cell.leftCountLabel.text = balance;
+        cell.redBackWidth.constant = [CZJUtils calculateStringSizeWithString:balance Font:SYSTEMFONT(13) Width:200].width + 10;
+        cell.delegate = self;
+        return cell;
+    }
+    else if (3 == indexPath.section)
+    {
+        CZJRedPacketCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJRedPacketCell" forIndexPath:indexPath];
+        [cell.redPacketImg setImage:IMAGENAMED(@"commit_icon_hongbao")];
+        cell.redPacketNameLabel.text = @"红包";
+        cell.leftLabel.text = @"可用红包:";
+        cell.descLabel.text = [NSString stringWithFormat:@"(仅限%@)",selfShopName];
+        NSString* redcount = [NSString stringWithFormat:@"￥%.1f",[_orderForm.redpacket floatValue] - useRedPacketPrice];
+        cell.leftCountLabel.text = redcount;
+        cell.redBackWidth.constant = [CZJUtils calculateStringSizeWithString:redcount Font:SYSTEMFONT(13) Width:200].width + 10;
+        cell.delegate = self;
+        return cell;
+    }
+    else if (4 == indexPath.section)
+    {
+        CZJOrderCouponCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJOrderCouponCell" forIndexPath:indexPath];
+        [cell setUseableCouponAry:_useableCouponsAry];
+        return cell;
     }
     else
     {
@@ -430,7 +432,7 @@ CZJNaviagtionBarViewDelegate
         BOOL isHaveFullCut = NO;            //是否有满减
         BOOL isHaveCoupon = NO;             //是否有优惠券
 
-        CZJOrderStoreForm* storeForm = (CZJOrderStoreForm*)_orderStoreAry[indexPath.section - 3];
+        CZJOrderStoreForm* storeForm = (CZJOrderStoreForm*)_orderStoreAry[indexPath.section - 5];
         itemCount = storeForm.items.count;
         giftCount = storeForm.gifts.count;
         isHaveFullCut = [storeForm.fullCutPrice floatValue] > 0.01;
@@ -576,7 +578,9 @@ CZJNaviagtionBarViewDelegate
 #pragma mark-UITableViewDelegate
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    if (0 == section)
+    if (0 == section ||
+        3 == section ||
+        4 == section)
     {
         return 0;
     }
@@ -609,7 +613,9 @@ CZJNaviagtionBarViewDelegate
             return 49;
         }
     }
-    else if (2 == indexPath.section)
+    else if (2 == indexPath.section ||
+             3 == indexPath.section ||
+             4 == indexPath.section)
     {
         return 44;
     }
@@ -618,7 +624,7 @@ CZJNaviagtionBarViewDelegate
         NSInteger itemCount = 0;
         NSInteger giftCount = 0;
         BOOL isHaveFullCut = NO;
-        CZJOrderStoreForm* storeForm = (CZJOrderStoreForm*)_orderStoreAry[indexPath.section - 3];
+        CZJOrderStoreForm* storeForm = (CZJOrderStoreForm*)_orderStoreAry[indexPath.section - 5];
         itemCount = storeForm.items.count;
         giftCount = storeForm.gifts.count;
         isHaveFullCut = ([storeForm.fullCutPrice floatValue] > 0.01) || ([storeForm.couponPrice floatValue] > 0.01);
@@ -653,7 +659,7 @@ CZJNaviagtionBarViewDelegate
         else if (indexPath.row > itemCount + (isHaveFullCut ? 2 : 1) + giftCount &&
                  indexPath.row <= itemCount + (isHaveFullCut ? 2 : 1) + giftCount + 1)
         {//留言
-            CZJOrderStoreForm* storeForm = (CZJOrderStoreForm*)_orderStoreAry[indexPath.section - 3];
+            CZJOrderStoreForm* storeForm = (CZJOrderStoreForm*)_orderStoreAry[indexPath.section - 5];
             CGSize size = [CZJUtils calculateStringSizeWithString:storeForm.note Font:SYSTEMFONT(12) Width:PJ_SCREEN_WIDTH - 30];
             if (size.height == 0)
             {
@@ -696,7 +702,7 @@ CZJNaviagtionBarViewDelegate
             [self.myTableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationFade];
         }
     }
-    else if (2 == indexPath.section && (isHaveSelfShop? 2 : 1) == indexPath.row)
+    else if (4 == indexPath.section)
     {
         [self performSegueWithIdentifier:@"segueToChooseCoupons" sender:self];
     }
@@ -806,7 +812,7 @@ CZJNaviagtionBarViewDelegate
 - (void)clickSelectInstallStore:(id)sender
 {//更新商品的安装费用
     CZJNearbyStoreForm* nearByStoreForm = (CZJNearbyStoreForm*)sender;
-    CZJOrderStoreForm* storeForm = (CZJOrderStoreForm*)_orderStoreAry[_currentChooseIndexPath.section - 3];
+    CZJOrderStoreForm* storeForm = (CZJOrderStoreForm*)_orderStoreAry[_currentChooseIndexPath.section - 5];
     CZJOrderGoodsForm* goodsForm = storeForm.items[_currentChooseIndexPath.row - 1];
     goodsForm.selectdSetupStoreName = nearByStoreForm.name;
     goodsForm.setupPrice = nearByStoreForm.setupPrice;
@@ -817,7 +823,7 @@ CZJNaviagtionBarViewDelegate
 #pragma mark- CZJLeaveMessageViewDelegate
 - (void)clickConfirmMessage:(NSString*)message
 {
-    CZJOrderStoreForm* storeForm = (CZJOrderStoreForm*)_orderStoreAry[_currentChooseIndexPath.section - 3];
+    CZJOrderStoreForm* storeForm = (CZJOrderStoreForm*)_orderStoreAry[_currentChooseIndexPath.section - 5];
     storeForm.note = message;
     [self.myTableView reloadSections:[NSIndexSet indexSetWithIndex:_currentChooseIndexPath.section] withRowAnimation:UITableViewRowAnimationFade];
 }
@@ -846,7 +852,7 @@ CZJNaviagtionBarViewDelegate
     if ([segue.identifier isEqualToString:@"segueToChooseInstallStore"])
     {
         CZJChooseInstallController* installCon = (CZJChooseInstallController*)segue.destinationViewController;
-        CZJOrderStoreForm* storeForm = (CZJOrderStoreForm*)_orderStoreAry[_currentChooseIndexPath.section - 3];
+        CZJOrderStoreForm* storeForm = (CZJOrderStoreForm*)_orderStoreAry[_currentChooseIndexPath.section - 5];
         CZJOrderGoodsForm* goodsForm = storeForm.items[_currentChooseIndexPath.row - 1];
         installCon.delegate = self;
         installCon.orderGoodsForm = goodsForm;
@@ -854,7 +860,7 @@ CZJNaviagtionBarViewDelegate
     if ([segue.identifier isEqualToString:@"segueToLeaveMessage"])
     {
         CZJLeaveMessageView* leaveMessage = (CZJLeaveMessageView*)segue.destinationViewController;
-        CZJOrderStoreForm* storeForm = (CZJOrderStoreForm*)_orderStoreAry[_currentChooseIndexPath.section - 3];
+        CZJOrderStoreForm* storeForm = (CZJOrderStoreForm*)_orderStoreAry[_currentChooseIndexPath.section - 5];
         leaveMessage.leaveMesageStr =  storeForm.note;
         leaveMessage.delegate = self;
     }

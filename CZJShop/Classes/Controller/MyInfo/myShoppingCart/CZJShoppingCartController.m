@@ -79,7 +79,6 @@ UIGestureRecognizerDelegate
 
 - (void)initViews
 {
-    self.view.backgroundColor = CZJNAVIBARGRAYBG;
     //tableview
     self.myTableView.tableFooterView = [[UIView alloc]init];
     self.myTableView.backgroundColor = CZJNAVIBARGRAYBG;
@@ -134,11 +133,13 @@ UIGestureRecognizerDelegate
         {
             [CZJUtils showNoDataAlertViewOnTarget:self.view withPromptString:@"木有商品，快去添加吧/(ToT)/~~"];
             self.settleView.hidden = YES;
+            self.myTableView.hidden = YES;
         }
         else
         {
             DLog(@"settleView.y:%f",_settleView.frame.origin.y);
             self.settleView.hidden = NO;
+            self.myTableView.hidden = NO;
             editBtn.hidden = NO;
             self.myTableView.delegate = self;
             self.myTableView.dataSource = self;
@@ -591,7 +592,8 @@ UIGestureRecognizerDelegate
             NSMutableArray* itemsAry = [NSMutableArray array];
             CZJShoppingCartInfoForm* form = shoppingInfos[i];
             NSMutableArray* goodsList = form.items;
-            for (int j=0 ; j<goodsList.count; j++) {
+            for (int j=0 ; j<goodsList.count; j++)
+            {
                 CZJShoppingGoodsInfoForm *model = goodsList[j];
                 if (model.isSelect==YES && model.off != YES)
                 {

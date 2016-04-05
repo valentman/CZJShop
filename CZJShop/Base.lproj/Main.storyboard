@@ -1222,7 +1222,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <animations/>
                         <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
-                        <color key="separatorColor" patternImage="EF569B9F-F7EA-4555-BE5E-1FB8E069258E" colorSpace="pattern"/>
+                        <color key="separatorColor" patternImage="3EC563F0-7B0A-4003-B2C1-89E2B4F015A8" colorSpace="pattern"/>
                         <inset key="separatorInset" minX="15" minY="0.0" maxX="15" maxY="0.0"/>
                         <sections>
                             <tableViewSection id="t6n-nw-cfg" userLabel="Activity">
@@ -3576,7 +3576,7 @@
                                     <constraint firstItem="k1J-EJ-fPv" firstAttribute="centerY" secondItem="nxG-dv-Hfc" secondAttribute="centerY" id="8ot-wt-EDq"/>
                                 </constraints>
                             </view>
-                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lpd-1F-MvY" userLabel="退换货详情">
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lpd-1F-MvY" userLabel="联系卖家取消退换货">
                                 <rect key="frame" x="0.0" y="464" width="320" height="55"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Gkv-3T-Jgf">
@@ -3637,6 +3637,42 @@
                                     <constraint firstItem="Gkv-3T-Jgf" firstAttribute="top" secondItem="lpd-1F-MvY" secondAttribute="top" constant="13" id="x2k-Cd-Vax"/>
                                 </constraints>
                             </view>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OUH-eL-1o6" userLabel="取消退换货">
+                                <rect key="frame" x="0.0" y="464" width="320" height="55"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tvM-Yr-I64">
+                                        <rect key="frame" x="50" y="12" width="220" height="31"/>
+                                        <animations/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                        <state key="normal" title="取消退换货">
+                                            <color key="titleColor" red="0.20000000300000001" green="0.20000000300000001" blue="0.20000000300000001" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                <real key="value" value="3.5"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
+                                                <real key="value" value="0.5"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="layer.borderColorWithUIColor">
+                                                <color key="value" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="cancelReturnGoodsAction:" destination="8ch-ke-9Jk" eventType="touchUpInside" id="ZWR-oE-ZDn"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <animations/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="tvM-Yr-I64" secondAttribute="bottom" constant="12" id="74U-0U-DQ9"/>
+                                    <constraint firstAttribute="trailing" secondItem="tvM-Yr-I64" secondAttribute="trailing" constant="50" id="OSW-yh-z0M"/>
+                                    <constraint firstItem="tvM-Yr-I64" firstAttribute="top" secondItem="OUH-eL-1o6" secondAttribute="top" constant="12" id="QM9-kk-X07"/>
+                                    <constraint firstAttribute="height" constant="55" id="jxn-NG-F28"/>
+                                    <constraint firstItem="tvM-Yr-I64" firstAttribute="leading" secondItem="OUH-eL-1o6" secondAttribute="leading" constant="50" id="zTD-Zj-Sv5"/>
+                                </constraints>
+                            </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ccX-Xg-iTB">
                                 <rect key="frame" x="0.0" y="463" width="320" height="1"/>
                                 <animations/>
@@ -3659,7 +3695,9 @@
                             <constraint firstItem="PpD-FD-zkH" firstAttribute="top" secondItem="8VR-8Q-lMm" secondAttribute="bottom" id="2xL-6f-5ft"/>
                             <constraint firstItem="nxG-dv-Hfc" firstAttribute="height" secondItem="CQZ-KX-Bgt" secondAttribute="height" id="47i-K5-Sqy"/>
                             <constraint firstItem="7Xw-cu-8cP" firstAttribute="height" secondItem="CQZ-KX-Bgt" secondAttribute="height" id="5Cw-sc-l0w"/>
+                            <constraint firstItem="PpD-FD-zkH" firstAttribute="top" secondItem="OUH-eL-1o6" secondAttribute="bottom" id="7lf-ow-ErC"/>
                             <constraint firstAttribute="trailing" secondItem="eiR-S6-zrk" secondAttribute="trailing" id="8E0-Lm-Wo6"/>
+                            <constraint firstAttribute="trailing" secondItem="OUH-eL-1o6" secondAttribute="trailing" id="9hZ-WY-ipS"/>
                             <constraint firstItem="PpD-FD-zkH" firstAttribute="top" secondItem="n2Y-qm-WYm" secondAttribute="bottom" id="AII-r2-7XK"/>
                             <constraint firstItem="nxG-dv-Hfc" firstAttribute="top" secondItem="ccX-Xg-iTB" secondAttribute="bottom" id="CL1-J8-6Y2"/>
                             <constraint firstItem="PpD-FD-zkH" firstAttribute="top" secondItem="eiR-S6-zrk" secondAttribute="bottom" id="Csu-Uf-idH"/>
@@ -3685,6 +3723,7 @@
                             <constraint firstItem="PpD-FD-zkH" firstAttribute="top" secondItem="CQZ-KX-Bgt" secondAttribute="bottom" id="aAq-MG-eNw"/>
                             <constraint firstItem="PpD-FD-zkH" firstAttribute="top" secondItem="TxE-DN-iPc" secondAttribute="bottom" id="aRp-LY-Odx"/>
                             <constraint firstItem="PpD-FD-zkH" firstAttribute="top" secondItem="7Xw-cu-8cP" secondAttribute="bottom" id="aYS-c6-xzL"/>
+                            <constraint firstItem="OUH-eL-1o6" firstAttribute="leading" secondItem="PTm-3Q-4tX" secondAttribute="leading" id="dbD-pd-uEG"/>
                             <constraint firstItem="PpD-FD-zkH" firstAttribute="top" secondItem="kRd-bI-oFv" secondAttribute="bottom" id="eFD-Lj-1ks"/>
                             <constraint firstItem="0Pe-ji-9xX" firstAttribute="leading" secondItem="PTm-3Q-4tX" secondAttribute="leading" id="eud-VN-E86"/>
                             <constraint firstItem="RhH-LZ-8FV" firstAttribute="height" secondItem="CQZ-KX-Bgt" secondAttribute="height" id="f0W-iO-EsI"/>
@@ -3720,6 +3759,7 @@
                         <outlet property="buttomLineView" destination="ccX-Xg-iTB" id="Fap-7g-hn2"/>
                         <outlet property="cancelOrderView" destination="GrZ-uC-gWx" id="SAW-b5-2im"/>
                         <outlet property="cancleCarCheckView" destination="7Xw-cu-8cP" id="LEa-sy-qnU"/>
+                        <outlet property="cancleReturnView" destination="OUH-eL-1o6" id="mv4-Xj-uWm"/>
                         <outlet property="carCheckBuildingProgressView" destination="eiR-S6-zrk" id="yxN-uB-GqW"/>
                         <outlet property="carCheckEvaluateView" destination="cQ3-0t-lzV" id="Rr9-No-jxf"/>
                         <outlet property="carCheckView" destination="kRd-bI-oFv" id="CTQ-lB-sJ1"/>
@@ -3893,7 +3933,13 @@
                                 <animations/>
                                 <color key="backgroundColor" red="0.7019608021" green="0.7019608021" blue="0.7019608021" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="1" id="NY1-UO-wln"/>
+                                    <constraint firstAttribute="width" constant="1" id="NY1-UO-wln">
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="constant">
+                                                <real key="value" value="0.5"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </constraint>
                                 </constraints>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="sT6-ki-t0W">
@@ -3969,6 +4015,7 @@
                     <navigationItem key="navigationItem" id="gC9-6p-Kpb"/>
                     <connections>
                         <outlet property="myTableView" destination="sT6-ki-t0W" id="0WU-ib-dEu"/>
+                        <outlet property="verticalSeparatorView" destination="1re-ho-fWK" id="RX5-uH-e5g"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Q8i-WN-THS" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -4454,7 +4501,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="4bu-eG-OmT" customClass="PullTableView">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="4bu-eG-OmT">
                                 <rect key="frame" x="0.0" y="64" width="320" height="455"/>
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -4570,26 +4617,10 @@
                     <view key="view" contentMode="scaleToFill" id="cle-Ua-Gmh">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="0B3-78-Tah">
-                                <rect key="frame" x="0.0" y="64" width="320" height="455"/>
-                                <animations/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </tableView>
-                        </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="0B3-78-Tah" firstAttribute="leading" secondItem="cle-Ua-Gmh" secondAttribute="leading" id="8Kr-Kl-3Eg"/>
-                            <constraint firstItem="0B3-78-Tah" firstAttribute="top" secondItem="abI-ry-zyT" secondAttribute="bottom" constant="44" id="W4e-SO-dKn"/>
-                            <constraint firstAttribute="trailing" secondItem="0B3-78-Tah" secondAttribute="trailing" id="iHo-Qe-bCw"/>
-                            <constraint firstItem="dte-Nt-Iqp" firstAttribute="top" secondItem="0B3-78-Tah" secondAttribute="bottom" id="qhf-sm-sCX"/>
-                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="浏览记录" id="ZwY-NT-WXn"/>
-                    <connections>
-                        <outlet property="myTableView" destination="0B3-78-Tah" id="I29-NM-RUg"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4ca-p6-TGj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -7078,7 +7109,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="EF569B9F-F7EA-4555-BE5E-1FB8E069258E" width="256" height="256">
+        <image name="3EC563F0-7B0A-4003-B2C1-89E2B4F015A8" width="256" height="256">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPT5YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQrLjE3OlUkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw
@@ -11457,7 +11488,7 @@ ohscgAWABoAJEADSIAohIl8QFE5TVElGRlJlcHJlc2VudGF0aW9ugAeACE8SAAQNHk1NACoABAAIdXiB
 AgAAAREABAAAAAIABADGARIAAwAAAAEAAQAAARUAAwAAAAEABAAAARYAAwAAAAEAgAAAARcABAAAAAIA
 BAC+ARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAQABADOh3MABwAADEgABADWAAAAAAAIAAgA
 CAAIAAIAAAACAAAAAAAIAAIACAABAAEAAQABAAAMSExpbm8CEAAAbW50clJHQiBYWVogB84AAgAJAAYA
-MQAAYWNzcE1TRlQAAAAASUVDIHNSR0IAAAAAAAAAAAAAAAEAAPbWAAEAAAAA0y1IUCAgAAAAAAAAAAAA
+MQAAYWNzcE1TRlQAAAAASUVDIHNSR0IAAAAAAAAAAAAAAAAAAPbWAAEAAAAA0y1IUCAgAAAAAAAAAAAA
 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAARY3BydAAAAVAAAAAzZGVzYwAAAYQA
 AABsd3RwdAAAAfAAAAAUYmtwdAAAAgQAAAAUclhZWgAAAhgAAAAUZ1hZWgAAAiwAAAAUYlhZWgAAAkAA
 AAAUZG1uZAAAAlQAAABwZG1kZAAAAsQAAACIdnVlZAAAA0wAAACGdmlldwAAA9QAAAAkbHVtaQAAA/gA
@@ -11567,10 +11598,10 @@ AAAAAAAEDtA
         <image name="yue_img_bj.png" width="375" height="289"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="GcF-Jc-9CT"/>
-        <segue reference="s7d-yk-Kc5"/>
+        <segue reference="ftO-I4-rYb"/>
         <segue reference="lKt-0d-hD3"/>
         <segue reference="IN0-Kp-x1L"/>
+        <segue reference="s7d-yk-Kc5"/>
         <segue reference="9kg-PH-ln9"/>
         <segue reference="OGv-AU-DWf"/>
         <segue reference="yxJ-Kx-arp"/>

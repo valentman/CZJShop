@@ -30,7 +30,7 @@ typedef void (^SelectBlock)(NSInteger, NSInteger, id);
 /**
  *  左边点中文字颜色
  */
-@property(strong,nonatomic) UIColor * leftSelectColor;
+@property(strong,nonatomic) UIColor * leftTitleSelectColor;
 /**
  *  左边点中背景颜色
  */
@@ -38,7 +38,7 @@ typedef void (^SelectBlock)(NSInteger, NSInteger, id);
 /**
  *  左边未点中文字颜色
  */
-@property(strong,nonatomic) UIColor * leftUnSelectColor;
+@property(strong,nonatomic) UIColor * leftTitleUnSelectColor;
 /**
  *  左边未点中背景颜色
  */

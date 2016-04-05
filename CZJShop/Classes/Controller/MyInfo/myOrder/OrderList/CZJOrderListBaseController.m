@@ -21,16 +21,18 @@ CZJOrderListCellDelegate
     float totalToPay;
     NSMutableArray* orderNoArys;
 
+    MJRefreshAutoNormalFooter* refreshFooter;
+    __block CZJHomeGetDataFromServerType _getdataType;
 }
-@property (strong, nonatomic)NSArray* orderList;
+@property (strong, nonatomic)NSMutableArray* orderList;
 @property (strong, nonatomic)UITableView* myTableView;
+@property (assign, nonatomic) NSInteger page;
 @end
 
 @implementation CZJOrderListBaseController
 @synthesize params = _params;
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self initMyDatas];
     [self initViews];
     [self getOrderListFromServer];
 }
@@ -48,6 +50,9 @@ CZJOrderListCellDelegate
 - (void)initMyDatas
 {
     orderNoArys = [NSMutableArray array];
+    _orderList = [NSMutableArray array];
+    _params = [NSMutableDictionary dictionary];
+    self.page = 1;
 }
 
 - (void)initViews
@@ -56,7 +61,7 @@ CZJOrderListCellDelegate
     if ([[_params valueForKey:@"type"] isEqualToString:@"1"])
     {
         viewRect = CGRectMake(0, 0, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT- 114 - 60);
-        CGRect buttomRect = CGRectMake(0, PJ_SCREEN_HEIGHT- 114 - 60, PJ_SCREEN_WIDTH,60);
+        CGRect buttomRect = CGRectMake(0, PJ_SCREEN_HEIGHT, PJ_SCREEN_WIDTH,60);
         _noPayButtomView = [CZJUtils getXibViewByName:@"CZJOrderListNoPayButtomView"];
         _noPayButtomView.frame = buttomRect;
         if (iPhone4 || iPhone5)
@@ -75,6 +80,15 @@ CZJOrderListCellDelegate
     [self.view addSubview:_myTableView];
     UINib *nib = [UINib nibWithNibName:@"CZJOrderListCell" bundle:nil];
     [_myTableView registerNib:nib forCellReuseIdentifier:@"CZJOrderListCell"];
+    
+    __weak typeof(self) weak = self;
+    refreshFooter = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^(){
+        _getdataType = CZJHomeGetDataFromServerTypeTwo;
+        weak.page++;
+        [weak getOrderListFromServer];;
+    }];
+    self.myTableView.footer = refreshFooter;
+    self.myTableView.footer.hidden = YES;
 }
 
 - (void)getOrderListFromServer
@@ -82,24 +96,60 @@ CZJOrderListCellDelegate
     __weak typeof(self) weak = self;
     MBProgressHUD* hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     hud.completionBlock = ^{
+    };
+    [CZJUtils removeNoDataAlertViewFromTarget:self.view];
+    [_params setValue:@(self.page) forKey:@"page"];
+    [CZJBaseDataInstance getOrderList:_params Success:^(id json) {
+        [MBProgressHUD hideAllHUDsForView:self.view animated:NO];
+        
+        //========获取数据返回，判断数据大于0不==========
+        NSArray* tmpAry = [[CZJUtils DataFromJson:json] valueForKey:@"msg"];
+        if (CZJHomeGetDataFromServerTypeTwo == _getdataType)
+        {
+            [_orderList addObjectsFromArray: [CZJOrderListForm objectArrayWithKeyValuesArray:tmpAry]];
+            if (tmpAry.count < 10)
+            {
+                [refreshFooter noticeNoMoreData];
+            }
+            else
+            {
+                [weak.myTableView.footer endRefreshing];
+            }
+        }
+        else
+        {
+            _orderList = [[CZJOrderListForm objectArrayWithKeyValuesArray:tmpAry] mutableCopy];
+            if (_orderList.count < 10)
+            {
+                [refreshFooter noticeNoMoreData];
+            }
+        }
+
+        //========获取数据返回,刷新表格==========
         if (_orderList.count == 0)
         {
+            self.myTableView.hidden = YES;
             [CZJUtils showNoDataAlertViewOnTarget:self.view withPromptString:_noDataPrompt];
         }
-        _myTableView.delegate = self;
-        _myTableView.dataSource = self;
-        [_myTableView reloadData];
-    };
-    
-    [CZJBaseDataInstance getOrderList:_params Success:^(id json) {
-        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-        _orderList = [CZJOrderListForm objectArrayWithKeyValuesArray:[[CZJUtils DataFromJson:json] valueForKey:@"msg" ]];
-        for (CZJOrderListForm* form in _orderList)
+        else
         {
-            DLog(@"%@",[form.keyValues description]);
+            self.myTableView.hidden = NO;
+            self.myTableView.delegate = self;
+            self.myTableView.dataSource = self;
+            [self.myTableView reloadData];
+            self.myTableView.footer.hidden = self.myTableView.mj_contentH < self.myTableView.frame.size.height;
+            if ([[_params valueForKey:@"type"] isEqualToString:@"1"])
+            {
+                _noPayButtomView = [CZJUtils getXibViewByName:@"CZJOrderListNoPayButtomView"];
+                [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+                    _noPayButtomView.frame = CGRectMake(0, PJ_SCREEN_HEIGHT- 114 - 60, PJ_SCREEN_WIDTH,60);
+                } completion:^(BOOL finished) {
+                    
+                }];
+            }
         }
     } fail:^{
-        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        [MBProgressHUD hideAllHUDsForView:self.view animated:NO];
         [CZJUtils showReloadAlertViewOnTarget:weak.view withReloadHandle:^{
             [weak getOrderListFromServer];
         }];
@@ -234,8 +284,9 @@ CZJOrderListCellDelegate
 @implementation CZJOrderListAllController
 
 - (void)viewDidLoad {
+    [self initMyDatas];
     _noDataPrompt = @"无任何订单";
-    _params = @{@"type":@"0", @"page":@"1", @"timeType":@"0"};
+    _params = [@{@"type":@"0", @"page":@"1", @"timeType":@"0"}mutableCopy];
     [super viewDidLoad];
 }
 
@@ -249,8 +300,9 @@ CZJOrderListCellDelegate
 @implementation CZJOrderListNoPayController
 
 - (void)viewDidLoad {
+    [self initMyDatas];
     _noDataPrompt = @"无待付款订单";
-    _params = @{@"type":@"1", @"page":@"1", @"timeType":@"0"};
+    _params = [@{@"type":@"1", @"page":@"1", @"timeType":@"0"}mutableCopy];
     [super viewDidLoad];
 }
 
@@ -264,8 +316,9 @@ CZJOrderListCellDelegate
 @implementation CZJOrderListNoBuildController
 
 - (void)viewDidLoad {
+    [self initMyDatas];
     _noDataPrompt = @"无待施工订单";
-    _params = @{@"type":@"2", @"page":@"1", @"timeType":@"0"};
+    _params = [@{@"type":@"2", @"page":@"1", @"timeType":@"0"}mutableCopy];
     [super viewDidLoad];
 }
 
@@ -279,8 +332,9 @@ CZJOrderListCellDelegate
 @implementation CZJOrderListNoReceiveController
 
 - (void)viewDidLoad {
+    [self initMyDatas];
     _noDataPrompt = @"无待收货订单";
-    _params = @{@"type":@"3", @"page":@"1", @"timeType":@"0"};
+    _params = [@{@"type":@"3", @"page":@"1", @"timeType":@"0"}mutableCopy];
     [super viewDidLoad];
 }
 - (void)didReceiveMemoryWarning {
@@ -293,8 +347,9 @@ CZJOrderListCellDelegate
 @implementation CZJOrderListNoEvaController
 
 - (void)viewDidLoad {
+    [self initMyDatas];
     _noDataPrompt = @"无评价订单";
-    _params = @{@"type":@"4", @"page":@"1", @"timeType":@"0"};
+    _params = [@{@"type":@"4", @"page":@"1", @"timeType":@"0"}mutableCopy];
     [super viewDidLoad];
 }
 

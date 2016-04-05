@@ -8,21 +8,21 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="MultilevelCollectionViewCell" id="gTV-IL-0wX" customClass="MultilevelCollectionViewCell">
-            <rect key="frame" x="0.0" y="0.0" width="88" height="120"/>
+        <collectionViewCell clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="MultilevelCollectionViewCell" id="gTV-IL-0wX" customClass="MultilevelCollectionViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="85" height="110"/>
             <autoresizingMask key="autoresizingMask"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                <rect key="frame" x="0.0" y="0.0" width="88" height="120"/>
+                <rect key="frame" x="0.0" y="0.0" width="85" height="110"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="UQU-yh-jjZ">
-                        <rect key="frame" x="0.0" y="0.0" width="88" height="88"/>
+                        <rect key="frame" x="0.0" y="0.0" width="85" height="85"/>
                         <animations/>
                         <constraints>
                             <constraint firstAttribute="width" secondItem="UQU-yh-jjZ" secondAttribute="height" multiplier="1:1" id="m1q-oX-Xk8"/>
                         </constraints>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="洗车" textAlignment="center" lineBreakMode="characterWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="23u-hU-07T">
-                        <rect key="frame" x="0.0" y="88" width="88" height="25"/>
+                    <label userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="洗车" textAlignment="center" lineBreakMode="characterWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="23u-hU-07T">
+                        <rect key="frame" x="0.0" y="85" width="85" height="25"/>
                         <animations/>
                         <constraints>
                             <constraint firstAttribute="height" constant="25" id="e0v-qT-5FB"/>
@@ -36,6 +36,7 @@
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
             <animations/>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="23u-hU-07T" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="0nu-kk-3xV"/>
                 <constraint firstAttribute="trailing" secondItem="UQU-yh-jjZ" secondAttribute="trailing" id="30r-C6-qq2"/>

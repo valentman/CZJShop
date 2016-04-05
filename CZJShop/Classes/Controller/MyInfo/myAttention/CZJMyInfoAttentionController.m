@@ -20,16 +20,15 @@
 <
 CZJNaviagtionBarViewDelegate,
 LXDSegmentControlDelegate,
-PullTableViewDelegate,
 UIGestureRecognizerDelegate,
 UITableViewDataSource,
 UITableViewDelegate
 >
 {
     NSString* _currentType;
-    NSArray* serviceAttentionAry;
-    NSArray* goodsAttentionAry;
-    NSArray* storeAttentionAry;
+    NSMutableArray* serviceAttentionAry;
+    NSMutableArray* goodsAttentionAry;
+    NSMutableArray* storeAttentionAry;
     NSMutableArray* tmpArray;
     NSMutableArray* deleteIdAry;
     
@@ -38,8 +37,19 @@ UITableViewDelegate
     BOOL _isGoodsTouched;
     BOOL _isStoreTouched;
     
+    MJRefreshAutoNormalFooter* refreshFooter;
+    __block CZJHomeGetDataFromServerType _getdataType;
+    __block CZJHomeGetDataFromServerType _getdataTypeService;
+    __block CZJHomeGetDataFromServerType _getdataTypeGoods;
+    __block CZJHomeGetDataFromServerType _getdataTypeStore;
+    __block NSInteger page;
+    __block NSInteger pageService;
+    __block NSInteger pageGoods;
+    __block NSInteger pageStore;
+    
+    
 }
-@property (weak, nonatomic) IBOutlet PullTableView *myTableView;
+@property (weak, nonatomic) IBOutlet UITableView *myTableView;
 @property (weak, nonatomic) IBOutlet UIButton *selectAllBtn;
 @property (weak, nonatomic) IBOutlet UIView *buttomView;
 @property (assign) BOOL isEdit;
@@ -57,12 +67,6 @@ UITableViewDelegate
     [self initViews];
 }
 
-- (void)viewDidDisappear:(BOOL)animated
-{
-    self.myTableView.pullTableIsRefreshing = NO;
-    self.myTableView.pullTableIsLoadingMore = NO;
-}
-
 - (void)initDatas
 {
     serviceAttentionAry = [NSMutableArray array];
@@ -77,6 +81,9 @@ UITableViewDelegate
     _isStoreTouched = NO;
     self.buttomView.hidden = !_isEdit;
     
+    pageService = 0;
+    pageGoods = 0;
+    pageStore = 0;
 }
 
 - (void)initViews
@@ -105,6 +112,39 @@ UITableViewDelegate
         UINib *nib=[UINib nibWithNibName:cells bundle:nil];
         [self.myTableView registerNib:nib forCellReuseIdentifier:cells];
     }
+    __weak typeof(self) weak = self;
+    refreshFooter = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^(){
+        
+        switch ([_currentType integerValue])
+        {
+            case 0:
+                pageGoods++;
+                page = pageGoods;
+                _getdataTypeGoods = CZJHomeGetDataFromServerTypeTwo;
+                _getdataType = _getdataTypeGoods;
+                break;
+                
+            case 1:
+                pageService++;
+                page = pageService;
+                _getdataTypeService = CZJHomeGetDataFromServerTypeTwo;
+                _getdataType = _getdataTypeService;
+                break;
+                
+            case 2:
+                pageStore++;
+                page = pageStore;
+                _getdataTypeStore = CZJHomeGetDataFromServerTypeTwo;
+                _getdataType = _getdataTypeStore;
+                break;
+                
+            default:
+                break;
+        }
+        [weak getDataAttentionDataFromServer];;
+    }];
+    self.myTableView.footer = refreshFooter;
+    self.myTableView.footer.hidden = YES;
     
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.navigationController.interactivePopGestureRecognizer.delegate = self;
@@ -124,57 +164,97 @@ UITableViewDelegate
     __weak typeof(self) weak = self;
     [tmpArray removeAllObjects];
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [CZJUtils removeNoDataAlertViewFromTarget:self.view];
     [CZJBaseDataInstance loadMyAttentionList:params success:^(id json) {
-        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-        NSDictionary* dict = [CZJUtils DataFromJson:json];
-        NSArray* tmpAry = [dict valueForKey:@"msg"];
-        switch ([_currentType integerValue])
+        [MBProgressHUD hideAllHUDsForView:self.view animated:NO];
+        
+        //========获取数据返回，判断数据大于0不==========
+        NSArray* tmpAry = [[CZJUtils DataFromJson:json] valueForKey:@"msg"];
+        NSString* prompStr;
+        if (CZJHomeGetDataFromServerTypeTwo == _getdataType)
         {
-            case 0:
-                goodsAttentionAry = [[CZJGoodsAttentionForm objectArrayWithKeyValuesArray:tmpAry] mutableCopy];
-                _isGoodsTouched = YES;
-                tmpArray = [goodsAttentionAry mutableCopy];
-                if (tmpArray.count == 0)
-                {
-                    [CZJUtils showNoDataAlertViewOnTarget:self.view withPromptString:@"木有关注的商品/(ToT)/~~"];
-                    return;
-                }
-                break;
-                
-            case 1:
-                serviceAttentionAry = [[CZJGoodsAttentionForm objectArrayWithKeyValuesArray:tmpAry] mutableCopy];
-                _isServiceTouched = YES;
-                tmpArray = [serviceAttentionAry mutableCopy];
-                if (tmpArray.count == 0)
-                {
-                    [CZJUtils showNoDataAlertViewOnTarget:self.view withPromptString:@"木有关注的服务/(ToT)/~~"];
-                    return;
-                }
-                break;
-                
-            case 2:
-                storeAttentionAry = [[CZJStoreAttentionForm objectArrayWithKeyValuesArray:tmpAry]mutableCopy];
-                _isStoreTouched = YES;
-                tmpArray = [storeAttentionAry mutableCopy];
-                if (tmpArray.count == 0)
-                {
-                    [CZJUtils showNoDataAlertViewOnTarget:self.view withPromptString:@"木有关注的门店/(ToT)/~~"];
-                    return;
-                }
-                break;
-                
-            default:
-                break;
+            if (tmpAry.count < 20)
+            {
+                [refreshFooter noticeNoMoreData];
+                return ;
+            }
+            else
+            {
+                [weak.myTableView.footer endRefreshing];
+            }
+            switch ([_currentType integerValue])
+            {
+                case 0:
+                    [goodsAttentionAry addObjectsFromArray:[CZJGoodsAttentionForm objectArrayWithKeyValuesArray:tmpAry] ];
+                    _isGoodsTouched = YES;
+                    tmpArray = [goodsAttentionAry mutableCopy];
+                    break;
+                    
+                case 1:
+                    serviceAttentionAry = [[CZJGoodsAttentionForm objectArrayWithKeyValuesArray:tmpAry] mutableCopy];
+                    _isServiceTouched = YES;
+                    tmpArray = [serviceAttentionAry mutableCopy];
+                    break;
+                    
+                case 2:
+                    storeAttentionAry = [[CZJStoreAttentionForm objectArrayWithKeyValuesArray:tmpAry]mutableCopy];
+                    _isStoreTouched = YES;
+                    tmpArray = [storeAttentionAry mutableCopy];
+                    break;
+                    
+                default:
+                    break;
+            }
         }
-        self.myTableView.hidden = NO;
-        self.myTableView.pullDelegate = self;
-        self.myTableView.dataSource = self;
-        self.myTableView.delegate = self;
-        [self.myTableView setDelegate:self];
-        [self.myTableView reloadData];
-        VIEWWITHTAG(self.naviBarView, 1999).hidden = tmpArray.count == 0 ? YES : NO;
+        else
+        {
+            switch ([_currentType integerValue])
+            {
+                case 0:
+                    goodsAttentionAry = [[CZJGoodsAttentionForm objectArrayWithKeyValuesArray:tmpAry] mutableCopy];
+                    _isGoodsTouched = YES;
+                    tmpArray = [goodsAttentionAry mutableCopy];
+                    prompStr = @"木有关注的商品/(ToT)/~~";
+                    break;
+                    
+                case 1:
+                    serviceAttentionAry = [[CZJGoodsAttentionForm objectArrayWithKeyValuesArray:tmpAry] mutableCopy];
+                    _isServiceTouched = YES;
+                    tmpArray = [serviceAttentionAry mutableCopy];
+                    prompStr = @"木有关注的服务/(ToT)/~~";
+                    break;
+                    
+                case 2:
+                    storeAttentionAry = [[CZJStoreAttentionForm objectArrayWithKeyValuesArray:tmpAry]mutableCopy];
+                    _isStoreTouched = YES;
+                    tmpArray = [storeAttentionAry mutableCopy];
+                    prompStr = @"木有关注的门店/(ToT)/~~";
+
+                    break;
+                    
+                default:
+                    break;
+            }
+            
+        }
+        
+        if (tmpArray.count == 0)
+        {
+            self.myTableView.hidden = YES;
+            [CZJUtils showNoDataAlertViewOnTarget:self.view withPromptString:prompStr];
+        }
+        else
+        {
+            self.myTableView.hidden = NO;
+            self.myTableView.delegate = self;
+            self.myTableView.dataSource = self;
+            [self.myTableView reloadData];
+            VIEWWITHTAG(self.naviBarView, 1999).hidden = tmpArray.count == 0 ? YES : NO;
+            self.myTableView.footer.hidden = self.myTableView.mj_contentH < self.myTableView.frame.size.height;
+        }
+        
     } fail:^{
-        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        [MBProgressHUD hideAllHUDsForView:self.view animated:NO];
         [CZJUtils showReloadAlertViewOnTarget:weak.view withReloadHandle:^{
             [weak getDataAttentionDataFromServer];
         }];
@@ -227,18 +307,8 @@ UITableViewDelegate
     }
 }
 
-#pragma mark-PullTableViewDelegate
-- (void)pullTableViewDidTriggerRefresh:(PullTableView*)pullTableView
-{
-}
 
-- (void)pullTableViewDidTriggerLoadMore:(PullTableView*)pullTableView
-{
-    
-}
-
-
-#pragma mark-UITableViewDataSource
+#pragma mark- UITableViewDataSource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 1;
@@ -286,7 +356,7 @@ UITableViewDelegate
     return nil;
 }
 
-#pragma mark-UITableViewDelegate
+#pragma mark UITableViewDelegate
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if ([_currentType isEqualToString:@"2"])
@@ -369,16 +439,20 @@ UITableViewDelegate
         _currentType =[NSString stringWithFormat:@"%ld",index];
     }
     
+    
     if (!_isServiceTouched && 0 == index)
     {
+        _getdataTypeGoods = CZJHomeGetDataFromServerTypeOne;
         [self getDataAttentionDataFromServer];
     }
     else if (!_isGoodsTouched && 1 == index)
     {
+        _getdataTypeService = CZJHomeGetDataFromServerTypeOne;
         [self getDataAttentionDataFromServer];
     }
     else if (!_isStoreTouched && 2 == index)
     {
+        _getdataTypeStore = CZJHomeGetDataFromServerTypeOne;
         [self getDataAttentionDataFromServer];
     }
     else

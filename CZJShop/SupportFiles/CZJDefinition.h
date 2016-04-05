@@ -138,6 +138,7 @@ static NSString *const kCZJServerAPIShowCouponsList = @"chezhu/showCoupons.do"; 
 static NSString *const kCZJServerAPIShowCardList = @"chezhu/loadSetmenus.do";                       // 套餐卡列表
 static NSString *const kCZJServerAPIShowCardDetail = @"chezhu/showSetmenu.do";                      // 套餐卡列表
 static NSString *const kCZJServerAPIGetBalanceInfo = @"chezhu/loadChargeInfo.do";                   // 获取余额详情
+static NSString *const kCZJServerAPIGetRedPacketInfo = @"chezhu/showRedpacket.do";                  // 获取红包详情
 static NSString *const kCZJServerAPIGetPoint = @"chezhu/showPointsCenter.do";
 static NSString *const kCZJServerAPIRecharge = @"chezhu/charge.do";                                 // 充值
 static NSString *const kCZJServerAPIMyEvalutions = @"chezhu/loadMyEvaluations.do";                  // 获取我的评价列表
@@ -257,6 +258,7 @@ static NSString *const kCZJNotifiRefreshDetailView = @"refreshDetailView";
 static NSString *const kCZJNotifiPicDetailBack = @"PicDetailBack";
 static NSString *const kCZJNotifikOrderListType = @"kOrderListType";
 static NSString *const kCZJNotifiRefreshOrderlist = @"refreshOrderListNotify";
+static NSString *const kCZJNotifiRefreshReturnOrderlist = @"refreshReturnOrderListNotify";
 
 
 //-----------------------StoryBoardID常量定义---------------------------

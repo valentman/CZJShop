@@ -44,10 +44,7 @@ UITableViewDelegate
     self.myTableView.scrollEnabled = NO;
     self.automaticallyAdjustsScrollViewInsets = NO;
     
-    
-    
     NSArray* nibArys = @[@"CZJOrderCouponCell"];
-    
     for (id cells in nibArys) {
         UINib *nib=[UINib nibWithNibName:cells bundle:nil];
         [self.myTableView registerNib:nib forCellReuseIdentifier:cells];
@@ -65,10 +62,12 @@ UITableViewDelegate
     CZJOrderTypeForm* zhibaoCard = [[CZJOrderTypeForm alloc]init];
     zhibaoCard.orderTypeName = @"质保卡查询";
     zhibaoCard.orderTypeImg = @"my_icon_zhibao";
-    
     cellArray = @[phoneAsk,feedback,zhibaoCard];
     
     [self.myTableView reloadData];
+    
+    [self addCZJNaviBarView:CZJNaviBarViewTypeGeneral];
+    self.naviBarView.btnBack.hidden = YES;
 }
 
 - (void)didReceiveMemoryWarning {

@@ -20,9 +20,13 @@ UITableViewDataSource
 >
 
 {
-    NSArray* returnedOrderListAry;
+    NSMutableArray* returnedOrderListAry;
     NSString* statestr;
     CZJReturnedOrderListForm* returnedGoodsForm;
+    
+    MJRefreshAutoNormalFooter* refreshFooter;
+    __block CZJHomeGetDataFromServerType _getdataType;
+    __block NSInteger page;
 }
 @property (strong, nonatomic)UITableView* myTableView;
 @end
@@ -31,8 +35,26 @@ UITableViewDataSource
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self initMyDatas];
     [self initViews];
     [self getReturnedOrderListFromServer];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(getReturnedOrderListFromServer) name:kCZJNotifiRefreshReturnOrderlist object:nil];
+}
+
+- (void)removeOrderlistControllerNotification
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kCZJNotifiRefreshReturnOrderlist object:nil];
+}
+
+
+- (void)initMyDatas
+{
+    returnedOrderListAry = [NSMutableArray array];
+    page = 0;
 }
 
 - (void)initViews
@@ -56,27 +78,72 @@ UITableViewDataSource
         UINib *nib=[UINib nibWithNibName:cells bundle:nil];
         [self.myTableView registerNib:nib forCellReuseIdentifier:cells];
     }
+    
+    __weak typeof(self) weak = self;
+    refreshFooter = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^(){
+        _getdataType = CZJHomeGetDataFromServerTypeTwo;
+        page++;
+        [weak getReturnedOrderListFromServer];;
+    }];
+    self.myTableView.footer = refreshFooter;
+    self.myTableView.footer.hidden = YES;
 }
 
 - (void)getReturnedOrderListFromServer
 {
     NSString* api;
-    NSDictionary* params;
+    NSMutableDictionary* params = [@{@"page" : @(page)}mutableCopy];
     if (CZJReturnListTypeReturnable == self.returnListType)
     {
         api = kCZJServerAPIGetReturnableOrderList;
-        params = @{@"orderNo":self.orderNo};
+        [params setValue:self.orderNo forKey:@"orderNo"];
     }
     else
     {
         api = kCZJServerAPIGetReturnedOrderList;
     }
-    
+    __weak typeof(self) weak = self;
     [CZJBaseDataInstance generalPost:params success:^(id json) {
-        returnedOrderListAry = [CZJReturnedOrderListForm objectArrayWithKeyValuesArray:[[CZJUtils DataFromJson:json] valueForKey:@"msg"]];
-        [self.myTableView reloadData];
-    }  fail:^{
+        NSArray* tmpAry = [[CZJUtils DataFromJson:json] valueForKey:@"msg"];
+        if (CZJHomeGetDataFromServerTypeTwo == _getdataType)
+        {
+            [returnedOrderListAry addObjectsFromArray: [CZJReturnedOrderListForm objectArrayWithKeyValuesArray:tmpAry]];
+            if (tmpAry.count < 20)
+            {
+                [refreshFooter noticeNoMoreData];
+            }
+            else
+            {
+                [weak.myTableView.footer endRefreshing];
+            }
+        }
+        else
+        {
+            returnedOrderListAry = [[CZJReturnedOrderListForm objectArrayWithKeyValuesArray:tmpAry] mutableCopy];
+            if (returnedOrderListAry.count < 10)
+            {
+                [refreshFooter noticeNoMoreData];
+            }
+        }
         
+        if (returnedOrderListAry.count == 0)
+        {
+            self.myTableView.hidden = YES;
+            [CZJUtils showNoDataAlertViewOnTarget:self.view withPromptString:@"木有浏览记录/(ToT)/~~"];
+        }
+        else
+        {
+            self.myTableView.hidden = (returnedOrderListAry.count == 0);
+            self.myTableView.delegate = self;
+            self.myTableView.dataSource = self;
+            [self.myTableView reloadData];
+            self.myTableView.footer.hidden = YES;
+        }
+    }  fail:^{
+        [MBProgressHUD hideAllHUDsForView:self.view animated:NO];
+        [CZJUtils showReloadAlertViewOnTarget:weak.view withReloadHandle:^{
+            [weak getReturnedOrderListFromServer];
+        }];
     } andServerAPI:api];
 
 }

@@ -17,7 +17,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [CZJUtils customizeNavigationBarForTarget:self];
-    
+    [self addCZJNaviBarView:CZJNaviBarViewTypeGeneral];
+    self.naviBarView.btnBack.hidden = YES;
     
     CGRect rect = CGRectMake(20, 64, PJ_SCREEN_WIDTH- 40, 200);
     CZJTextView *textView = [[CZJTextView alloc]initWithFrame:rect];

@@ -39,6 +39,12 @@
     }
     return nil;
 }
+@end
 
 
+@implementation CZJMyScanRecordForm
++(NSDictionary*)replacedKeyFromPropertyName
+{
+    return @{@"recordID" : @"id"};
+}
 @end
