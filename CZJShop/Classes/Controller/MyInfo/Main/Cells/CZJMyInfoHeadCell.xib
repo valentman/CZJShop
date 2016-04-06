@@ -15,7 +15,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="my_img_background.png" translatesAutoresizingMaskIntoConstraints="NO" id="sau-by-EUj">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="169"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="171"/>
                         <animations/>
                     </imageView>
                     <view hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ffc-NE-hbV">
@@ -177,7 +177,7 @@
                     <constraint firstAttribute="trailing" secondItem="ABF-5Y-qOp" secondAttribute="trailing" id="Qa1-AZ-9R3"/>
                     <constraint firstItem="ffc-NE-hbV" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="Zs4-gj-auQ"/>
                     <constraint firstAttribute="trailing" secondItem="ffc-NE-hbV" secondAttribute="trailing" id="gV9-ef-nEb"/>
-                    <constraint firstAttribute="bottom" secondItem="sau-by-EUj" secondAttribute="bottom" id="jzt-ft-xAZ"/>
+                    <constraint firstAttribute="bottom" secondItem="sau-by-EUj" secondAttribute="bottom" constant="-2" id="jzt-ft-xAZ"/>
                     <constraint firstAttribute="bottom" secondItem="ffc-NE-hbV" secondAttribute="bottom" constant="-1" id="unk-JE-baQ"/>
                     <constraint firstItem="ABF-5Y-qOp" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="vHK-zL-BT1"/>
                     <constraint firstItem="ffc-NE-hbV" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="w8m-tA-N3W"/>

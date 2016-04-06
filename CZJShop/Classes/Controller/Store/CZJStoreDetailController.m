@@ -158,7 +158,7 @@ MKMapViewDelegate
         [self.myTableView registerNib:nib forCellReuseIdentifier:cells];
     }
     self.myTableView.tableFooterView = [[UIView alloc]init];
-    self.myTableView.backgroundColor = CZJTableViewBGColor;
+    self.myTableView.backgroundColor = WHITECOLOR;
     self.myTableView.delegate = self;
     self.myTableView.dataSource = self;
     self.myTableView.showsVerticalScrollIndicator = NO;

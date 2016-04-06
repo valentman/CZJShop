@@ -149,7 +149,7 @@
                     </view>
                 </subviews>
                 <animations/>
-                <color key="backgroundColor" red="0.40000000000000002" green="0.59999999999999998" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                <color key="backgroundColor" red="0.36078431372549019" green="0.53725490196078429" blue="0.89803921568627454" alpha="1" colorSpace="calibratedRGB"/>
                 <rect key="contentStretch" x="0.0" y="0.0" width="0.0" height="0.0"/>
                 <constraints>
                     <constraint firstItem="DbZ-Z1-ID9" firstAttribute="width" secondItem="Vdq-O0-tYc" secondAttribute="width" id="CbR-JJ-gw8"/>

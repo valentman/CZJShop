@@ -33,7 +33,7 @@
 
 - (void)loadImageData{
     self.adScrollView.imagePlayerViewDelegate = self;
-    self.adScrollView.scrollInterval = 5.0f;
+    self.adScrollView.scrollInterval = 6.0f;
     self.adScrollView.pageControlPosition = ICPageControlPosition_BottomCenter;
     self.adScrollView.hidePageControl = NO;
     [self.adScrollView reloadData];

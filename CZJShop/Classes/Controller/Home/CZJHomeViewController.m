@@ -192,7 +192,16 @@ CZJMiaoShaCellDelegate
 - (void)dealWithInitTabbar
 {
     //TabBarItem选中颜色设置及右上角标记设置
+//    UIView *bgView = [[UIView alloc] initWithFrame:self.tabBarController.tabBar.bounds];
+//    bgView.backgroundColor = RGB(37, 38, 38);
+//    [self.tabBarController.tabBar insertSubview:bgView atIndex:0];
+//    self.tabBarController.tabBar.opaque = YES;
+//
 //    UITabBarController* tabcontrl = self.tabBarController;
+//    tabcontrl.tabBar.backgroundColor = RGB(37, 38, 38);
+
+//    [self.tabBarController.tabBar setBackgroundImage:[UIImage imageNamed:@"nav_bargound"]];
+//    [self.tabBarController.tabBar setBackgroundColor:WHITECOLOR];
     [self.tabBarController.tabBar setTintColor:RGB(235, 20, 20)];
 //        NSArray *items = self.tabBarController.tabBar.items;
 //        [[items objectAtIndex:eTabBarItemShop] setBadgeValue:@"1"];
@@ -209,6 +218,7 @@ CZJMiaoShaCellDelegate
         {
             [CZJBaseDataInstance getAreaInfos];
         }
+        isLoadSuccess = YES;
         [weak dealWithArray];
         [weak.homeTableView reloadData];
         [weak.homeTableView.header endRefreshing];
@@ -316,9 +326,10 @@ CZJMiaoShaCellDelegate
             carInfoCell = [tableView dequeueReusableCellWithIdentifier:@"CZJCarInfoCell" forIndexPath:indexPath];
             if (carInfoCell && _carInfoArray.count > 0 && !carInfoCell.isInit)
             {
+                __weak typeof(self) weak = self;
                 [carInfoCell initWithCarInfoDatas:_carInfoArray andButtonClick:^(id data) {
                     CarInfoForm* carInfoForm = (CarInfoForm*)data;
-                    [self showWebViewWithURL:carInfoForm.url];
+                    [weak showWebViewWithURL:carInfoForm.url];
                 }];
             }
             [carInfoCell setSelectionStyle:UITableViewCellSelectionStyleNone];
@@ -444,12 +455,11 @@ CZJMiaoShaCellDelegate
             else
             {
                 CZJGoodsRecommendCell* cell = (CZJGoodsRecommendCell*)[tableView dequeueReusableCellWithIdentifier:@"CZJGoodsRecommendCell" forIndexPath:indexPath];
-//                cell.backgroundColor = CZJTableViewBGColor;
                 cell.delegate = self;
                 float width = (PJ_SCREEN_WIDTH - 30) / 2;
                 cell.imageOneHeight.constant = width;
                 cell.imageTwoHeight.constant = width;
-                if (cell && _goodsRecommentArray.count > 0)
+                if (cell && _goodsRecommentArray.count > 0 && !cell.isInit)
                 {
                     [cell initGoodsRecommendWithDatas:_goodsRecommentArray[indexPath.row - 1]];
                 }
@@ -511,7 +521,7 @@ CZJMiaoShaCellDelegate
             return 170;
             break;
         case 2:
-            return 40;
+            return 39;
             break;
         case 3:
             if (0 == indexPath.row) {
@@ -549,7 +559,7 @@ CZJMiaoShaCellDelegate
                 return 40;
             }
             if (1 == indexPath.row) {
-                return 250;
+                return 200;
             }
             break;
         case 9:
@@ -573,11 +583,12 @@ CZJMiaoShaCellDelegate
     if (isLoadSuccess)
     {
         if (
-            (_miaoShaArray.count == 0 && section == 3)||
-            (_limitBuyArray.count == 0 && section == 5)||
-            (_brandRecommentArray.count == 0 && section == 6)||
-            (_bannerTwoArray.count == 0 && section == 7)||
-            (_specialRecommentArray.count == 0 && section == 8)){
+            (_miaoShaArray.count != 0 && section == 3)||
+            (_bannerOneArray.count != 0 && section == 4)||
+            (_limitBuyArray.count != 0 && section == 5)||
+            (_brandRecommentArray.count != 0 && section == 6)||
+            (_bannerTwoArray.count != 0 && section == 7)||
+            (_specialRecommentArray.count != 0 && section == 8)){
             return 10;
         }
     }

@@ -117,7 +117,7 @@ CZJPopPayViewDelegate
     CGRect pageViewFrame = CGRectMake(0, StatusBar_HEIGHT + NavigationBar_HEIGHT, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - StatusBar_HEIGHT);
     CZJPageControlView* pageview = [[CZJPageControlView alloc]initWithFrame:pageViewFrame andPageIndex:_orderListTypeIndex];
     [pageview setTitleArray:@[@"全部",@"待付款",@"待施工",@"待收货",@"待评价"] andVCArray:orderListAry];
-    pageview.backgroundColor = CZJNAVIBARBGCOLOR;
+    pageview.backgroundColor = WHITECOLOR;
     [self.view addSubview:pageview];
     
     _backgroundView = [[UIView alloc]initWithFrame:self.view.bounds];
@@ -127,6 +127,8 @@ CZJPopPayViewDelegate
     [_backgroundView addGestureRecognizer:gesture];
     _backgroundView.hidden = YES;
 }
+
+
 
 - (void)tapBackground:(UITapGestureRecognizer *)paramSender
 {

@@ -80,8 +80,6 @@ CZJFilterControllerDelegate
     
     //post参数初始化
     self.page = 1;
-//    self.typeId = @"";
-//    citID = CZJBaseDataInstance.userInfoForm.cityId;
     sortType = @"0";
     modelID = @"";
     brandID = @"";
@@ -284,22 +282,6 @@ CZJFilterControllerDelegate
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
-
-
-//#pragma mark- PullTableViewDelegate
-//- (void)pullTableViewDidTriggerRefresh:(PullTableView*)pullTableView
-//{
-//    _getdataType = CZJHomeGetDataFromServerTypeOne;
-//    [self getGoodsListDataFromServer];
-//    self.page = 1;
-//}
-//
-//- (void)pullTableViewDidTriggerLoadMore:(PullTableView*)pullTableView
-//{
-//    _getdataType = CZJHomeGetDataFromServerTypeTwo;
-//    self.page++;
-//    [self getGoodsListDataFromServer];;
-//}
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {

@@ -50,7 +50,7 @@ UITableViewDelegate
     self.myTableView.clipsToBounds = NO;
     self.myTableView.showsVerticalScrollIndicator = NO;
     self.automaticallyAdjustsScrollViewInsets = NO;
-    self.myTableView.backgroundColor = CZJTableViewBGColor;
+    self.myTableView.backgroundColor = WHITECOLOR;
     [self.view addSubview:self.myTableView];
     
     NSArray* nibArys = @[@"CZJMiaoShaControlCell"];
@@ -64,9 +64,14 @@ UITableViewDelegate
 - (void)getMiaoShaDataFromServer
 {
     _params = @{@"skillId":_miaoShaTimes.skillId};
+    [CZJUtils removeNoDataAlertViewFromTarget:self.view];
     [CZJBaseDataInstance generalPost:_params success:^(id json) {
         NSArray* tmpAry = [[CZJUtils DataFromJson:json]valueForKey:@"msg"];
         miaoShaAry = [CZJMiaoShaCellForm objectArrayWithKeyValuesArray:tmpAry];
+        if (miaoShaAry.count == 0)
+        {
+            [CZJUtils showNoDataAlertViewOnTarget:self.view withPromptString:@"木有秒杀商品/(ToT)/~~"];
+        }
         [self.myTableView reloadData];
     }  fail:^{
         
@@ -99,7 +104,7 @@ UITableViewDelegate
 {
     CZJMiaoShaCellForm* miaoshaCellForm = miaoShaAry[indexPath.row];
     CZJMiaoShaControlCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJMiaoShaControlCell" forIndexPath:indexPath];
-    [cell.goodImg sd_setImageWithURL:[NSURL URLWithString:miaoshaCellForm.img] placeholderImage:DefaultPlaceHolderImage];
+    [cell.goodImg sd_setImageWithURL:[NSURL URLWithString:miaoshaCellForm.itemImg] placeholderImage:DefaultPlaceHolderImage];
     cell.goodName.text = miaoshaCellForm.itemName;
     cell.goodNameLabelHeight.constant = [CZJUtils calculateTitleSizeWithString:miaoshaCellForm.itemName AndFontSize:17].height;
     NSString* currentPriceStr = [NSString stringWithFormat:@"￥%@",miaoshaCellForm.currentPrice];
@@ -107,14 +112,17 @@ UITableViewDelegate
     cell.currentPriceWidth.constant = [CZJUtils calculateTitleSizeWithString:currentPriceStr AndFontSize:17].width + 5;
     NSString* originPriceStr = [NSString stringWithFormat:@"￥%@",miaoshaCellForm.originalPrice];
     [cell.originPrice setAttributedText: [CZJUtils stringWithDeleteLine:originPriceStr]];
-    cell.originPriceWidth.constant = [CZJUtils calculateTitleSizeWithString:originPriceStr AndFontSize:12].width;
+    cell.originPriceWidth.constant = [CZJUtils calculateTitleSizeWithString:originPriceStr AndFontSize:12].width + 5;
     NSString* leftStr = [NSString stringWithFormat:@"仅限%@件",miaoshaCellForm.limitCount];
     cell.leftNum.text = leftStr;
     cell.leftNumWidth.constant = [CZJUtils calculateTitleSizeWithString:leftStr AndFontSize:12].width + 5;
     if ([miaoshaCellForm.limitPoint integerValue] < 1)
     {
-        cell.alreadyBuyBtn.titleLabel.text = [NSString stringWithFormat:@"已购%d%",[miaoshaCellForm.limitCount intValue]*100];
-        float widt = cell.alreadyBuyBtn.frame.size.width * (1 - [miaoshaCellForm.limitPoint floatValue]) * -1;
+        int rate = [miaoshaCellForm.limitPoint intValue]*100 /[miaoshaCellForm.limitCount intValue]*100;
+        NSString* limitStr = [NSString stringWithFormat:@"已购%d%@",rate,@"%"];
+        cell.alreadyBuyBtn.titleLabel.text = limitStr;
+        [cell.alreadyBuyBtn setTitle:limitStr forState:UIControlStateNormal];
+        float widt = cell.alreadyBuyBtn.frame.size.width * (1 - rate) * -1;
         cell.backgroundLabelTrailing.constant = widt;
     }
     else if (1 == [miaoshaCellForm.limitPoint integerValue])
@@ -122,6 +130,7 @@ UITableViewDelegate
         cell.goingOnView.hidden = YES;
         cell.alreadyOverView.hidden = NO;
     }
+    cell.separatorInset = HiddenCellSeparator;
     return cell;
 }
 

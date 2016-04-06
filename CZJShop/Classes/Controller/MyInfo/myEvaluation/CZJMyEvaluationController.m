@@ -18,7 +18,11 @@ UITableViewDataSource,
 UITableViewDelegate
 >
 {
-    NSArray* myEvaluationAry;
+    NSMutableArray* myEvaluationAry;
+    
+    MJRefreshAutoNormalFooter* refreshFooter;
+    __block CZJHomeGetDataFromServerType _getdataType;
+    __block NSInteger page;
 }
 @property (strong, nonatomic)UITableView* myTableView;
 @end
@@ -27,10 +31,19 @@ UITableViewDelegate
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self initMyDatas];
     [self initTableView];
     [self getMyEvalutionDataFromServer];
     [self addCZJNaviBarView:CZJNaviBarViewTypeGeneral];
     self.naviBarView.mainTitleLabel.text = @"我的评价";
+    
+}
+
+- (void)initMyDatas
+{
+    myEvaluationAry = [NSMutableArray array];
+    page = 1;
+    _getdataType = CZJHomeGetDataFromServerTypeOne;
 }
 
 - (void)initTableView
@@ -55,25 +68,61 @@ UITableViewDelegate
         UINib *nib=[UINib nibWithNibName:cells bundle:nil];
         [self.myTableView registerNib:nib forCellReuseIdentifier:cells];
     }
+    __weak typeof(self) weak = self;
+    refreshFooter = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^(){
+        _getdataType = CZJHomeGetDataFromServerTypeTwo;
+        page++;
+        [weak getMyEvalutionDataFromServer];;
+    }];
+    self.myTableView.footer = refreshFooter;
+    self.myTableView.footer.hidden = YES;
 }
 
 - (void)getMyEvalutionDataFromServer
 {
-    NSDictionary* param = @{@"page":@"1"};
+    NSDictionary* param = @{@"page":@(page)};
     __weak typeof(self) weak = self;
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [CZJUtils removeNoDataAlertViewFromTarget:self.view];
     [CZJBaseDataInstance generalPost:param success:^(id json) {
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
-        NSDictionary* dict = [[CZJUtils DataFromJson:json] valueForKey:@"msg"];
-        myEvaluationAry = [CZJEvaluateForm objectArrayWithKeyValuesArray:dict];
+        [MBProgressHUD hideHUDForView:self.view animated:NO];
+        NSArray* tmpAry = [[CZJUtils DataFromJson:json] valueForKey:@"msg"];
+        if (CZJHomeGetDataFromServerTypeTwo == _getdataType)
+        {
+            [myEvaluationAry addObjectsFromArray: [CZJEvaluateForm objectArrayWithKeyValuesArray:tmpAry]];
+            if (tmpAry.count < 20)
+            {
+                [refreshFooter noticeNoMoreData];
+            }
+            else
+            {
+                [weak.myTableView.footer endRefreshing];
+            }
+        }
+        else
+        {
+            myEvaluationAry = [[CZJEvaluateForm objectArrayWithKeyValuesArray:tmpAry] mutableCopy];
+            if (myEvaluationAry.count < 10)
+            {
+                [refreshFooter noticeNoMoreData];
+            }
+        }
+        
+        
         if (myEvaluationAry.count == 0)
         {
+            self.myTableView.hidden = YES;
             [CZJUtils showNoDataAlertViewOnTarget:self.view withPromptString:@"木有评价记录/(ToT)/~~"];
         }
         else
         {
+            self.myTableView.hidden = (myEvaluationAry.count == 0);
+            self.myTableView.delegate = self;
+            self.myTableView.dataSource = self;
             [self.myTableView reloadData];
+            self.myTableView.footer.hidden = self.myTableView.mj_contentH < self.myTableView.frame.size.height;
         }
+        
     }  fail:^{
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
         [CZJUtils showReloadAlertViewOnTarget:weak.view withReloadHandle:^{
@@ -97,7 +146,7 @@ UITableViewDelegate
 {
     CZJEvaluateForm* evaluationForm = myEvaluationAry[section];
 
-    return evaluationForm.added ? 3 : 2;
+    return [evaluationForm.added boolValue] ? 3 : 2;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -112,6 +161,7 @@ UITableViewDelegate
         float strHeight = [CZJUtils calculateStringSizeWithString:evaluationForm.message Font:SYSTEMFONT(13) Width:PJ_SCREEN_WIDTH - 30].height;
         cell.evalContent.text = evaluationForm.message;
         cell.evalContentLayoutHeight.constant = strHeight + 5;
+        cell.picView.hidden = YES;
         
         for (int i = 0; i < evaluationForm.evalImgs.count; i++)
         {
@@ -120,6 +170,7 @@ UITableViewDelegate
             UIImageView* imageView = [[UIImageView alloc]initWithFrame:imageFrame];
             [imageView sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:DefaultPlaceHolderImage];
             [cell.picView addSubview:imageView];
+            cell.picView.hidden = NO;
         }
         return cell;
     }
@@ -129,7 +180,9 @@ UITableViewDelegate
         CZJEvalutionFooterCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJEvalutionFooterCell" forIndexPath:indexPath];
         cell.evalutionReplyBtn.hidden = YES;
         [cell.evalutionReplyBtn setTag:indexPath.section];
-        if (!evaluationForm.added)
+
+        cell.addEvaluateBtn.hidden = YES;
+        if (![evaluationForm.added boolValue])
         {
             cell.addEvaluateBtn.hidden = NO;
             [cell.addEvaluateBtn addTarget:self action:@selector(addEvaluateBtnHandler:) forControlEvents:UIControlEventTouchUpInside];

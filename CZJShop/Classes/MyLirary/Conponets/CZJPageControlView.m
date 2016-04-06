@@ -97,7 +97,7 @@ UIScrollViewDelegate>
         [btn setTitleColor:((nil == self.pageControlViewConfig) ? [UIColor darkGrayColor] : self.pageControlViewConfig.btnTitleColorNormal) forState:UIControlStateNormal];
         [btn setTitleColor:((nil == self.pageControlViewConfig) ? CZJREDCOLOR : self.pageControlViewConfig.btnTitleColorSelected) forState:UIControlStateSelected];
         btn.titleLabel.font = [UIFont systemFontOfSize:(nil == self.pageControlViewConfig) ? 16 : self.pageControlViewConfig.btnTitleLabelSize];
-        [btn setBackgroundColor:(nil == self.pageControlViewConfig) ?  CLEARCOLOR : self.pageControlViewConfig.btnBackgroundColor];
+        [btn setBackgroundColor:(nil == self.pageControlViewConfig) ?  CZJNAVIBARBGCOLOR : self.pageControlViewConfig.btnBackgroundColor];
         btn.titleLabel.lineBreakMode = NSLineBreakByCharWrapping;
         btn.titleLabel.textAlignment = NSTextAlignmentCenter;
         btn.titleLabel.numberOfLines = 2;
@@ -116,7 +116,7 @@ UIScrollViewDelegate>
         if (i < self.btnArr.count - 1)
         {
             UIView* line = [[UIView alloc]init];
-            line.backgroundColor = [UIColor lightGrayColor];
+            line.backgroundColor = [UIColor grayColor];
             line.frame = CGRectMake(originX + size.width, 20, 0.5, 10);
             [self addSubview:line];
         }
@@ -261,4 +261,9 @@ UIScrollViewDelegate>
     return NSNotFound;
 }
 
+@end
+
+
+
+@implementation CZJPageControlViewConfig
 @end

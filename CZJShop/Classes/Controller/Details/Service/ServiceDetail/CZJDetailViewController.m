@@ -54,7 +54,7 @@ CZJStoreInfoHeaerCellDelegate
     BOOL isScorllUp;
     
     CGFloat tableViewContentSizeHeight;
-    BOOL isButtom;
+    __block BOOL isButtom;
     
     //当前页面数据
     CZJGoodsDetailForm* goodsDetailForm;            //详情界面总数据
@@ -188,6 +188,7 @@ CZJStoreInfoHeaerCellDelegate
     self.detailTableView.tableFooterView = [[UIView alloc] init];
     [self.myScrollView addSubview:_detailTableView];
     [self.detailTableView reloadData];
+    self.shoppingCartView.hidden = YES;
 }
 
 - (void)registNotification
@@ -231,7 +232,7 @@ CZJStoreInfoHeaerCellDelegate
         
         [self dealWithData];
         [self.detailTableView reloadData];
-
+        self.shoppingCartView.hidden = NO;
         //获取热门商品或服务
         [self getHotRecommendDataFromServer];
         
@@ -351,6 +352,7 @@ CZJStoreInfoHeaerCellDelegate
                 cell.delegate = self;
             }
             [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+            cell.separatorInset = HiddenCellSeparator;
             return cell;
         }
             break;
@@ -603,6 +605,12 @@ CZJStoreInfoHeaerCellDelegate
         {//上拉查看图文详情
             CZJOrderTypeExpandCell *cell = (CZJOrderTypeExpandCell*)[tableView dequeueReusableCellWithIdentifier:@"CZJOrderTypeExpandCell" forIndexPath:indexPath];
             [cell setCellType:CZJCellTypeDetail];
+            __weak typeof(self) weak = self;
+            cell.buttonClick = ^(id data)
+            {
+                [weak.myScrollView setContentOffset:CGPointMake(0, (PJ_SCREEN_HEIGHT-114)) animated:true];
+                isButtom = NO;
+            };
             cell.separatorInset = HiddenCellSeparator;
             return cell;
         }
@@ -707,16 +715,12 @@ CZJStoreInfoHeaerCellDelegate
         1 == section ||
         2 == section ||
         3 == section ||
-        4 == section)
+        4 == section ||
+        (5 == section && _evalutionInfo.evalList.count == 0))
     {
         return 0;
     }
     return 10;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
-{
-    return 0;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -727,6 +731,7 @@ CZJStoreInfoHeaerCellDelegate
         self.popWindowDestineRect = CGRectMake(0, 200, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - 200);
         CZJReceiveCouponsController *receiveCouponsController = [[CZJReceiveCouponsController alloc] init];
         receiveCouponsController.storeId = _storeInfo.storeId;
+        receiveCouponsController.popWindowInitialRect = self.popWindowInitialRect;
         [CZJUtils showMyWindowOnTarget:self withMyVC:receiveCouponsController];
         
         __weak typeof(self) weak = self;
@@ -886,9 +891,9 @@ CZJStoreInfoHeaerCellDelegate
         {
             alphaValue = 1;
         }
-        [self.naviBarView.btnBack setBackgroundColor:RGBA(230, 230, 230,(1 - alphaValue))];
-        [self.naviBarView.btnMore setBackgroundColor:RGBA(230, 230, 230,(1 - alphaValue))];
-        [self.naviBarView.btnShop setBackgroundColor:RGBA(230, 230, 230,(1 - alphaValue))];
+        [self.naviBarView.btnBack setBackgroundColor:RGBA(247, 247, 247,(1 - alphaValue))];
+        [self.naviBarView.btnMore setBackgroundColor:RGBA(247, 247, 247,(1 - alphaValue))];
+        [self.naviBarView.btnShop setBackgroundColor:RGBA(247, 247, 247,(1 - alphaValue))];
         [self.naviBarView setBackgroundColor:CZJNAVIBARBGCOLORALPHA(alphaValue)];
     }
     
@@ -1008,7 +1013,6 @@ CZJStoreInfoHeaerCellDelegate
     } fail:^{
         
     }];
-    
 }
 
 

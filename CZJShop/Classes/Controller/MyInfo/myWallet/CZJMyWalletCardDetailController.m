@@ -26,13 +26,16 @@ UITableViewDelegate
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [CZJUtils customizeNavigationBarForTarget:self];
     [self initViews];
     [self getCardDetailInfoFromServer];
 }
 
 - (void)initViews
 {
+    [CZJUtils customizeNavigationBarForTarget:self];
+    [self addCZJNaviBarView:CZJNaviBarViewTypeGeneral];
+    self.naviBarView.btnBack.hidden = YES;
+    
     self.myTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 64, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - StatusBar_HEIGHT - NavigationBar_HEIGHT) style:UITableViewStylePlain];
     self.myTableView.tableFooterView = [[UIView alloc]init];
     self.myTableView.delegate = self;
@@ -40,9 +43,8 @@ UITableViewDelegate
     self.myTableView.showsVerticalScrollIndicator = NO;
     self.myTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.automaticallyAdjustsScrollViewInsets = NO;
-    self.myTableView.backgroundColor = CLEARCOLOR;
     [self.view addSubview:self.myTableView];
-    self.view.backgroundColor = CZJNAVIBARGRAYBG;
+    self.view.backgroundColor = WHITECOLOR;
     
     NSArray* nibArys = @[@"CZJMyWalletCardCell",
                          @"CZJRedPacketUseCaseCell"

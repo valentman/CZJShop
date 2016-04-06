@@ -16,9 +16,9 @@
 
 @interface CZJMyWalletCouponListBaseController : UIViewController
 {
-    NSDictionary* _params;
+    NSMutableDictionary* _params;
 }
-@property (strong, nonatomic)NSDictionary* params;
+@property (strong, nonatomic)NSMutableDictionary* params;
 
 - (void)getCouponListFromServer;
 @end

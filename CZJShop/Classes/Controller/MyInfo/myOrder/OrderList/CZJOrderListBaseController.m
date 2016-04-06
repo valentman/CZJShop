@@ -74,7 +74,7 @@ CZJOrderListCellDelegate
     }
     
     _myTableView = [[UITableView alloc]initWithFrame:viewRect style:UITableViewStylePlain];
-    _myTableView.backgroundColor = CZJNAVIBARBGCOLOR;
+    _myTableView.backgroundColor = WHITECOLOR;
     _myTableView.tableFooterView = [[UIView alloc]init];
     _myTableView.bounces = YES;
     [self.view addSubview:_myTableView];

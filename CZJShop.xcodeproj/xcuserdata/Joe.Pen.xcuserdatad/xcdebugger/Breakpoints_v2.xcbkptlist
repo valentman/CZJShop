@@ -26,7 +26,7 @@
                   moduleName = "CZJShop"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/JoePen/Documents/CZJ_app_iOS_2.0/CZJShop/CZJShop/Classes/Controller/MyInfo/myOrder/OrderSettle/CZJCommitOrderController.m"
-                  timestampString = "481553394.195202"
+                  timestampString = "481633426.334015"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "923"
@@ -41,7 +41,7 @@
                   moduleName = "CZJShop"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/JoePen/Documents/CZJ_app_iOS_2.0/CZJShop/CZJShop/Classes/Controller/MyInfo/myOrder/OrderSettle/CZJCommitOrderController.m"
-                  timestampString = "481553394.195376"
+                  timestampString = "481633426.334278"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "923"
@@ -153,28 +153,12 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "CZJShop/Classes/Controller/WebViewBridge/CZJWebViewController.m"
-            timestampString = "481279569.501711"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "127"
-            endingLineNumber = "127"
-            landmarkName = "-webView:didFailLoadWithError:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "CZJShop/Classes/Controller/Store/CZJStoreViewController.m"
-            timestampString = "481518010.211329"
+            timestampString = "481621733.922429"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "399"
-            endingLineNumber = "399"
+            startingLineNumber = "398"
+            endingLineNumber = "398"
             landmarkName = "-PullDownMenu:didSelectRowAtColumn:row:"
             landmarkType = "5">
          </BreakpointContent>
@@ -186,28 +170,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CZJShop/Classes/Controller/Store/CZJStoreViewController.m"
-            timestampString = "481518010.211329"
+            timestampString = "481621733.922429"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "403"
-            endingLineNumber = "403"
+            startingLineNumber = "402"
+            endingLineNumber = "402"
             landmarkName = "-PullDownMenu:didSelectRowAtColumn:row:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CZJShop/Classes/Controller/Details/Service/ServiceDetail/CZJReceiveCouponsController.m"
-            timestampString = "481531143.758513"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "99"
-            endingLineNumber = "99"
-            landmarkName = "-tableView"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -224,6 +192,54 @@
             startingLineNumber = "991"
             endingLineNumber = "991"
             landmarkName = "-cancelReturnGoodsAction:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CZJShop/Classes/Controller/MyInfo/myOrder/OrderList/CZJMyInfoOrderListController.m"
+            timestampString = "481628732.472231"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "57"
+            endingLineNumber = "57"
+            landmarkName = "-updateDateIntervalButton:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CZJShop/Classes/Controller/Home/Miaosha/CZJMiaoShaController.m"
+            timestampString = "481633425.238178"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "199"
+            endingLineNumber = "199"
+            landmarkName = "-updateMiaoShaTime:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CZJShop/Classes/Controller/Home/Miaosha/CZJMiaoShaController.m"
+            timestampString = "481633422.600951"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "219"
+            endingLineNumber = "219"
+            landmarkName = "-handleTapGesture:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

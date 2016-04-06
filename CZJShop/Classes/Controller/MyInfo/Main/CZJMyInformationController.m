@@ -67,17 +67,36 @@ CZJViewControllerDelegate
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    [self getMyInfoDataFromServer];
+    if ([USER_DEFAULT boolForKey:kCZJIsUserHaveLogined]) {
+        [self getMyInfoDataFromServer];
+    }
+    else
+    {
+        for (NSMutableDictionary* orderDict in orderSubCellAry)
+        {
+            [orderDict setValue:@"0" forKey:@"budge"];
+        }
+        for (NSDictionary* walletDict in walletSubCellAry)
+        {
+            [walletDict setValue:@"0" forKey:@"buttonTitle"];
+        }
+    }
     [self.myInfoTableView reloadData];
     DLog();
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
+    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
     self.navigationController.navigationBarHidden = YES;
     [self.tabBarController.tabBar setTintColor:RGB(235, 20, 20)];
     _currentTouchOrderListType = 0;
     DLog();
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
 }
 
 - (void)initDatas

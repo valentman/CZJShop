@@ -28,6 +28,7 @@ UITableViewDelegate
     NSMutableArray* _sortedStoreArys;
     CZJHomeGetDataFromServerType _getdataType;
     MJRefreshAutoNormalFooter* refreshFooter;
+    __block NSInteger page;
     BOOL _isAnimate;
     BOOL isFirstIn;
     
@@ -41,12 +42,9 @@ UITableViewDelegate
 @property (weak, nonatomic) IBOutlet UITableView *storeTableView;
 @property (strong, nonatomic) CZJRefreshLocationBarView *refreshLocationBarView;
 
-@property (assign, nonatomic)NSInteger page;
-
 @end
 
 @implementation CZJStoreViewController
-@synthesize page = _page;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -82,8 +80,8 @@ UITableViewDelegate
 {
     //变量数据初始
     isFirstIn = YES;
-    self.page = 1;
-    cityID = CZJBaseDataInstance.userInfoForm.cityId;
+    page = 1;
+    cityID = CZJBaseDataInstance.userInfoForm.cityId == nil ? @"0" : CZJBaseDataInstance.userInfoForm.cityId;
     _getdataType = CZJHomeGetDataFromServerTypeOne;
     storeType = @"0";
     sortType = @"0";
@@ -110,7 +108,7 @@ UITableViewDelegate
     __weak typeof(self) weak = self;
     refreshFooter = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^(){
         _getdataType = CZJHomeGetDataFromServerTypeTwo;
-        weak.page++;
+        page++;
         [weak getStoreDataFromServer];;
     }];
     weak.storeTableView.footer = refreshFooter;
@@ -145,7 +143,7 @@ UITableViewDelegate
                              @"cityId" : cityID,
                              @"storeType" : storeType,
                              @"sortType" : sortType,
-                             @"page" : @(self.page)};
+                             @"page" : @(page)};
     CZJSuccessBlock successBlock = ^(id json) {
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
         
@@ -362,6 +360,7 @@ UITableViewDelegate
         [cell.imageOne setImage:IMAGENAMED(@"label_icon_cu")];
         [cell.imageTwo setImage:IMAGENAMED(@"label_icon_quan")];
     }
+    cell.separatorInset = HiddenCellSeparator;
     return cell;
     
 }

@@ -34,8 +34,17 @@
 
 - (void)initGoodsRecommendWithDatas:(NSArray*)datas
 {
+    self.isInit = YES;
+    __weak typeof(self) weak = self;
     GoodsRecommendForm * form = datas.firstObject;
     [self.goodImg sd_setImageWithURL:[NSURL URLWithString:form.itemImg] placeholderImage:DefaultPlaceHolderImage];
+    self.goodImg.alpha = 0;
+    [self.goodImg sd_setImageWithURL:[NSURL URLWithString:form.itemImg] placeholderImage:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+        [UIView animateWithDuration:0.5 animations:^{
+            weak.goodImg.alpha = 1;
+        }];
+    }];
+    
     self.goodNameLabel.text = form.itemName;
     self.goodPriceLabel.text = [NSString stringWithFormat:@"￥%@",form.currentPrice];
     itemOneId = form.storeItemPid;
@@ -45,7 +54,12 @@
         self.viewTow.hidden = NO;
         GoodsRecommendForm * form2 = datas[1];
         itemTwoId = form2.storeItemPid;
-        [self.goodImg2 sd_setImageWithURL:[NSURL URLWithString:form2.itemImg] placeholderImage:DefaultPlaceHolderImage];
+        self.goodImg2.alpha = 0;
+        [self.goodImg2 sd_setImageWithURL:[NSURL URLWithString:form2.itemImg] placeholderImage:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+            [UIView animateWithDuration:0.5 animations:^{
+                weak.goodImg2.alpha = 1;
+            }];
+        }];
         self.goodNameLabel2.text = form2.itemName;
         self.goodPriceLabel2.text = [NSString stringWithFormat:@"￥%@",form2.currentPrice];
     }

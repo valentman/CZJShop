@@ -96,7 +96,7 @@ UITableViewDelegate
 
 - (UITableView *)tableView
 {
-    CGRect rect = [self.view bounds];
+    CGRect rect = self.popWindowInitialRect;
     if (!_tableView) {
         _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 50.5, PJ_SCREEN_WIDTH, rect.size.height - 50) style:UITableViewStylePlain];
         _tableView.delegate = self;

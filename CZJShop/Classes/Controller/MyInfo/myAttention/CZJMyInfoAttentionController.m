@@ -462,6 +462,7 @@ UITableViewDelegate
             tmpArray = [serviceAttentionAry mutableCopy];
             if (tmpArray.count == 0)
             {
+                ((UIButton*)VIEWWITHTAG(self.naviBarView, 1999)).hidden = YES;
                 [CZJUtils showNoDataAlertViewOnTarget:self.view withPromptString:@"木有关注的服务/(ToT)/~~"];
                 return;
             }
@@ -471,6 +472,7 @@ UITableViewDelegate
             tmpArray = [goodsAttentionAry mutableCopy];
             if (tmpArray.count == 0)
             {
+                ((UIButton*)VIEWWITHTAG(self.naviBarView, 1999)).hidden = YES;
                 [CZJUtils showNoDataAlertViewOnTarget:self.view withPromptString:@"木有关注的商品/(ToT)/~~"];
                 return;
             }
@@ -480,6 +482,7 @@ UITableViewDelegate
             tmpArray = [storeAttentionAry mutableCopy];
             if (tmpArray.count == 0)
             {
+                 ((UIButton*)VIEWWITHTAG(self.naviBarView, 1999)).hidden = YES;
                 [CZJUtils showNoDataAlertViewOnTarget:self.view withPromptString:@"木有关注的门店/(ToT)/~~"];
                 return;
             }

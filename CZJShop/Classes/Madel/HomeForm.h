@@ -73,7 +73,7 @@
 @property(nonatomic, strong)NSString* originalPrice;
 @property(nonatomic, strong)NSString* storeItemPid;
 @property(nonatomic, strong)NSString* itemType;
-@property(nonatomic, strong)NSString* img;
+@property(nonatomic, strong)NSString* itemImg;
 @property(nonatomic, strong)NSString* currentPrice;
 @end
 
@@ -91,7 +91,7 @@
 @interface CZJMiaoShaCellForm : NSObject
 @property (strong, nonatomic) NSString* currentPrice;
 @property (strong, nonatomic) NSString* homeFlag;
-@property (strong, nonatomic) NSString* img;
+@property (strong, nonatomic) NSString* itemImg;
 @property (strong, nonatomic) NSString* itemName;
 @property (strong, nonatomic) NSString* itemType;
 @property (strong, nonatomic) NSString* limitCount;

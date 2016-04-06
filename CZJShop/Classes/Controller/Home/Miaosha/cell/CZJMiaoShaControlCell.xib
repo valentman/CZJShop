@@ -14,6 +14,20 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="116"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
+                    <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="leF-U5-MLj">
+                        <rect key="frame" x="0.0" y="109" width="320" height="7"/>
+                        <animations/>
+                        <color key="backgroundColor" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="1" id="xc6-xW-RbW">
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="constant">
+                                        <real key="value" value="0.5"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </constraint>
+                        </constraints>
+                    </view>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Fcb-03-RRV">
                         <rect key="frame" x="15" y="13" width="91" height="91"/>
                         <animations/>
@@ -40,7 +54,7 @@
                             <constraint firstAttribute="height" constant="15" id="PmV-zI-mo6"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                        <color key="textColor" red="1" green="0.40000000600000002" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="textColor" red="0.98431372549019602" green="0.27450980392156865" blue="0.30588235294117649" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="原价" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="etj-4d-REa">
@@ -96,7 +110,7 @@
                     <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dod-wB-7Y8">
                         <rect key="frame" x="199" y="71" width="111" height="30"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LpL-sb-k7z">
+                            <label clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LpL-sb-k7z">
                                 <rect key="frame" x="0.0" y="0.0" width="56" height="30"/>
                                 <animations/>
                                 <color key="backgroundColor" red="1" green="0.40000000600000002" blue="0.40000000600000002" alpha="0.52354525860000001" colorSpace="calibratedRGB"/>
@@ -109,7 +123,7 @@
                                 <animations/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="11"/>
-                                <state key="normal" title="已购50%">
+                                <state key="normal">
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
@@ -119,7 +133,7 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xcX-2C-rce">
                                 <rect key="frame" x="56" y="0.0" width="55" height="30"/>
                                 <animations/>
-                                <color key="backgroundColor" red="1" green="0.40000000600000002" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="0.98431372549019602" green="0.27450980392156865" blue="0.30588235294117649" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                 <state key="normal" title="马上抢">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -155,7 +169,7 @@
                                 <real key="value" value="0.5"/>
                             </userDefinedRuntimeAttribute>
                             <userDefinedRuntimeAttribute type="color" keyPath="layer.borderColorWithUIColor">
-                                <color key="value" red="1" green="0.40000000600000002" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="value" red="0.98431372549019602" green="0.27450980392156865" blue="0.30588235294117649" alpha="1" colorSpace="calibratedRGB"/>
                             </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
                     </view>
@@ -175,9 +189,12 @@
                     <constraint firstItem="6T7-td-qVV" firstAttribute="top" secondItem="Fcb-03-RRV" secondAttribute="top" id="eWQ-Ak-s6t"/>
                     <constraint firstItem="6T7-td-qVV" firstAttribute="leading" secondItem="Fcb-03-RRV" secondAttribute="trailing" constant="8" id="ezG-Vg-Lnr"/>
                     <constraint firstAttribute="trailing" secondItem="dod-wB-7Y8" secondAttribute="trailing" constant="10" id="iP9-G1-NuB"/>
+                    <constraint firstItem="leF-U5-MLj" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="lTE-r4-vTS"/>
                     <constraint firstItem="mwv-bW-Fl3" firstAttribute="top" secondItem="Fck-3z-4J8" secondAttribute="bottom" constant="6" id="lXA-Ze-giA"/>
                     <constraint firstAttribute="trailing" secondItem="anw-Ns-rHA" secondAttribute="trailing" constant="10" id="nE7-Pj-Dl9"/>
                     <constraint firstItem="Fcb-03-RRV" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="o9c-1B-dAO"/>
+                    <constraint firstAttribute="bottom" secondItem="leF-U5-MLj" secondAttribute="bottom" id="r0C-D8-sNA"/>
+                    <constraint firstAttribute="trailing" secondItem="leF-U5-MLj" secondAttribute="trailing" id="zAr-oA-NbX"/>
                 </constraints>
             </tableViewCellContentView>
             <animations/>

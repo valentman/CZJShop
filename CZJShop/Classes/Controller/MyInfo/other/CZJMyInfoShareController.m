@@ -23,7 +23,6 @@
 
 - (IBAction)msgShareAction:(id)sender;
 - (IBAction)appShareAction:(id)sender;
-
 @end
 
 @implementation CZJMyInfoShareController
@@ -140,7 +139,9 @@
 
 - (void)introductions
 {
-    
+    CZJWebViewController* webView = (CZJWebViewController*)[CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:@"webViewSBID"];
+    webView.cur_url = [NSString stringWithFormat:@"%@%@",kCZJServerAddr,CODE_HINT];
+    [self.navigationController pushViewController:webView animated:YES];
 }
 
 - (void)didReceiveMemoryWarning {

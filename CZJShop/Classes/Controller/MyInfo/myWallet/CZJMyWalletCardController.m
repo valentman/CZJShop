@@ -24,7 +24,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [CZJUtils customizeNavigationBarForTarget:self];
     [self initViews];
 }
 
@@ -35,6 +34,10 @@
 
 - (void)initViews
 {
+    [CZJUtils customizeNavigationBarForTarget:self];
+    [self addCZJNaviBarView:CZJNaviBarViewTypeGeneral];
+    self.naviBarView.btnBack.hidden = YES;
+    
     CZJMyWalletCardUnUsedController* unUsed = [[CZJMyWalletCardUnUsedController alloc]init];
     CZJMyWalletCardUsedController* used = [[CZJMyWalletCardUsedController alloc]init];
     unUsed.delegate = self;
@@ -42,13 +45,12 @@
     CGRect pageViewFrame = CGRectMake(0, StatusBar_HEIGHT + NavigationBar_HEIGHT, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - StatusBar_HEIGHT);
     CZJPageControlView* pageview = [[CZJPageControlView alloc]initWithFrame:pageViewFrame andPageIndex:0];
     [pageview setTitleArray:@[@"未用完",@"已用完"] andVCArray:@[unUsed, used]];
-    pageview.backgroundColor = CZJTableViewBGColor;
+    pageview.backgroundColor = WHITECOLOR;
     [self.view addSubview:pageview];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 - (void)clickCardWithData:(id)data
@@ -69,8 +71,7 @@
 @interface CZJMyWalletCardListBaseController ()
 <
 UITableViewDataSource,
-UITableViewDelegate,
-PullTableViewDelegate
+UITableViewDelegate
 >
 {
     MJRefreshAutoNormalFooter* refreshFooter;
@@ -91,6 +92,7 @@ PullTableViewDelegate
 - (void)initMyDatas
 {
     _cardList = [NSMutableArray array];
+    _params = [NSMutableDictionary dictionary];
     page = 1;
     _getdataType = CZJHomeGetDataFromServerTypeOne;
 }
@@ -232,9 +234,8 @@ PullTableViewDelegate
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self initMyDatas];
-    _params = @{@"type":@"0", @"page":@"1"};
-    [self getCardUnUsedListFromServer];
+    _params = [@{@"type":@"0", @"page":@"1"}mutableCopy];
+    [self getCardListFromServer];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -247,9 +248,8 @@ PullTableViewDelegate
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self initMyDatas];
-    _params = @{@"type":@"1", @"page":@"1"};
-    [self getCardUsedListFromServer];
+    _params = [@{@"type":@"1", @"page":@"1"}mutableCopy];
+    [self getCardListFromServer];
 }
 
 - (void)didReceiveMemoryWarning {

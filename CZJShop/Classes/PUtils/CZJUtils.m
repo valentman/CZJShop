@@ -544,8 +544,8 @@ void backLastView(id sender, SEL _cmd)
         return nil;
     }
     NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:string];
-    [attri addAttribute:NSStrikethroughStyleAttributeName value:@(NSUnderlinePatternSolid | NSUnderlineStyleSingle) range:NSMakeRange(1, length-1)];
-    [attri addAttribute:NSStrikethroughColorAttributeName value:UIColorFromRGB(0x999999) range:NSMakeRange(1, length-1)];
+    [attri addAttribute:NSStrikethroughStyleAttributeName value:@(NSUnderlinePatternSolid | NSUnderlineStyleSingle) range:NSMakeRange(0, length)];
+    [attri addAttribute:NSStrikethroughColorAttributeName value:UIColorFromRGB(0x999999) range:NSMakeRange(0, length)];
     return attri;
 }
 
@@ -559,12 +559,13 @@ void backLastView(id sender, SEL _cmd)
 {
     //初始化一个自定义弹窗视图
     UIWindow *myWindow = [[UIWindow alloc] initWithFrame:target.popWindowInitialRect];
+    target.window = myWindow;
     myWindow.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:target.windowAlpha];
     myWindow.windowLevel = UIWindowLevelNormal;
     myWindow.hidden = NO;
     myWindow.rootViewController = myViewController;
     [myWindow makeKeyAndVisible];
-    target.window = myWindow;
+    
     
     //动态给当前视图控制器添加点击回调函数（隐藏弹窗视图）
     SEL dismissPopview = sel_registerName("tapToHidePopViewAction:");

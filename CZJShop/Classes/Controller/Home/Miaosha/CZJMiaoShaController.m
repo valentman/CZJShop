@@ -21,9 +21,12 @@ CZJNaviagtionBarViewDelegate
 >
 {
     CZJMiaoShaControllerForm* miaoShaControllerForm;
-    CZJPageControlView* pageControlView;
-    CZJMiaoShaControlHeaderCell* headerCell;
-    CZJMiaoShaTimesView* miaoShaTimesView;
+    
+    CZJMiaoShaTimesView* miaoShaTimesView;                  //秒杀场次view
+    CZJMiaoShaControlHeaderCell* headerCell;                //秒杀抢购倒计时栏
+    CZJPageControlView* pageControlView;                    //秒杀商品区
+    
+    UIImageView* trangleView;                               //红色小三角图形
     NSArray* pageControls;
     NSInteger currentIndex;
     NSInteger _timestamp;
@@ -44,6 +47,7 @@ CZJNaviagtionBarViewDelegate
     [CZJBaseDataInstance generalPost:nil success:^(id json) {
         NSDictionary* dict = [[CZJUtils DataFromJson:json] objectForKey:@"msg"];
         miaoShaControllerForm = [CZJMiaoShaControllerForm  objectWithKeyValues:dict];
+        DLog(@"%@",miaoShaControllerForm.keyValues);
         [self initMiaoShaPageView];
     }  fail:^{
         
@@ -56,10 +60,31 @@ CZJNaviagtionBarViewDelegate
     [self addCZJNaviBarView:CZJNaviBarViewTypeGeneral];
     self.naviBarView.mainTitleLabel.text = @"秒杀专场";
     
+    //秒杀场次栏
+    miaoShaTimesView = [CZJUtils getXibViewByName:@"CZJMiaoShaTimesView"];
+    miaoShaTimesView.frame = CGRectMake(0, 64, PJ_SCREEN_WIDTH, 50);
+    [self.view addSubview:miaoShaTimesView];
+    for (UIView* cellView in [miaoShaTimesView.contentView subviews])
+    {
+        cellView.backgroundColor = RGB(37, 38, 38);
+        ((UILabel*)VIEWWITHTAG(cellView, 101)).textColor = WHITECOLOR;
+        ((UILabel*)VIEWWITHTAG(cellView, 102)).textColor = WHITECOLOR;
+        if (cellView.tag == currentIndex)
+        {
+            cellView.backgroundColor = CZJREDCOLOR;
+        }
+    }
+    
     //秒杀倒计时栏
     headerCell = [CZJUtils getXibViewByName:@"CZJMiaoShaControlHeaderCell"];
-    headerCell.frame = CGRectMake(0, 114, PJ_SCREEN_WIDTH, 30);
+    headerCell.frame = CGRectMake(0, 114, PJ_SCREEN_WIDTH, 35);
     [self.view addSubview:headerCell];
+    
+    //提示小三角
+    trangleView = [[UIImageView alloc]initWithImage:IMAGENAMED(@"miaosha_icon_angle")];
+    [trangleView setSize:CGSizeMake(21, 6)];
+    [trangleView setPosition:CGPointMake(miaoShaTimesView.viewOne.frame.size.width * 0.5, 113) atAnchorPoint:CGPointTopMiddle];
+    [self.view addSubview:trangleView];
     
     //秒杀内容
     CZJMiaoShaOneController* allVC = [[CZJMiaoShaOneController alloc]init];
@@ -74,25 +99,14 @@ CZJNaviagtionBarViewDelegate
     noEvaVC.delegate = self;
 
     pageControls = @[allVC, nopayVC, nobuildVC,noReceiveVC, noEvaVC];
-    CGRect pageViewFrame = CGRectMake(0, StatusBar_HEIGHT + NavigationBar_HEIGHT, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - StatusBar_HEIGHT);
+    CGRect pageViewFrame = CGRectMake(0, StatusBar_HEIGHT + NavigationBar_HEIGHT + 50 +  35, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - StatusBar_HEIGHT);
+    CZJPageControlViewConfig* config = [[CZJPageControlViewConfig alloc]init];
+    config.pageControllerFrame = CGRectMake(0, 0, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - (StatusBar_HEIGHT + NavigationBar_HEIGHT + 50 +  35));
+    
     pageControlView = [[CZJPageControlView alloc]initWithFrame:pageViewFrame andPageIndex:0];
+    [pageControlView setPageControlViewConfig:config];
     pageControlView.backgroundColor = CLEARCOLOR;
     [self.view addSubview:pageControlView];
-    
-    //秒杀场次栏
-    miaoShaTimesView = [CZJUtils getXibViewByName:@"CZJMiaoShaTimesView"];
-    miaoShaTimesView.frame = CGRectMake(0, 64, PJ_SCREEN_WIDTH, 50);
-    [self.view addSubview:miaoShaTimesView];
-    for (UIView* cellView in [miaoShaTimesView.contentView subviews])
-    {
-        cellView.backgroundColor = RGB(50, 50, 50);
-        ((UILabel*)VIEWWITHTAG(cellView, 101)).textColor = WHITECOLOR;
-        ((UILabel*)VIEWWITHTAG(cellView, 102)).textColor = WHITECOLOR;
-        if (cellView.tag == currentIndex)
-        {
-            cellView.backgroundColor = REDCOLOR;
-        }
-    }
 }
 
 - (void)initMiaoShaPageView
@@ -101,9 +115,15 @@ CZJNaviagtionBarViewDelegate
     {
         CZJMiaoShaListBaseController* baseVC = pageControls[i];
         baseVC.miaoShaTimes = miaoShaControllerForm.skillTimes[i];
+        
+        
+        UIView* topTimeView = VIEWWITHTAG(miaoShaTimesView, 3000 + i);
+        UITapGestureRecognizer* tapGes = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapGesture:)];
+
+        [topTimeView addGestureRecognizer:tapGes];
     }
     [pageControlView setTitleArray:@[@"",@"",@"",@"",@""] andVCArray:pageControls];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateDateIntervalButton:) name:kCZJNotifikOrderListType object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateMiaoShaTime:) name:kCZJNotifikOrderListType object:nil];
     
     [self setTimestamp:[((CZJMiaoShaTimesForm*)miaoShaControllerForm.skillTimes[4]).skillTime integerValue] - [miaoShaControllerForm.currentTime integerValue]];
 }
@@ -174,7 +194,7 @@ CZJNaviagtionBarViewDelegate
 
 
 #pragma mark- PageControl改变页面通知反馈
-- (void)updateDateIntervalButton:(NSNotification*)notif
+- (void)updateMiaoShaTime:(NSNotification*)notif
 {
     currentIndex = [[notif.userInfo objectForKey:@"currentIndex"] integerValue];
 }
@@ -193,4 +213,10 @@ CZJNaviagtionBarViewDelegate
             break;
     }
 }
+
+- (void)handleTapGesture:(UIGestureRecognizer *)tapGesture
+{
+    DLog(@"");
+}
+
 @end

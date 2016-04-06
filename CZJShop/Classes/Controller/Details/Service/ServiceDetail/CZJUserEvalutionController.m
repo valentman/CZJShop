@@ -201,7 +201,7 @@ UITableViewDataSource
         cell.evalContent.text = detailEvalform.message;
         CGSize contenSize = [CZJUtils calculateStringSizeWithString:detailEvalform.message Font:SYSTEMFONT(12) Width:PJ_SCREEN_WIDTH - 40];
         cell.evalContentLayoutHeight.constant = contenSize.height;
-        
+        cell.picView.hidden = YES;
         for (int i = 0; i < detailEvalform.evalImgs.count; i++)
         {
             UIImageView* evaluateImage = [[UIImageView alloc]init];
@@ -209,6 +209,7 @@ UITableViewDataSource
             CGRect iamgeRect = [CZJUtils viewFramFromDynamic:CZJMarginMake(0, 10) size:CGSizeMake(78, 78) index:i divide:Divide];
             evaluateImage.frame = iamgeRect;
             [cell.picView addSubview:evaluateImage];
+            cell.picView.hidden = NO;
         }
         cell.separatorInset = HiddenCellSeparator;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;

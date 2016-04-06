@@ -44,7 +44,14 @@
 
 - (void)imagePlayerView:(ImagePlayerView *)imagePlayerView loadImageForImageView:(UIImageView *)imageView index:(NSInteger)index
 {
-    [imageView sd_setImageWithURL:[_imageArray objectAtIndex:index] placeholderImage:nil];
+    __weak typeof(self) weak = self;
+    imageView.alpha = 0;
+    [imageView sd_setImageWithURL:[_imageArray objectAtIndex:index] placeholderImage:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+        weak.holderImg.alpha = 0;
+       [UIView animateWithDuration:1.0 animations:^{
+           imageView.alpha = 1;
+       }];
+    }];
 }
 
 - (void)imagePlayerView:(ImagePlayerView *)imagePlayerView didTapAtIndex:(NSInteger)index

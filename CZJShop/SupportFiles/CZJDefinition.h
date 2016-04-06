@@ -147,6 +147,11 @@ static NSString *const kCZJServerAPIAddEvalution = @"chezhu/evalAdd.do";        
 static NSString *const kCZJServerAPIZHIBAOCARD = @"chezhu/showWarrantyCenter.do";                   //质保卡查询
 
 
+//--------------------------------------------------
+static NSString *const REDPACKET_HINT = @"jsp/redpacket.jsp";                                       // 红包使用说明
+static NSString *const CODE_HINT = @"jsp/couponCode.jsp";                                           // 优惠码使用说明
+static NSString *const YUE_HINT = @"jsp/cardmoney.jsp";                                             // 余额使用说明
+static NSString *const COUPON_HINT = @"jsp/coupon.jsp";                                             // 优惠券使用说明
 
 static NSString *const SUOLUE_PIC_200 = @"?imageView2/1/w/200/h/200/q/75";
 static NSString *const SUOLUE_PIC_500 = @"?imageView2/1/w/600/h/600/q/75";

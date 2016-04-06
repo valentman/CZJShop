@@ -38,6 +38,7 @@
             </tableViewCellContentView>
             <animations/>
             <connections>
+                <outlet property="holderImg" destination="FYE-ZK-dtg" id="U1g-xo-Wdu"/>
                 <outlet property="picDetailView" destination="xZu-hJ-ZQ0" id="IcP-e7-dq7"/>
             </connections>
         </tableViewCell>

@@ -16,6 +16,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.tabBar.backgroundColor = RGB(0, 0, 0);
 }
 
 - (void)didReceiveMemoryWarning {

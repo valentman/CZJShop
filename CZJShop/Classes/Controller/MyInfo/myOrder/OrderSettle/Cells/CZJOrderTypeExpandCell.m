@@ -43,5 +43,9 @@
 - (IBAction)clickAction:(id)sender
 {
     [self.delegate clickToExpandOrderType];
+    if (self.buttonClick)
+    {
+        self.buttonClick(nil);
+    }
 }
 @end

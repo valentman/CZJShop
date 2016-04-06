@@ -17,6 +17,7 @@
 @property (weak, nonatomic) IBOutlet ImagePlayerView *picDetailView;
 @property (weak, nonatomic) NSMutableArray* activeties;
 @property (weak, nonatomic) id<CZJImageViewTouchDelegate> delegate;
+@property (weak, nonatomic) IBOutlet UIImageView *holderImg;
 
 - (void)someMethodNeedUse:(NSIndexPath *)indexPath DataModel:(NSMutableArray*)array;
 @end

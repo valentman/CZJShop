@@ -24,6 +24,7 @@ UITableViewDataSource
 @property (weak, nonatomic) IBOutlet UITableView *myTableView;
 @property (assign, nonatomic) NSInteger page;
 @property (weak, nonatomic) IBOutlet UIView *verticalSeparatorView;
+- (void)useGuideAction:(id)sender;
 @end
 
 @implementation CZJMyWalletRedpacketController
@@ -31,6 +32,17 @@ UITableViewDataSource
 - (void)viewDidLoad {
     [super viewDidLoad];
     [CZJUtils customizeNavigationBarForTarget:self];
+    //UIButton
+    UIButton *leftBtn = [[ UIButton alloc ] initWithFrame : CGRectMake(- 20 , 0 , 88 , 44 )];
+    [leftBtn setTitleColor:WHITECOLOR forState:UIControlStateNormal];
+    [leftBtn setTitle:@"使用说明" forState:UIControlStateNormal];
+    [leftBtn addTarget:self action:@selector(useGuideAction:) forControlEvents:UIControlEventTouchUpInside];
+    [leftBtn setTitleColor:WHITECOLOR forState:UIControlStateNormal]; //将leftItem设置为自定义按钮
+    
+    //UIBarButtonItem
+    UIBarButtonItem *rightItem =[[UIBarButtonItem alloc]initWithCustomView: leftBtn];
+    self.navigationItem.rightBarButtonItem = rightItem;
+    
     [self initMyDatas];
     [self initViews];
     [self getRedPacketInfoFromSever];
@@ -161,4 +173,10 @@ UITableViewDataSource
     return 100;
 }
 
+- (void)useGuideAction:(id)sender
+{
+    CZJWebViewController* webView = (CZJWebViewController*)[CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:@"webViewSBID"];
+    webView.cur_url = [NSString stringWithFormat:@"%@%@",kCZJServerAddr,REDPACKET_HINT];
+    [self.navigationController pushViewController:webView animated:YES];
+}
 @end

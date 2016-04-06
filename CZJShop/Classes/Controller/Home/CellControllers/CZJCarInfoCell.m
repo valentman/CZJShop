@@ -82,7 +82,7 @@
     [_infoView addSubview:lines];
     if (_infocount > 1)
     {
-        self.autoScrollTimer = [NSTimer scheduledTimerWithTimeInterval:3.0 target:self selector:@selector(beginLoop:) userInfo:nil repeats:YES];
+        self.autoScrollTimer = [NSTimer scheduledTimerWithTimeInterval:4.0 target:self selector:@selector(beginLoop:) userInfo:nil repeats:YES];
         [[NSRunLoop currentRunLoop] addTimer:self.autoScrollTimer forMode:UITrackingRunLoopMode];
     }
 }

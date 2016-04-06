@@ -71,10 +71,11 @@
     NSString* priceStr = [NSString stringWithFormat:@"￥%@",form.originalPrice];
     CGSize priceSize = [CZJUtils calculateTitleSizeWithString:priceStr AndFontSize:14];
     cell.originPriceLayoutWidth.constant = priceSize.width + 5;
-    [cell.originPriceLabel setAttributedText:[CZJUtils stringWithDeleteLine:priceStr]];
+    NSAttributedString* priceDeleteStr = [CZJUtils stringWithDeleteLine:priceStr];
+    [cell.originPriceLabel setAttributedText:priceDeleteStr];
     cell.currentPriceLabel.text = [rmb stringByAppendingString:form.currentPrice];
     cell.iconImage.backgroundColor=UIColorFromRGB(0xF8FCF8);
-    [cell.iconImage sd_setImageWithURL:[NSURL URLWithString:form.img] placeholderImage:DefaultPlaceHolderImage];
+    [cell.iconImage sd_setImageWithURL:[NSURL URLWithString:form.itemImg] placeholderImage:DefaultPlaceHolderImage];
     return cell;
 }
 

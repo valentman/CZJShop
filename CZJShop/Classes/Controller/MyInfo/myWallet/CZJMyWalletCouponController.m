@@ -29,21 +29,39 @@
     self.naviBarView.mainTitleLabel.text = @"优惠券";
     self.naviBarView.buttomSeparator.hidden = YES;
     
+    //右按钮
+    UIButton* rightBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    rightBtn.frame = CGRectMake(PJ_SCREEN_WIDTH - 100 , 0 , 100 , 44 );
+    rightBtn.titleLabel.textAlignment = NSTextAlignmentRight;
+    [rightBtn setTitle:@"使用说明" forState:UIControlStateNormal];
+    [rightBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+    [rightBtn setSelected:NO];
+    [rightBtn setTag:2999];
+    rightBtn.titleLabel.font = SYSTEMFONT(16);
+    [self.naviBarView addSubview:rightBtn];
+    [rightBtn addTarget:self action:@selector(edit:) forControlEvents:UIControlEventTouchUpInside];
+    
     CZJMyWalletCouponUnUsedController* unUsed = [[CZJMyWalletCouponUnUsedController alloc]init];
     CZJMyWalletCouponUsedController* used = [[CZJMyWalletCouponUsedController alloc]init];
     CZJMyWalletCouponOutOfTimeController* outOfTime = [[CZJMyWalletCouponOutOfTimeController alloc]init];
     CGRect pageViewFrame = CGRectMake(0, StatusBar_HEIGHT + NavigationBar_HEIGHT, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT);
     CZJPageControlView* pageview = [[CZJPageControlView alloc]initWithFrame:pageViewFrame andPageIndex:0];
+    pageview.backgroundColor = WHITECOLOR;
     [pageview setTitleArray:@[@"未使用",@"已使用",@"已过期"] andVCArray:@[unUsed, used, outOfTime]];
-    pageview.backgroundColor = CZJNAVIBARBGCOLOR;
     
     [self.view addSubview:pageview];
+}
+
+- (void)edit:(id)sender
+{
+    CZJWebViewController* webView = (CZJWebViewController*)[CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:@"webViewSBID"];
+    webView.cur_url = [NSString stringWithFormat:@"%@%@",kCZJServerAddr,COUPON_HINT];
+    [self.navigationController pushViewController:webView animated:YES];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
-
 @end
 
 
@@ -51,8 +69,7 @@
 @interface CZJMyWalletCouponListBaseController ()
 <
 UITableViewDataSource,
-UITableViewDelegate,
-PullTableViewDelegate
+UITableViewDelegate
 >
 {
     MJRefreshAutoNormalFooter* refreshFooter;
@@ -66,16 +83,22 @@ PullTableViewDelegate
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    _couponList = [NSMutableArray array];
+    [self initMyDatas];
     [self initViews];
+}
+
+- (void)initMyDatas
+{
+    _couponList = [NSMutableArray array];
+    _params = [NSMutableDictionary dictionary];
+    page = 1;
 }
 
 - (void)initViews
 {
     CGRect viewRect = CGRectMake(0, 0, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT- 114);
     _myTableView = [[UITableView alloc]initWithFrame:viewRect style:UITableViewStylePlain];
-    
-    _myTableView.backgroundColor = CZJNAVIBARBGCOLOR;
+    _myTableView.backgroundColor = WHITECOLOR;
     _myTableView.tableFooterView = [[UIView alloc]init];
     _myTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     _myTableView.bounces = YES;
@@ -101,7 +124,7 @@ PullTableViewDelegate
     [CZJUtils removeNoDataAlertViewFromTarget:self.view];
     [_params setValue:@(page) forKey:@"page"];
     [CZJBaseDataInstance generalPost:_params success:^(id json) {
-        
+        [MBProgressHUD hideAllHUDsForView:self.view animated:NO];
         //========获取数据返回，判断数据大于0不==========
         NSArray* tmpAry = [[CZJUtils DataFromJson:json] valueForKey:@"msg"];
         if (CZJHomeGetDataFromServerTypeTwo == _getdataType)
@@ -212,17 +235,6 @@ PullTableViewDelegate
     }
     return 10;
 }
-
-#pragma mark- pullTableviewDelegate
-- (void)pullTableViewDidTriggerRefresh:(PullTableView*)pullTableView
-{
-}
-
-- (void)pullTableViewDidTriggerLoadMore:(PullTableView*)pullTableView
-{
-    
-}
-
 @end
 
 
@@ -230,7 +242,7 @@ PullTableViewDelegate
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    _params = @{@"type":@"0", @"page":@"1"};
+    _params = [@{@"type":@"0", @"page":@"1"}mutableCopy];
     [self getCouponListFromServer];
 }
 
@@ -249,7 +261,7 @@ PullTableViewDelegate
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    _params = @{@"type":@"1", @"page":@"1"};
+    _params = [@{@"type":@"1", @"page":@"1"}mutableCopy];
     [self getCouponListFromServer];
 }
 
@@ -262,7 +274,7 @@ PullTableViewDelegate
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    _params = @{@"type":@"2", @"page":@"1"};
+    _params = [@{@"type":@"2", @"page":@"1"}mutableCopy];
     [self getCouponListFromServer];
 }
 

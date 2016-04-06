@@ -33,7 +33,7 @@
 
 - (void)loadImageData{
     self.adBannerImageView.imagePlayerViewDelegate = self;
-    self.adBannerImageView.scrollInterval = 5.0f;
+    self.adBannerImageView.scrollInterval = 6.0f;
     self.adBannerImageView.pageControlPosition = ICPageControlPosition_BottomCenter;
     self.adBannerImageView.hidePageControl = NO;
     [self.adBannerImageView reloadData];
