@@ -44,26 +44,18 @@
 - (void)refreshLessTime
 {
     _timestamp--;
-    CZJDateTime dateTime = [CZJUtils getLeftDatetime:_timestamp];
-    NSString* hourStr = [NSString stringWithFormat:@"%ld", dateTime.hour];
-    if (dateTime.hour < 10)
+    CZJDateTime* dateTime = [CZJUtils getLeftDatetime:_timestamp];
+    self.hourLabel.text = dateTime.hour;
+    self.minutesLabel.text = dateTime.minute;
+    self.secondLabel.text = dateTime.second;
+    if (0 == _timestamp)
     {
-        hourStr =[NSString stringWithFormat:@"0%ld", dateTime.hour];
+        [timer invalidate];
+        timer = nil;
+        if (self.buttonClick)
+        {
+            self.buttonClick(nil);
+        }
     }
-    self.hourLabel.text = hourStr;
-    NSString* minutesStr = [NSString stringWithFormat:@"%ld", dateTime.minute];
-    if (dateTime.minute < 10)
-    {
-        minutesStr = [NSString stringWithFormat:@"0%ld", dateTime.minute];
-    }
-    self.minutesLabel.text = minutesStr;
-    NSString* secondStr = [NSString stringWithFormat:@"%ld", dateTime.second];
-    if (dateTime.second < 10)
-    {
-        secondStr = [NSString stringWithFormat:@"0%ld", dateTime.second];
-    }
-    self.secondLabel.text = secondStr;
 }
-
-
 @end

@@ -759,9 +759,9 @@ void tapToHidePopViewAction(id sender, SEL _cmd)
     return NO;
 }
 
-+ (CZJDateTime)getLeftDatetime:(NSInteger)timeStamp
++ (CZJDateTime*)getLeftDatetime:(NSInteger)timeStamp
 {
-    CZJDateTime dateTime;
+    CZJDateTime* dateTime = [[CZJDateTime alloc]init];
     NSInteger ms = timeStamp;
     NSInteger ss = 1;
     NSInteger mi = ss * 60;
@@ -773,13 +773,48 @@ void tapToHidePopViewAction(id sender, SEL _cmd)
     NSInteger hour = (ms - day * dd) / hh;// 时
     NSInteger minute = (ms - day * dd - hour * hh) / mi;// 分
     NSInteger second = (ms - day * dd - hour * hh - minute * mi) / ss;// 秒
-    dateTime.day = day;
-    dateTime.hour = hour;
-    dateTime.minute = minute;
-    dateTime.second = second;
+    NSString* hourStr = [NSString stringWithFormat:@"%ld", hour];
+    if (hour < 10)
+    {
+        hourStr =[NSString stringWithFormat:@"0%ld", hour];
+    }
+    
+    NSString* minutesStr = [NSString stringWithFormat:@"%ld", minute];
+    if (minute < 10)
+    {
+        minutesStr = [NSString stringWithFormat:@"0%ld", minute];
+    }
+    
+    NSString* secondStr = [NSString stringWithFormat:@"%ld", second];
+    if (second < 10)
+    {
+        secondStr = [NSString stringWithFormat:@"0%ld", second];
+    }
+    
+    dateTime.day = [NSString stringWithFormat:@"%ld", day];
+    dateTime.hour = hourStr;
+    dateTime.minute = minutesStr;
+    dateTime.second = secondStr;
     return dateTime;
 }
 
+
++ (NSString*)getCurrentDateTime
+{
+    NSDateFormatter* formatter = [[NSDateFormatter alloc]init];
+    [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    NSString* dateTime = [formatter stringFromDate:[NSDate date]];
+    return dateTime;
+}
+
++ (NSString*)getDateTimeSinceTime:(NSInteger)skillTime
+{
+    NSDateFormatter* formatter = [[NSDateFormatter alloc]init];
+    [formatter setDateFormat:@"HH:mm"];
+    NSDate* date = [NSDate dateWithTimeIntervalSinceReferenceDate:skillTime];
+    NSString* dateTime = [formatter stringFromDate:date];
+    return dateTime;
+}
 
 + (void)printClassMethodList:(id)target
 {

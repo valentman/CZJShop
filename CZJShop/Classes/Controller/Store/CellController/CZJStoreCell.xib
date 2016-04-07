@@ -27,9 +27,6 @@
                                 </userDefinedRuntimeAttributes>
                             </constraint>
                         </constraints>
-                        <userDefinedRuntimeAttributes>
-                            <userDefinedRuntimeAttribute type="boolean" keyPath="keyPath" value="YES"/>
-                        </userDefinedRuntimeAttributes>
                     </view>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="HQO-oF-ybd">
                         <rect key="frame" x="14" y="18" width="67" height="67"/>

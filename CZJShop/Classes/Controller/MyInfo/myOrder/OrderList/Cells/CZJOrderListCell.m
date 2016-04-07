@@ -187,7 +187,7 @@
         [self.goodImg sd_setImageWithURL:[NSURL URLWithString:goodsForm.itemImg] placeholderImage:DefaultPlaceHolderImage];
         self.goodsNameLabel.text = goodsForm.itemName;
         self.goodsModel.text = goodsForm.itemSku;
-        self.priceLabel.text = [NSString stringWithFormat:@"￥%.1f",[goodsForm.currentPrice floatValue]];
+        self.priceLabel.text = [NSString stringWithFormat:@"￥%.2f",[goodsForm.currentPrice floatValue]];
         CGSize priceSize = [CZJUtils calculateTitleSizeWithString:[NSString stringWithFormat:@"￥%@",goodsForm.currentPrice] AndFontSize:14];
         self.priceLabelWidth.constant = priceSize.width + 20;
         self.numLabel.text = [NSString stringWithFormat:@"×%@",goodsForm.itemCount];

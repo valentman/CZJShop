@@ -12,7 +12,7 @@
 @interface CZJChoosedProductCell : UITableViewCell
 @property (strong, nonatomic)NSIndexPath* indexPath;
 @property (strong, nonatomic)NSString* storeItemPid;
-@property (strong, nonatomic)CZJGoodsSKU* sku;
+@property (strong, nonatomic)CZJGoodsDetail* goodsDetail;
 @property (strong, nonatomic)NSString* counterKey;
 
 @property (weak, nonatomic) IBOutlet UILabel *productType;

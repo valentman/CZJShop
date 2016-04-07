@@ -227,7 +227,7 @@ CZJViewControllerDelegate
             CZJMyInfoShoppingCartCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJMyInfoShoppingCartCell" forIndexPath:indexPath];
             NSString* shoppingCartCount = [USER_DEFAULT valueForKey:kUserDefaultShoppingCartCount];
             [cell.shoppingBtn setBadgeNum:[shoppingCartCount integerValue]];
-            [cell.shoppingBtn setBadgeLabelPosition:CGPointMake(cell.shoppingBtn.frame.size.width*0.95, 0)];
+            [cell.shoppingBtn setBadgeLabelPosition:CGPointMake(cell.shoppingBtn.frame.size.width*0.95, 5)];
             cell.delegate = self;
             return cell;
         }

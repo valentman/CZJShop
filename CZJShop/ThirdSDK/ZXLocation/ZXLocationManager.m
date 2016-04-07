@@ -77,6 +77,13 @@
 
 }
 
+//获取详细地址
+- (void) getAddress:(NSStringBlock)addressBlock
+{
+    self.addressBlock = [addressBlock copy];
+    [self startLocationCoord];
+}
+
 - (void)locationManager:(CLLocationManager *)manager
     didUpdateToLocation:(CLLocation *)newLocation
            fromLocation:(CLLocation *)oldLocation
@@ -101,11 +108,19 @@
                  //四大直辖市的城市信息无法通过locality获得，只能通过获取省份的方法来获得（如果city为空，则可知为直辖市）
                  city = placemark.administrativeArea;
              }
+             
+             _lastAddress = [NSString stringWithFormat:@"%@%@%@%@%@%@",placemark.country,placemark.administrativeArea,placemark.locality,placemark.subLocality,placemark.thoroughfare,placemark.subThoroughfare];//详细地址
+             DLog(@"#######%@",_lastAddress);
 
              DLog(@"city = %@", city);
              if (_stringBlock) {
                 _stringBlock(city);
                 _stringBlock = nil;
+             }
+             if (_addressBlock)
+             {
+                 _addressBlock(_lastAddress);
+                 _addressBlock = nil;
              }
              
          }

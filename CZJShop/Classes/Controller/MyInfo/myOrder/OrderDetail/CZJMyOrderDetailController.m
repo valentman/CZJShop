@@ -530,12 +530,12 @@ CZJPopPayViewDelegate
                 cell.setupView.hidden = YES;
                 [cell.goodsImg sd_setImageWithURL:[NSURL URLWithString:goodsForm.itemImg] placeholderImage:DefaultPlaceHolderImage];
                 cell.goodsNameLabel.text = goodsForm.itemName;
-                cell.priceLabel.text = [NSString stringWithFormat:@"￥%.1f",[goodsForm.currentPrice floatValue]];
+                cell.priceLabel.text = [NSString stringWithFormat:@"￥%.2f",[goodsForm.currentPrice floatValue]];
                 cell.numLabel.text = [NSString stringWithFormat:@"×%@",goodsForm.itemCount];
                 cell.goodsTypeLabel.text = goodsForm.itemSku;
                 cell.setupView.hidden = !goodsForm.setupFlag;
                 cell.goodsNameLayoutWidth.constant = PJ_SCREEN_WIDTH - 68 -15 - 8 - 15;
-                cell.totalPriceLabel.text = [NSString stringWithFormat:@"￥%.1f",[goodsForm.itemCount floatValue] * [goodsForm.currentPrice integerValue]];
+                cell.totalPriceLabel.text = [NSString stringWithFormat:@"￥%.2f",[goodsForm.itemCount floatValue] * [goodsForm.currentPrice floatValue]];
                 
                 if (goodsForm.setupFlag)
                 {
@@ -552,7 +552,7 @@ CZJPopPayViewDelegate
             {
                 CZJPromotionCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJPromotionCell" forIndexPath:indexPath];
                 cell.nameOneLabel.text = @"优惠券:";
-                cell.nameOneNumLabel.text = [NSString stringWithFormat:@"-￥%.1f", [orderDetailForm.couponPrice floatValue]];
+                cell.nameOneNumLabel.text = [NSString stringWithFormat:@"-￥%.2f", [orderDetailForm.couponPrice floatValue]];
                 
                 cell.nameTwoLabel.hidden = !isHaveFullCut;
                 cell.nameTwoNumLabel.hidden = !isHaveFullCut;
@@ -569,11 +569,11 @@ CZJPopPayViewDelegate
                 cell.setupPriceLabel.hidden = YES;
                 cell.setupLabel.hidden = YES;
                 
-                NSString* transportStr = [NSString stringWithFormat:@"+￥%.1f",[orderDetailForm.transportPrice floatValue]];
+                NSString* transportStr = [NSString stringWithFormat:@"+￥%.2f",[orderDetailForm.transportPrice floatValue]];
                 cell.transportPriceLabel.text = transportStr;
                 cell.transportPriceLayoutWidth.constant = [CZJUtils calculateTitleSizeWithString:transportStr AndFontSize:14].width + 10;
                 
-                NSString* totalStr = [NSString stringWithFormat:@"￥%.1f",[orderDetailForm.orderMoney floatValue]];
+                NSString* totalStr = [NSString stringWithFormat:@"￥%.2f",[orderDetailForm.orderMoney floatValue]];
                 cell.totalLabel.text = totalStr;
                 cell.totalPriceLayoutWidth.constant = [CZJUtils calculateTitleSizeWithString:totalStr AndFontSize:17].width + 10;
                 
@@ -581,7 +581,7 @@ CZJPopPayViewDelegate
                 {
                     cell.setupPriceLabel.hidden = NO;
                     cell.setupLabel.hidden = NO;
-                    NSString* setupStr = [NSString stringWithFormat:@"+￥%.1f",[orderDetailForm.setupPrice floatValue]];
+                    NSString* setupStr = [NSString stringWithFormat:@"+￥%.2f",[orderDetailForm.setupPrice floatValue]];
                     cell.setupPriceLabel.text = setupStr;
                     cell.setupPriceLayoutWidth.constant = [CZJUtils calculateTitleSizeWithString:setupStr AndFontSize:14].width + 10;
                 }

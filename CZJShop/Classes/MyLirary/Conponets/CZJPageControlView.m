@@ -126,7 +126,7 @@ UIScrollViewDelegate>
 
 #pragma mark 点击了pageController的按钮
 -(void)changeControllerClick:(id)sender{
-    UIButton *btn = (UIButton *)sender;
+    UIView *btn = (UIView *)sender;
     NSInteger tempIndex = _currentPageIndex;
     __weak typeof (self) weakSelf = self;
     NSInteger nowTemp = btn.tag - BtnTag;

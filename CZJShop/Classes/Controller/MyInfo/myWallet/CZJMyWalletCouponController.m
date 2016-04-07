@@ -189,7 +189,7 @@ UITableViewDelegate
     
     cell.couponsViewLayoutWidth.constant = PJ_SCREEN_WIDTH - 40;
     CZJShoppingCouponsForm* couponForm = (CZJShoppingCouponsForm*)_couponList[indexPath.section];
-    NSString* priceStri = [NSString stringWithFormat:@"￥%.f",[couponForm.value floatValue]];
+    NSString* priceStri = [NSString stringWithFormat:@"￥%.2f",[couponForm.value floatValue]];
     CGSize priceSize = [CZJUtils calculateTitleSizeWithString:priceStri WithFont:SYSTEMFONT(44)];
     cell.couponPriceLabelLayout.constant = priceSize.width + 5;
     cell.couponPriceLabel.text = priceStri;

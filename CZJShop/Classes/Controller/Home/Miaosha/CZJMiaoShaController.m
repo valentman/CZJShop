@@ -14,6 +14,7 @@
 #import "CZJDetailViewController.h"
 #import "CZJMiaoShaTimesView.h"
 
+#define kMiaoShaTimesViewTag 1001
 @interface CZJMiaoShaController ()
 <
 CZJMiaoShaListDelegate,
@@ -21,7 +22,6 @@ CZJNaviagtionBarViewDelegate
 >
 {
     CZJMiaoShaControllerForm* miaoShaControllerForm;
-    
     CZJMiaoShaTimesView* miaoShaTimesView;                  //秒杀场次view
     CZJMiaoShaControlHeaderCell* headerCell;                //秒杀抢购倒计时栏
     CZJPageControlView* pageControlView;                    //秒杀商品区
@@ -42,13 +42,20 @@ CZJNaviagtionBarViewDelegate
     [self initMiaoShaViews];
 }
 
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:kCZJNotifikOrderListType object:nil];
+}
+
 - (void)initMiaoShaData
 {
+    currentIndex = 0;
+    __weak typeof(self) weak = self;
     [CZJBaseDataInstance generalPost:nil success:^(id json) {
         NSDictionary* dict = [[CZJUtils DataFromJson:json] objectForKey:@"msg"];
         miaoShaControllerForm = [CZJMiaoShaControllerForm  objectWithKeyValues:dict];
         DLog(@"%@",miaoShaControllerForm.keyValues);
-        [self initMiaoShaPageView];
+        [weak initMiaoShaPageView];
     }  fail:^{
         
     } andServerAPI:kCZJServerAPIGetKillTimeList];
@@ -64,26 +71,15 @@ CZJNaviagtionBarViewDelegate
     miaoShaTimesView = [CZJUtils getXibViewByName:@"CZJMiaoShaTimesView"];
     miaoShaTimesView.frame = CGRectMake(0, 64, PJ_SCREEN_WIDTH, 50);
     [self.view addSubview:miaoShaTimesView];
-    for (UIView* cellView in [miaoShaTimesView.contentView subviews])
-    {
-        cellView.backgroundColor = RGB(37, 38, 38);
-        ((UILabel*)VIEWWITHTAG(cellView, 101)).textColor = WHITECOLOR;
-        ((UILabel*)VIEWWITHTAG(cellView, 102)).textColor = WHITECOLOR;
-        if (cellView.tag == currentIndex)
-        {
-            cellView.backgroundColor = CZJREDCOLOR;
-        }
-    }
     
     //秒杀倒计时栏
     headerCell = [CZJUtils getXibViewByName:@"CZJMiaoShaControlHeaderCell"];
     headerCell.frame = CGRectMake(0, 114, PJ_SCREEN_WIDTH, 35);
     [self.view addSubview:headerCell];
     
-    //提示小三角
+    //红色提示小三角
     trangleView = [[UIImageView alloc]initWithImage:IMAGENAMED(@"miaosha_icon_angle")];
     [trangleView setSize:CGSizeMake(21, 6)];
-    [trangleView setPosition:CGPointMake(miaoShaTimesView.viewOne.frame.size.width * 0.5, 113) atAnchorPoint:CGPointTopMiddle];
     [self.view addSubview:trangleView];
     
     //秒杀内容
@@ -111,21 +107,64 @@ CZJNaviagtionBarViewDelegate
 
 - (void)initMiaoShaPageView
 {
+    CZJDateTime* dateTime3 = [CZJUtils getLeftDatetime:[miaoShaControllerForm.currentTime integerValue]/1000];
+    DLog(@" day:%@,hour:%@,minute:%@,second:%@", dateTime3.day,dateTime3.hour,dateTime3.minute,dateTime3.second);
     for (int i = 0; i < pageControls.count; i++)
     {
+        CZJMiaoShaTimesForm* miaoShaTimes = miaoShaControllerForm.skillTimes[i];
         CZJMiaoShaListBaseController* baseVC = pageControls[i];
-        baseVC.miaoShaTimes = miaoShaControllerForm.skillTimes[i];
+        baseVC.miaoShaTimes = miaoShaTimes;
         
-        
-        UIView* topTimeView = VIEWWITHTAG(miaoShaTimesView, 3000 + i);
-        UITapGestureRecognizer* tapGes = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapGesture:)];
+        //秒杀场次栏
+        NSInteger skillTime = [miaoShaTimes.skillTime integerValue] / 1000;
 
+        UIView* topTimeView = VIEWWITHTAG(miaoShaTimesView, kMiaoShaTimesViewTag + i);
+        ((UILabel*)VIEWWITHTAG(topTimeView, 101)).text = [CZJUtils getDateTimeSinceTime:skillTime];
+        ((UILabel*)VIEWWITHTAG(topTimeView, 102)).text = [miaoShaTimes.status boolValue] ? @"抢购中" : @"即将开始";
+        UITapGestureRecognizer* tapGes = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapGesture:)];
         [topTimeView addGestureRecognizer:tapGes];
     }
     [pageControlView setTitleArray:@[@"",@"",@"",@"",@""] andVCArray:pageControls];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateMiaoShaTime:) name:kCZJNotifikOrderListType object:nil];
+    [self updateMiaoshaHeaderViews];
+}
+
+
+- (void)handleTapGesture:(UIGestureRecognizer *)tapGesture
+{
+    currentIndex = tapGesture.view.tag - kMiaoShaTimesViewTag;
+    [pageControlView changeControllerClick:tapGesture.view];
+    [self updateMiaoshaHeaderViews];
+}
+
+- (void)updateMiaoshaHeaderViews
+{
+    UIView* miaoShaViewTmp;
+    //秒杀场次栏
+    for (UIView* cellView in [miaoShaTimesView.contentView subviews])
+    {
+        cellView.backgroundColor = RGB(37, 38, 38);
+        ((UILabel*)VIEWWITHTAG(cellView, 101)).textColor = WHITECOLOR;
+        ((UILabel*)VIEWWITHTAG(cellView, 102)).textColor = WHITECOLOR;
+        if ((cellView.tag - kMiaoShaTimesViewTag) == currentIndex)
+        {
+            miaoShaViewTmp = cellView;
+            cellView.backgroundColor = CZJREDCOLOR;
+        }
+    }
+
+    //红色提示小三角
+    [trangleView setPosition:CGPointMake(miaoShaViewTmp.frame.origin.x + miaoShaViewTmp.frame.size.width * 0.5, 113) atAnchorPoint:CGPointTopMiddle];
     
-    [self setTimestamp:[((CZJMiaoShaTimesForm*)miaoShaControllerForm.skillTimes[4]).skillTime integerValue] - [miaoShaControllerForm.currentTime integerValue]];
+    
+    //秒杀倒计时栏
+    CZJMiaoShaTimesForm* miaoshaTimeForm = ((CZJMiaoShaTimesForm*)miaoShaControllerForm.skillTimes[currentIndex]);
+    NSInteger currentTime = [miaoShaControllerForm.currentTime integerValue];
+    NSInteger skillTime = [miaoshaTimeForm.skillTime integerValue];
+    NSInteger timeinterval = [miaoshaTimeForm.status boolValue] ? ([((CZJMiaoShaTimesForm*)miaoShaControllerForm.skillTimes[currentIndex + 1]).skillTime integerValue] - currentTime) : (skillTime - currentTime);
+    [self setTimestamp:timeinterval/1000];
+    headerCell.miaoShaTypeLabel.text = [miaoshaTimeForm.status boolValue] ? @"抢购中" : @"即将开始";
+    headerCell.miaoshaTimeStampLabel.text = [miaoshaTimeForm.status boolValue] ? @"距结束" : @"距开始";
 }
 
 
@@ -137,36 +176,19 @@ CZJNaviagtionBarViewDelegate
     _timestamp = timestamp;
     if (_timestamp != 0) {
         [self refreshTimeStamp];
-        timer =[NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(refreshTimeStamp) userInfo:nil repeats:YES];
+        if (!timer) {
+            timer =[NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(refreshTimeStamp) userInfo:nil repeats:YES];
+        }
     }
 }
 
 - (void)refreshTimeStamp
 {
     _timestamp--;
-    CZJDateTime mydateTime = [CZJUtils getLeftDatetime:_timestamp];
-    NSString* hourStr = [NSString stringWithFormat:@"%ld", mydateTime.hour];
-    if (mydateTime.hour < 10)
-    {
-        hourStr =[NSString stringWithFormat:@"0%ld", mydateTime.hour];
-    }
-    
-    NSString* minutesStr = [NSString stringWithFormat:@"%ld", mydateTime.minute];
-    if (mydateTime.minute < 10)
-    {
-        minutesStr = [NSString stringWithFormat:@"0%ld", mydateTime.minute];
-    }
-
-    NSString* secondStr = [NSString stringWithFormat:@"%ld", mydateTime.second];
-    if (mydateTime.second < 10)
-    {
-        secondStr = [NSString stringWithFormat:@"0%ld", mydateTime.second];
-    }
-
-    
-    headerCell.hourLabel.text = hourStr;
-    headerCell.minutesLabel.text = minutesStr;
-    headerCell.secondLabel.text = secondStr;
+    CZJDateTime* mydateTime = [CZJUtils getLeftDatetime:_timestamp];
+    headerCell.hourLabel.text = mydateTime.hour;
+    headerCell.minutesLabel.text = mydateTime.minute;
+    headerCell.secondLabel.text = mydateTime.second;
     
     if (_timestamp == 0) {
         [timer invalidate];
@@ -178,7 +200,7 @@ CZJNaviagtionBarViewDelegate
 
 - (void)timeStop
 {
-    
+    [self initMiaoShaData];
 }
 
 #pragma mark- CZJMiaoShaListDelegate
@@ -189,6 +211,7 @@ CZJNaviagtionBarViewDelegate
     detailVC.detaiViewType = CZJDetailTypeGoods;
     detailVC.promotionType = CZJGoodsPromotionTypeMiaoSha;
     detailVC.promotionPrice = cellForm.currentPrice;
+    detailVC.miaoShaInterval = _timestamp;
     [self.navigationController pushViewController:detailVC animated:YES];
 }
 
@@ -197,6 +220,7 @@ CZJNaviagtionBarViewDelegate
 - (void)updateMiaoShaTime:(NSNotification*)notif
 {
     currentIndex = [[notif.userInfo objectForKey:@"currentIndex"] integerValue];
+    [self updateMiaoshaHeaderViews];
 }
 
 - (void)clickEventCallBack:(id)sender
@@ -214,9 +238,5 @@ CZJNaviagtionBarViewDelegate
     }
 }
 
-- (void)handleTapGesture:(UIGestureRecognizer *)tapGesture
-{
-    DLog(@"");
-}
 
 @end

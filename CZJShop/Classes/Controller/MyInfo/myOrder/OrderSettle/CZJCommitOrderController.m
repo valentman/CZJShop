@@ -154,8 +154,10 @@ CZJNaviagtionBarViewDelegate
 
 - (void)getSettleDataFromServer
 {
+    DLog(@"commitData: %@",[[CZJUtils JsonFromData:_settleParamsAry] description]);
     NSDictionary* parmas = @{@"cartsJson" : [CZJUtils JsonFromData:_settleParamsAry]};
     [CZJBaseDataInstance loadSettleOrder:parmas Success:^(id json){
+        DLog(@"feedbackData: %@",[[CZJUtils DataFromJson:json] description]);
         _orderForm  = [CZJOrderForm objectWithKeyValues:[[CZJUtils DataFromJson:json] valueForKey:@"msg"]];
         _orderStoreAry = [_orderForm.stores mutableCopy];
         [self dealWithOrderFormDatas];
@@ -400,7 +402,7 @@ CZJNaviagtionBarViewDelegate
         [cell.redPacketImg setImage:IMAGENAMED(@"commit_icon_yue")];
         cell.redPacketNameLabel.text = @"余额";
         cell.leftLabel.text = @"可用余额:";
-        NSString* balance = [NSString stringWithFormat:@"￥%.1f",[_orderForm.cardMoney floatValue] - useBalancePrice];
+        NSString* balance = [NSString stringWithFormat:@"￥%.2f",[_orderForm.cardMoney floatValue] - useBalancePrice];
         cell.leftCountLabel.text = balance;
         cell.redBackWidth.constant = [CZJUtils calculateStringSizeWithString:balance Font:SYSTEMFONT(13) Width:200].width + 10;
         cell.delegate = self;
@@ -413,7 +415,7 @@ CZJNaviagtionBarViewDelegate
         cell.redPacketNameLabel.text = @"红包";
         cell.leftLabel.text = @"可用红包:";
         cell.descLabel.text = [NSString stringWithFormat:@"(仅限%@)",selfShopName];
-        NSString* redcount = [NSString stringWithFormat:@"￥%.1f",[_orderForm.redpacket floatValue] - useRedPacketPrice];
+        NSString* redcount = [NSString stringWithFormat:@"￥%.2f",[_orderForm.redpacket floatValue] - useRedPacketPrice];
         cell.leftCountLabel.text = redcount;
         cell.redBackWidth.constant = [CZJUtils calculateStringSizeWithString:redcount Font:SYSTEMFONT(13) Width:200].width + 10;
         cell.delegate = self;
@@ -797,7 +799,7 @@ CZJNaviagtionBarViewDelegate
         }
     }
     [self dealWithOrderFormDatas];
-    _totalPriceLabel.text = [NSString stringWithFormat:@"￥%.1f",orderFinalPrice];
+    _totalPriceLabel.text = [NSString stringWithFormat:@"￥%.2f",orderFinalPrice];
 }
 
 

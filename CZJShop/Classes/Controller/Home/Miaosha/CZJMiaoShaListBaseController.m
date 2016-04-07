@@ -124,6 +124,7 @@ UITableViewDelegate
         [cell.alreadyBuyBtn setTitle:limitStr forState:UIControlStateNormal];
         float widt = cell.alreadyBuyBtn.frame.size.width * (1 - rate) * -1;
         cell.backgroundLabelTrailing.constant = widt;
+        cell.goBuyBtn.userInteractionEnabled = NO;
     }
     else if (1 == [miaoshaCellForm.limitPoint integerValue])
     {
@@ -131,6 +132,7 @@ UITableViewDelegate
         cell.alreadyOverView.hidden = NO;
     }
     cell.separatorInset = HiddenCellSeparator;
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
 
@@ -149,6 +151,8 @@ UITableViewDelegate
         [self.delegate clickMiaoShaCell:cellForm];
     }
 }
+
+
 @end
 
 

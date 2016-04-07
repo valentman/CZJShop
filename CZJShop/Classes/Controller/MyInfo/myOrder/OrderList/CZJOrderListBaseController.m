@@ -185,7 +185,7 @@ CZJOrderListCellDelegate
         totalToPay += [cellForm.orderMoney floatValue] * (allchooseBtn.selected ? 1 : 0);;
         cellForm.isSelected = allchooseBtn.selected;
     }
-    _noPayButtomView.totalLabel.text = [NSString stringWithFormat:@"￥%.1f",totalToPay];
+    _noPayButtomView.totalLabel.text = [NSString stringWithFormat:@"￥%.2f",totalToPay];
     [self.myTableView reloadData];
 }
 
@@ -272,7 +272,7 @@ CZJOrderListCellDelegate
     }
     _noPayButtomView.allChooseBtn.selected = allChoose;
     totalToPay += [orderListForm.orderMoney floatValue] * (btn.selected ? 1 : -1);
-    _noPayButtomView.totalLabel.text = [NSString stringWithFormat:@"￥%.1f",totalToPay];
+    _noPayButtomView.totalLabel.text = [NSString stringWithFormat:@"￥%.2f",totalToPay];
     [self.delegate clickOrderListCellButton:btn
                               andButtonType:CZJOrderListCellBtnTypeSelectToPay
                                andOrderForm:orderListForm];

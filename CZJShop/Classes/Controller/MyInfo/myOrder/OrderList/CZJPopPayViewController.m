@@ -120,7 +120,7 @@ CZJOrderListPayCellDelegate
     if (_orderTypeAry.count == indexPath.row)
     {
         CZJOrderListPayCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJOrderListPayCell" forIndexPath:indexPath];
-        cell.orderMoneyLabel.text = [NSString stringWithFormat:@"￥%.1f",self.orderMoney];
+        cell.orderMoneyLabel.text = [NSString stringWithFormat:@"￥%.2f",self.orderMoney];
         cell.delegate = self;
         cell.separatorInset = HiddenCellSeparator;
         return cell;

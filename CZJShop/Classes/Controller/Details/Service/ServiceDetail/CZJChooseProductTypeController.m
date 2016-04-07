@@ -14,27 +14,10 @@
 
 
 @implementation CZJLevelSku
-@synthesize valueId = _valueId;
-@synthesize valueName = _valueName;
-@synthesize nextLevelSkus = _nextLevelSkus;
-
-- (id)initWithDictionary:(NSDictionary *)dict
++ (NSDictionary*)objectClassInArray
 {
-    if (self = [super init])
-    {
-        _nextLevelSkus = [NSMutableArray array];
-        self.valueId = [dict valueForKey:@"valueId"];
-        self.valueName = [dict valueForKey:@"valueName"];
-        NSArray* twoSkus = [dict valueForKey:@"twoSkus"];
-        for (NSDictionary* dicts in twoSkus) {
-            CZJLevelSku* sku = [[CZJLevelSku alloc]initWithDictionary:dicts];
-            [self.nextLevelSkus addObject:sku];
-        }
-        return self;
-    }
-    return nil;
+    return @{@"twoSkus" : @"CZJLevelSku"};
 }
-
 @end
 
 
@@ -44,7 +27,6 @@ UITableViewDelegate,
 UITableViewDataSource
 >
 {
-    NSMutableDictionary* _params;
     NSMutableArray* _items;
     NSMutableArray* _labels;
     NSMutableArray* _oneLevelSkus;
@@ -71,71 +53,78 @@ UITableViewDataSource
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    _params = [NSMutableDictionary dictionary];
+    [self initMyDatas];
+    [self initMyViews];
+    [self getSKUDataFromServer];
+}
+
+- (void)initMyDatas
+{
     _items = [NSMutableArray array];
     _labels = [NSMutableArray array];
     _oneLevelSkus = [NSMutableArray array];
     _twoLevelSkus = [NSMutableArray array];
     _choosedSkuValues = [NSMutableArray array];
+    _choosedSkuValues = [[self.goodsDetail.sku.skuValues componentsSeparatedByString:@" "] mutableCopy];
     _currentIndex = 1;
     isFirstLoad = YES;
     isFirstLoadTwo = YES;
-    
+}
+
+- (void)initMyViews
+{
+    //TableView
+     CGRect rect = [self.view bounds];
+    _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 20, PJ_SCREEN_WIDTH - 50, rect.size.height) style:UITableViewStylePlain];
+    _tableView.userInteractionEnabled=YES;
+    _tableView.scrollsToTop=YES;
+    _tableView.scrollEnabled = NO;
+    _tableView.separatorStyle = UITableViewCellSelectionStyleNone;
+    _tableView.backgroundColor = [UIColor whiteColor];
+    self.automaticallyAdjustsScrollViewInsets = NO;
     [self.view addSubview:[self tableView]];
     UINib* nib1 = [UINib nibWithNibName:@"CZJChooseTypeHeaderCell" bundle:nil];
     [_tableView registerNib:nib1 forCellReuseIdentifier:@"CZJChooseTypeHeaderCell"];
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];\
-}
-
-
-
-- (void)subButtonPressed:(id)sender
-{
-    --choosedCount ;
     
-    if (choosedCount <= 1) {
-        choosedCount= 1;
-        ((WLZ_ChangeCountView*)VIEWWITHTAG(addCellView, 1010)).subButton.enabled=NO;
-    }
-    else
+    //底部加入购物车或立即购买
+    UIButton* addToShoppingCartBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [addToShoppingCartBtn setTitleColor:WHITECOLOR forState:UIControlStateNormal];
+    [addToShoppingCartBtn setTitle:@"加入购物车" forState:UIControlStateNormal];
+    [addToShoppingCartBtn setBackgroundColor:CZJGREENCOLOR];
+    [addToShoppingCartBtn.titleLabel setFont:SYSTEMFONT(15)];
+    UIButton* immeditelyBuyBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [immeditelyBuyBtn setTitleColor:WHITECOLOR forState:UIControlStateNormal];
+    [immeditelyBuyBtn setTitle:@"立即购买" forState:UIControlStateNormal];
+    [immeditelyBuyBtn setBackgroundColor:CZJREDCOLOR];
+    [immeditelyBuyBtn.titleLabel setFont:SYSTEMFONT(15)];
+    
+    if (0 == [_goodsDetail.buyType floatValue])
     {
-        ((WLZ_ChangeCountView*)VIEWWITHTAG(addCellView, 1010)).addButton.enabled=YES;
-        
+        CGRect addRect = CGRectMake(0, PJ_SCREEN_HEIGHT - 50, (PJ_SCREEN_WIDTH - 50)*0.5, 50);
+        CGRect imditelyRect = CGRectMake((PJ_SCREEN_WIDTH - 50)*0.5, PJ_SCREEN_HEIGHT - 50, (PJ_SCREEN_WIDTH - 50)*0.5, 50);
+        addToShoppingCartBtn.frame = addRect;
+        immeditelyBuyBtn.frame = imditelyRect;
+        [self.view addSubview:addToShoppingCartBtn];
+        [self.view addSubview:immeditelyBuyBtn];
     }
-    ((WLZ_ChangeCountView*)VIEWWITHTAG(addCellView, 1010)).numberFD.text=[NSString stringWithFormat:@"%zi",choosedCount];
-}
-
-- (void)addButtonPressed:(id)sender
-{
-    ++choosedCount ;
-    if (choosedCount > 1) {
-        ((WLZ_ChangeCountView*)VIEWWITHTAG(addCellView, 1010)).subButton.enabled=YES;
-    }
-    
-    if(choosedCount>=99)
+    if (1 == [_goodsDetail.buyType floatValue])
     {
-        [MBProgressHUD showHUDAddedTo:self.view animated:YES].labelText = @"最多支持购买99个";
-        choosedCount  = 99;
-        ((WLZ_ChangeCountView*)VIEWWITHTAG(addCellView, 1010)).addButton.enabled = NO;
+        addToShoppingCartBtn.hidden = YES;
+        CGRect imditelyRect = CGRectMake(0, PJ_SCREEN_HEIGHT - 50, (PJ_SCREEN_WIDTH - 50), 50);
+        immeditelyBuyBtn.frame = imditelyRect;
+        [self.view addSubview:immeditelyBuyBtn];
     }
-    
-    ((WLZ_ChangeCountView*)VIEWWITHTAG(addCellView, 1010)).numberFD.text=[NSString stringWithFormat:@"%zi",choosedCount];
-
 }
 
 - (void)getSKUDataFromServer
 {
-    _choosedSkuValues = [[self.currentSku.skuValues componentsSeparatedByString:@" "] mutableCopy];
     
-    [_params removeAllObjects];
-    [_params setObject:self.storeItemPid forKey:@"storeItemPid"];
-    [_params setObject:self.counterKey forKey:@"counterKey"];
+    NSDictionary* params = @{@"storeItemPid" : self.goodsDetail.storeItemPid == nil ? @"" : self.goodsDetail.storeItemPid,
+                             @"counterKey" : self.goodsDetail.counterKey == nil ? @"" : self.goodsDetail.counterKey};
     CZJSuccessBlock successBlock = ^(id json)
     {
         NSDictionary* dict = [CZJUtils DataFromJson:json];
+        DLog(@"%@",[dict description]);
         NSArray* tmpItems = [[dict valueForKey:@"msg"] valueForKey:@"items"];
         _items = [[CZJGoodsSKU objectArrayWithKeyValuesArray:tmpItems] mutableCopy];
         _labels = [[dict valueForKey:@"msg"] valueForKey:@"labels"];
@@ -146,26 +135,18 @@ UITableViewDataSource
         [_tableView reloadData];
     };
     
-    [CZJBaseDataInstance loadGoodsSKU:_params
+    [CZJBaseDataInstance loadGoodsSKU:params
                               Success:successBlock
                                  fail:nil];
 }
 
 
-- (UITableView *)tableView
-{
-    CGRect rect = [self.view bounds];
-    if (!_tableView) {
-        _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 20, PJ_SCREEN_WIDTH - 50, rect.size.height) style:UITableViewStylePlain];
-        _tableView.userInteractionEnabled=YES;
-        _tableView.scrollsToTop=YES;
-        _tableView.separatorStyle = UITableViewCellSelectionStyleNone;
-        _tableView.backgroundColor = [UIColor whiteColor];
-        self.automaticallyAdjustsScrollViewInsets = NO;
-        
-    }
-    return _tableView;
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
 }
+
+
+#pragma mark- UITableViewDatasource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -216,11 +197,8 @@ UITableViewDataSource
             {
                 for (CZJLevelSku* skuForm in _oneLevelSkus)
                 {
-                    if ([oneLevelChoosed isEqualToString:skuForm.valueName])
-                    {
-                        _twoLevelSkus = skuForm.nextLevelSkus;
-                        continue;
-                    }
+                    _twoLevelSkus = skuForm.twoSkus;
+                    continue;
                 }
                 col = ceilf(_twoLevelSkus.count / 3.0);
             }
@@ -236,13 +214,13 @@ UITableViewDataSource
     if (0 == indexPath.section)
     {
         CZJChooseTypeHeaderCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJChooseTypeHeaderCell" forIndexPath:indexPath];
-        CGSize nameSize = [self.currentSku.skuName boundingRectWithSize:CGSizeMake(PJ_SCREEN_WIDTH - 80 - 80, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName: SYSTEMFONT(16)} context:nil].size;
+        CGSize nameSize = [self.goodsDetail.sku.skuName boundingRectWithSize:CGSizeMake(PJ_SCREEN_WIDTH - 80 - 80, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName: SYSTEMFONT(16)} context:nil].size;
         cell.productNameLabelLayoutHeight.constant = nameSize.height;
         cell.productNameLabelLayoutWidth.constant = nameSize.width;
-        cell.productNameLabel.text = self.currentSku.skuName;
-        cell.productPriceLabel.text = [NSString stringWithFormat:@"￥%@",self.currentSku.skuPrice];
-        cell.productCodeLabel.text = self.currentSku.skuCode;
-        [cell.productImage sd_setImageWithURL:[NSURL URLWithString:self.currentSku.skuImg] placeholderImage:DefaultPlaceHolderImage];
+        cell.productNameLabel.text = self.goodsDetail.sku.skuName;
+        cell.productPriceLabel.text = [NSString stringWithFormat:@"￥%@",self.goodsDetail.sku.skuPrice];
+        cell.productCodeLabel.text = self.goodsDetail.sku.skuCode;
+        [cell.productImage sd_setImageWithURL:[NSURL URLWithString:self.goodsDetail.sku.skuImg] placeholderImage:DefaultPlaceHolderImage];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
     }
@@ -298,41 +276,41 @@ UITableViewDataSource
                 [cell setButtonDatas:_oneLevelSkus WithType:kCZJSerfilterTypeChooseCellTypeDetail];
                 [cell setDefaultSelectBtn:oneLevelChoosed];
                 [cell setButtonBlock:^(UIButton* button)
-                {
-                    DLog(@"%ld,%@",button.tag, button.titleLabel.text);
-                    for (CZJLevelSku*goodSku in _oneLevelSkus)
-                    {
-                        if ([goodSku.valueId integerValue] == button.tag)
-                        {
-                            if (1 == _labels.count)
-                            {
-                                for (CZJGoodsSKU* skuForm in _items)
-                                {
-                                    if ([skuForm.skuValueIds integerValue] ==  button.tag)
-                                    {
-                                        self.currentSku = skuForm;
-                                        continue;
-                                    }
-                                }
-                                
-                                NSIndexSet *indexSet=[[NSIndexSet alloc]initWithIndex:0];
-                                [_tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationFade];
-                                [[NSNotificationCenter defaultCenter]postNotificationName:kCZJNotifiRefreshDetailView object:nil userInfo:@{@"storeItemPid" : self.currentSku.storeItemPid}];
-                            }
-                            else
-                            {
-                                _skuValueID = [NSString stringWithFormat:@"%ld",button.tag];
-                                oneLevelChoosed = button.titleLabel.text;
-                                NSIndexSet *indexSet=[[NSIndexSet alloc]initWithIndex:2];
-                                [_tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationFade];
-                                NSString* valueIds = [NSString stringWithFormat:@"%@,%@",_skuValueID,_twoLevelChoosedValueID];
-                                DLog(@"reload over:%@",valueIds);
-                                [self getChoosedStoreItemPid:valueIds];
-                            }
-                        }
-                    }
-                    
-                }];
+                 {
+                     DLog(@"%ld,%@",button.tag, button.titleLabel.text);
+                     for (CZJLevelSku*goodSku in _oneLevelSkus)
+                     {
+                         if ([goodSku.valueId integerValue] == button.tag)
+                         {
+                             if (1 == _labels.count)
+                             {
+                                 for (CZJGoodsSKU* skuForm in _items)
+                                 {
+                                     if ([skuForm.skuValueIds integerValue] ==  button.tag)
+                                     {
+                                         self.goodsDetail.sku = skuForm;
+                                         continue;
+                                     }
+                                 }
+                                 
+                                 NSIndexSet *indexSet=[[NSIndexSet alloc]initWithIndex:0];
+                                 [_tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationFade];
+                                 [[NSNotificationCenter defaultCenter]postNotificationName:kCZJNotifiRefreshDetailView object:nil userInfo:@{@"storeItemPid" : self.goodsDetail.sku.storeItemPid}];
+                             }
+                             else
+                             {
+                                 _skuValueID = [NSString stringWithFormat:@"%ld",button.tag];
+                                 oneLevelChoosed = button.titleLabel.text;
+                                 NSIndexSet *indexSet=[[NSIndexSet alloc]initWithIndex:2];
+                                 [_tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationFade];
+                                 NSString* valueIds = [NSString stringWithFormat:@"%@,%@",_skuValueID,_twoLevelChoosedValueID];
+                                 DLog(@"reload over:%@",valueIds);
+                                 [self getChoosedStoreItemPid:valueIds];
+                             }
+                         }
+                     }
+                     
+                 }];
                 return cell;
             }
             else if (2 == level && level <= totalIndex)
@@ -341,7 +319,7 @@ UITableViewDataSource
                 {
                     if ([oneLevelChoosed isEqualToString:skuForm.valueName])
                     {
-                        _twoLevelSkus = skuForm.nextLevelSkus;
+                        _twoLevelSkus = skuForm.twoSkus;
                         [cell setButtonDatas:_twoLevelSkus WithType:kCZJSerfilterTypeChooseCellTypeDetail];
                         if (isFirstLoadTwo)
                         {
@@ -374,15 +352,49 @@ UITableViewDataSource
 }
 
 
+#pragma mark- Actions
+- (void)subButtonPressed:(id)sender
+{
+    --choosedCount ;
+    if (choosedCount <= 1) {
+        choosedCount= 1;
+        ((WLZ_ChangeCountView*)VIEWWITHTAG(addCellView, 1010)).subButton.enabled=NO;
+    }
+    else
+    {
+        ((WLZ_ChangeCountView*)VIEWWITHTAG(addCellView, 1010)).addButton.enabled=YES;
+        
+    }
+    ((WLZ_ChangeCountView*)VIEWWITHTAG(addCellView, 1010)).numberFD.text=[NSString stringWithFormat:@"%zi",choosedCount];
+}
+
+- (void)addButtonPressed:(id)sender
+{
+    ++choosedCount ;
+    if (choosedCount > 1) {
+        ((WLZ_ChangeCountView*)VIEWWITHTAG(addCellView, 1010)).subButton.enabled=YES;
+    }
+    
+    if(choosedCount>=99)
+    {
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES].labelText = @"最多支持购买99个";
+        choosedCount  = 99;
+        ((WLZ_ChangeCountView*)VIEWWITHTAG(addCellView, 1010)).addButton.enabled = NO;
+    }
+    
+    ((WLZ_ChangeCountView*)VIEWWITHTAG(addCellView, 1010)).numberFD.text=[NSString stringWithFormat:@"%zi",choosedCount];
+
+}
+
 - (void)getChoosedStoreItemPid:(NSString*)valueIDs
 {
     for (CZJGoodsSKU* skuForm in _items)
     {
         if ([skuForm.skuValueIds isEqualToString:valueIDs])
         {
-            self.storeItemPid = skuForm.storeItemPid;
-            self.currentSku = skuForm;
-            [[NSNotificationCenter defaultCenter]postNotificationName:kCZJNotifiRefreshDetailView object:nil userInfo:@{@"storeItemPid" : self.storeItemPid}];
+            self.goodsDetail.sku.storeItemPid = skuForm.storeItemPid;
+            self.goodsDetail.sku = skuForm;
+            [[NSNotificationCenter defaultCenter]postNotificationName:kCZJNotifiRefreshDetailView object:nil userInfo:@{@"storeItemPid" : self.goodsDetail.sku.storeItemPid}];
             NSIndexSet *indexSet=[[NSIndexSet alloc]initWithIndex:0];
             [_tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationFade];
             continue;

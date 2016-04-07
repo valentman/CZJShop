@@ -11,8 +11,9 @@
 
 //----------------------------服务器接口-------------------------------
 //服务地址
-static NSString *const kCZJServerAddr = @"http://192.168.0.251:8080/appserver/";
-//static NSString *const kCZJServerAddr = @"http://101.201.197.202:8080/appserver/";
+//static NSString *const kCZJServerAddr = @"http://192.168.0.251:8080/appserver/";
+static NSString *const kCZJServerAddr = @"http://101.201.197.202:8080/appserver/";
+//static NSString *const kCZJServerAddr = @"http://101.200.189.9:8080/appserver2/";
 //static NSString *const kCZJServerAddr = @"http://m.chezhijian.com/appserver/";
 
 //首页接口组

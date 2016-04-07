@@ -106,11 +106,6 @@
                                 </userDefinedRuntimeAttributes>
                             </constraint>
                         </constraints>
-                        <userDefinedRuntimeAttributes>
-                            <userDefinedRuntimeAttribute type="number" keyPath="constant">
-                                <real key="value" value="0.29999999999999999"/>
-                            </userDefinedRuntimeAttribute>
-                        </userDefinedRuntimeAttributes>
                     </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Zoa-oq-is5">
                         <rect key="frame" x="241" y="77" width="79" height="75"/>

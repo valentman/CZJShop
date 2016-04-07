@@ -21,7 +21,7 @@
                             <constraint firstAttribute="width" secondItem="UQU-yh-jjZ" secondAttribute="height" multiplier="1:1" id="m1q-oX-Xk8"/>
                         </constraints>
                     </imageView>
-                    <label userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="洗车" textAlignment="center" lineBreakMode="characterWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="23u-hU-07T">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="洗车" textAlignment="center" lineBreakMode="characterWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="23u-hU-07T">
                         <rect key="frame" x="0.0" y="85" width="85" height="25"/>
                         <animations/>
                         <constraints>

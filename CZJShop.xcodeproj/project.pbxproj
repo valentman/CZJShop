@@ -18,6 +18,7 @@
 		EC0223B71C59C7BB00600851 /* CZJTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EC0223AA1C59C7BB00600851 /* CZJTableViewCell.m */; settings = {ASSET_TAGS = (); }; };
 		EC0223B81C59C7BB00600851 /* CZJViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EC0223AC1C59C7BB00600851 /* CZJViewController.m */; settings = {ASSET_TAGS = (); }; };
 		EC0223B91C59C7BB00600851 /* LSPageScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = EC0223AE1C59C7BB00600851 /* LSPageScrollView.m */; settings = {ASSET_TAGS = (); }; };
+		EC023F9E1CB63204004602A6 /* CZJDateTime.m in Sources */ = {isa = PBXBuildFile; fileRef = EC023F9D1CB63204004602A6 /* CZJDateTime.m */; settings = {ASSET_TAGS = (); }; };
 		EC025FC81C21036E00A8085E /* MJRefreshAutoFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = EC025F9E1C21036E00A8085E /* MJRefreshAutoFooter.m */; };
 		EC025FC91C21036E00A8085E /* MJRefreshBackFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = EC025FA01C21036E00A8085E /* MJRefreshBackFooter.m */; };
 		EC025FCA1C21036E00A8085E /* MJRefreshComponent.m in Sources */ = {isa = PBXBuildFile; fileRef = EC025FA21C21036E00A8085E /* MJRefreshComponent.m */; };
@@ -1125,6 +1126,8 @@
 		EC0223AC1C59C7BB00600851 /* CZJViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJViewController.m; sourceTree = "<group>"; };
 		EC0223AD1C59C7BB00600851 /* LSPageScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LSPageScrollView.h; sourceTree = "<group>"; };
 		EC0223AE1C59C7BB00600851 /* LSPageScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LSPageScrollView.m; sourceTree = "<group>"; };
+		EC023F9C1CB63204004602A6 /* CZJDateTime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJDateTime.h; sourceTree = "<group>"; };
+		EC023F9D1CB63204004602A6 /* CZJDateTime.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJDateTime.m; sourceTree = "<group>"; };
 		EC025F9D1C21036E00A8085E /* MJRefreshAutoFooter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJRefreshAutoFooter.h; sourceTree = "<group>"; };
 		EC025F9E1C21036E00A8085E /* MJRefreshAutoFooter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJRefreshAutoFooter.m; sourceTree = "<group>"; };
 		EC025F9F1C21036E00A8085E /* MJRefreshBackFooter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJRefreshBackFooter.h; sourceTree = "<group>"; };
@@ -3092,6 +3095,8 @@
 				EC6555671C966E6A00F68ECC /* CZJPaymentOrderForm.m */,
 				ECC4FD621CA8E45E00944E30 /* CZJFilterForm.h */,
 				ECC4FD631CA8E45E00944E30 /* CZJFilterForm.m */,
+				EC023F9C1CB63204004602A6 /* CZJDateTime.h */,
+				EC023F9D1CB63204004602A6 /* CZJDateTime.m */,
 			);
 			name = Madel;
 			path = Classes/Madel;
@@ -6332,6 +6337,7 @@
 				ECD6FF7E1C800043005F8E52 /* GTM_Base64.m in Sources */,
 				ECC4DDE81C17D67B00FBD6A4 /* LJWKeyboardToolBar.m in Sources */,
 				EC583A031C48D4AF001401FC /* CZJStoreDetailForm.m in Sources */,
+				EC023F9E1CB63204004602A6 /* CZJDateTime.m in Sources */,
 				ECC4DE0C1C17D67B00FBD6A4 /* NSObject+MJCoding.m in Sources */,
 				ECD555611C9161BA00BAC8A0 /* CZJMiaoShaController.m in Sources */,
 				EC1C89091C8D720000B96602 /* CZJHotBrandViewCell.m in Sources */,
@@ -6628,7 +6634,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Xiaofan Xiang (3T89NY56XF)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Xiaofan Xiang (3T89NY56XF)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -6656,6 +6663,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				PROVISIONING_PROFILE = "72c33e35-4149-4f8e-a122-9aeaf20542d7";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -6678,7 +6686,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Xiaofan Xiang (3T89NY56XF)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Xiaofan Xiang (3T89NY56XF)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -6699,6 +6708,7 @@
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				PROVISIONING_PROFILE = "72c33e35-4149-4f8e-a122-9aeaf20542d7";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -6716,8 +6726,8 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = NO;
 				CLANG_WARN_OBJC_REPEATED_USE_OF_WEAK = NO;
 				CLANG_WARN__ARC_BRIDGE_CAST_NONARC = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Xiaofan Xiang (3T89NY56XF)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Xiaofan Xiang (3T89NY56XF)";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_BITCODE = NO;
 				ENABLE_TESTABILITY = NO;
@@ -6758,8 +6768,8 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = NO;
 				CLANG_WARN_OBJC_REPEATED_USE_OF_WEAK = NO;
 				CLANG_WARN__ARC_BRIDGE_CAST_NONARC = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Xiaofan Xiang (3T89NY56XF)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Xiaofan Xiang (3T89NY56XF)";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_BITCODE = NO;
 				ENABLE_TESTABILITY = NO;

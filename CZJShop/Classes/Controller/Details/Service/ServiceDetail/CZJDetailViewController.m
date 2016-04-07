@@ -34,6 +34,7 @@
 #import "CZJAddedEvalutionCell.h"
 #import "CZJReceiveCouponsController.h"
 #import "CZJGeneralCell.h"
+#import "CZJMiaoShaControlHeaderCell.h"
 
 #define kTagScrollView 1002
 #define kTagTableView 1001
@@ -65,8 +66,12 @@ CZJStoreInfoHeaerCellDelegate
     NSArray* _recommendServiceForms;                //推荐服务列表
     
     CZJChoosedProductCell* chooosedProductCell;     //已选商品cell，定义成成员变量是为了方便传值
+    CZJMiaoShaControlHeaderCell* miaoShaCell;       //秒杀栏
+    NSInteger _timestamp;                           //秒杀倒计时
+    NSTimer* timer;                                 //秒杀定时器
     
     NSMutableArray* _settleOrderAry;
+    NSInteger buyCount;                             //当前商品已选规格个数
 }
 @property (weak, nonatomic) IBOutlet UIScrollView *myScrollView;
 @property (weak, nonatomic) IBOutlet UIView *borderLineView;
@@ -132,6 +137,7 @@ CZJStoreInfoHeaerCellDelegate
     _recommendServiceForms = [NSArray array];
     _couponForms = [NSArray array];
     _settleOrderAry = [NSMutableArray array];
+    buyCount = 1;
 }
 
 - (void)initViews
@@ -155,7 +161,6 @@ CZJStoreInfoHeaerCellDelegate
     self.myScrollView.tag = kTagScrollView;
     self.myScrollView.showsVerticalScrollIndicator = NO;
     self.myScrollView.backgroundColor = [UIColor whiteColor];
-    
     
     //详情TableView
     _detailTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, PJ_SCREEN_WIDTH, (PJ_SCREEN_HEIGHT-50)) style:UITableViewStylePlain];
@@ -217,7 +222,7 @@ CZJStoreInfoHeaerCellDelegate
         
         NSDictionary* dict = [[CZJUtils DataFromJson:json] valueForKey:@"msg"];
         goodsDetailForm = [CZJGoodsDetailForm objectWithKeyValues:dict];
-//        DLog(@"goodsDetailForm:%@",[goodsDetailForm.keyValues description]);
+        DLog(@"goodsDetailForm:%@",[goodsDetailForm.keyValues description]);
         //根据购买类型显示底部“加入购物车”与否（0表示是商品，显示“加入购物车”，1则表示服务，只显示“立即购买”）
         if (0 == [goodsDetailForm.goods.buyType floatValue])
         {
@@ -360,28 +365,36 @@ CZJStoreInfoHeaerCellDelegate
         case 1:
         {//详情描述
             CZJDetailDescCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJDetailDescCell" forIndexPath:indexPath];
-            cell.miaoShaLabel.hidden = YES;
-            cell.leftTimeLabel.hidden = YES;
-            cell.goShopImage.hidden = !goodsDetailForm.goods.goHouseFlag;
-//            [cell.goShopImage setImage:[UIImage imageNamed:@""]];
-//            cell.miaoShaLabel.text = _serviceDetail.;
-//            cell.leftTimeLabel;
+            //商品名称
+            cell.productNameLabel.text = _goodsDetail.itemName;
+            CGSize prolabelSize = [CZJUtils calculateStringSizeWithString:_goodsDetail.itemName Font:cell.productNameLabel.font Width:PJ_SCREEN_WIDTH - 45];
+            cell.productNameLayoutHeight.constant = prolabelSize.height;
             
+            //商品当前价格
             NSString* currentStr = [NSString stringWithFormat:@"￥%@", _goodsDetail.currentPrice == nil ? @"" :_goodsDetail.currentPrice];
             cell.currentPriceLabel.text = currentStr;
             CGSize labelSize = [CZJUtils calculateTitleSizeWithString:currentStr WithFont:BOLDSYSTEMFONT(22)];
             cell.labelLayoutConst.constant = labelSize.width + 5;
             
+            //是否到店标示
+            cell.goShopImage.hidden = !goodsDetailForm.goods.goHouseFlag;
             
-            cell.productNameLabel.text = _goodsDetail.itemName;
-            CGSize prolabelSize = [CZJUtils calculateStringSizeWithString:_goodsDetail.itemName Font:cell.productNameLabel.font Width:PJ_SCREEN_WIDTH - 45];
-            
-            cell.productNameLayoutHeight.constant = prolabelSize.height;
-            
-            if (_goodsDetail.skillFlag)
+            //如果是秒杀商品有原价
+            if (CZJGoodsPromotionTypeMiaoSha == _promotionType)
             {
-                cell.miaoShaLabel.hidden = NO;
-                cell.leftTimeLabel.hidden = NO;
+                //商品原价
+                NSString* originStr = [NSString stringWithFormat:@"￥%@", _goodsDetail.originalPrice == nil ? @"" :_goodsDetail.originalPrice];
+                [cell.originPriceLabel setAttributedText:[CZJUtils stringWithDeleteLine:originStr]];
+                CGSize originSize = [CZJUtils calculateTitleSizeWithString:originStr WithFont:SYSTEMFONT(12)];
+                cell.originPriceWidth.constant = originSize.width + 5;
+                
+                //秒杀栏
+                miaoShaCell = [CZJUtils getXibViewByName:@"CZJMiaoShaControlHeaderCell"];
+                miaoShaCell.miaoshaIconLeading.constant = 20;
+                miaoShaCell.miaoShaTypeLabel.hidden = YES;
+                miaoShaCell.frame = CGRectMake(0, 65 + ((prolabelSize.height < 15) ? 15 : prolabelSize.height), PJ_SCREEN_WIDTH, 35);
+                [cell addSubview:miaoShaCell];
+                [self setTimestamp:_miaoShaInterval];
             }
             
             [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
@@ -404,9 +417,9 @@ CZJStoreInfoHeaerCellDelegate
         {//已选规格
             chooosedProductCell = [tableView dequeueReusableCellWithIdentifier:@"CZJChoosedProductCell" forIndexPath:indexPath];
             chooosedProductCell.indexPath = indexPath;
-            chooosedProductCell.sku = _goodsDetail.sku;
+            chooosedProductCell.goodsDetail = _goodsDetail;
             chooosedProductCell.storeItemPid = _goodsDetail.storeItemPid;
-            chooosedProductCell.productType.text = _goodsDetail.sku.skuValues;
+            chooosedProductCell.productType.text = [NSString stringWithFormat:@"%@ %ld个",[_goodsDetail.sku.skuValues isEqualToString:@"null"]? @"" : _goodsDetail.sku.skuValues,buyCount];
             chooosedProductCell.counterKey = _goodsDetail.counterKey;
             [chooosedProductCell setSelectionStyle:UITableViewCellSelectionStyleNone];
             return chooosedProductCell;
@@ -635,15 +648,9 @@ CZJStoreInfoHeaerCellDelegate
             CZJDetailDescCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJDetailDescCell"];
             NSString* itemName = _goodsDetail.itemName;
             CGSize prolabelSize = [CZJUtils calculateStringSizeWithString:itemName Font:cell.productNameLabel.font Width:PJ_SCREEN_WIDTH - 45];
-            if (_goodsDetail.skillFlag)
-            {
-                return 88 + prolabelSize.height;
-                
-            }
-            else
-            {
-                return 65 + prolabelSize.height;
-            }
+            float itemNameHeight = prolabelSize.height < 15 ? 15 : prolabelSize.height;
+            float miaoshaHeight = ((CZJGoodsPromotionTypeMiaoSha == _promotionType) ? 35 : 0);
+            return 65 + itemNameHeight + miaoshaHeight + 5;
         }
             break;
         case 2:
@@ -755,14 +762,7 @@ CZJStoreInfoHeaerCellDelegate
         self.popWindowInitialRect =  CGRectMake(PJ_SCREEN_WIDTH, 0, PJ_SCREEN_WIDTH-50, PJ_SCREEN_HEIGHT);
         self.popWindowDestineRect = CGRectMake(50, 0, PJ_SCREEN_WIDTH-50, PJ_SCREEN_HEIGHT);
         CZJChooseProductTypeController *chooseProductTypeController = [[CZJChooseProductTypeController alloc] init];
-        chooseProductTypeController.counterKey = chooosedProductCell.counterKey;
-        chooseProductTypeController.storeItemPid = chooosedProductCell.storeItemPid;
-        chooseProductTypeController.currentSku = chooosedProductCell.sku;
-        if (chooseProductTypeController.counterKey &&
-            chooseProductTypeController.storeItemPid)
-        {
-            [chooseProductTypeController getSKUDataFromServer];
-        }
+        chooseProductTypeController.goodsDetail = chooosedProductCell.goodsDetail;
         [CZJUtils showMyWindowOnTarget:self withMyVC:chooseProductTypeController];
     }
     if (4 == indexPath.section)
@@ -941,6 +941,7 @@ CZJStoreInfoHeaerCellDelegate
 #pragma mark- Action
 - (IBAction)immediatelyBuyAction:(id)sender
 {
+    [_settleOrderAry removeAllObjects];
     if ([USER_DEFAULT boolForKey:kCZJIsUserHaveLogined])
     {
         NSDictionary* itemDict = @{@"itemCode" : goodsDetailForm.goods.itemCode,
@@ -949,7 +950,8 @@ CZJStoreInfoHeaerCellDelegate
                                    @"itemName" : goodsDetailForm.goods.itemName,
                                    @"itemSku" : goodsDetailForm.goods.itemSku,
                                    @"itemType" : goodsDetailForm.goods.itemType,
-                                   @"itemCount" : @"1"
+                                   @"itemCount" : @"1",
+                                   @"currentPrice" : goodsDetailForm.goods.currentPrice
                                    };
         
         NSArray* itemAry = @[itemDict];
@@ -1070,6 +1072,35 @@ CZJStoreInfoHeaerCellDelegate
     promotionVC.type = [NSString stringWithFormat:@"%ld",((UIButton*)sender).tag];
     promotionVC.storeId = goodsDetailForm.goods.storeId;
     [self.navigationController pushViewController:promotionVC animated:YES];
+}
+
+
+#pragma mark- 秒杀
+- (void)setTimestamp:(NSInteger)timestamp{
+    _timestamp = timestamp;
+    if (_timestamp != 0) {
+        [self refreshTimeStamp];
+        if (!timer) {
+            timer =[NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(refreshTimeStamp) userInfo:nil repeats:YES];
+        }
+    }
+}
+
+- (void)refreshTimeStamp
+{
+    _timestamp--;
+    CZJDateTime* mydateTime = [CZJUtils getLeftDatetime:_timestamp];
+    miaoShaCell.hourLabel.text = mydateTime.hour;
+    miaoShaCell.minutesLabel.text = mydateTime.minute;
+    miaoShaCell.secondLabel.text = mydateTime.second;
+    
+    if (_timestamp == 0) {
+        [timer invalidate];
+        timer = nil;
+        // 执行block回调
+        _promotionType = CZJGoodsPromotionTypeGeneral;
+        [self getDataFromServer];
+    }
 }
 
 @end

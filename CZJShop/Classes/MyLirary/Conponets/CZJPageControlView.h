@@ -18,6 +18,7 @@
 @property (nonatomic, retain) CZJPageControlViewConfig* pageControlViewConfig;
 - (instancetype)initWithFrame:(CGRect)frame andPageIndex:(NSInteger)pageIndex;
 - (void)setTitleArray:(NSArray*)titleArray andVCArray:(NSArray*)vcArray;
+- (void)changeControllerClick:(id)sender;
 @end
 
 #define kGeneralPageControllerFrame CGRectMake(0, 50, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - 50)

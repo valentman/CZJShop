@@ -14,15 +14,11 @@
 @interface CZJLevelSku : NSObject
 @property(strong, nonatomic)NSString* valueId;
 @property(strong, nonatomic)NSString* valueName;
-@property(strong, nonatomic)NSMutableArray* nextLevelSkus;
-
-- (id)initWithDictionary:(NSDictionary*)dict;
+@property(strong, nonatomic)NSMutableArray* twoSkus;
 @end
 
 @interface CZJChooseProductTypeController : CZJFilterBaseController
-@property (strong, nonatomic)NSString* storeItemPid;
-@property (strong, nonatomic)CZJGoodsSKU* currentSku;
-@property (strong, nonatomic)NSString* counterKey;
+@property (strong, nonatomic)CZJGoodsDetail* goodsDetail;
 
 - (void)getSKUDataFromServer;
 @end

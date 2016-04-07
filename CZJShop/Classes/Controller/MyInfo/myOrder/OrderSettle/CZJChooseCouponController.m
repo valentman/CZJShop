@@ -22,6 +22,7 @@ UITableViewDelegate
     NSMutableArray* _choosedCouponAry;
 }
 @property (weak, nonatomic) IBOutlet UITableView *chooseCouponTableView;
+@property (weak, nonatomic) IBOutlet UIView *couponUseView;
 - (IBAction)confirmToUseAction:(id)sender;
 
 @property (weak, nonatomic) IBOutlet UILabel *totalLabel;
@@ -44,7 +45,7 @@ UITableViewDelegate
     self.chooseCouponTableView.dataSource = self;
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.chooseCouponTableView.tableFooterView = [[UIView alloc] init];
-    self.chooseCouponTableView.backgroundColor = CZJTableViewBGColor;
+    self.chooseCouponTableView.backgroundColor = WHITECOLOR;
     
     [self getCouponsListFromServer];
 }
@@ -58,10 +59,17 @@ UITableViewDelegate
     }
     NSDictionary* params = @{@"storeIds" : [_storeIds componentsJoinedByString:@","]};
     __weak typeof(self) weak = self;
+    [CZJUtils removeNoDataAlertViewFromTarget:self.view];
     [CZJBaseDataInstance generalPost:params success:^(id json) {
         NSDictionary* dict = [CZJUtils DataFromJson:json];
         NSArray* tmpAry = [dict valueForKey:@"msg"];
         _storeAry = [CZJOrderStoreCouponsForm objectArrayWithKeyValuesArray:tmpAry];
+        if (_storeAry.count == 0)
+        {
+            self.chooseCouponTableView.hidden = YES;
+            self.couponUseView.hidden = YES;
+            [CZJUtils showNoDataAlertViewOnTarget:self.view withPromptString:@"木有可选择的优惠券/(ToT)/~~"];
+        }
         [weak dealWithCouponData];
     }  fail:^{
         

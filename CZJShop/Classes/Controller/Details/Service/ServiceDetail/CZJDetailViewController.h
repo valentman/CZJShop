@@ -13,4 +13,5 @@
 @property (nonatomic, assign)CZJDetailType detaiViewType;
 @property (nonatomic, assign)CZJGoodsPromotionType promotionType;
 @property (nonatomic, strong)NSString* promotionPrice;
+@property (nonatomic, assign)NSInteger miaoShaInterval;
 @end

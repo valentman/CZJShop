@@ -255,6 +255,7 @@
             <connections>
                 <outlet property="hourLabel" destination="GTd-2i-wJ6" id="CPk-Vo-M17"/>
                 <outlet property="miaoShaTypeLabel" destination="9Xx-eK-bIP" id="KP0-Vc-X9m"/>
+                <outlet property="miaoshaIconLeading" destination="a5l-Cq-3Q3" id="aQr-tE-LrS"/>
                 <outlet property="miaoshaTimeStampLabel" destination="csl-N3-C7Y" id="bOL-4y-tHz"/>
                 <outlet property="minutesLabel" destination="Yqu-fN-rSy" id="OTS-3f-9ig"/>
                 <outlet property="secondLabel" destination="T0A-c7-SbF" id="obb-Aq-YXI"/>

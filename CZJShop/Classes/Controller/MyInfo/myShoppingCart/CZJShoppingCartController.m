@@ -646,6 +646,7 @@ UIGestureRecognizerDelegate
                                                @"itemSku" : model.itemSku,
                                                @"itemType" : model.itemType,
                                                @"itemCount" : model.itemCount,
+                                               @"currentPrice" : model.currentPrice
                                                };
                     [itemsAry addObject:itemDict];
                 }

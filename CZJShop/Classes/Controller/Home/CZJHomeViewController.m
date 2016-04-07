@@ -213,6 +213,7 @@ CZJMiaoShaCellDelegate
     //进入首页即获取首页数据
     __weak typeof(self) weak = self;
     [CZJBaseDataInstance generalPost:nil success:^(id json) {
+        DLog(@"%@",[[CZJUtils DataFromJson:json] description]);
         [CZJBaseDataInstance.homeForm setNewDictionary:[CZJUtils DataFromJson:json]];
         if (CZJBaseDataInstance.storeForm.provinceForms.count == 0)
         {
@@ -223,6 +224,7 @@ CZJMiaoShaCellDelegate
         [weak.homeTableView reloadData];
         [weak.homeTableView.header endRefreshing];
         refreshFooter.hidden = NO;
+        weak.homeTableView.footer.hidden = weak.homeTableView.mj_contentH < weak.homeTableView.frame.size.height;
         
     } fail:^{
         [refreshHeader endRefreshing];
@@ -352,13 +354,29 @@ CZJMiaoShaCellDelegate
             else if (0 == indexPath.row)
             {
                 CZJMiaoShaCellHeader* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJMiaoShaCellHeader" forIndexPath:indexPath];
-                [cell.miaoShaChangCi setTitle:@"" forState:UIControlStateNormal];
+                
                 if (cell && _miaoShaArray.count > 0 && !cell.isInit)
                 {
-                    TICK;
-                    NSInteger timeinteval = [CZJBaseDataInstance.homeForm.serverTime integerValue] - [((CZJMiaoShaTimesForm*)CZJBaseDataInstance.homeForm.skillTimes[0]).skillTime integerValue];
-                    TOCK;
+                    NSInteger currentTime = [CZJBaseDataInstance.homeForm.serverTime integerValue];
+                    NSInteger skillTime = 0;
+                    for (int i = 0; i < CZJBaseDataInstance.homeForm.skillTimes.count; i++)
+                    {
+                        CZJMiaoShaTimesForm* timeForm = CZJBaseDataInstance.homeForm.skillTimes[i];
+                        skillTime = [timeForm.skillTime integerValue];
+                        if (skillTime > currentTime)
+                        {
+                            DLog(@"skillID: %@",timeForm.skillId);
+                            CZJMiaoShaTimesForm* timeForms = CZJBaseDataInstance.homeForm.skillTimes[i -1];
+                            cell.miaoShaChangCiLabel.text = [NSString stringWithFormat:@"%@场",[CZJUtils getDateTimeSinceTime:[timeForms.skillTime integerValue] / 1000]];
+                            break;
+                        }
+                    }
+                    NSInteger timeinteval = (skillTime - currentTime) / 1000;
                     [cell initHeaderWithTimestamp:timeinteval];
+                    __weak typeof(self) weak = self;
+                    cell.buttonClick = ^(id data){
+                        [weak getHomeDataFromServer];
+                    };
                 }
                 
                 return cell;

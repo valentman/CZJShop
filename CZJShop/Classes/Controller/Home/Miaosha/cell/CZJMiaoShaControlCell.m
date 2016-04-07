@@ -20,6 +20,7 @@
     // Configure the view for the selected state
 }
 
-- (IBAction)goBuyAction:(id)sender {
+- (IBAction)goBuyAction:(id)sender
+{
 }
 @end

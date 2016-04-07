@@ -13,6 +13,7 @@
 #import "CZJStoreCell.h"
 #import "CZJStoreServiceCell.h"
 #import "CCLocationManager.h"
+#import "ZXLocationManager.h"
 #import "CZJServiceFilterController.h"
 #import "CZJDetailViewController.h"
 #import "CZJStoreDetailController.h"
@@ -350,35 +351,69 @@
 
 - (void)storeStartLocation
 {
-    if (![[CCLocationManager shareLocation] isLocationEnable]) {
-        _refreshLocationBarView.locationNameLabel.text = @"亲，未开启定位功能哦~";
-        return;
+    if (IS_IOS8) {
+        if (![[CCLocationManager shareLocation] isLocationEnable]) {
+            _refreshLocationBarView.locationNameLabel.text = @"亲，未开启定位功能哦~";
+            return;
+        }
+        [self startSpin];
+        [[CCLocationManager shareLocation] getAddress:^(NSString *addressString) {
+            [self stopSpin];
+            _refreshLocationBarView.locationNameLabel.text = addressString;
+            if (_refreshLocationBarView.locationButton.tag == CZJViewMoveOrientationRight)
+            {
+                [self performSelector:@selector(moveLocationBarViewIn) withObject:nil afterDelay:0.5];
+            }
+            if (_refreshLocationBarView.locationButton.tag == CZJViewMoveOrientationLeft)
+            {
+                [self performSelector:@selector(moveLocationBarViewOut) withObject:nil afterDelay:1.0];
+            }
+            
+        }];
+        
+        [[CCLocationManager shareLocation] getCity:^(NSString *addressString) {
+            cityID = [CZJBaseDataInstance.storeForm getCityIDWithCityName:addressString];
+            _getdataType = CZJHomeGetDataFromServerTypeOne;
+            //        [self getStoreServiceListDataFromServer];
+            if (nil != addressString)
+            {
+                [[NSNotificationCenter defaultCenter]postNotificationName:kCZJChangeCurCityName object:self userInfo:@{@"cityname" : addressString}];
+            }
+            
+        }];
     }
-    [self startSpin];
-    [[CCLocationManager shareLocation] getAddress:^(NSString *addressString) {
-        [self stopSpin];
-        _refreshLocationBarView.locationNameLabel.text = addressString;
-        if (_refreshLocationBarView.locationButton.tag == CZJViewMoveOrientationRight)
-        {
-            [self performSelector:@selector(moveLocationBarViewIn) withObject:nil afterDelay:0.5];
+    else if (IS_IOS8)
+    {
+        if (![[ZXLocationManager sharedZXLocationManager] isLocationEnable]) {
+            _refreshLocationBarView.locationNameLabel.text = @"亲，未开启定位功能哦~";
+            return;
         }
-        if (_refreshLocationBarView.locationButton.tag == CZJViewMoveOrientationLeft)
-        {
-            [self performSelector:@selector(moveLocationBarViewOut) withObject:nil afterDelay:1.0];
-        }
+        [self startSpin];
+        [[ZXLocationManager sharedZXLocationManager] getAddress:^(NSString *addressString) {
+            [self stopSpin];
+            _refreshLocationBarView.locationNameLabel.text = addressString;
+            if (_refreshLocationBarView.locationButton.tag == CZJViewMoveOrientationRight)
+            {
+                [self performSelector:@selector(moveLocationBarViewIn) withObject:nil afterDelay:0.5];
+            }
+            if (_refreshLocationBarView.locationButton.tag == CZJViewMoveOrientationLeft)
+            {
+                [self performSelector:@selector(moveLocationBarViewOut) withObject:nil afterDelay:1.0];
+            }
+            
+        }];
         
-    }];
-    
-    [[CCLocationManager shareLocation] getCity:^(NSString *addressString) {
-        cityID = [CZJBaseDataInstance.storeForm getCityIDWithCityName:addressString];
-        _getdataType = CZJHomeGetDataFromServerTypeOne;
-//        [self getStoreServiceListDataFromServer];
-        if (nil != addressString)
-        {
-            [[NSNotificationCenter defaultCenter]postNotificationName:kCZJChangeCurCityName object:self userInfo:@{@"cityname" : addressString}];
-        }
-        
-    }];
+        [[ZXLocationManager sharedZXLocationManager] getCityName:^(NSString *addressString) {
+            cityID = [CZJBaseDataInstance.storeForm getCityIDWithCityName:addressString];
+            _getdataType = CZJHomeGetDataFromServerTypeOne;
+                    [self getStoreServiceListDataFromServer];
+            if (nil != addressString)
+            {
+                [[NSNotificationCenter defaultCenter]postNotificationName:kCZJChangeCurCityName object:self userInfo:@{@"cityname" : addressString}];
+            }
+            
+        }];
+    }
 }
 
 - (void) spinWithOptions: (UIViewAnimationOptions) options {
