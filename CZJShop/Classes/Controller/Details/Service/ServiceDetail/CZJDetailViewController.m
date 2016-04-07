@@ -48,7 +48,8 @@ UIScrollViewDelegate,
 UIGestureRecognizerDelegate,
 CZJImageViewTouchDelegate,
 CZJNaviagtionBarViewDelegate,
-CZJStoreInfoHeaerCellDelegate
+CZJStoreInfoHeaerCellDelegate,
+CZJChooseProductTypeDelegate
 >
 {
     NIDropDown *dropDown;
@@ -205,6 +206,7 @@ CZJStoreInfoHeaerCellDelegate
 - (void)reloadDetailData:(NSNotification*)notif
 {
     self.storeItemPid = [notif.userInfo objectForKey:@"storeItemPid"];
+    buyCount = [[notif.userInfo objectForKey:@"buycount"] integerValue];
     [self getDataFromServer];
 }
 
@@ -734,14 +736,15 @@ CZJStoreInfoHeaerCellDelegate
 {
     if (2 == indexPath.section)
     {
+        __weak typeof(self) weak = self;
         self.popWindowInitialRect = CGRectMake(0, PJ_SCREEN_HEIGHT, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - 200);
         self.popWindowDestineRect = CGRectMake(0, 200, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - 200);
         CZJReceiveCouponsController *receiveCouponsController = [[CZJReceiveCouponsController alloc] init];
         receiveCouponsController.storeId = _storeInfo.storeId;
         receiveCouponsController.popWindowInitialRect = self.popWindowInitialRect;
-        [CZJUtils showMyWindowOnTarget:self withMyVC:receiveCouponsController];
+        [CZJUtils showMyWindowOnTarget:weak withMyVC:receiveCouponsController];
         
-        __weak typeof(self) weak = self;
+        
         [receiveCouponsController setCancleBarItemHandle:^{
             [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
                 weak.window.frame = self.popWindowInitialRect;
@@ -759,11 +762,28 @@ CZJStoreInfoHeaerCellDelegate
     }
     if (3 == indexPath.section)
     {
+        __weak typeof(self) weak = self;
         self.popWindowInitialRect =  CGRectMake(PJ_SCREEN_WIDTH, 0, PJ_SCREEN_WIDTH-50, PJ_SCREEN_HEIGHT);
         self.popWindowDestineRect = CGRectMake(50, 0, PJ_SCREEN_WIDTH-50, PJ_SCREEN_HEIGHT);
         CZJChooseProductTypeController *chooseProductTypeController = [[CZJChooseProductTypeController alloc] init];
         chooseProductTypeController.goodsDetail = chooosedProductCell.goodsDetail;
-        [CZJUtils showMyWindowOnTarget:self withMyVC:chooseProductTypeController];
+        chooseProductTypeController.buycount = buyCount;
+        [CZJUtils showMyWindowOnTarget:weak withMyVC:chooseProductTypeController];
+        
+        [chooseProductTypeController setCancleBarItemHandle:^{
+            [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+                weak.window.frame = self.popWindowInitialRect;
+                weak.upView.alpha = 0.0;
+            } completion:^(BOOL finished) {
+                if (finished) {
+                    [weak.upView removeFromSuperview];
+                    [weak.window resignKeyWindow];
+                    weak.window  = nil;
+                    weak.upView = nil;
+                    weak.navigationController.interactivePopGestureRecognizer.enabled = YES;
+                }
+            }];
+        }];
     }
     if (4 == indexPath.section)
     {
@@ -937,6 +957,18 @@ CZJStoreInfoHeaerCellDelegate
     }];
 }
 
+
+#pragma mark- CZJChooseProductTypeDelegate(规格筛选弹出视图回调)
+
+- (void)productTypeImeditelyBuyCallBack
+{
+    [self addProductToShoppingCartAction:nil];
+}
+
+- (void)productTypeAddtoShoppingCartCallBack
+{
+    [self immediatelyBuyAction:nil];
+}
 
 #pragma mark- Action
 - (IBAction)immediatelyBuyAction:(id)sender

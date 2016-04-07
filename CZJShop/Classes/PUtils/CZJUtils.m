@@ -587,7 +587,15 @@ void backLastView(id sender, SEL _cmd)
         target.windowAlpha = 1.0f;
         target.window.frame =  target.popWindowDestineRect;
         target.upView.alpha = 1.0;
-    } completion:nil];
+    } completion:^(BOOL finished) {
+        if (finished) {
+            [target.upView removeFromSuperview];
+            [target.window resignKeyWindow];
+            target.window  = nil;
+            target.upView = nil;
+            target.navigationController.interactivePopGestureRecognizer.enabled = YES;
+        }
+    }];
     target.navigationController.interactivePopGestureRecognizer.enabled = NO;
 }
 

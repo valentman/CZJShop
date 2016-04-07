@@ -17,8 +17,19 @@
 @property(strong, nonatomic)NSMutableArray* twoSkus;
 @end
 
+@protocol CZJChooseProductTypeDelegate <NSObject>
+
+- (void)productTypeImeditelyBuyCallBack;
+- (void)productTypeAddtoShoppingCartCallBack;
+
+@end
+
 @interface CZJChooseProductTypeController : CZJFilterBaseController
 @property (strong, nonatomic)CZJGoodsDetail* goodsDetail;
+@property (assign, nonatomic)NSInteger buycount;
+@property (weak, nonatomic) id<CZJChooseProductTypeDelegate> delegate;
+@property (nonatomic, copy) MGBasicBlock basicBlock;
 
+- (void)setCancleBarItemHandle:(CZJGeneralBlock)basicBlock;
 - (void)getSKUDataFromServer;
 @end

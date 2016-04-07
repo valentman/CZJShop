@@ -67,6 +67,7 @@ UITableViewDataSource
     _choosedSkuValues = [NSMutableArray array];
     _choosedSkuValues = [[self.goodsDetail.sku.skuValues componentsSeparatedByString:@" "] mutableCopy];
     _currentIndex = 1;
+    choosedCount = _buycount;
     isFirstLoad = YES;
     isFirstLoadTwo = YES;
 }
@@ -92,11 +93,13 @@ UITableViewDataSource
     [addToShoppingCartBtn setTitle:@"加入购物车" forState:UIControlStateNormal];
     [addToShoppingCartBtn setBackgroundColor:CZJGREENCOLOR];
     [addToShoppingCartBtn.titleLabel setFont:SYSTEMFONT(15)];
+    [addToShoppingCartBtn addTarget:self action:@selector(addToShppingCartAction) forControlEvents:UIControlEventTouchUpInside];
     UIButton* immeditelyBuyBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [immeditelyBuyBtn setTitleColor:WHITECOLOR forState:UIControlStateNormal];
     [immeditelyBuyBtn setTitle:@"立即购买" forState:UIControlStateNormal];
     [immeditelyBuyBtn setBackgroundColor:CZJREDCOLOR];
     [immeditelyBuyBtn.titleLabel setFont:SYSTEMFONT(15)];
+    [immeditelyBuyBtn addTarget:self action:@selector(imeditelyBuyAction) forControlEvents:UIControlEventTouchUpInside];
     
     if (0 == [_goodsDetail.buyType floatValue])
     {
@@ -114,6 +117,34 @@ UITableViewDataSource
         immeditelyBuyBtn.frame = imditelyRect;
         [self.view addSubview:immeditelyBuyBtn];
     }
+}
+
+- (void)imeditelyBuyAction
+{
+    if ([self.delegate respondsToSelector:@selector(productTypeImeditelyBuyCallBack)])
+    {
+        [self.delegate productTypeImeditelyBuyCallBack];
+        [self exitTouch:nil];
+    }
+}
+
+- (void)addToShppingCartAction
+{
+    if ([self.delegate respondsToSelector:@selector(productTypeAddtoShoppingCartCallBack)])
+    {
+        [self.delegate productTypeAddtoShoppingCartCallBack];
+        [self exitTouch:nil];
+    }
+}
+
+- (void)exitTouch:(id)sender
+{
+    if(self.basicBlock)self.basicBlock();
+}
+
+- (void)setCancleBarItemHandle:(CZJGeneralBlock)basicBlock
+{
+    self.basicBlock = basicBlock;
 }
 
 - (void)getSKUDataFromServer
@@ -236,7 +267,7 @@ UITableViewDataSource
         else if (1 == indexPath.row)
         {
             addCellView = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell2"];
-            WLZ_ChangeCountView* _changeView = [[WLZ_ChangeCountView alloc] initWithFrame:CGRectMake(20, 8 , 120, 35) chooseCount:1 totalCount: 99];
+            WLZ_ChangeCountView* _changeView = [[WLZ_ChangeCountView alloc] initWithFrame:CGRectMake(20, 8 , 120, 35) chooseCount:_buycount totalCount: 99];
             [_changeView.subButton addTarget:self action:@selector(subButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
             [_changeView.addButton addTarget:self action:@selector(addButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
             [_changeView setTag:1010];
@@ -295,7 +326,7 @@ UITableViewDataSource
                                  
                                  NSIndexSet *indexSet=[[NSIndexSet alloc]initWithIndex:0];
                                  [_tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationFade];
-                                 [[NSNotificationCenter defaultCenter]postNotificationName:kCZJNotifiRefreshDetailView object:nil userInfo:@{@"storeItemPid" : self.goodsDetail.sku.storeItemPid}];
+                                 [[NSNotificationCenter defaultCenter]postNotificationName:kCZJNotifiRefreshDetailView object:nil userInfo:@{@"storeItemPid" : self.goodsDetail.sku.storeItemPid,@"buycount" : @(choosedCount)}];
                              }
                              else
                              {
@@ -366,6 +397,7 @@ UITableViewDataSource
         
     }
     ((WLZ_ChangeCountView*)VIEWWITHTAG(addCellView, 1010)).numberFD.text=[NSString stringWithFormat:@"%zi",choosedCount];
+    [[NSNotificationCenter defaultCenter]postNotificationName:kCZJNotifiRefreshDetailView object:nil userInfo:@{@"storeItemPid" : self.goodsDetail.sku.storeItemPid,@"buycount" : @(choosedCount)}];
 }
 
 - (void)addButtonPressed:(id)sender
@@ -383,7 +415,7 @@ UITableViewDataSource
     }
     
     ((WLZ_ChangeCountView*)VIEWWITHTAG(addCellView, 1010)).numberFD.text=[NSString stringWithFormat:@"%zi",choosedCount];
-
+    [[NSNotificationCenter defaultCenter]postNotificationName:kCZJNotifiRefreshDetailView object:nil userInfo:@{@"storeItemPid" : self.goodsDetail.sku.storeItemPid,@"buycount" : @(choosedCount)}];
 }
 
 - (void)getChoosedStoreItemPid:(NSString*)valueIDs
@@ -394,7 +426,7 @@ UITableViewDataSource
         {
             self.goodsDetail.sku.storeItemPid = skuForm.storeItemPid;
             self.goodsDetail.sku = skuForm;
-            [[NSNotificationCenter defaultCenter]postNotificationName:kCZJNotifiRefreshDetailView object:nil userInfo:@{@"storeItemPid" : self.goodsDetail.sku.storeItemPid}];
+            [[NSNotificationCenter defaultCenter]postNotificationName:kCZJNotifiRefreshDetailView object:nil userInfo:@{@"storeItemPid" : self.goodsDetail.sku.storeItemPid,@"buycount" : @(choosedCount)}];
             NSIndexSet *indexSet=[[NSIndexSet alloc]initWithIndex:0];
             [_tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationFade];
             continue;
