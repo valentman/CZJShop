@@ -105,6 +105,7 @@
                 <outlet property="commitNextArrowImg" destination="3Es-jg-FZ5" id="TeL-MG-ZsV"/>
                 <outlet property="contactNumLabel" destination="tkb-kF-Jf8" id="mlj-ls-CMa"/>
                 <outlet property="defaultLabel" destination="W5e-ZG-uSM" id="Nps-5T-7pY"/>
+                <outlet property="deliverLocaitonIMg" destination="Wtm-MP-ueS" id="4XV-HQ-MXp"/>
                 <outlet property="deliveryAddrLabel" destination="9Zz-UF-2Kz" id="k5A-Yh-X9E"/>
                 <outlet property="deliveryAddrLayoutLeading" destination="rxd-GM-cr0" id="NGu-bL-Zph"/>
                 <outlet property="deliveryAddrrLayoutWidth" destination="mmq-fZ-Mq6" id="gsz-U3-aKq"/>

@@ -17,7 +17,7 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jiu-Ia-GeB">
                         <rect key="frame" x="0.0" y="2" width="105" height="46"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="evaluate_icon_star_red.png" highlightedImage="evaluate_icon_star_white.png" highlighted="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mtD-Fx-tO9">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" highlighted="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mtD-Fx-tO9">
                                 <rect key="frame" x="20" y="18" width="10" height="10"/>
                                 <animations/>
                                 <constraints>
@@ -25,7 +25,7 @@
                                     <constraint firstAttribute="height" constant="10" id="cem-ia-yWZ"/>
                                 </constraints>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="evaluate_icon_star_red.png" highlightedImage="evaluate_icon_star_white.png" highlighted="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Df8-Zw-98I">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" highlighted="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Df8-Zw-98I">
                                 <rect key="frame" x="35" y="18" width="10" height="10"/>
                                 <animations/>
                                 <constraints>
@@ -33,7 +33,7 @@
                                     <constraint firstAttribute="width" constant="10" id="dMT-Ob-XnS"/>
                                 </constraints>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="evaluate_icon_star_red.png" highlightedImage="evaluate_icon_star_white.png" highlighted="YES" translatesAutoresizingMaskIntoConstraints="NO" id="OL4-rE-e4X">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" highlighted="YES" translatesAutoresizingMaskIntoConstraints="NO" id="OL4-rE-e4X">
                                 <rect key="frame" x="50" y="18" width="10" height="10"/>
                                 <animations/>
                                 <constraints>
@@ -41,7 +41,7 @@
                                     <constraint firstAttribute="height" constant="10" id="ziU-ns-tXt"/>
                                 </constraints>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="evaluate_icon_star_red.png" highlightedImage="evaluate_icon_star_white.png" highlighted="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sWG-Sn-mqi">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" highlighted="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sWG-Sn-mqi">
                                 <rect key="frame" x="65" y="18" width="10" height="10"/>
                                 <animations/>
                                 <constraints>
@@ -49,7 +49,7 @@
                                     <constraint firstAttribute="width" constant="10" id="Qbo-VM-zdj"/>
                                 </constraints>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="evaluate_icon_star_red.png" highlightedImage="evaluate_icon_star_white.png" highlighted="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mof-pJ-u0x">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" highlighted="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mof-pJ-u0x">
                                 <rect key="frame" x="80" y="18" width="10" height="10"/>
                                 <animations/>
                                 <constraints>
@@ -169,7 +169,5 @@
     </objects>
     <resources>
         <image name="all_arrow_next.png" width="6" height="11"/>
-        <image name="evaluate_icon_star_red.png" width="20" height="19"/>
-        <image name="evaluate_icon_star_white.png" width="20" height="19"/>
     </resources>
 </document>

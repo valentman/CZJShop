@@ -14,7 +14,7 @@
     // Initialization code
     [super awakeFromNib];
     _seeAllEvalution.layer.borderWidth = 0.5;
-    _seeAllEvalution .layer.borderColor = [[UIColor lightGrayColor]CGColor];
+    _seeAllEvalution .layer.borderColor = CZJREDCOLOR.CGColor;
     _seeAllEvalution.layer.cornerRadius = 2;
     
 }   

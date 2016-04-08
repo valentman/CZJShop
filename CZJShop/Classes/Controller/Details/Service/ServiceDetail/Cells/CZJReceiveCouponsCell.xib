@@ -107,7 +107,7 @@
                             </label>
                         </subviews>
                         <animations/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="8Ei-yJ-Wwp" firstAttribute="leading" secondItem="BAb-YC-yqd" secondAttribute="leading" id="9wU-29-SAK"/>
                             <constraint firstAttribute="trailing" secondItem="STz-Xc-URD" secondAttribute="trailing" constant="10" id="A73-Ig-wQw"/>
@@ -132,7 +132,7 @@
                     </view>
                 </subviews>
                 <animations/>
-                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 <constraints>
                     <constraint firstItem="oGb-GE-hhz" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="Bax-NM-jnJ"/>
                     <constraint firstAttribute="bottom" secondItem="BAb-YC-yqd" secondAttribute="bottom" constant="10" id="NnE-Cf-96Y"/>

@@ -294,7 +294,6 @@ CZJPopPayViewDelegate
     }  fail:^{
         
     } andServerAPI:kCZJServerAPIOrderToPay];
-
 }
 
 - (IBAction)mergeToPayAction:(id)sender

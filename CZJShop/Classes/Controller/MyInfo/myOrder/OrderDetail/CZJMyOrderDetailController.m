@@ -26,6 +26,7 @@
 #import "CZJOrderLogisticsController.h"
 #import "CZJOrderCarCheckController.h"
 #import "CZJPopPayViewController.h"
+#import "CZJPaymentManager.h"
 
 @interface CZJMyOrderDetailController ()
 <
@@ -41,6 +42,10 @@ CZJPopPayViewDelegate
     NSInteger stageNum;
     NSInteger orderType;
     UIColor* stageLabelColor;
+    
+    NSString* orderNoString;
+    float totalMoney;
+    CZJGeneralBlock hidePayViewBlock;
 }
 @property (weak, nonatomic) IBOutlet UITableView *myTableView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *separatorViewHeight;
@@ -106,15 +111,25 @@ CZJPopPayViewDelegate
     NSString* title = @"";
     if (CZJOrderDetailTypeGeneral == self.orderDetailType)
     {
-        [self getOrderDetailFromServer];
         title = @"订单详情";
     }
     if (CZJOrderDetailTypeReturned == self.orderDetailType)
     {
         title = @"退换货详情";
-        [self getReturnedOrderDetailFromServer];
     }
     self.naviBarView.mainTitleLabel.text = title;
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    if (CZJOrderDetailTypeGeneral == self.orderDetailType)
+    {
+        [self getOrderDetailFromServer];
+    }
+    if (CZJOrderDetailTypeReturned == self.orderDetailType)
+    {
+        [self getReturnedOrderDetailFromServer];
+    }
 }
 
 - (void)initViews
@@ -154,6 +169,7 @@ CZJPopPayViewDelegate
     NSDictionary* params = @{@"orderItemPid":self.returnedGoodsForm.orderItemPid};
     [CZJBaseDataInstance generalPost:params success:^(id json) {
         NSDictionary* dict = [[CZJUtils DataFromJson:json] valueForKey:@"msg"];
+        DLog(@"return:%@",[dict description]);
         receiverAddrForm = [CZJAddrForm objectWithKeyValues:[dict valueForKey:@"receiver"]];
         returnedOrdderDetailForm = [CZJReturnedOrderDetailForm objectWithKeyValues:[dict valueForKey:@"item"]];
         stageNum = [returnedOrdderDetailForm.returnStatus integerValue] - 1;
@@ -174,7 +190,8 @@ CZJPopPayViewDelegate
                 _stageStr = @"卖家已收货";
                 break;
             case 4:
-                _stageStr = @"退换货成功";
+                stageLabelColor = UIColorFromRGB(0x48AB11);
+                _stageStr = [returnedOrdderDetailForm.returnType isEqualToString:@"1"] ? @"退货成功" : @"换货成功";
                 break;
                 
             default:
@@ -182,7 +199,7 @@ CZJPopPayViewDelegate
         }
         [self.myTableView reloadData];
     }  fail:^{
-        
+        DLog(@"");
     } andServerAPI:kCZJServerAPIGetMyReturnedOrderDetail];
 }
 
@@ -406,6 +423,7 @@ CZJPopPayViewDelegate
             {
                 cell.orderTimeTitleLabel.text = @"申请时间:";
                 cell.leftTimeLabel.hidden = YES;
+                
             }
             cell.orderNoLabel.text = CZJOrderDetailTypeGeneral == self.orderDetailType ? orderDetailForm.orderNo : returnedOrdderDetailForm.orderNo;
             cell.orderTimeLabel.text = CZJOrderDetailTypeGeneral == self.orderDetailType ?orderDetailForm.createTime:returnedOrdderDetailForm.returnTime;
@@ -436,13 +454,24 @@ CZJPopPayViewDelegate
             cell.defaultLabel.hidden = YES;
             cell.deliveryAddrLayoutLeading.constant = 41;
             cell.commitNextArrowImg.hidden = YES;
+            if (CZJOrderDetailTypeReturned == self.orderDetailType)
+            {
+                if ([returnedOrdderDetailForm.returnType isEqualToString:@"1"])
+                {
+                    [cell.deliverLocaitonIMg setImage:IMAGENAMED(@"order_icon_tui")];
+                }
+                else
+                {
+                    [cell.deliverLocaitonIMg setImage:IMAGENAMED(@"order_icon_huan")];
+                }
+            }
             return cell;
         }
     }
     
     //详情区域需要区分是退货订单详情，还是一般订单详情
     if (CZJOrderDetailTypeReturned == self.orderDetailType)
-    {
+    {//退换货订单详情
         if (0 == indexPath.row)
         {
             CZJOrderReturnedListCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJOrderReturnedListCell" forIndexPath:indexPath];
@@ -499,7 +528,7 @@ CZJPopPayViewDelegate
         
     }
     if (CZJOrderDetailTypeGeneral == self.orderDetailType)
-    {
+    {//一般订单详情
         if (1 == indexPath.section)
         {
             NSInteger itemCount = orderDetailForm.items.count;
@@ -886,19 +915,23 @@ CZJPopPayViewDelegate
     }
 }
 
-- (void)showPopPayView:(float)orderMoney
+- (void)showPopPayView:(float)orderMoney andOrderNoSting:(NSString*)orderNostr
 {
+    orderNoString = orderNostr;
+    totalMoney = orderMoney;
     CZJPopPayViewController* payPopView = [[CZJPopPayViewController alloc]init];
     payPopView.delegate = self;
     payPopView.orderMoney = orderMoney;
     
-    self.popWindowInitialRect = VERTICALHIDERECT(320);
-    self.popWindowDestineRect = VERTICALSHOWRECT(320);
+    float popViewHeight = CZJBaseDataInstance.orderPaymentTypeAry.count * 70 + 60 +50.5;
+    self.popWindowInitialRect = VERTICALHIDERECT(0);
+    self.popWindowDestineRect = VERTICALSHOWRECT(popViewHeight);
     [CZJUtils showMyWindowOnTarget:self withMyVC:payPopView];
     __weak typeof(self) weak = self;
-    [payPopView setCancleBarItemHandle:^{
+    
+    hidePayViewBlock = ^{
         [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
-            weak.window.frame = self.popWindowInitialRect;
+            weak.window.frame = weak.popWindowInitialRect;
             weak.upView.alpha = 0.0;
         } completion:^(BOOL finished) {
             if (finished) {
@@ -909,13 +942,46 @@ CZJPopPayViewDelegate
                 weak.navigationController.interactivePopGestureRecognizer.enabled = YES;
             }
         }];
-    }];
+    };
+    [payPopView setCancleBarItemHandle:hidePayViewBlock];
 }
 
 #pragma mark- CZJPopPayViewDelegate
-- (void)payViewToPay:(id)sender
+ - (void)payViewToPay:(id)sender
 {
-    
+    CZJOrderTypeForm* selectOrderTypeForm = (CZJOrderTypeForm*)sender;
+    NSDictionary* params = @{@"orderIds" : orderNoString, @"totalMoney" : [NSString stringWithFormat:@"%.2f",totalMoney]};
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    __weak typeof(self) weak = self;
+    [CZJBaseDataInstance generalPost:params success:^(id json) {
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        [CZJUtils performBlock:hidePayViewBlock afterDelay:0.5];
+        NSDictionary* dict = [[CZJUtils DataFromJson:json] valueForKey:@"msg"];
+        CZJPaymentOrderForm* paymentOrderForm = [[CZJPaymentOrderForm alloc] init];
+        paymentOrderForm.order_no = [dict valueForKey:@"payNo"];
+        paymentOrderForm.order_name = [NSString stringWithFormat:@"订单%@",[dict valueForKey:@"payNo"]];
+        paymentOrderForm.order_description = @"支付宝你个SB";
+        paymentOrderForm.order_price = [dict valueForKey:@"totalMoney"];
+        paymentOrderForm.order_for = @"pay";
+        if ([selectOrderTypeForm.orderTypeName isEqualToString:@"微信支付"])
+        {
+            [CZJPaymentInstance weixinPay:self OrderInfo:paymentOrderForm Success:^(NSDictionary *message) {
+                DLog(@"微信支付成功");
+            } Fail:^(NSDictionary *message, NSError *error) {
+                [CZJUtils tipWithText:@"微信支付失败" andView:weak.view];
+            }];
+        }
+        if ([selectOrderTypeForm.orderTypeName isEqualToString:@"支付宝支付"])
+        {
+            [CZJPaymentInstance aliPay:self OrderInfo:paymentOrderForm Success:^(NSDictionary *message) {
+                DLog(@"支付宝支付成功");
+            } Fail:^(NSDictionary *message, NSError *error) {
+                [CZJUtils tipWithText:@"支付宝支付失败" andView:weak.view];
+            }];
+        }
+    }  fail:^{
+        
+    } andServerAPI:kCZJServerAPIOrderToPay];
 }
 
 
@@ -932,13 +998,13 @@ CZJPopPayViewDelegate
 
 - (IBAction)payAction:(id)sender
 {
-    [self showPopPayView:[orderDetailForm.orderMoney floatValue]];
+    [self showPopPayView:[orderDetailForm.orderMoney floatValue] andOrderNoSting:orderDetailForm.orderNo];
 }
 
 - (IBAction)confirmReceiveGoodsAction:(id)sender
 {
     __weak typeof(self) weak = self;
-    [self showCZJAlertView:@"你要想好哦，确认收货就不能退货了哦" andConfirmHandler:^{
+    [self showCZJAlertView:@"亲,是否确认收货" andConfirmHandler:^{
         [CZJBaseDataInstance generalPost:@{@"orderNo":orderDetailForm.orderNo} success:^(id json) {
             [weak getOrderDetailFromServer];
             [[NSNotificationCenter defaultCenter]postNotificationName:kCZJNotifiRefreshOrderlist object:nil];

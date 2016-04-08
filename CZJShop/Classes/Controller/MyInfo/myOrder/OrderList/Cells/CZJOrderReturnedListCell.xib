@@ -7,15 +7,15 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="44" id="KGk-i7-Jjw" customClass="CZJOrderReturnedListCell">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="109"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="32" id="KGk-i7-Jjw" customClass="CZJOrderReturnedListCell">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="97"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="108"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="96"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="4FF-Nq-bN4">
-                        <rect key="frame" x="15" y="15" width="78" height="78"/>
+                        <rect key="frame" x="15" y="9" width="78" height="78"/>
                         <animations/>
                         <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
@@ -24,7 +24,7 @@
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="euz-Sa-uRf">
-                        <rect key="frame" x="108" y="15" width="197" height="18"/>
+                        <rect key="frame" x="108" y="9" width="197" height="18"/>
                         <animations/>
                         <constraints>
                             <constraint firstAttribute="height" constant="18" id="la2-Xf-KE7"/>
@@ -34,7 +34,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CXi-zf-pDG">
-                        <rect key="frame" x="108" y="38" width="197" height="15"/>
+                        <rect key="frame" x="108" y="32" width="197" height="15"/>
                         <animations/>
                         <constraints>
                             <constraint firstAttribute="height" constant="15" id="4Pw-CY-mD3"/>
@@ -44,7 +44,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0S3-bi-Wqr">
-                        <rect key="frame" x="108" y="78" width="100" height="15"/>
+                        <rect key="frame" x="108" y="72" width="100" height="15"/>
                         <animations/>
                         <constraints>
                             <constraint firstAttribute="height" constant="15" id="6sB-c9-18v"/>
@@ -55,7 +55,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="p7r-O5-ezh">
-                        <rect key="frame" x="218" y="78" width="87" height="15"/>
+                        <rect key="frame" x="218" y="66" width="87" height="15"/>
                         <animations/>
                         <constraints>
                             <constraint firstAttribute="height" constant="15" id="bnk-Vr-uvr"/>
@@ -65,7 +65,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mQ2-0s-s2o">
-                        <rect key="frame" x="225" y="66" width="80" height="27"/>
+                        <rect key="frame" x="225" y="60" width="80" height="27"/>
                         <animations/>
                         <constraints>
                             <constraint firstAttribute="width" constant="80" id="Eir-y0-WBI"/>
@@ -87,6 +87,15 @@
                             </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
                     </button>
+                    <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="order_icon_tuihuowancheng.png" translatesAutoresizingMaskIntoConstraints="NO" id="LdP-7k-N0S">
+                        <rect key="frame" x="247" y="23" width="63" height="63"/>
+                        <animations/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="63" id="u0H-bK-t3W"/>
+                            <constraint firstAttribute="width" constant="63" id="vCU-lI-rkM"/>
+                        </constraints>
+                    </imageView>
                 </subviews>
                 <animations/>
                 <constraints>
@@ -102,6 +111,8 @@
                     <constraint firstItem="mQ2-0s-s2o" firstAttribute="bottom" secondItem="4FF-Nq-bN4" secondAttribute="bottom" id="P9z-wM-7eb"/>
                     <constraint firstItem="p7r-O5-ezh" firstAttribute="leading" secondItem="0S3-bi-Wqr" secondAttribute="trailing" constant="10" id="PI0-5q-pvf"/>
                     <constraint firstItem="euz-Sa-uRf" firstAttribute="top" secondItem="4FF-Nq-bN4" secondAttribute="top" id="Pa6-RQ-435"/>
+                    <constraint firstAttribute="trailing" secondItem="LdP-7k-N0S" secondAttribute="trailing" constant="10" id="QhT-dw-XqN"/>
+                    <constraint firstAttribute="bottom" secondItem="LdP-7k-N0S" secondAttribute="bottom" constant="10" id="SXb-fq-b10"/>
                     <constraint firstAttribute="trailing" secondItem="CXi-zf-pDG" secondAttribute="trailing" constant="15" id="bWU-ED-ZSE"/>
                     <constraint firstItem="euz-Sa-uRf" firstAttribute="leading" secondItem="4FF-Nq-bN4" secondAttribute="trailing" constant="15" id="gNk-Nh-aN4"/>
                     <constraint firstItem="0S3-bi-Wqr" firstAttribute="leading" secondItem="4FF-Nq-bN4" secondAttribute="trailing" constant="15" id="h5y-aM-ehP"/>
@@ -126,9 +137,13 @@
                 <outlet property="goodNameLabel" destination="euz-Sa-uRf" id="t1n-Kh-w2X"/>
                 <outlet property="goodPriceLabel" destination="0S3-bi-Wqr" id="xEz-Qk-8mr"/>
                 <outlet property="returnBtn" destination="mQ2-0s-s2o" id="9Ye-Fh-dFq"/>
+                <outlet property="returnCompleteImg" destination="LdP-7k-N0S" id="KOn-am-DTb"/>
                 <outlet property="returnStateLabel" destination="p7r-O5-ezh" id="Kdq-mR-8de"/>
             </connections>
-            <point key="canvasLocation" x="-91" y="237.5"/>
+            <point key="canvasLocation" x="14" y="247.5"/>
         </tableViewCell>
     </objects>
+    <resources>
+        <image name="order_icon_tuihuowancheng.png" width="63" height="63"/>
+    </resources>
 </document>

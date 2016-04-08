@@ -28,4 +28,5 @@
 
 
 - (void)setCellIsTaken:(BOOL)taken andServiceType:(BOOL)isService;
+- (void)setCellWithCouponType:(NSInteger)couponType andServiceType:(BOOL)isService;
 @end

@@ -101,7 +101,7 @@ UITableViewDelegate
 {
     CGRect viewRect = CGRectMake(0, 0, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT- 128);
     _myTableView = [[UITableView alloc]initWithFrame:viewRect style:UITableViewStylePlain];
-    _myTableView.backgroundColor = WHITECOLOR;
+    _myTableView.backgroundColor = CZJTableViewBGColor;
     _myTableView.tableFooterView = [[UIView alloc]init];
     _myTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     _myTableView.bounces = YES;

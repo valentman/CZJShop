@@ -181,7 +181,7 @@
 @property (strong, nonatomic)NSString* returnReason;
 @property (strong, nonatomic)NSString* returnStatus;
 @property (strong, nonatomic)NSString* returnTime;
-@property (strong, nonatomic)NSString* returnType;
+@property (strong, nonatomic)NSString* returnType;   //1为退货，其他为换货
 @end
 
 
@@ -190,5 +190,5 @@
 @property (strong, nonatomic)NSString* returnNote;
 @property (strong, nonatomic)NSString* orderItemPid;
 @property (strong, nonatomic)NSString* returnReason;
-@property (strong, nonatomic)NSMutableArray* returnImgs;
+@property (strong, nonatomic)NSString* returnImgs;
 @end

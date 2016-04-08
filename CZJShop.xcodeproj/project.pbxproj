@@ -939,6 +939,8 @@
 		ECE8E9191CAA8565005530AD /* all_coupon_red@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = ECE8E9151CAA8565005530AD /* all_coupon_red@2x.png */; settings = {ASSET_TAGS = (); }; };
 		ECE8E91A1CAA8565005530AD /* all_coupon_red@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = ECE8E9161CAA8565005530AD /* all_coupon_red@3x.png */; settings = {ASSET_TAGS = (); }; };
 		ECE8E91D1CAA8880005530AD /* CZJCouponBarItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = ECE8E91C1CAA8880005530AD /* CZJCouponBarItemView.m */; settings = {ASSET_TAGS = (); }; };
+		ECED5E4B1CB795C6007F079B /* order_icon_tuihuowancheng@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = ECED5E491CB795C6007F079B /* order_icon_tuihuowancheng@2x.png */; settings = {ASSET_TAGS = (); }; };
+		ECED5E4C1CB795C6007F079B /* order_icon_tuihuowancheng@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = ECED5E4A1CB795C6007F079B /* order_icon_tuihuowancheng@3x.png */; settings = {ASSET_TAGS = (); }; };
 		ECEDF6341C7DC63600DAF307 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ECEDF6331C7DC63600DAF307 /* Images.xcassets */; settings = {ASSET_TAGS = (); }; };
 		ECF1FB161C27986800B99D93 /* login_btn_back@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = ECF1FB061C27986800B99D93 /* login_btn_back@2x.png */; };
 		ECF1FB171C27986800B99D93 /* login_btn_back@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = ECF1FB071C27986800B99D93 /* login_btn_back@3x.png */; };
@@ -2470,6 +2472,8 @@
 		ECE8E9161CAA8565005530AD /* all_coupon_red@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "all_coupon_red@3x.png"; sourceTree = "<group>"; };
 		ECE8E91B1CAA8880005530AD /* CZJCouponBarItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJCouponBarItemView.h; sourceTree = "<group>"; };
 		ECE8E91C1CAA8880005530AD /* CZJCouponBarItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJCouponBarItemView.m; sourceTree = "<group>"; };
+		ECED5E491CB795C6007F079B /* order_icon_tuihuowancheng@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "order_icon_tuihuowancheng@2x.png"; sourceTree = "<group>"; };
+		ECED5E4A1CB795C6007F079B /* order_icon_tuihuowancheng@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "order_icon_tuihuowancheng@3x.png"; sourceTree = "<group>"; };
 		ECEDF6331C7DC63600DAF307 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		ECF1FB061C27986800B99D93 /* login_btn_back@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "login_btn_back@2x.png"; sourceTree = "<group>"; };
 		ECF1FB071C27986800B99D93 /* login_btn_back@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "login_btn_back@3x.png"; sourceTree = "<group>"; };
@@ -3449,6 +3453,8 @@
 		EC34FFC11C433D5A0063A071 /* MyInfo */ = {
 			isa = PBXGroup;
 			children = (
+				ECED5E491CB795C6007F079B /* order_icon_tuihuowancheng@2x.png */,
+				ECED5E4A1CB795C6007F079B /* order_icon_tuihuowancheng@3x.png */,
 				ECE8E9031CAA7EC9005530AD /* label_icon_guoqi@2x.png */,
 				ECE8E9041CAA7EC9005530AD /* label_icon_guoqi@3x.png */,
 				ECE8E9051CAA7EC9005530AD /* label_icon_lingqu@2x.png */,
@@ -5783,6 +5789,7 @@
 				EC2BF2C51C7DA74D003B94B5 /* chat_icon_face_sel@3x.png in Resources */,
 				EC2518261C22959300C6754A /* CZJEvalutionDetailCell.xib in Resources */,
 				ECC4DEC11C17FEA900FBD6A4 /* prodetail_btn_more@3x.png in Resources */,
+				ECED5E4C1CB795C6007F079B /* order_icon_tuihuowancheng@3x.png in Resources */,
 				EC26A3081C2A386600B166A3 /* coupon_icon_base_gray@3x.png in Resources */,
 				ECC4DED41C17FEA900FBD6A4 /* prodetail_icon_miaosha@2x.png in Resources */,
 				EC34FFED1C433D5A0063A071 /* my_icon_list@3x.png in Resources */,
@@ -6099,6 +6106,7 @@
 				ECDB61851BFB551600882BB2 /* home_icon_new@3x.png in Resources */,
 				ECF2DCA21C5767F80096FF39 /* CZJMyInfoHeadCell.xib in Resources */,
 				EC0F00401C326D9300F124F8 /* shop_icon_goods@3x.png in Resources */,
+				ECED5E4B1CB795C6007F079B /* order_icon_tuihuowancheng@2x.png in Resources */,
 				ECD3D4231C72D6D000C230BE /* yue_icon_gonggao@3x.png in Resources */,
 				EC0532B41CA296CB000933F5 /* default_noweb@3x.png in Resources */,
 				EC34FFFC1C433D5A0063A071 /* my_icon_shop@2x.png in Resources */,

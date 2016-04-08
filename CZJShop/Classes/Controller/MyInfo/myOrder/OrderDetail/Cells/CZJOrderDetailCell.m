@@ -71,11 +71,7 @@
             
         case 3:
             self.buttonFour.hidden = NO;
-            if (0 == type ||
-                1 == type)
-            {
-                imageName = @"order_icon_gou2";
-            }
+            imageName = @"order_icon_gou2";
             break;
             
         default:

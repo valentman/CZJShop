@@ -14,8 +14,8 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="219"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Q7f-cC-0l8">
-                        <rect key="frame" x="10" y="20" width="300" height="209"/>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Q7f-cC-0l8">
+                        <rect key="frame" x="10" y="20" width="300" height="199"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="commit_icon_shop.png" translatesAutoresizingMaskIntoConstraints="NO" id="FKr-oc-cOw">
                                 <rect key="frame" x="15" y="15" width="15" height="15"/>

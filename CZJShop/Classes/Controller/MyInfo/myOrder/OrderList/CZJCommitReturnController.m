@@ -35,6 +35,7 @@ CZJLeaveMessageViewDelegate
     CZJCommitReturnTypeCell* promptCell;
     
     NSInteger choosedSecionIndex;
+    NSMutableArray* returnAbleImgs;
     __block CZJSubmitReturnForm* submitReturnForm;  //退换货数据
     
     NIDropDown* dropDown;
@@ -54,11 +55,12 @@ CZJLeaveMessageViewDelegate
 - (void)initMyData
 {
     submitReturnForm = [[CZJSubmitReturnForm alloc]init];
-    submitReturnForm.returnImgs = [NSMutableArray array];
+    submitReturnForm.returnImgs = @"";
     submitReturnForm.returnType = @"1";
     submitReturnForm.returnNote = @"";
     submitReturnForm.returnReason = @"无";
     submitReturnForm.orderItemPid = _returnedGoodsForm.orderItemPid;
+    returnAbleImgs = [NSMutableArray array];
 }
 
 - (void)initViews
@@ -70,7 +72,7 @@ CZJLeaveMessageViewDelegate
     self.myTableView.clipsToBounds = NO;
     self.myTableView.showsVerticalScrollIndicator = NO;
     self.automaticallyAdjustsScrollViewInsets = NO;
-    self.myTableView.backgroundColor = CZJTableViewBGColor;
+    self.myTableView.backgroundColor = WHITECOLOR;
     [self.view addSubview:self.myTableView];
     
     NSArray* nibArys = @[@"CZJOrderReturnedListCell",
@@ -88,7 +90,7 @@ CZJLeaveMessageViewDelegate
     
     [self addCZJNaviBarView:CZJNaviBarViewTypeGeneral];
     self.naviBarView.mainTitleLabel.text = @"退换货";
-    self.naviBarView.btnMore.hidden = NO;
+    self.naviBarView.btnMore.hidden = YES;
     [self.naviBarView.btnMore setBackgroundImage:IMAGENAMED(@"commit_icon_kefu") forState:UIControlStateNormal];
     [self.naviBarView.btnMore addTarget:self action:@selector(contackService:) forControlEvents:UIControlEventTouchUpInside];
     
@@ -187,16 +189,16 @@ CZJLeaveMessageViewDelegate
             [cell.picLoadView removeAllSubViewsExceptView:cell.picBTn];
             [cell.picBTn addTarget:self action:@selector(picBtnTouched:) forControlEvents:UIControlEventTouchUpInside];
             int divide = (iPhone5 || iPhone4) ? 3 : 4;
-            for (int i = 0; i < submitReturnForm.returnImgs.count; i++)
+            for (int i = 0; i < returnAbleImgs.count; i++)
             {
-                NSString* imgUrl = submitReturnForm.returnImgs[i];
+                NSString* imgUrl = returnAbleImgs[i];
                 CGRect imageFrame = [CZJUtils viewFramFromDynamic:CZJMarginMake(15, 10) size:CGSizeMake(78, 78) index:i divide:divide];
                 CZJDeletableImageView* picImage = [[CZJDeletableImageView alloc]initWithFrame:imageFrame andImageName:imgUrl];
                 [picImage.deleteButton addTarget:self action:@selector(picViewDeleteBtnHandler:) forControlEvents:UIControlEventTouchUpInside];
                 [picImage.deleteButton setTag:indexPath.section];
                 [cell.picLoadView addSubview:picImage];
             }
-            CGRect picBtnFrame = [CZJUtils viewFramFromDynamic:CZJMarginMake(15, 10) size:CGSizeMake(78, 78) index:(int)submitReturnForm.returnImgs.count divide:divide];
+            CGRect picBtnFrame = [CZJUtils viewFramFromDynamic:CZJMarginMake(15, 10) size:CGSizeMake(78, 78) index:(int)returnAbleImgs.count divide:divide];
             cell.picBtnLeading.constant = picBtnFrame.origin.x;
             cell.picBtnTop.constant = picBtnFrame.origin.y;
 
@@ -234,7 +236,7 @@ CZJLeaveMessageViewDelegate
     NSInteger indexSection = sender.tag;
     CZJDeletableImageView* picImage = (CZJDeletableImageView*)[sender superview];
     [picImage removeFromSuperview];
-    [submitReturnForm.returnImgs removeObject:picImage.imgName];
+    [returnAbleImgs removeObject:picImage.imgName];
     [self.myTableView reloadSections:[NSIndexSet indexSetWithIndex:indexSection] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
@@ -289,7 +291,7 @@ CZJLeaveMessageViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (1 == indexPath.section && 1 == indexPath.section)
+    if (1 == indexPath.section && 1 == indexPath.row)
     {
         CZJLeaveMessageView* leaveMessage = (CZJLeaveMessageView*)[CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:@"leaveMessageSBID"];
         leaveMessage.delegate = self;
@@ -432,17 +434,21 @@ CZJLeaveMessageViewDelegate
 
 - (void)refreshPic:(NSString*)picImg
 {
-    [submitReturnForm.returnImgs addObject:picImg];
+    [returnAbleImgs addObject:picImg];
     [self.myTableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
-//提交退货申请
+
+#pragma mark- 提交退货申请
 - (void)submitMyReturn:(id)sender
 {
+    submitReturnForm.returnImgs = [returnAbleImgs componentsJoinedByString:@","];
     NSDictionary* dict = submitReturnForm.keyValues;
     DLog(@"退货%@",[dict description]);
+    __weak typeof(self) weak = self;
     [CZJBaseDataInstance generalPost:@{@"paramJson" : [CZJUtils JsonFromData:dict]} success:^(id json){
-         [CZJUtils tipWithText:@"发表评价成功，非常感谢！" andView:nil];
+         [CZJUtils tipWithText:@"提交退货信息成功，请耐心等待处理！" andView:nil];
+        [weak.navigationController popViewControllerAnimated:YES];
      }  fail:^{
          
      } andServerAPI:kCZJServerAPISubmitReturnOrder];

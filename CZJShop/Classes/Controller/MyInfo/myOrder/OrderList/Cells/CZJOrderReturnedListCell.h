@@ -15,5 +15,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *goodPriceLabel;
 @property (weak, nonatomic) IBOutlet UILabel *returnStateLabel;
 @property (weak, nonatomic) IBOutlet UIButton *returnBtn;
+@property (weak, nonatomic) IBOutlet UIImageView *returnCompleteImg;
 
 @end

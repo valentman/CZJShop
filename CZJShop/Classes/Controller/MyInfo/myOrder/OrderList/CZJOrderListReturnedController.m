@@ -37,12 +37,12 @@ UITableViewDataSource
     [super viewDidLoad];
     [self initMyDatas];
     [self initViews];
-    [self getReturnedOrderListFromServer];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(getReturnedOrderListFromServer) name:kCZJNotifiRefreshReturnOrderlist object:nil];
+    [self getReturnedOrderListFromServer];
 }
 
 - (void)removeOrderlistControllerNotification
@@ -193,7 +193,9 @@ UITableViewDataSource
                 statestr = @"等待卖家收货";
                 break;
             case 4:
-                statestr = @"退换货成功";
+                statestr = @"";
+                cell.returnStateLabel.hidden = YES;
+                cell.returnCompleteImg.hidden = NO;
                 break;
                 
             default:

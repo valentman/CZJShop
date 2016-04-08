@@ -189,7 +189,7 @@ CZJChooseProductTypeDelegate
         UINib *nib=[UINib nibWithNibName:cells bundle:nil];
         [self.detailTableView registerNib:nib forCellReuseIdentifier:cells];
     }
-
+    
     _detailTableView.tag = kTagTableView;
     self.detailTableView.tableFooterView = [[UIView alloc] init];
     [self.myScrollView addSubview:_detailTableView];
@@ -303,6 +303,7 @@ CZJChooseProductTypeDelegate
     _storeInfo = goodsDetailForm.store;
     _evalutionInfo = goodsDetailForm.evals;
     _goodsDetail = goodsDetailForm.goods;
+    _goodsDetail.sku.storeItemPid = _goodsDetail.storeItemPid;
     [USER_DEFAULT setObject:_goodsDetail.storeItemPid forKey:kUserDefaultDetailStoreItemPid];
     [USER_DEFAULT setObject:_goodsDetail.itemCode forKey:kUserDefaultDetailItemCode];
     self.attentionBtn.selected = _goodsDetail.attentionFlag;
@@ -329,11 +330,11 @@ CZJChooseProductTypeDelegate
     }
     if (5 == section)
     {
-        return _evalutionInfo.evalList.count;
+        return _evalutionInfo.evalList.count > 0 ? _evalutionInfo.evalList.count + 2 : 0;
     }
     if (6 == section)
     {
-    
+        
         return _goodsDetail.selfFlag ? 0 : 2;
     }
     if (CZJDetailTypeService == self.detaiViewType && 3 == section)
@@ -403,7 +404,7 @@ CZJChooseProductTypeDelegate
             return cell;
         }
             break;
-
+            
         case 2:
         {//领券信息
             CZJCouponsCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CZJCouponsCell" forIndexPath:indexPath];
@@ -414,11 +415,12 @@ CZJChooseProductTypeDelegate
             return cell;
         }
             break;
-
+            
         case 3:
         {//已选规格
             chooosedProductCell = [tableView dequeueReusableCellWithIdentifier:@"CZJChoosedProductCell" forIndexPath:indexPath];
             chooosedProductCell.indexPath = indexPath;
+            
             chooosedProductCell.goodsDetail = _goodsDetail;
             chooosedProductCell.storeItemPid = _goodsDetail.storeItemPid;
             chooosedProductCell.productType.text = [NSString stringWithFormat:@"%@ %ld个",[_goodsDetail.sku.skuValues isEqualToString:@"null"]? @"" : _goodsDetail.sku.skuValues,buyCount];
@@ -563,7 +565,7 @@ CZJChooseProductTypeDelegate
                 if (_storeInfo)
                 {
                     [cell.storeImage sd_setImageWithURL:[NSURL URLWithString:_storeInfo.logo]
-                                            placeholderImage:DefaultPlaceHolderImage];
+                                       placeholderImage:DefaultPlaceHolderImage];
                     cell.storeName.text = _storeInfo.storeName;
                     cell.storeAddr.text = _storeInfo.storeAddr;
                     cell.storeAddrLayoutWidth.constant = PJ_SCREEN_WIDTH - 200;
@@ -768,6 +770,7 @@ CZJChooseProductTypeDelegate
         CZJChooseProductTypeController *chooseProductTypeController = [[CZJChooseProductTypeController alloc] init];
         chooseProductTypeController.goodsDetail = chooosedProductCell.goodsDetail;
         chooseProductTypeController.buycount = buyCount;
+        chooseProductTypeController.delegate = self;
         [CZJUtils showMyWindowOnTarget:weak withMyVC:chooseProductTypeController];
         
         [chooseProductTypeController setCancleBarItemHandle:^{
@@ -803,7 +806,7 @@ CZJChooseProductTypeDelegate
         case CZJButtonTypeNaviBarMore:
         {
             NSArray * arr = @[
-//                              @{@"消息" : @"prodetail_icon_msg"},
+                              //                              @{@"消息" : @"prodetail_icon_msg"},
                               @{@"首页":@"prodetail_icon_home"},
                               @{@"分享" :@"prodetail_icon_share"}];
             if(dropDown == nil) {
@@ -899,7 +902,7 @@ CZJChooseProductTypeDelegate
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     float contentOffsetY = [scrollView contentOffset].y;
-     DLog(@"contentOffsetY:%f, tableViewContentSizeHeight:%f",contentOffsetY, tableViewContentSizeHeight);
+    DLog(@"contentOffsetY:%f, tableViewContentSizeHeight:%f",contentOffsetY, tableViewContentSizeHeight);
     if (kTagTableView == scrollView.tag && contentOffsetY <=0)
     {
         [self.naviBarView setBackgroundColor:CZJNAVIBARBGCOLORALPHA(0)];
@@ -934,7 +937,7 @@ CZJChooseProductTypeDelegate
 - (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset NS_AVAILABLE_IOS(5_0)
 {
     float contentOffsetY = [scrollView contentOffset].y;
-
+    
     if (isButtom && kTagTableView == scrollView.tag && contentOffsetY >= tableViewContentSizeHeight + 40)
     {
         [self.myScrollView setContentOffset:CGPointMake(0, (PJ_SCREEN_HEIGHT-114)) animated:true];
@@ -953,8 +956,8 @@ CZJChooseProductTypeDelegate
     wyzAlbumVC.imgArr = _goodsDetail.imgs;
     //进入动画
     [self presentViewController:wyzAlbumVC animated:YES completion:^
-    {
-    }];
+     {
+     }];
 }
 
 
@@ -962,12 +965,18 @@ CZJChooseProductTypeDelegate
 
 - (void)productTypeImeditelyBuyCallBack
 {
-    [self addProductToShoppingCartAction:nil];
+    __weak typeof(self) weak = self;
+    [CZJUtils performBlock:^{
+        [weak immediatelyBuyAction:nil];
+    } afterDelay:0.5];
 }
 
 - (void)productTypeAddtoShoppingCartCallBack
 {
-    [self immediatelyBuyAction:nil];
+    __weak typeof(self) weak = self;
+    [CZJUtils performBlock:^{
+        [weak addProductToShoppingCartAction:nil];
+    } afterDelay:0.5];
 }
 
 #pragma mark- Action
@@ -1001,52 +1010,60 @@ CZJChooseProductTypeDelegate
     {
         [CZJUtils showLoginView:self andNaviBar:self.naviBarView];
     }
-
+    
 }
 
 - (IBAction)addProductToShoppingCartAction:(id)sender
 {
-    NSDictionary* pramas = @{
-                             @"companyId" : _goodsDetail.companyId ? _goodsDetail.companyId : @"",
-                             @"storeId" : _goodsDetail.storeId,
-                             @"storeItemPid" : _goodsDetail.storeItemPid,
-                             @"itemType" : _goodsDetail.itemType,
-                             @"itemCode" : _goodsDetail.itemCode,
-                             @"itemName" : _goodsDetail.itemName,
-                             @"itemCount" : @1,
-                             @"currentPrice" : _goodsDetail.currentPrice,
-                             @"itemImg" : _goodsDetail.itemImg,
-                             @"itemSku" : _goodsDetail.itemSku,
-                             @"counterKey" : _goodsDetail.counterKey
-                             };
     
-    [CZJBaseDataInstance addProductToShoppingCart:pramas Success:^{
-        CGRect addBtnRect = [self.view convertRect:_addProductToShoppingCartBtn.frame fromView:_shoppingCartView];
-        CGRect shoppingCartBtnRect = [self.view convertRect:self.naviBarView.btnShop.frame fromView:self.naviBarView];
+    if ([USER_DEFAULT boolForKey:kCZJIsUserHaveLogined])
+    {
+        NSDictionary* pramas = @{
+                                 @"companyId" : _goodsDetail.companyId ? _goodsDetail.companyId : @"",
+                                 @"storeId" : _goodsDetail.storeId,
+                                 @"storeItemPid" : _goodsDetail.storeItemPid,
+                                 @"itemType" : _goodsDetail.itemType,
+                                 @"itemCode" : _goodsDetail.itemCode,
+                                 @"itemName" : _goodsDetail.itemName,
+                                 @"itemCount" : @1,
+                                 @"currentPrice" : _goodsDetail.currentPrice,
+                                 @"itemImg" : _goodsDetail.itemImg,
+                                 @"itemSku" : _goodsDetail.itemSku,
+                                 @"counterKey" : _goodsDetail.counterKey
+                                 };
         
-        UIImageView* itemImage = [[UIImageView alloc] initWithImage:IMAGENAMED(@"prodetail_btn_shop")];
-        itemImage.frame = CGRectMake(addBtnRect.origin.x + (addBtnRect.size.width - 50)/2, addBtnRect.origin.y + (addBtnRect.size.height - 40)/2, 40, 40);
-        [self.view addSubview:itemImage];
-        [UIView animateWithDuration:1.0 delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
-            itemImage.size  = CGSizeMake(20, 20);
-            CGPoint desPt = CGPointMake(shoppingCartBtnRect.origin.x + shoppingCartBtnRect.size.width*0.5,shoppingCartBtnRect.origin.y + shoppingCartBtnRect.size.height*0.5);
-            [itemImage setPosition:desPt atAnchorPoint:CGPointMake(0.5, 0.5)];
-            itemImage.alpha = 0.8;
-        } completion:^(BOOL finished) {
-            if (finished) {
-                [UIView animateWithDuration:0.1 animations:^{
-                    itemImage.alpha = 0;
-                    itemImage.transform = CGAffineTransformMakeScale(3, 3);
-                } completion:^(BOOL finished) {
-                    [itemImage removeFromSuperview];
-                }];
-                [self.naviBarView refreshShopBadgeLabel];
-            }
+        [CZJBaseDataInstance addProductToShoppingCart:pramas Success:^{
+            CGRect addBtnRect = [self.view convertRect:_addProductToShoppingCartBtn.frame fromView:_shoppingCartView];
+            CGRect shoppingCartBtnRect = [self.view convertRect:self.naviBarView.btnShop.frame fromView:self.naviBarView];
+            
+            UIImageView* itemImage = [[UIImageView alloc] initWithImage:IMAGENAMED(@"prodetail_btn_shop")];
+            itemImage.frame = CGRectMake(addBtnRect.origin.x + (addBtnRect.size.width - 50)/2, addBtnRect.origin.y + (addBtnRect.size.height - 40)/2, 40, 40);
+            [self.view addSubview:itemImage];
+            [UIView animateWithDuration:1.0 delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
+                itemImage.size  = CGSizeMake(20, 20);
+                CGPoint desPt = CGPointMake(shoppingCartBtnRect.origin.x + shoppingCartBtnRect.size.width*0.5,shoppingCartBtnRect.origin.y + shoppingCartBtnRect.size.height*0.5);
+                [itemImage setPosition:desPt atAnchorPoint:CGPointMake(0.5, 0.5)];
+                itemImage.alpha = 0.8;
+            } completion:^(BOOL finished) {
+                if (finished) {
+                    [UIView animateWithDuration:0.1 animations:^{
+                        itemImage.alpha = 0;
+                        itemImage.transform = CGAffineTransformMakeScale(3, 3);
+                    } completion:^(BOOL finished) {
+                        [itemImage removeFromSuperview];
+                    }];
+                    [self.naviBarView refreshShopBadgeLabel];
+                }
+            }];
+            
+        } fail:^{
+            
         }];
-        
-    } fail:^{
-        
-    }];
+    }
+    else
+    {
+        [CZJUtils showLoginView:self andNaviBar:self.naviBarView];
+    }
 }
 
 
@@ -1057,20 +1074,20 @@ CZJChooseProductTypeDelegate
     if (!self.attentionBtn.selected)
     {
         [CZJBaseDataInstance attentionGoods:params success:^(id json)
-        {
-            _goodsDetail.attentionFlag = !_goodsDetail.attentionFlag;
-            self.attentionBtn.selected = !self.attentionBtn.selected;
-            [CZJUtils tipWithText:@"关注商品成功" andView:self.view];
-        }];
+         {
+             _goodsDetail.attentionFlag = !_goodsDetail.attentionFlag;
+             self.attentionBtn.selected = !self.attentionBtn.selected;
+             [CZJUtils tipWithText:@"关注商品成功" andView:self.view];
+         }];
     }
     else
     {
         [CZJBaseDataInstance cancleAttentionGoods:params success:^(id json)
-        {
-            _goodsDetail.attentionFlag = !_goodsDetail.attentionFlag;
-            self.attentionBtn.selected = !self.attentionBtn.selected;
-            [CZJUtils tipWithText:@"取消商品关注" andView:self.view];
-        }];
+         {
+             _goodsDetail.attentionFlag = !_goodsDetail.attentionFlag;
+             self.attentionBtn.selected = !self.attentionBtn.selected;
+             [CZJUtils tipWithText:@"取消商品关注" andView:self.view];
+         }];
     }
 }
 

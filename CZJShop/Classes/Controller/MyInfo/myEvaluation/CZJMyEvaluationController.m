@@ -86,6 +86,7 @@ UITableViewDelegate
     [CZJUtils removeNoDataAlertViewFromTarget:self.view];
     [CZJBaseDataInstance generalPost:param success:^(id json) {
         [MBProgressHUD hideHUDForView:self.view animated:NO];
+        DLog(@"myEvalution:%@",[[CZJUtils DataFromJson:json] description]);
         NSArray* tmpAry = [[CZJUtils DataFromJson:json] valueForKey:@"msg"];
         if (CZJHomeGetDataFromServerTypeTwo == _getdataType)
         {

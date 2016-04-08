@@ -17,4 +17,5 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *deliveryAddrLayoutLeading;
 @property (strong, nonatomic) CZJAddrForm* addrForm;
 @property (weak, nonatomic) IBOutlet UIImageView *commitNextArrowImg;
+@property (weak, nonatomic) IBOutlet UIImageView *deliverLocaitonIMg;
 @end

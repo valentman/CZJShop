@@ -11,7 +11,6 @@
 @interface CZJOrderDetailCell : CZJTableViewCell
 @property (weak, nonatomic) IBOutlet UILabel *orderNoLabel;
 @property (weak, nonatomic) IBOutlet UILabel *orderTimeLabel;
-
 @property (weak, nonatomic) IBOutlet UILabel *stageLabel;
 @property (weak, nonatomic) IBOutlet UILabel *leftTimeLabel;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *stageLabelWidth;

@@ -26,7 +26,7 @@
 - (void)initViews
 {
     [self addCZJNaviBarView:CZJNaviBarViewTypeGeneral];
-    self.naviBarView.mainTitleLabel.text = @"优惠券";
+    self.naviBarView.mainTitleLabel.text = @"我的优惠券";
     self.naviBarView.buttomSeparator.hidden = YES;
     
     //右按钮
@@ -98,7 +98,7 @@ UITableViewDelegate
 {
     CGRect viewRect = CGRectMake(0, 0, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT- 114);
     _myTableView = [[UITableView alloc]initWithFrame:viewRect style:UITableViewStylePlain];
-    _myTableView.backgroundColor = WHITECOLOR;
+    _myTableView.backgroundColor = CZJTableViewBGColor;
     _myTableView.tableFooterView = [[UIView alloc]init];
     _myTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     _myTableView.bounces = YES;
@@ -126,6 +126,7 @@ UITableViewDelegate
     [CZJBaseDataInstance generalPost:_params success:^(id json) {
         [MBProgressHUD hideAllHUDsForView:self.view animated:NO];
         //========获取数据返回，判断数据大于0不==========
+        DLog(@"%@",[[CZJUtils DataFromJson:json] description]);
         NSArray* tmpAry = [[CZJUtils DataFromJson:json] valueForKey:@"msg"];
         if (CZJHomeGetDataFromServerTypeTwo == _getdataType)
         {
@@ -183,40 +184,50 @@ UITableViewDelegate
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    CZJShoppingCouponsForm* couponForm = _couponList[indexPath.row];
     CZJReceiveCouponsCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJReceiveCouponsCell" forIndexPath:indexPath];
     cell.selectBtn.hidden = YES;
     cell.receivedImg.hidden = YES;
-    
     cell.couponsViewLayoutWidth.constant = PJ_SCREEN_WIDTH - 40;
-    CZJShoppingCouponsForm* couponForm = (CZJShoppingCouponsForm*)_couponList[indexPath.section];
-    NSString* priceStri = [NSString stringWithFormat:@"￥%.2f",[couponForm.value floatValue]];
-    CGSize priceSize = [CZJUtils calculateTitleSizeWithString:priceStri WithFont:SYSTEMFONT(44)];
+    
+    NSString* priceStri;
+    switch ([couponForm.type integerValue])
+    {
+        case 1://代金券
+            priceStri = [NSString stringWithFormat:@"￥%d",[couponForm.value intValue]];
+            break;
+            
+        case 2://满减券
+            priceStri = [NSString stringWithFormat:@"￥%d",[couponForm.value intValue]];
+            cell.useableLimitLabel.text = [NSString stringWithFormat:@"满%@可用",couponForm.validMoney];
+            break;
+            
+        case 3://项目券
+            priceStri = @"项目券";
+            cell.couonTypeNameLabel.text = couponForm.name;
+            cell.useableLimitLabel.text = @"凭券到店消费";
+            break;
+            
+        default:
+            break;
+    }
+    
+    //左上角价格
+    CGSize priceSize = [CZJUtils calculateTitleSizeWithString:priceStri WithFont:SYSTEMFONT(45)];
     cell.couponPriceLabelLayout.constant = priceSize.width + 5;
     cell.couponPriceLabel.text = priceStri;
-
+    
+    //门店名称
     NSString* storeNameStr = couponForm.storeName;
-    int width = PJ_SCREEN_WIDTH - 40 - 80 - priceSize.width - 50;
-    CGSize storeNameSize = [CZJUtils calculateStringSizeWithString:storeNameStr Font:SYSTEMFONT(15) Width:width];
+    int width = PJ_SCREEN_WIDTH - 40 - 80 - priceSize.width - 10;
+    CGSize storeNameSize = [storeNameStr boundingRectWithSize:CGSizeMake(width, 0) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName: BOLDSYSTEMFONT(15)} context:nil].size;
     cell.storeNameLabelLayoutheight.constant = storeNameSize.height;
     cell.storeNameLabelLayoutWidth.constant = width;
     cell.storeNameLabel.text = storeNameStr;
+    
+    //右下角有限期
     cell.receiveTimeLabel.text = couponForm.validEndTime;
-    cell.useableLimitLabel.text = [NSString stringWithFormat:@"满%@可用",couponForm.validMoney];
-    cell.backgroundColor = CLEARCOLOR;
-    
-    NSString* bgImgStr;
-    if ([couponForm.type integerValue] == 3)
-    {
-        bgImgStr = @"coupon_icon_base_blue";
-    }
-    else
-    {
-        bgImgStr = @"coupon_icon_base_red";
-    }
-    [cell.couponBgImg setImage:IMAGENAMED(bgImgStr)];
-    cell.couponPriceLabel.textColor = CZJREDCOLOR;
-    cell.storeNameLabel.textColor = CZJREDCOLOR;
-    
+    [cell setCellWithCouponType:_couponType andServiceType:![couponForm.validServiceId isEqualToString:@"0"]];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
@@ -242,14 +253,9 @@ UITableViewDelegate
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    _params = [@{@"type":@"0", @"page":@"1"}mutableCopy];
+    _couponType = 0;
+    _params = [@{@"type":@(_couponType), @"page":@"1"}mutableCopy];
     [self getCouponListFromServer];
-}
-
-- (void)getCouponUnUsedListFromServer
-{
-    
-    [super getCouponListFromServer];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -261,7 +267,8 @@ UITableViewDelegate
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    _params = [@{@"type":@"1", @"page":@"1"}mutableCopy];
+    _couponType = 1;
+    _params = [@{@"type":@(_couponType), @"page":@"1"}mutableCopy];
     [self getCouponListFromServer];
 }
 
@@ -274,7 +281,8 @@ UITableViewDelegate
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    _params = [@{@"type":@"2", @"page":@"1"}mutableCopy];
+    _couponType = 2;
+    _params = [@{@"type":@(_couponType), @"page":@"1"}mutableCopy];
     [self getCouponListFromServer];
 }
 

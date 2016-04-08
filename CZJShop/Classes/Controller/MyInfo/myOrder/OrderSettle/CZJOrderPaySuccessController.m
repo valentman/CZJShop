@@ -30,12 +30,12 @@
     self.naviBarView.customSearchBar.hidden = YES;
     self.naviBarView.buttomSeparator.hidden = YES;
     [self.naviBarView setBackgroundColor:CLEARCOLOR];
+    [self.navigationController.interactivePopGestureRecognizer setEnabled:false];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
-
 
 - (void)viewDidAppear:(BOOL)animated
 {
