@@ -36,7 +36,7 @@
     [_couponScrollView removeAllSubViews];
     
     for (int i  = 0; i < couponsAry.count; i++) {
-        float height = _couponScrollView.frame.size.height * 0.8;
+        float height = 36;
         float width = height * 144/64;
         
         CGRect frame = CGRectMake(i * (width+10), 5, width, height);

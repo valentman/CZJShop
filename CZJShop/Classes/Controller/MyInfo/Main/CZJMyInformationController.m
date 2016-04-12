@@ -18,6 +18,7 @@
 #import "UserBaseForm.h"
 #import "CZJOrderListReturnedController.h"
 #import "CZJMyInfoShareController.h"
+#import "CZJMyWalletRedpacketController.h"
 
 @implementation CZJMyInfoForm
 @end
@@ -555,6 +556,11 @@ CZJViewControllerDelegate
     {
         CZJMyInfoShareController* shareVC = segue.destinationViewController;
         shareVC.myShareCode = myInfoForm.couponCode;
+    }
+    if ([segue.identifier isEqualToString:@"segueToRedPacket"])
+    {
+        CZJMyWalletRedpacketController* redpackeVC = segue.destinationViewController;
+        redpackeVC.redPacketNum = myInfoForm.redpacket;
     }
 }
 

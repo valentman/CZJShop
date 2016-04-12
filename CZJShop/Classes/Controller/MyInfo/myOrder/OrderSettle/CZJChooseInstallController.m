@@ -88,7 +88,7 @@ UITableViewDelegate
 {
     CZJNearbyStoreForm* form = storeList[indexPath.row];
     CZJChooseInstallStoreCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJChooseInstallStoreCell" forIndexPath:indexPath];
-    [cell.storeImg sd_setImageWithURL:[NSURL URLWithString:form.homeImg] placeholderImage:DefaultPlaceHolderImage];
+    [cell.storeImg sd_setImageWithURL:[NSURL URLWithString:form.homeImg] placeholderImage:DefaultPlaceHolderSquare];
     cell.storeNameLabel.text = form.name;
     cell.storeAddrLabel.text = form.addr;
     cell.setupNumLabel.text = form.setupCount;

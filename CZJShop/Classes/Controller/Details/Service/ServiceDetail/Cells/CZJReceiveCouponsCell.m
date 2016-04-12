@@ -41,7 +41,6 @@
 - (void)setCellWithCouponType:(NSInteger)couponType andServiceType:(BOOL)isService
 {
     UIColor* untakenColor;
-    UIColor* textColor;
     switch (couponType)
     {
         case 0:
@@ -52,13 +51,13 @@
         }
             break;
         case 1:
-            untakenColor = GRAYCOLOR;
+            untakenColor = CZJGRAYCOLOR;
             [self.couponBgImg setImage:IMAGENAMED(@"coupon_icon_base_gray")];
             self.receivedImg.hidden = NO;
             [self.receivedImg setImage:IMAGENAMED(@"coupon_icon_shiyong")];
             break;
         case 2:
-            untakenColor = GRAYCOLOR;
+            untakenColor = CZJGRAYCOLOR;
             [self.couponBgImg setImage:IMAGENAMED(@"coupon_icon_base_gray")];
             self.receivedImg.hidden = NO;
             [self.receivedImg setImage:IMAGENAMED(@"couponl_icon_guoqi")];

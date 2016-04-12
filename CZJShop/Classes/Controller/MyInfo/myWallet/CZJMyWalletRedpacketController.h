@@ -10,4 +10,5 @@
 
 @interface CZJMyWalletRedpacketController : CZJViewController
 
+@property (nonatomic, strong) NSString* redPacketNum;
 @end

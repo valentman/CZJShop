@@ -33,7 +33,7 @@ UITableViewDelegate
     [super viewDidLoad];
     [self initMyDatas];
     [self initTableView];
-    [self getMyEvalutionDataFromServer];
+//    [self getMyEvalutionDataFromServer];
     [self addCZJNaviBarView:CZJNaviBarViewTypeGeneral];
     self.naviBarView.mainTitleLabel.text = @"我的评价";
     
@@ -44,6 +44,11 @@ UITableViewDelegate
     myEvaluationAry = [NSMutableArray array];
     page = 1;
     _getdataType = CZJHomeGetDataFromServerTypeOne;
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [self getMyEvalutionDataFromServer];
 }
 
 - (void)initTableView
@@ -84,6 +89,7 @@ UITableViewDelegate
     __weak typeof(self) weak = self;
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [CZJUtils removeNoDataAlertViewFromTarget:self.view];
+    [CZJUtils removeReloadAlertViewFromTarget:self.view];
     [CZJBaseDataInstance generalPost:param success:^(id json) {
         [MBProgressHUD hideHUDForView:self.view animated:NO];
         DLog(@"myEvalution:%@",[[CZJUtils DataFromJson:json] description]);
@@ -169,7 +175,7 @@ UITableViewDelegate
             NSString* url = evaluationForm.evalImgs[i];
             CGRect imageFrame = [CZJUtils viewFramFromDynamic:CZJMarginMake(0, 0) size:CGSizeMake(78, 78) index:i divide:Divide];
             UIImageView* imageView = [[UIImageView alloc]initWithFrame:imageFrame];
-            [imageView sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:DefaultPlaceHolderImage];
+            [imageView sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:DefaultPlaceHolderSquare];
             [cell.picView addSubview:imageView];
             cell.picView.hidden = NO;
         }
@@ -186,6 +192,7 @@ UITableViewDelegate
         if (![evaluationForm.added boolValue])
         {
             cell.addEvaluateBtn.hidden = NO;
+            cell.addEvaluateBtn.tag = indexPath.section;
             [cell.addEvaluateBtn addTarget:self action:@selector(addEvaluateBtnHandler:) forControlEvents:UIControlEventTouchUpInside];
         }
         cell.serviceName.text = evaluationForm.itemName;
@@ -208,7 +215,7 @@ UITableViewDelegate
             NSString* url = evaluationForm.addedEval.evalImgs[i];
             CGRect imageFrame = [CZJUtils viewFramFromDynamic:CZJMarginMake(0, 0) size:CGSizeMake(70, 70) index:i divide:Divide];
             UIImageView* imageView = [[UIImageView alloc]initWithFrame:imageFrame];
-            [imageView sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:DefaultPlaceHolderImage];
+            [imageView sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:DefaultPlaceHolderSquare];
             [cell.picView addSubview:imageView];
         }
         return cell;

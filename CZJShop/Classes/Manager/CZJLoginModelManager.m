@@ -11,17 +11,12 @@
 #import "CZJErrorCodeManager.h"
 #import "UserBaseForm.h"
 #import "ZXLocationManager.h"
-#import "StartPageForm.h"
 #import "CCLocationManager.h"
 #import "CZJBaseDataManager.h"
 
 @implementation CZJLoginModelManager
 
 @synthesize usrBaseForm = _usrBaseForm;
-@synthesize cheZhuId = _cheZhuId;
-@synthesize cheZhuMobile = _cheZhuMobile;
-@synthesize cityId;
-@synthesize cityName;
 
 singleton_implementation(CZJLoginModelManager)
 
@@ -133,15 +128,10 @@ singleton_implementation(CZJLoginModelManager)
 {
     self.usrBaseForm = [[UserBaseForm alloc] init];
     [self.usrBaseForm setUserInfoWithDictionary:[CZJUtils DataFromJson:json]];
-    self.usrBaseForm.cityId = self.cityId;
-    self.usrBaseForm.cityName = self.cityName;
-    
-    _cheZhuId = self.usrBaseForm.chezhuId;
-    _mobile = self.usrBaseForm.mobile;
     if ([self saveLoginInfoDataToLocal:json]) {
         [USER_DEFAULT setObject:[NSNumber numberWithBool:YES] forKey:kCZJIsUserHaveLogined];
     }
-    [CZJBaseDataInstance refreshChezhuID:_cheZhuId];
+    [CZJBaseDataInstance refreshChezhuID];
     CZJBaseDataInstance.userInfoForm = self.usrBaseForm;
 }
 
@@ -160,10 +150,10 @@ singleton_implementation(CZJLoginModelManager)
             NSDictionary* dict = [CZJUtils DataFromJson:json] ;
             success(json);
             DLog(@"设置密码成功");
-            _cheZhuId = [[dict valueForKey:@"msg"] valueForKey:@"chezhuId"];
-            _mobile = [[dict valueForKey:@"msg"] valueForKey:@"mobile"];
-            self.cityName = [[dict valueForKey:@"msg"] valueForKey:@"cityName"];
-            self.cityId = [[dict valueForKey:@"msg"] valueForKey:@"cityId"];
+            self.usrBaseForm.chezhuId = [[dict valueForKey:@"msg"] valueForKey:@"chezhuId"];
+            self.usrBaseForm.mobile = [[dict valueForKey:@"msg"] valueForKey:@"mobile"];
+            self.usrBaseForm.cityName = [[dict valueForKey:@"msg"] valueForKey:@"cityName"];
+            self.usrBaseForm.cityId = [[dict valueForKey:@"msg"] valueForKey:@"cityId"];
             success(json);
         }
     };
@@ -196,10 +186,6 @@ singleton_implementation(CZJLoginModelManager)
     }
     self.usrBaseForm = [[UserBaseForm alloc] init];
     [self.usrBaseForm setUserInfoWithDictionary:dict];
-    self.usrBaseForm.cityId = self.cityId;
-    self.usrBaseForm.cityName = self.cityName;
-    _cheZhuId = self.usrBaseForm.chezhuId;
-    _mobile = self.usrBaseForm.mobile;
     CZJBaseDataInstance.userInfoForm = self.usrBaseForm;
     success();
 }
@@ -257,8 +243,8 @@ singleton_implementation(CZJLoginModelManager)
     CZJSuccessBlock successBlock = ^(id json){
         if ([self showAlertView:json]) {
             NSDictionary* dict = [CZJUtils DataFromJson:json];
-            self.cityId = [[dict valueForKey:@"msg"] valueForKey:@"cityId"];
-            self.cityName = [[dict valueForKey:@"msg"] valueForKey:@"cityName"];
+            self.usrBaseForm.cityId = [[dict valueForKey:@"msg"] valueForKey:@"cityId"];
+            self.usrBaseForm.cityName = [[dict valueForKey:@"msg"] valueForKey:@"cityName"];
             DLog(@"login suc");
             success(json);
         }
@@ -272,23 +258,6 @@ singleton_implementation(CZJLoginModelManager)
                                                       parameters:params
                                                          success:successBlock
                                                             fail:failure];
-}
-
-
--(void)loadStartPageSuccess:(void (^)(id json))success
-                       Fail:(void (^)())fail
-{
-    CZJSuccessBlock successBlock = ^(id json){
-        if ([self showAlertView:json]) {
-            self.startPageForm = [[StartPageForm alloc] initWithDictionary:[[CZJUtils DataFromJson:json] valueForKey:@"msg"]];
-            DLog(@"login suc");
-            success(json);
-        }
-    };
-    NSDictionary *params = @{};
-    [[CZJNetworkManager sharedCZJNetworkManager] postJSONWithUrl:@"chezhu/loadStartPage.do"
-                                                      parameters:params
-                                                         success:successBlock                                                          fail:nil];
 }
 
 @end

@@ -79,7 +79,7 @@ UITableViewDataSource
     [self.view addSubview:self.tableView];
     
     [_curCarBrandLogo sd_setImageWithURL:[NSURL URLWithString:self.carBrand.icon]
-                        placeholderImage:[UIImage imageNamed:@"default_icon_car"]
+                        placeholderImage:DefaultPlaceHolderSquare
                                completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL){
                                    
                                }];

@@ -165,6 +165,7 @@ UITableViewDelegate
     [tmpArray removeAllObjects];
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [CZJUtils removeNoDataAlertViewFromTarget:self.view];
+    [CZJUtils removeReloadAlertViewFromTarget:self.view];
     [CZJBaseDataInstance loadMyAttentionList:params success:^(id json) {
         [MBProgressHUD hideAllHUDsForView:self.view animated:NO];
         
@@ -325,7 +326,7 @@ UITableViewDelegate
     {
         CZJStoreAttentionForm* form = tmpArray[indexPath.section];
         CZJStoreAttentionHeadCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJStoreAttentionHeadCell" forIndexPath:indexPath];
-        [cell.storeImg sd_setImageWithURL:[NSURL URLWithString:form.homeImg] placeholderImage:DefaultPlaceHolderImage];
+        [cell.storeImg sd_setImageWithURL:[NSURL URLWithString:form.homeImg] placeholderImage:DefaultPlaceHolderSquare];
         cell.storeNameLabel.text = form.name;
         CGSize attentionSize = [CZJUtils calculateTitleSizeWithString:form.attentionCount AndFontSize:14];
         cell.attentionCountLabel.text = form.attentionCount;
@@ -340,7 +341,7 @@ UITableViewDelegate
     {
         CZJGoodsAttentionForm* form = tmpArray[indexPath.row];
         CZJGoodsAttentionCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJGoodsAttentionCell" forIndexPath:indexPath];
-        [cell.goodImg sd_setImageWithURL:[NSURL URLWithString:form.itemImg] placeholderImage:DefaultPlaceHolderImage];
+        [cell.goodImg sd_setImageWithURL:[NSURL URLWithString:form.itemImg] placeholderImage:DefaultPlaceHolderSquare];
         
         CGSize nameSize = [CZJUtils calculateStringSizeWithString:form.itemName Font:SYSTEMFONT(15) Width:PJ_SCREEN_WIDTH - 116];
         cell.goodNameLabel.text = form.itemName;

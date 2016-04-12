@@ -69,7 +69,7 @@ UITableViewDelegate
     _curCarBrandLogo = [[UIImageView alloc]initWithFrame:CGRectMake(14,StatusBar_HEIGHT + NavigationBar_HEIGHT + 5, 60 , 50)];
     [self.view addSubview:_curCarBrandLogo];
     [_curCarBrandLogo sd_setImageWithURL:[NSURL URLWithString:self.carBrand.icon]
-                        placeholderImage:[UIImage imageNamed:@"default_icon_car"]
+                        placeholderImage:DefaultPlaceHolderSquare
                                completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL){
                                    
                                }];

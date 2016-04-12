@@ -465,7 +465,7 @@ CZJNaviagtionBarViewDelegate
             cell.setupView.hidden = !goodsForm.setupFlag;
             cell.selectedSetupStoreNameLabel.text = goodsForm.selectdSetupStoreName;
             //商品图片
-            [cell.goodsImg sd_setImageWithURL:[NSURL URLWithString:goodsForm.itemImg] placeholderImage:DefaultPlaceHolderImage];
+            [cell.goodsImg sd_setImageWithURL:[NSURL URLWithString:goodsForm.itemImg] placeholderImage:DefaultPlaceHolderSquare];
             //商品名称
             cell.goodsNameLabel.text = goodsForm.itemName;
             cell.goodsNameLayoutWidth.constant = PJ_SCREEN_WIDTH - 68 -15 - 8 - 15;
@@ -619,7 +619,7 @@ CZJNaviagtionBarViewDelegate
              3 == indexPath.section ||
              4 == indexPath.section)
     {
-        return 44;
+        return 50;
     }
     else
     {
@@ -788,7 +788,7 @@ CZJNaviagtionBarViewDelegate
     for (CZJOrderStoreForm* storeForm in _orderStoreAry)
     {
         storeForm.couponPrice = @"0";
-        storeForm.chezhuCouponPid = @"";
+        storeForm.chezhuCouponPid = @"0";
         for (CZJShoppingCouponsForm* couposForm in _useableCouponsAry)
         {
             if ([storeForm.storeId isEqualToString:couposForm.storeId])
@@ -896,6 +896,7 @@ CZJNaviagtionBarViewDelegate
     }
     
     //获取支付订单编号
+    DLog(@"paramsJson:%@",[[CZJUtils JsonFromData:orderInfo] description]);
     NSDictionary* params = @{@"paramJson":[CZJUtils JsonFromData:orderInfo]};
     __weak typeof(self) weak = self;
     [MBProgressHUD showHUDAddedTo:self.view animated:YES].mode = MBProgressHUDModeIndeterminate;

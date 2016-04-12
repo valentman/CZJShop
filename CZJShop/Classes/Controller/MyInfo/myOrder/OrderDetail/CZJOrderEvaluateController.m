@@ -169,7 +169,7 @@ CZJStarRateViewDelegate
         cell.messageTextField.text = returnedListForm.message? returnedListForm.message : @"";
         cell.starView.ownerObject = returnedListForm;
         [cell.picBTn addTarget:self action:@selector(picBtnTouched:) forControlEvents:UIControlEventTouchUpInside];
-        [cell.goodsImg sd_setImageWithURL:[NSURL URLWithString:returnedListForm.itemImg] placeholderImage:IMAGENAMED(@"")];
+        [cell.goodsImg sd_setImageWithURL:[NSURL URLWithString:returnedListForm.itemImg] placeholderImage:DefaultPlaceHolderSquare];
         cell.goodsNameLabel.text = returnedListForm.itemName;
         [cell.picBTn setTag:indexPath.section];
         [cell.messageTextField setTag:indexPath.section];

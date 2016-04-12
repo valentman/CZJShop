@@ -76,7 +76,7 @@
     
     NSInteger index = indexPath.row;
     NSString* _imgString = ((SpecialRecommendForm*)_specialRecommendDatas[index]).img;
-    [cell.spcialRecoIcon sd_setImageWithURL:[NSURL URLWithString:_imgString] placeholderImage:DefaultPlaceHolderImage];
+    [cell.spcialRecoIcon sd_setImageWithURL:[NSURL URLWithString:_imgString] placeholderImage:DefaultPlaceHolderSquare];
     return cell;
 }
 @end

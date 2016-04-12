@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
@@ -14,7 +14,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="374"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="all_btn_shop.png" translatesAutoresizingMaskIntoConstraints="NO" id="FYE-ZK-dtg">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeholder_squarePlus" translatesAutoresizingMaskIntoConstraints="NO" id="FYE-ZK-dtg">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="374"/>
                         <animations/>
                     </imageView>
@@ -44,6 +44,6 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="all_btn_shop.png" width="21" height="21"/>
+        <image name="placeholder_squarePlus" width="256" height="256"/>
     </resources>
 </document>

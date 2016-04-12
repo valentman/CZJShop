@@ -49,12 +49,23 @@ VPImageCropperDelegate
 
 - (IBAction)addEvaluateAction:(id)sender
 {
+    [self.view endEditing:YES];
+    if ([CZJUtils isBlankString:message])
+    {
+        [CZJUtils tipWithText:@"评价不能为空" andView:self.view];
+        return;
+    }
     NSDictionary* params = @{@"id": self.currentEvaluation.evaluateID,
                              @"addMessage": message == nil ? @"系统默认好评" : message,
-                             @"addImgs":picAry};
+                             @"addImgs":[picAry componentsJoinedByString:@","]};
     DLog(@"%@",[params description]);
+    __weak typeof(self) weakSelf = self;
     [CZJBaseDataInstance generalPost:params success:^(id json) {
-                                 
+        NSDictionary* dict = [CZJUtils DataFromJson:json];
+        DLog(@"%@",[dict description]);
+        [CZJUtils tipWithText:@"评价成功" andView:weakSelf.view];
+        [weakSelf.navigationController popViewControllerAnimated:YES];
+        
     }fail:^{
     
     }
@@ -63,6 +74,7 @@ VPImageCropperDelegate
 
 - (IBAction)addPicAction:(id)sender
 {
+    [self.view endEditing:YES];
     UIActionSheet *choiceSheet = [[UIActionSheet alloc] initWithTitle:nil
                                                              delegate:self
                                                     cancelButtonTitle:@"取消"
@@ -209,7 +221,6 @@ VPImageCropperDelegate
 
 - (void)textViewDidEndEditing:(UITextView *)textView
 {
-    NSInteger indexSection = textView.tag;
     message = textView.text;
     DLog(@"%@",textView.text);
 }
@@ -217,6 +228,7 @@ VPImageCropperDelegate
 
 - (void)textViewDidChange:(UITextView *)textView
 {
+    message = textView.text;
     DLog(@"%@",textView.text);
 }
 @end

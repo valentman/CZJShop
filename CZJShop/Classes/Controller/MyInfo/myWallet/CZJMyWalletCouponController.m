@@ -122,6 +122,7 @@ UITableViewDelegate
     __weak typeof(self) weak = self;
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [CZJUtils removeNoDataAlertViewFromTarget:self.view];
+    [CZJUtils removeReloadAlertViewFromTarget:self.view];
     [_params setValue:@(page) forKey:@"page"];
     [CZJBaseDataInstance generalPost:_params success:^(id json) {
         [MBProgressHUD hideAllHUDsForView:self.view animated:NO];

@@ -21,9 +21,10 @@
 
 @interface CZJMyWalletCardListBaseController : UIViewController
 {
-    NSMutableDictionary* _params;
+    NSDictionary* _params;
+    NSString* _cardType;
 }
-@property (strong, nonatomic)NSMutableDictionary* params;
+@property (strong, nonatomic)NSString* cardType;
 @property (weak, nonatomic) id<CZJMyWalletCardListCellDelegate> delegate;
 
 - (void)initMyDatas;

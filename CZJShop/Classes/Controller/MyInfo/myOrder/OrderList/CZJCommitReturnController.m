@@ -138,7 +138,7 @@ CZJLeaveMessageViewDelegate
             cell.goodNameLabel.text = _returnedGoodsForm.itemName;
             cell.goodModelLabel.text = _returnedGoodsForm.itemSku;
             cell.goodPriceLabel.text = [NSString stringWithFormat:@"￥%@",_returnedGoodsForm.currentPrice];
-            [cell.goodImg sd_setImageWithURL:[NSURL URLWithString:_returnedGoodsForm.itemImg] placeholderImage:IMAGENAMED(@"")];
+            [cell.goodImg sd_setImageWithURL:[NSURL URLWithString:_returnedGoodsForm.itemImg] placeholderImage:DefaultPlaceHolderSquare];
             cell.returnBtn.hidden = YES;
             cell.returnStateLabel.hidden = YES;
             cell.selectionStyle = UITableViewCellSelectionStyleNone;

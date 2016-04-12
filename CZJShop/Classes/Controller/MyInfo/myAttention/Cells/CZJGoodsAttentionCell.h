@@ -20,4 +20,8 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *dealCountLayoutWidth;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *viewLayoutLeading;
 @property (weak, nonatomic) IBOutlet UIButton *selectBtn;
+@property (weak, nonatomic) IBOutlet UILabel *goodrateName;
+@property (weak, nonatomic) IBOutlet UILabel *dealName;
+
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *priceButton;
 @end

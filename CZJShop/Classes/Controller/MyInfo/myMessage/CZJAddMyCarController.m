@@ -53,7 +53,7 @@
 {
     self.carNameLabel.text = [NSString stringWithFormat:@"%@ %@", CZJBaseDataInstance.carBrandForm.name,CZJBaseDataInstance.carSerialForm.name];
     self.carModelLabel.text = CZJBaseDataInstance.carModealForm.name;
-    [self.carBrandImg sd_setImageWithURL:[NSURL URLWithString:CZJBaseDataInstance.carBrandForm.icon] placeholderImage:[UIImage imageNamed:@"default_icon_car"]];
+    [self.carBrandImg sd_setImageWithURL:[NSURL URLWithString:CZJBaseDataInstance.carBrandForm.icon] placeholderImage:DefaultPlaceHolderSquare];
 }
 
 - (void)didReceiveMemoryWarning {

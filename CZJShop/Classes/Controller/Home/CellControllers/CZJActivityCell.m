@@ -47,7 +47,7 @@
 
 - (void)imagePlayerView:(ImagePlayerView *)imagePlayerView loadImageForImageView:(UIImageView *)imageView index:(NSInteger)index
 {
-    [imageView sd_setImageWithURL:[NSURL URLWithString:[_imageArray objectAtIndex:index]] placeholderImage:[UIImage imageNamed:@"default_banner_img"]];
+    [imageView sd_setImageWithURL:[NSURL URLWithString:[_imageArray objectAtIndex:index]] placeholderImage:DefaultPlaceHolderRectangle];
 }
 
 - (void)imagePlayerView:(ImagePlayerView *)imagePlayerView didTapAtIndex:(NSInteger)index

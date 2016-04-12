@@ -11,7 +11,9 @@
 #import "CZJSBAlertView.h"
 
 @interface CZJViewController : UIViewController<CZJViewControllerDelegate>
-
+{
+    BOOL _isNetWorkCanReachable;
+}
 /*
  主要是在当前视图控制器上弹出一个视图控制器做相应的功能模块，完成之后又返回当前视图控制器.
  应用场景比如商品详情界面弹出筛选弹窗视图控制器、优惠券领取弹窗视图控制器
@@ -41,6 +43,9 @@
 /* typeID */
 @property (strong, nonatomic) NSString *typeId;
 
+/* 网络是否联通 */
+@property (assign, nonatomic) BOOL isNetWorkCanReachable;
+
 
 - (void)addCZJNaviBarView:(CZJNaviBarViewType)naviBarViewType;
 
@@ -49,4 +54,6 @@
         andCancleHandler:(CZJGeneralBlock)cancleBlock;
 
 - (void)hideWindow;
+
+- (void)checkNetWorkStatus;
 @end

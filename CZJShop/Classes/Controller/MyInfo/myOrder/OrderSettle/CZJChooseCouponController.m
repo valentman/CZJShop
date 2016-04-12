@@ -91,9 +91,9 @@ UITableViewDelegate
             }
         }
     }
-    if (_choosedCoupons.count > 0)
+    if (self.choosedCoupons.count > 0)
     {
-        for (CZJShoppingCouponsForm* couponForm in _choosedCoupons)
+        for (CZJShoppingCouponsForm* couponForm in self.choosedCoupons)
         {
             for (CZJOrderStoreCouponsForm* storeCouponsForm in _storeAry)
             {
@@ -103,7 +103,8 @@ UITableViewDelegate
                 }
             }
         }
-        _choosedCouponAry = [NSMutableArray arrayWithArray:_choosedCoupons];
+        [_choosedCouponAry removeAllObjects];
+        _choosedCouponAry = [NSMutableArray arrayWithArray:self.choosedCoupons];
     }
     [_chooseCouponTableView reloadData];
     [self countCoupons];
@@ -156,37 +157,52 @@ UITableViewDelegate
     }
     else
     {
-        CZJReceiveCouponsCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJReceiveCouponsCell" forIndexPath:indexPath];
-        cell.couponsViewLayoutWidth.constant = PJ_SCREEN_WIDTH - 40;
         CZJShoppingCouponsForm* couponForm = (CZJShoppingCouponsForm*)_storeCoupons[indexPath.row - 1];
-        NSString* priceStri = [NSString stringWithFormat:@"￥%@",couponForm.value];
+        CZJReceiveCouponsCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJReceiveCouponsCell" forIndexPath:indexPath];
+        cell.selectBtn.hidden = YES;
+        cell.receivedImg.hidden = YES;
+        cell.couponsViewLayoutWidth.constant = PJ_SCREEN_WIDTH - 40;
+        
+        NSString* priceStri;
+        switch ([couponForm.type integerValue])
+        {
+            case 1://代金券
+                priceStri = [NSString stringWithFormat:@"￥%d",[couponForm.value intValue]];
+                break;
+                
+            case 2://满减券
+                priceStri = [NSString stringWithFormat:@"￥%d",[couponForm.value intValue]];
+                cell.useableLimitLabel.text = [NSString stringWithFormat:@"满%@可用",couponForm.validMoney];
+                break;
+                
+            case 3://项目券
+                priceStri = @"项目券";
+                cell.couonTypeNameLabel.text = couponForm.name;
+                cell.useableLimitLabel.text = @"凭券到店消费";
+                break;
+                
+            default:
+                break;
+        }
+        
+        //左上角价格
         CGSize priceSize = [CZJUtils calculateTitleSizeWithString:priceStri WithFont:SYSTEMFONT(45)];
         cell.couponPriceLabelLayout.constant = priceSize.width + 5;
         cell.couponPriceLabel.text = priceStri;
         
+        //门店名称
         NSString* storeNameStr = couponForm.storeName;
         int width = PJ_SCREEN_WIDTH - 40 - 80 - priceSize.width - 10;
         CGSize storeNameSize = [storeNameStr boundingRectWithSize:CGSizeMake(width, 0) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName: BOLDSYSTEMFONT(15)} context:nil].size;
         cell.storeNameLabelLayoutheight.constant = storeNameSize.height;
         cell.storeNameLabelLayoutWidth.constant = width;
         cell.storeNameLabel.text = storeNameStr;
+        
+        //右下角有限期
         cell.receiveTimeLabel.text = couponForm.validEndTime;
-        cell.useableLimitLabel.text = couponForm.name;
+//        [cell setCellWithCouponType:_couponType andServiceType:![couponForm.validServiceId isEqualToString:@"0"]];
         
 
-        NSString* bgImgStr;
-        if ([couponForm.type integerValue] == 3)
-        {
-            bgImgStr = @"coupon_icon_base_blue";
-        }
-        else
-        {
-            bgImgStr = @"coupon_icon_base_red";
-        }
-        [cell.couponBgImg setImage:IMAGENAMED(bgImgStr)];
-        cell.couponPriceLabel.textColor = CZJREDCOLOR;
-        cell.storeNameLabel.textColor = CZJREDCOLOR;
-        
         if ([storeCouponForm.selectedCouponId isEqualToString:couponForm.couponId])
         {
             cell.couponsViewLeadingToSuperView.constant = 40;
@@ -199,6 +215,20 @@ UITableViewDelegate
             cell.selectBtn.hidden = YES;
             cell.selectBtn.selected = NO;
         }
+        
+        
+        NSString* bgImgStr;
+        if ([couponForm.type integerValue] == 3)
+        {
+            bgImgStr = @"coupon_icon_base_blue";
+        }
+        else
+        {
+            bgImgStr = @"coupon_icon_base_red";
+        }
+        [cell.couponBgImg setImage:IMAGENAMED(bgImgStr)];
+        cell.couponPriceLabel.textColor = CZJREDCOLOR;
+        cell.storeNameLabel.textColor = CZJREDCOLOR;
 
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.separatorInset = HiddenCellSeparator;
@@ -231,13 +261,17 @@ UITableViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    //如果点击门店，则不作任何操作。
     if (indexPath.row == 0)
     {
         return;
     }
     
+    //所点门店优惠券信息（包含该门店的所有优惠券列表）
     CZJOrderStoreCouponsForm* storeCouponForm = (CZJOrderStoreCouponsForm*)_storeAry[indexPath.section];
     NSArray* _storeCoupons = storeCouponForm.coupons;
+    
+    //所点击优惠券信息
     CZJShoppingCouponsForm* couponForm = (CZJShoppingCouponsForm*)_storeCoupons[indexPath.row - 1];
     if ([storeCouponForm.selectedCouponId isEqualToString:couponForm.couponId])
     {
@@ -255,7 +289,6 @@ UITableViewDelegate
     else
     {
         storeCouponForm.selectedCouponId = couponForm.couponId;
-        [_choosedCouponAry addObject:couponForm];
     }
     [self countCoupons];
     [self.chooseCouponTableView reloadSections:[NSIndexSet indexSetWithIndex:indexPath.section] withRowAnimation:UITableViewRowAnimationNone];
@@ -278,12 +311,27 @@ UITableViewDelegate
             }
         }
     }
-    self.totalLabel.text = [NSString stringWithFormat:@"%.1f",totalCoupon];
+    self.totalLabel.text = [NSString stringWithFormat:@"￥%.2f",totalCoupon];
 }
 
 
 - (IBAction)confirmToUseAction:(id)sender
 {
+    [_choosedCouponAry removeAllObjects];
+    for (CZJOrderStoreCouponsForm* storeCouponForm in _storeAry)
+    {
+        if (![storeCouponForm.selectedCouponId isEqualToString:@""])
+        {
+            NSArray* _storeCoupons = storeCouponForm.coupons;
+            for (CZJShoppingCouponsForm* couponForm in _storeCoupons)
+            {
+                if ([storeCouponForm.selectedCouponId isEqualToString:couponForm.couponId])
+                {
+                    [_choosedCouponAry addObject:couponForm];
+                }
+            }
+        }
+    }
     [self.delegate clickToConfirmUse:_choosedCouponAry];
     [self.navigationController popViewControllerAnimated:YES];
 }

@@ -94,7 +94,7 @@
         [self.changeView.subButton addTarget:self action:@selector(subButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
         [self.changeView.addButton addTarget:self action:@selector(addButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     }
-    [self.goodImage sd_setImageWithURL:[NSURL URLWithString:shoppingGoodsInfo.itemImg] placeholderImage:DefaultPlaceHolderImage];
+    [self.goodImage sd_setImageWithURL:[NSURL URLWithString:shoppingGoodsInfo.itemImg] placeholderImage:DefaultPlaceHolderSquare];
     self.chooseBtn.selected = self.goodsInfoForm.isSelect;
     
     [self calculatePriceNumber];

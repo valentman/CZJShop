@@ -61,7 +61,7 @@ CZJOrderListCellDelegate
     if ([[_params valueForKey:@"type"] isEqualToString:@"1"])
     {
         viewRect = CGRectMake(0, 0, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT- 114 - 60);
-        CGRect buttomRect = CGRectMake(0, PJ_SCREEN_HEIGHT, PJ_SCREEN_WIDTH,60);
+        CGRect buttomRect = CGRectMake(0, PJ_SCREEN_HEIGHT - 60, PJ_SCREEN_WIDTH,60);
         _noPayButtomView = [CZJUtils getXibViewByName:@"CZJOrderListNoPayButtomView"];
         _noPayButtomView.frame = buttomRect;
         if (iPhone4 || iPhone5)
@@ -98,6 +98,7 @@ CZJOrderListCellDelegate
     hud.completionBlock = ^{
     };
     [CZJUtils removeNoDataAlertViewFromTarget:self.view];
+    [CZJUtils removeReloadAlertViewFromTarget:self.view];
     [_params setValue:@(self.page) forKey:@"page"];
     [CZJBaseDataInstance getOrderList:_params Success:^(id json) {
         [MBProgressHUD hideAllHUDsForView:self.view animated:NO];
@@ -140,12 +141,14 @@ CZJOrderListCellDelegate
             self.myTableView.footer.hidden = self.myTableView.mj_contentH < self.myTableView.frame.size.height;
             if ([[_params valueForKey:@"type"] isEqualToString:@"1"])
             {
-                _noPayButtomView = [CZJUtils getXibViewByName:@"CZJOrderListNoPayButtomView"];
-                [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-                    _noPayButtomView.frame = CGRectMake(0, PJ_SCREEN_HEIGHT- 114 - 60, PJ_SCREEN_WIDTH,60);
-                } completion:^(BOOL finished) {
-                    
-                }];
+//                _noPayButtomView = [CZJUtils getXibViewByName:@"CZJOrderListNoPayButtomView"];
+//                _noPayButtomView.frame = CGRectMake(0, PJ_SCREEN_HEIGHT - 60, PJ_SCREEN_WIDTH,60);
+//                [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+//                    
+//                } completion:^(BOOL finished) {
+//                    
+//                }];
+                [self.view addSubview:_noPayButtomView];
             }
         }
     } fail:^{

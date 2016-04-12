@@ -120,7 +120,7 @@ CZJPopPayViewDelegate
     self.naviBarView.mainTitleLabel.text = title;
 }
 
-- (void)viewDidAppear:(BOOL)animated
+- (void)viewWillAppear:(BOOL)animated
 {
     if (CZJOrderDetailTypeGeneral == self.orderDetailType)
     {
@@ -138,6 +138,7 @@ CZJPopPayViewDelegate
     self.myTableView.delegate = self;
     self.myTableView.dataSource = self;
     self.myTableView.backgroundColor = CLEARCOLOR;
+    self.myTableView.hidden = YES;
     self.view.backgroundColor = CZJNAVIBARGRAYBG;
     self.separatorViewHeight.constant = 0.5;
     
@@ -197,6 +198,7 @@ CZJPopPayViewDelegate
             default:
                 break;
         }
+        self.myTableView.hidden = NO;
         [self.myTableView reloadData];
     }  fail:^{
         DLog(@"");
@@ -207,7 +209,8 @@ CZJPopPayViewDelegate
 {
     __weak typeof(self) weak = self;
     NSDictionary* params = @{@"orderNo":self.orderNo};
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES].color = GRAYCOLOR;
+    [CZJUtils removeReloadAlertViewFromTarget:self.view];
     [CZJBaseDataInstance getOrderDetail:params Success:^(id json) {
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
         NSDictionary* dict = [[CZJUtils DataFromJson:json] valueForKey:@"msg"];
@@ -215,7 +218,6 @@ CZJPopPayViewDelegate
         builderData = [dict valueForKey:@"build"];
         orderDetailForm = [CZJOrderDetailForm objectWithKeyValues:dict];
         receiverAddrForm = orderDetailForm.receiver;
-        [self.myTableView reloadData];
         
         //-----------------------------------未付款----------------------------------
         if (!orderDetailForm.paidFlag)
@@ -346,6 +348,10 @@ CZJPopPayViewDelegate
             }
         }
         
+        //-----------------------------------数据刷新----------------------------------
+        self.myTableView.hidden = NO;
+        [self.myTableView reloadData];
+        
     } fail:^{
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
         [CZJUtils showReloadAlertViewOnTarget:weak.view withReloadHandle:^{
@@ -475,7 +481,7 @@ CZJPopPayViewDelegate
         if (0 == indexPath.row)
         {
             CZJOrderReturnedListCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJOrderReturnedListCell" forIndexPath:indexPath];
-            [cell.goodImg sd_setImageWithURL:[NSURL URLWithString:@""] placeholderImage:IMAGENAMED(@"")];
+            [cell.goodImg sd_setImageWithURL:[NSURL URLWithString:@""] placeholderImage:DefaultPlaceHolderSquare];
             cell.goodNameLabel.text = self.returnedGoodsForm.itemName;
             cell.goodPriceLabel.text = [NSString stringWithFormat:@"￥%@",self.returnedGoodsForm.currentPrice];
             cell.goodModelLabel.text = self.returnedGoodsForm.itemSku;
@@ -507,7 +513,7 @@ CZJPopPayViewDelegate
                 for (int i = 0; i < count; i++)
                 {
                     UIImageView* returnimage = [[UIImageView alloc]init];
-                    [returnimage sd_setImageWithURL:[NSURL URLWithString:returnedOrdderDetailForm.returnImgs[i]] placeholderImage:DefaultPlaceHolderImage];
+                    [returnimage sd_setImageWithURL:[NSURL URLWithString:returnedOrdderDetailForm.returnImgs[i]] placeholderImage:DefaultPlaceHolderSquare];
                     CGRect imageFrame = [CZJUtils viewFramFromDynamic:CZJMarginMake(15, 10) size:CGSizeMake(78, 78) index:i divide:4];
                     returnimage.frame = CGRectMake(imageFrame.origin.x, imageFrame.origin.y + labeiHeight + 10, 78, 78);
                     [cell addSubview:returnimage];
@@ -557,7 +563,7 @@ CZJPopPayViewDelegate
                 CZJOrderGoodsForm* goodsForm = orderDetailForm.items[indexPath.row - 1];
                 CZJOrderProductHeaderCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJOrderProductHeaderCell" forIndexPath:indexPath];
                 cell.setupView.hidden = YES;
-                [cell.goodsImg sd_setImageWithURL:[NSURL URLWithString:goodsForm.itemImg] placeholderImage:DefaultPlaceHolderImage];
+                [cell.goodsImg sd_setImageWithURL:[NSURL URLWithString:goodsForm.itemImg] placeholderImage:DefaultPlaceHolderSquare];
                 cell.goodsNameLabel.text = goodsForm.itemName;
                 cell.priceLabel.text = [NSString stringWithFormat:@"￥%.2f",[goodsForm.currentPrice floatValue]];
                 cell.numLabel.text = [NSString stringWithFormat:@"×%@",goodsForm.itemCount];
@@ -648,7 +654,7 @@ CZJPopPayViewDelegate
         if (2 == indexPath.section)
         {
             CZJOrderBuildCarCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJOrderBuildCarCell" forIndexPath:indexPath];
-            [cell.carBrandImg sd_setImageWithURL:[NSURL URLWithString:@""] placeholderImage:IMAGENAMED(@"default_icon_car")];
+            [cell.carBrandImg sd_setImageWithURL:[NSURL URLWithString:@""] placeholderImage:DefaultPlaceHolderSquare];
             NSString* carBrandName = [[builderData valueForKey:@"car"] valueForKey:@"brandName"];
             NSString* carSeriesName = [[builderData valueForKey:@"car"] valueForKey:@"seriesName"];
             NSString* carNumberPlate = [[builderData valueForKey:@"car"] valueForKey:@"numberPlate"];
@@ -725,7 +731,7 @@ CZJPopPayViewDelegate
                     UIImageView* image = [[UIImageView alloc]init];
                     image.frame = [CZJUtils viewFramFromDynamic:CZJMarginMake(15, 10) size:CGSizeMake(78, 78) index:i divide:4];
                     [cell addSubview:image];
-                    [image sd_setImageWithURL:[NSURL URLWithString:photosAry[i]] placeholderImage:IMAGENAMED(@"")];
+                    [image sd_setImageWithURL:[NSURL URLWithString:photosAry[i]] placeholderImage:DefaultPlaceHolderSquare];
                 }
                 if (photosAry.count == 0)
                 {

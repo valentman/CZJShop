@@ -135,6 +135,7 @@
     __weak typeof(self) weak = self;
     [MBProgressHUD showHUDAddedTo:self.rightCollection animated:YES];
     [CZJUtils removeReloadAlertViewFromTarget:self.rightCollection];
+    [CZJUtils removeNoDataAlertViewFromTarget:self.rightCollection];
     //从服务器获取数据成功返回回调
     CZJSuccessBlock successBlock = ^(id json){
         [MBProgressHUD hideAllHUDsForView:self.rightCollection animated:YES];
@@ -158,7 +159,7 @@
     };
     
     CZJFailureBlock failBlock = ^{
-        [MBProgressHUD hideAllHUDsForView:self.rightCollection animated:YES];
+        [MBProgressHUD hideAllHUDsForView:self.rightCollection animated:NO];
         [CZJUtils showReloadAlertViewOnTarget:self.rightCollection withReloadHandle:^{
             [weak getCategoryDataFromServer];
         }];
@@ -304,7 +305,7 @@
     rightMeun * itemMenu=title.nextArray[indexPath.item];
 
     cell.titile.text=itemMenu.meunName;
-    [cell.imageView sd_setImageWithURL:[NSURL URLWithString:itemMenu.urlName] placeholderImage:[UIImage imageNamed:kImageDefaultName]];
+    [cell.imageView sd_setImageWithURL:[NSURL URLWithString:itemMenu.urlName] placeholderImage:DefaultPlaceHolderSquare];
     return cell;
 }
 
@@ -338,7 +339,7 @@
             }
             else
             {
-                [view.bannerAdImageview sd_setImageWithURL:[NSURL URLWithString:banner] placeholderImage:[UIImage imageNamed:kImageDefaultName]];
+                [view.bannerAdImageview sd_setImageWithURL:[NSURL URLWithString:banner] placeholderImage:DefaultPlaceHolderRectangle];
             }
         }
         else{

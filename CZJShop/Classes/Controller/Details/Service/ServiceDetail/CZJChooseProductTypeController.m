@@ -251,7 +251,7 @@ UITableViewDataSource
         cell.productNameLabel.text = self.goodsDetail.sku.skuName;
         cell.productPriceLabel.text = [NSString stringWithFormat:@"￥%@",self.goodsDetail.sku.skuPrice];
         cell.productCodeLabel.text = self.goodsDetail.sku.skuCode;
-        [cell.productImage sd_setImageWithURL:[NSURL URLWithString:self.goodsDetail.sku.skuImg] placeholderImage:DefaultPlaceHolderImage];
+        [cell.productImage sd_setImageWithURL:[NSURL URLWithString:self.goodsDetail.sku.skuImg] placeholderImage:DefaultPlaceHolderSquare];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
     }

@@ -9,6 +9,7 @@
 #import "CZJMyInfoSettingController.h"
 #import "CZJCouponsCell.h"
 #import "CZJBaseDataManager.h"
+#import "CZJLoginModelManager.h"
 #import "SVHTTPRequest.h"
 #import "CZJNetworkManager.h"
 
@@ -165,12 +166,82 @@ UITableViewDataSource
 
 - (IBAction)exitLoginAction:(id)sender
 {
-    //清楚所有数据
-    [USER_DEFAULT setObject:[NSNumber numberWithBool:NO] forKey:kCZJIsUserHaveLogined];
-    [USER_DEFAULT setObject:@"0" forKey:kUserDefaultShoppingCartCount];
-    [CZJBaseDataInstance refreshChezhuID:@""];
-    CZJBaseDataInstance.userInfoForm = nil;
-    [self.navigationController popViewControllerAnimated:YES];
+    
+    __weak typeof(self) weak = self;
+    [self showCZJAlertView:@"确定退出" andConfirmHandler:^{
+        //清除所有数据
+        //省份信息
+        [FileManager removeItemAtPath:[DocumentsDirectory stringByAppendingPathComponent:kCZJPlistFileProvinceCitys] error:nil];
+        //搜索历史
+        [FileManager removeItemAtPath:[DocumentsDirectory stringByAppendingPathComponent:kCZJPlistFileSearchHistory] error:nil];
+        //默认收货地址
+        [FileManager removeItemAtPath:[DocumentsDirectory stringByAppendingPathComponent:kCZJPlistFileDefaultDeliveryAddr] error:nil];
+        
+        [USER_DEFAULT setValue:@"" forKey:kUserDefaultTimeDay];
+        [USER_DEFAULT setValue:@"" forKey:kUserDefaultTimeMin];
+        [USER_DEFAULT setValue:@"" forKey:kUserDefaultRandomCode];
+        
+        [USER_DEFAULT setValue:@"" forKey:kUserDefaultChoosedCarModelType];
+        [USER_DEFAULT setValue:@"" forKey:kUserDefaultChoosedCarModelID];
+        [USER_DEFAULT setValue:@"" forKey:kUserDefaultChoosedBrandID];
+        [USER_DEFAULT setValue:@"" forKey:kUserDefaultStartPrice];
+        [USER_DEFAULT setValue:@"" forKey:kUserDefaultEndPrice];
+        [USER_DEFAULT setValue:@"" forKey:kUSerDefaultStockFlag];
+        [USER_DEFAULT setValue:@"" forKey:kUSerDefaultPromotionFlag];
+        [USER_DEFAULT setValue:@"" forKey:kUSerDefaultRecommendFlag];
+        [USER_DEFAULT setValue:@"" forKey:kUserDefaultServicePlace];
+        [USER_DEFAULT setValue:@"" forKey:kUserDefaultDetailStoreItemPid];
+        [USER_DEFAULT setValue:@"" forKey:kUserDefaultDetailItemCode];
+        
+        [USER_DEFAULT setObject:@"" forKey:kUSerDefaultSexual];
+        [USER_DEFAULT setValue:@"" forKey:kUserDefaultStartPageUrl];
+        [USER_DEFAULT setValue:@"" forKey:kUserDefaultStartPageImagePath];
+        [USER_DEFAULT setValue:@"" forKey:kUserDefaultStartPageForm];
+        [USER_DEFAULT setObject:[NSNumber numberWithBool:NO] forKey:kCZJIsUserHaveLogined];
+        [USER_DEFAULT setObject:@"0" forKey:kUserDefaultShoppingCartCount];
+        [USER_DEFAULT setObject:@"" forKey:kCZJDefaultCityID];
+        [USER_DEFAULT setObject:@"" forKey:kCZJDefaultyCityName];
+        
+        CZJBaseDataInstance.userInfoForm = nil;
+        CZJLoginModelInstance.usrBaseForm = nil;
+        [CZJBaseDataInstance refreshChezhuID];
+        
+        
+        //省份信息写入缓存
+        NSDictionary* provinc = [CZJUtils readDictionaryFromDocumentsDirectoryWithPlistName:kCZJPlistFileProvinceCitys];
+        
+        //搜索历史
+        NSDictionary* history = [CZJUtils readDictionaryFromDocumentsDirectoryWithPlistName:kCZJPlistFileSearchHistory];
+        
+        //每次更新地址之后都将更新地址中得默认地址存到本地
+        NSDictionary* addr = [CZJUtils readDictionaryFromDocumentsDirectoryWithPlistName:kCZJPlistFileDefaultDeliveryAddr];
+        
+        NSString* kUserDefaultTimeDay2 = [USER_DEFAULT valueForKey:kUserDefaultTimeDay];
+        NSString* kUserDefaultTimeMin2 = [USER_DEFAULT valueForKey:kUserDefaultTimeMin];
+        NSString* kUserDefaultRandomCode2 = [USER_DEFAULT valueForKey:kUserDefaultRandomCode];
+        NSString* kUserDefaultChoosedCarModelType2 = [USER_DEFAULT valueForKey:kUserDefaultChoosedCarModelType];
+        NSString* kUserDefaultChoosedCarModelID2 = [USER_DEFAULT valueForKey:kUserDefaultChoosedCarModelID];
+        NSString* kUserDefaultChoosedBrandID2 = [USER_DEFAULT valueForKey:kUserDefaultChoosedBrandID];
+        NSString* kUserDefaultStartPrice2 = [USER_DEFAULT valueForKey:kUserDefaultStartPrice];
+        NSString* kUserDefaultEndPrice2 = [USER_DEFAULT valueForKey:kUserDefaultEndPrice];
+        NSString* kUSerDefaultStockFlag2 = [USER_DEFAULT valueForKey:kUSerDefaultStockFlag];
+        NSString* kUSerDefaultPromotionFlag2 = [USER_DEFAULT valueForKey:kUSerDefaultPromotionFlag];
+        NSString* kUSerDefaultRecommendFlag2 = [USER_DEFAULT valueForKey:kUSerDefaultRecommendFlag];
+        NSString* kUserDefaultDetailStoreItemPid2 = [USER_DEFAULT valueForKey:kUserDefaultDetailStoreItemPid];
+        NSString* kUserDefaultDetailItemCode2 = [USER_DEFAULT valueForKey:kUserDefaultDetailItemCode];
+        NSString* kUSerDefaultSexual2 = [USER_DEFAULT valueForKey:kUSerDefaultSexual];
+        NSString* kUserDefaultStartPageUrl2 = [USER_DEFAULT valueForKey:kUserDefaultStartPageUrl];
+        NSString* kUserDefaultStartPageImagePath2 = [USER_DEFAULT valueForKey:kUserDefaultStartPageImagePath];
+        NSString* kUserDefaultStartPageForm2 = [USER_DEFAULT valueForKey:kUserDefaultStartPageForm];
+        NSString* kCZJIsUserHaveLogined2 = [USER_DEFAULT valueForKey:kCZJIsUserHaveLogined];
+        NSString* kUserDefaultShoppingCartCount2 = [USER_DEFAULT valueForKey:kUserDefaultShoppingCartCount];
+        NSString* kCZJDefaultCityID2 = [USER_DEFAULT valueForKey:kCZJDefaultCityID];
+        NSString* kCZJDefaultyCityName2 = [USER_DEFAULT valueForKey:kCZJDefaultyCityName];
+        
+        [weak.navigationController popViewControllerAnimated:YES];
+         [weak hideWindow];
+    } andCancleHandler:nil];
+    
 }
 
 

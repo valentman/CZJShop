@@ -103,6 +103,8 @@ UITableViewDataSource
         api = kCZJServerAPIGetReturnedOrderList;
     }
     __weak typeof(self) weak = self;
+    [CZJUtils removeReloadAlertViewFromTarget:self.view];
+    [CZJUtils removeNoDataAlertViewFromTarget:self.view];
     [CZJBaseDataInstance generalPost:params success:^(id json) {
         NSArray* tmpAry = [[CZJUtils DataFromJson:json] valueForKey:@"msg"];
         if (CZJHomeGetDataFromServerTypeTwo == _getdataType)
@@ -171,7 +173,7 @@ UITableViewDataSource
     cell.goodNameLabel.text = form.itemName;
     cell.goodModelLabel.text = form.itemSku;
     cell.goodPriceLabel.text = [NSString stringWithFormat:@"￥%@",form.currentPrice];
-    [cell.goodImg sd_setImageWithURL:[NSURL URLWithString:form.itemImg] placeholderImage:IMAGENAMED(@"")];
+    [cell.goodImg sd_setImageWithURL:[NSURL URLWithString:form.itemImg] placeholderImage:DefaultPlaceHolderSquare];
     
     if (CZJReturnListTypeReturnable == self.returnListType)
     {

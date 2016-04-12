@@ -21,7 +21,7 @@
         UIImageView* imageview = [[UIImageView alloc]initWithFrame:frame];
         [imageview setSize:viewSize];
         [imageview setPosition:CGPointZero atAnchorPoint:CGPointZero];
-        [imageview sd_setImageWithURL:[NSURL URLWithString:imageName] placeholderImage:IMAGENAMED(@"")];
+        [imageview sd_setImageWithURL:[NSURL URLWithString:imageName] placeholderImage:DefaultPlaceHolderSquare];
         [self addSubview:imageview];
         
         _deleteButton = [UIButton buttonWithType:UIButtonTypeCustom];

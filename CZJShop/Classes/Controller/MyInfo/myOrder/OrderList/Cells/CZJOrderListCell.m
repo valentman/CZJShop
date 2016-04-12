@@ -176,7 +176,7 @@
         {
             CZJOrderGoodsForm* goodsForm = (CZJOrderGoodsForm*)listForm.items[i];
             UIImageView* goodsImage = [[UIImageView alloc]initWithFrame:CGRectMake(10 + 88 * i, 5, 78, 78)];
-            [goodsImage sd_setImageWithURL:[NSURL URLWithString:goodsForm.itemImg] placeholderImage:DefaultPlaceHolderImage];
+            [goodsImage sd_setImageWithURL:[NSURL URLWithString:goodsForm.itemImg] placeholderImage:DefaultPlaceHolderSquare];
             [self.normalContentView addSubview:goodsImage];
         }
     }
@@ -184,11 +184,11 @@
     {
         self.noEvalutionContentView.hidden = NO;
         CZJOrderGoodsForm* goodsForm = (CZJOrderGoodsForm*)listForm.items[0];
-        [self.goodImg sd_setImageWithURL:[NSURL URLWithString:goodsForm.itemImg] placeholderImage:DefaultPlaceHolderImage];
+        [self.goodImg sd_setImageWithURL:[NSURL URLWithString:goodsForm.itemImg] placeholderImage:DefaultPlaceHolderSquare];
         self.goodsNameLabel.text = goodsForm.itemName;
         self.goodsModel.text = goodsForm.itemSku;
         self.priceLabel.text = [NSString stringWithFormat:@"￥%.2f",[goodsForm.currentPrice floatValue]];
-        CGSize priceSize = [CZJUtils calculateTitleSizeWithString:[NSString stringWithFormat:@"￥%@",goodsForm.currentPrice] AndFontSize:14];
+        CGSize priceSize = [CZJUtils calculateTitleSizeWithString:self.priceLabel.text AndFontSize:14];
         self.priceLabelWidth.constant = priceSize.width + 20;
         self.numLabel.text = [NSString stringWithFormat:@"×%@",goodsForm.itemCount];
     }

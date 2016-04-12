@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
@@ -187,10 +187,19 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="label_icon_yongwna.png" translatesAutoresizingMaskIntoConstraints="NO" id="Owq-gk-pP5">
+                                <rect key="frame" x="212" y="12" width="65" height="65"/>
+                                <animations/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="65" id="IHF-na-8k8"/>
+                                    <constraint firstAttribute="width" constant="65" id="iaE-1m-NgV"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="wQK-aJ-YJA" firstAttribute="leading" secondItem="Owq-gk-pP5" secondAttribute="trailing" constant="8" id="0bR-8G-GN1"/>
                             <constraint firstItem="88U-bQ-L43" firstAttribute="leading" secondItem="PuG-I8-VXu" secondAttribute="trailing" constant="6" id="1US-cm-qDw"/>
                             <constraint firstItem="FKr-oc-cOw" firstAttribute="top" secondItem="Q7f-cC-0l8" secondAttribute="top" constant="15" id="53u-a0-j0l"/>
                             <constraint firstItem="4Hl-nM-hyi" firstAttribute="top" secondItem="dQ1-ku-IDt" secondAttribute="bottom" constant="21" id="5hV-Fi-qGp"/>
@@ -211,6 +220,7 @@
                             <constraint firstItem="dQ1-ku-IDt" firstAttribute="leading" secondItem="Q7f-cC-0l8" secondAttribute="leading" constant="15" id="ZZM-Ew-dQw"/>
                             <constraint firstItem="7uC-NM-PtY" firstAttribute="centerX" secondItem="EI2-MV-VLt" secondAttribute="centerX" id="Zrs-Ou-5HC"/>
                             <constraint firstAttribute="trailing" secondItem="4Hl-nM-hyi" secondAttribute="trailing" constant="30" id="anl-ng-Gck"/>
+                            <constraint firstItem="Owq-gk-pP5" firstAttribute="top" secondItem="Q7f-cC-0l8" secondAttribute="top" constant="12" id="dlw-4M-Gt0"/>
                             <constraint firstItem="EI2-MV-VLt" firstAttribute="centerY" secondItem="23W-MI-n4r" secondAttribute="centerY" id="h18-Li-WmN"/>
                             <constraint firstItem="FKr-oc-cOw" firstAttribute="leading" secondItem="Q7f-cC-0l8" secondAttribute="leading" constant="15" id="kp1-gQ-RAH"/>
                             <constraint firstItem="wQK-aJ-YJA" firstAttribute="top" secondItem="Q7f-cC-0l8" secondAttribute="top" constant="27" id="oLc-td-aMJ"/>
@@ -245,6 +255,7 @@
             <connections>
                 <outlet property="cardTypeLabel" destination="4Hl-nM-hyi" id="DdX-UY-PEO"/>
                 <outlet property="cardTypeWidth" destination="pGP-os-eJZ" id="4H9-VM-xLs"/>
+                <outlet property="dotLabel" destination="UUz-yk-jhb" id="xLN-5e-GMc"/>
                 <outlet property="itemNameLabel" destination="adX-Be-QU5" id="xf2-PU-J0Z"/>
                 <outlet property="itemNameLabelWidth" destination="7sV-su-ueS" id="0qG-6Y-ha1"/>
                 <outlet property="leftTimeLabel" destination="Yj1-MD-LX0" id="M9m-Sk-TQh"/>
@@ -253,12 +264,14 @@
                 <outlet property="separatorViewHeight" destination="o4O-Cn-UQe" id="Usp-fp-fnG"/>
                 <outlet property="storeNameLabel" destination="Cwc-R0-JZp" id="KNZ-3w-a08"/>
                 <outlet property="totalTimeLabel" destination="7uC-NM-PtY" id="loU-WV-SBp"/>
+                <outlet property="useedImg" destination="Owq-gk-pP5" id="QvK-5I-eJk"/>
             </connections>
-            <point key="canvasLocation" x="459" y="306.5"/>
+            <point key="canvasLocation" x="459" y="306"/>
         </tableViewCell>
     </objects>
     <resources>
         <image name="commit_icon_shop.png" width="14" height="14"/>
+        <image name="label_icon_yongwna.png" width="63" height="63"/>
         <image name="taocan_img_arrow.png" width="15" height="44"/>
     </resources>
 </document>

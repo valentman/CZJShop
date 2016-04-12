@@ -99,7 +99,7 @@ UITableViewDelegate
     CZJMyCarListCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJMyCarListCell" forIndexPath:indexPath];
     NSDictionary* dict = carList[indexPath.section];
     
-    [cell.brandImg sd_setImageWithURL:[NSURL URLWithString:[dict valueForKey:@"logo"]] placeholderImage:IMAGENAMED(@"default_icon_car")];
+    [cell.brandImg sd_setImageWithURL:[NSURL URLWithString:[dict valueForKey:@"logo"]] placeholderImage:DefaultPlaceHolderSquare];
     NSString* carName = [NSString stringWithFormat:@"%@ %@ %@%@%@",[dict valueForKey:@"brandName"], [dict valueForKey:@"seriesName"],[dict valueForKey:@"prov"],[dict valueForKey:@"number"],[dict valueForKey:@"numberPlate"]];
     cell.carNameLabel.text = carName;
     cell.carModelLabel.text = [dict valueForKey:@"modelName"];

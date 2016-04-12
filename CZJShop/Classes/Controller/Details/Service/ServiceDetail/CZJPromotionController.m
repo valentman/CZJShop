@@ -62,6 +62,8 @@ UITableViewDelegate
 {
     __weak typeof(self) weak = self;
     NSDictionary* param = @{@"type":self.type, @"storeId":self.storeId};
+    [CZJUtils removeReloadAlertViewFromTarget:self.view];
+    [CZJUtils removeNoDataAlertViewFromTarget:self.view];
     [CZJBaseDataInstance generalPost:param success:^(id json) {
         NSDictionary* dict = [[CZJUtils DataFromJson:json] valueForKey:@"msg"];
         promotionDetailForm = [CZJPromotionDetailForm objectWithKeyValues:dict];
@@ -126,7 +128,7 @@ UITableViewDelegate
                 giftImage.backgroundColor = CZJNAVIBARBGCOLOR;
                 CGRect giftRect = [CZJUtils viewFramFromDynamic:CZJMarginMake(15, 10) size:CGSizeMake(60, 60) index:i divide:Divide];
                 giftImage.frame = giftRect;
-                [giftImage sd_setImageWithURL:[NSURL URLWithString:giftForm.itemImg] placeholderImage:DefaultPlaceHolderImage];
+                [giftImage sd_setImageWithURL:[NSURL URLWithString:giftForm.itemImg] placeholderImage:DefaultPlaceHolderSquare];
                 [cell addSubview:giftImage];
             }
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -141,7 +143,7 @@ UITableViewDelegate
         goodCell.goodRateName.hidden = YES;
         
         goodCell.goodsName.text = goodForm.itemName;
-        [goodCell.goodImageView sd_setImageWithURL:[NSURL URLWithString:goodForm.itemImg] placeholderImage:DefaultPlaceHolderImage];
+        [goodCell.goodImageView sd_setImageWithURL:[NSURL URLWithString:goodForm.itemImg] placeholderImage:DefaultPlaceHolderSquare];
         goodCell.goodPrice.text = [NSString stringWithFormat:@"￥%@",goodForm.currentPrice];
         goodCell.selectionStyle = UITableViewCellSelectionStyleNone;
         return goodCell;

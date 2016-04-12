@@ -154,7 +154,7 @@ CZJFilterControllerDelegate
     DLog(@"storeparameters:%@", [goodsListPostParams description]);
     __weak typeof(self) weak = self;
     [CZJUtils removeReloadAlertViewFromTarget:self.view];
-//    [[MBProgressHUD showHUDAddedTo:self.view animated:YES] setLabelText:@"刷新数据"];
+    [CZJUtils removeReloadAlertViewFromTarget:self.view];
     CZJSuccessBlock successBlock = ^(id json) {
         [MBProgressHUD hideAllHUDsForView:weak.view animated:YES];
         //返回数据回来还未解析到本地数组中时就添加下拉刷新footer
@@ -347,7 +347,7 @@ CZJFilterControllerDelegate
     cell.goodRate.text = goodsForm.goodEvalRate;
     cell.puchaseCount.text = goodsForm.purchaseCount;
     cell.purchaseCountWidth.constant = [CZJUtils calculateTitleSizeWithString:goodsForm.purchaseCount AndFontSize:13].width;
-    [cell.goodImageView sd_setImageWithURL:[NSURL URLWithString:goodsForm.itemImg] placeholderImage:DefaultPlaceHolderImage];
+    [cell.goodImageView sd_setImageWithURL:[NSURL URLWithString:goodsForm.itemImg] placeholderImage:DefaultPlaceHolderSquare];
     
     cell.imageOne.hidden = YES;
     cell.imageTwo.hidden = YES;
@@ -426,7 +426,7 @@ CZJFilterControllerDelegate
     cell.productName.text = form.itemName;
     cell.productPrice.text = [rmb stringByAppendingString:form.currentPrice];
     cell.iconImageView.backgroundColor= CZJNAVIBARBGCOLOR;
-    [cell.iconImageView sd_setImageWithURL:[NSURL URLWithString:form.itemImg] placeholderImage:DefaultPlaceHolderImage];
+    [cell.iconImageView sd_setImageWithURL:[NSURL URLWithString:form.itemImg] placeholderImage:DefaultPlaceHolderSquare];
     return cell;
 }
 

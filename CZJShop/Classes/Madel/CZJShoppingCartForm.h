@@ -36,7 +36,7 @@
 @property(assign) BOOL isSelect;
 @property(assign) BOOL isDeleteSelect;
 
-- (id)initWithDictionary:(NSDictionary*)dict;
+- (id)init;
 @end
 
 
@@ -54,7 +54,7 @@
 @property(assign) BOOL isDeleteSelect;
 @property(assign) BOOL off;
 
-- (id)initWithDictionary:(NSDictionary*)dict;
+- (id)init;
 @end
 
 //---------------------购物券信息---------------------
@@ -75,7 +75,6 @@
 
 - (id)initWithDictionary:(NSDictionary*)dict;
 @end
-
 
 //---------------------提交订单信息---------------------
 @interface CZJSettleOrderForm : NSObject

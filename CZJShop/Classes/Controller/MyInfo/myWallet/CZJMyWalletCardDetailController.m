@@ -63,6 +63,7 @@ UITableViewDelegate
     
     [CZJBaseDataInstance generalPost:@{@"SetmenuId" : _cardInfoForm.setmenuId} success:^(id json) {
         NSArray* dict = [[CZJUtils DataFromJson:json] valueForKey:@"msg"];
+        DLog(@"%@",[[[CZJUtils DataFromJson:json] valueForKey:@"msg"] description]);
         _cardDetailAry = [CZJCardDetailInfoForm objectArrayWithKeyValuesArray:dict];
         [self.myTableView reloadData];
     }  fail:^{

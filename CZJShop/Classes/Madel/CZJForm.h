@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 #import "HomeForm.h"
-#import "StartPageForm.h"
+#import "CZJStartPageForm.h"
 #import "UserBaseForm.h"
 #import "CZJDetailForm.h"
 #import "CZJStoreForm.h"

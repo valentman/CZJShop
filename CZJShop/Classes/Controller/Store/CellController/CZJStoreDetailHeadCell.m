@@ -52,7 +52,7 @@
 
 - (void)imagePlayerView:(ImagePlayerView *)imagePlayerView loadImageForImageView:(UIImageView *)imageView index:(NSInteger)index
 {
-    [imageView sd_setImageWithURL:[_imageArray objectAtIndex:index] placeholderImage:DefaultPlaceHolderImage];
+    [imageView sd_setImageWithURL:[_imageArray objectAtIndex:index] placeholderImage:DefaultPlaceHolderSquarePlus];
 }
 
 - (void)imagePlayerView:(ImagePlayerView *)imagePlayerView didTapAtIndex:(NSInteger)index

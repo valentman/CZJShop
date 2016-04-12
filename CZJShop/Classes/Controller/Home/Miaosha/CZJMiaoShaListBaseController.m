@@ -104,7 +104,7 @@ UITableViewDelegate
 {
     CZJMiaoShaCellForm* miaoshaCellForm = miaoShaAry[indexPath.row];
     CZJMiaoShaControlCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJMiaoShaControlCell" forIndexPath:indexPath];
-    [cell.goodImg sd_setImageWithURL:[NSURL URLWithString:miaoshaCellForm.itemImg] placeholderImage:DefaultPlaceHolderImage];
+    [cell.goodImg sd_setImageWithURL:[NSURL URLWithString:miaoshaCellForm.itemImg] placeholderImage:DefaultPlaceHolderSquare];
     cell.goodName.text = miaoshaCellForm.itemName;
     cell.goodNameLabelHeight.constant = [CZJUtils calculateTitleSizeWithString:miaoshaCellForm.itemName AndFontSize:17].height;
     NSString* currentPriceStr = [NSString stringWithFormat:@"￥%@",miaoshaCellForm.currentPrice];

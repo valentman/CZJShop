@@ -12,6 +12,7 @@
 @interface CZJMyWalletBalanceController ()
 @property (weak, nonatomic) IBOutlet UILabel *balanceLabel;
 @property (weak, nonatomic) IBOutlet UILabel *notificationLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *notifiImg;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *balanceLabelWidth;
 @end
 
@@ -46,6 +47,7 @@
         self.balanceLabel.text = [dict valueForKey:@"money"];
         self.balanceLabelWidth.constant = [CZJUtils calculateTitleSizeWithString:[dict valueForKey:@"money"] AndFontSize:24].width + 5;
         self.notificationLabel.text = [dict valueForKey:@"title"];
+        self.notifiImg.hidden = [[dict valueForKey:@"title"] isEqualToString:@""];
     }  fail:^{
         
     } andServerAPI:kCZJServerAPIGetBalanceInfo];

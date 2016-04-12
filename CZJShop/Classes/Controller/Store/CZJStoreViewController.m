@@ -41,7 +41,7 @@ UITableViewDelegate
 
 @property (weak, nonatomic) IBOutlet MXPullDownMenu *pullDownMenu;
 @property (weak, nonatomic) IBOutlet UITableView *storeTableView;
-@property (strong, nonatomic) CZJRefreshLocationBarView *refreshLocationBarView;
+@property (strong, nonatomic) __block CZJRefreshLocationBarView *refreshLocationBarView;
 
 @end
 
@@ -53,6 +53,7 @@ UITableViewDelegate
     [self dealWithTableView];
     [self getStoreDataFromServer];
     [self initRefreshLocationBarView];
+    [NSTimer timerWithTimeInterval:300 target:self selector:@selector(getStoreDataFromServer) userInfo:nil repeats:YES];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -63,8 +64,10 @@ UITableViewDelegate
         [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
             [_refreshLocationBarView setPosition:CGPointMake(30, PJ_SCREEN_HEIGHT - 85) atAnchorPoint:CGPointLeftMiddle];
             _refreshLocationBarView.locationButton.tag = CZJViewMoveOrientationLeft;
+            _refreshLocationBarView.locationNameLabel.text = [USER_DEFAULT objectForKey:CCLastAddress];
         } completion:^(BOOL finished) {
-            [weak btnTouched:nil];
+            [[NSNotificationCenter defaultCenter]postNotificationName:kCZJChangeCurCityName object:self userInfo:@{@"cityname" : [USER_DEFAULT objectForKey:CCLastCity]}];
+            [weak justLocation];
         }];
         isFirstIn = NO;
     }
@@ -125,8 +128,8 @@ UITableViewDelegate
 - (void)initRefreshLocationBarView
 {
     _refreshLocationBarView = [CZJUtils getXibViewByName:@"CZJRefreshLocationBarView"];
-    _refreshLocationBarView.frame = CGRectMake(PJ_SCREEN_WIDTH - 50, PJ_SCREEN_HEIGHT - 85, PJ_SCREEN_WIDTH + 50, 35);
-    [_refreshLocationBarView setPosition:CGPointMake(PJ_SCREEN_WIDTH - 50, PJ_SCREEN_HEIGHT - 85) atAnchorPoint:CGPointLeftMiddle];
+    _refreshLocationBarView.frame = CGRectMake(PJ_SCREEN_WIDTH - 35, PJ_SCREEN_HEIGHT - 85, PJ_SCREEN_WIDTH + 35, 35);
+    [_refreshLocationBarView setPosition:CGPointMake(PJ_SCREEN_WIDTH - 35, PJ_SCREEN_HEIGHT - 85) atAnchorPoint:CGPointLeftMiddle];
     [self.view addSubview:_refreshLocationBarView];
     [self.view bringSubviewToFront:_refreshLocationBarView];
     _refreshLocationBarView.locationButton.tag = CZJViewMoveOrientationLeft;
@@ -138,10 +141,9 @@ UITableViewDelegate
     __weak typeof(self) weak = self;
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [CZJUtils removeNoDataAlertViewFromTarget:self.view];
-    
-    
-    NSDictionary* params = @{@"q" : (self.searchStr ? self.searchStr : @""),
-                             @"cityId" : cityID,
+    [CZJUtils removeReloadAlertViewFromTarget:self.view];
+    NSDictionary* params = @{@"q" : (self.searchStr == nil ? @"" : self.searchStr),
+                             @"cityId" : cityID == nil ? @"" : cityID,
                              @"storeType" : storeType,
                              @"sortType" : sortType,
                              @"page" : @(page)};
@@ -223,9 +225,23 @@ UITableViewDelegate
 
 - (void)storeStartLocation
 {
+    [self justLocation];
+    [self getCityNameWithLocation];
+}
+
+- (void)justLocation
+{
     if (IS_IOS8) {
         if (![[CCLocationManager shareLocation] isLocationEnable]) {
             _refreshLocationBarView.locationNameLabel.text = @"亲，未开启定位功能哦~";
+            if (_refreshLocationBarView.locationButton.tag == CZJViewMoveOrientationRight)
+            {
+                [self performSelector:@selector(moveLocationBarViewIn) withObject:nil afterDelay:0.5];
+            }
+            if (_refreshLocationBarView.locationButton.tag == CZJViewMoveOrientationLeft)
+            {
+                [self performSelector:@selector(moveLocationBarViewOut) withObject:nil afterDelay:1.0];
+            }
             return;
         }
         [self startSpin];
@@ -242,22 +258,19 @@ UITableViewDelegate
             }
             
         }];
-        
-        [[CCLocationManager shareLocation] getCity:^(NSString *addressString) {
-            cityID = [CZJBaseDataInstance.storeForm getCityIDWithCityName:addressString];
-            _getdataType = CZJHomeGetDataFromServerTypeOne;
-            [self getStoreDataFromServer];
-            if (nil != addressString)
-            {
-                [[NSNotificationCenter defaultCenter]postNotificationName:kCZJChangeCurCityName object:self userInfo:@{@"cityname" : addressString}];
-            }
-            
-        }];
     }
     else if (IS_IOS7)
     {
         if (![[ZXLocationManager sharedZXLocationManager] isLocationEnable]) {
             _refreshLocationBarView.locationNameLabel.text = @"亲，未开启定位功能哦~";
+            if (_refreshLocationBarView.locationButton.tag == CZJViewMoveOrientationRight)
+            {
+                [self performSelector:@selector(moveLocationBarViewIn) withObject:nil afterDelay:0.5];
+            }
+            if (_refreshLocationBarView.locationButton.tag == CZJViewMoveOrientationLeft)
+            {
+                [self performSelector:@selector(moveLocationBarViewOut) withObject:nil afterDelay:1.0];
+            }
             return;
         }
         [self startSpin];
@@ -274,6 +287,26 @@ UITableViewDelegate
             }
             
         }];
+    }
+}
+
+- (void)getCityNameWithLocation
+{
+    if (IS_IOS8) {
+        [[CCLocationManager shareLocation] getCity:^(NSString *addressString) {
+            cityID = [CZJBaseDataInstance.storeForm getCityIDWithCityName:addressString];
+            _getdataType = CZJHomeGetDataFromServerTypeOne;
+            [self getStoreDataFromServer];
+            if (nil != addressString)
+            {
+                [[NSNotificationCenter defaultCenter]postNotificationName:kCZJChangeCurCityName object:self userInfo:@{@"cityname" : addressString}];
+            }
+            
+        }];
+    }
+    else if (IS_IOS7)
+    {
+        
         
         [[ZXLocationManager sharedZXLocationManager] getCityName:^(NSString *addressString) {
             cityID = [CZJBaseDataInstance.storeForm getCityIDWithCityName:addressString];
@@ -286,7 +319,6 @@ UITableViewDelegate
             
         }];
     }
-
 }
 
 - (void) spinWithOptions: (UIViewAnimationOptions) options {
@@ -342,7 +374,7 @@ UITableViewDelegate
             break;
         case CZJViewMoveOrientationRight:
             [_refreshLocationBarView.locationButton setTag:CZJViewMoveOrientationRight];
-            originX = PJ_SCREEN_WIDTH - 40;
+            originX = PJ_SCREEN_WIDTH - 35;
             break;
             
         default:
@@ -377,7 +409,7 @@ UITableViewDelegate
     cell.purchaseCountWidth.constant = [CZJUtils calculateTitleSizeWithString:storeForm.purchaseCount AndFontSize:14].width + 5;
     cell.imageOne.hidden = YES;
     cell.imageTwo.hidden = YES;
-    [cell.storeCellImageView sd_setImageWithURL:[NSURL URLWithString:storeForm.homeImg] placeholderImage:DefaultPlaceHolderImage];
+    [cell.storeCellImageView sd_setImageWithURL:[NSURL URLWithString:storeForm.homeImg] placeholderImage:DefaultPlaceHolderSquare];
     
     if (storeForm.promotionFlag && !storeForm.couponFlag)
     {

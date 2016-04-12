@@ -27,10 +27,10 @@
     [_orderCouponScrollView removeAllSubViews];
     
     for (int i  = 0; i < useableAry.count; i++) {
-        float height = _orderCouponScrollView.frame.size.height;
+        float height = 36;
         float width = height * 144/64;
         
-        CGRect frame = CGRectMake(i * (width+10), 0, width, height);
+        CGRect frame = CGRectMake(i * (width+10), 5, width, height);
         CZJCouponBarItemView* view = [[CZJCouponBarItemView alloc]initWithFrame:frame AndData:useableAry[i]];
         [view setTag:i + 2000];
         

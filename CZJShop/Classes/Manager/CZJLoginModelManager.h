@@ -10,21 +10,11 @@
 #import "FDAlertView.h"
 
 @class UserBaseForm;
-@class StartPageForm;
 
 @interface CZJLoginModelManager : NSObject{
-    NSString* _cheZhuId;
     UserBaseForm* _usrBaseForm;
 }
-@property(nonatomic,retain)NSString* cheZhuId;
-@property(nonatomic,retain)NSString* cheZhuMobile;
-@property(nonatomic,retain)NSString* mobile;
-@property(nonatomic,retain)NSString* cityId;
-@property(nonatomic,retain)NSString* cityName;
-@property(nonatomic,retain)NSString* chezhuName;
-
 @property(nonatomic,retain)UserBaseForm* usrBaseForm;
-@property(nonatomic,retain)StartPageForm*  startPageForm;
 
 singleton_interface(CZJLoginModelManager)
 
@@ -58,9 +48,5 @@ singleton_interface(CZJLoginModelManager)
 - (void)questCityIdByName:(NSString*)choiceCityName
                   success:(CZJSuccessBlock)success
                      fail:(CZJGeneralBlock)fail;
-
-//引导页
--(void)loadStartPageSuccess:(CZJSuccessBlock)success
-                       Fail:(CZJGeneralBlock)fail;
 
 @end

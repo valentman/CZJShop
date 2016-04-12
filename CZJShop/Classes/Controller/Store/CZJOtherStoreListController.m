@@ -78,7 +78,7 @@ CZJNaviagtionBarViewDelegate
     cell.storeDistance.text = storeForm.distance;
     cell.storeLocation.text = storeForm.addr;
     cell.feedbackRate.text = storeForm.star;
-    [cell.storeCellImageView sd_setImageWithURL:[NSURL URLWithString:storeForm.homeImg] placeholderImage:DefaultPlaceHolderImage];
+    [cell.storeCellImageView sd_setImageWithURL:[NSURL URLWithString:storeForm.homeImg] placeholderImage:DefaultPlaceHolderSquare];
     TOCK;
     return cell;
     

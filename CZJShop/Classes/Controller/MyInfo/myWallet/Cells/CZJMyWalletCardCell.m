@@ -66,12 +66,12 @@ UITableViewDataSource
 #pragma mark-UITableViewDataSource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return self.cardItemInfosAry.count;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 1;
+    return self.cardItemInfosAry.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -83,12 +83,12 @@ UITableViewDataSource
     cell.itemNameLabel.text = detailForm.itemName;
     cell.totalTimeLabel.text = detailForm.itemCount;
     cell.leftTimeLabel.text = detailForm.currentCount;
-    if ([detailForm.currentCount integerValue] != 0)
+    if ([detailForm.currentCount integerValue] == 0)
     {
-        cell.dotLabel.backgroundColor = [UIColor lightGrayColor];
-        cell.itemNameLabel.textColor = [UIColor lightGrayColor];
-        cell.totalTimeLabel.textColor = [UIColor lightGrayColor];
-        cell.leftTimeLabel.textColor = [UIColor lightGrayColor];
+        cell.dotLabel.backgroundColor = CZJGRAYCOLOR;
+        cell.itemNameLabel.textColor = CZJGRAYCOLOR;
+        cell.totalTimeLabel.textColor = CZJGRAYCOLOR;
+        cell.leftTimeLabel.textColor = CZJGRAYCOLOR;
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;

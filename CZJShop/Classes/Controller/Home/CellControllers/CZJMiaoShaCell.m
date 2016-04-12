@@ -75,7 +75,7 @@
     [cell.originPriceLabel setAttributedText:priceDeleteStr];
     cell.currentPriceLabel.text = [rmb stringByAppendingString:form.currentPrice];
     cell.iconImage.backgroundColor=UIColorFromRGB(0xF8FCF8);
-    [cell.iconImage sd_setImageWithURL:[NSURL URLWithString:form.itemImg] placeholderImage:DefaultPlaceHolderImage];
+    [cell.iconImage sd_setImageWithURL:[NSURL URLWithString:form.itemImg] placeholderImage:DefaultPlaceHolderSquare];
     return cell;
 }
 

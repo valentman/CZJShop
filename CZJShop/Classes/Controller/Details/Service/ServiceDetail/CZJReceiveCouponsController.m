@@ -145,6 +145,7 @@ UITableViewDelegate
                 
             case 2://满减券
                 priceStri = [NSString stringWithFormat:@"￥%@",couponForm.value];
+                cell.useableLimitLabel.text = [NSString stringWithFormat:@"满%@可用",couponForm.validMoney];
                 break;
                 
             case 3://项目券

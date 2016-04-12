@@ -116,12 +116,15 @@
 - (void)initRefreshLocationBarView
 {
     _refreshLocationBarView = [CZJUtils getXibViewByName:@"CZJRefreshLocationBarView"];
-    _refreshLocationBarView.frame = CGRectMake(PJ_SCREEN_WIDTH - 50, PJ_SCREEN_HEIGHT - 35, PJ_SCREEN_WIDTH + 50, 35);
-    [_refreshLocationBarView setPosition:CGPointMake(PJ_SCREEN_WIDTH - 50, PJ_SCREEN_HEIGHT - 35) atAnchorPoint:CGPointLeftMiddle];
+    _refreshLocationBarView.frame = CGRectMake(PJ_SCREEN_WIDTH - 35, PJ_SCREEN_HEIGHT - 35, PJ_SCREEN_WIDTH + 35, 35);
+    [_refreshLocationBarView setPosition:CGPointMake(PJ_SCREEN_WIDTH - 35, PJ_SCREEN_HEIGHT - 35) atAnchorPoint:CGPointLeftMiddle];
     [self.view addSubview:_refreshLocationBarView];
     [self.view bringSubviewToFront:_refreshLocationBarView];
     _refreshLocationBarView.locationButton.tag = CZJViewMoveOrientationLeft;
     [_refreshLocationBarView.locationButton addTarget:self action:@selector(btnTouched:) forControlEvents:UIControlEventTouchUpInside];
+    
+    [_pullDownMenu registNotification];
+    [[NSNotificationCenter defaultCenter]postNotificationName:kCZJChangeCurCityName object:self userInfo:@{@"cityname" : [USER_DEFAULT objectForKey:CCLastCity]}];
 }
 
 
@@ -136,19 +139,6 @@
     //获取导航栏和下拉栏原始位置，为了上拉或下拉时动画
     pullDownMenuOriginPoint = _pullDownMenu.frame.origin;
     naviBraviewOriginPoint = self.naviBarView.frame.origin;
-    
-    //定位刷新栏,初始显示页面时执行弹出动画
-    __weak typeof(self) weak = self;
-    if (isFirstIn) {
-        [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-            [_refreshLocationBarView setPosition:CGPointMake(30, PJ_SCREEN_HEIGHT - 35) atAnchorPoint:CGPointLeftMiddle];
-            _refreshLocationBarView.locationButton.tag = CZJViewMoveOrientationLeft;
-        } completion:^(BOOL finished) {
-            [weak btnTouched:nil];
-        }];
-        isFirstIn = NO;
-    }
-    [_pullDownMenu registNotification];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -164,6 +154,7 @@
     
     __weak typeof(self) weak = self;
     [CZJUtils removeReloadAlertViewFromTarget:self.view];
+    [CZJUtils removeNoDataAlertViewFromTarget:self.view];
     [[MBProgressHUD showHUDAddedTo:self.view animated:YES] setLabelText:@"刷新数据"];
     CZJSuccessBlock successBlock = ^(id json) {
         [MBProgressHUD hideAllHUDsForView:weak.view animated:YES];
@@ -205,7 +196,7 @@
             _serviceListArys = [[CZJStoreServiceForm objectArrayWithKeyValuesArray:dict] mutableCopy];
             if (_serviceListArys.count == 0)
             {
-                [CZJUtils showNoDataAlertViewOnTarget:weak.view withPromptString:@""];
+                [CZJUtils showNoDataAlertViewOnTarget:weak.view withPromptString:@"木有该类服务/(ToT)/~~"];
             }
             [weak.serviceTableView reloadData];
             
@@ -232,7 +223,7 @@
     CZJStoreServiceCell* cell  = [tableView dequeueReusableCellWithIdentifier:@"CZJStoreServiceCell"];
     CZJStoreServiceForm* storeForm = _serviceListArys[indexPath.row];
     
-    [cell.serviceImg sd_setImageWithURL:[NSURL URLWithString:storeForm.itemImg] placeholderImage:DefaultPlaceHolderImage];
+    [cell.serviceImg sd_setImageWithURL:[NSURL URLWithString:storeForm.itemImg] placeholderImage:DefaultPlaceHolderSquare];
     cell.storeName.text = storeForm.storeName;
     cell.distance.text = storeForm.distance;
     cell.serviceItemName.text = storeForm.itemName;
@@ -351,9 +342,23 @@
 
 - (void)storeStartLocation
 {
+    [self justLocation];
+    [self getCityNameWithLocation];
+}
+
+- (void)justLocation
+{
     if (IS_IOS8) {
         if (![[CCLocationManager shareLocation] isLocationEnable]) {
             _refreshLocationBarView.locationNameLabel.text = @"亲，未开启定位功能哦~";
+            if (_refreshLocationBarView.locationButton.tag == CZJViewMoveOrientationRight)
+            {
+                [self performSelector:@selector(moveLocationBarViewIn) withObject:nil afterDelay:0.5];
+            }
+            if (_refreshLocationBarView.locationButton.tag == CZJViewMoveOrientationLeft)
+            {
+                [self performSelector:@selector(moveLocationBarViewOut) withObject:nil afterDelay:1.0];
+            }
             return;
         }
         [self startSpin];
@@ -370,22 +375,19 @@
             }
             
         }];
-        
-        [[CCLocationManager shareLocation] getCity:^(NSString *addressString) {
-            cityID = [CZJBaseDataInstance.storeForm getCityIDWithCityName:addressString];
-            _getdataType = CZJHomeGetDataFromServerTypeOne;
-            //        [self getStoreServiceListDataFromServer];
-            if (nil != addressString)
-            {
-                [[NSNotificationCenter defaultCenter]postNotificationName:kCZJChangeCurCityName object:self userInfo:@{@"cityname" : addressString}];
-            }
-            
-        }];
     }
-    else if (IS_IOS8)
+    else if (IS_IOS7)
     {
         if (![[ZXLocationManager sharedZXLocationManager] isLocationEnable]) {
             _refreshLocationBarView.locationNameLabel.text = @"亲，未开启定位功能哦~";
+            if (_refreshLocationBarView.locationButton.tag == CZJViewMoveOrientationRight)
+            {
+                [self performSelector:@selector(moveLocationBarViewIn) withObject:nil afterDelay:0.5];
+            }
+            if (_refreshLocationBarView.locationButton.tag == CZJViewMoveOrientationLeft)
+            {
+                [self performSelector:@selector(moveLocationBarViewOut) withObject:nil afterDelay:1.0];
+            }
             return;
         }
         [self startSpin];
@@ -402,16 +404,33 @@
             }
             
         }];
-        
-        [[ZXLocationManager sharedZXLocationManager] getCityName:^(NSString *addressString) {
+    }
+}
+
+- (void)getCityNameWithLocation
+{
+    if (IS_IOS8) {
+        [[CCLocationManager shareLocation] getCity:^(NSString *addressString) {
             cityID = [CZJBaseDataInstance.storeForm getCityIDWithCityName:addressString];
             _getdataType = CZJHomeGetDataFromServerTypeOne;
-                    [self getStoreServiceListDataFromServer];
+            [self getStoreServiceListDataFromServer];
             if (nil != addressString)
             {
                 [[NSNotificationCenter defaultCenter]postNotificationName:kCZJChangeCurCityName object:self userInfo:@{@"cityname" : addressString}];
             }
             
+        }];
+    }
+    else if (IS_IOS7)
+    {
+        [[ZXLocationManager sharedZXLocationManager] getCityName:^(NSString *addressString) {
+            cityID = [CZJBaseDataInstance.storeForm getCityIDWithCityName:addressString];
+            _getdataType = CZJHomeGetDataFromServerTypeOne;
+            [self getStoreServiceListDataFromServer];
+            if (nil != addressString)
+            {
+                [[NSNotificationCenter defaultCenter]postNotificationName:kCZJChangeCurCityName object:self userInfo:@{@"cityname" : addressString}];
+            }
         }];
     }
 }
@@ -469,7 +488,7 @@
             break;
         case CZJViewMoveOrientationRight:
             [_refreshLocationBarView.locationButton setTag:CZJViewMoveOrientationRight];
-            originX = PJ_SCREEN_WIDTH - 40;
+            originX = PJ_SCREEN_WIDTH - 35;
             break;
             
         default:

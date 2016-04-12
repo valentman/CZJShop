@@ -87,7 +87,7 @@ UITableViewDelegate
     if (0 == indexPath.section)
     {
         CZJOrderBuildCarCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJOrderBuildCarCell" forIndexPath:indexPath];
-        [cell.carBrandImg sd_setImageWithURL:[NSURL URLWithString:@""] placeholderImage:IMAGENAMED(@"default_icon_car")];
+        [cell.carBrandImg sd_setImageWithURL:[NSURL URLWithString:@""] placeholderImage:DefaultPlaceHolderSquare];
         NSString* carBrandName = [[builderData valueForKey:@"car"] valueForKey:@"brandName"];
         NSString* carSeriesName = [[builderData valueForKey:@"car"] valueForKey:@"seriesName"];
         NSString* carNumberPlate = [[builderData valueForKey:@"car"] valueForKey:@"numberPlate"];
@@ -126,7 +126,7 @@ UITableViewDelegate
                 UIImageView* image = [[UIImageView alloc]init];
                 image.frame = [CZJUtils viewFramFromDynamic:CZJMarginMake(15, 10) size:CGSizeMake(78, 78) index:i divide:4];
                 [cell addSubview:image];
-                [image sd_setImageWithURL:[NSURL URLWithString:photosAry[i]] placeholderImage:IMAGENAMED(@"")];
+                [image sd_setImageWithURL:[NSURL URLWithString:photosAry[i]] placeholderImage:DefaultPlaceHolderSquare];
             }
             if (photosAry.count == 0)
             {

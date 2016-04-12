@@ -74,6 +74,7 @@ MKMapViewDelegate
 
 @property (weak, nonatomic) IBOutlet UITableView *myTableView;
 @property (weak, nonatomic) IBOutlet UIView *buttomView;
+@property (weak, nonatomic) IBOutlet UIView *buttomView2;
 @property (weak, nonatomic) IBOutlet MXPullDownMenu* topView;
 @property (strong, nonatomic) UIView *backgroundView;
 @property (assign, nonatomic) CLLocationCoordinate2D naviCoordsGd;
@@ -101,12 +102,12 @@ MKMapViewDelegate
 
 - (void)viewWillLayoutSubviews
 {
-    _buttomView.frame = CGRectMake(0, PJ_SCREEN_HEIGHT - 50, PJ_SCREEN_WIDTH, 50);
+    _buttomView2.frame = CGRectMake(0, PJ_SCREEN_HEIGHT - 50, PJ_SCREEN_WIDTH, 50);
 }
 
 - (void)viewDidLayoutSubviews
 {
-    _buttomView.frame = CGRectMake(0, PJ_SCREEN_HEIGHT - 50, PJ_SCREEN_WIDTH, 50);
+    _buttomView2.frame = CGRectMake(0, PJ_SCREEN_HEIGHT - 50, PJ_SCREEN_WIDTH, 50);
 }
 
 - (void)initDatas
@@ -140,7 +141,7 @@ MKMapViewDelegate
     [self addCZJNaviBarView:CZJNaviBarViewTypeStoreDetail];
     self.naviBarView.customSearchBar.alpha = 0;
     self.naviBarView.customSearchBar.placeholder = @"搜索门店内服务、商品";
-    [self.buttomView setBackgroundColor:RGBA(255, 255, 255, 0.9)];
+    [self.buttomView2 setBackgroundColor:RGBA(255, 255, 255, 0.9)];
     self.topView.hidden = YES;
     
     //TableView
@@ -161,6 +162,7 @@ MKMapViewDelegate
     self.myTableView.backgroundColor = WHITECOLOR;
     self.myTableView.delegate = self;
     self.myTableView.dataSource = self;
+    self.myTableView.clipsToBounds = YES;
     self.myTableView.showsVerticalScrollIndicator = NO;
     self.myTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.automaticallyAdjustsScrollViewInsets = NO;
@@ -382,7 +384,7 @@ MKMapViewDelegate
         CZJAdBanerCell *cell = (CZJAdBanerCell*)[tableView dequeueReusableCellWithIdentifier:@"CZJAdBanerCell" forIndexPath:indexPath];
         NSMutableArray* _imageArray = [NSMutableArray array];
         for (CZJStoreDetailActivityForm* tmp in _activityArray) {
-            NSString* imgStr = [NSString stringWithFormat:@"%@%@",tmp.img, SUOLUE_PIC_400];
+            NSString* imgStr = [NSString stringWithFormat:@"%@",tmp.img];
             [_imageArray addObject:imgStr];
         }
         __weak typeof(self) weak = self;
@@ -560,7 +562,7 @@ MKMapViewDelegate
     }
     if (2 == indexPath.section)
     {
-        return 100;
+        return 150;
     }
     if (3 == indexPath.section)
     {
@@ -627,6 +629,7 @@ MKMapViewDelegate
         self.popWindowInitialRect = CGRectMake(0, PJ_SCREEN_HEIGHT, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - 200);
         self.popWindowDestineRect = CGRectMake(0, 200, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - 200);
         receiveCouponsController.storeId = _storeDetailForm.storeId;
+        receiveCouponsController.popWindowInitialRect = self.popWindowInitialRect;
         [CZJUtils showMyWindowOnTarget:self withMyVC:receiveCouponsController];
         __weak typeof(self) weak = self;
         [receiveCouponsController setCancleBarItemHandle:^{
@@ -649,10 +652,18 @@ MKMapViewDelegate
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    if (0 == section)
+    if (0 == section ||
+        (1 == section && _couponsArray.count == 0) ||
+        (2 == section && _activityArray.count == 0) ||
+        (3 == section && _bannerOneArray.count == 0) ||
+        (4 == section && _recommendArray.count == 0)
+        )
     {
         return 0;
     }
+
+    
+    
     return 10;
 }
 
@@ -722,9 +733,12 @@ MKMapViewDelegate
         case CZJButtonTypeNaviBarMore:
         {
             NSArray * arr = [[NSArray alloc] init];
-            arr = [NSArray arrayWithObjects:@{@"消息" : @"prodetail_icon_msg"}, @{@"首页":@"prodetail_icon_home"}, @{@"分享" :@"prodetail_icon_share"},nil];
+            arr = [NSArray arrayWithObjects:
+//                   @{@"消息" : @"prodetail_icon_msg"},
+                   @{@"首页":@"prodetail_icon_home"},
+                   @{@"分享" :@"prodetail_icon_share"},nil];
             if(dropDown == nil) {
-                CGRect rect = CGRectMake(PJ_SCREEN_WIDTH - 120 - 14, StatusBar_HEIGHT + 78, 120, 150);
+                CGRect rect = CGRectMake(PJ_SCREEN_WIDTH - 120 - 14, StatusBar_HEIGHT + 78, 120, 100);
                 _backgroundView.hidden = NO;
                 dropDown = [[NIDropDown alloc]showDropDown:_backgroundView Frame:rect WithObjects:arr andType:CZJNIDropDownTypeNormal];
                 dropDown.delegate = self;
@@ -767,10 +781,10 @@ MKMapViewDelegate
 #pragma mark NIDropDownDelegate
 - (void) niDropDownDelegateMethod:(NSString*)btnStr
 {
-    if ([btnStr isEqualToString:@"消息"])
-    {
-        DLog(@"消息");
-    }
+//    if ([btnStr isEqualToString:@"消息"])
+//    {
+//        DLog(@"消息");
+//    }
     if ([btnStr isEqualToString:@"首页"])
     {
         DLog(@"首页");

@@ -12,6 +12,7 @@
 #import "CCLocationManager.h"
 #import "ZXLocationManager.h"
 #import "CZJBaseDataManager.h"
+#import "CZJNetworkManager.h"
 #import "CZJLoginModelManager.h"
 #import "CZJMessageManager.h"
 #import "OpenShareHeader.h"
@@ -21,8 +22,13 @@
 #import "JRSwizzle.h"
 #import "KMCGeigerCounter.h"
 #import "CZJOrderPaySuccessController.h"
+#import "MZGuidePages.h"
+#import <KSCrash/KSCrashInstallationStandard.h>
 
 @interface AppDelegate ()
+{
+    __block NSString* currentStartPateURL;
+}
 @property (strong, nonatomic) UIView *lunchView;
 @end
 
@@ -36,33 +42,62 @@
     }
 }
 
+- (void)updateTimerLabel
+{
+    
+}
+
 -(void)removeLun
 {
-    [UIView animateWithDuration:1.0 delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+    [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         [_lunchView setPosition:CGPointPositionMiddle atAnchorPoint:CGPointMiddle];
         [_lunchView setAlpha:0];
     } completion:^(BOOL finished) {
         [_lunchView removeFromSuperview];
     }];
-    
+}
+
+- (void)getStartPageDataFromServer:(BOOL)isLoadStartPage
+{
+    __weak typeof(self) weakSelf = self;
+    [CZJBaseDataInstance generalPost:nil success:^(id json) {
+        CZJStartPageForm* startpageFormTmp  = [CZJStartPageForm objectWithKeyValues:[[CZJUtils DataFromJson:json] valueForKey:@"msg"]];
+        //存在本地启动页URL（旧）
+        NSString* startPageUrl = [USER_DEFAULT valueForKey:kUserDefaultStartPageUrl];
+        //启动时从服务器读取的启动页URL（新）
+        currentStartPateURL = iPhone4 ? startpageFormTmp.startPageUrl4S : startpageFormTmp.startPageUrl;
+        //第一次进入或有最新启动页时去下载
+        if (![startPageUrl isEqualToString:currentStartPateURL] && isLoadStartPage)
+        {
+            [weakSelf downLoadStartPage:currentStartPateURL];
+            [USER_DEFAULT setValue:currentStartPateURL forKey:kUserDefaultStartPageUrl];
+        }
+        [CZJUtils writeDictionaryToDocumentsDirectory:[startpageFormTmp.keyValues mutableCopy] withPlistName:kUserDefaultStartPageForm];
+    } fail:nil andServerAPI:kCZJServerAPIGetStartPage];
+}
+
+- (void)downLoadStartPage:(NSString*)currentPageUrl
+{
+    [[SDWebImageManager sharedManager]downloadImageWithURL:[NSURL URLWithString:currentPageUrl] options:SDWebImageContinueInBackground progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+        DLog(@"receivedSize:%ld, expectedSize:%ld",receivedSize,expectedSize);
+    }completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL){
+        NSString* imagepath2 = [DocumentsDirectory stringByAppendingPathComponent:@"StartPage.jpg"];
+        //把图片直接保存到指定的路径（同时应该把图片的路径imagePath存起来，下次就可以直接用来取）
+        if ([UIImageJPEGRepresentation(image,0) writeToFile:imagepath2 atomically:YES])
+        {
+            DLog(@"启动页图片存入本地成功");
+        }
+        else
+        {
+            DLog(@"启动页图片存入本地失败");
+        }
+        
+    }];
 }
 
 #pragma mark- AppDelegate
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     //-------------------1.版本更新检测------------------
-    NSMutableDictionary* versionCheck_info = [CZJUtils readDictionaryFromDocumentsDirectoryWithPlistName:kCZJPlistFileCheckVersion];
-    if (versionCheck_info && versionCheck_info.count > 0)
-    {
-        NSDictionary* version_dict = [versionCheck_info valueForKey:kCZJCheckVersion];
-        int enforce = [[version_dict valueForKey:kCZJEnfore] intValue];
-        NSString* net_version = [version_dict valueForKey:kCZJNetVersion];
-        NSString* cur_version = [[[NSBundle mainBundle] infoDictionary] valueForKey:kCZJCurVerson];
-        
-        if ([net_version floatValue] > [cur_version floatValue] && 1 == enforce)
-        {
-            [CZJUtils showExitAlertViewWithContentOnParent:self];
-        }
-    }
     
     
     //------------------2.设置URL缓存机制----------------
@@ -82,13 +117,13 @@
         {
             [USER_DEFAULT setObject:kCZJChengduID forKey:kCZJDefaultCityID];
             [USER_DEFAULT setObject:kCZJChengdu forKey:kCZJDefaultyCityName];
-            CZJLoginModelInstance.cityId = kCZJChengduID;
-            CZJLoginModelInstance.cityName = kCZJChengdu;
+            CZJLoginModelInstance.usrBaseForm.cityId = kCZJChengduID;
+            CZJLoginModelInstance.usrBaseForm.cityName = kCZJChengdu;
         }
         else
         {
-            CZJLoginModelInstance.cityId = [USER_DEFAULT valueForKey: kCZJDefaultCityID];
-            CZJLoginModelInstance.cityName = [USER_DEFAULT valueForKey:kCZJDefaultyCityName];
+            CZJLoginModelInstance.usrBaseForm.cityId = [USER_DEFAULT valueForKey: kCZJDefaultCityID];
+            CZJLoginModelInstance.usrBaseForm.cityName = [USER_DEFAULT valueForKey:kCZJDefaultyCityName];
         }
     } fail:^{
         
@@ -158,52 +193,70 @@
     
     [XGPush handleLaunching:launchOptions successCallback:_successBlock errorCallback:_errorBlock];
     
-    DLog(@"--%@",[CZJLoginModelManager sharedCZJLoginModelManager].cityId);
-    [XGPush setTag:[CZJLoginModelManager sharedCZJLoginModelManager].cityId];
+    DLog(@"--%@",[CZJLoginModelManager sharedCZJLoginModelManager].usrBaseForm.cityId);
+    [XGPush setTag:[CZJLoginModelManager sharedCZJLoginModelManager].usrBaseForm.cityId];
     BOOL isLoginedIn = [USER_DEFAULT boolForKey:kCZJIsUserHaveLogined];
     if (isLoginedIn) {
         [CZJLoginModelInstance loginWithDefaultInfoSuccess:^()
          {
-             [XGPush setAccount:[CZJLoginModelInstance cheZhuId]];
+             [XGPush setAccount:CZJLoginModelInstance.usrBaseForm.chezhuId];
          }fail:^(){}];
     }
     
     
-    //-----------------6.判断是否启动广告页面--------------
-    NSString* storyboardId = @"";
-    NSMutableDictionary* tmp = [CZJUtils readStartInfoPlistWithPlistName];
-    if (nil != tmp)
-    {
-        if ([[[tmp valueForKey:@"startPage"] valueForKey:@"startPageTime"] intValue] == 0)
-        {
-            storyboardId = kCZJStoryBoardIDHomeView;
-        }
-        else
-        {
-            storyboardId = kCZJStoryBoardIDStartPage;
-        }
-    }
-    else
-    {
-        storyboardId = kCZJStoryBoardIDHomeView;
-    }
-
+    //-----------------6.设置主页并判断是否启动广告页面--------------
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     UIViewController *_CZJRootViewController = [CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:kCZJStoryBoardIDHomeView];
     self.window.rootViewController = _CZJRootViewController;
     [self.window makeKeyAndVisible];
-
-    //-------------------启动之后跳转到主页面中间转换页面-------------------
-    _lunchView = [[NSBundle mainBundle ]loadNibNamed:@"LaunchScreen" owner:nil options:nil][0];
-    [_lunchView setSize:CGSizeMake(PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT)];
-    [_lunchView setPosition:CGPointPositionMiddle atAnchorPoint:CGPointMiddle];
-    UIImageView *imageV = [[UIImageView alloc] initWithFrame:PJ_SCREEN_BOUNDS];
-    NSString *str = @"http://upload.chezhijian.com/@/yunying/201603/0b2cf7a75d6b41cba821ec2a7035e0b6.png";
-    [imageV sd_setImageWithURL:[NSURL URLWithString:str] placeholderImage:nil];
-    [_lunchView addSubview:imageV];
-    [self.window addSubview:_lunchView];
-    [self.window bringSubviewToFront:_lunchView];
-    [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(removeLun) userInfo:nil repeats:NO];
+    
+    if (![USER_DEFAULT valueForKey:kCZJIsFirstLogin])
+    {
+        //----------------第一次进入显示引导页-----------------
+        [USER_DEFAULT setValue:@"1" forKey:kCZJIsFirstLogin];
+        [self guidePages];
+        
+        //---------------然后下载下次启动显示的启动页------------
+        [self getStartPageDataFromServer:YES];
+    }
+    else
+    {
+        //-------------否则启动之后跳转到广告页-------------
+        NSString* imagepath2 = [DocumentsDirectory stringByAppendingPathComponent:@"StartPage.jpg"];
+        if ( [FileManager fileExistsAtPath:imagepath2])
+        {
+            CZJStartPageForm* startPageForm  = [CZJStartPageForm objectWithKeyValues:[CZJUtils readDictionaryFromDocumentsDirectoryWithPlistName:kUserDefaultStartPageForm]];
+            _lunchView = [[NSBundle mainBundle ]loadNibNamed:@"LaunchScreen" owner:nil options:nil][0];
+            [_lunchView setSize:CGSizeMake(PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT)];
+            [_lunchView setPosition:CGPointPositionMiddle atAnchorPoint:CGPointMiddle];
+            UIImageView *imageV = [[UIImageView alloc] initWithFrame:PJ_SCREEN_BOUNDS];
+            [imageV setImage:[[UIImage alloc] initWithContentsOfFile:imagepath2]];
+            [_lunchView addSubview:imageV];
+            
+            UIButton* tiaoguoBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+            [tiaoguoBtn setTitleColor:WHITECOLOR forState:UIControlStateNormal];
+            [tiaoguoBtn setTitle:@"跳过" forState:UIControlStateNormal];
+            [tiaoguoBtn setBackgroundColor:RGB(10, 10, 10)];
+            [tiaoguoBtn.titleLabel setFont:BOLDSYSTEMFONT(13)];
+            tiaoguoBtn.alpha = 0.5;
+            tiaoguoBtn.layer.cornerRadius = 12.5;
+            [tiaoguoBtn addTarget:self action:@selector(removeLun) forControlEvents:UIControlEventTouchUpInside];
+            tiaoguoBtn.frame = CGRectMake(PJ_SCREEN_WIDTH - 100, 30, 70, 25);
+            [_lunchView addSubview:tiaoguoBtn];
+            tiaoguoBtn.hidden = !startPageForm.startPageSkip;
+            
+            [self.window addSubview:_lunchView];
+            [self.window bringSubviewToFront:_lunchView];
+           
+            NSTimeInterval timeinterval = [startPageForm.startPageTime intValue];
+            [NSTimer scheduledTimerWithTimeInterval:timeinterval target:self selector:@selector(removeLun) userInfo:nil repeats:NO];
+            [self getStartPageDataFromServer:NO];
+        }
+        else
+        {
+            [self getStartPageDataFromServer:YES];
+        }
+    }
     
     
     //---------------------7.分享设置---------------------
@@ -219,10 +272,47 @@
     
     //-------------------9.开启帧数显示---------------
     [KMCGeigerCounter sharedGeigerCounter].enabled = false;
+    
+    
+    //-------------------10.崩溃收集接口---------------
+    KSCrashInstallationStandard* installation = [KSCrashInstallationStandard sharedInstance];
+    installation.url = [NSURL URLWithString:@"https://collector.bughd.com/kscrash?key=d84c241e5cde9210eeefa96f8a784917"];
+    [installation install];
+    [installation sendAllReportsWithCompletion:nil];
 
     return YES;
 }
 
+
+- (void)guidePages
+{
+    //数据源
+    NSArray *imageArray = @[ @"loading01", @"loading02", @"loading03"];
+    
+    //  初始化方法1
+    MZGuidePages *mzgpc = [[MZGuidePages alloc] init];
+    mzgpc.imageDatas = imageArray;
+    __weak typeof(MZGuidePages) *weakMZ = mzgpc;
+    mzgpc.buttonAction = ^{
+        [UIView animateWithDuration:2.0f
+                         animations:^{
+                             weakMZ.alpha = 0.0;
+                         }
+                         completion:^(BOOL finished) {
+                             [weakMZ removeFromSuperview];
+                         }];
+    };
+    
+    //  初始化方法2
+    //    MZGuidePagesController *mzgpc = [[MZGuidePagesController alloc]
+    //    initWithImageDatas:imageArray
+    //                                                                            completion:^{
+    //                                                                              NSLog(@"click!");
+    //
+    
+    //要在makeKeyAndVisible之后调用才有效
+    [self.window addSubview:mzgpc];
+}
 
 
 - (void)applicationWillResignActive:(UIApplication *)application {
@@ -279,11 +369,9 @@
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
-    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
-    // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
 
@@ -326,17 +414,17 @@
 //注册获取Token成功回调
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
-//    CZJGeneralBlock successBlock = ^(void){
-//        //成功之后的处理
-//        DLog(@"[XGPush]register successBlock");
-//    };
-//    
-//    CZJGeneralBlock errorBlock = ^(void){
-//        //失败之后的处理
-//        DLog(@"[XGPush]register errorBlock");
-//    };
-//    NSString * deviceTokenStr = [XGPush registerDevice:deviceToken successCallback:successBlock errorCallback:errorBlock];
-//    DLog(@"%@",deviceTokenStr);
+    CZJGeneralBlock successBlock = ^(void){
+        //成功之后的处理
+        DLog(@"[XGPush]register successBlock");
+    };
+    
+    CZJGeneralBlock errorBlock = ^(void){
+        //失败之后的处理
+        DLog(@"[XGPush]register errorBlock");
+    };
+    NSString * deviceTokenStr = [XGPush registerDevice:deviceToken successCallback:successBlock errorCallback:errorBlock];
+    DLog(@"%@",deviceTokenStr);
 }
 
 //注册获取Token失败回调

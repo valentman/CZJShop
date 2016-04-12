@@ -130,7 +130,7 @@ UIGestureRecognizerDelegate
     self.naviBarView.mainTitleLabel.text = @"我的购物车";
     [self.naviBarView.btnBack addTarget:self action:@selector(backToLastView:) forControlEvents:UIControlEventTouchUpInside];
     
-    self.settleView.hidden = NO;
+    self.settleView.hidden = YES;
 }
 
 
@@ -138,7 +138,7 @@ UIGestureRecognizerDelegate
 {
     __weak typeof(self) weak = self;
     [MBProgressHUD showHUDAddedTo:self.myTableView animated:YES];
-    self.settleView.hidden = YES;
+    [CZJUtils removeReloadAlertViewFromTarget:self.view];
     [CZJUtils removeNoDataAlertViewFromTarget:self.view];
     CZJSuccessBlock successBlock = ^(id json)
     {
@@ -147,9 +147,10 @@ UIGestureRecognizerDelegate
         //========获取数据返回，判断数据大于0不==========
         NSDictionary* dict = [CZJUtils DataFromJson:json];
         NSArray* tmpAry = [dict valueForKey:@"msg"];
+        
         if (CZJHomeGetDataFromServerTypeTwo == _getdataType)
         {
-            [CZJBaseDataInstance.shoppingCartForm appendNewShoppingCartData:dict];
+            [shoppingInfos addObjectsFromArray:[CZJShoppingCartInfoForm objectArrayWithKeyValuesArray:tmpAry]];
             if (tmpAry.count < 20)
             {
                 [refreshFooter noticeNoMoreData];
@@ -161,17 +162,16 @@ UIGestureRecognizerDelegate
         }
         else
         {
-            [CZJBaseDataInstance.shoppingCartForm setNewShoppingCartDictionary:dict];
+            [shoppingInfos removeAllObjects];
+            shoppingInfos = [[CZJShoppingCartInfoForm objectArrayWithKeyValuesArray:tmpAry] mutableCopy];
         }
         
-        
-        [shoppingInfos removeAllObjects];
-        shoppingInfos = [[CZJBaseDataInstance shoppingCartForm] shoppingCartList];
         if (shoppingInfos.count == 0)
         {
             [CZJUtils showNoDataAlertViewOnTarget:self.view withPromptString:@"木有商品，快去添加吧/(ToT)/~~"];
             self.settleView.hidden = YES;
             self.myTableView.hidden = YES;
+            editBtn.hidden = YES;
         }
         else
         {
@@ -194,7 +194,7 @@ UIGestureRecognizerDelegate
         }];
     };
     [CZJBaseDataInstance loadShoppingCart:@{@"page" : @(page)}
-                                     type:CZJHomeGetDataFromServerTypeOne
+                                     type:_getdataType
                                   Success:successBlock
                                      fail:failBlock];
 }
@@ -437,33 +437,7 @@ UIGestureRecognizerDelegate
     {
         CZJShoppingCartInfoForm *goodsList = [shoppingInfos objectAtIndex:indexPath.section];
         CZJShoppingGoodsInfoForm *model = [ goodsList.items objectAtIndex:indexPath.row -1];
-        NSDictionary* params = @{@"storeItemPids" : model.storeItemPid};
-        [CZJBaseDataInstance removeProductFromShoppingCart:params Success:^{
-            [CZJBaseDataInstance loadShoppingCartCount:nil Success:^(id json){
-                NSDictionary* dict = [CZJUtils DataFromJson:json];
-                [USER_DEFAULT setObject:[dict valueForKey:@"msg"] forKey:kUserDefaultShoppingCartCount];
-            } fail:nil];
-            model.isSelect=NO;
-            [goodsList.items removeObjectAtIndex:indexPath.row - 1];
-            
-            if (0 == goodsList.items.count ){
-                [shoppingInfos removeObjectAtIndex:indexPath.section];
-                if (shoppingInfos.count == 0)
-                {
-                    [CZJUtils showNoDataAlertViewOnTarget:self.view withPromptString:@"木有商品，快去添加吧/(ToT)/~~"];
-                    self.settleView.hidden = YES;
-                    editBtn.hidden = YES;
-                    [self.myTableView reloadData];
-                }
-            }
-            else
-            {
-                [self.myTableView reloadData];
-            }
-
-        } fail:^{
-            //删除失败
-        }];
+        [self deleteGoodsFromCart:model.storeItemPid];
     }
 }
 
@@ -479,15 +453,6 @@ UIGestureRecognizerDelegate
     }
 }
 
-#pragma mark- PullTableViewDelegate
-- (void)pullTableViewDidTriggerRefresh:(PullTableView*)pullTableView
-{
-}
-
-- (void)pullTableViewDidTriggerLoadMore:(PullTableView*)pullTableView
-{
-}
-
 
 #pragma mark- CZJShoppingCartCellDelegate
 - (void)singleClick:(CZJShoppingGoodsInfoForm *)models indexPath:(NSIndexPath *)indexPath
@@ -495,7 +460,7 @@ UIGestureRecognizerDelegate
     [self pitchOn];
     NSLog(@"modelstype:%ld",indexPath.section);
     NSIndexSet *indexSet=[[NSIndexSet alloc]initWithIndex:indexPath.section];
-    [self.myTableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationFade];
+    [self.myTableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationNone];
 }
 
 - (void)changePurchaseNumberNotification
@@ -531,7 +496,7 @@ UIGestureRecognizerDelegate
     {
         cellAllChooseBtn.selected = !cellAllChooseBtn.selected;
         form.isSelect = cellAllChooseBtn.selected;
-        [self.myTableView reloadSections:[NSIndexSet indexSetWithIndex:indexPath.section] withRowAnimation:UITableViewRowAnimationFade];
+        [self.myTableView reloadSections:[NSIndexSet indexSetWithIndex:indexPath.section] withRowAnimation:UITableViewRowAnimationNone];
         [self calculateTotalPrice];
         [self pitchOn];
     }
@@ -547,6 +512,7 @@ UIGestureRecognizerDelegate
     self.popWindowInitialRect = CGRectMake(0, PJ_SCREEN_HEIGHT, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - 200);
     CZJReceiveCouponsController *receiveCouponsController = [[CZJReceiveCouponsController alloc] init];
     receiveCouponsController.storeId = ((CZJShoppingCartInfoForm*)shoppingInfos[indexPath.section]).storeId;
+    receiveCouponsController.popWindowInitialRect = self.popWindowInitialRect;
     [CZJUtils showMyWindowOnTarget:self withMyVC:receiveCouponsController];
     
     __weak typeof(self) weak = self;
@@ -589,40 +555,7 @@ UIGestureRecognizerDelegate
         
         //再将待删除的商品id数组组合成一个字符串，作为删除参数
         NSString* storeItemPids = [deleteAry componentsJoinedByString:@","];
-        NSDictionary* params = @{@"storeItemPids" : storeItemPids};
-        [CZJBaseDataInstance removeProductFromShoppingCart:params Success:^{
-            [CZJBaseDataInstance loadShoppingCartCount:nil Success:^(id json){
-                NSDictionary* dict = [CZJUtils DataFromJson:json];
-                [USER_DEFAULT setObject:[dict valueForKey:@"msg"] forKey:kUserDefaultShoppingCartCount];
-            } fail:nil];
-            
-            //删除所选商品成功返回后，从本地商品数组中移除已删除的商品
-            for (NSString* deleteStr in deleteAry)
-            {
-                for (int i = 0; i<shoppingInfos.count; i++)
-                {
-                    NSMutableArray* goodsList = ((CZJShoppingCartInfoForm*)shoppingInfos[i]).items;
-                    for (int j=0 ; j<goodsList.count; j++)
-                    {
-                        CZJShoppingGoodsInfoForm *model = goodsList[j];
-                        DLog(@"%@, %@", deleteStr, model.storeItemPid);
-                        if ([deleteStr isEqualToString:model.storeItemPid])
-                        {
-                            [goodsList removeObjectAtIndex:j];
-                            j = 0;
-                            if (0 == goodsList.count )
-                            {
-                                [shoppingInfos removeObjectAtIndex:i];
-                                i = 0;
-                            }
-                        }
-                    }
-                }
-            }
-            [self.myTableView reloadData];
-        } fail:^{
-            //删除失败
-        }];
+        [self deleteGoodsFromCart:storeItemPids];
     }
     else
     {
@@ -712,6 +645,27 @@ UIGestureRecognizerDelegate
     {
         [CZJUtils tipWithText:@"购物车商品均无货" andView:nil];
     }
+}
+
+
+- (void)deleteGoodsFromCart:(NSString*)deleteStoreItemPidsStr
+{
+    NSDictionary* params = @{@"storeItemPids" : deleteStoreItemPidsStr};
+    __weak typeof(self) weakSelf = self;
+    [CZJBaseDataInstance removeProductFromShoppingCart:params Success:^{
+        //重新请求数据刷新
+        _getdataType = CZJHomeGetDataFromServerTypeOne;
+        [weakSelf getShoppingCartInfoFromServer];
+        
+        //请求购物车数量
+        [CZJBaseDataInstance loadShoppingCartCount:nil Success:^(id json){
+            NSDictionary* dict = [CZJUtils DataFromJson:json];
+            [USER_DEFAULT setObject:[dict valueForKey:@"msg"] forKey:kUserDefaultShoppingCartCount];
+        } fail:nil];
+        
+    } fail:^{
+        //删除失败
+    }];
 }
 
 @end

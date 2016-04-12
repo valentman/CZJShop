@@ -41,7 +41,7 @@
             hud.mode = MBProgressHUDModeDeterminate;
         }
         
-        [self.imageView sd_setImageWithURL:[NSURL URLWithString:photoUrl] placeholderImage:[UIImage imageNamed:@"comment_empty_img"] options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize){
+        [self.imageView sd_setImageWithURL:[NSURL URLWithString:photoUrl] placeholderImage:DefaultPlaceHolderSquarePlus options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize){
             hud.progress = ((float)receivedSize)/expectedSize;
         } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL){
             NSLog(@"图片加载完成");

@@ -42,7 +42,7 @@
     CZJMyWalletCardUsedController* used = [[CZJMyWalletCardUsedController alloc]init];
     unUsed.delegate = self;
     used.delegate = self;
-    CGRect pageViewFrame = CGRectMake(0, StatusBar_HEIGHT + NavigationBar_HEIGHT, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - StatusBar_HEIGHT);
+    CGRect pageViewFrame = CGRectMake(0, StatusBar_HEIGHT + NavigationBar_HEIGHT, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT);
     CZJPageControlView* pageview = [[CZJPageControlView alloc]initWithFrame:pageViewFrame andPageIndex:0];
     [pageview setTitleArray:@[@"未用完",@"已用完"] andVCArray:@[unUsed, used]];
     pageview.backgroundColor = WHITECOLOR;
@@ -92,14 +92,13 @@ UITableViewDelegate
 - (void)initMyDatas
 {
     _cardList = [NSMutableArray array];
-    _params = [NSMutableDictionary dictionary];
     page = 1;
     _getdataType = CZJHomeGetDataFromServerTypeOne;
 }
 
 - (void)initViews
 {
-    CGRect viewRect = CGRectMake(0, 0, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT- 128);
+    CGRect viewRect = CGRectMake(0, 0, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT- 114);
     _myTableView = [[UITableView alloc]initWithFrame:viewRect style:UITableViewStylePlain];
     _myTableView.backgroundColor = CZJTableViewBGColor;
     _myTableView.tableFooterView = [[UIView alloc]init];
@@ -126,10 +125,12 @@ UITableViewDelegate
     __weak typeof(self) weak = self;
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [CZJUtils removeNoDataAlertViewFromTarget:self.view];
-    [_params setValue:@(page) forKey:@"page"];
+    [CZJUtils removeReloadAlertViewFromTarget:self.view];
+    
+    _params = @{@"type" : _cardType, @"page" : @(page)};
     [CZJBaseDataInstance generalPost:_params success:^(id json) {
         [MBProgressHUD hideAllHUDsForView:self.view animated:NO];
-        
+        DLog(@"%@",[[CZJUtils DataFromJson:json] description]);
         //========获取数据返回，判断数据大于0不==========
         NSArray* tmpAry = [[CZJUtils DataFromJson:json] valueForKey:@"msg"];
         if (CZJHomeGetDataFromServerTypeTwo == _getdataType)
@@ -190,9 +191,6 @@ UITableViewDelegate
 {
     CZJMyCardInfoForm* form = (CZJMyCardInfoForm*)_cardList[indexPath.row];
     CZJMyWalletCardCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJMyWalletCardCell" forIndexPath:indexPath];
-    cell.storeNameLabel.text = form.storeName;
-    cell.cardTypeLabel.text = form.setmenuName;
-    cell.cardTypeWidth.constant = [CZJUtils calculateTitleSizeWithString:form.setmenuName AndFontSize:17].height + 5;
     if (form.items.count > 0)
     {
         CZJMyCardDetailInfoForm* cardDetailForm = form.items[0];
@@ -201,7 +199,22 @@ UITableViewDelegate
         cell.itemNameLabel.text = cardDetailForm.itemName;
         cell.totalTimeLabel.text = cardDetailForm.itemCount;
         cell.leftTimeLabel.text = [NSString stringWithFormat:@"%ld",[cardDetailForm.itemCount integerValue] - [cardDetailForm.useCount integerValue]];
+        if ([_cardType isEqualToString:@"1"])
+        {
+            cell.storeNameLabel.textColor = CZJGRAYCOLOR;
+            cell.cardTypeLabel.textColor = CZJGRAYCOLOR;
+            cell.useedImg.hidden = NO;
+            cell.dotLabel.backgroundColor  = CZJGRAYCOLOR;
+            cell.itemNameLabel.textColor = CZJGRAYCOLOR;
+            cell.totalTimeLabel.textColor = CZJGRAYCOLOR;
+            cell.leftTimeLabel.textColor = CZJGRAYCOLOR;;
+        }
     }
+   
+    cell.storeNameLabel.text = form.storeName;
+    cell.cardTypeLabel.text = form.setmenuName;
+    cell.cardTypeWidth.constant = [CZJUtils calculateTitleSizeWithString:form.setmenuName AndFontSize:17].height + 5;
+
     cell.tintColor = [UIColor grayColor];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
@@ -234,7 +247,7 @@ UITableViewDelegate
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    _params = [@{@"type":@"0", @"page":@"1"}mutableCopy];
+    _cardType = @"0";
     [self getCardListFromServer];
 }
 
@@ -248,7 +261,7 @@ UITableViewDelegate
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    _params = [@{@"type":@"1", @"page":@"1"}mutableCopy];
+    _cardType = @"1";
     [self getCardListFromServer];
 }
 

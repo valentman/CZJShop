@@ -185,7 +185,7 @@ UITableViewDataSource
     if (indexPath.row == 0)
     {
         CZJEvalutionDetailCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJEvalutionDetailCell" forIndexPath:indexPath];
-        [cell.evalWriteHeadImage sd_setImageWithURL:[NSURL URLWithString:detailEvalform.head] placeholderImage:DefaultPlaceHolderImage];
+        [cell.evalWriteHeadImage sd_setImageWithURL:[NSURL URLWithString:detailEvalform.head] placeholderImage:IMAGENAMED(@"placeholder_personal")];
         cell.evalWriterName.text = detailEvalform.name;
         cell.evalWriteTime.text = detailEvalform.evalTime;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -205,7 +205,7 @@ UITableViewDataSource
         for (int i = 0; i < detailEvalform.evalImgs.count; i++)
         {
             UIImageView* evaluateImage = [[UIImageView alloc]init];
-            [evaluateImage sd_setImageWithURL:[NSURL URLWithString:detailEvalform.evalImgs[i]] placeholderImage:DefaultPlaceHolderImage];
+            [evaluateImage sd_setImageWithURL:[NSURL URLWithString:detailEvalform.evalImgs[i]] placeholderImage:DefaultPlaceHolderSquare];
             CGRect iamgeRect = [CZJUtils viewFramFromDynamic:CZJMarginMake(0, 10) size:CGSizeMake(78, 78) index:i divide:Divide];
             evaluateImage.frame = iamgeRect;
             [cell.picView addSubview:evaluateImage];
@@ -229,7 +229,7 @@ UITableViewDataSource
             NSString* url = detailEvalform.addedEval.evalImgs[i];
             CGRect imageFrame = [CZJUtils viewFramFromDynamic:CZJMarginMake(0, 0) size:CGSizeMake(70, 70) index:i divide:Divide];
             UIImageView* imageView = [[UIImageView alloc]initWithFrame:imageFrame];
-            [imageView sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:DefaultPlaceHolderImage];
+            [imageView sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:DefaultPlaceHolderSquare];
             [cell.picView addSubview:imageView];
         }
         return cell;
@@ -373,6 +373,7 @@ UITableViewDataSource
 {
     if (!isFirstLoad)
     {
+        [CZJUtils removeNoDataAlertViewFromTarget:self.view];
         _currentSelectedSegment = index;
         [self.myEvalTableView setContentOffset:CGPointZero];
         [self reloadTableview];

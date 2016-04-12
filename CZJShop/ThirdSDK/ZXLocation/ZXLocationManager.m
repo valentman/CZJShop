@@ -32,6 +32,17 @@
     if (self = [super init]) {
          self.locationManager = [[CLLocationManager alloc] init];
          self.locationManager.delegate = self;
+        
+        NSUserDefaults *standard = [NSUserDefaults standardUserDefaults];
+        
+        float longitude = [standard floatForKey:CCLastLongitude];
+        float latitude = [standard floatForKey:CCLastLatitude];
+        self.longitude = longitude;
+        self.latitude = latitude;
+        self.lastCoordinate = CLLocationCoordinate2DMake(longitude,latitude);
+        self.lastCity = [standard objectForKey:CCLastCity];
+        self.lastAddress=[standard objectForKey:CCLastAddress];
+        
         self.isNeedShowAlert = YES;
         return self;
     }
@@ -49,9 +60,9 @@
     {
         if (self.isNeedShowAlert) {
             self.isNeedShowAlert = NO;
-            UIAlertView *alvertView=[[UIAlertView alloc]initWithTitle:@"提示" message:@"需要开启定位服务,请到设置->隐私,打开定位服务" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
+            UIAlertView *alvertView=[[UIAlertView alloc]initWithTitle:@"提示" message:@"查看附近门店功能需要使用定位,请到'设置->隐私->定位服务'开启" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
             [alvertView show];
-            
+            [USER_DEFAULT setObject:@"" forKey:CCLastAddress];
         }
     }
 
@@ -61,6 +72,10 @@
     if([CLLocationManager locationServicesEnabled] && [CLLocationManager authorizationStatus] != kCLAuthorizationStatusDenied)
     {
         isEnable = YES;
+    }
+    else
+    {
+        [USER_DEFAULT setObject:@"" forKey:CCLastAddress];
     }
     return isEnable;
 }
@@ -102,19 +117,31 @@
          if (array.count > 0)
          {
              CLPlacemark *placemark = [array objectAtIndex:0];
-             //获取城市
-             NSString *city = placemark.locality;
-             if (!city) {
-                 //四大直辖市的城市信息无法通过locality获得，只能通过获取省份的方法来获得（如果city为空，则可知为直辖市）
-                 city = placemark.administrativeArea;
-             }
              
-             _lastAddress = [NSString stringWithFormat:@"%@%@%@%@%@%@",placemark.country,placemark.administrativeArea,placemark.locality,placemark.subLocality,placemark.thoroughfare,placemark.subThoroughfare];//详细地址
+             _country = placemark.country;
+             _province = placemark.administrativeArea;
+             _city = [NSString stringWithFormat:@"%@",placemark.locality];
+             if (!_city) {
+                 //四大直辖市的城市信息无法通过locality获得，只能通过获取省份的方法来获得（如果city为空，则可知为直辖市）
+                 _city = placemark.administrativeArea;
+             }
+             [USER_DEFAULT setObject:_city forKey:CCLastCity];
+             _subCity = [placemark.subLocality isEqualToString:@"null"] ? @"" : placemark.subLocality;
+             _bigRoad = [placemark.thoroughfare isEqualToString:@"null"] ? @"" : placemark.thoroughfare;
+             _street = [placemark.subThoroughfare isEqualToString:@"null"] ? @"" : placemark.subThoroughfare;
+             
+             //获取地级市以下详细地址
+             _lastAddress = [NSString stringWithFormat:@"%@%@%@%@",_city,_subCity,_bigRoad,_street];
+             [USER_DEFAULT setObject:_lastAddress forKey:CCLastAddress];
              DLog(@"#######%@",_lastAddress);
+             
+             //获取当前城市名称
+             _justCity = _city;
+             [USER_DEFAULT setObject:_justCity forKey:CCLastCity];//城市市地址
 
-             DLog(@"city = %@", city);
+             DLog(@"city = %@", _justCity);
              if (_stringBlock) {
-                _stringBlock(city);
+                _stringBlock(_justCity);
                 _stringBlock = nil;
              }
              if (_addressBlock)

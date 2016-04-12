@@ -97,6 +97,7 @@ UITableViewDelegate
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     NSDictionary* params = @{@"page": @(self.page)};
     [CZJUtils removeNoDataAlertViewFromTarget:self.view];
+    [CZJUtils removeReloadAlertViewFromTarget:self.view];
     [CZJBaseDataInstance loadScanList:params Success:^(id json) {
         [MBProgressHUD hideAllHUDsForView:self.view animated:NO];
         
@@ -179,20 +180,31 @@ UITableViewDelegate
 {
     NSDictionary* form = scanListAry[indexPath.row];
     CZJGoodsAttentionCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJGoodsAttentionCell" forIndexPath:indexPath];
-    [cell.goodImg sd_setImageWithURL:[NSURL URLWithString:[form valueForKey:@"itemImg"]] placeholderImage:DefaultPlaceHolderImage];
+    //关注图片
+    [cell.goodImg sd_setImageWithURL:[NSURL URLWithString:[form valueForKey:@"itemImg"]] placeholderImage:DefaultPlaceHolderSquare];
     
-    CGSize nameSize = [CZJUtils calculateStringSizeWithString:[form valueForKey:@"itemName"] Font:SYSTEMFONT(15) Width:PJ_SCREEN_WIDTH - 116];
+    //关注名称
+    CGSize nameSize = [CZJUtils calculateStringSizeWithString:[form valueForKey:@"itemName"] Font:SYSTEMFONT(15) Width:PJ_SCREEN_WIDTH - 115];
     cell.goodNameLabel.text = [form valueForKey:@"itemName"];
-    cell.goodNameLayoutHeight.constant = nameSize.height;
-    cell.priceLabel.text = [form valueForKey:@"currentPrice"];
+    cell.goodNameLayoutHeight.constant = nameSize.height > 15 ? nameSize.height + 5 : 15;
     
+    //关注价格
+    cell.priceLabel.text = [form valueForKey:@"currentPrice"];
+    cell.priceButton.constant = 10;
+    
+    //好评等隐藏
+    cell.goodrateName.hidden = YES;
+    cell.evaluateLabel.hidden = YES;
+    cell.dealName.hidden = YES;
+    cell.dealCountLabel.hidden = YES;
+    cell.separatorInset = HiddenCellSeparator;
     return cell;
 }
 
 #pragma mark-UITableViewDelegate
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 126;
+    return 100;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

@@ -107,7 +107,7 @@ UITableViewDelegate
     if (0 == indexPath.section)
     {
         CZJOrderBuildCarCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJOrderBuildCarCell" forIndexPath:indexPath];
-        [cell.carBrandImg sd_setImageWithURL:[NSURL URLWithString:@""] placeholderImage:IMAGENAMED(@"default_icon_car")];
+        [cell.carBrandImg sd_setImageWithURL:[NSURL URLWithString:@""] placeholderImage:DefaultPlaceHolderSquare];
         cell.myCarInfoLabel.text = [NSString stringWithFormat:@"%@ %@ %@",carCheckForm.car.brandName, carCheckForm.car.seriesName, carCheckForm.car.numberPlate];
         cell.myCarModelLabel.text = carCheckForm.car.modelName;
         return cell;
@@ -130,7 +130,7 @@ UITableViewDelegate
                 UIImageView* image = [[UIImageView alloc]init];
                 image.frame = [CZJUtils viewFramFromDynamic:CZJMarginMake(15, 10) size:CGSizeMake(78, 78) index:i divide:4];
                 [cell addSubview:image];
-                [image sd_setImageWithURL:[NSURL URLWithString:photosAry[i]] placeholderImage:IMAGENAMED(@"")];
+                [image sd_setImageWithURL:[NSURL URLWithString:photosAry[i]] placeholderImage:DefaultPlaceHolderSquare];
             }
             if (photosAry.count == 0)
             {

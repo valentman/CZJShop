@@ -91,7 +91,6 @@ UITableViewDelegate
         UIView* dotTagView = [[cell contentView]viewWithTag:kDotViewTag];
         dotTagView.layer.cornerRadius = 2.5;
     }
-    UITabBarController* tabcontrl = self.tabBarController;
 }
 
 
@@ -155,11 +154,11 @@ UITableViewDelegate
         if (0 == indexPath.row && 0 == indexPath.section)
         {
             
-            url = [NSString stringWithFormat:@"%@?chezhuId=%@",[CZJUtils getExplicitServerAPIURLPathWithSuffix:kCZJServerAPIActivityCenter],CZJLoginModelInstance.cheZhuId];
+            url = [NSString stringWithFormat:@"%@?chezhuId=%@",[CZJUtils getExplicitServerAPIURLPathWithSuffix:kCZJServerAPIActivityCenter],CZJLoginModelInstance.usrBaseForm.chezhuId];
         }
         if (1 == indexPath.row && 0 == indexPath.section)
         {
-            url = [NSString stringWithFormat:@"%@?chezhuId=%@",[CZJUtils getExplicitServerAPIURLPathWithSuffix:kCZJServerAPICarInfo],CZJLoginModelInstance.cheZhuId];
+            url = [NSString stringWithFormat:@"%@?chezhuId=%@",[CZJUtils getExplicitServerAPIURLPathWithSuffix:kCZJServerAPICarInfo],CZJLoginModelInstance.usrBaseForm.chezhuId];
         }
         
         CZJWebViewController* webView = (CZJWebViewController*)[CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:@"webViewSBID"];

@@ -204,7 +204,7 @@ CZJPopPayViewDelegate
         {
             __weak typeof(self) weak = self;
             [self showCZJAlertView:@"亲,是否确认取消订单" andConfirmHandler:^{
-                [CZJBaseDataInstance generalPost:@{@"orderNo" : currentTouchedOrderListForm.orderNo} success:^(id json) {
+                [CZJBaseDataInstance generalPost    :@{@"orderNo" : currentTouchedOrderListForm.orderNo} success:^(id json) {
                     NSDictionary* dict = [CZJUtils DataFromJson:json];
                     DLog(@"%@",[dict description]);
                      [[NSNotificationCenter defaultCenter] postNotificationName:kCZJNotifiRefreshOrderlist object:nil];

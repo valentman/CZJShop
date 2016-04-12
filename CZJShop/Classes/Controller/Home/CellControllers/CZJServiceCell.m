@@ -32,7 +32,7 @@
 - (void)initServiceCollectionViewCellWithData:(ServiceForm*)obj
 {
     [_serviceIcon sd_setImageWithURL:[NSURL URLWithString:obj.img]
-                  placeholderImage:DefaultPlaceHolderImage
+                  placeholderImage:DefaultPlaceHolderCircle
                          completed:nil];
     _serviceName.text = obj.name;
 }

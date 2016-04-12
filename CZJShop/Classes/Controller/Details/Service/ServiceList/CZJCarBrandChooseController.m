@@ -171,7 +171,7 @@ static NSString *CarListCellIdentifierID = @"CarListCellIdentifierID";
                 CGRect hotBrandRect = [CZJUtils viewFramFromDynamic:CZJMarginMake(15, 10) size:CGSizeMake(50, 55) index:i divide:divide];
                 CZJHotBrandViewCell* hotCell = [CZJUtils getXibViewByName:@"CZJHotBrandViewCell"];
                 hotCell.frame = hotBrandRect;
-                [hotCell.brandImg sd_setImageWithURL:[NSURL URLWithString:brandForm.icon] placeholderImage:DefaultPlaceHolderImage];
+                [hotCell.brandImg sd_setImageWithURL:[NSURL URLWithString:brandForm.icon] placeholderImage:DefaultPlaceHolderSquare];
                 hotCell.brandName.text = brandForm.name;
                 [hotCell.hotBrandBtn setTag:i];
                 [hotCell.hotBrandBtn addTarget:self action:@selector(hotBtnClick:) forControlEvents:UIControlEventTouchUpInside];
@@ -193,7 +193,7 @@ static NSString *CarListCellIdentifierID = @"CarListCellIdentifierID";
         
         cell.textLabel.text = obj.name;
         [cell.imageView sd_setImageWithURL:[NSURL URLWithString:obj.icon]
-                          placeholderImage:[UIImage imageNamed:@"default_icon_car"]
+                          placeholderImage:DefaultPlaceHolderSquare
                                  completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL){
                                      
                                  }];
@@ -213,7 +213,7 @@ static NSString *CarListCellIdentifierID = @"CarListCellIdentifierID";
     HaveCarsForm* form = (HaveCarsForm*)_haveCars[indexPath.row];
     cell.textLabel.text = [NSString stringWithFormat:@"%@",form.brandName];
     [cell.imageView sd_setImageWithURL:[NSURL URLWithString:form.logo]
-                      placeholderImage:[UIImage imageNamed:@"default_icon_car"]
+                      placeholderImage:DefaultPlaceHolderSquare
                              completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL){
                                  
                              }];

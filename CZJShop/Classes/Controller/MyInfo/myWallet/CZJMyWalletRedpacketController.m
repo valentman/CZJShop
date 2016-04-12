@@ -21,6 +21,7 @@ UITableViewDataSource
     
     NSMutableArray* redpacketAry;
 }
+@property (weak, nonatomic) IBOutlet UILabel *redpacketNumLabel;
 @property (weak, nonatomic) IBOutlet UITableView *myTableView;
 @property (assign, nonatomic) NSInteger page;
 @property (weak, nonatomic) IBOutlet UIView *verticalSeparatorView;
@@ -57,6 +58,7 @@ UITableViewDataSource
 {
     self.page = 1;
     redpacketAry = [NSMutableArray array];
+    self.redpacketNumLabel.text = self.redPacketNum;
 }
 
 - (void)initViews
@@ -69,6 +71,7 @@ UITableViewDataSource
     self.myTableView.backgroundColor = CLEARCOLOR;
     self.myTableView.showsVerticalScrollIndicator = NO;
     self.myTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.myTableView.hidden = YES;
     self.automaticallyAdjustsScrollViewInsets = NO;
     
     NSArray* nibArys = @[@"CZJRedPacketUseCaseCell"];
@@ -87,6 +90,7 @@ UITableViewDataSource
     }];
     self.myTableView.footer = refreshFooter;
     self.myTableView.footer.hidden = YES;
+    self.verticalSeparatorView.hidden = YES;
     
 }
 
@@ -95,6 +99,7 @@ UITableViewDataSource
     NSDictionary* params = @{@"page" : @(self.page)};
     __weak typeof(self) weak = self;
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [CZJUtils removeReloadAlertViewFromTarget:self.view];
     [CZJUtils removeNoDataAlertViewFromTarget:self.view];
     [CZJBaseDataInstance generalPost:params success:^(id json) {
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
@@ -116,7 +121,7 @@ UITableViewDataSource
         }
         else
         {
-            redpacketAry = [[CZJMyScanRecordForm objectArrayWithKeyValuesArray:tmpAry] mutableCopy];
+            redpacketAry = [[CZJRedpacketInfoForm objectArrayWithKeyValuesArray:tmpAry] mutableCopy];
         }
         
         if (redpacketAry.count == 0)
@@ -156,13 +161,32 @@ UITableViewDataSource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 5;
+    return redpacketAry.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     CZJRedPacketUseCaseCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJRedPacketUseCaseCell" forIndexPath:indexPath];
-    [cell setRedPacketCellWithData:nil];
+    CZJRedpacketInfoForm* redpacketInfoForm = redpacketAry[indexPath.row];
+    if ([redpacketInfoForm.value integerValue] > 0)
+    {
+        cell.leftView.hidden = NO;
+        cell.rightView.hidden = YES;
+        cell.rightLabel.text = redpacketInfoForm.takeTime;
+        cell.leftBalanceLabel.text = redpacketInfoForm.curValue;
+        cell.leftItemNameLabel.text = redpacketInfoForm.name;
+        cell.leftNumberLabel.text = [NSString stringWithFormat:@"+%@",redpacketInfoForm.value];
+    }
+    else if ([redpacketInfoForm.value integerValue] < 0)
+    {
+        cell.leftView.hidden = YES;
+        cell.rightView.hidden = NO;
+        cell.leftLabel.text = redpacketInfoForm.takeTime;
+        cell.rightBalanceLabel.text = redpacketInfoForm.curValue;
+        cell.rightItemNameLabel.text = redpacketInfoForm.name;
+        cell.rightNumberLabel.text = redpacketInfoForm.value;
+    }
+    
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }

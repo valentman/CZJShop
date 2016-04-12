@@ -37,7 +37,7 @@
         UIImageView* _imageView = (UIImageView*)_imageViews[i];
         _imageView.userInteractionEnabled = YES;
         [_imageView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapGesture:)]];
-        [_imageView sd_setImageWithURL:[NSURL URLWithString:((BrandRecommendForm*)_brandRecommendDatas[i]).img] placeholderImage:DefaultPlaceHolderImage];
+        [_imageView sd_setImageWithURL:[NSURL URLWithString:((BrandRecommendForm*)_brandRecommendDatas[i]).img] placeholderImage:DefaultPlaceHolderSquare];
     }
 }
 

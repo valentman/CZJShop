@@ -132,11 +132,4 @@
     CGContextAddArcToPoint(context, maxx, maxy, midx, maxy, radius);
     CGContextClosePath(context);
 }
-
-
-
--(void)OnTapCalloutView{
-    NSLog(@"title:%@",self.storekey);
-    [[NSNotificationCenter defaultCenter] postNotificationName:kCZJMapToStoreWeb object:self.storekey];
-}
 @end

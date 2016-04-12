@@ -82,7 +82,7 @@
                 [child setTitle:name forState:UIControlStateNormal];
                 if ([name isEqualToString:@"上门服务"])
                 {
-                    [child setEnabled:true];
+                    [child setEnabled:false];
                     child.backgroundColor = RGB(192,192, 192);
                     child.layer.borderWidth = 0;
                 }
@@ -199,6 +199,12 @@
                 btn.layer.borderWidth = 0.5;
                 btn.titleLabel.textColor = [UIColor grayColor];
                 [btn setImage:[UIImage imageNamed:@""] forState:UIControlStateSelected];
+                if (kCZJSerFilterTypeChooseCellTypeGoWhere == cellType)
+                {//上门服务列外（暂时不提供上门服务）
+                    [btn setEnabled:false];
+                    btn.backgroundColor = RGB(192,192, 192);
+                    btn.layer.borderWidth = 0;
+                }
             }
         }
     }

@@ -83,11 +83,14 @@ UIGestureRecognizerDelegate
                  break;
              case AFNetworkReachabilityStatusNotReachable:
                  [CZJUtils tipWithText:@"请检查网络设置，确保连接网络" andView:nil];
+                 _isNetWorkCanReachable = NO;
                  break;
              case AFNetworkReachabilityStatusReachableViaWWAN:
+                 _isNetWorkCanReachable = YES;
                  DLog(@"手机自有网络连接");
                  break;
              case AFNetworkReachabilityStatusReachableViaWiFi:
+                 _isNetWorkCanReachable = YES;
                  DLog(@"Wifi连接");
                  break;
              default:

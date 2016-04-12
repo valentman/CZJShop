@@ -36,7 +36,7 @@
         cell.hotRecoData = form;
         cell.hotBtnClick = buttonBlock;
         //品牌图片
-        [cell.hotRecoImage sd_setImageWithURL:[NSURL URLWithString:form.itemImg] placeholderImage:DefaultPlaceHolderImage];
+        [cell.hotRecoImage sd_setImageWithURL:[NSURL URLWithString:form.itemImg] placeholderImage:DefaultPlaceHolderSquare];
         //品牌名称
         cell.hotRecoName.text = form.itemName;
         DLog(@"%@",form.itemName);

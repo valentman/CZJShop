@@ -11,13 +11,15 @@
 @interface CZJMyWalletCardCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UILabel *storeNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *cardTypeLabel;
-@property (weak, nonatomic) IBOutlet UILabel *itemNameLabel;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *itemNameLabelWidth;
-@property (weak, nonatomic) IBOutlet UILabel *totalTimeLabel;
-@property (weak, nonatomic) IBOutlet UILabel *leftTimeLabel;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *separatorViewHeight;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *cardTypeWidth;
+@property (weak, nonatomic) IBOutlet UIImageView *useedImg;
 
+@property (weak, nonatomic) IBOutlet UILabel *dotLabel;
+@property (weak, nonatomic) IBOutlet UILabel *itemNameLabel;
+@property (weak, nonatomic) IBOutlet UILabel *totalTimeLabel;
+@property (weak, nonatomic) IBOutlet UILabel *leftTimeLabel;
 
 - (void)setCardCellWithCardDetailInfo:(CZJMyCardInfoForm*)cardInfo;
 

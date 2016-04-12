@@ -70,9 +70,9 @@ singleton_implementation(CZJBaseDataManager);
 - (void)initParameters
 {
     //固定请求参数确定
-    NSDictionary* _tmpparams = @{@"chezhuId" : nil == [CZJLoginModelInstance cheZhuId] ? @"0" : [CZJLoginModelInstance cheZhuId],
-                                 @"cityId" : nil == [CZJLoginModelInstance cityId] ? @"0" : [CZJLoginModelInstance cityId],
-                                 @"chezhuMobile" : nil == [CZJLoginModelInstance mobile] ? @"0" : [CZJLoginModelInstance mobile],
+    NSDictionary* _tmpparams = @{@"chezhuId" : (nil == CZJLoginModelInstance.usrBaseForm.chezhuId) ? @"0" : CZJLoginModelInstance.usrBaseForm.chezhuId,
+                                 @"cityId" : (nil == CZJLoginModelInstance.usrBaseForm.cityId) ? @"0" : CZJLoginModelInstance.usrBaseForm.cityId,
+                                 @"chezhuMobile" : (nil == CZJLoginModelInstance.usrBaseForm.mobile) ? @"0" : CZJLoginModelInstance.usrBaseForm.mobile,
                                  @"lng" : @(_curLocation.longitude),
                                  @"lat" : @(_curLocation.latitude),
                                  @"os" : @"ios",
@@ -99,9 +99,11 @@ singleton_implementation(CZJBaseDataManager);
     return _orderPaymentTypeAry;
 }
 
-- (void)refreshChezhuID:(NSString*)chezhuID
+- (void)refreshChezhuID
 {
-    [_params setValue:chezhuID forKey:@"chezhuId"];
+    [_params setValue:(nil == CZJLoginModelInstance.usrBaseForm.chezhuId) ? @"0" : CZJLoginModelInstance.usrBaseForm.chezhuId forKey:@"chezhuId"];
+     [_params setValue:(nil == CZJLoginModelInstance.usrBaseForm.cityId) ? @"0" : CZJLoginModelInstance.usrBaseForm.cityId forKey:@"cityId"];
+    [_params setValue:(nil == CZJLoginModelInstance.usrBaseForm.mobile) ? @"0" : CZJLoginModelInstance.usrBaseForm.mobile forKey:@"chezhuMobile"];
 }
 
 
@@ -169,8 +171,8 @@ singleton_implementation(CZJBaseDataManager);
 
 
 -(void)getSomeInfoSuccess:(CZJSuccessBlock)success{
-    NSString* tst = [[CZJLoginModelInstance  cheZhuId] stringByReplacingOccurrencesOfString:@"-" withString:@""];
-    NSString* str = [NSString stringWithFormat:@"{\"chezhuId\":\"%@\",\"cityId\":\"%@\",\"mobile\":\"%@\",\"lat\":\"%@\",\"lng\":\"%@\"}",tst,[CZJLoginModelInstance cityId],[CZJLoginModelInstance mobile],[NSNumber numberWithDouble:_curLocation.latitude],[NSNumber numberWithDouble:_curLocation.longitude]];
+    NSString* tst = [CZJLoginModelInstance.usrBaseForm.chezhuId stringByReplacingOccurrencesOfString:@"-" withString:@""];
+    NSString* str = [NSString stringWithFormat:@"{\"chezhuId\":\"%@\",\"cityId\":\"%@\",\"mobile\":\"%@\",\"lat\":\"%@\",\"lng\":\"%@\"}",tst,CZJLoginModelInstance.usrBaseForm.cityId,CZJLoginModelInstance.usrBaseForm.mobile,[NSNumber numberWithDouble:_curLocation.latitude],[NSNumber numberWithDouble:_curLocation.longitude]];
     success(str);
 }
 
@@ -831,14 +833,14 @@ singleton_implementation(CZJBaseDataManager);
     {
         if ([self showAlertView:json])
         {
-            NSDictionary* dict = [CZJUtils DataFromJson:json];
-            if (CZJHomeGetDataFromServerTypeOne == type) {
-                [_shoppingCartForm setNewShoppingCartDictionary:dict];
-            }
-            else if (CZJHomeGetDataFromServerTypeTwo == type)
-            {
-                [_shoppingCartForm appendNewShoppingCartData:dict];
-            }
+//            NSDictionary* dict = [CZJUtils DataFromJson:json];
+//            if (CZJHomeGetDataFromServerTypeOne == type) {
+//                [_shoppingCartForm setNewShoppingCartDictionary:dict];
+//            }
+//            else if (CZJHomeGetDataFromServerTypeTwo == type)
+//            {
+//                [_shoppingCartForm appendNewShoppingCartData:dict];
+//            }
             success(json);
         }
     };
@@ -1171,13 +1173,15 @@ singleton_implementation(CZJBaseDataManager);
         }
         else
         {
-            fail();
+            if (fail)
+                fail();
         }
     };
     
     CZJFailureBlock failBlock = ^(){
         [[CZJErrorCodeManager sharedCZJErrorCodeManager] ShowNetError];
-        fail();
+        if (fail)
+            fail();
     };
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];

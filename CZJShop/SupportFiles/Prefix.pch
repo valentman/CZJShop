@@ -155,7 +155,10 @@
 #define PNGIMAGE(NAME) IMAGE(NAME,@"png")
 #define JPGIMAGE(NAME) IMAGE(NAME,@"jpg")
 #define IMAGENAMED(NAME) [UIImage imageNamed:NAME]
-#define DefaultPlaceHolderImage IMAGENAMED(@"placeholder_instagram")
+#define DefaultPlaceHolderCircle IMAGENAMED(@"placeholder_circle")
+#define DefaultPlaceHolderSquare IMAGENAMED(@"placeholder_square")
+#define DefaultPlaceHolderSquarePlus IMAGENAMED(@"placeholder_squarePlus")
+#define DefaultPlaceHolderRectangle IMAGENAMED(@"placeholder_rectangle")
 
 //字体大小（常规/粗体）
 #define BOLDSYSTEMFONT(FONTSIZE) [UIFont boldSystemFontOfSize:FONTSIZE]
@@ -193,7 +196,7 @@
 #define CZJREDCOLOR RGB(251, 70, 78)
 #define CZJGRAYCOLOR RGB(180, 180, 180)
 #define CZJGREENCOLOR RGB(0, 204, 204)
-#define CZJTableViewBGColor RGB(236, 236, 236)
+#define CZJTableViewBGColor RGB(240, 240, 240)
 #define CZJNAVIBARGRAYBG RGB(247, 247, 247)
 #define CZJNAVIBARBGCOLOR RGB(247, 247, 247)
 #define CZJNAVIBARBGCOLORALPHA(a) UIColorFromHEX(0xF7F7F7,a)

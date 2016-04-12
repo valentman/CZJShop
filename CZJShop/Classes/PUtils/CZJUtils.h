@@ -33,10 +33,6 @@
 + (NSMutableDictionary*)readDictionaryFromDocumentsDirectoryWithPlistName:(NSString*)plistName;
 + (NSMutableDictionary*)readDictionaryFromBundleDirectoryWithPlistName:(NSString*)plistName;
 
-//----------------------启动界面信息------------------------------
-+ (void)writeStarInfoDataToPlist:(NSDictionary*)dict;
-+ (NSMutableDictionary*)readStartInfoPlistWithPlistName;
-
 
 //-----------------------正则判断---------------------------------
 + (BOOL)isLicencePlate:(NSString *)plateNum;
@@ -66,6 +62,7 @@
 
 #pragma mark- PJoe
 //----------------------------字符串处理--------------------------
++ (BOOL)isBlankString:(NSString *)string;
 + (NSString*)getExplicitServerAPIURLPathWithSuffix:(NSString*)urlStr;
 + (NSString*)cutString:(NSString*)str Prefix:(NSString*)pre;
 + (NSString*)resetString:(NSString*)str;

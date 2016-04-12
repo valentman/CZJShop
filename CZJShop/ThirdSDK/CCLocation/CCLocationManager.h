@@ -26,6 +26,15 @@ typedef void(^NSStringBlock)(NSString *addressString);
 @property(nonatomic,strong)NSString *justCity;
 @property (nonatomic,strong) NSString *lastAddress;
 
+
+@property (nonatomic, strong) NSString* country;            //国家
+@property (nonatomic, strong) NSString* province;           //省份
+@property (nonatomic, strong) NSString* city;               //城市
+@property (nonatomic, strong) NSString* subCity;            //县级
+@property (nonatomic, strong) NSString* bigRoad;            //镇级
+@property (nonatomic, strong) NSString* street;             //街道
+
+
 @property(nonatomic,assign)float latitude;
 @property(nonatomic,assign)float longitude;
 

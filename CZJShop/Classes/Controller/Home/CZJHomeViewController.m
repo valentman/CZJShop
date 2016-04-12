@@ -32,11 +32,14 @@
 #import "CZJDetailViewController.h"
 #import "CZJCategoryController.h"
 #import "CZJMiaoShaController.h"
+#import "CZJNetworkManager.h"
+#import "AppDelegate.h"
 
 @interface CZJHomeViewController ()<
 UISearchBarDelegate,
 UITableViewDelegate,
 UITableViewDataSource,
+UIAlertViewDelegate,
 CZJNaviagtionBarViewDelegate,
 CZJImageViewTouchDelegate,
 CZJServiceCellDelegate,
@@ -44,15 +47,47 @@ CZJGoodsRecommendCellDelegate,
 CZJMiaoShaCellDelegate
 >
 {
-    NSString* _serviceTypeId;
-    NSString* _touchedStoreItemPid;
-    BOOL isLoadSuccess;
+    __block CZJVersionForm* versionForm;
     
     CZJHomeGetDataFromServerType _refreshType;
     MJRefreshAutoNormalFooter* refreshFooter;
     MJRefreshGifHeader* refreshHeader;
     CZJCarInfoCell * carInfoCell;
+    
+    NSMutableArray* _activityArray;                 //活动数据
+    NSMutableArray* _serviceArray;                  //服务列表
+    NSMutableArray* _carInfoArray;                  //汽车资讯
+    NSMutableArray* _miaoShaArray;                  //秒杀数据
+    NSMutableArray* _bannerOneArray;                //广告条
+    NSMutableArray* _limitBuyArray;                 //限量抢购数据
+    NSMutableArray* _brandRecommentArray;           //品牌推荐数据
+    NSMutableArray* _bannerTwoArray;                //第二个广告条
+    NSMutableArray* _specialRecommentArray;         //特别推荐数据
+    NSMutableArray* _goodsRecommentArray;           //商品推荐数据
+    
+    NSString* _curSeviceType;                       /***<-当前选择的服务类型*/
+    NSString* _curSeviceName;
+    NSString* _webViewTitle;
+    NSString* _serviceTypeId;
+    NSString* _touchedStoreItemPid;
+    
+    UIView* _errorView;
+    UISearchBar* customSearchBar;
+    
+    UIButton* btnScan;
+    UIButton* btnShop;
+    
+    BOOL isLoadSuccess;
+    BOOL _isRefresh;
+    BOOL _isFirstInNetWorkReachable;
 }
+@property (strong, nonatomic)NSString* recommandId;
+@property (nonatomic,retain)NSString* curUrl;
+@property (nonatomic, assign)EWebHtmlType htmlType;
+@property (nonatomic, assign)BOOL isFirst;
+@property (nonatomic, assign)BOOL isJumpToAnotherView;
+@property (nonatomic,assign)int page;
+
 @property (strong, nonatomic) IBOutlet UITableView *homeTableView;
 @property (weak, nonatomic) IBOutlet UIButton *btnToTop;
 
@@ -73,11 +108,15 @@ CZJMiaoShaCellDelegate
     [self getHomeDataFromServer];
     [self.homeTableView reloadData];
     [CZJUtils setExtraCellLineHidden:self.homeTableView];
+    [CZJUtils performBlock:^{
+        [self checkTheLatestVersion];
+    } afterDelay:1];
+    [self checkNetWorkStatus];
+    _isFirstInNetWorkReachable = _isNetWorkCanReachable;
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    
     [self.naviBarView refreshShopBadgeLabel];
     self.naviBarView.hidden = NO;
     
@@ -135,6 +174,7 @@ CZJMiaoShaCellDelegate
     
     //导航栏添加搜索栏
     [self addCZJNaviBarView:CZJNaviBarViewTypeHome];
+    self.view.backgroundColor = CZJTableViewBGColor;
 }
 
 
@@ -148,7 +188,7 @@ CZJMiaoShaCellDelegate
     self.homeTableView.rowHeight = UITableViewAutomaticDimension;
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.homeTableView.clipsToBounds = NO;
-    self.homeTableView.backgroundColor = CZJTableViewBGColor;
+    self.homeTableView.backgroundColor = CLEARCOLOR;
     
     NSArray* nibArys = @[@"CZJActivityCell",
                          @"CZJServiceCell",
@@ -187,21 +227,12 @@ CZJMiaoShaCellDelegate
         [weak getRecommendDataFromServer];;
     }];
     self.homeTableView.footer = refreshFooter;
+    self.homeTableView.footer.backgroundColor = CZJTableViewBGColor;
 }
 
 - (void)dealWithInitTabbar
 {
     //TabBarItem选中颜色设置及右上角标记设置
-//    UIView *bgView = [[UIView alloc] initWithFrame:self.tabBarController.tabBar.bounds];
-//    bgView.backgroundColor = RGB(37, 38, 38);
-//    [self.tabBarController.tabBar insertSubview:bgView atIndex:0];
-//    self.tabBarController.tabBar.opaque = YES;
-//
-//    UITabBarController* tabcontrl = self.tabBarController;
-//    tabcontrl.tabBar.backgroundColor = RGB(37, 38, 38);
-
-//    [self.tabBarController.tabBar setBackgroundImage:[UIImage imageNamed:@"nav_bargound"]];
-//    [self.tabBarController.tabBar setBackgroundColor:WHITECOLOR];
     [self.tabBarController.tabBar setTintColor:RGB(235, 20, 20)];
 //        NSArray *items = self.tabBarController.tabBar.items;
 //        [[items objectAtIndex:eTabBarItemShop] setBadgeValue:@"1"];
@@ -223,11 +254,10 @@ CZJMiaoShaCellDelegate
         [weak dealWithArray];
         [weak.homeTableView reloadData];
         [weak.homeTableView.header endRefreshing];
-        refreshFooter.hidden = NO;
         weak.homeTableView.footer.hidden = weak.homeTableView.mj_contentH < weak.homeTableView.frame.size.height;
         
     } fail:^{
-        [refreshHeader endRefreshing];
+        [weak.homeTableView.header endRefreshing];
     } andServerAPI:kCZJServerAPIShowHome];
     
     //获取购物车数量（登录状态）
@@ -250,7 +280,7 @@ CZJMiaoShaCellDelegate
     if ([CZJUtils isTimeCrossFiveMin:5] && 1 == self.page)
     {
         randNum = rand()%900000+100000;
-        [USER_DEFAULT setObject:@(randNum) forKey:kUserDefaultRandomCode];
+        [USER_DEFAULT setValue:@(randNum) forKey:kUserDefaultRandomCode];
     }
     NSDictionary* recommendParams = @{@"page" : @(self.page), @"randomCode" : @(randNum)};
     __weak typeof(self) weak = self;
@@ -290,7 +320,6 @@ CZJMiaoShaCellDelegate
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
-
 
 
 #pragma mark - Table view data source
@@ -477,6 +506,7 @@ CZJMiaoShaCellDelegate
                 float width = (PJ_SCREEN_WIDTH - 30) / 2;
                 cell.imageOneHeight.constant = width;
                 cell.imageTwoHeight.constant = width;
+                cell.backgroundColor = CZJTableViewBGColor;
                 if (cell && _goodsRecommentArray.count > 0 && !cell.isInit)
                 {
                     [cell initGoodsRecommendWithDatas:_goodsRecommentArray[indexPath.row - 1]];
@@ -771,4 +801,68 @@ CZJMiaoShaCellDelegate
     webView.cur_url = url;
     [self.navigationController pushViewController:webView animated:YES];
 }
+
+
+
+#pragma mark - 强制更新
+#pragma mark -版本检测
+- (void)checkTheLatestVersion {
+    __weak typeof(self) weakSelft = self;
+    [CZJBaseDataInstance generalPost:nil success:^(id json) {
+        DLog(@"version:%@",[[CZJUtils DataFromJson:json] description]);
+        versionForm = [CZJVersionForm objectWithKeyValues:[[CZJUtils DataFromJson:json]valueForKey:@"msg"]];
+        [weakSelft checkUpdate:versionForm.version];
+        
+    } fail:^{
+        
+    } andServerAPI:kCZJServerAPICheckVersion];
+}
+
+- (void)checkUpdate:(NSString *)versionFromAppStroe {
+    
+    //获取bundle里面关于当前版本的信息
+    NSDictionary *infoDict = [[NSBundle mainBundle] infoDictionary];
+    NSString *nowVersion = [infoDict objectForKey:@"CFBundleVersion"];
+    NSLog(@"nowVersion == %@",nowVersion);
+    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+    
+    NSString* messge = @"亲，版本已升级，请立即更新吧~";
+    //检查当前版本与appstore的版本是否一致
+    if (![versionFromAppStroe isEqualToString:nowVersion])
+    {
+        UIAlertView *createUserResponseAlert;
+        if ([versionForm.enforce boolValue])
+        {
+            createUserResponseAlert = [[UIAlertView alloc] initWithTitle:@"提示" message:messge delegate:self cancelButtonTitle:@"去AppStore下载" otherButtonTitles:nil];
+        }
+        else
+        {
+            createUserResponseAlert = [[UIAlertView alloc] initWithTitle:@"提示" message:messge delegate:self cancelButtonTitle:@"以后再说" otherButtonTitles:@"去AppStore下载", nil];
+        }
+        [createUserResponseAlert show];
+    }
+}
+
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (0 == buttonIndex)
+    {
+        //是否需要强制更新
+        if ([versionForm.enforce boolValue])
+        {
+            NSString* url = versionForm.url;
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
+            [CZJUtils performBlock:^{
+                exit(0);
+            } afterDelay:0.5];
+        }
+    }
+    else if (1 == buttonIndex)
+    {
+        NSString* url = versionForm.url;
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
+    }
+}
+
 @end

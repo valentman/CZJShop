@@ -68,7 +68,7 @@
 
 singleton_interface(CZJBaseDataManager);
 
-- (void)refreshChezhuID:(NSString*)chezhuID;
+- (void)refreshChezhuID;
 - (void)getAreaInfos;
 -(void)getSomeInfoSuccess:(CZJSuccessBlock)success;
 

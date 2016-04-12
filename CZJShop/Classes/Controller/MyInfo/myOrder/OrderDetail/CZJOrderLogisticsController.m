@@ -97,7 +97,7 @@ UITableViewDelegate
     if (0 == indexPath.row)
     {
         CZJOrderLogisticsInfoCell* cell =  [tableView dequeueReusableCellWithIdentifier:@"CZJOrderLogisticsInfoCell" forIndexPath:indexPath];
-        [cell.goodImg sd_setImageWithURL:nil placeholderImage:DefaultPlaceHolderImage];
+        [cell.goodImg sd_setImageWithURL:nil placeholderImage:DefaultPlaceHolderSquare];
         cell.logisticsLabel.text = logisticsForm.expressName;
         NSMutableArray* goodnameAry = [NSMutableArray array];
         for (CZJLogisticsGoodItemForm* itemForm in logisticsForm.items)

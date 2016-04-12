@@ -19,6 +19,7 @@
 #import "CZJEvalutionFooterCell.h"
 #import "CZJEvalutionHeaderCell.h"
 #import "CZJStoreInfoHeaerCell.h"
+#import "CZJDetailReturnableAnyWayCell.h"
 #import "CZJStoreInfoCell.h"
 #import "CZJHotRecommendCell.h"
 #import "CZJOrderTypeExpandCell.h"
@@ -182,7 +183,8 @@ CZJChooseProductTypeDelegate
                           @"CZJHotRecommendCell",
                           @"CZJStoreInfoHeaerCell",
                           @"CZJOrderTypeExpandCell",
-                          @"CZJAddedEvalutionCell"
+                          @"CZJAddedEvalutionCell",
+                          @"CZJDetailReturnableAnyWayCell"
                           ];
     
     for (id cells in nibArys) {
@@ -268,7 +270,7 @@ CZJChooseProductTypeDelegate
     {
         apiUrl = kCZJServerAPIServiceDetail;
     }
-    
+    [CZJUtils removeReloadAlertViewFromTarget:self.view];
     [CZJBaseDataInstance generalPost:param success:successBlock  fail:^{
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
         [CZJUtils showReloadAlertViewOnTarget:weak.view withReloadHandle:^{
@@ -304,8 +306,8 @@ CZJChooseProductTypeDelegate
     _evalutionInfo = goodsDetailForm.evals;
     _goodsDetail = goodsDetailForm.goods;
     _goodsDetail.sku.storeItemPid = _goodsDetail.storeItemPid;
-    [USER_DEFAULT setObject:_goodsDetail.storeItemPid forKey:kUserDefaultDetailStoreItemPid];
-    [USER_DEFAULT setObject:_goodsDetail.itemCode forKey:kUserDefaultDetailItemCode];
+    [USER_DEFAULT setValue:_goodsDetail.storeItemPid forKey:kUserDefaultDetailStoreItemPid];
+    [USER_DEFAULT setValue:_goodsDetail.itemCode forKey:kUserDefaultDetailItemCode];
     self.attentionBtn.selected = _goodsDetail.attentionFlag;
 }
 
@@ -323,6 +325,10 @@ CZJChooseProductTypeDelegate
     if (2 == section && _couponForms.count <= 0)
     {
         return 0;
+    }
+    if (3 == section)
+    {
+        return ((CZJDetailTypeGoods == _detaiViewType) ? 2 : 1);
     }
     if (4 == section)
     {
@@ -418,15 +424,23 @@ CZJChooseProductTypeDelegate
             
         case 3:
         {//已选规格
-            chooosedProductCell = [tableView dequeueReusableCellWithIdentifier:@"CZJChoosedProductCell" forIndexPath:indexPath];
-            chooosedProductCell.indexPath = indexPath;
-            
-            chooosedProductCell.goodsDetail = _goodsDetail;
-            chooosedProductCell.storeItemPid = _goodsDetail.storeItemPid;
-            chooosedProductCell.productType.text = [NSString stringWithFormat:@"%@ %ld个",[_goodsDetail.sku.skuValues isEqualToString:@"null"]? @"" : _goodsDetail.sku.skuValues,buyCount];
-            chooosedProductCell.counterKey = _goodsDetail.counterKey;
-            [chooosedProductCell setSelectionStyle:UITableViewCellSelectionStyleNone];
-            return chooosedProductCell;
+            if (0 == indexPath.row)
+            {
+                chooosedProductCell = [tableView dequeueReusableCellWithIdentifier:@"CZJChoosedProductCell" forIndexPath:indexPath];
+                chooosedProductCell.indexPath = indexPath;
+                
+                chooosedProductCell.goodsDetail = _goodsDetail;
+                chooosedProductCell.storeItemPid = _goodsDetail.storeItemPid;
+                chooosedProductCell.productType.text = [NSString stringWithFormat:@"%@ %ld个",[_goodsDetail.sku.skuValues isEqualToString:@"null"]? @"" : _goodsDetail.sku.skuValues,buyCount];
+                chooosedProductCell.counterKey = _goodsDetail.counterKey;
+                [chooosedProductCell setSelectionStyle:UITableViewCellSelectionStyleNone];
+                return chooosedProductCell;
+            }
+            if (1 == indexPath.row)
+            {
+                CZJDetailReturnableAnyWayCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJDetailReturnableAnyWayCell" forIndexPath:indexPath];
+                return cell;
+            }
         }
             break;
             
@@ -503,7 +517,7 @@ CZJChooseProductTypeDelegate
                     for (int i = 0; i < evalutionForm.evalImgs.count; i++)
                     {
                         UIImageView* evaluateImage = [[UIImageView alloc]init];
-                        [evaluateImage sd_setImageWithURL:[NSURL URLWithString:evalutionForm.evalImgs[i]] placeholderImage:DefaultPlaceHolderImage];
+                        [evaluateImage sd_setImageWithURL:[NSURL URLWithString:evalutionForm.evalImgs[i]] placeholderImage:DefaultPlaceHolderSquare];
                         CGRect iamgeRect = [CZJUtils viewFramFromDynamic:CZJMarginMake(0, 10) size:CGSizeMake(78, 78) index:i divide:Divide];
                         evaluateImage.frame = iamgeRect;
                         [cell.picView addSubview:evaluateImage];
@@ -530,7 +544,7 @@ CZJChooseProductTypeDelegate
                             NSString* url = evalutionForm.addedEval.evalImgs[i];
                             CGRect imageFrame = [CZJUtils viewFramFromDynamic:CZJMarginMake(0, 0) size:CGSizeMake(70, 70) index:i divide:Divide];
                             UIImageView* imageView = [[UIImageView alloc]initWithFrame:imageFrame];
-                            [imageView sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:DefaultPlaceHolderImage];
+                            [imageView sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:DefaultPlaceHolderSquare];
                             [addedCell.picView addSubview:imageView];
                         }
                         float picViewHeight = 0;
@@ -565,7 +579,7 @@ CZJChooseProductTypeDelegate
                 if (_storeInfo)
                 {
                     [cell.storeImage sd_setImageWithURL:[NSURL URLWithString:_storeInfo.logo]
-                                       placeholderImage:DefaultPlaceHolderImage];
+                                       placeholderImage:DefaultPlaceHolderSquare];
                     cell.storeName.text = _storeInfo.storeName;
                     cell.storeAddr.text = _storeInfo.storeAddr;
                     cell.storeAddrLayoutWidth.constant = PJ_SCREEN_WIDTH - 200;
@@ -661,7 +675,14 @@ CZJChooseProductTypeDelegate
             return 55;
             break;
         case 3:
-            return 46;
+            if (0 == indexPath.row)
+            {
+                return 46;
+            }
+            if (1 == indexPath.row)
+            {
+                return 35;
+            }
             break;
         case 4:
             return 75;

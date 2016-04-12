@@ -11,8 +11,8 @@
 
 //----------------------------服务器接口-------------------------------
 //服务地址
-static NSString *const kCZJServerAddr = @"http://192.168.0.251:8080/appserver/";
-//static NSString *const kCZJServerAddr = @"http://101.201.197.202:8080/appserver/";
+//static NSString *const kCZJServerAddr = @"http://192.168.0.251:8080/appserver/";
+static NSString *const kCZJServerAddr = @"http://101.201.197.202:8080/appserver/";
 //static NSString *const kCZJServerAddr = @"http://101.200.189.9:8080/appserver2/";
 //static NSString *const kCZJServerAddr = @"http://czapp.chezhijian.com/appserver2";
 
@@ -127,32 +127,34 @@ static NSString *const kCZJServerAPIGetReturnableOrderList = @"chezhu/loadReturn
 static NSString *const kCZJServerAPIUploadImg = @"chezhu/loadQiuniuParams.do";                      //获取七牛信息
 static NSString *const kCZJServerAPISubmitReturnOrder = @"chezhu/returnOrderItem.do";               //提交退货信息
 static NSString *const kCZJServerAPIGetReturnedOrderList = @"chezhu/loadReturnItems.do";            //获取我的已退还货列表
-static NSString *const kCZJServerAPIGetMyReturnedOrderDetail = @"chezhu/loadOrderItem.do";          // 获取我的退货详情
-static NSString *const kCZJServerAPISubmitComment = @"chezhu/evalGoods.do";                         // 提交评价
-static NSString *const kCZJServerAPICancelOrder = @"chezhu/cancelOrder.do";                         // 取消订单
-static NSString *const kCZJServerAPIGET_LOGISTICSINFO = @"chezhu/viewExpressNo.do";                 // 获取物流信息
-static NSString *const kCZJServerAPIReceiveGoods = @"chezhu/confirmOrderReceive.do";                // 收货
-static NSString *const kCZJServerAPICancelReturnOrder = @"chezhu/cancelReturnOrderItem.do";         // 取消退换货
+static NSString *const kCZJServerAPIGetMyReturnedOrderDetail = @"chezhu/loadOrderItem.do";          //获取我的退货详情
+static NSString *const kCZJServerAPISubmitComment = @"chezhu/evalGoods.do";                         //提交评价
+static NSString *const kCZJServerAPICancelOrder = @"chezhu/cancelOrder.do";                         //取消订单
+static NSString *const kCZJServerAPIGET_LOGISTICSINFO = @"chezhu/viewExpressNo.do";                 //获取物流信息
+static NSString *const kCZJServerAPIReceiveGoods = @"chezhu/confirmOrderReceive.do";                //收货
+static NSString *const kCZJServerAPICancelReturnOrder = @"chezhu/cancelReturnOrderItem.do";         //取消退换货
 
 //个人中心其他接口组
-static NSString *const kCZJServerAPIShowCouponsList = @"chezhu/showCoupons.do";                     // 优惠券列表
-static NSString *const kCZJServerAPIShowCardList = @"chezhu/loadSetmenus.do";                       // 套餐卡列表
-static NSString *const kCZJServerAPIShowCardDetail = @"chezhu/showSetmenu.do";                      // 套餐卡列表
-static NSString *const kCZJServerAPIGetBalanceInfo = @"chezhu/loadChargeInfo.do";                   // 获取余额详情
-static NSString *const kCZJServerAPIGetRedPacketInfo = @"chezhu/showRedpacket.do";                  // 获取红包详情
+static NSString *const kCZJServerAPIShowCouponsList = @"chezhu/showCoupons.do";                     //优惠券列表
+static NSString *const kCZJServerAPIShowCardList = @"chezhu/loadSetmenus.do";                       //套餐卡列表
+static NSString *const kCZJServerAPIShowCardDetail = @"chezhu/showSetmenu.do";                      //套餐卡列表
+static NSString *const kCZJServerAPIGetBalanceInfo = @"chezhu/loadChargeInfo.do";                   //获取余额详情
+static NSString *const kCZJServerAPIGetRedPacketInfo = @"chezhu/showRedpacket.do";                  //获取红包详情
 static NSString *const kCZJServerAPIGetPoint = @"chezhu/showPointsCenter.do";
-static NSString *const kCZJServerAPIRecharge = @"chezhu/charge.do";                                 // 充值
-static NSString *const kCZJServerAPIMyEvalutions = @"chezhu/loadMyEvaluations.do";                  // 获取我的评价列表
-static NSString *const kCZJServerAPIAddEvalution = @"chezhu/evalAdd.do";                            // 追加评论
-//static NSString *const kCZJServerAPIReplyEvalution = @"chezhu/evalReply.do";                               // 回复
+static NSString *const kCZJServerAPIRecharge = @"chezhu/charge.do";                                 //充值
+static NSString *const kCZJServerAPIMyEvalutions = @"chezhu/loadMyEvaluations.do";                  //获取我的评价列表
+static NSString *const kCZJServerAPIAddEvalution = @"chezhu/evalAdd.do";                            //追加评论
+//static NSString *const kCZJServerAPIReplyEvalution = @"chezhu/evalReply.do";                        //回复
 static NSString *const kCZJServerAPIZHIBAOCARD = @"chezhu/showWarrantyCenter.do";                   //质保卡查询
+static NSString *const kCZJServerAPICheckVersion = @"chezhu/checkVersion.do";                       //检测版本
+static NSString *const kCZJServerAPIGetStartPage = @"chezhu/loadStartPage.do";                      //获取启动页信息
 
 
 //--------------------------------------------------
-static NSString *const REDPACKET_HINT = @"jsp/redpacket.jsp";                                       // 红包使用说明
-static NSString *const CODE_HINT = @"jsp/couponCode.jsp";                                           // 优惠码使用说明
-static NSString *const YUE_HINT = @"jsp/cardmoney.jsp";                                             // 余额使用说明
-static NSString *const COUPON_HINT = @"jsp/coupon.jsp";                                             // 优惠券使用说明
+static NSString *const REDPACKET_HINT = @"jsp/redpacket.jsp";                                       //红包使用说明
+static NSString *const CODE_HINT = @"jsp/couponCode.jsp";                                           //优惠码使用说明
+static NSString *const YUE_HINT = @"jsp/cardmoney.jsp";                                             //余额使用说明
+static NSString *const COUPON_HINT = @"jsp/coupon.jsp";                                             //优惠券使用说明
 
 static NSString *const SUOLUE_PIC_200 = @"?imageView2/1/w/200/h/200/q/75";
 static NSString *const SUOLUE_PIC_500 = @"?imageView2/1/w/600/h/600/q/75";
@@ -166,7 +168,6 @@ static NSString *const SUOLUE_PIC_150 = @"?imageView2/1/w/150/h/150/q/75";
 static NSString *const kCZJAPPURL = @"https://itunes.apple.com/us/app/id1035567397";
 static NSString *const kCZJAPPURLVersionCheck = @"http://itunes.apple.com/lookup";
 
-
 //第三方推送服务方申请的AppID和AppKey,暂时使用信鸽的。
 static uint32_t const kCZJPushServerAppId = 2200145103;
 static NSString *const kCZJPushServerAppKey = @"I18QP9TZB66R";
@@ -177,14 +178,11 @@ static NSString *const kCZJOpenShareWeiboAppKey = @"1958823046";
 static NSString *const kCZJOpenShareWeixinAppId = @"wxe3d6ba717d704a6e";
 
 
-//----------------------本地Plist文件名
+//----------------------本地Plist文件名--------------------------
 static NSString *const kCZJPlistFileProvinceCitys = @"ProvinceCitys.plist";                 //省份城市列表文件
-static NSString *const kCZJPlistFileCheckVersion = @"checkVersion.plist";                   //版本检测信息文件
-static NSString *const kCZJPlistFileStartInfo = @"StartInfo.plist";                         //开始界面信息文件
 static NSString *const kCZJPlistFileMessage = @"Message.plist";                             //信息管理文件
 static NSString *const kCZJPlistFileSearchHistory = @"SearchHistory.plist";                 //搜索栏历史文件
 static NSString *const kCZJPlistFileDefaultDeliveryAddr = @"UserDefaultDeliveryAddr.plist"; //默认收货地址
-
 
 
 //----------------------UserDefault键名定义
@@ -192,9 +190,6 @@ static NSString *const kUserDefaultTimeDay = @"userdefaultTimeDay";             
 static NSString *const kUserDefaultTimeMin = @"userdefaultTimeMin";                         //以分钟为间隔时间
 static NSString *const kUserDefaultRandomCode = @"userdefaultRandomCode";                   //随机码
 static NSString *const kUserDefaultServiceTypeID = @"userdefaultserviceyypeid";             //服务项目ID
-static NSString *const kUserDefaultChoosedCarBrandImg = @"userdefaultchoosedcarbrandimg";   //选择的车标图片
-static NSString *const kUserDefaultChoosedCarBrandType = @"userdefaultchoosedcarbrand";     //选择的车品牌名称
-static NSString *const kUserDefaultChoosedCarSerialType = @"userdefaultchoosedcarserial";   //选择的车系名称
 static NSString *const kUserDefaultChoosedCarModelType = @"userdefaultchoosedcarmodel";     //选择的车型名称
 static NSString *const kUserDefaultChoosedCarModelID = @"userdefaultchoosedcarmodelID";     //选择的车型ID
 static NSString *const kUserDefaultChoosedBrandID = @"userdefaultchoosedgoodbrandID";       //选择的商品品牌ID
@@ -210,6 +205,9 @@ static NSString *const kUSerDefaultStockFlag = @"stockFlag";                    
 static NSString *const kUSerDefaultPromotionFlag = @"promotionFlag";                        //促销与否
 static NSString *const kUSerDefaultRecommendFlag = @"recommendFlag";                        //推荐与否
 
+static NSString *const kUserDefaultStartPageUrl = @"StartPageUrl";                          //启动页图片地址
+static NSString *const kUserDefaultStartPageImagePath = @"StartPageImagePath";              //启动页图片地址
+static NSString *const kUserDefaultStartPageForm = @"StartPageForm";                        //启动页数据
 
 
 //-----------------------常用字符常量定义---------------------------
@@ -221,10 +219,8 @@ static NSString *const kCZJIsUserHaveLogined = @"isHaveLogined";
 //城市定位
 static NSString *const kCZJDefaultCityID = @"defaultyCityId";
 static NSString *const kCZJDefaultyCityName = @"defaultyCityName";
-static NSString *const kCZJDefaultyAddr = @"defaultyAddress";
 static NSString *const kCZJChengdu = @"成都市";
 static NSString *const kCZJChengduID = @"469";
-static NSString *const kCZJMaptoStoreWeb = @"mapToStoreWeb";
 
 //Alert提示字符串
 static NSString *const kCZJTitle = @"提示";
@@ -235,28 +231,8 @@ static NSString *const kCZJConfirmTitle = @"确定";
 static NSString *const kCZJCancelTitle = @"取消";
 
 //版本检测
-static NSString *const kCZJCheckVersion = @"checkVersion";
-static NSString *const kCZJEnfore = @"enforce";
-static NSString *const kCZJNetVersion = @"version";
-static NSString *const kCZJCurVerson = @"CFBundleShortVersionString";
-
-
-static NSString *const kCZJUserRegisterCode = @"userRegisterCode";
-static NSString *const kCZJRefreshMyCarList = @"refreshMyCarList";
-static NSString *const kCZJRefreshMyAddrList = @"refreshMyAddrList";
-static NSString *const kCZJAddAddressSelectCity = @"currentSelectCity";
-static NSString *const kCZJMapToStoreWeb = @"mapToStoreWeb";
 static NSString *const kCZJChangeCurCityName = @"changeCurCityName";
-static NSString *const kCZJRefreshNewData = @"refreshNewData";
-static NSString *const kCZJRefreshActiveData = @"refreshActiveData";
-static NSString *const kCZJChangeHotCity = @"changeHotCity";
-static NSString *const kCZJRefreshMyForms = @"refreshMyForms";
 static NSString *const kCZJAlipaySuccseful = @"alipaySuccseful";
-static NSString *const kCZJShowServiceList = @"showServiceList";
-static NSString *const kCZJIsFirstStart = @"isFirstStart" ;
-static NSString *const kCZJRefreshNearCityData = @"refreshNearCityData";
-
-
 
 
 //-----------------------Notification常量定义---------------------------
@@ -276,21 +252,14 @@ static NSString *const kCZJStoryBoardIDGoodsDetailVC = @"goodsDetailSBID";      
 static NSString *const kCZJStoryBoardIDStoreDetailVC = @"storeDetailVC";                //门店详情
 static NSString *const kCZJStoryBoardIDPaymentSuccess = @"paymentSuccessSBID";          //订单支付成功
 static NSString *const kCZJStoryBoardIDCommitSettle = @"SBIDCommitSettle";
-static NSString *const kCZJStoryBoardIDMyOrderList = @"myOrderSBID";                   //订单列表
-static NSString *const kCZJStoryBoardIDScanQR= @"scanQRSBID";                   //订单列表
-
-
-
+static NSString *const kCZJStoryBoardIDMyOrderList = @"myOrderSBID";                    //订单列表
+static NSString *const kCZJStoryBoardIDScanQR= @"scanQRSBID";                           //订单列表
 
 
 //-----------------------CollectionViewCellIdentifier常量定义---------------------------
 static NSString *const kCZJCollectionCellReuseIdMiaoSha = @"CZJMiaoShaCollectionCell";
 static NSString *const kCZJCollectionCellReuseIdLimit = @"CZJLimitCollectionCell";
 static NSString *const kCZJCollectionCellReuseIdGoodReco = @"CZJGoodsRecoCollectionCell";
-
-
-static NSString *const CZJDefaultPlaceHolderImage = @"";
-
 #endif /* CZJDefinition_h */
 
 
