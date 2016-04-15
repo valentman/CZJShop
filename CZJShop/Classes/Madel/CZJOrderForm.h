@@ -24,7 +24,8 @@
 @property(strong, nonatomic)NSString* storeId;                  //门店ID
 @property(strong, nonatomic)NSString* storeName;                //门店名字
 @property(strong, nonatomic)NSString* transportPrice;           //运费
-@property(strong, nonatomic)NSString* note;             //留言
+@property(strong, nonatomic)NSString* transportFree;            //满多少免运费
+@property(strong, nonatomic)NSString* note;                     //留言
 @property(strong, nonatomic)NSString* companyId;                //
 @property(strong, nonatomic)NSString* couponPrice;              //优惠券面值
 @property(strong, nonatomic)NSString* chezhuCouponPid;
@@ -117,6 +118,7 @@
 @property (assign, nonatomic)BOOL  evaluated;
 @property (strong, nonatomic)NSString*  fullCutPrice;
 @property (strong, nonatomic)NSMutableArray*  items;
+@property (strong, nonatomic)NSMutableArray*  gifts;
 @property (strong, nonatomic)NSString*  note;
 @property (strong, nonatomic)NSString*  orderMoney;
 @property (strong, nonatomic)NSString*  orderNo;

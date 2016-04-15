@@ -14,4 +14,5 @@
 @property (nonatomic, assign)CZJGoodsPromotionType promotionType;
 @property (nonatomic, strong)NSString* promotionPrice;
 @property (nonatomic, assign)NSInteger miaoShaInterval;
+@property (nonatomic, strong)NSString* skillId;
 @end

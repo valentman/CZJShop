@@ -124,7 +124,11 @@
     [_refreshLocationBarView.locationButton addTarget:self action:@selector(btnTouched:) forControlEvents:UIControlEventTouchUpInside];
     
     [_pullDownMenu registNotification];
-    [[NSNotificationCenter defaultCenter]postNotificationName:kCZJChangeCurCityName object:self userInfo:@{@"cityname" : [USER_DEFAULT objectForKey:CCLastCity]}];
+
+    if ([USER_DEFAULT objectForKey:CCLastCity])
+    {
+        [[NSNotificationCenter defaultCenter]postNotificationName:kCZJChangeCurCityName object:self userInfo:@{@"cityname" : [USER_DEFAULT objectForKey:CCLastCity]}];
+    }
 }
 
 
@@ -139,11 +143,16 @@
     //获取导航栏和下拉栏原始位置，为了上拉或下拉时动画
     pullDownMenuOriginPoint = _pullDownMenu.frame.origin;
     naviBraviewOriginPoint = self.naviBarView.frame.origin;
+    [[UIApplication sharedApplication]setStatusBarHidden:(self.naviBarView.frame.origin.y < 0)];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [[UIApplication sharedApplication]setStatusBarHidden:NO];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
 {
-    [[UIApplication sharedApplication]setStatusBarHidden:NO];
     [_pullDownMenu removeNotificationObserve];
 }
 
@@ -556,6 +565,7 @@
     [window makeKeyAndVisible];
     
     CZJServiceFilterController *serviceFilterController = [[CZJServiceFilterController alloc] init];
+    serviceFilterController.typeId = self.typeId;
     serviceFilterController.delegate = self;
     
     

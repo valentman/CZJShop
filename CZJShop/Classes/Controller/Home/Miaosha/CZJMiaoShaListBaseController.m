@@ -151,8 +151,6 @@ UITableViewDelegate
         [self.delegate clickMiaoShaCell:cellForm];
     }
 }
-
-
 @end
 
 

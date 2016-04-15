@@ -16,7 +16,6 @@
 #import "HomeForm.h"
 #import "CZJStoreForm.h"
 #import "CZJCarForm.h"
-#import "CZJDetailForm.h"
 #import "CZJShoppingCartForm.h"
 #import "CZJOrderForm.h"
 #import "UserBaseForm.h"
@@ -51,8 +50,6 @@ singleton_implementation(CZJBaseDataManager);
         _orderPaymentTypeAry = [NSArray array];
         
         _homeForm = [[HomeForm alloc]init];
-        _carForm = [[CZJCarForm alloc]init];
-        _detailsForm = [[CZJDetailForm alloc]init];
         _storeForm = [[CZJStoreForm alloc]init];
         _shoppingCartForm = [[CZJShoppingCartForm alloc]init];
         _userInfoForm = [[UserBaseForm alloc]init];
@@ -71,7 +68,7 @@ singleton_implementation(CZJBaseDataManager);
 {
     //固定请求参数确定
     NSDictionary* _tmpparams = @{@"chezhuId" : (nil == CZJLoginModelInstance.usrBaseForm.chezhuId) ? @"0" : CZJLoginModelInstance.usrBaseForm.chezhuId,
-                                 @"cityId" : (nil == CZJLoginModelInstance.usrBaseForm.cityId) ? @"0" : CZJLoginModelInstance.usrBaseForm.cityId,
+                                 @"cityId" : (nil == _curCityID) ? @"0" : _curCityID,
                                  @"chezhuMobile" : (nil == CZJLoginModelInstance.usrBaseForm.mobile) ? @"0" : CZJLoginModelInstance.usrBaseForm.mobile,
                                  @"lng" : @(_curLocation.longitude),
                                  @"lat" : @(_curLocation.latitude),
@@ -143,7 +140,6 @@ singleton_implementation(CZJBaseDataManager);
         [[CZJErrorCodeManager sharedCZJErrorCodeManager] ShowErrorInfoWithErrorCode:msgKey];
         return NO;
     }
-//    DLog(@"网络返回数据：%@", [dict description]);
     return YES;
 }
 
@@ -363,6 +359,7 @@ singleton_implementation(CZJBaseDataManager);
         if ([self showAlertView:json])
         {
             NSDictionary* dict = [CZJUtils DataFromJson:json];
+            _carForm = [[CZJCarForm alloc]init];
             [_carForm setNewCarBrandsFormDictionary:dict];
             success(json);
         }
@@ -700,6 +697,10 @@ singleton_implementation(CZJBaseDataManager);
     
     CZJFailureBlock failBlock = ^(){
         [[CZJErrorCodeManager sharedCZJErrorCodeManager] ShowNetError];
+        if (failure)
+        {
+            failure();
+        }
     };
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
@@ -986,6 +987,9 @@ singleton_implementation(CZJBaseDataManager);
     
     CZJFailureBlock failBlock = ^(){
         [[CZJErrorCodeManager sharedCZJErrorCodeManager] ShowNetError];
+        if (fail) {
+            fail();
+        }
     };
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
@@ -1360,7 +1364,7 @@ singleton_implementation(CZJBaseDataManager);
     CZJSuccessBlock successBlock = ^(id json){
         if ([self showAlertView:json])
         {
-            [_userInfoForm setUserInfoWithDictionary:[CZJUtils DataFromJson:json]];
+            [_userInfoForm setUserInfoWithDictionary:[[CZJUtils DataFromJson:json] valueForKey:@"msg"]];
             success(json);
         }
     };

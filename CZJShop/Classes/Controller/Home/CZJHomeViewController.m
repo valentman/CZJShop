@@ -53,6 +53,7 @@ CZJMiaoShaCellDelegate
     MJRefreshAutoNormalFooter* refreshFooter;
     MJRefreshGifHeader* refreshHeader;
     CZJCarInfoCell * carInfoCell;
+    __block CZJMiaoShaCellHeader* miaoShaHeaderCell;
     
     NSMutableArray* _activityArray;                 //活动数据
     NSMutableArray* _serviceArray;                  //服务列表
@@ -243,6 +244,11 @@ CZJMiaoShaCellDelegate
 {
     //进入首页即获取首页数据
     __weak typeof(self) weak = self;
+    if (miaoShaHeaderCell)
+    {
+        miaoShaHeaderCell.isInit = NO;
+    }
+    
     [CZJBaseDataInstance generalPost:nil success:^(id json) {
         DLog(@"%@",[[CZJUtils DataFromJson:json] description]);
         [CZJBaseDataInstance.homeForm setNewDictionary:[CZJUtils DataFromJson:json]];
@@ -382,11 +388,14 @@ CZJMiaoShaCellDelegate
             }
             else if (0 == indexPath.row)
             {
-                CZJMiaoShaCellHeader* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJMiaoShaCellHeader" forIndexPath:indexPath];
+                miaoShaHeaderCell = [tableView dequeueReusableCellWithIdentifier:@"CZJMiaoShaCellHeader" forIndexPath:indexPath];
                 
-                if (cell && _miaoShaArray.count > 0 && !cell.isInit)
+                if (miaoShaHeaderCell && _miaoShaArray.count > 0 && !miaoShaHeaderCell.isInit)
                 {
+                    //获取服务器返回当前时间
                     NSInteger currentTime = [CZJBaseDataInstance.homeForm.serverTime integerValue];
+                    
+                    //获取最近秒杀场场点时间
                     NSInteger skillTime = 0;
                     for (int i = 0; i < CZJBaseDataInstance.homeForm.skillTimes.count; i++)
                     {
@@ -394,21 +403,24 @@ CZJMiaoShaCellDelegate
                         skillTime = [timeForm.skillTime integerValue];
                         if (skillTime > currentTime)
                         {
-                            DLog(@"skillID: %@",timeForm.skillId);
                             CZJMiaoShaTimesForm* timeForms = CZJBaseDataInstance.homeForm.skillTimes[i -1];
-                            cell.miaoShaChangCiLabel.text = [NSString stringWithFormat:@"%@场",[CZJUtils getDateTimeSinceTime:[timeForms.skillTime integerValue] / 1000]];
+                            miaoShaHeaderCell.miaoShaChangCiLabel.text = [NSString stringWithFormat:@"%@场",[CZJUtils getDateTimeSinceTime:[timeForms.skillTime integerValue] / 1000]];
                             break;
                         }
                     }
+                    
+                    //倒计时差值
                     NSInteger timeinteval = (skillTime - currentTime) / 1000;
-                    [cell initHeaderWithTimestamp:timeinteval];
+                    [miaoShaHeaderCell initHeaderWithTimestamp:timeinteval];
+                    
+                    //倒计时结束后的回调
                     __weak typeof(self) weak = self;
-                    cell.buttonClick = ^(id data){
+                    miaoShaHeaderCell.buttonClick = ^(id data){
                         [weak getHomeDataFromServer];
                     };
                 }
                 
-                return cell;
+                return miaoShaHeaderCell;
             }
         }
             break;
@@ -644,7 +656,6 @@ CZJMiaoShaCellDelegate
     {
         if (
             (section == 3)||
-            (section == 5)||
             (section == 6)||
             (section == 7)||
             (section == 8)){

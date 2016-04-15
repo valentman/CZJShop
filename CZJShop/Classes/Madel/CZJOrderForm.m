@@ -21,7 +21,8 @@
 @implementation CZJOrderStoreForm
 + (NSDictionary *)objectClassInArray
 {
-    return @{@"items" : @"CZJOrderGoodsForm"};
+    return @{@"items" : @"CZJOrderGoodsForm",
+             @"gifts" : @"CZJShoppingGoodsInfoForm"};
 }
 - (id) init
 {
@@ -97,7 +98,8 @@
 
 + (NSDictionary *)objectClassInArray
 {
-    return @{@"items" : @"CZJOrderGoodsForm"};
+    return @{@"items" : @"CZJOrderGoodsForm",
+             @"gifts" : @"CZJShoppingGoodsInfoForm"};
 }
 
 - (instancetype)init

@@ -23,7 +23,6 @@
 @property (retain, nonatomic) NSString* itemId;
 @property (strong, nonatomic) NSString* onlineUrl;
 @property (strong, nonatomic) NSString* navTitleName;
-@property (strong, nonatomic) NSString* typeId;
 @property (assign, nonatomic) BOOL moreFlag;
 @property (weak, nonatomic) id <CZJViewControllerDelegate> delegate;
 

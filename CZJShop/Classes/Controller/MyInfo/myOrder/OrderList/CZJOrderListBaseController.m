@@ -61,7 +61,7 @@ CZJOrderListCellDelegate
     if ([[_params valueForKey:@"type"] isEqualToString:@"1"])
     {
         viewRect = CGRectMake(0, 0, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT- 114 - 60);
-        CGRect buttomRect = CGRectMake(0, PJ_SCREEN_HEIGHT - 60, PJ_SCREEN_WIDTH,60);
+        CGRect buttomRect = CGRectMake(0, PJ_SCREEN_HEIGHT - 114 - 60, PJ_SCREEN_WIDTH,60);
         _noPayButtomView = [CZJUtils getXibViewByName:@"CZJOrderListNoPayButtomView"];
         _noPayButtomView.frame = buttomRect;
         if (iPhone4 || iPhone5)
@@ -89,6 +89,8 @@ CZJOrderListCellDelegate
     }];
     self.myTableView.footer = refreshFooter;
     self.myTableView.footer.hidden = YES;
+    
+    
 }
 
 - (void)getOrderListFromServer
@@ -131,6 +133,10 @@ CZJOrderListCellDelegate
         {
             self.myTableView.hidden = YES;
             [CZJUtils showNoDataAlertViewOnTarget:self.view withPromptString:_noDataPrompt];
+            if ([[_params valueForKey:@"type"] isEqualToString:@"1"])
+            {
+                _noPayButtomView.hidden = YES;
+            }
         }
         else
         {
@@ -141,14 +147,7 @@ CZJOrderListCellDelegate
             self.myTableView.footer.hidden = self.myTableView.mj_contentH < self.myTableView.frame.size.height;
             if ([[_params valueForKey:@"type"] isEqualToString:@"1"])
             {
-//                _noPayButtomView = [CZJUtils getXibViewByName:@"CZJOrderListNoPayButtomView"];
-//                _noPayButtomView.frame = CGRectMake(0, PJ_SCREEN_HEIGHT - 60, PJ_SCREEN_WIDTH,60);
-//                [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-//                    
-//                } completion:^(BOOL finished) {
-//                    
-//                }];
-                [self.view addSubview:_noPayButtomView];
+                _noPayButtomView.hidden = NO;
             }
         }
     } fail:^{

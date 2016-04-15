@@ -563,17 +563,32 @@ CZJPopPayViewDelegate
                 CZJOrderGoodsForm* goodsForm = orderDetailForm.items[indexPath.row - 1];
                 CZJOrderProductHeaderCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJOrderProductHeaderCell" forIndexPath:indexPath];
                 cell.setupView.hidden = YES;
+                
+                //商品图片
                 [cell.goodsImg sd_setImageWithURL:[NSURL URLWithString:goodsForm.itemImg] placeholderImage:DefaultPlaceHolderSquare];
+                
+                //商品名称
                 cell.goodsNameLabel.text = goodsForm.itemName;
-                cell.priceLabel.text = [NSString stringWithFormat:@"￥%.2f",[goodsForm.currentPrice floatValue]];
-                cell.numLabel.text = [NSString stringWithFormat:@"×%@",goodsForm.itemCount];
+                cell.goodsNameLayoutWidth.constant = PJ_SCREEN_WIDTH - 78 -15 - 8 - 15;
+                
+                //商品SKU
                 cell.goodsTypeLabel.text = goodsForm.itemSku;
-                cell.setupView.hidden = !goodsForm.setupFlag;
-                cell.goodsNameLayoutWidth.constant = PJ_SCREEN_WIDTH - 68 -15 - 8 - 15;
-                cell.totalPriceLabel.text = [NSString stringWithFormat:@"￥%.2f",[goodsForm.itemCount floatValue] * [goodsForm.currentPrice floatValue]];
+                
+                //商品价格
+                NSString* priceStr = [NSString stringWithFormat:@"￥%@",goodsForm.currentPrice];
+                cell.priceLabel.text = priceStr;
+                cell.priceLabelWidth.constant = [CZJUtils calculateTitleSizeWithString:priceStr AndFontSize:13].width + 5;
+                
+                //商品数量
+                cell.numLabel.text = [NSString stringWithFormat:@"×%@",goodsForm.itemCount];
+                
+                //单个商品小计总价
+                float perGoodsTotalPrice = [goodsForm.itemCount integerValue] * [goodsForm.currentPrice floatValue];
+                cell.totalPriceLabel.text = [NSString stringWithFormat:@"￥%.2f",perGoodsTotalPrice];
                 
                 if (goodsForm.setupFlag)
                 {
+                    cell.setupView.hidden = NO;
                     cell.arrowImg.hidden = YES;
                     cell.selectedSetupStoreNameLabel.hidden = NO;
                     cell.selectedSetupStoreNameLabel.text = goodsForm.selectdSetupStoreName == nil? @"自行安装" : goodsForm.selectdSetupStoreName;
@@ -625,9 +640,13 @@ CZJPopPayViewDelegate
                 return cell;
             }
             else if (indexPath.row > itemCount + fullcutCount + 1 &&
-                     indexPath.row <= itemCount + fullcutCount + giftCount)
+                     indexPath.row <= itemCount + fullcutCount + 1 + giftCount)
             {
+                CZJShoppingGoodsInfoForm* giftForm = orderDetailForm.gifts[indexPath.row - (itemCount + fullcutCount + 2)];
                 CZJGiftCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJGiftCell" forIndexPath:indexPath];
+                cell.giftName.text = giftForm.itemName;
+                [cell.giftItemImg sd_setImageWithURL:[NSURL URLWithString:giftForm.itemImg] placeholderImage:DefaultPlaceHolderSquare];
+                cell.separatorInset = HiddenCellSeparator;
                 return cell;
             }
             else

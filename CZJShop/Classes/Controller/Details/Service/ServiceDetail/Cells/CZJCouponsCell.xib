@@ -55,7 +55,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" alwaysBounceHorizontal="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hiO-LA-RbT">
-                        <rect key="frame" x="58" y="0.0" width="234" height="45"/>
+                        <rect key="frame" x="60" y="0.0" width="232" height="45"/>
                         <animations/>
                     </scrollView>
                 </subviews>
@@ -64,7 +64,7 @@
                     <constraint firstItem="hiO-LA-RbT" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="0td-eJ-VJW"/>
                     <constraint firstItem="dsN-eo-QTX" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="6wd-c1-enS"/>
                     <constraint firstItem="dHM-Lu-HNW" firstAttribute="centerY" secondItem="dsN-eo-QTX" secondAttribute="centerY" id="A4Y-Sy-UqD"/>
-                    <constraint firstItem="hiO-LA-RbT" firstAttribute="leading" secondItem="dsN-eo-QTX" secondAttribute="trailing" constant="8" id="LDs-rq-T8Q"/>
+                    <constraint firstItem="hiO-LA-RbT" firstAttribute="leading" secondItem="dsN-eo-QTX" secondAttribute="trailing" constant="10" id="LDs-rq-T8Q"/>
                     <constraint firstAttribute="trailing" secondItem="dHM-Lu-HNW" secondAttribute="trailing" constant="15" id="LPj-ya-KZL"/>
                     <constraint firstItem="dsN-eo-QTX" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="Oub-nd-Cku"/>
                     <constraint firstAttribute="trailing" secondItem="8sx-1i-RwD" secondAttribute="trailing" constant="15" id="QEY-in-mJh"/>

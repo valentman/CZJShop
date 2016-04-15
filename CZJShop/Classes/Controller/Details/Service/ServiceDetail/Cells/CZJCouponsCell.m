@@ -7,7 +7,6 @@
 //
 
 #import "CZJCouponsCell.h"
-#import "CZJDetailForm.h"
 #import "CZJGoodsDetailForm.h"
 
 @implementation CZJCouponsCell

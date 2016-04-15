@@ -146,6 +146,7 @@ UITableViewDelegate
         [goodCell.goodImageView sd_setImageWithURL:[NSURL URLWithString:goodForm.itemImg] placeholderImage:DefaultPlaceHolderSquare];
         goodCell.goodPrice.text = [NSString stringWithFormat:@"￥%@",goodForm.currentPrice];
         goodCell.selectionStyle = UITableViewCellSelectionStyleNone;
+        goodCell.separatorInset = HiddenCellSeparator;
         return goodCell;
     }
     

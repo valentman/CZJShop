@@ -187,12 +187,6 @@ CZJNaviagtionBarViewDelegate
         //orderPrice仅仅是单个门店商品总额（不包括优惠券、运费、安装费）
         form.orderPrice = [NSString stringWithFormat:@"%.2f",storeTotalPrice];
         
-        //如果商品总额大于59，免运费
-        if (storeTotalPrice > 59)
-        {
-            form.transportPrice = @"0";
-        }
-        
         //orderMoney为单个门店加上优惠、运费、安装费
         totalCouponPrice += [form.couponPrice floatValue];
         storeTotalPrice -= [form.fullCutPrice floatValue];
@@ -445,13 +439,15 @@ CZJNaviagtionBarViewDelegate
         
         if (0 == indexPath.row)
         {//门店名
-            UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"storeHeaer"];
+            CZJTableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"storeHeaer"];
             if (!cell) {
-                cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"storeHeaer"];
+                cell = [[CZJTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"storeHeaer"];
             }
             
             [cell.imageView setImage:IMAGENAMED(storeForm.selfFlag ? @"commit_icon_ziying" : @"commit_icon_shop")];
             cell.textLabel.text = storeForm.storeName;
+            cell.separatorInset = IndentCellSeparator(15);
+            cell.indentationWidth = 0;
             return cell;
         }
         else if (indexPath.row > 0 &&
@@ -468,7 +464,7 @@ CZJNaviagtionBarViewDelegate
             [cell.goodsImg sd_setImageWithURL:[NSURL URLWithString:goodsForm.itemImg] placeholderImage:DefaultPlaceHolderSquare];
             //商品名称
             cell.goodsNameLabel.text = goodsForm.itemName;
-            cell.goodsNameLayoutWidth.constant = PJ_SCREEN_WIDTH - 68 -15 - 8 - 15;
+            cell.goodsNameLayoutWidth.constant = PJ_SCREEN_WIDTH - 78 -15 - 8 - 15;
             //商品SKU
             cell.goodsTypeLabel.text = goodsForm.itemSku;
             //商品价格
@@ -483,10 +479,12 @@ CZJNaviagtionBarViewDelegate
             //传参数备用
             cell.storeItemPid = goodsForm.storeItemPid;
             cell.indexPath = indexPath;
+            cell.separatorInset = IndentCellSeparator(15);
             return cell;
         }
         else if (indexPath.row > itemCount &&
-                 indexPath.row <= itemCount + fullcutCount)
+                 (indexPath.row <= itemCount + fullcutCount) &&
+                 (isHaveFullCut || isHaveCoupon))
         {//优惠券
             CZJPromotionCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJPromotionCell" forIndexPath:indexPath];
             cell.nameOneLabel.hidden = YES;
@@ -521,6 +519,7 @@ CZJNaviagtionBarViewDelegate
                 cell.nameOneNumLabel.text = storeForm.couponPrice;
                 cell.nameTwoNumLabel.text = [NSString stringWithFormat:@"-￥%.2f",[storeForm.fullCutPrice floatValue]];
             }
+            cell.separatorInset = HiddenCellSeparator;
             return cell;
         }
         else if (indexPath.row > itemCount + fullcutCount&&
@@ -531,6 +530,11 @@ CZJNaviagtionBarViewDelegate
             NSString* transportPriceStr = [NSString stringWithFormat:@"+￥%@",storeForm.transportPrice];
             cell.transportPriceLabel.text = transportPriceStr;
             cell.transportPriceLayoutWidth.constant = [CZJUtils calculateTitleSizeWithString:transportPriceStr AndFontSize:14].width + 5;
+            
+            //满免运费
+            cell.fullCutLabel.text = storeForm.transportFree;
+            cell.fullCutLabelWidth.constant = [CZJUtils calculateTitleSizeWithString:cell.fullCutLabel.text WithFont:cell.fullCutLabel.font].width + 5;
+            
             //门店商品总计
             NSString* totalPriceStr = [NSString stringWithFormat:@"￥%@",storeForm.orderMoney];
             cell.totalLabel.text = totalPriceStr;
@@ -546,13 +550,18 @@ CZJNaviagtionBarViewDelegate
                 cell.setupPriceLabel.text = setupPriceStr;
                 cell.setupPriceLayoutWidth.constant = [CZJUtils calculateTitleSizeWithString:setupPriceStr AndFontSize:14].width + 5;
             }
-            
+            cell.separatorInset = IndentCellSeparator(15);
             return cell;
         }
         else if (indexPath.row > itemCount + fullcutCount + 1 &&
-                 indexPath.row <= itemCount + fullcutCount + giftCount)
+                 indexPath.row <= itemCount + fullcutCount + 1 + giftCount)
         {//赠品
+            
+            CZJShoppingGoodsInfoForm* giftForm = storeForm.gifts[indexPath.row - (itemCount + fullcutCount + 2)];
             CZJGiftCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJGiftCell" forIndexPath:indexPath];
+            cell.giftName.text = giftForm.itemName;
+            [cell.giftItemImg sd_setImageWithURL:[NSURL URLWithString:giftForm.itemImg] placeholderImage:DefaultPlaceHolderSquare];
+            cell.separatorInset = HiddenCellSeparator;
             return cell;
         }
         else
@@ -651,12 +660,16 @@ CZJNaviagtionBarViewDelegate
         else if (indexPath.row > itemCount &&
                  indexPath.row <= itemCount + (isHaveFullCut ? 2 : 1))
         {//优惠券、门店合计
+            if ([storeForm.totalSetupPrice floatValue] > 0.01)
+            {
+                return 65;
+            }
             return 44;
         }
         else if (indexPath.row > itemCount + (isHaveFullCut ? 2 : 1) &&
                  indexPath.row <= itemCount + (isHaveFullCut ? 2 : 1) + giftCount)
         {//赠品
-            return 30;
+            return 44;
         }
         else if (indexPath.row > itemCount + (isHaveFullCut ? 2 : 1) + giftCount &&
                  indexPath.row <= itemCount + (isHaveFullCut ? 2 : 1) + giftCount + 1)
@@ -939,7 +952,7 @@ CZJNaviagtionBarViewDelegate
         }
 
     } fail:^{
-        
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
     }];
 }
 

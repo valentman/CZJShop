@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import "CZJFilterBaseController.h"
-#import "CZJDetailForm.h"
 #import "CZJGoodsDetailForm.h"
 
 @interface CZJLevelSku : NSObject

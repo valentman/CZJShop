@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "CZJDetailForm.h"
 
 #define kLookAllEvalView 5001
 #define kEvalDetailView 5002

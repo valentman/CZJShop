@@ -13,11 +13,10 @@
 #import "CZJEvalutionFooterCell.h"
 #import "CZJEvalutionHeaderCell.h"
 #import "CZJEvalutionDetailReplyCell.h"
-#import "PullTableView.h"
+#import "CZJLoginModelManager.h"
 
 @interface CZJUserEvalutionDetailController ()
 <
-PullTableViewDelegate,
 UITableViewDelegate,
 UITableViewDataSource,
 UITextViewDelegate,
@@ -29,11 +28,15 @@ CZJNaviagtionBarViewDelegate
     CGRect _destinateFrame;
     CGRect _originFrame;
     CGSize _inputViewSize;
+    
+    MJRefreshAutoNormalFooter* refreshFooter;
+    __block CZJHomeGetDataFromServerType _getdataType;
+    __block NSInteger page;
+    NSString* descStr;
 }
-@property (nonatomic, assign)int page;
 @property (weak, nonatomic) IBOutlet UITextView *textView;
 @property (weak, nonatomic) IBOutlet UIView *inputView;
-@property (weak, nonatomic) IBOutlet PullTableView *myTableView;
+@property (weak, nonatomic) IBOutlet UITableView *myTableView;
 @property (weak, nonatomic) IBOutlet UIButton *commitBtn;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *textViewLayoutHeight;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *inputViewLayoutHeight;
@@ -47,44 +50,60 @@ CZJNaviagtionBarViewDelegate
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self initMydatas];
     [self initViews];
     [self registerForKeyboardNotifications];
     [self getReplyDataFromServer];
 }
 
-- (void)initViews
+- (void)initMydatas
 {
+    self.view.backgroundColor = CZJNAVIBARBGCOLOR;
+    
     _commitBtn.layer.cornerRadius = 5;
     _textView.layer.cornerRadius = 5;
     _textView.delegate = self;
     
-    self.view.backgroundColor = CZJTableViewBGColor;
-    
     _originFrame = _inputView.frame;
     _inputViewSize = _originFrame.size;
     
-    self.myTableView.pullDelegate = self;
+    page = 1;
+    _getdataType = CZJHomeGetDataFromServerTypeOne;
+}
+
+- (void)initViews
+{
+    //导航栏
+    [self addCZJNaviBarView:CZJNaviBarViewTypeGeneral];
+    self.naviBarView.mainTitleLabel.text = @"评价详情";
+    
+    //TableView初始化
     self.myTableView.dataSource = self;
     self.myTableView.delegate = self;
     self.myTableView.tableFooterView = [[UIView alloc] init];
-    self.myTableView.backgroundColor = CZJTableViewBGColor;
+    self.myTableView.backgroundColor = WHITECOLOR;
     self.automaticallyAdjustsScrollViewInsets = NO;
     [self.myTableView reloadData];
     
-    //TableView初始化
-    UINib *nib1=[UINib nibWithNibName:@"CZJEvalutionDetailCell" bundle:nil];
-    UINib *nib2=[UINib nibWithNibName:@"CZJEvalutionDescCell" bundle:nil];
-    UINib *nib3=[UINib nibWithNibName:@"CZJEvalutionFooterCell" bundle:nil];
-    UINib *nib4=[UINib nibWithNibName:@"CZJEvalutionDetailReplyCell" bundle:nil];
+    NSArray* nibArys = @[@"CZJEvalutionDetailCell",
+                         @"CZJEvalutionDescCell",
+                         @"CZJEvalutionFooterCell",
+                         @"CZJEvalutionDetailReplyCell"
+                         ];
     
-    [self.myTableView registerNib:nib1 forCellReuseIdentifier:@"CZJEvalutionDetailCellHead"];
-    [self.myTableView registerNib:nib2 forCellReuseIdentifier:@"CZJEvalutionDescCell"];
-    [self.myTableView registerNib:nib3 forCellReuseIdentifier:@"CZJEvalutionFooterCell"];
-    [self.myTableView registerNib:nib4 forCellReuseIdentifier:@"CZJEvalutionDetailReplyCell"];
-    
-    
-    [self addCZJNaviBarView:CZJNaviBarViewTypeGeneral];
-    self.naviBarView.mainTitleLabel.text = @"评价详情";
+    for (id cells in nibArys) {
+        UINib *nib=[UINib nibWithNibName:cells bundle:nil];
+        [self.myTableView registerNib:nib forCellReuseIdentifier:cells];
+    }
+    //------------添加到当前TableView中-----------
+    __weak typeof(self) weakSelf = self;
+    refreshFooter = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^(){
+        _getdataType = CZJHomeGetDataFromServerTypeTwo;
+        page++;
+        [weakSelf getReplyDataFromServer];;
+    }];
+    self.myTableView.footer = refreshFooter;
+    self.myTableView.footer.hidden = YES;
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -110,13 +129,55 @@ CZJNaviagtionBarViewDelegate
 - (void)getReplyDataFromServer
 {
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    __weak typeof(self) weakSelf = self;
     CZJSuccessBlock successBlock = ^(id json)
     {
         [MBProgressHUD hideAllHUDsForView:self.view animated:NO];
-        userEvalutionReplys = [[CZJBaseDataInstance detailsForm] userEvalutionReplyForms];
+        
+        DLog(@"%@",[[CZJUtils DataFromJson:json] description]);
+        NSArray* tmpAry = [[CZJUtils DataFromJson:json] valueForKey:@"msg"];
+        if (CZJHomeGetDataFromServerTypeTwo == _getdataType)
+        {
+            [userEvalutionReplys addObjectsFromArray: [CZJEvalutionReplyForm objectArrayWithKeyValuesArray:tmpAry]];
+            if (tmpAry.count < 20)
+            {
+                [refreshFooter noticeNoMoreData];
+            }
+            else
+            {
+                [weakSelf.myTableView.footer endRefreshing];
+            }
+        }
+        else
+        {
+            userEvalutionReplys = [[CZJEvalutionReplyForm objectArrayWithKeyValuesArray:tmpAry] mutableCopy];
+            if (userEvalutionReplys.count < 10)
+            {
+                [refreshFooter noticeNoMoreData];
+            }
+        }
+        
+        
+        if (userEvalutionReplys.count == 0)
+        {
+//            self.myTableView.hidden = YES;
+//            [CZJUtils showNoDataAlertViewOnTarget:self.view withPromptString:@"木有浏览记录/(ToT)/~~"];
+        }
+        else
+        {
+            self.myTableView.hidden = (userEvalutionReplys.count == 0);
+            self.myTableView.delegate = self;
+            self.myTableView.dataSource = self;
+            [self.myTableView reloadData];
+            self.myTableView.footer.hidden = self.myTableView.mj_contentH < self.myTableView.frame.size.height;
+        }
+        
+        
+        
+        
         [self.myTableView reloadData];
     };
-    [CZJBaseDataInstance loadUserEvalutionReplys:nil
+    [CZJBaseDataInstance loadUserEvalutionReplys:@{@"evalId" : _evalutionForm.evaluateID}
                                             type:getDataTypeIsFresh
                                          Success:successBlock
                                             fail:^{}];
@@ -124,33 +185,6 @@ CZJNaviagtionBarViewDelegate
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-}
-
-
-#pragma mark- PullTableViewDelegate
-- (void)pullTableViewDidTriggerRefresh:(PullTableView *)pullTableView
-{
-    getDataTypeIsFresh = CZJHomeGetDataFromServerTypeOne;
-    [self performSelector:@selector(refreshTable) withObject:nil afterDelay:0.1f];
-}
-
-- (void)pullTableViewDidTriggerLoadMore:(PullTableView *)pullTableView
-{
-    getDataTypeIsFresh = CZJHomeGetDataFromServerTypeTwo;
-    [self performSelector:@selector(loadMoreToTable) withObject:nil afterDelay:0.1f];
-    
-}
-
-- (void)refreshTable
-{
-    self.page=1;
-    [self getReplyDataFromServer];
-}
-
-- (void)loadMoreToTable
-{
-    self.page++;
-    [self getReplyDataFromServer];
 }
 
 
@@ -179,7 +213,7 @@ CZJNaviagtionBarViewDelegate
         CZJEvaluateForm* form = self.evalutionForm;
         if (indexPath.row == 0)
         {
-            CZJEvalutionDetailCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJEvalutionDetailCellHead" forIndexPath:indexPath];
+            CZJEvalutionDetailCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJEvalutionDetailCell" forIndexPath:indexPath];
 
             [cell.evalWriteHeadImage sd_setImageWithURL:[NSURL URLWithString:form.head] placeholderImage:IMAGENAMED(@"placeholder_personal")];
             cell.evalWriterName.text = form.name;
@@ -216,6 +250,7 @@ CZJNaviagtionBarViewDelegate
             cell.serviceTime.text = form.orderTime;
             cell.form = form;
             cell.evalutionReplyBtn.hidden = YES;
+            cell.addEvaluateBtn.hidden = YES;
             return cell;
         }
     }
@@ -231,6 +266,7 @@ CZJNaviagtionBarViewDelegate
                 cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"UITableViewCellReplyHead"];
                 NSString* replystr = [NSString stringWithFormat:@"回复(%ld)",userEvalutionReplys.count];
                 cell.textLabel.text = replystr;
+                cell.textLabel.textColor = RGB(100, 100, 100);
                 cell.textLabel.font = SYSTEMFONT(13);
             }
             return cell;
@@ -246,6 +282,12 @@ CZJNaviagtionBarViewDelegate
             cell.replyTimeLabel.text = form.replyTime;
             cell.replyContentLabel.text = replyContent;
             cell.replyContentLayoutHeight.constant = contentSize.height;
+            if (indexPath.row == userEvalutionReplys.count)
+            {
+                
+                cell.separatorView.hidden = YES;
+            }
+            cell.separatorInset = HiddenCellSeparator;
             return cell;
         }
         
@@ -472,7 +514,7 @@ CZJNaviagtionBarViewDelegate
         
         [textView setText:s];
     }
-    
+    descStr = textView.text;
     
 //    [self refreshTextViewSize:textView];
 //
@@ -570,9 +612,25 @@ CZJNaviagtionBarViewDelegate
 - (IBAction)commitEvalutionAction:(id)sender {
     NSString* textStr = self.textView.text;
     DLog(@"%@",textStr);
-    [self.textView resignFirstResponder];
-    self.textView.text = @"";
+    [self.view endEditing:NO];
+
     //发送信息到服务器，再获取数据返回刷新
+    __weak typeof(self) weakSelf = self;
+    NSString* evaluid = _evalutionForm.evaluateID;
+    NSString* headImg = CZJLoginModelInstance.usrBaseForm.headPic;
+    NSString* name = CZJLoginModelInstance.usrBaseForm.chezhuName;
+    NSDictionary* replyDict = @{@"evalId": evaluid,
+                                @"replyHead" : headImg,
+                                @"replyName": name,
+                                @"replyDesc" :descStr};
+    [CZJBaseDataInstance generalPost:replyDict success:^(id json) {
+        [CZJUtils tipWithText:@"感谢回复" andView:weakSelf.view];
+        [weakSelf getReplyDataFromServer];
+        [weakSelf.textView resignFirstResponder];
+        weakSelf.textView.text = @"";
+    } fail:^{
+        
+    } andServerAPI:kCZJServerAPIReplyEvalution];
 }
 
 

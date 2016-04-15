@@ -66,8 +66,11 @@ UITableViewDelegate
             _refreshLocationBarView.locationButton.tag = CZJViewMoveOrientationLeft;
             _refreshLocationBarView.locationNameLabel.text = [USER_DEFAULT objectForKey:CCLastAddress];
         } completion:^(BOOL finished) {
-            [[NSNotificationCenter defaultCenter]postNotificationName:kCZJChangeCurCityName object:self userInfo:@{@"cityname" : [USER_DEFAULT objectForKey:CCLastCity]}];
             [weak justLocation];
+            if ([USER_DEFAULT objectForKey:CCLastCity])
+            {
+                [[NSNotificationCenter defaultCenter]postNotificationName:kCZJChangeCurCityName object:self userInfo:@{@"cityname" : [USER_DEFAULT objectForKey:CCLastCity]}];
+            }
         }];
         isFirstIn = NO;
     }

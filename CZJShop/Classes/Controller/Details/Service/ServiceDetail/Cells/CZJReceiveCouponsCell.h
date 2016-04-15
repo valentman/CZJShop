@@ -9,8 +9,9 @@
 #import <UIKit/UIKit.h>
 
 @interface CZJReceiveCouponsCell : UITableViewCell
-@property (weak, nonatomic) IBOutlet UILabel *couponPriceLabel;
+@property (weak, nonatomic) IBOutlet MMLabel *couponPriceLabel;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *couponPriceLabelLayout;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *couponPriceLabelLeading;
 @property (weak, nonatomic) IBOutlet UILabel *storeNameLabel;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *storeNameLabelLayoutheight;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *storeNameLabelLayoutWidth;

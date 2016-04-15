@@ -11,8 +11,8 @@
 
 //----------------------------服务器接口-------------------------------
 //服务地址
-//static NSString *const kCZJServerAddr = @"http://192.168.0.251:8080/appserver/";
-static NSString *const kCZJServerAddr = @"http://101.201.197.202:8080/appserver/";
+static NSString *const kCZJServerAddr = @"http://192.168.0.251:8080/appserver/";
+//static NSString *const kCZJServerAddr = @"http://101.201.197.202:8080/appserver/";
 //static NSString *const kCZJServerAddr = @"http://101.200.189.9:8080/appserver2/";
 //static NSString *const kCZJServerAddr = @"http://czapp.chezhijian.com/appserver2";
 
@@ -144,7 +144,7 @@ static NSString *const kCZJServerAPIGetPoint = @"chezhu/showPointsCenter.do";
 static NSString *const kCZJServerAPIRecharge = @"chezhu/charge.do";                                 //充值
 static NSString *const kCZJServerAPIMyEvalutions = @"chezhu/loadMyEvaluations.do";                  //获取我的评价列表
 static NSString *const kCZJServerAPIAddEvalution = @"chezhu/evalAdd.do";                            //追加评论
-//static NSString *const kCZJServerAPIReplyEvalution = @"chezhu/evalReply.do";                        //回复
+static NSString *const kCZJServerAPIReplyEvalution = @"chezhu/evalReply.do";                        //回复
 static NSString *const kCZJServerAPIZHIBAOCARD = @"chezhu/showWarrantyCenter.do";                   //质保卡查询
 static NSString *const kCZJServerAPICheckVersion = @"chezhu/checkVersion.do";                       //检测版本
 static NSString *const kCZJServerAPIGetStartPage = @"chezhu/loadStartPage.do";                      //获取启动页信息
@@ -183,6 +183,7 @@ static NSString *const kCZJPlistFileProvinceCitys = @"ProvinceCitys.plist";     
 static NSString *const kCZJPlistFileMessage = @"Message.plist";                             //信息管理文件
 static NSString *const kCZJPlistFileSearchHistory = @"SearchHistory.plist";                 //搜索栏历史文件
 static NSString *const kCZJPlistFileDefaultDeliveryAddr = @"UserDefaultDeliveryAddr.plist"; //默认收货地址
+static NSString *const kCZJPlistFileUserBaseForm = @"userBaseForm.plist";
 
 
 //----------------------UserDefault键名定义
@@ -212,7 +213,6 @@ static NSString *const kUserDefaultStartPageForm = @"StartPageForm";            
 
 //-----------------------常用字符常量定义---------------------------
 //登录信息
-static NSString *const kCZJUserName = @"userName";
 static NSString *const kCZJIsFirstLogin = @"isFirstLogin";
 static NSString *const kCZJIsUserHaveLogined = @"isHaveLogined";
 

@@ -49,6 +49,14 @@
 @property (nonatomic, strong) NSString* storeItemPid;
 @end
 
+//---------------------评价详情页评价回复信息---------------------
+@interface CZJEvalutionReplyForm : NSObject
+@property(nonatomic, strong) NSString* replyDesc;
+@property(nonatomic, strong) NSString* replyHead;
+@property(nonatomic, strong) NSString* replyTime;
+@property(nonatomic, strong) NSString* replyId;
+@property(nonatomic, strong) NSString* replyName;
+@end
 
 //--------------------我的评价简介Item信息---------------------
 @interface CZJMyEvaluationForm : NSObject

@@ -31,7 +31,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="280" height="119"/>
                                 <animations/>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="￥" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="0.0" translatesAutoresizingMaskIntoConstraints="NO" id="X9C-sW-U1r">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="￥" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="0.0" translatesAutoresizingMaskIntoConstraints="NO" id="X9C-sW-U1r" customClass="MMLabel">
                                 <rect key="frame" x="0.0" y="15" width="125" height="40"/>
                                 <animations/>
                                 <constraints>
@@ -43,7 +43,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="characterWrap" numberOfLines="0" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="0.0" translatesAutoresizingMaskIntoConstraints="NO" id="sHh-5Z-W1c">
-                                <rect key="frame" x="125" y="33" width="90" height="20"/>
+                                <rect key="frame" x="125" y="35" width="90" height="20"/>
                                 <animations/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="20" id="Pi2-LF-xNf"/>
@@ -122,7 +122,7 @@
                             <constraint firstItem="BOw-nC-HeI" firstAttribute="leading" secondItem="BAb-YC-yqd" secondAttribute="leading" constant="8" id="ZwF-o8-YMb"/>
                             <constraint firstItem="STz-Xc-URD" firstAttribute="leading" secondItem="HR7-p7-VfO" secondAttribute="trailing" constant="5" id="dD9-Py-5ZJ"/>
                             <constraint firstAttribute="bottom" secondItem="HR7-p7-VfO" secondAttribute="bottom" constant="10" id="dPU-sE-H7X"/>
-                            <constraint firstItem="sHh-5Z-W1c" firstAttribute="top" secondItem="BAb-YC-yqd" secondAttribute="top" constant="33" id="jN6-rp-kLD"/>
+                            <constraint firstItem="sHh-5Z-W1c" firstAttribute="top" secondItem="BAb-YC-yqd" secondAttribute="top" constant="35" id="jN6-rp-kLD"/>
                             <constraint firstItem="STz-Xc-URD" firstAttribute="top" secondItem="BAb-YC-yqd" secondAttribute="top" constant="10" id="teI-zF-D2X"/>
                             <constraint firstAttribute="bottom" secondItem="BOw-nC-HeI" secondAttribute="bottom" constant="10" id="whW-Yd-YaB"/>
                             <constraint firstItem="X9C-sW-U1r" firstAttribute="top" secondItem="BAb-YC-yqd" secondAttribute="top" constant="15" id="x0X-pn-TeY"/>
@@ -148,6 +148,7 @@
                 <outlet property="couponBgImg" destination="8Ei-yJ-Wwp" id="nwx-pe-iAy"/>
                 <outlet property="couponPriceLabel" destination="X9C-sW-U1r" id="Wbu-yb-VCb"/>
                 <outlet property="couponPriceLabelLayout" destination="x8c-W8-GJk" id="r7c-1O-4J6"/>
+                <outlet property="couponPriceLabelLeading" destination="xc1-BV-Xez" id="Dze-Fh-7A8"/>
                 <outlet property="couponsView" destination="BAb-YC-yqd" id="Y6b-Cu-3RS"/>
                 <outlet property="couponsViewLayoutWidth" destination="J5y-lj-TjT" id="mzt-YL-dm3"/>
                 <outlet property="couponsViewLeadingToSuperView" destination="cmj-dc-D5U" id="eHz-wJ-8EQ"/>
@@ -159,7 +160,7 @@
                 <outlet property="storeNameLabelLayoutheight" destination="Pi2-LF-xNf" id="tNx-7C-hlt"/>
                 <outlet property="useableLimitLabel" destination="BOw-nC-HeI" id="nBi-J9-HZB"/>
             </connections>
-            <point key="canvasLocation" x="192" y="226"/>
+            <point key="canvasLocation" x="227" y="216"/>
         </tableViewCell>
     </objects>
     <resources>

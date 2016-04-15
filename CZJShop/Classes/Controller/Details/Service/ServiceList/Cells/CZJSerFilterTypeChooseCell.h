@@ -15,8 +15,9 @@
 
 
 @interface CZJSerFilterTypeChooseCell : CZJButtonArrayCell
-
+@property (strong, nonatomic) NSString* typeId;
 @property(copy, nonatomic)CZJButtonBlock buttonBlock;
 -(void)setButtonDatas:(NSArray *)buttonDatas WithType:(NSInteger)type;
 - (void)setDefaultSelectBtn:(NSString*)selectdString;
+
 @end

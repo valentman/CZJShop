@@ -12,7 +12,6 @@
 @class HomeForm;
 @class CZJStoreForm;
 @class CZJDiscoverForm;
-@class CZJDetailForm;
 @class CZJShoppingCartForm;
 @class CZJOrderStoreCouponsForm;
 @class UserBaseForm;
@@ -22,7 +21,6 @@
 {
     HomeForm* _homeForm;                            //首页信息
     CZJCarForm* _carForm;                           //汽车列表信息
-    CZJDetailForm* _detailsForm;                    //详情信息（服务或商品及其评价）
     CZJStoreForm* _storeForm;                       //门店信息
     CZJShoppingCartForm* _shoppingCartForm;         //购物车信息
     UserBaseForm* _userInfoForm;                    //我的个人信息
@@ -45,7 +43,6 @@
 @property (nonatomic, retain) HomeForm* homeForm;
 @property (nonatomic, retain) CZJCarForm* carForm;
 @property (nonatomic, retain) CZJStoreForm* storeForm;
-@property (nonatomic, retain) CZJDetailForm* detailsForm;
 @property (nonatomic, retain) UserBaseForm* userInfoForm;
 @property (nonatomic, retain) CZJShoppingCartForm* shoppingCartForm;
 

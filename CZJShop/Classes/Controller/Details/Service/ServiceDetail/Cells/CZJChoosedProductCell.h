@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "CZJDetailForm.h"
 #import "CZJGoodsDetailForm.h"
 @interface CZJChoosedProductCell : UITableViewCell
 @property (strong, nonatomic)NSIndexPath* indexPath;

@@ -29,10 +29,11 @@
 @end
 
 
-@implementation CZJMyEvaluationGoodsForm
+@implementation CZJEvalutionReplyForm
+@end
 
+@implementation CZJMyEvaluationGoodsForm
 @end
 
 @implementation CZJAddedMyEvalutionForm : NSObject
-
 @end

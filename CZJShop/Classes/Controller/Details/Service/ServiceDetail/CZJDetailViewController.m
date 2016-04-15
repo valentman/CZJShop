@@ -10,7 +10,6 @@
 #import "NIDropDown.h"
 #import "CZJBaseDataManager.h"
 #import "CZJPageControlView.h"
-#import "CZJDetailForm.h"
 #import "CZJDetailDescCell.h"
 #import "CZJDetailPicShowCell.h"
 #import "CZJChoosedProductCell.h"
@@ -36,6 +35,7 @@
 #import "CZJReceiveCouponsController.h"
 #import "CZJGeneralCell.h"
 #import "CZJMiaoShaControlHeaderCell.h"
+#import "ShareMessage.h"
 
 #define kTagScrollView 1002
 #define kTagTableView 1001
@@ -108,7 +108,7 @@ CZJChooseProductTypeDelegate
     [self addCZJNaviBarView:CZJNaviBarViewTypeDetail];
     [self initDatas];
     [self initViews];
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    
     [CZJUtils performBlock:^{
         [self getDataFromServer];
     } afterDelay:0.5];
@@ -219,47 +219,6 @@ CZJChooseProductTypeDelegate
 
 - (void)getDataFromServer
 {
-    __weak typeof(self) weak = self;
-    CZJSuccessBlock successBlock = ^(id json)
-    {
-        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-        
-        NSDictionary* dict = [[CZJUtils DataFromJson:json] valueForKey:@"msg"];
-        goodsDetailForm = [CZJGoodsDetailForm objectWithKeyValues:dict];
-        DLog(@"goodsDetailForm:%@",[goodsDetailForm.keyValues description]);
-        //根据购买类型显示底部“加入购物车”与否（0表示是商品，显示“加入购物车”，1则表示服务，只显示“立即购买”）
-        if (0 == [goodsDetailForm.goods.buyType floatValue])
-        {
-            self.addProductToWidth.constant = (iPhone4 || iPhone5) ? 80 : 100;
-            self.immediatelyBuyWidth.constant = (iPhone4 || iPhone5) ? 80 : 100;;
-        }
-        if (1 == [goodsDetailForm.goods.buyType floatValue])
-        {
-            self.addProductToWidth.constant = 0;
-            self.immediatelyBuyWidth.constant = (iPhone4 || iPhone5) ? 130 : 160;;
-        }
-        
-        [self dealWithData];
-        [self.detailTableView reloadData];
-        self.shoppingCartView.hidden = NO;
-        //获取热门商品或服务
-        [self getHotRecommendDataFromServer];
-        
-        //图文详情页
-        CZJPicDetailController *FController = [[CZJPicDetailController alloc]init];
-        FController.detaiViewType = self.detaiViewType;
-        CZJBuyNoticeController *SController = [[CZJBuyNoticeController alloc]init];
-        SController.detaiViewType = self.detaiViewType;
-        CZJAfterServiceController *TController = [[CZJAfterServiceController alloc]init];
-        TController.detaiViewType = self.detaiViewType;
-        CZJApplicableCarController *AController = [[CZJApplicableCarController alloc]init];
-        AController.detaiViewType = self.detaiViewType;
-        
-        CZJPageControlView* webVie = [[CZJPageControlView alloc]initWithFrame:CGRectMake(0, (PJ_SCREEN_HEIGHT-50), PJ_SCREEN_WIDTH, (PJ_SCREEN_HEIGHT-114)) andPageIndex:kPagePicDetail];
-        webVie.backgroundColor = CZJNAVIBARBGCOLOR;
-        [webVie setTitleArray:@[@"图文详情",@"购买须知",@"包装售后",@"适用车型"] andVCArray:@[FController,SController,TController,AController]];
-        [self.myScrollView addSubview:webVie];
-    };
     NSDictionary* param = @{@"storeItemPid":self.storeItemPid, @"promotionPrice":self.promotionPrice, @"promotionType":[NSString stringWithFormat:@"%ld",self.promotionType]};
     NSString* apiUrl;
     if (CZJDetailTypeGoods == _detaiViewType)
@@ -270,11 +229,60 @@ CZJChooseProductTypeDelegate
     {
         apiUrl = kCZJServerAPIServiceDetail;
     }
+    
+    
+    __weak typeof(self) weakSelf = self;
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    CZJSuccessBlock successBlock = ^(id json)
+    {
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        
+        NSDictionary* dict = [[CZJUtils DataFromJson:json] valueForKey:@"msg"];
+        goodsDetailForm = [CZJGoodsDetailForm objectWithKeyValues:dict];
+        DLog(@"goodsDetailForm:%@",[goodsDetailForm.keyValues description]);
+        //根据购买类型显示底部“加入购物车”与否（0表示是商品，显示“加入购物车”，1则表示服务，只显示“立即购买”）
+        if (0 == [goodsDetailForm.goods.buyType floatValue])
+        {
+            weakSelf.addProductToWidth.constant = (iPhone4 || iPhone5) ? 80 : 100;
+            weakSelf.immediatelyBuyWidth.constant = (iPhone4 || iPhone5) ? 80 : 100;;
+        }
+        if (1 == [goodsDetailForm.goods.buyType floatValue])
+        {
+            weakSelf.addProductToWidth.constant = 0;
+            weakSelf.immediatelyBuyWidth.constant = (iPhone4 || iPhone5) ? 130 : 160;;
+        }
+        
+        [weakSelf dealWithData];
+        [weakSelf.detailTableView reloadData];
+        weakSelf.detailTableView.hidden = NO;
+        weakSelf.shoppingCartView.hidden = NO;
+        //获取热门商品或服务
+        [weakSelf getHotRecommendDataFromServer];
+        
+        //图文详情页
+        CZJPicDetailController *FController = [[CZJPicDetailController alloc]init];
+        FController.detaiViewType = weakSelf.detaiViewType;
+        CZJBuyNoticeController *SController = [[CZJBuyNoticeController alloc]init];
+        SController.detaiViewType = weakSelf.detaiViewType;
+        CZJAfterServiceController *TController = [[CZJAfterServiceController alloc]init];
+        TController.detaiViewType = weakSelf.detaiViewType;
+        CZJApplicableCarController *AController = [[CZJApplicableCarController alloc]init];
+        AController.detaiViewType = weakSelf.detaiViewType;
+        
+        CZJPageControlView* webVie = [[CZJPageControlView alloc]initWithFrame:CGRectMake(0, (PJ_SCREEN_HEIGHT-50), PJ_SCREEN_WIDTH, (PJ_SCREEN_HEIGHT-114)) andPageIndex:kPagePicDetail];
+        webVie.backgroundColor = CZJNAVIBARBGCOLOR;
+        [webVie setTitleArray:@[@"图文详情",@"购买须知",@"包装售后",@"适用车型"] andVCArray:@[FController,SController,TController,AController]];
+        [weakSelf.myScrollView addSubview:webVie];
+    };
+    
+    
+
     [CZJUtils removeReloadAlertViewFromTarget:self.view];
     [CZJBaseDataInstance generalPost:param success:successBlock  fail:^{
-        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-        [CZJUtils showReloadAlertViewOnTarget:weak.view withReloadHandle:^{
-            [weak getDataFromServer];
+        weakSelf.detailTableView.hidden = YES;
+        [MBProgressHUD hideAllHUDsForView:weakSelf.view animated:YES];
+        [CZJUtils showReloadAlertViewOnTarget:weakSelf.view withReloadHandle:^{
+            [weakSelf getDataFromServer];
         }];
     } andServerAPI:apiUrl];
 }
@@ -326,11 +334,11 @@ CZJChooseProductTypeDelegate
     {
         return 0;
     }
-    if (3 == section)
-    {
-        return ((CZJDetailTypeGoods == _detaiViewType) ? 2 : 1);
-    }
     if (4 == section)
+    {
+        return ((CZJDetailTypeGoods == _detaiViewType) ? 2 : 0);
+    }
+    if (3 == section)
     {
         return goodsDetailForm.promotions.count > 0 ? 1 : 0;
     }
@@ -422,7 +430,7 @@ CZJChooseProductTypeDelegate
         }
             break;
             
-        case 3:
+        case 4:
         {//已选规格
             if (0 == indexPath.row)
             {
@@ -444,7 +452,7 @@ CZJChooseProductTypeDelegate
         }
             break;
             
-        case 4:
+        case 3:
         {//促销
             CZJCouponsCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CZJCouponsCell" forIndexPath:indexPath];
             cell.arrowImg.hidden = YES;
@@ -457,6 +465,7 @@ CZJChooseProductTypeDelegate
                 {
                     CZJPromotionItemForm* promotionItem = (CZJPromotionItemForm*)goodsDetailForm.promotions[i];
                     CZJGeneralCell* promotionItemCell = [CZJUtils getXibViewByName:@"CZJGeneralCell"];
+                    promotionItemCell.backgroundColor = CLEARCOLOR;
                     NSString* imageName;
                     if ([promotionItem.type integerValue] == 0)
                     {
@@ -466,6 +475,7 @@ CZJChooseProductTypeDelegate
                     {
                         imageName = @"label_icon_zengpin";
                     }
+                    promotionItemCell.arrowTrailing.constant = 20;
                     promotionItemCell.imageViewHeight.constant = 15;
                     promotionItemCell.imageViewWidth.constant = 30;
                     [promotionItemCell.headImgView setImage:IMAGENAMED(imageName)];
@@ -473,7 +483,7 @@ CZJChooseProductTypeDelegate
                     promotionItemCell.nameLabel.text = promotionItem.desc;
                     promotionItemCell.nameLabel.font = SYSTEMFONT(13);
                     promotionItemCell.nameLabel.textColor = RGB(109, 109, 109);
-                    CGRect cellRect = CGRectMake(-20, 15 + i * 30, PJ_SCREEN_WIDTH - 40, 15);
+                    CGRect cellRect = CGRectMake(-15, 15 + i * 30, PJ_SCREEN_WIDTH - 40, 15);
                     promotionItemCell.frame = cellRect;
                     
                     UIButton* tapButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -514,7 +524,7 @@ CZJChooseProductTypeDelegate
                     CGSize contenSize = [CZJUtils calculateStringSizeWithString:evalutionForm.message Font:SYSTEMFONT(12) Width:PJ_SCREEN_WIDTH - 40];
                     cell.evalContentLayoutHeight.constant = contenSize.height;
                     
-                    for (int i = 0; i < evalutionForm.evalImgs.count; i++)
+                    for (int i = 0; i < evalutionForm.evalImgs .count; i++)
                     {
                         UIImageView* evaluateImage = [[UIImageView alloc]init];
                         [evaluateImage sd_setImageWithURL:[NSURL URLWithString:evalutionForm.evalImgs[i]] placeholderImage:DefaultPlaceHolderSquare];
@@ -538,7 +548,6 @@ CZJChooseProductTypeDelegate
                         float strHeight = [CZJUtils calculateStringSizeWithString:evalutionForm.addedEval.message Font:SYSTEMFONT(13) Width:PJ_SCREEN_WIDTH - 30].height;
                         addedCell.contentLabelHeight.constant = strHeight + 5;
                         
-                        
                         for (int i = 0; i < evalutionForm.addedEval.evalImgs.count; i++)
                         {
                             NSString* url = evalutionForm.addedEval.evalImgs[i];
@@ -547,6 +556,7 @@ CZJChooseProductTypeDelegate
                             [imageView sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:DefaultPlaceHolderSquare];
                             [addedCell.picView addSubview:imageView];
                         }
+                        
                         float picViewHeight = 0;
                         if (evalutionForm.addedEval.evalImgs.count != 0)
                         {
@@ -674,7 +684,7 @@ CZJChooseProductTypeDelegate
         case 2:
             return 55;
             break;
-        case 3:
+        case 4:
             if (0 == indexPath.row)
             {
                 return 46;
@@ -684,18 +694,22 @@ CZJChooseProductTypeDelegate
                 return 35;
             }
             break;
-        case 4:
-            return 75;
+        case 3:
+            if (goodsDetailForm.promotions.count > 2)
+            {
+                return 75;
+            }
+            return 45;
             break;
         case 5:
             if (0 == indexPath.row) {
                 return 46;
             }
-            else if (_evalutionInfo.evalList.count + 1 > indexPath.row) {
-                //这里是动态改变的，暂时设一个固定值
+            else if (_evalutionInfo.evalList.count + 1 > indexPath.row)
+            {
                 CZJEvaluateForm* evalutionForm  = (CZJEvaluateForm*)_evalutionInfo.evalList[indexPath.row - 1];
                 CGSize contenSize = [CZJUtils calculateStringSizeWithString:evalutionForm.message Font:SYSTEMFONT(12) Width:PJ_SCREEN_WIDTH - 40];
-                NSInteger row = evalutionForm.evalImgs.count / Divide + 1;
+                NSInteger row = 1;
                 NSInteger cellHeight = 60 + (contenSize.height > 20 ? contenSize.height : 20) + row * 88;
                 
                 NSInteger addedHeight = 0;
@@ -705,7 +719,7 @@ CZJChooseProductTypeDelegate
                     float picViewHeight = 0;
                     if (evalutionForm.addedEval.evalImgs.count != 0)
                     {
-                        picViewHeight = 70*(evalutionForm.addedEval.evalImgs.count / Divide + 1);
+                        picViewHeight = 70;
                     }
                     addedHeight = 30 + 10 + strHeight + 5 + picViewHeight + 10 + 15;
                 }
@@ -748,7 +762,8 @@ CZJChooseProductTypeDelegate
         2 == section ||
         3 == section ||
         4 == section ||
-        (5 == section && _evalutionInfo.evalList.count == 0))
+        (5 == section && _evalutionInfo.evalList.count == 0) ||
+        (6 == section && _goodsDetail.selfFlag))
     {
         return 0;
     }
@@ -783,7 +798,7 @@ CZJChooseProductTypeDelegate
             }];
         }];
     }
-    if (3 == indexPath.section)
+    if (4 == indexPath.section && 0 == indexPath.row)
     {
         __weak typeof(self) weak = self;
         self.popWindowInitialRect =  CGRectMake(PJ_SCREEN_WIDTH, 0, PJ_SCREEN_WIDTH-50, PJ_SCREEN_HEIGHT);
@@ -809,7 +824,7 @@ CZJChooseProductTypeDelegate
             }];
         }];
     }
-    if (4 == indexPath.section)
+    if (3 == indexPath.section)
     {
     }
     if (5 == indexPath.section)
@@ -891,6 +906,7 @@ CZJChooseProductTypeDelegate
     }
     if ([btnStr isEqualToString:@"分享"])
     {
+        [[ShareMessage shareMessage] showPanel:self.view Type:1 WithTitle:@"车之健" AndBody:@"当前需要分享的东西"];
     }
 }
 
@@ -1013,7 +1029,8 @@ CZJChooseProductTypeDelegate
                                    @"itemSku" : goodsDetailForm.goods.itemSku,
                                    @"itemType" : goodsDetailForm.goods.itemType,
                                    @"itemCount" : @"1",
-                                   @"currentPrice" : goodsDetailForm.goods.currentPrice
+                                   @"currentPrice" : goodsDetailForm.goods.currentPrice,
+                                   @"skillId" : self.skillId == nil ? @"" : self.skillId
                                    };
         
         NSArray* itemAry = @[itemDict];
@@ -1039,8 +1056,7 @@ CZJChooseProductTypeDelegate
     
     if ([USER_DEFAULT boolForKey:kCZJIsUserHaveLogined])
     {
-        NSDictionary* pramas = @{
-                                 @"companyId" : _goodsDetail.companyId ? _goodsDetail.companyId : @"",
+        NSDictionary* pramas = @{@"companyId" : _goodsDetail.companyId ? _goodsDetail.companyId : @"",
                                  @"storeId" : _goodsDetail.storeId,
                                  @"storeItemPid" : _goodsDetail.storeItemPid,
                                  @"itemType" : _goodsDetail.itemType,

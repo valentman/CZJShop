@@ -13,6 +13,10 @@
 
 - (void)awakeFromNib {
     // Initialization code
+    self.originPriceLabel.keyWordFont = SYSTEMFONT(12);
+    self.currentPriceLabel.keyWordFont = SYSTEMFONT(12);
+    self.originPriceLabel.keyWord = @"￥";
+    self.currentPriceLabel.keyWord = @"￥";
 }
 
 @end

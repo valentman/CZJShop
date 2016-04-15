@@ -50,6 +50,7 @@
 @property(nonatomic, strong) NSString*itemCount;
 @property(nonatomic, strong) NSString*itemSku;
 @property(nonatomic, strong) NSString*itemCode;
+@property(nonatomic, strong) NSString*typeId;
 @property(assign) BOOL isSelect;
 @property(assign) BOOL isDeleteSelect;
 @property(assign) BOOL off;

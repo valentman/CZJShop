@@ -159,18 +159,19 @@ UITableViewDelegate
         }
         
         CGSize priceSize = [CZJUtils calculateTitleSizeWithString:priceStri WithFont:SYSTEMFONT(45)];
-        cell.couponPriceLabelLayout.constant = priceSize.width + 5;
+        cell.couponPriceLabelLayout.constant = priceSize.width;
         cell.couponPriceLabel.text = priceStri;
+        
         
         NSString* storeNameStr = couponForm.storeName;
         int width = PJ_SCREEN_WIDTH - 40 - 80 - priceSize.width - 10;
-        CGSize storeNameSize = [storeNameStr boundingRectWithSize:CGSizeMake(width, 0) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName: BOLDSYSTEMFONT(15)} context:nil].size;
+        CGSize storeNameSize = [storeNameStr boundingRectWithSize:CGSizeMake(width, 0) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName: SYSTEMFONT(15)} context:nil].size;
         cell.storeNameLabelLayoutheight.constant = storeNameSize.height;
         cell.storeNameLabelLayoutWidth.constant = width;
         cell.storeNameLabel.text = storeNameStr;
         cell.receiveTimeLabel.text = couponForm.validEndTime;
-        
         [cell setCellIsTaken:couponForm.taked andServiceType:![couponForm.validServiceId isEqualToString:@"0"]];
+        cell.couponPriceLabel.keyWord = @"￥";
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
@@ -181,6 +182,10 @@ UITableViewDelegate
     __block __weak CZJReceiveCouponsCell *cell  = [tableView cellForRowAtIndexPath:indexPath];
 
     CZJShoppingCouponsForm* couponForm = (CZJShoppingCouponsForm*)self.coupons[indexPath.row];
+    if (couponForm.taked)
+    {//已领取就不用再发送领取请求了。
+        return;
+    }
     NSDictionary* params = @{@"couponId": couponForm.couponId,
                              @"name": couponForm.name,
                              @"type": couponForm.type,

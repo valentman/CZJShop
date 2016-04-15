@@ -206,12 +206,14 @@ CZJNaviagtionBarViewDelegate
 #pragma mark- CZJMiaoShaListDelegate
 - (void)clickMiaoShaCell:(CZJMiaoShaCellForm*)cellForm
 {
+    CZJMiaoShaTimesForm* miaoShaTimes = miaoShaControllerForm.skillTimes[currentIndex];
     CZJDetailViewController* detailVC = (CZJDetailViewController*)[CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:kCZJStoryBoardIDGoodsDetailVC];
     detailVC.storeItemPid = cellForm.storeItemPid;
     detailVC.detaiViewType = CZJDetailTypeGoods;
     detailVC.promotionType = CZJGoodsPromotionTypeMiaoSha;
     detailVC.promotionPrice = cellForm.currentPrice;
     detailVC.miaoShaInterval = _timestamp;
+    detailVC.skillId = miaoShaTimes.skillId;
     [self.navigationController pushViewController:detailVC animated:YES];
 }
 

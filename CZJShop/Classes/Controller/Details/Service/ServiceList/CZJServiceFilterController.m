@@ -171,7 +171,7 @@
         {
             CZJSerFilterTypeChooseCell* cell = [[CZJSerFilterTypeChooseCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell2"];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            
+            cell.typeId = self.typeId;
             [cell setButtonDatas:_aviableServiceAry WithType:kCZJSerFilterTypeChooseCellTypeService];
             return cell;
         }

@@ -122,12 +122,13 @@
 
 - (void)showInView:(UIView *)view
 {
-    UIViewController *appRootVC = [UIApplication sharedApplication].keyWindow.rootViewController;
-    UIViewController *topVC = appRootVC;
-    while (topVC.presentedViewController) {
-        topVC = topVC.presentedViewController;
-    }
-    [topVC.view addSubview:self];
+//    UIViewController *appRootVC = [UIApplication sharedApplication].keyWindow.rootViewController;
+//    UIViewController *topVC = appRootVC;
+//    while (topVC.presentedViewController) {
+//        topVC = topVC.presentedViewController;
+//    }
+    UIWindow *window = [[UIApplication sharedApplication] keyWindow];
+    [window addSubview:self];
 }
 
 #pragma mark - Praviate method

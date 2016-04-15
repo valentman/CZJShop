@@ -36,9 +36,9 @@
 {
     self.userNameLabel.text = userinfo.chezhuName;
     self.userPhoneLabel.text = userinfo.mobile;
-    [self.userHeadImg sd_setImageWithURL:[NSURL URLWithString:userinfo.chezhuHeadImg] placeholderImage:IMAGENAMED(@"my_icon_head")];
+    [self.userHeadImg sd_setImageWithURL:[NSURL URLWithString:userinfo.headPic] placeholderImage:IMAGENAMED(@"my_icon_head")];
     self.userHeadImg.clipsToBounds = YES;
-    self.userTypeLabel.text = userinfo.chezhuType;
+    self.userTypeLabel.text = userinfo.levelName;
     self.userTypeLabel.layer.cornerRadius = 9;
     self.userTypeLabel.layer.backgroundColor = RGBA(240, 240, 240,0.5).CGColor;
     [self.messageBtn setBadgeNum:-1];

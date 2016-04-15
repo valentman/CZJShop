@@ -127,12 +127,37 @@ singleton_implementation(CZJLoginModelManager)
 - (void)loginSuccess:(id)json
 {
     self.usrBaseForm = [[UserBaseForm alloc] init];
-    [self.usrBaseForm setUserInfoWithDictionary:[CZJUtils DataFromJson:json]];
+    [self.usrBaseForm setUserInfoWithDictionary:[[CZJUtils DataFromJson:json] valueForKey:@"msg"]];
+    [CZJUtils writeDictionaryToDocumentsDirectory:[self.usrBaseForm.keyValues mutableCopy] withPlistName:kCZJPlistFileUserBaseForm];
     if ([self saveLoginInfoDataToLocal:json]) {
         [USER_DEFAULT setObject:[NSNumber numberWithBool:YES] forKey:kCZJIsUserHaveLogined];
+        [USER_DEFAULT setValue:@"" forKey:kUserDefaultTimeDay];
+        [USER_DEFAULT setValue:@"" forKey:kUserDefaultTimeMin];
+        [USER_DEFAULT setValue:@"" forKey:kUserDefaultRandomCode];
+        
+        [USER_DEFAULT setValue:@"" forKey:kUserDefaultChoosedCarModelType];
+        [USER_DEFAULT setValue:@"" forKey:kUserDefaultChoosedCarModelID];
+        [USER_DEFAULT setValue:@"" forKey:kUserDefaultChoosedBrandID];
+        [USER_DEFAULT setValue:@"" forKey:kUserDefaultStartPrice];
+        [USER_DEFAULT setValue:@"" forKey:kUserDefaultEndPrice];
+        [USER_DEFAULT setValue:@"" forKey:kUSerDefaultStockFlag];
+        [USER_DEFAULT setValue:@"" forKey:kUSerDefaultPromotionFlag];
+        [USER_DEFAULT setValue:@"" forKey:kUSerDefaultRecommendFlag];
+        [USER_DEFAULT setValue:@"" forKey:kUserDefaultServicePlace];
+        [USER_DEFAULT setValue:@"" forKey:kUserDefaultDetailStoreItemPid];
+        [USER_DEFAULT setValue:@"" forKey:kUserDefaultDetailItemCode];
+        
+        [USER_DEFAULT setObject:@"" forKey:kUSerDefaultSexual];
+        [USER_DEFAULT setValue:@"" forKey:kUserDefaultStartPageUrl];
+        [USER_DEFAULT setValue:@"" forKey:kUserDefaultStartPageImagePath];
+        [USER_DEFAULT setValue:@"" forKey:kUserDefaultStartPageForm];
+        [USER_DEFAULT setObject:@"0" forKey:kUserDefaultShoppingCartCount];
+        [USER_DEFAULT setObject:@"" forKey:kCZJDefaultCityID];
+        [USER_DEFAULT setObject:@"" forKey:kCZJDefaultyCityName];
     }
     [CZJBaseDataInstance refreshChezhuID];
     CZJBaseDataInstance.userInfoForm = self.usrBaseForm;
+    
 }
 
 - (void)setPassword:(NSString*)pwd
@@ -172,20 +197,22 @@ singleton_implementation(CZJLoginModelManager)
 
 - (void)loginWithDefaultInfoSuccess:(void (^)())success
                                fail:(void (^)())fail{
-    NSData* loginData = [self readLoginInfoDataFromLocal];
-    if (!loginData)
+    
+    NSDictionary* userDict = [CZJUtils readDictionaryFromDocumentsDirectoryWithPlistName:kCZJPlistFileUserBaseForm];
+//    NSData* loginData = [self readLoginInfoDataFromLocal];
+    if (!userDict)
     {
         return;
     }
-    NSError* error;
-    NSDictionary* dict = [NSJSONSerialization JSONObjectWithData:loginData options:NSJSONReadingMutableContainers error:&error];
-    if (error) {
-        NSLog(@"json解析失败：%@",error);
-        fail();
-        return;
-    }
+//    NSError* error;
+//    NSDictionary* dict = [NSJSONSerialization JSONObjectWithData:loginData options:NSJSONReadingMutableContainers error:&error];
+//    if (error) {
+//        NSLog(@"json解析失败：%@",error);
+//        fail();
+//        return;
+//    }
     self.usrBaseForm = [[UserBaseForm alloc] init];
-    [self.usrBaseForm setUserInfoWithDictionary:dict];
+    [self.usrBaseForm setUserInfoWithDictionary:userDict];
     CZJBaseDataInstance.userInfoForm = self.usrBaseForm;
     success();
 }
@@ -209,17 +236,17 @@ singleton_implementation(CZJLoginModelManager)
 }
 
 
-- (NSData*)readLoginInfoDataFromLocal{
-    NSString *cacheDir = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
-    NSString *path = [cacheDir stringByAppendingPathComponent:@"loginInfo"];
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    BOOL isExists = [fileManager fileExistsAtPath:path];
-    if (isExists) {
-        NSData* data=[NSData dataWithContentsOfFile:path options:0 error:NULL];
-        return data;
-    }
-    return nil;
-}
+//- (NSData*)readLoginInfoDataFromLocal{
+//    NSString *cacheDir = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
+//    NSString *path = [cacheDir stringByAppendingPathComponent:@"loginInfo"];
+//    NSFileManager *fileManager = [NSFileManager defaultManager];
+//    BOOL isExists = [fileManager fileExistsAtPath:path];
+//    if (isExists) {
+//        NSData* data=[NSData dataWithContentsOfFile:path options:0 error:NULL];
+//        return data;
+//    }
+//    return nil;
+//}
 
 
 - (void)questCityIdByName:(NSString*)choiceCityName

@@ -10,17 +10,7 @@
 
 
 
-@interface DeafualtCarModel : NSObject
-
-@property(nonatomic,assign)int modelId;
-@property(nonatomic,strong)NSString* icon;
-@property(nonatomic,strong)NSString* carId;
-@property(nonatomic,strong)NSString* name;
-
--(id)initWithDictionary:(NSDictionary*)dictionary;
-
-@end
-
+@class DeafualtCarModel;
 @interface UserBaseForm : NSObject
 
 @property(nonatomic,strong)NSString* cityId;
@@ -28,8 +18,8 @@
 @property(nonatomic,strong)NSString* chezhuId;
 @property(nonatomic,strong)NSString* mobile;
 @property(nonatomic,strong)NSString* chezhuName;
-@property(nonatomic,strong)NSString* chezhuType;
-@property(nonatomic,strong)NSString* chezhuHeadImg;
+@property(nonatomic,strong)NSString* levelName;
+@property(nonatomic,strong)NSString* headPic;
 @property(assign)BOOL isHaveNewMessage;
 @property(nonatomic,strong)NSString* sex;
 
@@ -48,10 +38,12 @@
 @property(nonatomic,strong)NSString* couponCode;
 @property(nonatomic,strong)NSString* imId;
 @property(nonatomic,strong)NSString* hotline;
-
-
 @property(nonatomic,strong)DeafualtCarModel* defaultCar;
+
 - (id)init;
 - (void)setUserInfoWithDictionary:(NSDictionary*)dictionary;
-- (void)setCityIdAndCityName:(NSDictionary*)dictionary;
+@end
+
+
+@interface DeafualtCarModel : NSObject
 @end

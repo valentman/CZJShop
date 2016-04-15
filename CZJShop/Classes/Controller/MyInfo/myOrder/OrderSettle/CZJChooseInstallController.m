@@ -20,11 +20,13 @@ UITableViewDelegate
     NSArray* storeList;
     CZJNearbyStoreForm* selectdForm;
 }
+@property (weak, nonatomic) IBOutlet UIView *setupPriceView;
 @property (weak, nonatomic) IBOutlet UITableView *myStoreListTableView;
 @property (weak, nonatomic) IBOutlet UIButton *selfSetupBtn;
 @property (weak, nonatomic) IBOutlet UIButton *storeSetupBtn;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *promptLabelLayoutWidth;
 @property (weak, nonatomic) IBOutlet UILabel *setupPriceLabel;
+@property (weak, nonatomic) IBOutlet UIView *setupStoreView;
 
 - (IBAction)setupSelfAction:(id)sender;
 - (IBAction)setupStoreAction:(id)sender;
@@ -109,6 +111,7 @@ UITableViewDelegate
         cell.selectBtn.selected = NO;
         self.setupPriceLabel.text = [NSString stringWithFormat:@"￥%@",@"0"];
     }
+    cell.separatorInset = IndentCellSeparator(15);
     return cell;
 }
 
@@ -144,7 +147,10 @@ UITableViewDelegate
     self.storeSetupBtn.layer.borderColor = CZJGRAYCOLOR.CGColor;
     self.storeSetupBtn.layer.borderWidth = 0.5;
     
-    self.setupPriceLabel.text = [NSString stringWithFormat:@"￥%@",@"0"];
+    self.setupPriceLabel.text = [NSString stringWithFormat:@"￥%@",@"0.0"];
+    
+    self.setupStoreView.hidden = YES;
+//    self.setupPriceView.hidden = YES;
 }
 
 - (IBAction)setupStoreAction:(id)sender
@@ -159,6 +165,8 @@ UITableViewDelegate
     [self.selfSetupBtn setBackgroundColor:[UIColor whiteColor]];
     self.selfSetupBtn.layer.borderColor = CZJGRAYCOLOR.CGColor;
     self.selfSetupBtn.layer.borderWidth = 0.5;
+    self.setupStoreView.hidden = NO;
+//    self.setupPriceView.hidden = NO;
     [self getStoreListFromServer];
 }
 

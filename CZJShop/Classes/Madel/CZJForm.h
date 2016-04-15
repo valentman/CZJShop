@@ -11,7 +11,6 @@
 #import "HomeForm.h"
 #import "CZJStartPageForm.h"
 #import "UserBaseForm.h"
-#import "CZJDetailForm.h"
 #import "CZJStoreForm.h"
 #import "CZJProvinceForm.h"
 #import "CZJStoreMAAroundForm.h"

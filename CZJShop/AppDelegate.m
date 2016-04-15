@@ -108,10 +108,6 @@
     //------------------3.登录设置----------------
     [CZJLoginModelInstance loginWithDefaultInfoSuccess:^
     {
-        if ([USER_DEFAULT valueForKey:kCZJUserName])
-        {
-            [USER_DEFAULT setObject:@"" forKey:kCZJUserName];
-        }
         if (![USER_DEFAULT valueForKey:kCZJDefaultCityID] ||
             ![USER_DEFAULT valueForKey:kCZJDefaultyCityName])
         {

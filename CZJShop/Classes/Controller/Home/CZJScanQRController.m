@@ -44,7 +44,7 @@ UIAlertViewDelegate
 @property (nonatomic) BOOL dragDown;
 
 - (void)openTorch:(id)sender;
-- (void)stopReading:(id)sender;
+- (void)stopReading;
 - (BOOL)startReading;
 @end
 
@@ -54,6 +54,7 @@ UIAlertViewDelegate
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self initScanData];
+    [self initViews];
 }
 
 - (void)initScanData
@@ -62,8 +63,6 @@ UIAlertViewDelegate
     _isReading = NO;
     _isLighting = NO;
     _dragDown = YES;
-    [_operatorView setHidden:YES];
-    [_indicator startAnimating];
     
     transparentArea = CGSizeMake(200, 200);
 }
@@ -87,10 +86,15 @@ UIAlertViewDelegate
     [_operatorView addSubview:btnTorch];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [_operatorView setHidden:YES];
+    [_indicator startAnimating];
+}
+
 - (void)viewDidAppear:(BOOL)animated
 {
     [self startReading];
-    [self initViews];
 }
 
 
@@ -227,21 +231,26 @@ UIAlertViewDelegate
         {
             [_captureSession stopRunning];
             NSString* scanStr = metadataObj.stringValue;
-            NSDictionary* dict = [CZJUtils dictionaryFromJsonString:scanStr];
-            CZJSCanQRForm* scanForm = [CZJSCanQRForm objectWithKeyValues:dict];
-            [self performSelectorOnMainThread:@selector(stopReading:) withObject:scanForm waitUntilDone:NO];
-            _isReading = NO;
+            if ([scanStr hasPrefix:@"http://"] || [scanStr hasPrefix:@"https://"])
+            {
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:scanStr]];
+                [CZJUtils performBlock:^{
+                    [_captureSession startRunning];
+                } afterDelay:1.0];
+            }
+            else
+            {
+                NSDictionary* dict = [CZJUtils dictionaryFromJsonString:scanStr];
+                CZJSCanQRForm* scanForm = [CZJSCanQRForm objectWithKeyValues:dict];
+                [self performSelectorOnMainThread:@selector(dealWithQRScanData:) withObject:scanForm waitUntilDone:NO];
+                _isReading = NO;
+            }
         }
     }
 }
 
 
 #pragma mark- 开始扫描
-- (void)stopReading:(id)sender
-{
-    
-    [self dealWithQRScanData:sender];
-}
 
 - (void)dealWithQRScanData:(CZJSCanQRForm*)scanForm
 {
@@ -324,12 +333,18 @@ UIAlertViewDelegate
     
     if (isOver)
     {
-        _captureSession = nil;
-        [_scanLayer removeFromSuperlayer];
-        [_videoPreviewLayer removeFromSuperlayer];
-        _indicator.hidden = YES;
+        [self stopReading];
     }
 }
+
+- (void)stopReading
+{
+    _captureSession = nil;
+    [_scanLayer removeFromSuperlayer];
+    [_videoPreviewLayer removeFromSuperlayer];
+    _indicator.hidden = YES;
+}
+
 
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex

@@ -41,9 +41,10 @@
     NSArray *shareButtonTitleArray = [[NSArray alloc] init];
     NSArray *shareButtonImageNameArray = [[NSArray alloc] init];
     
-    shareButtonTitleArray = @[@"微信朋友圈",@"微信好友",@"QQ好友",@"QQ空间",@"新浪微博"];
-    shareButtonImageNameArray = @[@"share_icon_pengyouquan",
+    shareButtonTitleArray = @[@"微信好友",@"微信朋友圈",@"QQ好友",@"QQ空间",@"新浪微博"];
+    shareButtonImageNameArray = @[
                                   @"share_icon_weixin",
+                                  @"share_icon_pengyouquan",
                                   @"share_icon_qq",
                                   @"share_icon_zone",
                                   @"share_icon_weibo"];

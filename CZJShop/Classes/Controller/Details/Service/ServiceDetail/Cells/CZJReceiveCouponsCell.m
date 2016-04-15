@@ -11,6 +11,7 @@
 @implementation CZJReceiveCouponsCell
 
 - (void)awakeFromNib {
+    self.couponPriceLabel.keyWordFont = SYSTEMFONT(30);
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -25,6 +26,8 @@
     UIColor* textColor = taken ? [UIColor grayColor] : untakenColor;
     self.couponPriceLabel.textColor = textColor;
     self.storeNameLabel.textColor = textColor;
+    self.couponPriceLabel.font = isService ? SYSTEMFONT(30) : SYSTEMFONT(45);
+    self.couponPriceLabelLeading.constant = isService ? 10 : 0;
     if (taken)
     {
         [self.couponBgImg setImage:IMAGENAMED(@"coupon_icon_base_gray")];

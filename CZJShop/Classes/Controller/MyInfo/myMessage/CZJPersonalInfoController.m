@@ -118,7 +118,7 @@ VPImageCropperDelegate
                 [cell addSubview:headview];
             }
             if (isFromServer) {
-                [headview sd_setImageWithURL:[NSURL URLWithString:userinfo.chezhuHeadImg] placeholderImage:IMAGENAMED(@"placeholder_personal")];
+                [headview sd_setImageWithURL:[NSURL URLWithString:userinfo.headPic] placeholderImage:IMAGENAMED(@"placeholder_personal")];
             }
             
         }
@@ -263,7 +263,7 @@ VPImageCropperDelegate
         NSData *imageData = UIImageJPEGRepresentation(editedImage,0.5);
         
         [CZJBaseDataInstance uploadUserHeadPic:nil Image:editedImage Success:^(id json) {
-            CZJBaseDataInstance.userInfoForm.chezhuHeadImg = [[CZJUtils DataFromJson:json] valueForKey:@"msg"];
+            CZJBaseDataInstance.userInfoForm.headPic = [[CZJUtils DataFromJson:json] valueForKey:@"msg"];
         } fail:^{
             
         }];

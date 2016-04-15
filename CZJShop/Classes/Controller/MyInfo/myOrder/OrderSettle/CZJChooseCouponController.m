@@ -187,8 +187,9 @@ UITableViewDelegate
         
         //左上角价格
         CGSize priceSize = [CZJUtils calculateTitleSizeWithString:priceStri WithFont:SYSTEMFONT(45)];
-        cell.couponPriceLabelLayout.constant = priceSize.width + 5;
+        cell.couponPriceLabelLayout.constant = priceSize.width;
         cell.couponPriceLabel.text = priceStri;
+        cell.couponPriceLabel.keyWord = @"￥";
         
         //门店名称
         NSString* storeNameStr = couponForm.storeName;

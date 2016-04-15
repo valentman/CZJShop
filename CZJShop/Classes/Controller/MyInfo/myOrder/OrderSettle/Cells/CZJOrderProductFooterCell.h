@@ -12,6 +12,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *transportPriceLabel;
 @property (weak, nonatomic) IBOutlet UILabel *totalLabel;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *transportPriceLayoutWidth;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *fullCutLabelWidth;
 @property (weak, nonatomic) IBOutlet UILabel *fullCutLabel;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *totalPriceLayoutWidth;
 @property (weak, nonatomic) IBOutlet UILabel *setupPriceLabel;

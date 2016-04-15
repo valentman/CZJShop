@@ -10,7 +10,6 @@
 #import "LXDSegmentControl.h"
 #import "PullTableView.h"
 #import "CZJBaseDataManager.h"
-#import "CZJDetailForm.h"
 #import "CZJEvalutionDescCell.h"
 #import "CZJEvalutionDetailCell.h"
 #import "CZJEvalutionFooterCell.h"
@@ -19,7 +18,6 @@
 @interface CZJUserEvalutionController ()
 <
 LXDSegmentControlDelegate,
-PullTableViewDelegate,
 CZJImageViewTouchDelegate,
 CZJNaviagtionBarViewDelegate,
 UITableViewDelegate,
@@ -29,9 +27,13 @@ UITableViewDataSource
     NSDictionary* postParams;
     CZJEvaluateForm* currentTouchedEvalutionForm;
     BOOL isFirstLoad;
+    
+    MJRefreshAutoNormalFooter* refreshFooter;
+    __block CZJHomeGetDataFromServerType _getdataType;
+    __block NSInteger page;
 }
 @property (weak, nonatomic) IBOutlet LXDSegmentControl *segmentControl;
-@property (weak, nonatomic) IBOutlet PullTableView *myEvalTableView;
+@property (weak, nonatomic) IBOutlet UITableView *myEvalTableView;
 
 @property (nonatomic, strong)NSMutableArray* tmpEvalutionAry;
 @property (nonatomic, strong)NSMutableArray* allEvalutionAry;
@@ -41,7 +43,6 @@ UITableViewDataSource
 @property (nonatomic, strong)NSMutableArray* badEvalutionAry;
 
 @property (nonatomic, assign)NSInteger currentSelectedSegment;
-@property (nonatomic, assign)int page;
 
 @end
 
@@ -51,7 +52,7 @@ UITableViewDataSource
     [super viewDidLoad];
     [self initDatas];
     [self initTopViews];
-    [self firstLoadAllTypeCommentsDataFromServer];
+    [self loadAllUserEvalutionsDataFromServer];
 }
 
 - (void)initDatas
@@ -63,7 +64,9 @@ UITableViewDataSource
     _middleEvalutionAry = [NSMutableArray array];
     _badEvalutionAry = [NSMutableArray array];
     isFirstLoad = YES;
-    self.page = 1;
+    
+    page = 1;
+    _getdataType = CZJHomeGetDataFromServerTypeOne;
 }
 
 - (void)initTopViews
@@ -94,64 +97,135 @@ UITableViewDataSource
         [self.myEvalTableView registerNib:nib forCellReuseIdentifier:cells];
     }
     self.myEvalTableView.tableFooterView = [[UIView alloc]init];
-    self.myEvalTableView.backgroundColor = CZJTableViewBGColor;
+    self.myEvalTableView.backgroundColor = WHITECOLOR;
+    __weak typeof(self) weak = self;
+    refreshFooter = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^(){
+        _getdataType = CZJHomeGetDataFromServerTypeTwo;
+        page++;
+        [weak loadDataWithType:_currentSelectedSegment  isRefreshType:CZJHomeGetDataFromServerTypeTwo];;
+    }];
+    self.myEvalTableView.footer = refreshFooter;
+    self.myEvalTableView.footer.hidden = YES;
 }
 
-- (void)firstLoadAllTypeCommentsDataFromServer
-{
-    [self loaduserEvalutionsDataFromServer];
-}
 
-
-- (void)loaduserEvalutionsDataFromServer
-{
-    __block int loginInt = 0;
+-(void)loadDataWithType:(NSInteger)segType  isRefreshType:(CZJHomeGetDataFromServerType)type{
+    
+    postParams =@{@"counterKey": _counterKey, @"page": @(page),@"type":[NSString stringWithFormat:@"%ld",segType]};
+    __weak typeof(self) weakSelf = self;
     CZJSuccessBlock successBlock = ^(id json)
     {
-        loginInt++;
+        [self segmentControl:nil didSelectAtIndex:_currentSelectedSegment];
         NSArray* tmpAry = [[CZJUtils DataFromJson:json] valueForKey:@"msg"];
-        switch (loginInt)
+        DLog(@"%@",[[CZJUtils DataFromJson:json] description]);
+        NSArray* formAry = [CZJEvaluateForm objectArrayWithKeyValuesArray:tmpAry];
+        [_tmpEvalutionAry removeAllObjects];
+        if (tmpAry.count < 20)
         {
-            case 1:
-                _allEvalutionAry = [[CZJEvaluateForm objectArrayWithKeyValuesArray:tmpAry] mutableCopy];
+            [refreshFooter noticeNoMoreData];
+        }
+        else
+        {
+            [weakSelf.myEvalTableView.footer endRefreshing];
+        }
+        switch (_currentSelectedSegment)
+        {
+            case CZJEvalutionTypeAll:
+                [_allEvalutionAry addObjectsFromArray:formAry];
+                [_tmpEvalutionAry addObjectsFromArray:_allEvalutionAry];
                 break;
                 
-            case 2:
-                _picEvalutionAry = [[CZJEvaluateForm objectArrayWithKeyValuesArray:tmpAry] mutableCopy];
+            case CZJEvalutionTypePic:
+                [_picEvalutionAry addObjectsFromArray:formAry];
+                [_tmpEvalutionAry addObjectsFromArray:_picEvalutionAry];
                 break;
                 
-            case 3:
-                _goodEvalutionAry = [[CZJEvaluateForm objectArrayWithKeyValuesArray:tmpAry] mutableCopy];
+            case CZJEvalutionTypeGood:
+                [_goodEvalutionAry addObjectsFromArray:formAry];
+                [_tmpEvalutionAry addObjectsFromArray:_goodEvalutionAry];
                 break;
                 
-            case 4:
-                _middleEvalutionAry = [[CZJEvaluateForm objectArrayWithKeyValuesArray:tmpAry] mutableCopy];
+            case CZJEvalutionTypeMiddle:
+                [_middleEvalutionAry addObjectsFromArray:formAry];
+                [_tmpEvalutionAry addObjectsFromArray:_middleEvalutionAry];
                 break;
                 
-            case 5:
-                _badEvalutionAry = [[CZJEvaluateForm objectArrayWithKeyValuesArray:tmpAry] mutableCopy];
+            case CZJEvalutionTypeBad:
+                [_badEvalutionAry addObjectsFromArray:formAry];
+                [_tmpEvalutionAry addObjectsFromArray:_badEvalutionAry];
                 break;
                 
             default:
                 break;
         }
-        
-        //五次请求数据返回完成后开始加载数据到表格上
-        if (loginInt >= 5 && isFirstLoad)
-        {
-            isFirstLoad = NO;
-            _tmpEvalutionAry = _allEvalutionAry;
-            self.myEvalTableView.delegate = self;
-            self.myEvalTableView.dataSource = self;
-            self.myEvalTableView.pullDelegate = self;
-            [self.myEvalTableView reloadData];
-        }
+
     };
-    
-    
+    [CZJBaseDataInstance loadUserEvalutions:postParams type:type Success:successBlock fail:^{}];
+}
+
+- (void)loadAllUserEvalutionsDataFromServer
+{
+    __block int loginInt = 0;
+    __weak typeof(self) weakSelf = self;
     for (int i = 0; i < 5; i++)
     {
-        postParams =@{@"counterKey": _counterKey, @"page": [NSString stringWithFormat:@"%d",self.page],@"type":[NSString stringWithFormat:@"%d",i]};
+        CZJSuccessBlock successBlock = ^(id json)
+        {
+            DLog(@"%@",[[CZJUtils DataFromJson:json] description]);
+            loginInt++;
+            NSArray* tmpAry = [[CZJUtils DataFromJson:json] valueForKey:@"msg"];
+            switch (i)
+            {
+                case 0:
+                    _allEvalutionAry = [[CZJEvaluateForm objectArrayWithKeyValuesArray:tmpAry] mutableCopy];
+                    break;
+                    
+                case 1:
+                    _picEvalutionAry = [[CZJEvaluateForm objectArrayWithKeyValuesArray:tmpAry] mutableCopy];
+                    break;
+                    
+                case 2:
+                    _goodEvalutionAry = [[CZJEvaluateForm objectArrayWithKeyValuesArray:tmpAry] mutableCopy];
+                    break;
+                    
+                case 3:
+                    _middleEvalutionAry = [[CZJEvaluateForm objectArrayWithKeyValuesArray:tmpAry] mutableCopy];
+                    break;
+                    
+                case 4:
+                    _badEvalutionAry = [[CZJEvaluateForm objectArrayWithKeyValuesArray:tmpAry] mutableCopy];
+                    break;
+                    
+                default:
+                    break;
+            }
+            
+            //五次请求数据返回完成后开始加载数据到表格上
+            if (loginInt >= 5 && isFirstLoad)
+            {
+                isFirstLoad = NO;
+                [_tmpEvalutionAry addObjectsFromArray: _allEvalutionAry];
+                if (_tmpEvalutionAry.count < 10)
+                {
+                    [refreshFooter noticeNoMoreData];
+                }
+            
+                if (_tmpEvalutionAry.count == 0)
+                {
+                    weakSelf.myEvalTableView.hidden = YES;
+                    [CZJUtils showNoDataAlertViewOnTarget:self.view withPromptString:@"木有浏览记录/(ToT)/~~"];
+                }
+                else
+                {
+                    weakSelf.myEvalTableView.hidden = (_tmpEvalutionAry.count == 0);
+                    weakSelf.myEvalTableView.delegate = self;
+                    weakSelf.myEvalTableView.dataSource = self;
+                    [weakSelf.myEvalTableView reloadData];
+                    weakSelf.myEvalTableView.footer.hidden = self.myEvalTableView.mj_contentH < self.myEvalTableView.frame.size.height;
+                }
+            }
+        };
+        postParams =@{@"counterKey": _counterKey, @"page": @(page),@"type":[NSString stringWithFormat:@"%d",i]};
         [CZJBaseDataInstance loadUserEvalutions:postParams
                                            type:CZJHomeGetDataFromServerTypeOne
                                         Success:successBlock
@@ -202,6 +276,7 @@ UITableViewDataSource
         CGSize contenSize = [CZJUtils calculateStringSizeWithString:detailEvalform.message Font:SYSTEMFONT(12) Width:PJ_SCREEN_WIDTH - 40];
         cell.evalContentLayoutHeight.constant = contenSize.height;
         cell.picView.hidden = YES;
+        [cell.picView removeAllSubViews];
         for (int i = 0; i < detailEvalform.evalImgs.count; i++)
         {
             UIImageView* evaluateImage = [[UIImageView alloc]init];
@@ -223,7 +298,6 @@ UITableViewDataSource
         float strHeight = [CZJUtils calculateStringSizeWithString:detailEvalform.addedEval.message Font:SYSTEMFONT(13) Width:PJ_SCREEN_WIDTH - 30].height;
         cell.contentLabelHeight.constant = strHeight + 5;
         
-        
         for (int i = 0; i < detailEvalform.addedEval.evalImgs.count; i++)
         {
             NSString* url = detailEvalform.addedEval.evalImgs[i];
@@ -232,6 +306,7 @@ UITableViewDataSource
             [imageView sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:DefaultPlaceHolderSquare];
             [cell.picView addSubview:imageView];
         }
+
         return cell;
     }
     if (([detailEvalform.added boolValue] && 3 == indexPath.row)||
@@ -244,6 +319,7 @@ UITableViewDataSource
         cell.serviceName.text = detailEvalform.itemName;
         cell.serviceTime.text = detailEvalform.orderTime;
         cell.form = detailEvalform;
+        [cell.evalutionReplyBtn setTitle:[NSString stringWithFormat:@"(%@)",detailEvalform.replyCount] forState:UIControlStateNormal];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.separatorInset = HiddenCellSeparator;
         return cell;
@@ -262,7 +338,7 @@ UITableViewDataSource
         //这里是动态改变的，暂时设一个固定值
         
         CGSize contenSize = [CZJUtils calculateStringSizeWithString:evalutionForm.message Font:SYSTEMFONT(12) Width:PJ_SCREEN_WIDTH - 40];
-        NSInteger row = evalutionForm.evalImgs.count / Divide + 1;
+        NSInteger row = 1;
         NSInteger cellHeight = 60 + (contenSize.height > 20 ? contenSize.height : 20) + row * 88;
         return cellHeight;
     }
@@ -272,7 +348,7 @@ UITableViewDataSource
         float picViewHeight = 0;
         if (evalutionForm.addedEval.evalImgs.count != 0)
         {
-            picViewHeight = 70*(evalutionForm.addedEval.evalImgs.count / Divide + 1);
+            picViewHeight = 70;
         }
         return 30 + 10 + strHeight + 5 + picViewHeight + 10 + 15;
     }
@@ -299,73 +375,17 @@ UITableViewDataSource
     [self performSegueWithIdentifier:@"segueToUserEvalutionDetail" sender:self];
 }
 
-#pragma mark - PullTableViewDelegate
-
-- (void)pullTableViewDidTriggerRefresh:(PullTableView *)pullTableView
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    [self performSelector:@selector(refreshTable) withObject:nil afterDelay:0.1f];
+    //去掉tableview中section的headerview粘性
+    CGFloat sectionHeaderHeight = 40;
+    if (scrollView.contentOffset.y<=sectionHeaderHeight&&scrollView.contentOffset.y>=0) {
+        scrollView.contentInset = UIEdgeInsetsMake(-scrollView.contentOffset.y, 0, 0, 0);
+    }
+    else if (scrollView.contentOffset.y>=sectionHeaderHeight) {
+        scrollView.contentInset = UIEdgeInsetsMake(-sectionHeaderHeight, 0, 0, 0);
+    }
 }
-
-- (void)pullTableViewDidTriggerLoadMore:(PullTableView *)pullTableView
-{
-    [self performSelector:@selector(loadMoreToTable) withObject:nil afterDelay:0.1f];
-}
-
-- (void)refreshTable
-{
-    self.page=1;
-    [self loadDataWithType:_currentSelectedSegment isRefreshType:CZJHomeGetDataFromServerTypeOne];
-}
-
-- (void)loadMoreToTable
-{
-    self.page++;
-    [self loadDataWithType:_currentSelectedSegment isRefreshType:CZJHomeGetDataFromServerTypeTwo];
-}
-
-
--(void)loadDataWithType:(NSInteger)segType  isRefreshType:(CZJHomeGetDataFromServerType)type{
-    
-    postParams =@{@"counterKey": _counterKey, @"page": [NSString stringWithFormat:@"%d",self.page],@"type":[NSString stringWithFormat:@"%ld",segType]};
-    CZJSuccessBlock successBlock = ^(id json)
-    {
-        [self segmentControl:nil didSelectAtIndex:_currentSelectedSegment];
-        switch (type) {
-            case CZJHomeGetDataFromServerTypeOne:
-            {
-                DLog(@"Get Home Data From Server Success...");
-                [self.myEvalTableView reloadData];
-                
-                if (self.myEvalTableView.pullTableIsRefreshing == YES)
-                {
-                    self.myEvalTableView.pullLastRefreshDate = [NSDate date];
-                }
-                self.myEvalTableView.pullTableIsLoadingMore = NO;
-                self.myEvalTableView.pullTableIsRefreshing = NO;
-            }
-                break;
-                
-            case CZJHomeGetDataFromServerTypeTwo:
-            {
-                DLog(@"Get Goods Data From Server Success...");
-                [self.myEvalTableView reloadData];
-                if (self.myEvalTableView.pullTableIsRefreshing == YES)
-                {
-                    self.myEvalTableView.pullLastRefreshDate = [NSDate date];
-                }
-                self.myEvalTableView.pullTableIsLoadingMore = NO;
-                self.myEvalTableView.pullTableIsRefreshing = NO;
-            }
-                break;
-                
-            default:
-                break;
-        }
-        [self.myEvalTableView reloadData];
-    };
-    [CZJBaseDataInstance loadUserEvalutions:postParams type:type Success:successBlock fail:^{}];
-}
-
 
 
 #pragma mark- LXDSegmentControlDelegate
@@ -375,32 +395,32 @@ UITableViewDataSource
     {
         [CZJUtils removeNoDataAlertViewFromTarget:self.view];
         _currentSelectedSegment = index;
-        [self.myEvalTableView setContentOffset:CGPointZero];
         [self reloadTableview];
     }
 }
 
 - (void)reloadTableview
 {
+    [_tmpEvalutionAry removeAllObjects];
     switch (_currentSelectedSegment) {
         case CZJEvalutionTypeAll:
-            _tmpEvalutionAry = _allEvalutionAry;
+            [_tmpEvalutionAry addObjectsFromArray:_allEvalutionAry];
             break;
             
         case CZJEvalutionTypePic:
-            _tmpEvalutionAry = _picEvalutionAry;
+            [_tmpEvalutionAry addObjectsFromArray:_picEvalutionAry];
             break;
             
         case CZJEvalutionTypeGood:
-            _tmpEvalutionAry = _goodEvalutionAry;
+            [_tmpEvalutionAry addObjectsFromArray:_goodEvalutionAry];
             break;
             
         case CZJEvalutionTypeMiddle:
-            _tmpEvalutionAry = _middleEvalutionAry;
+            [_tmpEvalutionAry addObjectsFromArray:_middleEvalutionAry];
             break;
             
         case CZJEvalutionTypeBad:
-            _tmpEvalutionAry = _badEvalutionAry;
+            [_tmpEvalutionAry addObjectsFromArray:_badEvalutionAry];
             break;
             
         default:
@@ -415,6 +435,7 @@ UITableViewDataSource
     {
         [CZJUtils removeNoDataAlertViewFromTarget:self.view];
         self.myEvalTableView.hidden = NO;
+        [self.myEvalTableView setContentOffset:CGPointZero];
         [self.myEvalTableView reloadData];
     }
 }

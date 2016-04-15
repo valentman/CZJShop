@@ -60,6 +60,9 @@
     else
     {
         [USER_DEFAULT setObject:@"" forKey:CCLastAddress];
+        [USER_DEFAULT setObject:@"" forKey:CCLastCity];
+        [USER_DEFAULT setObject:@"0" forKey:CCLastLatitude];
+        [USER_DEFAULT setObject:@"0" forKey:CCLastLongitude];
     }
     return isEnable;
 }

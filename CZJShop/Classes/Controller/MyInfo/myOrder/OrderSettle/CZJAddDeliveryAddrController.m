@@ -86,21 +86,45 @@
 }
 
 - (IBAction)saveAction:(id)sender {
+    [self.view endEditing:YES];
     //还需验证数据的有效性和正确性
+    if ([CZJUtils isBlankString:self.nameTextField.text])
+    {
+        [CZJUtils tipWithText:@"请填写收货人姓名" andView:self.view];
+        return;
+    }
+    if ([CZJUtils isBlankString:self.phoneNumTextField.text])
+    {
+        [CZJUtils tipWithText:@"请填写收货人手机号码" andView:self.view];
+        return;
+    }
+    if (_selectedAddAry.count == 0)
+    {
+        [CZJUtils tipWithText:@"请填写省市区地址" andView:self.view];
+        return;
+    }
+    if ([CZJUtils isBlankString:self.detailedAddrTextField.text])
+    {
+        [CZJUtils tipWithText:@"请添加街道详细地址" andView:self.view];
+        return;
+    }
+    
     NSMutableDictionary* addrDict = [@{@"receiver": self.nameTextField.text,
                                        @"province": _selectedAddAry[0],
                                        @"city": _selectedAddAry[1],
                                        @"county": _selectedAddAry[2],
-                                       @"dftFlag": self.defaultBtn.selected ? @"true" : @"false",
+                                       @"dftFlag": self.defaultBtn.selected ? @"1" : @"0",
                                        @"mobile" : self.phoneNumTextField.text,
                                        @"addr" : self.detailedAddrTextField.text
                                        } mutableCopy];
 
 
+    __weak typeof(self) weakSelf = self;
     if (!_addrForm) {
         NSDictionary* params = @{@"paramJson" : [CZJUtils JsonFromData:addrDict]};
         [CZJBaseDataInstance addDeliveryAddr:params Success:^{
-            [self.navigationController popViewControllerAnimated:YES];
+            [CZJUtils tipWithText:@"添加地址成功" andView:weakSelf.view ];
+            [weakSelf.navigationController popViewControllerAnimated:YES];
         } fail:^{
             
         }];
@@ -110,7 +134,8 @@
         [addrDict setObject:_addrForm.addrId forKey:@"id"];
         NSDictionary* params = @{@"paramJson" : [CZJUtils JsonFromData:addrDict]};
         [CZJBaseDataInstance updateDeliveryAddr:params Success:^{
-            [self.navigationController popViewControllerAnimated:YES];
+            [CZJUtils tipWithText:@"更新地址成功" andView:weakSelf.view ];
+            [weakSelf.navigationController popViewControllerAnimated:YES];
         } fail:^{
             
         }];

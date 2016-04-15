@@ -215,8 +215,9 @@ UITableViewDelegate
     
     //左上角价格
     CGSize priceSize = [CZJUtils calculateTitleSizeWithString:priceStri WithFont:SYSTEMFONT(45)];
-    cell.couponPriceLabelLayout.constant = priceSize.width + 5;
+    cell.couponPriceLabelLayout.constant = priceSize.width;
     cell.couponPriceLabel.text = priceStri;
+    
     
     //门店名称
     NSString* storeNameStr = couponForm.storeName;
@@ -229,6 +230,7 @@ UITableViewDelegate
     //右下角有限期
     cell.receiveTimeLabel.text = couponForm.validEndTime;
     [cell setCellWithCouponType:_couponType andServiceType:![couponForm.validServiceId isEqualToString:@"0"]];
+    cell.couponPriceLabel.keyWord = @"￥";
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }

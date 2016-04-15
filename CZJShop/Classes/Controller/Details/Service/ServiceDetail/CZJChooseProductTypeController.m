@@ -245,10 +245,10 @@ UITableViewDataSource
     if (0 == indexPath.section)
     {
         CZJChooseTypeHeaderCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJChooseTypeHeaderCell" forIndexPath:indexPath];
-        CGSize nameSize = [self.goodsDetail.sku.skuName boundingRectWithSize:CGSizeMake(PJ_SCREEN_WIDTH - 80 - 80, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName: SYSTEMFONT(16)} context:nil].size;
-        cell.productNameLabelLayoutHeight.constant = nameSize.height;
-        cell.productNameLabelLayoutWidth.constant = nameSize.width;
-        cell.productNameLabel.text = self.goodsDetail.sku.skuName;
+//        CGSize nameSize = [self.goodsDetail.sku.skuName boundingRectWithSize:CGSizeMake(PJ_SCREEN_WIDTH - 80 - 80, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName: SYSTEMFONT(16)} context:nil].size;
+//        cell.productNameLabelLayoutHeight.constant = nameSize.height;
+//        cell.productNameLabelLayoutWidth.constant = nameSize.width;
+        cell.productNameLabel.text = @"";
         cell.productPriceLabel.text = [NSString stringWithFormat:@"￥%@",self.goodsDetail.sku.skuPrice];
         cell.productCodeLabel.text = self.goodsDetail.sku.skuCode;
         [cell.productImage sd_setImageWithURL:[NSURL URLWithString:self.goodsDetail.sku.skuImg] placeholderImage:DefaultPlaceHolderSquare];

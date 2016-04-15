@@ -265,8 +265,12 @@ CZJFilterControllerDelegate
     //获取导航栏和下拉栏原始位置，为了上拉或下拉时动画
     pullDownMenuOriginPoint = _pullDownMenuView.frame.origin;
     naviBraviewOriginPoint = self.naviBarView.frame.origin;
-    
     [[UIApplication sharedApplication]setStatusBarHidden:(self.naviBarView.frame.origin.y < 0)];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [[UIApplication sharedApplication]setStatusBarHidden:NO];
 }
 
 - (void)viewDidDisappear:(BOOL)animated

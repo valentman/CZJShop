@@ -14,5 +14,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *replyContentLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *replyImage;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *replyContentLayoutHeight;
+@property (weak, nonatomic) IBOutlet UIView *separatorView;
 
 @end

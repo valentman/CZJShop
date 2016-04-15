@@ -68,8 +68,7 @@
                 NSString* name = [self.buttonDatas[i] valueForKey:@"name"];
                 [child setTitle:name forState:UIControlStateNormal];
                 NSString* typeID = [self.buttonDatas[i] valueForKey:@"typeId"];
-                NSString* currentTypeId = [USER_DEFAULT valueForKey:kUserDefaultServiceTypeID];
-                if ([typeID isEqualToString:currentTypeId])
+                if ([typeID isEqualToString:self.typeId])
                 {
                     [self selectedBtnClick:child];
                 }
@@ -83,7 +82,8 @@
                 if ([name isEqualToString:@"上门服务"])
                 {
                     [child setEnabled:false];
-                    child.backgroundColor = RGB(192,192, 192);
+                    child.backgroundColor = RGB(230,230, 230);
+                    [child setTitleColor:RGB(192, 192, 192) forState:UIControlStateNormal];
                     child.layer.borderWidth = 0;
                 }
                 if ([name isEqualToString:[USER_DEFAULT valueForKey:kUserDefaultServicePlace]])
@@ -155,8 +155,15 @@
 {
     UIButton* _button = (UIButton*)sender;
     NSInteger tag = [_button tag];
-    if (kCZJSerFilterTypeChooseCellTypeGoods == cellType )
+    if (kCZJSerFilterTypeChooseCellTypeGoWhere == cellType ||
+        kCZJSerFilterTypeChooseCellTypeGoods == cellType )
     {
+//        if (kCZJSerFilterTypeChooseCellTypeGoWhere == cellType)
+//        {//上门服务列外（暂时不提供上门服务）
+//            [btn setEnabled:false];
+//            btn.backgroundColor = RGB(192,192, 192);
+//            btn.layer.borderWidth = 0;
+//        }
         if (_button.selected) {
             [_button setSelected:false];
             [_button setBackgroundColor:[UIColor whiteColor]];
@@ -175,7 +182,7 @@
             [_button setImageEdgeInsets:UIEdgeInsetsMake(0.0, 0.0, 0.0, 0.0)];
         }
     }
-    else if (kCZJSerFilterTypeChooseCellTypeGoWhere == cellType ||
+    else if (
              kCZJSerFilterTypeChooseCellTypeService == cellType ||
              kCZJSerfilterTypeChooseCellTypeDetail == cellType ||
              kCZJSerfilterTypeChooseCellTypeReturnGoods == cellType)
@@ -199,12 +206,6 @@
                 btn.layer.borderWidth = 0.5;
                 btn.titleLabel.textColor = [UIColor grayColor];
                 [btn setImage:[UIImage imageNamed:@""] forState:UIControlStateSelected];
-                if (kCZJSerFilterTypeChooseCellTypeGoWhere == cellType)
-                {//上门服务列外（暂时不提供上门服务）
-                    [btn setEnabled:false];
-                    btn.backgroundColor = RGB(192,192, 192);
-                    btn.layer.borderWidth = 0;
-                }
             }
         }
     }
@@ -221,7 +222,7 @@
         case kCZJSerFilterTypeChooseCellTypeGoWhere:
         {
             typeID = self.buttonDatas[tag];
-            [USER_DEFAULT setValue:typeID forKey:kUserDefaultServicePlace];
+            [USER_DEFAULT setValue:(_button.selected ? typeID : @"") forKey:kUserDefaultServicePlace];
         }
             break;
         case kCZJSerFilterTypeChooseCellTypeGoods:

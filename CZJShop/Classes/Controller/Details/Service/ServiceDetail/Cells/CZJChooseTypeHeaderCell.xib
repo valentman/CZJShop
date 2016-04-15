@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
@@ -42,7 +42,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="0.0" translatesAutoresizingMaskIntoConstraints="NO" id="z08-2X-3Le">
-                        <rect key="frame" x="110" y="79" width="70" height="21"/>
+                        <rect key="frame" x="110" y="39" width="70" height="21"/>
                         <animations/>
                         <constraints>
                             <constraint firstAttribute="width" constant="70" id="Jlw-Rf-qlx"/>
@@ -53,7 +53,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="商品编号:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="0.0" translatesAutoresizingMaskIntoConstraints="NO" id="FJy-kZ-KCr">
-                        <rect key="frame" x="194" y="84" width="60" height="16"/>
+                        <rect key="frame" x="110" y="64" width="60" height="16"/>
                         <animations/>
                         <constraints>
                             <constraint firstAttribute="width" constant="60" id="oTP-B5-Xo2"/>
@@ -64,7 +64,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="0.0" translatesAutoresizingMaskIntoConstraints="NO" id="oa9-jE-rr9">
-                        <rect key="frame" x="257" y="84" width="80" height="16"/>
+                        <rect key="frame" x="173" y="64" width="80" height="16"/>
                         <animations/>
                         <constraints>
                             <constraint firstAttribute="height" constant="16" id="BkG-7R-MXD"/>
@@ -78,15 +78,15 @@
                 <animations/>
                 <constraints>
                     <constraint firstItem="hip-US-Pwa" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="20" id="6XI-zg-h3j"/>
+                    <constraint firstItem="FJy-kZ-KCr" firstAttribute="leading" secondItem="lEH-St-HM4" secondAttribute="trailing" constant="10" id="C4W-NM-sh3"/>
                     <constraint firstItem="z08-2X-3Le" firstAttribute="leading" secondItem="lEH-St-HM4" secondAttribute="trailing" constant="10" id="IWW-vz-uc6"/>
                     <constraint firstItem="lEH-St-HM4" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="20" id="JPN-4k-QvU"/>
                     <constraint firstItem="lEH-St-HM4" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="NYG-FZ-pfu"/>
-                    <constraint firstItem="FJy-kZ-KCr" firstAttribute="leading" secondItem="z08-2X-3Le" secondAttribute="trailing" constant="14" id="Occ-Se-M30"/>
                     <constraint firstItem="hip-US-Pwa" firstAttribute="leading" secondItem="lEH-St-HM4" secondAttribute="trailing" constant="10" id="VtO-7W-MZB"/>
-                    <constraint firstItem="oa9-jE-rr9" firstAttribute="bottom" secondItem="lEH-St-HM4" secondAttribute="bottom" id="W4E-PG-RHr"/>
+                    <constraint firstItem="oa9-jE-rr9" firstAttribute="bottom" secondItem="FJy-kZ-KCr" secondAttribute="bottom" id="YaI-XG-Zoq"/>
                     <constraint firstItem="oa9-jE-rr9" firstAttribute="leading" secondItem="FJy-kZ-KCr" secondAttribute="trailing" constant="3" id="cyW-3V-8yJ"/>
-                    <constraint firstItem="z08-2X-3Le" firstAttribute="bottom" secondItem="lEH-St-HM4" secondAttribute="bottom" id="saS-Ao-ezT"/>
-                    <constraint firstItem="FJy-kZ-KCr" firstAttribute="bottom" secondItem="lEH-St-HM4" secondAttribute="bottom" id="yIk-NX-X2A"/>
+                    <constraint firstItem="z08-2X-3Le" firstAttribute="bottom" secondItem="lEH-St-HM4" secondAttribute="bottom" constant="-40" id="saS-Ao-ezT"/>
+                    <constraint firstItem="FJy-kZ-KCr" firstAttribute="bottom" secondItem="lEH-St-HM4" secondAttribute="bottom" constant="-20" id="yIk-NX-X2A"/>
                 </constraints>
             </tableViewCellContentView>
             <animations/>

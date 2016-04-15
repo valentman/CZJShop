@@ -19,8 +19,8 @@ UITableViewDelegate,
 CZJDeliveryAddrListCellDelegate
 >
 {
-    NSMutableArray* _addrListAry;
-    NSInteger _currentTouchIndexPath;
+    __block NSMutableArray* _addrListAry;
+    __block NSInteger _currentTouchIndexPath;
 }
 @property (weak, nonatomic) IBOutlet UITableView *addrListTableView;
 
@@ -142,13 +142,31 @@ CZJDeliveryAddrListCellDelegate
 
 - (void)clickDeleteAddrButton:(id)sender andIndexPath:(NSIndexPath *)indexPath
 {
-    NSDictionary* params = @{@"id" : ((CZJAddrForm*)_addrListAry[indexPath.section]).addrId};
-    [CZJBaseDataInstance removeDeliveryAddr:params Success:^(id json){
-        [_addrListAry removeObjectAtIndex:indexPath.section];
-        [_addrListTableView reloadData];
-    } fail:^{
+    __weak typeof(self) weak = self;
+    [self showCZJAlertView:@"确定删除该地址？" andConfirmHandler:^{
+        NSString* willDeleteAddrId = ((CZJAddrForm*)_addrListAry[indexPath.section]).addrId;
+        NSDictionary* params = @{@"id" : willDeleteAddrId};
         
-    }];
+        NSDictionary* addrDict = [CZJUtils readDictionaryFromDocumentsDirectoryWithPlistName:kCZJPlistFileDefaultDeliveryAddr];
+        __block isDefalutDeliveryAddr = NO;
+        CZJAddrForm* defalutAddr = [CZJAddrForm objectWithKeyValues:addrDict];
+        if ([defalutAddr.addrId isEqualToString:willDeleteAddrId])
+        {//所删除地址是否为默认地址，如果为默认地址，则删除本地存储的默认地址文件
+            isDefalutDeliveryAddr = YES;
+        }
+        
+        [CZJBaseDataInstance removeDeliveryAddr:params Success:^(id json){
+            [_addrListAry removeObjectAtIndex:indexPath.section];
+            [_addrListTableView reloadData];
+            if (isDefalutDeliveryAddr)
+            {
+                [FileManager removeItemAtPath:[DocumentsDirectory stringByAppendingPathComponent:kCZJPlistFileDefaultDeliveryAddr] error:nil];
+            }
+        } fail:^{
+            
+        }];
+        [weak hideWindow];
+    } andCancleHandler:nil];
 }
 
 - (void)clickSetDefault:(id)sender andIndexPath:(NSIndexPath *)indexPath

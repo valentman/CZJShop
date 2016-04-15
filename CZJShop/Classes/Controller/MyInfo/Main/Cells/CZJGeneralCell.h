@@ -18,4 +18,5 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *imageViewHeight;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *imageViewWidth;
 @property (strong, nonatomic)id tempData;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *arrowTrailing;
 @end

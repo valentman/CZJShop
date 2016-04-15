@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CZJDetailReturnableAnyWayCell : UITableViewCell
+@interface CZJDetailReturnableAnyWayCell : CZJTableViewCell
 
 @end

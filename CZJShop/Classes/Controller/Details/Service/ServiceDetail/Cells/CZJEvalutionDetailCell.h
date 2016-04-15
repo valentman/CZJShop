@@ -12,6 +12,5 @@
 @property (weak, nonatomic) IBOutlet UIImageView *evalWriteHeadImage;
 @property (weak, nonatomic) IBOutlet UILabel *evalWriterName;
 @property (weak, nonatomic) IBOutlet UILabel *evalWriteTime;
-@property (weak, nonatomic) IBOutlet UILabel *replyContent;
 
 @end
