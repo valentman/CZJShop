@@ -14,6 +14,7 @@
 #import "CZJEvalutionHeaderCell.h"
 #import "CZJEvalutionDetailReplyCell.h"
 #import "CZJLoginModelManager.h"
+#import "CZJAddedEvalutionCell.h"
 
 @interface CZJUserEvalutionDetailController ()
 <
@@ -86,6 +87,7 @@ CZJNaviagtionBarViewDelegate
     [self.myTableView reloadData];
     
     NSArray* nibArys = @[@"CZJEvalutionDetailCell",
+                         @"CZJAddedEvalutionCell",
                          @"CZJEvalutionDescCell",
                          @"CZJEvalutionFooterCell",
                          @"CZJEvalutionDetailReplyCell"
@@ -195,13 +197,16 @@ CZJNaviagtionBarViewDelegate
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (0 == section) {
-        return 3;
+        BOOL isHaveAdded = [_evalutionForm.added boolValue];
+        return isHaveAdded ? 4 : 3;
     }
     if (1 == section) {
         if (userEvalutionReplys.count > 0) {
             return userEvalutionReplys.count + 1;
         }
     }
+    
+
     return 0;
 }
 
@@ -234,15 +239,42 @@ CZJNaviagtionBarViewDelegate
             
             for (int i = 0; i < _evalutionForm.evalImgs.count; i++)
             {
-                UIImageView* evaluateImage = [[UIImageView alloc]init];
-                [evaluateImage sd_setImageWithURL:[NSURL URLWithString:_evalutionForm.evalImgs[i]] placeholderImage:DefaultPlaceHolderSquare];
                 CGRect iamgeRect = [CZJUtils viewFramFromDynamic:CZJMarginMake(0, 10) size:CGSizeMake(78, 78) index:i divide:Divide];
-                evaluateImage.frame = iamgeRect;
+                CZJImageView* evaluateImage = [[CZJImageView alloc]initWithFrame:iamgeRect];
+                evaluateImage.subTag = i;
+                evaluateImage.secondTag = 0;
+                [evaluateImage addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showBigImage:)]];
+                [evaluateImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",_evalutionForm.evalImgs[i],SUOLUE_PIC_200]] placeholderImage:DefaultPlaceHolderSquare];
+                
                 [cell.picView addSubview:evaluateImage];
             }
             return cell;
         }
-        if (2 == indexPath.row)
+        if ([_evalutionForm.added boolValue] && 2 == indexPath.row)
+        {
+            CZJAddedEvalutionCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJAddedEvalutionCell" forIndexPath:indexPath];
+            cell.addedTimeLabel.text = _evalutionForm.addedEval.evalTime;
+            cell.addedContentLabel.text = _evalutionForm.addedEval.message;
+            float strHeight = [CZJUtils calculateStringSizeWithString:_evalutionForm.addedEval.message Font:SYSTEMFONT(13) Width:PJ_SCREEN_WIDTH - 30].height;
+            cell.contentLabelHeight.constant = strHeight + 5;
+            
+            for (int i = 0; i < _evalutionForm.addedEval.evalImgs.count; i++)
+            {
+                NSString* url = _evalutionForm.addedEval.evalImgs[i];
+                CGRect imageFrame = [CZJUtils viewFramFromDynamic:CZJMarginMake(0, 0) size:CGSizeMake(70, 70) index:i divide:Divide];
+                CZJImageView* imageView = [[CZJImageView alloc]initWithFrame:imageFrame];
+                imageView.subTag = i;
+                imageView.secondTag = 1;
+                
+                [imageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",url,SUOLUE_PIC_200]] placeholderImage:DefaultPlaceHolderSquare];
+                [imageView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showBigImage:)]];
+                [cell.picView addSubview:imageView];
+            }
+            
+            return cell;
+        }
+        if (([_evalutionForm.added boolValue] && 3 == indexPath.row)||
+            (![_evalutionForm.added boolValue] && 2 == indexPath.row))
         {
             CZJEvalutionFooterCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJEvalutionFooterCell" forIndexPath:indexPath];
             [cell setVisibleView:kEvalDetailView];
@@ -290,7 +322,6 @@ CZJNaviagtionBarViewDelegate
             cell.separatorInset = HiddenCellSeparator;
             return cell;
         }
-        
     }
     return nil;
 }
@@ -310,7 +341,18 @@ CZJNaviagtionBarViewDelegate
             NSInteger cellHeight = 60 + (contenSize.height > 20 ? contenSize.height : 20) + row * 88;
             return cellHeight;
         }
-        if (2 == indexPath.row)
+        if (2 == indexPath.row && [_evalutionForm.added boolValue])
+        {
+            float strHeight = [CZJUtils calculateStringSizeWithString:_evalutionForm.addedEval.message Font:SYSTEMFONT(13) Width:PJ_SCREEN_WIDTH - 40].height;
+            float picViewHeight = 0;
+            if (_evalutionForm.addedEval.evalImgs.count != 0)
+            {
+                picViewHeight = 70;
+            }
+            return 30 + 10 + strHeight + 5 + picViewHeight + 10 + 15;
+        }
+        if ((2 == indexPath.row && ![_evalutionForm.added boolValue])||
+            (3 == indexPath.row && [_evalutionForm.added boolValue]))
         {
             return 64;
         }
@@ -633,5 +675,17 @@ CZJNaviagtionBarViewDelegate
     } andServerAPI:kCZJServerAPIReplyEvalution];
 }
 
-
+#pragma mark- 点小图显示大图
+- (void)showBigImage:(UIGestureRecognizer*)recogonizer
+{
+    CZJImageView* evalutionImg = (CZJImageView*)recogonizer.view;
+    if (evalutionImg.secondTag == 0)
+    {//一级评价的图片
+        [CZJUtils showDetailInfoWithIndex:evalutionImg.subTag withImgAry:_evalutionForm.evalImgs onTarget:self];
+    }
+    else
+    {//追加评价的图片
+        [CZJUtils showDetailInfoWithIndex:evalutionImg.subTag withImgAry:_evalutionForm.addedEval.evalImgs onTarget:self];
+    }
+}
 @end

@@ -14,6 +14,7 @@
 #import "CZJBaseDataManager.h"
 #import "CZJGoodsListFilterController.h"
 #import "CZJDetailViewController.h"
+#import "CZJGoodsListFilterController.h"
 
 
 @interface CZJGoodsListController ()
@@ -33,7 +34,6 @@ CZJFilterControllerDelegate
     BOOL isArrangeByList;
     NSString* _choosedStoreitemPid;
     
-//    NSString* citID;
     NSString* sortType;
     NSString* modelID;
     NSString* brandID;
@@ -42,7 +42,7 @@ CZJFilterControllerDelegate
     NSString* recommendFlag;
     NSString* startPrice;
     NSString* endPrice;
-    NSString* attrJson;
+    NSArray* attrJson;
     
     BOOL _isTouch;
     float lastContentOffsetY;
@@ -77,16 +77,16 @@ CZJFilterControllerDelegate
     currentChooseFilterArys = [NSArray array];
     isArrangeByList = YES;
     _getdataType = CZJHomeGetDataFromServerTypeOne;
+    attrJson = [NSArray array];
     
     //post参数初始化
     self.page = 1;
     sortType = @"0";
-    modelID = @"";
-    brandID = @"";
-    stockFlag = @"0";
-    recommendFlag = @"0";
-    promotionFlag = @"0";
-    attrJson = @"";
+    modelID = @"0";
+    brandID = @"0";
+    stockFlag = @"false";
+    recommendFlag = @"false";
+    promotionFlag = @"false";
     startPrice = @"";
     endPrice = @"";
 }
@@ -107,6 +107,7 @@ CZJFilterControllerDelegate
     _pullDownMenuView.frame = CGRectMake(0, 64, PJ_SCREEN_WIDTH, 46);
     [self.view addSubview:_pullDownMenuView];
     
+    __weak typeof(self) weakSelf = self;
     //TableView
     self.myTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 110, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - 110) style:UITableViewStylePlain];
     self.myTableView.tableFooterView = [[UIView alloc]init];
@@ -121,7 +122,13 @@ CZJFilterControllerDelegate
     
     UINib* nib1 = [UINib nibWithNibName:@"CZJGoodsListCell" bundle:nil];
     [self.myTableView registerNib:nib1 forCellReuseIdentifier:@"CZJGoodsListCell"];
-    
+    tableRefreshFooter = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^(){
+        _getdataType = CZJHomeGetDataFromServerTypeTwo;
+        weakSelf.page++;
+        [weakSelf getGoodsListDataFromServer];;
+    }];
+    weakSelf.myTableView.footer = tableRefreshFooter;
+    weakSelf.myTableView.footer.hidden = YES;
     
     //CollectionView
     UICollectionViewFlowLayout* goodCollectioinLayout = [[UICollectionViewFlowLayout alloc]init];
@@ -133,11 +140,21 @@ CZJFilterControllerDelegate
     UINib *nib=[UINib nibWithNibName:kCZJCollectionCellReuseIdGoodReco bundle:nil];
     [self.myGoodsCollectionView registerNib: nib forCellWithReuseIdentifier:kCZJCollectionCellReuseIdGoodReco];
     [self.view addSubview:self.myGoodsCollectionView];
+
+    collectionRefreshFooter = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^(){
+        _getdataType = CZJHomeGetDataFromServerTypeTwo;
+        weakSelf.page++;
+        [weakSelf getGoodsListDataFromServer];
+    }];
+    weakSelf.myGoodsCollectionView.footer = collectionRefreshFooter;
+    weakSelf.myGoodsCollectionView.footer.hidden = YES;
+    
+    self.view.backgroundColor = CZJNAVIBARBGCOLOR;
 }
 
 - (void)getGoodsListDataFromServer
 {
-    DLog(@"%@,%@,%@,%@,%@,%@,%@,%@,%@,%@,%@,%@",sortType,self.typeId,self.searchStr,modelID,brandID,stockFlag,promotionFlag,recommendFlag,attrJson,startPrice,endPrice,@(self.page));
+    DLog(@"%@,%@,%@,%@,%@,%@,%@,%@,%@,%@,%@,%@",sortType,self.typeId,self.searchStr,modelID,brandID,stockFlag,promotionFlag,recommendFlag,[CZJUtils JsonFromData:attrJson],startPrice,endPrice,@(self.page));
     NSDictionary* goodsListPostParams = @{@"itemType" : @"1",
                                           @"sortType" : sortType,
                                           @"typeId" : self.typeId,
@@ -147,34 +164,18 @@ CZJFilterControllerDelegate
                                           @"stockFlag" : stockFlag,
                                           @"promotionFlag" : promotionFlag,
                                           @"recommendFlag" : recommendFlag,
-                                          @"attrJson" : attrJson,
+                                          @"attrJson" : [CZJUtils JsonFromData:attrJson],
                                           @"startPrice" : startPrice,
                                           @"endPrice" : endPrice,
                                           @"page" : @(self.page)};
-    DLog(@"storeparameters:%@", [goodsListPostParams description]);
+    DLog(@"\n storeparameters:%@", [[CZJUtils JsonFromData:goodsListPostParams] description]);
     __weak typeof(self) weak = self;
     [CZJUtils removeReloadAlertViewFromTarget:self.view];
-    [CZJUtils removeReloadAlertViewFromTarget:self.view];
+    [CZJUtils removeNoDataAlertViewFromTarget:self.view];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     CZJSuccessBlock successBlock = ^(id json) {
         [MBProgressHUD hideAllHUDsForView:weak.view animated:YES];
         //返回数据回来还未解析到本地数组中时就添加下拉刷新footer
-        if (goodsListAry.count == 0)
-        {
-            tableRefreshFooter = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^(){
-                _getdataType = CZJHomeGetDataFromServerTypeTwo;
-                weak.page++;
-                [weak getGoodsListDataFromServer];;
-            }];
-            collectionRefreshFooter = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^(){
-                _getdataType = CZJHomeGetDataFromServerTypeTwo;
-                weak.page++;
-                [weak getGoodsListDataFromServer];;
-            }];
-            weak.myTableView.footer = tableRefreshFooter;
-            weak.myGoodsCollectionView.footer = collectionRefreshFooter;
-            weak.myTableView.footer.hidden = YES;
-            weak.myGoodsCollectionView.footer.hidden = YES;
-        }
         if (isArrangeByList) {
             [weak.myTableView.footer endRefreshing];
         }
@@ -221,6 +222,7 @@ CZJFilterControllerDelegate
             goodsListAry = [[CZJStoreServiceForm objectArrayWithKeyValuesArray:dict] mutableCopy];
             if (goodsListAry.count == 0)
             {
+                [weak.myTableView setHidden:YES];
                 [CZJUtils showNoDataAlertViewOnTarget:self.view withPromptString:@"木有该品类商品/(ToT)/~~"];
             }
             else
@@ -236,9 +238,13 @@ CZJFilterControllerDelegate
                     [weak.myTableView setHidden:YES];
                     [weak.myGoodsCollectionView setHidden:NO];
                     [weak.myGoodsCollectionView reloadData];
-                    weak.myGoodsCollectionView.footer.hidden = weak.myGoodsCollectionView.mj_contentH < weak.myGoodsCollectionView.frame.size.height;;
+                    //这里为什么要用延时加载，因为马上执行获取Collectionview的Height为0，延时之后则为正常值
+                    [CZJUtils performBlock:^{
+                        DLog(@"content:%f,frame:%f",weak.myGoodsCollectionView.mj_contentH,weak.myGoodsCollectionView.frame.size.height);
+                        weak.myGoodsCollectionView.footer.hidden = weak.myGoodsCollectionView.mj_contentH < weak.myGoodsCollectionView.frame.size.height;
+                    } afterDelay:0.5];
+                    
                 }
-                
             }
         }
         
@@ -250,6 +256,8 @@ CZJFilterControllerDelegate
                                   fail:^{
                                       [MBProgressHUD hideAllHUDsForView:weak.view animated:YES];
                                       [CZJUtils showReloadAlertViewOnTarget:weak.view withReloadHandle:^{
+                                          _getdataType = CZJHomeGetDataFromServerTypeTwo;
+                                          weak.page = 1;
                                           [weak getGoodsListDataFromServer];
                                       }];
                                   }];
@@ -265,7 +273,7 @@ CZJFilterControllerDelegate
     //获取导航栏和下拉栏原始位置，为了上拉或下拉时动画
     pullDownMenuOriginPoint = _pullDownMenuView.frame.origin;
     naviBraviewOriginPoint = self.naviBarView.frame.origin;
-    [[UIApplication sharedApplication]setStatusBarHidden:(self.naviBarView.frame.origin.y < 0)];
+    [[UIApplication sharedApplication]setStatusBarHidden:(self.naviBarView.frame.origin.y < 0) withAnimation:UIStatusBarAnimationFade];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -278,9 +286,9 @@ CZJFilterControllerDelegate
     [USER_DEFAULT setValue:@"" forKey:kUserDefaultChoosedBrandID];
     [USER_DEFAULT setValue:@"" forKey:kUserDefaultStartPrice];
     [USER_DEFAULT setValue:@"" forKey:kUserDefaultEndPrice];
-    [USER_DEFAULT setValue:@"" forKey:kUSerDefaultStockFlag];
-    [USER_DEFAULT setValue:@"" forKey:kUSerDefaultPromotionFlag];
-    [USER_DEFAULT setValue:@"" forKey:kUSerDefaultRecommendFlag];
+    [USER_DEFAULT setValue:@"false" forKey:kUSerDefaultStockFlag];
+    [USER_DEFAULT setValue:@"false" forKey:kUSerDefaultPromotionFlag];
+    [USER_DEFAULT setValue:@"false" forKey:kUSerDefaultRecommendFlag];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -290,7 +298,7 @@ CZJFilterControllerDelegate
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     float contentOffsetY = [scrollView contentOffset].y;
-    
+    DLog(@"contentHeight:%f",scrollView.mj_contentH);
     //判断是否是上拉（isDraggingDown = false）还是下滑（isDraggingDown = true）
     bool isDraggingDown = (lastContentOffsetY - contentOffsetY) > 0 ;
     lastContentOffsetY = contentOffsetY;
@@ -348,9 +356,12 @@ CZJFilterControllerDelegate
     cell.goodsName.text = goodsForm.itemName;
     NSString* rmb = @"￥";
     cell.goodPrice.text = [rmb stringByAppendingString:goodsForm.currentPrice];
+    cell.goodpriceWidth.constant = [CZJUtils calculateTitleSizeWithString:cell.goodPrice.text WithFont:cell.goodPrice.font].width + 5;
+    cell.goodPrice.keyWord = rmb;
+    
     cell.goodRate.text = goodsForm.goodEvalRate;
-    cell.puchaseCount.text = goodsForm.purchaseCount;
-    cell.purchaseCountWidth.constant = [CZJUtils calculateTitleSizeWithString:goodsForm.purchaseCount AndFontSize:13].width;
+    cell.puchaseCount.text = goodsForm.evalCount;
+    cell.purchaseCountWidth.constant = [CZJUtils calculateTitleSizeWithString:goodsForm.evalCount AndFontSize:13].width + 5;
     [cell.goodImageView sd_setImageWithURL:[NSURL URLWithString:goodsForm.itemImg] placeholderImage:DefaultPlaceHolderSquare];
     
     cell.imageOne.hidden = YES;
@@ -422,13 +433,15 @@ CZJFilterControllerDelegate
 
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     CZJGoodsRecoCollectionCell *cell=[collectionView dequeueReusableCellWithReuseIdentifier:kCZJCollectionCellReuseIdGoodReco forIndexPath:indexPath];
-    DLog(@"%@",cell);
     CZJStoreServiceForm * form;
     form = goodsListAry[indexPath.row];
     
     NSString* rmb = @"￥";
     cell.productName.text = form.itemName;
+    CGSize productSize = [CZJUtils calculateStringSizeWithString:form.itemName Font:cell.productName.font Width:PJ_SCREEN_WIDTH - 30];
+    cell.productNameHeight.constant = productSize.height > 20 ? 40 : 20;
     cell.productPrice.text = [rmb stringByAppendingString:form.currentPrice];
+    cell.productPrice.keyWord = rmb;
     cell.iconImageView.backgroundColor= CZJNAVIBARBGCOLOR;
     [cell.iconImageView sd_setImageWithURL:[NSURL URLWithString:form.itemImg] placeholderImage:DefaultPlaceHolderSquare];
     return cell;
@@ -451,6 +464,8 @@ CZJFilterControllerDelegate
     {
         sortType = [NSString stringWithFormat:@"%ld",row];
     }
+    _getdataType = CZJHomeGetDataFromServerTypeOne;
+    _page = 1;
     [self getGoodsListDataFromServer];
 }
 
@@ -476,11 +491,13 @@ CZJFilterControllerDelegate
         [pullDownMenu animateIndicator:NO];
         sortType = @"5";
     }
+    _getdataType = CZJHomeGetDataFromServerTypeOne;
+    _page = 1;
     [self getGoodsListDataFromServer];
 }
 
 - (void)actionBtn{
-    
+    __weak typeof(self) weakSelf = self;
     UIWindow *window = [[UIWindow alloc] initWithFrame:CGRectMake(PJ_SCREEN_WIDTH, 0, PJ_SCREEN_WIDTH-50, PJ_SCREEN_HEIGHT)];
     window.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:1.0];
     window.windowLevel = UIWindowLevelNormal;
@@ -491,57 +508,56 @@ CZJFilterControllerDelegate
     goodsListFilterController.delegate = self;
     goodsListFilterController.typeId = self.typeId;
     goodsListFilterController.selectedConditionArys = currentChooseFilterArys;
+    //传入取消回调
+    [goodsListFilterController setCancleBarItemHandle:^{
+        [weakSelf tapAction];
+    }];
+    
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:goodsListFilterController];
     goodsListFilterController.view.frame = window.bounds;
     window.rootViewController = nav;
     self.window = window;
 
     
-    UIView *backView = [[UIView alloc] initWithFrame:self.view.bounds];
-    backView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.5];
-    UITapGestureRecognizer *tap  = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapAction)];
-    [backView addGestureRecognizer:tap];
-    [self.view addSubview:backView];
-    self.upView = backView;
+    //初始化upView
+    self.upView = [[UIView alloc] initWithFrame:self.view.bounds];
+    self.upView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.5];
     self.upView.alpha = 0.0;
+    //点击隐藏手势、侧滑隐藏手势
+    [self.upView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapAction)]];
+    [self.upView addGestureRecognizer:[[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(tapAction)]];
+    //将upView添加到当前View上
+    [self.view addSubview:self.upView];
     
-    [UIView animateWithDuration:0.5 animations:^{
-        self.window.frame = CGRectMake(50, 0, PJ_SCREEN_WIDTH-50, PJ_SCREEN_HEIGHT);
-        self.upView.alpha = 1.0;
+    //开始执行出场动画
+    [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+        weakSelf.window.frame = CGRectMake(50, 0, PJ_SCREEN_WIDTH-50, PJ_SCREEN_HEIGHT);
+        weakSelf.upView.alpha = 1.0;
     } completion:nil];
-    
-    __weak typeof(self) weak = self;
-    [goodsListFilterController setCancleBarItemHandle:^{
-        [UIView animateWithDuration:0.5 animations:^{
-            weak.window.frame = CGRectMake(PJ_SCREEN_WIDTH, 0, PJ_SCREEN_WIDTH-50, PJ_SCREEN_HEIGHT);
-            self.upView.alpha = 0.0;
-        } completion:^(BOOL finished) {
-            if (finished) {
-                [weak.upView removeFromSuperview];
-                [weak.window resignKeyWindow];
-                weak.window  = nil;
-                weak.upView = nil;
-                weak.navigationController.interactivePopGestureRecognizer.enabled = YES;
-            }
-        }];
-    }];
-    
 }
 
 - (void)tapAction{
+    __weak typeof(self) weakSelf = self;
     [UIView animateWithDuration:0.5 animations:^{
-        self.window.frame = CGRectMake(PJ_SCREEN_WIDTH, 0, PJ_SCREEN_WIDTH-50, PJ_SCREEN_HEIGHT);
-        self.upView.alpha = 0.0;
+        weakSelf.window.frame = CGRectMake(PJ_SCREEN_WIDTH, 0, PJ_SCREEN_WIDTH-50, PJ_SCREEN_HEIGHT);
+        weakSelf.upView.alpha = 0.0;
     } completion:^(BOOL finished) {
         if (finished) {
-            [self.upView removeFromSuperview];
-            [self.window resignKeyWindow];
-            self.window  = nil;
-            self.upView = nil;
-            self.navigationController.interactivePopGestureRecognizer.enabled = YES;
+            [weakSelf.upView removeFromSuperview];
+            [weakSelf.window resignKeyWindow];
+            //获取弹出Window上的筛选控制器，移除控制器中得通知监听
+            CZJGoodsListFilterController* goodsListFilterController = (CZJGoodsListFilterController*)[CZJUtils getViewControllerInUINavigator:(UINavigationController*)weakSelf.window.rootViewController withClass:[CZJGoodsListFilterController class]];
+            if (goodsListFilterController)
+            {
+                [goodsListFilterController removeGoodsListFilterNotification];
+            }
+            weakSelf.window  = nil;
+            weakSelf.upView = nil;
+            weakSelf.navigationController.interactivePopGestureRecognizer.enabled = YES;
         }
     }];
 }
+
 
 
 - (void)clickEventCallBack:(nullable id)sender
@@ -590,15 +606,17 @@ CZJFilterControllerDelegate
 {
     currentChooseFilterArys = selectAry;
     //更新参数，重新请求数据刷新
-    modelID = [USER_DEFAULT valueForKey:kUserDefaultChoosedCarModelID] ?[USER_DEFAULT valueForKey:kUserDefaultChoosedCarModelID] : @"";
-    brandID = [USER_DEFAULT valueForKey:kUserDefaultChoosedBrandID] ? [USER_DEFAULT valueForKey:kUserDefaultChoosedBrandID] : @"";
-    stockFlag = [USER_DEFAULT valueForKey:kUSerDefaultStockFlag] ? [USER_DEFAULT valueForKey:kUSerDefaultStockFlag] : @"";
-    promotionFlag = [USER_DEFAULT valueForKey:kUSerDefaultPromotionFlag] ? [USER_DEFAULT valueForKey:kUSerDefaultPromotionFlag] : @"";
-    recommendFlag = [USER_DEFAULT valueForKey:kUSerDefaultRecommendFlag] ? [USER_DEFAULT valueForKey:kUSerDefaultPromotionFlag] : @"";
+    modelID = [USER_DEFAULT valueForKey:kUserDefaultChoosedCarModelID] ?[USER_DEFAULT valueForKey:kUserDefaultChoosedCarModelID] : @"0";
+    brandID = [USER_DEFAULT valueForKey:kUserDefaultChoosedBrandID] ? [USER_DEFAULT valueForKey:kUserDefaultChoosedBrandID] : @"0";
+    stockFlag = [USER_DEFAULT valueForKey:kUSerDefaultStockFlag];
+    promotionFlag = [USER_DEFAULT valueForKey:kUSerDefaultPromotionFlag];
+    recommendFlag = [USER_DEFAULT valueForKey:kUSerDefaultRecommendFlag] ;
     attrJson = data ? data :@"";
-    DLog(@"%@",attrJson.keyValues);
+    DLog(@"%@",[CZJUtils JsonFromData:attrJson]);
     startPrice = [USER_DEFAULT valueForKey:kUserDefaultStartPrice];
     endPrice = [USER_DEFAULT valueForKey:kUserDefaultEndPrice];
+    _getdataType = CZJHomeGetDataFromServerTypeOne;
+    _page = 1;
     [self getGoodsListDataFromServer];
 }
 

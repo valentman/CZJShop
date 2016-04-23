@@ -65,6 +65,7 @@
 
 singleton_interface(CZJBaseDataManager);
 
+- (void)initPostBaseParameters;
 - (void)refreshChezhuID;
 - (void)getAreaInfos;
 -(void)getSomeInfoSuccess:(CZJSuccessBlock)success;
@@ -215,7 +216,7 @@ singleton_interface(CZJBaseDataManager);
 
 //加入购物车
 - (void)addProductToShoppingCart:(NSDictionary*)postParams
-                         Success:(CZJGeneralBlock)success
+                         Success:(CZJSuccessBlock)success
                             fail:(CZJFailureBlock)fail;
 
 //删除购物车物品

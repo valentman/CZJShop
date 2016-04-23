@@ -28,25 +28,20 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self initViews];
-    [CZJUtils performBlock:^{
-        [self initServiceFilterDatas];
-    } afterDelay:0.5];
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(refreshTableView:) name:@"ChooseCartype" object:nil];
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [[NSNotificationCenter defaultCenter]removeObserver:self name:@"ChooseCartype" object:nil];
+    [self initServiceFilterDatas];
 }
 
 - (void)initServiceFilterDatas
 {
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    __weak typeof(self) weakSelf = self;
     [CZJBaseDataInstance generalPost:nil success:^(id json) {
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
         NSDictionary* dict = [CZJUtils DataFromJson:json];
         _aviableServiceAry = [[ServiceForm objectArrayWithKeyValuesArray:[dict valueForKey:@"msg"]] mutableCopy];
-        [self.tableView reloadData];
+        [CZJUtils performBlock:^{
+            [weakSelf.tableView reloadData];
+        } afterDelay:0.5];
     }  fail:^{
         
     } andServerAPI:kCZJServerAPILoadServiceTypes];
@@ -64,18 +59,36 @@
     [rightBtn setTag:1001];
     UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithCustomView:rightBtn];
     self.navigationItem.rightBarButtonItem = rightItem;
+    if (IS_IOS9)
+    {
+        self.navigationItem.rightBarButtonItem = rightItem;
+    }
+    else
+    {
+        UIBarButtonItem *spaceBar = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+        spaceBar.width = 50;
+        self.navigationItem.rightBarButtonItems = @[spaceBar,rightItem];
+    }
     [rightItem setTag:1001];
     
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0,0, PJ_SCREEN_WIDTH-50, PJ_SCREEN_HEIGHT) style:UITableViewStyleGrouped];
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0,64, PJ_SCREEN_WIDTH-50, PJ_SCREEN_HEIGHT - 64) style:UITableViewStylePlain];
     self.tableView.separatorStyle = UITableViewCellSelectionStyleNone;
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     self.tableView.clipsToBounds = true;
-    self.tableView.bounces = NO;
+    self.tableView.bounces = YES;
     self.arrTitle = @[@"到店服务", @"上门服务"];
+    self.automaticallyAdjustsScrollViewInsets =  NO;
     [self.view addSubview:self.tableView];
+    
+    [self.view addGestureRecognizer:[[UISwipeGestureRecognizer alloc] initWithTarget:self  action:@selector(cancelAction:)]];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(refreshTableView:) name:@"ChooseCartype" object:nil];
 }
 
+- (void)removeServiceFilterNotification
+{
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:@"ChooseCartype" object:nil];
+}
 
 - (void)refreshTableView:(id)sender
 {
@@ -105,7 +118,7 @@
 #pragma mark- UITableViewDatasource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     
-    return 3;
+    return 4;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -122,6 +135,10 @@
     {
         return 2;
     }
+    if (3 == section)
+    {
+        return 1;
+    }
     return 0;
 }
 
@@ -133,9 +150,12 @@
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.textLabel.text = @"选择车型";
+        cell.textLabel.font = [UIFont systemFontOfSize:16];
+        
         cell.detailTextLabel.text = [USER_DEFAULT valueForKey:kUserDefaultChoosedCarModelType];
         cell.detailTextLabel.textColor = CZJREDCOLOR;
-        cell.textLabel.font = [UIFont systemFontOfSize:16];
+        cell.detailTextLabel.font = SYSTEMFONT(14);
+        
         return cell;
     }
     if (1 == indexPath.section)
@@ -176,7 +196,27 @@
             return cell;
         }
     }
+    if (3 == indexPath.section)
+    {
+        UITableViewCell* cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"cell5"];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        UIButton* resetBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [resetBtn addTarget:self action:@selector(resetFilterConditioins) forControlEvents:UIControlEventTouchUpInside];
+        resetBtn.frame = CGRectMake(0, 0, 85, 30);
+        [resetBtn setPosition:CGPointMake((PJ_SCREEN_WIDTH - 50)*0.5, cell.frame.size.height*0.5) atAnchorPoint:CGPointMiddle];
+        [resetBtn setImage:[UIImage imageNamed:@"shaixuan_btn_refresh@3x"] forState:UIControlStateNormal];
+        [cell addSubview:resetBtn];
+        return cell;
+    }
     return nil;
+}
+
+- (void)resetFilterConditioins
+{
+    [USER_DEFAULT setValue:@"" forKey:kUserDefaultChoosedCarModelType];
+    [USER_DEFAULT setValue:@"" forKey:kUserDefaultServicePlace];
+    [USER_DEFAULT setValue:self.typeId forKey:kUserDefaultServiceTypeID];
+    [self.tableView reloadData];
 }
 
 
@@ -187,10 +227,11 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    if (0 == section) {
-        return 10;
+    if (0 == section ||
+        3 == section) {
+        return 0;
     }
-    return 0;
+    return 10;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -218,8 +259,12 @@
         else if (1 == indexPath.row)
         {
             int col = ceilf(self.aviableServiceAry.count / 3.0) ;
-            return  col * 55;
+            return  col * 50;
         }
+    }
+    if (3 == indexPath.section)
+    {
+        return 50;
     }
     return 0;
 }

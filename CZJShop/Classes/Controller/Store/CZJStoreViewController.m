@@ -27,7 +27,7 @@ UITableViewDelegate
 {
     NSMutableArray* _storeArys;
     NSMutableArray* _sortedStoreArys;
-    CZJHomeGetDataFromServerType _getdataType;
+    __block CZJHomeGetDataFromServerType _getdataType;
     MJRefreshAutoNormalFooter* refreshFooter;
     __block NSInteger page;
     BOOL _isAnimate;
@@ -182,18 +182,23 @@ UITableViewDelegate
         [self dealWithArray];
         if (_sortedStoreArys.count == 0)
         {
+            weak.storeTableView.hidden = YES;
             [CZJUtils showNoDataAlertViewOnTarget:self.view withPromptString:@"无相关门店/(ToT)/~~"];
         }
         else
         {
-            [self.storeTableView reloadData];
+            weak.storeTableView.hidden = NO;
+            [weak.storeTableView reloadData];
             weak.storeTableView.footer.hidden = weak.storeTableView.mj_contentH < weak.storeTableView.frame.size.height;
         }
     };
 
     CZJFailureBlock failBlock = ^{
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        weak.storeTableView.hidden = YES;
         [CZJUtils showReloadAlertViewOnTarget:weak.view withReloadHandle:^{
+            _getdataType = CZJHomeGetDataFromServerTypeOne;
+            page = 1;
             [weak getStoreDataFromServer];
         }];
     };
@@ -299,6 +304,7 @@ UITableViewDelegate
         [[CCLocationManager shareLocation] getCity:^(NSString *addressString) {
             cityID = [CZJBaseDataInstance.storeForm getCityIDWithCityName:addressString];
             _getdataType = CZJHomeGetDataFromServerTypeOne;
+            page = 1;
             [self getStoreDataFromServer];
             if (nil != addressString)
             {
@@ -314,6 +320,7 @@ UITableViewDelegate
         [[ZXLocationManager sharedZXLocationManager] getCityName:^(NSString *addressString) {
             cityID = [CZJBaseDataInstance.storeForm getCityIDWithCityName:addressString];
             _getdataType = CZJHomeGetDataFromServerTypeOne;
+            page = 1;
             [self getStoreDataFromServer];
             if (nil != addressString)
             {
@@ -473,6 +480,7 @@ UITableViewDelegate
         storeType = [NSString stringWithFormat:@"%ld", row];
     }
     _getdataType = CZJHomeGetDataFromServerTypeOne;
+    page = 1;
     [self getStoreDataFromServer];
 }
 
@@ -481,6 +489,7 @@ UITableViewDelegate
 {
     cityID = [CZJBaseDataInstance.storeForm getCityIDWithCityName:cityName];
     _getdataType = CZJHomeGetDataFromServerTypeOne;
+    page = 1;
     [self getStoreDataFromServer];
 }
 
@@ -495,7 +504,7 @@ UITableViewDelegate
             break;
             
         case CZJButtonTypeMap:
-            [self performSegueWithIdentifier:@"segueToNearby" sender:nil];
+            [self performSegueWithIdentifier:@"segueToNearby" sender:self];
             break;
             
         default:

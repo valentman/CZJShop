@@ -11,4 +11,5 @@
 @interface CZJCommitOrderController : CZJViewController
 @property(strong, nonatomic)NSArray* settleParamsAry;
 @property (assign, nonatomic) BOOL isUseCouponAble;
+@property (nonatomic, assign)CZJDetailType detaiViewType;
 @end

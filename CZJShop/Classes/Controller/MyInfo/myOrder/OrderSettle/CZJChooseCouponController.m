@@ -62,6 +62,7 @@ UITableViewDelegate
     [CZJUtils removeNoDataAlertViewFromTarget:self.view];
     [CZJBaseDataInstance generalPost:params success:^(id json) {
         NSDictionary* dict = [CZJUtils DataFromJson:json];
+        DLog(@"%@",[dict description]);
         NSArray* tmpAry = [dict valueForKey:@"msg"];
         _storeAry = [CZJOrderStoreCouponsForm objectArrayWithKeyValuesArray:tmpAry];
         if (_storeAry.count == 0)
@@ -162,7 +163,7 @@ UITableViewDelegate
         cell.selectBtn.hidden = YES;
         cell.receivedImg.hidden = YES;
         cell.couponsViewLayoutWidth.constant = PJ_SCREEN_WIDTH - 40;
-        
+        cell.couponPriceLabel.font = SYSTEMFONT(45);
         NSString* priceStri;
         switch ([couponForm.type integerValue])
         {
@@ -176,9 +177,10 @@ UITableViewDelegate
                 break;
                 
             case 3://项目券
-                priceStri = @"项目券";
+                priceStri = @" 项目券";
                 cell.couonTypeNameLabel.text = couponForm.name;
                 cell.useableLimitLabel.text = @"凭券到店消费";
+                cell.couponPriceLabel.font = SYSTEMFONT(30);
                 break;
                 
             default:
@@ -186,10 +188,10 @@ UITableViewDelegate
         }
         
         //左上角价格
-        CGSize priceSize = [CZJUtils calculateTitleSizeWithString:priceStri WithFont:SYSTEMFONT(45)];
-        cell.couponPriceLabelLayout.constant = priceSize.width;
+        CGSize priceSize = [CZJUtils calculateTitleSizeWithString:priceStri WithFont:cell.couponPriceLabel.font];
+        cell.couponPriceLabelLayout.constant = priceSize.width  + ([couponForm.type integerValue] == 1 ? 10 : 0);
         cell.couponPriceLabel.text = priceStri;
-        cell.couponPriceLabel.keyWord = @"￥";
+        
         
         //门店名称
         NSString* storeNameStr = couponForm.storeName;
@@ -230,7 +232,7 @@ UITableViewDelegate
         [cell.couponBgImg setImage:IMAGENAMED(bgImgStr)];
         cell.couponPriceLabel.textColor = CZJREDCOLOR;
         cell.storeNameLabel.textColor = CZJREDCOLOR;
-
+        cell.couponPriceLabel.keyWord = @"￥";
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.separatorInset = HiddenCellSeparator;
         return cell;

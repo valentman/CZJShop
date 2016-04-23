@@ -53,10 +53,7 @@ singleton_implementation(CZJBaseDataManager);
         _storeForm = [[CZJStoreForm alloc]init];
         _shoppingCartForm = [[CZJShoppingCartForm alloc]init];
         _userInfoForm = [[UserBaseForm alloc]init];
-        
-        [self initParameters];
-        [self getAreaInfos];
-        
+        [self initPostBaseParameters];
         NSArray* dict = [CZJUtils readArrayFromBundleDirectoryWithName:@"PaymentType"];
         _orderPaymentTypeAry = [CZJOrderTypeForm objectArrayWithKeyValuesArray:dict];
         return self;
@@ -64,12 +61,12 @@ singleton_implementation(CZJBaseDataManager);
     return nil;
 }
 
-- (void)initParameters
+- (void)initPostBaseParameters
 {
     //固定请求参数确定
-    NSDictionary* _tmpparams = @{@"chezhuId" : (nil == CZJLoginModelInstance.usrBaseForm.chezhuId) ? @"0" : CZJLoginModelInstance.usrBaseForm.chezhuId,
+    NSDictionary* _tmpparams = @{@"chezhuId" : (nil == self.userInfoForm.chezhuId) ? @"0" : self.userInfoForm.chezhuId,
                                  @"cityId" : (nil == _curCityID) ? @"0" : _curCityID,
-                                 @"chezhuMobile" : (nil == CZJLoginModelInstance.usrBaseForm.mobile) ? @"0" : CZJLoginModelInstance.usrBaseForm.mobile,
+                                 @"chezhuMobile" : (nil == self.userInfoForm.mobile) ? @"0" : self.userInfoForm.mobile,
                                  @"lng" : @(_curLocation.longitude),
                                  @"lat" : @(_curLocation.latitude),
                                  @"os" : @"ios",
@@ -77,7 +74,9 @@ singleton_implementation(CZJBaseDataManager);
                                  };
     _params = [_tmpparams mutableCopy];
     
-    //省份信息写入缓存
+    //获取省份信息
+    [self getAreaInfos];
+    //省份信息写入文件
     NSDictionary* newdict = [CZJUtils readDictionaryFromDocumentsDirectoryWithPlistName:kCZJPlistFileProvinceCitys];
     [_storeForm setNewProvinceDataWithDictionary:newdict];
     
@@ -98,9 +97,9 @@ singleton_implementation(CZJBaseDataManager);
 
 - (void)refreshChezhuID
 {
-    [_params setValue:(nil == CZJLoginModelInstance.usrBaseForm.chezhuId) ? @"0" : CZJLoginModelInstance.usrBaseForm.chezhuId forKey:@"chezhuId"];
-     [_params setValue:(nil == CZJLoginModelInstance.usrBaseForm.cityId) ? @"0" : CZJLoginModelInstance.usrBaseForm.cityId forKey:@"cityId"];
-    [_params setValue:(nil == CZJLoginModelInstance.usrBaseForm.mobile) ? @"0" : CZJLoginModelInstance.usrBaseForm.mobile forKey:@"chezhuMobile"];
+    [_params setValue:(nil == self.userInfoForm.chezhuId) ? @"0" : self.userInfoForm.chezhuId forKey:@"chezhuId"];
+     [_params setValue:(nil == self.userInfoForm.cityId) ? @"0" : self.userInfoForm.cityId forKey:@"cityId"];
+    [_params setValue:(nil == self.userInfoForm.mobile) ? @"0" : self.userInfoForm.mobile forKey:@"chezhuMobile"];
 }
 
 
@@ -115,7 +114,8 @@ singleton_implementation(CZJBaseDataManager);
     {
         _curLocation = curLocation;
     }
-    [self initParameters];
+    [_params setValue:@(self.curLocation.longitude) forKey:@"lng"];
+    [_params setValue:@(self.curLocation.latitude) forKey:@"lat"];
 }
 
 - (void)setCurCityName:(NSString *)curCity
@@ -126,7 +126,7 @@ singleton_implementation(CZJBaseDataManager);
             NSDictionary* dict = [[CZJUtils DataFromJson:json] valueForKey:@"msg"];
             self.curCityID = [dict valueForKey:@"cityId"];
             self.curProvinceID = [dict valueForKey:@"provinceId"];
-            [self initParameters];
+            [_params setValue:self.curCityID forKey:@"cityId"];
         } fail:^{
         
         } andServerAPI:kCZJServerAPIGetCityIdByName];
@@ -137,9 +137,11 @@ singleton_implementation(CZJBaseDataManager);
     NSDictionary* dict = [CZJUtils DataFromJson:info];
     NSString* msgKey = [[dict valueForKey:@"code"] stringValue];
     if (![msgKey isEqual:@"0"]) {
-        [[CZJErrorCodeManager sharedCZJErrorCodeManager] ShowErrorInfoWithErrorCode:msgKey];
+//        [[CZJErrorCodeManager sharedCZJErrorCodeManager] ShowErrorInfoWithErrorCode: stringValue]];
+        [CZJUtils tipWithText:[dict valueForKey:@"msg"] andView:nil];
         return NO;
     }
+    DLog(@"%@",msgKey);
     return YES;
 }
 
@@ -167,8 +169,8 @@ singleton_implementation(CZJBaseDataManager);
 
 
 -(void)getSomeInfoSuccess:(CZJSuccessBlock)success{
-    NSString* tst = [CZJLoginModelInstance.usrBaseForm.chezhuId stringByReplacingOccurrencesOfString:@"-" withString:@""];
-    NSString* str = [NSString stringWithFormat:@"{\"chezhuId\":\"%@\",\"cityId\":\"%@\",\"mobile\":\"%@\",\"lat\":\"%@\",\"lng\":\"%@\"}",tst,CZJLoginModelInstance.usrBaseForm.cityId,CZJLoginModelInstance.usrBaseForm.mobile,[NSNumber numberWithDouble:_curLocation.latitude],[NSNumber numberWithDouble:_curLocation.longitude]];
+    NSString* tst = [self.userInfoForm.chezhuId stringByReplacingOccurrencesOfString:@"-" withString:@""];
+    NSString* str = [NSString stringWithFormat:@"{\"chezhuId\":\"%@\",\"cityId\":\"%@\",\"mobile\":\"%@\",\"lat\":\"%@\",\"lng\":\"%@\"}",tst,_curCityID,self.userInfoForm.mobile,[NSNumber numberWithDouble:_curLocation.latitude],[NSNumber numberWithDouble:_curLocation.longitude]];
     success(str);
 }
 
@@ -894,15 +896,13 @@ singleton_implementation(CZJBaseDataManager);
 }
 
 - (void)addProductToShoppingCart:(NSDictionary*)postParams
-                         Success:(CZJGeneralBlock)success
+                         Success:(CZJSuccessBlock)success
                             fail:(CZJFailureBlock)fail
 {
     CZJSuccessBlock successBlock = ^(id json)
     {
         if ([self showAlertView:json])
         {
-            NSDictionary* dict = [CZJUtils DataFromJson:json];
-            [USER_DEFAULT setObject:[dict valueForKey:@"msg"] forKey:kUserDefaultShoppingCartCount];
             success(json);
         }
     };
@@ -1037,8 +1037,9 @@ singleton_implementation(CZJBaseDataManager);
     {
         if ([self showAlertView:json])
         {
+            success(json);
         }
-        success(json);
+        
     };
     
     CZJFailureBlock failBlock = ^(){
@@ -1234,10 +1235,19 @@ singleton_implementation(CZJBaseDataManager);
         {
             success(json);
         }
+        else
+        {
+            if (fail) {
+                fail();
+            }
+        }
     };
     
     CZJFailureBlock failBlock = ^(){
         [[CZJErrorCodeManager sharedCZJErrorCodeManager] ShowNetError];
+        if (fail) {
+            fail();
+        }
     };
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
@@ -1663,10 +1673,21 @@ singleton_implementation(CZJBaseDataManager);
         {
             success(json);
         }
+        else
+        {
+            if (fail)
+            {
+                fail();
+            }
+        }
     };
     
     CZJFailureBlock failBlock = ^(){
         [[CZJErrorCodeManager sharedCZJErrorCodeManager] ShowNetError];
+        if (fail)
+        {
+            fail();
+        }
     };
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];

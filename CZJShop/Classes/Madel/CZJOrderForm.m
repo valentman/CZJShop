@@ -132,16 +132,16 @@
     }
     return nil;
 }
-
 @end
 
 
-@implementation CZJCarDetailForm
+@implementation CZJOrderDetailBuildForm
+@end
 
+@implementation CZJCarDetailForm
 @end
 
 @implementation CZJCarCheckItemForm
-
 @end
 
 @implementation CZJCarCheckItemsForm

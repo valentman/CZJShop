@@ -30,7 +30,11 @@
     {
         self.reloadHandle();
     }
-    [self removeFromSuperview];
+//    if (self.superview)
+//    {
+//        [self removeFromSuperview];
+//    }
+    
 }
 
 @end

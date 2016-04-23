@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
@@ -34,23 +34,37 @@
                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="shaixuan_icon_gou_sel.png" translatesAutoresizingMaskIntoConstraints="NO" id="Q0P-Sp-DUC">
+                        <rect key="frame" x="125" y="12" width="20" height="12"/>
+                        <animations/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="20" id="y1V-0a-Kzb"/>
+                            <constraint firstAttribute="height" constant="12" id="zyE-CM-moP"/>
+                        </constraints>
+                    </imageView>
                 </subviews>
                 <animations/>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
             <animations/>
             <constraints>
+                <constraint firstAttribute="trailing" secondItem="Q0P-Sp-DUC" secondAttribute="trailing" constant="15" id="4Gv-hJ-W0b"/>
                 <constraint firstAttribute="bottom" secondItem="eoe-1i-Jw1" secondAttribute="bottom" constant="8" id="GcH-cY-e6j"/>
                 <constraint firstItem="EBR-TB-4AQ" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="14" id="Oxa-Io-wVO"/>
                 <constraint firstItem="eoe-1i-Jw1" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="7" id="QA2-wa-RMj"/>
                 <constraint firstItem="EBR-TB-4AQ" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="7" id="Y4S-K4-cJS"/>
                 <constraint firstAttribute="bottom" secondItem="EBR-TB-4AQ" secondAttribute="bottom" constant="8" id="Z9S-Y0-nKO"/>
+                <constraint firstItem="Q0P-Sp-DUC" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" id="aLb-4t-v6t"/>
                 <constraint firstAttribute="trailing" secondItem="eoe-1i-Jw1" secondAttribute="trailing" constant="8" id="gFS-Fs-BWT"/>
             </constraints>
             <connections>
                 <outlet property="cityName" destination="EBR-TB-4AQ" id="O6Q-gC-0SY"/>
                 <outlet property="cityStoreNum" destination="eoe-1i-Jw1" id="5Pv-hX-Hb6"/>
+                <outlet property="shaixuanImage" destination="Q0P-Sp-DUC" id="TJX-5K-7nK"/>
             </connections>
         </collectionViewCell>
     </objects>
+    <resources>
+        <image name="shaixuan_icon_gou_sel.png" width="20" height="12"/>
+    </resources>
 </document>

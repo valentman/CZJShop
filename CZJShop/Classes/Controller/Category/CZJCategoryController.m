@@ -13,7 +13,7 @@
 
 @interface CZJCategoryController ()<CZJNaviagtionBarViewDelegate>
 @property (weak, nonatomic) IBOutlet MultilevelMenu *multiView;
-@property (weak, nonatomic) IBOutlet CZJNaviagtionBarView *cateNaviBarView;
+//@property (weak, nonatomic) IBOutlet CZJNaviagtionBarView *cateNaviBarView;
 @property (strong, nonatomic) NSString* serviceTypeId;
 @property (strong, nonatomic) NSString* goodsTypeId;
 
@@ -40,9 +40,9 @@
     NSDictionary* menuNames = @{@"2000" : @"线下服务",
                                @"2001" : @"油品化学品",
                                @"2003" : @"美容清洗",
-                               @"2005" : @"车载电器",
                                @"2007" : @"汽车装饰",
                                @"2009" : @"汽车配件",
+                                @"2005" : @"车载电器",
                                @"2013" : @"安全自驾"
                            };
     
@@ -50,16 +50,16 @@
     {
         rightMeun * meun=[[rightMeun alloc] init];
         meun.meunName=menuNames[key];
-        meun.ID = key;
+        meun.typeId = key;
         [lis addObject:meun];
     }
     //数组升序排序
     [lis sortUsingComparator:^NSComparisonResult(rightMeun* obj1, rightMeun* obj2) {
-        if (obj1.ID > obj2.ID)
+        if (obj1.typeId > obj2.typeId)
         {
             return (NSComparisonResult)NSOrderedDescending;
         }
-        if (obj1.ID < obj2.ID) {
+        if (obj1.typeId < obj2.typeId) {
             return (NSComparisonResult)NSOrderedAscending;
         }
         return (NSComparisonResult)NSOrderedSame;
@@ -86,31 +86,33 @@
         }
         else
         {//Item
-            if ([info.ID hasPrefix:@"10"])
+            DLog(@"%@",info.typeId);
+            if (0 == left)
             {
-                _serviceTypeId = info.ID;
+                _serviceTypeId = info.typeId;
                 [self performSegueWithIdentifier:@"segueToServiceList" sender:self];
             }
             else
             {
-                _goodsTypeId = info.ID;
+                _goodsTypeId = info.typeId;
                 [self performSegueWithIdentifier:@"segueToGoodsList" sender:self];
             }
         }
         
     }].isRecordLastScroll=YES;
     
+    [self addCZJNaviBarView:CZJNaviBarViewTypeCategory];
     //导航栏添加搜索栏
-    self.navigationController.navigationBarHidden = YES;
-    CGRect mainViewBounds = self.navigationController.navigationBar.bounds;
-    [self.cateNaviBarView initWithFrame:mainViewBounds AndType:CZJNaviBarViewTypeCategory].delegate = self;
+//    self.navigationController.navigationBarHidden = YES;
+//    CGRect mainViewBounds = self.navigationController.navigationBar.bounds;
+//    [self.cateNaviBarView initWithFrame:mainViewBounds AndType:CZJNaviBarViewTypeCategory].delegate = self;
 }
 
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [self.naviBarView refreshShopBadgeLabel];
-    [self.navigationController popToRootViewControllerAnimated:NO];
+//    [self.navigationController popToRootViewControllerAnimated:NO];
 }
 
 

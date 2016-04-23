@@ -12,7 +12,9 @@
 typedef void (^passStrValueBlock) (UIViewController * ctrl,NSString * addressName);
 
 @interface GKHpickerAddressView : UIView<UIPickerViewDataSource,UIPickerViewDelegate>
-
+{
+    UIView* _backGroundView;
+}
 @property (strong,nonatomic) UIPickerView * pickerView;
 @property (strong,nonatomic) passStrValueBlock  valueBlock;
 @property (strong,nonatomic) UIViewController * ctrl;

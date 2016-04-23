@@ -23,14 +23,17 @@
         _badgeLabel = nil;
         return;
     }
-    if (!VIEWWITHTAG(self, 99))
+    else
     {
-        _badgeLabel = [[UILabel alloc]init];
-        _badgeLabel.hidden = YES;
-        _badgeLabel.layer.backgroundColor = CZJREDCOLOR.CGColor;
-        [_badgeLabel setTag:99];
-        [self addSubview:_badgeLabel];
-        
+        if (!VIEWWITHTAG(self, 99))
+        {
+            _badgeLabel = [[UILabel alloc]init];
+            _badgeLabel.hidden = YES;
+            _badgeLabel.layer.backgroundColor = CZJREDCOLOR.CGColor;
+            [_badgeLabel setTag:99];
+            [self addSubview:_badgeLabel];
+        }
+            
         CGRect labelRect;
         if (-1 == badgeNum)
         {
@@ -50,7 +53,9 @@
         }
         [self setBadgeLabelPosition:CGPointMake(self.bounds.size.width, 0)];
         _badgeLabel.hidden = NO;
+        
     }
+
 }
 
 - (void)setBadgeLabelPosition:(CGPoint)pt

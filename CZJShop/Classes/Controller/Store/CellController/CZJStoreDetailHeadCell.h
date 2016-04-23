@@ -19,7 +19,9 @@
     NSMutableArray* _imageArray;
 }
 @property (weak, nonatomic) IBOutlet UILabel *storeNameLabel;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *storeNameHeight;
 @property (weak, nonatomic) IBOutlet UILabel *storeAddrLabel;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *storeAddrLabelHeight;
 @property (weak, nonatomic) IBOutlet UIButton *attentionBtn;
 @property (weak, nonatomic) IBOutlet UILabel *attentionCountLabel;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *headImgLayoutWidth;

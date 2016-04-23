@@ -40,7 +40,12 @@ UIGestureRecognizerDelegate
 - (void)addCZJNaviBarView:(CZJNaviBarViewType)naviBarViewType
 {
     self.navigationController.navigationBarHidden = YES;
-    _naviBarView = [[CZJNaviagtionBarView alloc]initWithFrame:CGRectMake(0, 20, PJ_SCREEN_WIDTH, 44) AndType:naviBarViewType];
+    [self addCZJNaviBarViewWithNotHiddenNavi:naviBarViewType];
+}
+
+- (void)addCZJNaviBarViewWithNotHiddenNavi:(CZJNaviBarViewType)naviBarViewType
+{
+    _naviBarView = [[CZJNaviagtionBarView alloc]initWithFrame:CGRectMake(0, 20, self.view.frame.size.width, 44) AndType:naviBarViewType];
     _naviBarView.delegate = self;
     [self.view addSubview:_naviBarView];
     self.navigationController.interactivePopGestureRecognizer.delegate = self;
@@ -111,7 +116,7 @@ UIGestureRecognizerDelegate
     self.popWindowInitialRect = ZEROVERTICALHIDERECT;
     self.popWindowDestineRect = ZERORECT;
     self.windowAlpha = 0;
-    [CZJUtils showMyWindowOnTarget:self withMyVC:alertViewVC];
+    [CZJUtils showMyWindowOnTarget:self withPopVc:alertViewVC];
     alertViewVC.popView.descLabel.text = promptStr;
     [alertViewVC.popView.cancelBtn addTarget:self action:@selector(hideWindow) forControlEvents:UIControlEventTouchUpInside];
     [alertViewVC setConfirmItemHandle:confirmBlock];

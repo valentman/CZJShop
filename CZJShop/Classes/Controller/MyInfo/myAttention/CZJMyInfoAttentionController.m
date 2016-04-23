@@ -30,12 +30,15 @@ UITableViewDelegate
     NSMutableArray* goodsAttentionAry;
     NSMutableArray* storeAttentionAry;
     NSMutableArray* tmpArray;
-    NSMutableArray* deleteIdAry;
+    __block NSMutableArray* deleteIdAry;
     
     BOOL _isEdit;
     BOOL _isServiceTouched;
     BOOL _isGoodsTouched;
     BOOL _isStoreTouched;
+    BOOL _isServiceLoadOver;
+    BOOL _isGoodsLoadOver;
+    BOOL _isStoreLoadOver;
     
     MJRefreshAutoNormalFooter* refreshFooter;
     __block CZJHomeGetDataFromServerType _getdataType;
@@ -53,6 +56,7 @@ UITableViewDelegate
 @property (weak, nonatomic) IBOutlet UIButton *selectAllBtn;
 @property (weak, nonatomic) IBOutlet UIView *buttomView;
 @property (assign) BOOL isEdit;
+@property (weak, nonatomic) IBOutlet UIButton *deleteBtn;
 
 
 - (IBAction)deleteAction:(id)sender;
@@ -81,9 +85,9 @@ UITableViewDelegate
     _isStoreTouched = NO;
     self.buttomView.hidden = !_isEdit;
     
-    pageService = 0;
-    pageGoods = 0;
-    pageStore = 0;
+    pageService = 1;
+    pageGoods = 1;
+    pageStore = 1;
 }
 
 - (void)initViews
@@ -160,51 +164,73 @@ UITableViewDelegate
 
 - (void)getDataAttentionDataFromServer
 {
-    NSDictionary* params = @{@"type" : _currentType};
+    NSDictionary* params = @{@"type" : _currentType, @"page" : [NSString stringWithFormat:@"%ld",page]};
     __weak typeof(self) weak = self;
-    [tmpArray removeAllObjects];
+    
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [CZJUtils removeNoDataAlertViewFromTarget:self.view];
     [CZJUtils removeReloadAlertViewFromTarget:self.view];
     [CZJBaseDataInstance loadMyAttentionList:params success:^(id json) {
         [MBProgressHUD hideAllHUDsForView:self.view animated:NO];
         
+        DLog(@"%@",[[CZJUtils DataFromJson:json] description]);
         //========获取数据返回，判断数据大于0不==========
+        [tmpArray removeAllObjects];
         NSArray* tmpAry = [[CZJUtils DataFromJson:json] valueForKey:@"msg"];
         NSString* prompStr;
         if (CZJHomeGetDataFromServerTypeTwo == _getdataType)
         {
-            if (tmpAry.count < 20)
-            {
-                [refreshFooter noticeNoMoreData];
-                return ;
-            }
-            else
-            {
-                [weak.myTableView.footer endRefreshing];
-            }
             switch ([_currentType integerValue])
             {
                 case 0:
                     [goodsAttentionAry addObjectsFromArray:[CZJGoodsAttentionForm objectArrayWithKeyValuesArray:tmpAry] ];
                     _isGoodsTouched = YES;
+                    [tmpArray removeAllObjects];
                     tmpArray = [goodsAttentionAry mutableCopy];
                     break;
                     
                 case 1:
-                    serviceAttentionAry = [[CZJGoodsAttentionForm objectArrayWithKeyValuesArray:tmpAry] mutableCopy];
+                    [serviceAttentionAry addObjectsFromArray:[CZJGoodsAttentionForm objectArrayWithKeyValuesArray:tmpAry]];
                     _isServiceTouched = YES;
+                    [tmpArray removeAllObjects];
                     tmpArray = [serviceAttentionAry mutableCopy];
                     break;
                     
                 case 2:
-                    storeAttentionAry = [[CZJStoreAttentionForm objectArrayWithKeyValuesArray:tmpAry]mutableCopy];
+                    [storeAttentionAry addObjectsFromArray:[CZJStoreAttentionForm objectArrayWithKeyValuesArray:tmpAry]];
                     _isStoreTouched = YES;
+                    [tmpArray removeAllObjects];
                     tmpArray = [storeAttentionAry mutableCopy];
                     break;
                     
                 default:
                     break;
+            }
+            
+            if (tmpAry.count < 20)
+            {
+                switch ([_currentType integerValue])
+                {
+                    case 0:
+                        _isGoodsLoadOver = YES;
+                        break;
+                    case 1:
+                        _isServiceLoadOver = YES;
+                        break;
+                    case 2:
+                        _isStoreLoadOver = YES;
+                        break;
+                        
+                    default:
+                        break;
+                }
+                [refreshFooter noticeNoMoreData];
+                return;
+            }
+            else
+            {
+                [weak.myTableView.footer endRefreshing];
+                return;
             }
         }
         else
@@ -214,6 +240,7 @@ UITableViewDelegate
                 case 0:
                     goodsAttentionAry = [[CZJGoodsAttentionForm objectArrayWithKeyValuesArray:tmpAry] mutableCopy];
                     _isGoodsTouched = YES;
+                    [tmpArray removeAllObjects];
                     tmpArray = [goodsAttentionAry mutableCopy];
                     prompStr = @"木有关注的商品/(ToT)/~~";
                     break;
@@ -221,6 +248,7 @@ UITableViewDelegate
                 case 1:
                     serviceAttentionAry = [[CZJGoodsAttentionForm objectArrayWithKeyValuesArray:tmpAry] mutableCopy];
                     _isServiceTouched = YES;
+                    [tmpArray removeAllObjects];
                     tmpArray = [serviceAttentionAry mutableCopy];
                     prompStr = @"木有关注的服务/(ToT)/~~";
                     break;
@@ -228,6 +256,7 @@ UITableViewDelegate
                 case 2:
                     storeAttentionAry = [[CZJStoreAttentionForm objectArrayWithKeyValuesArray:tmpAry]mutableCopy];
                     _isStoreTouched = YES;
+                    [tmpArray removeAllObjects];
                     tmpArray = [storeAttentionAry mutableCopy];
                     prompStr = @"木有关注的门店/(ToT)/~~";
 
@@ -243,13 +272,22 @@ UITableViewDelegate
         {
             self.myTableView.hidden = YES;
             [CZJUtils showNoDataAlertViewOnTarget:self.view withPromptString:prompStr];
+            self.buttomView.hidden = YES;
         }
         else
         {
             self.myTableView.hidden = NO;
             self.myTableView.delegate = self;
             self.myTableView.dataSource = self;
-            [self.myTableView reloadData];
+            DLog(@"self.myTableView reloadData");
+            if (tmpArray.count > 0)
+            {
+                [self.myTableView reloadData];
+                if (weak.isEdit)
+                {
+                    [weak pitchOn];
+                }
+            }
             VIEWWITHTAG(self.naviBarView, 1999).hidden = tmpArray.count == 0 ? YES : NO;
             self.myTableView.footer.hidden = self.myTableView.mj_contentH < self.myTableView.frame.size.height;
         }
@@ -272,12 +310,18 @@ UITableViewDelegate
     itemButton.selected = !itemButton.selected;
     self.isEdit = !self.isEdit;
     self.buttomView.hidden = !self.isEdit;
+    DLog(@"self.myTableView reloadData");
     [self.myTableView reloadData];
+    if (self.isEdit)
+    {
+        [self pitchOn];
+    }
 }
 
 - (void)pitchOn
 {
     self.selectAllBtn.selected = YES;
+    [deleteIdAry removeAllObjects];
     for (id object in tmpArray)
     {
         if ([_currentType isEqualToString:@"2"])
@@ -306,6 +350,20 @@ UITableViewDelegate
             }
         }
     }
+    self.selectAllBtn.selected = (deleteIdAry.count == tmpArray.count);
+    NSString* deletStr = @"取消关注";
+    if (deleteIdAry.count > 0)
+    {
+        _deleteBtn.backgroundColor = CZJREDCOLOR;
+        [_deleteBtn setEnabled:YES];
+        deletStr = [NSString stringWithFormat:@"取消关注(%ld)",deleteIdAry.count];
+    }
+    else
+    {
+        _deleteBtn.backgroundColor = GRAYCOLOR;
+        [_deleteBtn setEnabled:NO];
+    }
+    [self.deleteBtn setTitle:deletStr forState:UIControlStateNormal];
 }
 
 
@@ -324,28 +382,34 @@ UITableViewDelegate
 {
     if ([_currentType isEqualToString:@"2"])
     {
-        CZJStoreAttentionForm* form = tmpArray[indexPath.section];
+        CZJStoreAttentionForm* form = tmpArray[indexPath.row];
         CZJStoreAttentionHeadCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJStoreAttentionHeadCell" forIndexPath:indexPath];
         [cell.storeImg sd_setImageWithURL:[NSURL URLWithString:form.homeImg] placeholderImage:DefaultPlaceHolderSquare];
         cell.storeNameLabel.text = form.name;
         CGSize attentionSize = [CZJUtils calculateTitleSizeWithString:form.attentionCount AndFontSize:14];
         cell.attentionCountLabel.text = form.attentionCount;
-        cell.attentionCountLayoutWidth.constant = attentionSize.width;
+        cell.attentionCountLayoutWidth.constant = attentionSize.width + 5;
         cell.selectBtn.selected = form.isSelected;
         [UIView animateWithDuration:1.0 delay:0.1 options:UIViewAnimationOptionCurveLinear animations:^{
             cell.viewLayoutLeading.constant = self.isEdit ? 30 : 0;
         } completion:nil];
+        [cell setSeparatorViewHidden:NO];
         return cell;
     }
     else
     {
         CZJGoodsAttentionForm* form = tmpArray[indexPath.row];
         CZJGoodsAttentionCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJGoodsAttentionCell" forIndexPath:indexPath];
+        cell.goodrateName.hidden = YES;
+        cell.dealName.hidden = YES;
+        cell.evaluateLabel.hidden = YES;
+        cell.dealCountLabel.hidden = YES;
+        
         [cell.goodImg sd_setImageWithURL:[NSURL URLWithString:form.itemImg] placeholderImage:DefaultPlaceHolderSquare];
         
         CGSize nameSize = [CZJUtils calculateStringSizeWithString:form.itemName Font:SYSTEMFONT(15) Width:PJ_SCREEN_WIDTH - 116];
         cell.goodNameLabel.text = form.itemName;
-        cell.goodNameLayoutHeight.constant = nameSize.height;
+        cell.goodNameLayoutHeight.constant = nameSize.height > 18 ? 36 : 18;
         cell.priceLabel.text = form.currentPrice;
         cell.selectBtn.selected = form.isSelected;
         [UIView animateWithDuration:1.0 delay:0.1 options:UIViewAnimationOptionCurveLinear animations:^{
@@ -364,25 +428,24 @@ UITableViewDelegate
     {
         return 106;
     }
-    return 126;
+    return 100;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    DLog(@"####### %ld",indexPath.row);
     if ([_currentType isEqualToString:@"2"])
     {
-        CZJStoreAttentionForm* form = tmpArray[indexPath.section];
+        CZJStoreAttentionForm* form = tmpArray[indexPath.row];
         if (self.isEdit)
         {
             form.isSelected = !form.isSelected;
+            DLog(@"self.myTableView reloadData");
             [self.myTableView reloadData];
         }
         else
         {
-            if (0 == indexPath.row)
-            {
-                [CZJUtils showStoreDetailView:self.navigationController andStoreId:form.storeId];
-            }
+            [CZJUtils showStoreDetailView:self.navigationController andStoreId:form.storeId];
         }
     }
     else
@@ -391,6 +454,7 @@ UITableViewDelegate
         if (self.isEdit)
         {
             form.isSelected = !form.isSelected;
+            DLog(@"self.myTableView reloadData");
             [self.myTableView reloadData];
         }
         else
@@ -418,7 +482,7 @@ UITableViewDelegate
 #pragma mark - LXDSegmentControlDelegate
 - (void)segmentControl: (LXDSegmentControl *)segmentControl didSelectAtIndex: (NSUInteger)index
 {
-    DLog(@"%ld",index);
+    DLog(@"%lu",index);
     [CZJUtils removeNoDataAlertViewFromTarget:self.view];
     [tmpArray removeAllObjects];
     self.myTableView.hidden = YES;
@@ -427,33 +491,27 @@ UITableViewDelegate
     self.buttomView.hidden = !_isEdit;
     if (1 == index)
     {
-        _currentType = [NSString stringWithFormat:@"%ld",index - 1];
+        _currentType = [NSString stringWithFormat:@"%lu",index - 1];
         
     }
     else if (0 == index)
     {
-        _currentType = [NSString stringWithFormat:@"%ld",index + 1];
+        _currentType = [NSString stringWithFormat:@"%lu",index + 1];
 
     }
     else
     {
-        _currentType =[NSString stringWithFormat:@"%ld",index];
+        _currentType =[NSString stringWithFormat:@"%lu",index];
     }
     
     
-    if (!_isServiceTouched && 0 == index)
+    if ((!_isServiceTouched && 0 == index) ||
+        (!_isGoodsTouched && 1 == index) ||
+        (!_isStoreTouched && 2 == index) )
     {
-        _getdataTypeGoods = CZJHomeGetDataFromServerTypeOne;
-        [self getDataAttentionDataFromServer];
-    }
-    else if (!_isGoodsTouched && 1 == index)
-    {
-        _getdataTypeService = CZJHomeGetDataFromServerTypeOne;
-        [self getDataAttentionDataFromServer];
-    }
-    else if (!_isStoreTouched && 2 == index)
-    {
-        _getdataTypeStore = CZJHomeGetDataFromServerTypeOne;
+        [refreshFooter resetNoMoreData];
+        _getdataType = CZJHomeGetDataFromServerTypeOne;
+        page = 1;
         [self getDataAttentionDataFromServer];
     }
     else
@@ -467,6 +525,14 @@ UITableViewDelegate
                 [CZJUtils showNoDataAlertViewOnTarget:self.view withPromptString:@"木有关注的服务/(ToT)/~~"];
                 return;
             }
+            if (!_isServiceLoadOver)
+            {
+                [refreshFooter resetNoMoreData];
+            }
+            else
+            {
+                [refreshFooter noticeNoMoreData];
+            }
         }
         else if (1 == index)
         {
@@ -476,6 +542,14 @@ UITableViewDelegate
                 ((UIButton*)VIEWWITHTAG(self.naviBarView, 1999)).hidden = YES;
                 [CZJUtils showNoDataAlertViewOnTarget:self.view withPromptString:@"木有关注的商品/(ToT)/~~"];
                 return;
+            }
+            if (!_isGoodsLoadOver)
+            {
+                [refreshFooter resetNoMoreData];
+            }
+            else
+            {
+                [refreshFooter noticeNoMoreData];
             }
         }
         else
@@ -487,9 +561,19 @@ UITableViewDelegate
                 [CZJUtils showNoDataAlertViewOnTarget:self.view withPromptString:@"木有关注的门店/(ToT)/~~"];
                 return;
             }
+            if (!_isStoreLoadOver)
+            {
+                [refreshFooter resetNoMoreData];
+            }
+            else
+            {
+                [refreshFooter noticeNoMoreData];
+            }
         }
         self.myTableView.hidden = NO;
+        DLog(@"self.myTableView reloadData");
         [self.myTableView reloadData];
+        self.myTableView.footer.hidden = self.myTableView.mj_contentH < self.myTableView.frame.size.height;
     }
     VIEWWITHTAG(self.naviBarView, 1999).hidden = tmpArray.count == 0 ? YES : NO;
 }
@@ -502,35 +586,18 @@ UITableViewDelegate
 #pragma mark - ButtonAction
 - (IBAction)deleteAction:(id)sender
 {
-    NSString* ids = [deleteIdAry componentsJoinedByString:@","];
-    NSDictionary* params = @{@"type": _currentType, @"ids":ids};
-    [CZJBaseDataInstance cancleAttentionList:params Success:^(id json) {
-        
-        NSMutableArray* tempAry = [NSMutableArray arrayWithArray:tmpArray];
-        for (id object in tempAry)
-        {
-            if ([_currentType isEqualToString:@"3"])
-            {
-                CZJStoreAttentionForm* form = (CZJStoreAttentionForm*)object;
-                if (form.isSelected)
-                {
-                    [tmpArray removeObject:object];
-                }
-            }
-            else
-            {
-                CZJGoodsAttentionForm* form = (CZJGoodsAttentionForm*)object;
-                if (form.isSelected)
-                {
-                    [tmpArray removeObject:object];
-                }
-            }
-        }
-        [self.myTableView reloadData];
-        [deleteIdAry removeAllObjects];
-    } fail:^{
-        
-    }];
+    if (deleteIdAry.count > 0)
+    {
+        NSString* ids = [deleteIdAry componentsJoinedByString:@","];
+        NSDictionary* params = @{@"type": _currentType, @"ids":ids};
+        __weak typeof(self) weakSelf = self;
+        [CZJBaseDataInstance cancleAttentionList:params Success:^(id json) {
+            [deleteIdAry removeAllObjects];
+            [weakSelf getDataAttentionDataFromServer];
+        } fail:^{
+            
+        }];
+    }
 }
 
 - (IBAction)selectAllAction:(id)sender
@@ -549,6 +616,8 @@ UITableViewDelegate
             form.isSelected = self.selectAllBtn.selected;
         }
     }
+    [self pitchOn];
+    DLog(@"self.myTableView reloadData");
     [self.myTableView reloadData];
 }
 @end

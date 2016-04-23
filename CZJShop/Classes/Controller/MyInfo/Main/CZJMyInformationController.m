@@ -49,7 +49,7 @@ CZJViewControllerDelegate
     [super viewDidLoad];
     [self initDatas];
     [self initViews];
-    [self dealWithInitNavigationBar];
+    
 }
 
 - (void)dealWithInitNavigationBar
@@ -68,6 +68,7 @@ CZJViewControllerDelegate
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    [self dealWithInitNavigationBar];
     if ([USER_DEFAULT boolForKey:kCZJIsUserHaveLogined]) {
         [self getMyInfoDataFromServer];
     }
@@ -83,21 +84,28 @@ CZJViewControllerDelegate
         }
     }
     [self.myInfoTableView reloadData];
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
     DLog();
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
-    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
+    //要将NaviBar设为隐藏是因为navibar会吃掉点击事件，导致右上角浏览记录按钮获取不到点击事件
     self.navigationController.navigationBarHidden = YES;
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:NO];
     [self.tabBarController.tabBar setTintColor:RGB(235, 20, 20)];
     _currentTouchOrderListType = 0;
     DLog();
 }
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:NO];
+}
+
 - (void)viewDidDisappear:(BOOL)animated
 {
-    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
+    
 }
 
 - (void)initDatas
@@ -146,6 +154,7 @@ CZJViewControllerDelegate
     {
         [CZJBaseDataInstance getUserInfo:nil Success:^(id json) {
             NSDictionary* dict = [[CZJUtils DataFromJson:json] valueForKey:@"msg"];
+            DLog(@"%@",[dict description]);
             myInfoForm = [CZJMyInfoForm objectWithKeyValues:dict];
             [self updateOrderData:dict];
             [self.myInfoTableView reloadData];

@@ -106,7 +106,6 @@ UIWebViewDelegate
         [[NSNotificationCenter defaultCenter]postNotificationName:kCZJNotifiPicDetailBack object:nil];
     }
 }
-
 @end
 
 

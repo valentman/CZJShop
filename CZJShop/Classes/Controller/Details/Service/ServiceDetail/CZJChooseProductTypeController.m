@@ -13,14 +13,6 @@
 #import "WLZ_ChangeCountView.h"
 
 
-@implementation CZJLevelSku
-+ (NSDictionary*)objectClassInArray
-{
-    return @{@"twoSkus" : @"CZJLevelSku"};
-}
-@end
-
-
 @interface CZJChooseProductTypeController ()
 <
 UITableViewDelegate,
@@ -65,7 +57,7 @@ UITableViewDataSource
     _oneLevelSkus = [NSMutableArray array];
     _twoLevelSkus = [NSMutableArray array];
     _choosedSkuValues = [NSMutableArray array];
-    _choosedSkuValues = [[self.goodsDetail.sku.skuValues componentsSeparatedByString:@" "] mutableCopy];
+    _choosedSkuValues = [[self.goodsDetail.sku.skuValueIds componentsSeparatedByString:@","] mutableCopy];
     _currentIndex = 1;
     choosedCount = _buycount;
     isFirstLoad = YES;
@@ -245,9 +237,6 @@ UITableViewDataSource
     if (0 == indexPath.section)
     {
         CZJChooseTypeHeaderCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJChooseTypeHeaderCell" forIndexPath:indexPath];
-//        CGSize nameSize = [self.goodsDetail.sku.skuName boundingRectWithSize:CGSizeMake(PJ_SCREEN_WIDTH - 80 - 80, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName: SYSTEMFONT(16)} context:nil].size;
-//        cell.productNameLabelLayoutHeight.constant = nameSize.height;
-//        cell.productNameLabelLayoutWidth.constant = nameSize.width;
         cell.productNameLabel.text = @"";
         cell.productPriceLabel.text = [NSString stringWithFormat:@"￥%@",self.goodsDetail.sku.skuPrice];
         cell.productCodeLabel.text = self.goodsDetail.sku.skuCode;
@@ -293,11 +282,11 @@ UITableViewDataSource
             NSInteger totalIndex = _labels.count;
             NSInteger level = indexPath.section;
             if (1 == level && level <= totalIndex)
-            {
+            {//一级SKU
                 oneLevelChoosed = _choosedSkuValues[level -1];  //比如：容量
                 for (CZJLevelSku*goodSku in _oneLevelSkus)
                 {
-                    if ([goodSku.valueName isEqualToString:oneLevelChoosed] && isFirstLoad)
+                    if ([goodSku.valueId isEqualToString:oneLevelChoosed] && isFirstLoad)
                     {
                         isFirstLoad = NO;
                         _skuValueID = goodSku.valueId;
@@ -331,7 +320,7 @@ UITableViewDataSource
                              else
                              {
                                  _skuValueID = [NSString stringWithFormat:@"%ld",button.tag];
-                                 oneLevelChoosed = button.titleLabel.text;
+                                 oneLevelChoosed = _skuValueID;
                                  NSIndexSet *indexSet=[[NSIndexSet alloc]initWithIndex:2];
                                  [_tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationFade];
                                  NSString* valueIds = [NSString stringWithFormat:@"%@,%@",_skuValueID,_twoLevelChoosedValueID];
@@ -348,7 +337,7 @@ UITableViewDataSource
             {
                 for (CZJLevelSku* skuForm in _oneLevelSkus)
                 {
-                    if ([oneLevelChoosed isEqualToString:skuForm.valueName])
+                    if ([oneLevelChoosed isEqualToString:skuForm.valueId])
                     {
                         _twoLevelSkus = skuForm.twoSkus;
                         [cell setButtonDatas:_twoLevelSkus WithType:kCZJSerfilterTypeChooseCellTypeDetail];
@@ -360,7 +349,7 @@ UITableViewDataSource
                         else
                         {
                             CZJLevelSku* skuForms = (CZJLevelSku*)[_twoLevelSkus firstObject];
-                            twoLevelChoosed = skuForms.valueName;
+                            twoLevelChoosed = skuForms.valueId;
                             _twoLevelChoosedValueID = skuForms.valueId;
                         }
                         [cell setDefaultSelectBtn:twoLevelChoosed];

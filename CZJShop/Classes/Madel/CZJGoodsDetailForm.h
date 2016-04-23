@@ -21,6 +21,14 @@
 
 @end
 
+
+//---------------------商品SKU层级信息---------------------
+@interface CZJLevelSku : NSObject
+@property(strong, nonatomic)NSString* valueId;
+@property(strong, nonatomic)NSString* valueName;
+@property(strong, nonatomic)NSMutableArray* twoSkus;
+@end
+
 //---------------------商品信息---------------------
 @interface CZJGoodsDetail : NSObject
 @property(nonatomic, strong) NSMutableArray* imgs;

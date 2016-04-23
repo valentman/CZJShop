@@ -27,6 +27,7 @@
 #import "CZJOrderCarCheckController.h"
 #import "CZJPopPayViewController.h"
 #import "CZJPaymentManager.h"
+#import "OpenShareHeader.h"
 
 @interface CZJMyOrderDetailController ()
 <
@@ -47,6 +48,7 @@ CZJPopPayViewDelegate
     float totalMoney;
     CZJGeneralBlock hidePayViewBlock;
 }
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *myTableViewButtom;
 @property (weak, nonatomic) IBOutlet UITableView *myTableView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *separatorViewHeight;
 
@@ -120,7 +122,7 @@ CZJPopPayViewDelegate
     self.naviBarView.mainTitleLabel.text = title;
 }
 
-- (void)viewWillAppear:(BOOL)animated
+- (void)viewDidAppear:(BOOL)animated
 {
     if (CZJOrderDetailTypeGeneral == self.orderDetailType)
     {
@@ -168,7 +170,9 @@ CZJPopPayViewDelegate
 - (void)getReturnedOrderDetailFromServer
 {
     NSDictionary* params = @{@"orderItemPid":self.returnedGoodsForm.orderItemPid};
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES].color = GRAYCOLOR;
     [CZJBaseDataInstance generalPost:params success:^(id json) {
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
         NSDictionary* dict = [[CZJUtils DataFromJson:json] valueForKey:@"msg"];
         DLog(@"return:%@",[dict description]);
         receiverAddrForm = [CZJAddrForm objectWithKeyValues:[dict valueForKey:@"receiver"]];
@@ -179,7 +183,7 @@ CZJPopPayViewDelegate
         switch ([returnedOrdderDetailForm.returnStatus integerValue])
         {
             case 1:
-                self.returnedDetailView.hidden = NO;
+                self.cancleReturnView.hidden = NO;
                 _stageStr = @"等待卖家同意";
                 break;
             case 2:
@@ -193,15 +197,18 @@ CZJPopPayViewDelegate
             case 4:
                 stageLabelColor = UIColorFromRGB(0x48AB11);
                 _stageStr = [returnedOrdderDetailForm.returnType isEqualToString:@"1"] ? @"退货成功" : @"换货成功";
+                self.myTableViewButtom.constant = 0;
+                self.buttomLineView.hidden = YES;
                 break;
                 
             default:
                 break;
         }
-        self.myTableView.hidden = NO;
         [self.myTableView reloadData];
+        self.myTableView.hidden = NO;
     }  fail:^{
         DLog(@"");
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
     } andServerAPI:kCZJServerAPIGetMyReturnedOrderDetail];
 }
 
@@ -251,6 +258,15 @@ CZJPopPayViewDelegate
                     stageNum = 1;
                     orderType = 1;
                     self.payCarCheckView.hidden = NO;  //付款 、查看车检结果
+                }
+            }
+            else if (2 == [orderDetailForm.type integerValue])
+            {
+                if (0 == [orderDetailForm.status integerValue]) {
+                    _stageStr = @"等待买家付款";
+                    stageNum = 0;
+                    orderType = 0;
+                    self.payCancleOrderView.hidden = NO;   //取消订单、付款
                 }
             }
         }
@@ -304,24 +320,29 @@ CZJPopPayViewDelegate
                     }
                     else if (1 == [orderDetailForm.type integerValue])
                     {
+                        orderType = 1;
                         if (0 == [orderDetailForm.status integerValue])
                         {
                             _stageStr = @"等待到店施工";
+                            stageNum = 1;
                             self.cancelOrderView.hidden = NO;   //取消订单
                         }
                         else if (1 == [orderDetailForm.status integerValue])
                         {
                             _stageStr = @"等待门店施工";
+                            stageNum = 1;
                             self.cancleCarCheckView.hidden = NO; //取消订单、查看车检结果
                         }
                         else if (2 == [orderDetailForm.status integerValue])
                         {
                             _stageStr = @"门店正在施工";
+                            stageNum = 1;
                             self.onlyCarCheckView.hidden = NO; //查看车检结果、查看施工进度
                         }
                         else if (3 == [orderDetailForm.status integerValue])
                         {
-                            _stageStr = @"门店正在施工";
+                            _stageStr = @"门店已完成施工";
+                            stageNum = 2;
                             self.onlyCarCheckView.hidden = NO; //查看车检结果、查看施工进度
                         }
                     }
@@ -349,8 +370,8 @@ CZJPopPayViewDelegate
         }
         
         //-----------------------------------数据刷新----------------------------------
-        self.myTableView.hidden = NO;
         [self.myTableView reloadData];
+        self.myTableView.hidden = NO;
         
     } fail:^{
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
@@ -512,10 +533,12 @@ CZJPopPayViewDelegate
                 NSInteger count = returnedOrdderDetailForm.returnImgs.count;
                 for (int i = 0; i < count; i++)
                 {
-                    UIImageView* returnimage = [[UIImageView alloc]init];
+                    CZJImageView* returnimage = [[CZJImageView alloc]init];
+                    returnimage.subTag = i;
                     [returnimage sd_setImageWithURL:[NSURL URLWithString:returnedOrdderDetailForm.returnImgs[i]] placeholderImage:DefaultPlaceHolderSquare];
                     CGRect imageFrame = [CZJUtils viewFramFromDynamic:CZJMarginMake(15, 10) size:CGSizeMake(78, 78) index:i divide:4];
                     returnimage.frame = CGRectMake(imageFrame.origin.x, imageFrame.origin.y + labeiHeight + 10, 78, 78);
+                    [returnimage addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showBigImage:)]];
                     [cell addSubview:returnimage];
                 }
             }
@@ -686,7 +709,7 @@ CZJPopPayViewDelegate
             CZJOrderBuilderCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJOrderBuilderCell" forIndexPath:indexPath];
             
             //施工人员头像
-            [cell.builderHeadImg sd_setImageWithURL:[NSURL URLWithString:[builderData valueForKey:@"head"]] placeholderImage:IMAGENAMED(@"order_head_default.png")];
+            [cell.builderHeadImg sd_setImageWithURL:[NSURL URLWithString:[builderData valueForKey:@"head"]] placeholderImage:IMAGENAMED(@"personal_icon_head")];
             
             //施工人员名称和施工状态
             NSString* builderNameStr =[builderData valueForKey:@"builder"] == nil ? @"" : [builderData valueForKey:@"builder"];
@@ -747,10 +770,12 @@ CZJPopPayViewDelegate
                 NSArray* photosAry = [builderData valueForKey:@"photos"];
                 for (int i = 0; i< photosAry.count; i++)
                 {
-                    UIImageView* image = [[UIImageView alloc]init];
+                    CZJImageView* image = [[CZJImageView alloc]init];
+                    image.subTag = i;
                     image.frame = [CZJUtils viewFramFromDynamic:CZJMarginMake(15, 10) size:CGSizeMake(78, 78) index:i divide:4];
                     [cell addSubview:image];
-                    [image sd_setImageWithURL:[NSURL URLWithString:photosAry[i]] placeholderImage:DefaultPlaceHolderSquare];
+                    [image sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",photosAry[i],SUOLUE_PIC_200]] placeholderImage:DefaultPlaceHolderSquare];
+                    [image addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showBigImage:)]];
                 }
                 if (photosAry.count == 0)
                 {
@@ -951,7 +976,7 @@ CZJPopPayViewDelegate
     float popViewHeight = CZJBaseDataInstance.orderPaymentTypeAry.count * 70 + 60 +50.5;
     self.popWindowInitialRect = VERTICALHIDERECT(0);
     self.popWindowDestineRect = VERTICALSHOWRECT(popViewHeight);
-    [CZJUtils showMyWindowOnTarget:self withMyVC:payPopView];
+    [CZJUtils showMyWindowOnTarget:self withPopVc:payPopView];
     __weak typeof(self) weak = self;
     
     hidePayViewBlock = ^{
@@ -990,19 +1015,37 @@ CZJPopPayViewDelegate
         paymentOrderForm.order_for = @"pay";
         if ([selectOrderTypeForm.orderTypeName isEqualToString:@"微信支付"])
         {
-            [CZJPaymentInstance weixinPay:self OrderInfo:paymentOrderForm Success:^(NSDictionary *message) {
-                DLog(@"微信支付成功");
-            } Fail:^(NSDictionary *message, NSError *error) {
-                [CZJUtils tipWithText:@"微信支付失败" andView:weak.view];
-            }];
+            if ([OpenShare isWeixinInstalled])
+            {
+                [CZJPaymentInstance weixinPay:self OrderInfo:paymentOrderForm Success:^(NSDictionary *message) {
+                    DLog(@"微信支付成功");
+                } Fail:^(NSDictionary *message, NSError *error) {
+                    [CZJUtils tipWithText:@"微信支付失败" andView:weak.view];
+                }];
+            }
+            else
+            {
+                UIWindow *window = [[UIApplication sharedApplication] keyWindow];
+                UIAlertView* alertview = [[UIAlertView alloc]initWithTitle:@"温馨提示" message:@"您的手机未安装微信客户端，请安装后支付" delegate:window cancelButtonTitle:@"收到" otherButtonTitles:nil, nil];
+                [alertview show];
+            }
         }
         if ([selectOrderTypeForm.orderTypeName isEqualToString:@"支付宝支付"])
         {
-            [CZJPaymentInstance aliPay:self OrderInfo:paymentOrderForm Success:^(NSDictionary *message) {
-                DLog(@"支付宝支付成功");
-            } Fail:^(NSDictionary *message, NSError *error) {
-                [CZJUtils tipWithText:@"支付宝支付失败" andView:weak.view];
-            }];
+            if ([OpenShare isAlipayInstalled])
+            {
+                [CZJPaymentInstance aliPay:self OrderInfo:paymentOrderForm Success:^(NSDictionary *message) {
+                    DLog(@"支付宝支付成功");
+                } Fail:^(NSDictionary *message, NSError *error) {
+                    [CZJUtils tipWithText:@"支付宝支付失败" andView:weak.view];
+                }];
+            }
+            else
+            {
+                UIWindow *window = [[UIApplication sharedApplication] keyWindow];
+                UIAlertView* alertview = [[UIAlertView alloc]initWithTitle:@"温馨提示" message:@"您的手机未安装支付宝客户端，请安装后支付" delegate:window cancelButtonTitle:@"收到" otherButtonTitles:nil, nil];
+                [alertview show];
+            }
         }
     }  fail:^{
         
@@ -1079,6 +1122,7 @@ CZJPopPayViewDelegate
     __weak typeof(self) weak = self;
     [self showCZJAlertView:@"确定取消退换货" andConfirmHandler:^{
         [CZJBaseDataInstance generalPost:nil success:^(id json) {
+            [CZJUtils tipWithText:@"取消退换货成功" andView:self.view];
             [[NSNotificationCenter defaultCenter]postNotificationName:kCZJNotifiRefreshReturnOrderlist object:nil];
             [weak.navigationController popViewControllerAnimated:YES];
         }  fail:^{
@@ -1091,5 +1135,20 @@ CZJPopPayViewDelegate
 - (IBAction)remindSellerAction:(id)sender
 {
     DLog(@"提醒卖家");
+}
+
+
+#pragma mark- 点小图显示大图
+- (void)showBigImage:(UIGestureRecognizer*)recogonizer
+{
+    CZJImageView* evalutionImg = (CZJImageView*)recogonizer.view;
+    
+    if (_orderDetailType == CZJOrderDetailTypeGeneral) {
+        [CZJUtils showDetailInfoWithIndex:evalutionImg.subTag withImgAry:orderDetailForm.build.photos onTarget:self];
+    }
+    if (_orderDetailType == CZJOrderDetailTypeReturned)
+    {
+        [CZJUtils showDetailInfoWithIndex:evalutionImg.subTag withImgAry:returnedOrdderDetailForm.returnImgs onTarget:self];
+    }
 }
 @end

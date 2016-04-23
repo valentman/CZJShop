@@ -35,8 +35,26 @@
         UILabel* label_value = [[UILabel alloc] init];
         label_value.textAlignment = NSTextAlignmentCenter;
         label_value.font = [UIFont systemFontOfSize:11.0f];
-        NSString* typestr = [data.type isEqualToString:@"1"] ? [NSString stringWithFormat:@"￥%@代金券",data.value] : [NSString stringWithFormat:@"满%@减%@",data.validMoney,data.value];
-        label_value.text = typestr;
+        
+        NSString* priceStri;
+        switch ([data.type integerValue])
+        {
+            case 1://代金券
+                priceStri = [NSString stringWithFormat:@"￥%d代金券",[data.value intValue]];
+                break;
+                
+            case 2://满减券
+                priceStri = [NSString stringWithFormat:@"满%@减%@",data.validMoney,data.value];
+                break;
+                
+            case 3://项目券
+                priceStri = @"项目券";
+                break;
+                
+            default:
+                break;
+        }
+        label_value.text = priceStri;
         label_value.textColor = [data.type isEqualToString:@"3"] ? CZJBLUECOLOR : CZJREDCOLOR;
         label_value.frame = CGRectMake(10 , frameHeight - 12, frameWidth - 10, 15);
         [self addSubview:label_value];

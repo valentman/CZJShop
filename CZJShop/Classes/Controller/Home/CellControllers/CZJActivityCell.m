@@ -24,7 +24,7 @@
 {
     self.isInit = YES;
     [_imageArray removeAllObjects];
-    _activeties = array;
+    _activeties = [array mutableCopy];
     for (ActivityForm* tmp in array) {
         [_imageArray addObject:tmp.img];
     }

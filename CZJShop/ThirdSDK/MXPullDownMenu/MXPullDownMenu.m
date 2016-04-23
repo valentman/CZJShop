@@ -29,18 +29,22 @@
     NSArray *_array;
     NSMutableArray *_titles;
     NSMutableArray *_indicators;
-    NSArray *_containCitys;
+    NSMutableArray *_containCitys;
     
     NSInteger _numOfMenu;
     NSInteger _currentSelectedMenudIndex;
     NSInteger _selectIndex;
+    NSInteger _goodsServiceSelectIndex;
     NSIndexPath* _selelctIndexPath;
+    NSIndexPath* _lastSelectIndexPath;
     
     CGFloat _viewContentHeight;
     CGFloat _collectionViewWidth;
     
     NSString* _selectedCityName;
     bool _show;
+    __block BOOL _isTableViewShow;
+    BOOL isFirstTitle;
     
     CZJMXPullDownMenuType _menuType;
 }
@@ -168,7 +172,7 @@
         
         //TableView
         _tableView = [self creatTableViewAtPosition:CGPointMake(0, self.frame.origin.y + self.frame.size.height)];//
-        _tableView.tintColor = RGBA(239, 0, 25, 1);
+        _tableView.tintColor = CZJREDCOLOR;
         _tableView.dataSource = self;
         _tableView.delegate = self;
         _selelctIndexPath = [NSIndexPath indexPathForRow:0 inSection:0];
@@ -212,89 +216,8 @@
 }
 
 
-#pragma mark - tableViewDelegate
-- (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    UITableViewCell* cell = [tableView cellForRowAtIndexPath:indexPath];
-    if (0 == _currentSelectedMenudIndex &&
-        CZJMXPullDownMenuTypeGoods != _menuType)
-    {
-        cell.backgroundColor = CZJNAVIBARBGCOLOR;
-    }
-    cell.backgroundColor = CZJNAVIBARBGCOLOR;
-}
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    UITableViewCell* cell = [tableView cellForRowAtIndexPath:indexPath];
-    cell.selected = YES;
-    if (0 == _currentSelectedMenudIndex)
-    {
-        if (0 == _selectIndex)
-        {
-            [self tableView:tableView didDeselectRowAtIndexPath:_selelctIndexPath];
-        }
-        cell.backgroundColor = [UIColor whiteColor];
-        _selectIndex = indexPath.row;
-        switch (_menuType) {
-            case CZJMXPullDownMenuTypeService:
-            case CZJMXPullDownMenuTypeStore:
-            {
-                _containCitys = ((CZJProvinceForm*)_array[0][indexPath.row]).containCitys;
-                [_subCollectionView reloadData];
-            }
-                break;
-                
-            case CZJMXPullDownMenuTypeStoreDetail:
-            {
-                _containCitys = nil;
-                if ([cell.textLabel.text isEqualToString:@"服务"])
-                {
-                    _containCitys = CZJBaseDataInstance.serviceTypesAry;
-                }
-                if ([cell.textLabel.text isEqualToString:@"商品"])
-                {
-                    _containCitys = CZJBaseDataInstance.goodsTypesAry;
-                }
-                
-                
-                if (_containCitys.count > 0)
-                {
-                    [_subCollectionView reloadData];
-                }
-                else
-                {
-                    [self confiMenuWithSelectRow:indexPath.row];
-                    [self.delegate pullDownMenu:self didSelectCityName:_array[_currentSelectedMenudIndex][indexPath.row]];
-                }
-            }
-                break;
-            case CZJMXPullDownMenuTypeGoods:
-            {
-                [self confiMenuWithSelectRow:indexPath.row];
-                [self.delegate PullDownMenu:self didSelectRowAtColumn:_currentSelectedMenudIndex row:indexPath.row];
-            }
-                break;
-                
-            case CZJMXPullDownMenuTypeNone:
-            {
-            }
-                break;
-                
-            default:
-                break;
-        }
-        
-    }
-    else
-    {
-        [self confiMenuWithSelectRow:indexPath.row];
-        [self.delegate PullDownMenu:self didSelectRowAtColumn:_currentSelectedMenudIndex row:indexPath.row];
-    }
-}
-
-
-#pragma mark tableViewDataSource
+#pragma mark - tableViewDataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     DLog(@"%ld",[_array[_currentSelectedMenudIndex] count]);
@@ -337,6 +260,40 @@
                 break;
                 
             case CZJMXPullDownMenuTypeStoreDetail:
+            {
+                cell.textLabel.text = _array[_currentSelectedMenudIndex][indexPath.row];
+                if (cell.textLabel.text == [(CATextLayer *)[_titles objectAtIndex:_currentSelectedMenudIndex] string]) {
+                    [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
+                    [cell.textLabel setTextColor:[tableView tintColor]];
+                }
+                [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+                
+                //有二级的需要一个小箭头
+                NSMutableArray* tempAry = [NSMutableArray array];
+                if ([cell.textLabel.text isEqualToString:@"服务"])
+                {
+                    tempAry = [CZJBaseDataInstance.serviceTypesAry mutableCopy];
+                }
+                if ([cell.textLabel.text isEqualToString:@"商品"])
+                {
+                    tempAry = [CZJBaseDataInstance.goodsTypesAry mutableCopy];
+                }
+                
+                if (tempAry.count > 0)
+                {
+                    UIImageView* arrowImgview = [[UIImageView alloc]initWithImage:IMAGENAMED(@"all_arrow_next")];
+                    [arrowImgview setTag:1001];
+                    arrowImgview.frame = CGRectMake(PJ_SCREEN_WIDTH* 0.5 - 21, 12.5, 6, 11);
+                    [cell addSubview:arrowImgview];
+                }
+                else
+                {
+                    if (!VIEWWITHTAG(cell, 1001))
+                    {
+                        VIEWWITHTAG(cell, 1001).hidden = YES;
+                    }
+                }
+            }
             case CZJMXPullDownMenuTypeGoods:
             case CZJMXPullDownMenuTypeNone:
             {
@@ -378,7 +335,104 @@
 }
 
 
-#pragma mark collectionViewDataSource
+#pragma mark  tableViewDelegate
+- (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell* cell = [tableView cellForRowAtIndexPath:indexPath];
+    if (0 == _currentSelectedMenudIndex &&
+        CZJMXPullDownMenuTypeGoods != _menuType)
+    {
+        cell.backgroundColor = CZJNAVIBARBGCOLOR;
+    }
+    if (0 == _currentSelectedMenudIndex &&
+        CZJMXPullDownMenuTypeStoreDetail == _menuType)
+    {
+        [cell.textLabel setTextColor:[UIColor grayColor]];
+    }
+    cell.backgroundColor = CZJNAVIBARBGCOLOR;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (_lastSelectIndexPath != indexPath)
+    {
+        [self tableView:tableView didDeselectRowAtIndexPath:_lastSelectIndexPath];
+    }
+    _lastSelectIndexPath = indexPath;
+    
+    UITableViewCell* cell = [tableView cellForRowAtIndexPath:indexPath];
+    cell.selected = YES;
+    if (0 == _currentSelectedMenudIndex)
+    {
+        if (0 == _selectIndex)
+        {
+            [self tableView:tableView didDeselectRowAtIndexPath:_selelctIndexPath];
+        }
+        cell.backgroundColor = [UIColor whiteColor];
+        _selectIndex = indexPath.row;
+        switch (_menuType) {
+            case CZJMXPullDownMenuTypeService:
+            case CZJMXPullDownMenuTypeStore:
+            {
+                _containCitys = [((CZJProvinceForm*)_array[0][indexPath.row]).containCitys mutableCopy];
+                [_subCollectionView reloadData];
+            }
+                break;
+                
+            case CZJMXPullDownMenuTypeStoreDetail:
+            {
+                [cell.textLabel setTextColor:[tableView tintColor]];
+                [_containCitys removeAllObjects];
+                if ([cell.textLabel.text isEqualToString:@"服务"])
+                {
+                    _containCitys = [CZJBaseDataInstance.serviceTypesAry mutableCopy];
+                }
+                if ([cell.textLabel.text isEqualToString:@"商品"])
+                {
+                    _containCitys = [CZJBaseDataInstance.goodsTypesAry mutableCopy];
+                }
+                
+                
+                if (_containCitys.count > 0)
+                {
+                    [_subCollectionView reloadData];
+                }
+                else
+                {
+                    [_subCollectionView reloadData];
+                    if (_isTableViewShow) {
+                        [self confiMenuWithSelectRow:indexPath.row];
+                        [self.delegate pullDownMenu:self didSelectCityName:_array[_currentSelectedMenudIndex][indexPath.row]];
+                    }
+                }
+            }
+                break;
+            case CZJMXPullDownMenuTypeGoods:
+            {
+                [self confiMenuWithSelectRow:indexPath.row];
+                [self.delegate PullDownMenu:self didSelectRowAtColumn:_currentSelectedMenudIndex row:indexPath.row];
+            }
+                break;
+                
+            case CZJMXPullDownMenuTypeNone:
+            {
+            }
+                break;
+                
+            default:
+                break;
+        }
+        
+    }
+    else
+    {
+        [self confiMenuWithSelectRow:indexPath.row];
+        [self.delegate PullDownMenu:self didSelectRowAtColumn:_currentSelectedMenudIndex row:indexPath.row];
+    }
+}
+
+
+#pragma mark - collectionViewDataSource
 -(NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
     return   1;
 }
@@ -398,11 +452,11 @@
     {
         if (1 == _selectIndex && [cell.cityName.text isEqualToString:@"全部"])
         {
-            _selectedCityName = @"服务";
+            _selectedCityName = @"10000";
         }
         else if (2 == _selectIndex && [cell.cityName.text isEqualToString:@"全部"])
         {
-            _selectedCityName = @"商品";
+            _selectedCityName = @"20000";
         }
         else
         {
@@ -420,11 +474,26 @@
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     
     MXPullDownCollectionViewCell *cell=[collectionView dequeueReusableCellWithReuseIdentifier:kMXPullDownCollectionViewCell forIndexPath:indexPath];
+    cell.shaixuanImage.hidden = YES;
 
     if (CZJMXPullDownMenuTypeStoreDetail == _menuType)
     {
         CZJStoreDetailTypesForm* typeForm = _containCitys[indexPath.row];
         cell.cityName.text = typeForm.name;
+        [cell.cityName setTextColor:BLACKCOLOR];
+        if ([typeForm.name isEqualToString:((CATextLayer*)_titles[0]).string])
+        {
+            cell.shaixuanImage.hidden = NO;
+            [cell.cityName setTextColor:CZJREDCOLOR];
+            return cell;
+        }
+        if (isFirstTitle && [typeForm.name isEqualToString:@"全部"] && _goodsServiceSelectIndex == _lastSelectIndexPath.row)
+        {
+            cell.shaixuanImage.hidden = NO;
+            [cell.cityName setTextColor:CZJREDCOLOR];
+            return cell;
+        }
+
     }
     else
     {
@@ -461,18 +530,19 @@
 
 - (void)touchMXPullDownMenuAtMenuIndex:(NSInteger)tapIndex
 {
-
     _selectIndex = -1;
     
-    //点击menuIndex时
+    //=================指定界面情况=======================
+    //商品列表和服务列表模块筛选按钮
     if ((CZJMXPullDownMenuTypeService == _menuType || CZJMXPullDownMenuTypeGoods== _menuType) &&
         2 == tapIndex)
-    {//商品和服务模块筛选按钮
+    {
         [self.delegate pullDownMenuDidSelectFiliterButton:self];
         [self tapBackGround:nil];
         return;
     }
     
+    //商品列表的价格按钮
     if (CZJMXPullDownMenuTypeGoods== _menuType &&
         1 == tapIndex)
     {
@@ -481,6 +551,10 @@
         return;
     }
     
+    //改变点击菜单的颜色
+    [self tapIndexSetTitleColor:tapIndex];
+    
+    //门店详情界面下拉菜单
     if (CZJMXPullDownMenuTypeStoreDetail == _menuType && 0 != tapIndex)
     {
         [self.delegate pullDownMenu:self didSelectCityName:_array[tapIndex][0]];
@@ -489,15 +563,7 @@
     }
     
     
-    //
-    for (int i = 0; i < _numOfMenu; i++)
-    {
-        [self animateTitle:_titles[i] show:(i == tapIndex) complete:^{
-            [self animateIndicator:_indicators[i] Forward:(i == tapIndex) complete:^{
-            }];
-        }];
-    }
-    
+    //=================一般情况=======================
     //如果点击的是当前已经显示出来的按钮，则该按钮就隐藏
     if (tapIndex == _currentSelectedMenudIndex && _show)
     {
@@ -509,18 +575,79 @@
     } else {
         //否则就显示新点击按钮的信息列表
         _currentSelectedMenudIndex = tapIndex;
-        DLog(@"tap");
         [_tableView reloadData];
         [self animateIdicator:_indicators[tapIndex] background:_backGroundView tableView:_tableView title:_titles[tapIndex] forward:YES complecte:^{
             _show = YES;
-            if (0 == _currentSelectedMenudIndex &&
-                (CZJMXPullDownMenuTypeGoods != _menuType && CZJMXPullDownMenuTypeStoreDetail != _menuType))
+            if (0 == _currentSelectedMenudIndex )
             {
-                [self tableView:_tableView didSelectRowAtIndexPath:_selelctIndexPath];
+                if ((CZJMXPullDownMenuTypeGoods != _menuType && CZJMXPullDownMenuTypeStoreDetail != _menuType)) {
+                    [self tableView:_tableView didSelectRowAtIndexPath:_selelctIndexPath];
+                }
+                if (CZJMXPullDownMenuTypeStoreDetail == _menuType)
+                {
+                    
+                    NSString* firsTitle = ((CATextLayer*)_titles[0]).string;
+                    
+                    isFirstTitle = YES;
+                    //判断当前选择条目是否是服务
+                    for (CZJStoreDetailTypesForm* secondTitle in CZJBaseDataInstance.serviceTypesAry)
+                    {
+                        if ([secondTitle.name isEqualToString:firsTitle])
+                        {
+                            isFirstTitle = NO;
+                            _selectIndex = 1;
+                            _goodsServiceSelectIndex = 1;
+                            _selelctIndexPath = [NSIndexPath indexPathForRow:1 inSection:0];
+                            break;
+                        }
+                    }
+                    //判断当前选择条目是否是商品
+                    for (CZJStoreDetailTypesForm* secondTitle in CZJBaseDataInstance.goodsTypesAry)
+                    {
+                        if ([secondTitle.name isEqualToString:firsTitle])
+                        {
+                            isFirstTitle = NO;
+                            _selectIndex = 2;
+                            _goodsServiceSelectIndex = 2;
+                            _selelctIndexPath = [NSIndexPath indexPathForRow:2 inSection:0];
+                            break;
+                        }
+                    }
+                    
+                    for (int i = 0; i < ((NSArray*)_array[0]).count; i++)
+                    {
+                         NSString* currentTitle = _array[0][i];
+                        if ([currentTitle isEqualToString:firsTitle])
+                        {
+                            isFirstTitle = YES;
+                            _goodsServiceSelectIndex = i;
+                            _selelctIndexPath = [NSIndexPath indexPathForRow:i inSection:0];
+                            break;
+                        }
+                    }
+                    [self tableView:_tableView didSelectRowAtIndexPath:_selelctIndexPath];
+                }
             }
         }];
     }
 }
+
+//改变点击菜单的颜色
+- (void)tapIndexSetTitleColor:(NSInteger)tapIndex
+{
+    for (int i = 0; i < _numOfMenu; i++)
+    {
+        if (CZJMXPullDownMenuTypeStoreDetail == _menuType && 0 == tapIndex)
+        {
+            return;
+        }
+        [self animateTitle:_titles[i] show:(i == tapIndex) complete:^{
+            [self animateIndicator:_indicators[i] Forward:(i == tapIndex) complete:^{
+            }];
+        }];
+    }
+}
+
 
 - (void)tapBackGround:(UITapGestureRecognizer *)paramSender
 {
@@ -534,6 +661,7 @@
 //小三角指示器执行旋转动画
 - (void)animateIndicator:(CAShapeLayer *)indicator Forward:(BOOL)forward complete:(void(^)())complete
 {
+    DLog();
     if (![indicator isKindOfClass:[CAShapeLayer class]])
     {
         return;
@@ -564,6 +692,7 @@
 
 - (void)animateTitle:(CATextLayer *)title show:(BOOL)show complete:(void(^)())complete
 {
+    DLog();
     if (show) {
         title.foregroundColor = _tableView.tintColor.CGColor;
     } else {
@@ -580,6 +709,7 @@
 
 - (void)animateBackGroundView:(UIView *)view show:(BOOL)show complete:(void(^)())complete
 {
+    DLog();
     if (show) {
         [self.superview addSubview:view];
         [view.superview addSubview:self];
@@ -603,6 +733,7 @@
 
 - (void)animateTableView:(UITableView *)tableView show:(BOOL)show complete:(void(^)())complete
 {
+    DLog();
     if (show)
     {
         tableView.frame = CGRectMake(0, self.frame.origin.y + self.frame.size.height, self.frame.size.width, 0);
@@ -631,8 +762,10 @@
             {
                 _subCollectionView.frame = CGRectMake(PJ_SCREEN_WIDTH - _collectionViewWidth, self.frame.origin.y + self.frame.size.height, _collectionViewWidth, tableViewHeight);
             }
+        } completion:^(BOOL finished)
+        {
+            _isTableViewShow = YES;
         }];
-
     }
     else
     {
@@ -648,6 +781,7 @@
             [tableView removeFromSuperview];
             if (_currentSelectedMenudIndex == 0)
             {
+                _isTableViewShow = NO;
                 [[self.superview viewWithTag:1001] removeFromSuperview];
             }
         }];
@@ -769,6 +903,20 @@
 
 
 #pragma mark - otherMethods
+
+- (void)storeDetailConfiMenuWithSelectRow:(NSInteger)row
+{
+    _goodsServiceSelectIndex = row;
+    CATextLayer *title = (CATextLayer *)_titles[_currentSelectedMenudIndex];
+    title.string = _array[_currentSelectedMenudIndex][row];
+    [self animateIdicator:_indicators[_currentSelectedMenudIndex] background:_backGroundView tableView:_tableView title:_titles[_currentSelectedMenudIndex] forward:NO complecte:^{
+        _show = NO;
+        
+    }];
+    CAShapeLayer *indicator = (CAShapeLayer *)_indicators[_currentSelectedMenudIndex];
+    indicator.position = CGPointMake(title.position.x + title.frame.size.width / 2 + 8, indicator.position.y);
+}
+
 - (void)confiMenuWithSelectRow:(NSInteger)row
 {
     CATextLayer *title = (CATextLayer *)_titles[_currentSelectedMenudIndex];
@@ -801,9 +949,9 @@
                 }
                 else
                 {
-                    title.string = ((CZJStoreDetailTypesForm*)[_containCitys objectAtIndex:row]).name;
+                    CZJStoreDetailTypesForm* detailTypeForm = (CZJStoreDetailTypesForm*)[_containCitys objectAtIndex:row];
+                    title.string = detailTypeForm.name;
                 }
-                
             }
         }
         else

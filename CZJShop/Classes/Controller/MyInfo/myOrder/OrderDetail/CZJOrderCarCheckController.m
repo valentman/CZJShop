@@ -57,8 +57,6 @@ UITableViewDelegate
         UINib *nib=[UINib nibWithNibName:cells bundle:nil];
         [self.myTableView registerNib:nib forCellReuseIdentifier:cells];
     }
-    
-    
 }
 
 - (void)getCarCheckInfoFromServer
@@ -81,7 +79,7 @@ UITableViewDelegate
 #pragma mark-UITableViewDataSource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 2 + carCheckForm.checks.count + carCheckForm.photos.count;
+    return 3 + carCheckForm.checks.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -127,10 +125,12 @@ UITableViewDelegate
             NSArray* photosAry = carCheckForm.photos;
             for (int i = 0; i< photosAry.count; i++)
             {
-                UIImageView* image = [[UIImageView alloc]init];
-                image.frame = [CZJUtils viewFramFromDynamic:CZJMarginMake(15, 10) size:CGSizeMake(78, 78) index:i divide:4];
+                CZJImageView* image = [[CZJImageView alloc]initWithFrame:[CZJUtils viewFramFromDynamic:CZJMarginMake(15, 10) size:CGSizeMake(78, 78) index:i divide:Divide]];
+                image.subTag = i;
                 [cell addSubview:image];
-                [image sd_setImageWithURL:[NSURL URLWithString:photosAry[i]] placeholderImage:DefaultPlaceHolderSquare];
+                [image sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",photosAry[i],SUOLUE_PIC_200]] placeholderImage:DefaultPlaceHolderSquare];
+                
+                [image addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showBigImage:)]];
             }
             if (photosAry.count == 0)
             {
@@ -272,7 +272,6 @@ UITableViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -296,4 +295,12 @@ UITableViewDelegate
     }
 }
 
+
+#pragma mark- 点小图显示大图
+- (void)showBigImage:(UIGestureRecognizer*)recogonizer
+{
+    CZJImageView* evalutionImg = (CZJImageView*)recogonizer.view;
+    //通过view的tag值可以获取section值，取到相应的数据
+    [CZJUtils showDetailInfoWithIndex:evalutionImg.subTag withImgAry:carCheckForm.photos onTarget:self];
+}
 @end

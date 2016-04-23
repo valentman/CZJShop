@@ -11,6 +11,7 @@
 #import "CZJLoginModelManager.h"
 #import "CZJDiscoverDetailController.h"
 #import "CZJGeneralCell.h"
+#import "CZJScanQRController.h"
 
 #define kTypeLabelTag 10
 #define kNewsLabelTag 11
@@ -168,6 +169,14 @@ UITableViewDelegate
         CZJGeneralCell* cell = (CZJGeneralCell*)[tableView cellForRowAtIndexPath:indexPath];
         UIView* dotTagView = VIEWWITHTAG(cell.contentView, kDotViewTag);
         dotTagView.hidden = YES;
+    }
+    if (1 == indexPath.section)
+    {
+        if (0 == indexPath.row)
+        {
+            CZJScanQRController* scanVC = (CZJScanQRController*)[CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:kCZJStoryBoardIDScanQR];
+            [self.navigationController pushViewController:scanVC animated:YES];
+        }
     }
 }
 

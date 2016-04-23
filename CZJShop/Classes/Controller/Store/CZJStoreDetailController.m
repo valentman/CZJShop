@@ -44,7 +44,7 @@ MKMapViewDelegate
 >
 {
     NSArray* _activityArray;                //活动数据
-    NSArray* _imgsArray;                    //服务列表
+    NSArray* _imgsArray;                    //门店图片
     NSArray* _nativeRecommendArray;         //未经处理爆款商品列表
     NSArray* _recommendArray;               //爆款商品列表
     NSArray* _couponsArray;                 //优惠券数据
@@ -62,6 +62,7 @@ MKMapViewDelegate
     __block NSInteger _touchedType;
     BOOL isSearchBarShow;
     MJRefreshAutoNormalFooter* refreshFooter;
+    CZJStoreDetailMenuCell* menuCell;
     
     __block NSString* _bigTypeId;                   //第一个大类型
     __block NSString* _typeId;                      //第二个类型
@@ -139,6 +140,7 @@ MKMapViewDelegate
 
 - (void)initViews
 {
+    __weak typeof(self) weak = self;
     //NaviBar
     [self addCZJNaviBarView:CZJNaviBarViewTypeStoreDetail];
     self.naviBarView.customSearchBar.alpha = 0;
@@ -147,6 +149,14 @@ MKMapViewDelegate
     
     
     //TableView
+    self.myTableView.tableFooterView = [[UIView alloc]init];
+    self.myTableView.backgroundColor = WHITECOLOR;
+    self.myTableView.delegate = self;
+    self.myTableView.dataSource = self;
+    self.myTableView.clipsToBounds = YES;
+    self.myTableView.showsVerticalScrollIndicator = NO;
+    self.myTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.automaticallyAdjustsScrollViewInsets = NO;
     NSArray* nibArys = @[@"CZJStoreDetailHeadCell",
                          @"CZJStoreDescribeCell",
                          @"CZJStoreDescribeTwoCell",
@@ -160,15 +170,6 @@ MKMapViewDelegate
         UINib *nib=[UINib nibWithNibName:cells bundle:nil];
         [self.myTableView registerNib:nib forCellReuseIdentifier:cells];
     }
-    self.myTableView.tableFooterView = [[UIView alloc]init];
-    self.myTableView.backgroundColor = WHITECOLOR;
-    self.myTableView.delegate = self;
-    self.myTableView.dataSource = self;
-    self.myTableView.clipsToBounds = YES;
-    self.myTableView.showsVerticalScrollIndicator = NO;
-    self.myTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    self.automaticallyAdjustsScrollViewInsets = NO;
-    __weak typeof(self) weak = self;
     refreshFooter = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^(){
         weak.page++;
         [weak getStoreGoodsAndServiceDataFromServer];;
@@ -191,6 +192,8 @@ MKMapViewDelegate
     NSArray* menuArray = @[sortTypes,filterTypes,latestTypes,storeTypes];
     [self.topView initWithArray:menuArray AndType:CZJMXPullDownMenuTypeStoreDetail WithFrame:self.topView.frame].delegate = self;
     self.topView.hidden = YES;
+    [self.topView tapIndexSetTitleColor:1];
+    self.topView.backgroundColor = WHITECOLOR;
     
     //添加下拉菜单选项改变通知
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(refreshTableViewMenu) name:@"MXPullDownMenuTitleChange" object:nil];
@@ -198,8 +201,7 @@ MKMapViewDelegate
 
 - (void)refreshTableViewMenu
 {
-//    [self.myTableView reloadSections:[NSIndexSet indexSetWithIndex:_bannerOneArray.count + 4] withRowAnimation:UITableViewRowAnimationNone];
-    [self.myTableView reloadData];
+//    [self.myTableView reloadData];
 }
 
 - (void)getStoreDetailDataFromServer
@@ -217,20 +219,31 @@ MKMapViewDelegate
 {
     NSDictionary* dict = [[CZJUtils DataFromJson:json] valueForKey:@"msg"];
     DLog(@"%@",[dict description]);
+    //门店图片
     _imgsArray = [dict valueForKey:@"imgs"];
+    
+    //门店优惠券
     _couponsArray = [CZJShoppingCouponsForm objectArrayWithKeyValuesArray:[dict valueForKey:@"coupons"]];
+    
+    //活动
     _activityArray = [CZJStoreDetailActivityForm objectArrayWithKeyValuesArray:[dict valueForKey:@"activitys"]];
+    
+    //广告
     _bannerOneArray = [CZJStoreDetailBannerForm objectArrayWithKeyValuesArray:[dict valueForKey:@"banners"]];
+    
     //爆款未筛选数组
     _nativeRecommendArray = [CZJStoreDetailGoodsAndServiceForm objectArrayWithKeyValuesArray:[dict valueForKey:@"recommends"]];
+    
     //爆款筛选后数组
     _recommendArray = [CZJUtils getAggregationArrayFromArray:_nativeRecommendArray];
+    
     //商品分类
     _goodsTypesArray = [CZJStoreDetailTypesForm objectArrayWithKeyValuesArray:[dict valueForKey:@"goodsTypes"]];
     CZJBaseDataInstance.goodsTypesAry = [_goodsTypesArray mutableCopy];
     //服务分类
     _serviceTypesArray = [CZJStoreDetailTypesForm objectArrayWithKeyValuesArray:[dict valueForKey:@"serviceTypes"]];
     CZJBaseDataInstance.serviceTypesAry = [_serviceTypesArray mutableCopy];
+    
     //门店详情信息
     _storeDetailForm = [CZJStoreDetailForm objectWithKeyValues:[dict valueForKey:@"store"]];
 }
@@ -247,9 +260,12 @@ MKMapViewDelegate
                              @"page": @(self.page)};
     DLog(@"%@",[params description]);
     __weak typeof(self) weak = self;
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [CZJBaseDataInstance loadStoreInfo:params success:^(id json) {
-            [weak dealWithGoodsServiceData:json];
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        [weak dealWithGoodsServiceData:json];
     } fail:^{
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
         [self.myTableView.footer endRefreshing];
     }];
 }
@@ -266,7 +282,7 @@ MKMapViewDelegate
         [self.myTableView.footer endRefreshing];
     }
     [_nativeServiceAndGoodsArray addObjectsFromArray:[GoodsRecommendForm objectArrayWithKeyValuesArray:tmpAry]];
-    DLog(@"筛选后个数:%ld",_nativeServiceAndGoodsArray.count);
+    DLog(@"筛选后个数:%zi",_nativeServiceAndGoodsArray.count);
     _serviceAndGoodsArray = [CZJUtils getAggregationArrayFromArray:_nativeServiceAndGoodsArray];
     if (_serviceAndGoodsArray > 0)
     {
@@ -335,12 +351,20 @@ MKMapViewDelegate
         if (0 == indexPath.row)
         {
             CZJStoreDetailHeadCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJStoreDetailHeadCell" forIndexPath:indexPath];
-            cell.storeAddrLabel.text = _storeDetailForm.storeAddr;
+            //门店名称
+            cell.headImgLayoutWidth.constant = 0;
             cell.storeNameLabel.text = _storeDetailForm.storeName;
+            cell.storeNameLayoutWidth.constant = PJ_SCREEN_WIDTH - 15 - 120;
+            CGSize storeSize = [CZJUtils calculateStringSizeWithString:_storeDetailForm.storeName Font:cell.storeNameLabel.font Width:PJ_SCREEN_WIDTH - 15 - 120];
+            cell.storeNameHeight.constant = storeSize.height > 20 ? 40 : 20;
+            //门店地址
+            cell.storeAddrLabel.text = _storeDetailForm.storeAddr;
+            CGSize addrSize = [CZJUtils calculateStringSizeWithString:_storeDetailForm.storeAddr Font:cell.storeAddrLabel.font Width:PJ_SCREEN_WIDTH - 15 - 120];
+            cell.storeAddrLabelHeight.constant = addrSize.height > 15 ? 30 : 15;
+            //关注
             cell.attentionCountLabel.text = _storeDetailForm.attentionCount;
             [cell.attentionBtn setImage:IMAGENAMED(_storeDetailForm.attentionFlag ? @"shop_icon_guanzhu_sel" : @"shop_icon_guanzhu") forState:UIControlStateNormal];
-            cell.headImgLayoutWidth.constant = 0;
-            cell.storeNameLayoutWidth.constant = [CZJUtils calculateStringSizeWithString:_storeDetailForm.storeName Font:SYSTEMFONT(16) Width:200].width;
+            
             cell.delegate = self;
             cell.attentionDelegate = self;
             if (!cell.isInit && _imgsArray.count > 0) {
@@ -370,14 +394,17 @@ MKMapViewDelegate
             {
                 UIButton* btn = (UIButton*)data;
                 _touchedType = btn.tag;
-                _bigTypeId = [NSString stringWithFormat:@"%ld",_touchedType];
+                _bigTypeId = [NSString stringWithFormat:@"%ld",_touchedType * 10000];
+                _typeId = _bigTypeId;
                 [_nativeServiceAndGoodsArray removeAllObjects];
                 [_serviceAndGoodsArray removeAllObjects];
                 
                 weakSelf.page = 1;
                 [weakSelf getStoreGoodsAndServiceDataFromServer];
+                [weakSelf.topView storeDetailConfiMenuWithSelectRow:_touchedType];
+                
                 [weakSelf.myTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:_bannerOneArray.count + 4] atScrollPosition:UITableViewScrollPositionTop animated:NO];
-                [weakSelf.topView confiMenuWithSelectRow:_touchedType];
+                
             };
             cell.buttonClick = buttonClickHandler;
             return cell;
@@ -473,32 +500,30 @@ MKMapViewDelegate
         }
         else if (1 == indexPath.row)
         {//下拉菜单栏
-            CZJStoreDetailMenuCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJStoreDetailMenuCell" forIndexPath:indexPath];
-            ((CATextLayer*)cell.titles[0]).string = [self.topView getMenuTitleByCurrentMenuIndex];
+            menuCell = [tableView dequeueReusableCellWithIdentifier:@"CZJStoreDetailMenuCell" forIndexPath:indexPath];
+            ((CATextLayer*)menuCell.titles[0]).string = [self.topView getMenuTitleByCurrentMenuIndex];
             __weak typeof(self) weakSelf = self;
+
             CZJButtonClickHandler buttonClickHandler = ^(id data)
             {
-                [weakSelf.myTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:_bannerOneArray.count + 4] atScrollPosition:UITableViewScrollPositionTop animated:NO];
-                
-                [_nativeServiceAndGoodsArray removeAllObjects];
-                [_serviceAndGoodsArray removeAllObjects];
                 NSString* tagStr = (NSString*)data;
                 _touchedType = [tagStr integerValue];
                 
-                if (_touchedType == 0)
-                {
-                    _bigTypeId = [NSString stringWithFormat:@"%ld",_touchedType];
-                }
-                else
+                if (_touchedType != 0)
                 {
                     _sortType = [NSString stringWithFormat:@"%ld",_touchedType];
                 }
+                
+                [_nativeServiceAndGoodsArray removeAllObjects];
+                [_serviceAndGoodsArray removeAllObjects];
+                
                 weakSelf.page = 1;
+                [weakSelf.topView touchMXPullDownMenuAtMenuIndex:_touchedType];
                 [weakSelf getStoreGoodsAndServiceDataFromServer];
-//                [weakSelf.topView confiMenuWithSelectRow:_touchedType];
+                [weakSelf.myTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:_bannerOneArray.count + 4] atScrollPosition:UITableViewScrollPositionTop animated:NO];
             };
-            cell.buttonClick = buttonClickHandler;
-            return cell;
+            menuCell.buttonClick = buttonClickHandler;
+            return menuCell;
         }
         else
         {
@@ -645,7 +670,7 @@ MKMapViewDelegate
         self.popWindowDestineRect = CGRectMake(0, 200, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - 200);
         receiveCouponsController.storeId = _storeDetailForm.storeId;
         receiveCouponsController.popWindowInitialRect = self.popWindowInitialRect;
-        [CZJUtils showMyWindowOnTarget:self withMyVC:receiveCouponsController];
+        [CZJUtils showMyWindowOnTarget:self withPopVc:receiveCouponsController];
         __weak typeof(self) weak = self;
         [receiveCouponsController setCancleBarItemHandle:^{
             [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
@@ -693,7 +718,7 @@ MKMapViewDelegate
     lastContentOffsetY = contentOffsetY;
 
     CGRect frame = [self.myTableView rectForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:_bannerOneArray.count + 4]];
-    DLog(@"contentOffsetY:%f, frameY:%f",contentOffsetY,frame.origin.y);
+//    DLog(@"contentOffsetY:%f, frameY:%f",contentOffsetY,frame.origin.y);
     if ((contentOffsetY < frame.origin.y - 64 && isDraggingDown)||
         (contentOffsetY >= frame.origin.y - 64 && !isDraggingDown))
     {
@@ -856,26 +881,19 @@ MKMapViewDelegate
     }
     if ([firstName isEqualToString:@"服务"])
     {
-        _bigTypeId = @"1";
+        _bigTypeId = @"10000";
         _typeId = secondName;
     }
     if ([firstName isEqualToString:@"商品"])
     {
-        _bigTypeId = @"2";
+        _bigTypeId = @"20000";
         _typeId = secondName;
     }
-    if ([firstName isEqualToString:@"套餐"])
-    {
-        _bigTypeId = @"3";
-    }
-    if ([firstName isEqualToString:@"促销"])
-    {
-        _bigTypeId = @"4";
-    }
+    
     [self.myTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:_bannerOneArray.count + 4] atScrollPosition:UITableViewScrollPositionNone animated:NO];
-    self.page = 1;
     [_nativeServiceAndGoodsArray removeAllObjects];
     [_serviceAndGoodsArray removeAllObjects];
+    self.page = 1;
     [self getStoreGoodsAndServiceDataFromServer];
 }
 - (void)pullDownMenu:(MXPullDownMenu*)pullDownMenu didSelectCityName:(NSString*)cityName
@@ -884,18 +902,25 @@ MKMapViewDelegate
     if ([cityName isEqualToString:@"销量"])
     {
         _sortType = @"1";
+        [menuCell updateCellTitleColor:1];
     }
     if ([cityName isEqualToString:@"最新"])
     {
         _sortType = @"2";
+        [menuCell updateCellTitleColor:2];
     }
     if ([cityName isEqualToString:@"价格"])
     {
+        [menuCell updateCellTitleColor:3];
         if ([_sortType isEqualToString:@"3"])
         {
             _sortType = @"4";
         }
-        else if ([_sortType isEqualToString:@"3"])
+        else if ([_sortType isEqualToString:@"4"])
+        {
+            _sortType = @"3";
+        }
+        else
         {
             _sortType = @"3";
         }
@@ -904,10 +929,19 @@ MKMapViewDelegate
     {
         _bigTypeId = @"0";
     }
+    if ([cityName isEqualToString:@"套餐"])
+    {
+        _bigTypeId = @"30000";
+    }
+    if ([cityName isEqualToString:@"促销"])
+    {
+        _bigTypeId = @"40000";
+    }
+    
     [self.myTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:_bannerOneArray.count + 4] atScrollPosition:UITableViewScrollPositionNone animated:NO];
-    self.page = 1;
     [_nativeServiceAndGoodsArray removeAllObjects];
     [_serviceAndGoodsArray removeAllObjects];
+    self.page = 1;
     [self getStoreGoodsAndServiceDataFromServer];
 }
 

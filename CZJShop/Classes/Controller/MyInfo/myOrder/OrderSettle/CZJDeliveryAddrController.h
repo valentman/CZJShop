@@ -15,7 +15,8 @@
 @end
 
 @interface CZJDeliveryAddrController : CZJViewController
-
 @property (strong, nonatomic)NSString* currentAddrId;
 @property (weak, nonatomic)id<CZJDeliveryAddrControllerDelegate> delegate;
+
+- (void)getAddrListDataFromServer;
 @end

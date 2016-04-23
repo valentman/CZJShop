@@ -102,9 +102,10 @@ CZJOrderListCellDelegate
     [CZJUtils removeNoDataAlertViewFromTarget:self.view];
     [CZJUtils removeReloadAlertViewFromTarget:self.view];
     [_params setValue:@(self.page) forKey:@"page"];
+    
     [CZJBaseDataInstance getOrderList:_params Success:^(id json) {
         [MBProgressHUD hideAllHUDsForView:self.view animated:NO];
-        
+        DLog(@"orderList:%@",[[[CZJUtils DataFromJson:json] valueForKey:@"msg"] description]);
         //========获取数据返回，判断数据大于0不==========
         NSArray* tmpAry = [[CZJUtils DataFromJson:json] valueForKey:@"msg"];
         if (CZJHomeGetDataFromServerTypeTwo == _getdataType)
@@ -288,7 +289,7 @@ CZJOrderListCellDelegate
 - (void)viewDidLoad {
     [self initMyDatas];
     _noDataPrompt = @"无任何订单";
-    _params = [@{@"type":@"0", @"page":@"1", @"timeType":@"0"}mutableCopy];
+    _params = [@{@"type":@"0", @"page":@"1", @"timeType":@"1"}mutableCopy];
     [super viewDidLoad];
 }
 

@@ -10,7 +10,9 @@
 
 @implementation CZJDetailDescCell
 
-- (void)awakeFromNib {
+- (void)awakeFromNib
+{
+    _currentPriceLabel.keyWordFont = SYSTEMFONT(15);
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

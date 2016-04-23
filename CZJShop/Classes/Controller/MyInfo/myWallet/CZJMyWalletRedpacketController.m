@@ -32,7 +32,7 @@ UITableViewDataSource
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [CZJUtils customizeNavigationBarForTarget:self];
+    [CZJUtils customizeNavigationBarForTarget:self hiddenButton:YES];
     //UIButton
     UIButton *leftBtn = [[ UIButton alloc ] initWithFrame : CGRectMake(- 20 , 0 , 88 , 44 )];
     [leftBtn setTitleColor:WHITECOLOR forState:UIControlStateNormal];

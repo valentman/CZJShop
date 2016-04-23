@@ -14,19 +14,19 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="103"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eQo-An-o31" userLabel="currentPrice">
-                        <rect key="frame" x="20" y="53" width="80" height="21"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eQo-An-o31" userLabel="currentPrice" customClass="MMLabel">
+                        <rect key="frame" x="20" y="40" width="80" height="21"/>
                         <animations/>
                         <constraints>
                             <constraint firstAttribute="width" constant="80" id="2Ps-Nb-IKh"/>
                             <constraint firstAttribute="height" constant="21" id="V0s-Zt-YbR"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="boldSystem" pointSize="22"/>
-                        <color key="textColor" red="1" green="0.40000000600000002" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="textColor" red="0.98431372640000003" green="0.27450981740000002" blue="0.3058823645" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Fn-N3-rsf" userLabel="originPrice">
-                        <rect key="frame" x="105" y="56" width="60" height="15"/>
+                        <rect key="frame" x="105" y="43" width="60" height="15"/>
                         <animations/>
                         <constraints>
                             <constraint firstAttribute="height" constant="15" id="8Zs-DX-hpp"/>
@@ -44,18 +44,18 @@
                             <constraint firstAttribute="height" constant="10" id="idG-ER-77b"/>
                         </constraints>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="characterWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="0.0" translatesAutoresizingMaskIntoConstraints="NO" id="YDd-H8-PHn">
-                        <rect key="frame" x="20" y="12" width="270" height="21"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="0.0" translatesAutoresizingMaskIntoConstraints="NO" id="YDd-H8-PHn">
+                        <rect key="frame" x="20" y="12" width="280" height="18"/>
                         <animations/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="21" id="ofM-SW-3Bh"/>
+                            <constraint firstAttribute="height" constant="18" id="ofM-SW-3Bh"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="serve_icon_shop.png" translatesAutoresizingMaskIntoConstraints="NO" id="lrg-t3-wOT">
-                        <rect key="frame" x="274" y="62" width="31" height="12"/>
+                        <rect key="frame" x="274" y="49" width="31" height="12"/>
                         <animations/>
                         <constraints>
                             <constraint firstAttribute="width" constant="31" id="ywi-xL-zE1"/>
@@ -66,11 +66,11 @@
                 <constraints>
                     <constraint firstItem="eQo-An-o31" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="40p-Gu-5df"/>
                     <constraint firstAttribute="trailing" secondItem="lrg-t3-wOT" secondAttribute="trailing" constant="15" id="5qe-lg-4i1"/>
-                    <constraint firstItem="eQo-An-o31" firstAttribute="top" secondItem="YDd-H8-PHn" secondAttribute="bottom" constant="20" id="7yL-hX-awY"/>
+                    <constraint firstItem="eQo-An-o31" firstAttribute="top" secondItem="YDd-H8-PHn" secondAttribute="bottom" constant="10" id="7yL-hX-awY"/>
                     <constraint firstItem="YDd-H8-PHn" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="12" id="LdQ-pm-t2T"/>
                     <constraint firstItem="0Fn-N3-rsf" firstAttribute="leading" secondItem="eQo-An-o31" secondAttribute="trailing" constant="5" id="RwC-EL-0Ju"/>
                     <constraint firstItem="YDd-H8-PHn" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="fCV-4a-Jxv"/>
-                    <constraint firstItem="xze-Er-7kk" firstAttribute="leading" secondItem="YDd-H8-PHn" secondAttribute="trailing" constant="10" id="haX-Gu-Gve"/>
+                    <constraint firstItem="xze-Er-7kk" firstAttribute="leading" secondItem="YDd-H8-PHn" secondAttribute="trailing" id="haX-Gu-Gve"/>
                     <constraint firstItem="0Fn-N3-rsf" firstAttribute="centerY" secondItem="eQo-An-o31" secondAttribute="centerY" id="hdB-7L-iYR"/>
                     <constraint firstAttribute="trailing" secondItem="xze-Er-7kk" secondAttribute="trailing" constant="15" id="lee-6q-5Bu"/>
                     <constraint firstItem="xze-Er-7kk" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="18" id="wlN-D3-AW8"/>

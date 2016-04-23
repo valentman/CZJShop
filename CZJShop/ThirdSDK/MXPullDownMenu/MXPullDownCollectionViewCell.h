@@ -11,5 +11,6 @@
 @interface MXPullDownCollectionViewCell : UICollectionViewCell
 @property (weak, nonatomic) IBOutlet UILabel *cityName;
 @property (weak, nonatomic) IBOutlet UILabel *cityStoreNum;
+@property (weak, nonatomic) IBOutlet UIImageView *shaixuanImage;
 
 @end

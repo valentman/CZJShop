@@ -66,6 +66,7 @@ UITableViewDelegate
     _params = @{@"skillId":_miaoShaTimes.skillId};
     [CZJUtils removeNoDataAlertViewFromTarget:self.view];
     [CZJBaseDataInstance generalPost:_params success:^(id json) {
+        DLog(@"%@",[[CZJUtils DataFromJson:json] description]);
         NSArray* tmpAry = [[CZJUtils DataFromJson:json]valueForKey:@"msg"];
         miaoShaAry = [CZJMiaoShaCellForm objectArrayWithKeyValuesArray:tmpAry];
         if (miaoShaAry.count == 0)
@@ -118,8 +119,8 @@ UITableViewDelegate
     cell.leftNumWidth.constant = [CZJUtils calculateTitleSizeWithString:leftStr AndFontSize:12].width + 5;
     if ([miaoshaCellForm.limitPoint integerValue] < 1)
     {
-        int rate = [miaoshaCellForm.limitPoint intValue]*100 /[miaoshaCellForm.limitCount intValue]*100;
-        NSString* limitStr = [NSString stringWithFormat:@"已购%d%@",rate,@"%"];
+        float rate = [miaoshaCellForm.limitPoint floatValue] ;
+        NSString* limitStr = [NSString stringWithFormat:@"已购%.f%@",rate*100,@"%"];
         cell.alreadyBuyBtn.titleLabel.text = limitStr;
         [cell.alreadyBuyBtn setTitle:limitStr forState:UIControlStateNormal];
         float widt = cell.alreadyBuyBtn.frame.size.width * (1 - rate) * -1;

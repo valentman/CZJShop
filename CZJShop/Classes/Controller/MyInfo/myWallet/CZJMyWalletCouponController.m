@@ -190,7 +190,7 @@ UITableViewDelegate
     cell.selectBtn.hidden = YES;
     cell.receivedImg.hidden = YES;
     cell.couponsViewLayoutWidth.constant = PJ_SCREEN_WIDTH - 40;
-    
+    cell.couponPriceLabel.font = SYSTEMFONT(45);
     NSString* priceStri;
     switch ([couponForm.type integerValue])
     {
@@ -204,9 +204,10 @@ UITableViewDelegate
             break;
             
         case 3://项目券
-            priceStri = @"项目券";
+            priceStri = @" 项目券";
             cell.couonTypeNameLabel.text = couponForm.name;
             cell.useableLimitLabel.text = @"凭券到店消费";
+            cell.couponPriceLabel.font = SYSTEMFONT(30);
             break;
             
         default:
@@ -214,8 +215,8 @@ UITableViewDelegate
     }
     
     //左上角价格
-    CGSize priceSize = [CZJUtils calculateTitleSizeWithString:priceStri WithFont:SYSTEMFONT(45)];
-    cell.couponPriceLabelLayout.constant = priceSize.width;
+    CGSize priceSize = [CZJUtils calculateTitleSizeWithString:priceStri WithFont:cell.couponPriceLabel.font];
+    cell.couponPriceLabelLayout.constant = priceSize.width + ([couponForm.type integerValue] == 3 ? 10 : 0);
     cell.couponPriceLabel.text = priceStri;
     
     

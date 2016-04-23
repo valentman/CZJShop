@@ -16,7 +16,7 @@
 }
 
 @property (weak, nonatomic) IBOutlet ImagePlayerView *adScrollView;
-@property (weak, nonatomic) NSMutableArray* activeties;
+@property (strong, nonatomic) NSMutableArray* activeties;
 @property (weak, nonatomic) id<CZJImageViewTouchDelegate> delegate;
 
 - (void)someMethodNeedUse:(NSIndexPath *)indexPath DataModel:(NSMutableArray*)array;

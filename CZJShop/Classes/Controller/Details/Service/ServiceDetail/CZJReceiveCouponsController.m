@@ -136,7 +136,7 @@ UITableViewDelegate
     {
         CZJShoppingCouponsForm* couponForm = (CZJShoppingCouponsForm*)self.coupons[indexPath.row];
         NSString* priceStri;
-
+        cell.couponPriceLabel.font = SYSTEMFONT(45);
         switch ([couponForm.type integerValue])
         {
             case 1://代金券
@@ -149,17 +149,18 @@ UITableViewDelegate
                 break;
                 
             case 3://项目券
-                priceStri = @"项目券";
+                priceStri = @" 项目券";
                 cell.couonTypeNameLabel.text = couponForm.name;
                 cell.useableLimitLabel.text = @"凭券到店消费";
+                cell.couponPriceLabel.font = SYSTEMFONT(30);
                 break;
                 
             default:
                 break;
         }
         
-        CGSize priceSize = [CZJUtils calculateTitleSizeWithString:priceStri WithFont:SYSTEMFONT(45)];
-        cell.couponPriceLabelLayout.constant = priceSize.width;
+        CGSize priceSize = [CZJUtils calculateTitleSizeWithString:priceStri WithFont:cell.couponPriceLabel.font];
+        cell.couponPriceLabelLayout.constant = priceSize.width + ([couponForm.type integerValue] == 1 ? 10 : 0);
         cell.couponPriceLabel.text = priceStri;
         
         

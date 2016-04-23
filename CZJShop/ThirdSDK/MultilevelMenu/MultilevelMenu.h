@@ -57,12 +57,14 @@ typedef void (^SelectBlock)(NSInteger, NSInteger, id);
 @end
 
 
+//广告数据
 @interface BannerAdForm : NSObject
 @property(copy, nonatomic)NSString* value;
 @property(copy, nonatomic)NSString* img;
 @property(copy, nonatomic)NSString* type;
 @end
 
+//
 @interface rightMeun : NSObject
 
 /**
@@ -76,15 +78,23 @@ typedef void (^SelectBlock)(NSInteger, NSInteger, id);
 /**
  *  菜单ID
  */
-@property(copy,nonatomic) NSString * ID;
+@property(copy,nonatomic) NSString * typeId;
+/**
+ *  父菜单ID
+ */
+@property(copy,nonatomic) NSString * parentId;
 /**
  *  下一级菜单
  */
-@property(strong,nonatomic) BannerAdForm* bannerAd;
+
 @property(strong,nonatomic) NSMutableArray * nextArray;
 /**
  *  菜单层数
  */
+
+//广告数据
+@property(strong,nonatomic) BannerAdForm* bannerAd;
+
 @property(assign,nonatomic) NSInteger meunNumber;
 
 @property(assign,nonatomic) float offsetScorller;

@@ -198,7 +198,7 @@ UITableViewDelegate
         cell.itemNameLabelWidth.constant = labelSize.width + 5;
         cell.itemNameLabel.text = cardDetailForm.itemName;
         cell.totalTimeLabel.text = cardDetailForm.itemCount;
-        cell.leftTimeLabel.text = [NSString stringWithFormat:@"%ld",[cardDetailForm.itemCount integerValue] - [cardDetailForm.useCount integerValue]];
+        cell.leftTimeLabel.text = cardDetailForm.currentCount;
         if ([_cardType isEqualToString:@"1"])
         {
             cell.storeNameLabel.textColor = CZJGRAYCOLOR;

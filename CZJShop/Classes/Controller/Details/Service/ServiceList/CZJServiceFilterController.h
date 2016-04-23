@@ -12,4 +12,5 @@
 @interface CZJServiceFilterController : CZJFilterBaseController
 @property (nonatomic,weak)id<CZJFilterControllerDelegate>delegate;
 - (void)setCancleBarItemHandle:(CZJGeneralBlock)basicBlock;
+- (void)removeServiceFilterNotification;
 @end

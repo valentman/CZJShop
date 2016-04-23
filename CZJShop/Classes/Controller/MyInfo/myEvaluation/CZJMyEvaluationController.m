@@ -12,6 +12,7 @@
 #import "CZJEvalutionDescCell.h"
 #import "CZJAddedEvalutionCell.h"
 #import "CZJAddMyEvalutionController.h"
+#import "CZJUserEvalutionDetailController.h"
 @interface CZJMyEvaluationController ()
 <
 UITableViewDataSource,
@@ -33,7 +34,6 @@ UITableViewDelegate
     [super viewDidLoad];
     [self initMyDatas];
     [self initTableView];
-//    [self getMyEvalutionDataFromServer];
     [self addCZJNaviBarView:CZJNaviBarViewTypeGeneral];
     self.naviBarView.mainTitleLabel.text = @"我的评价";
     
@@ -174,8 +174,12 @@ UITableViewDelegate
         {
             NSString* url = evaluationForm.evalImgs[i];
             CGRect imageFrame = [CZJUtils viewFramFromDynamic:CZJMarginMake(0, 0) size:CGSizeMake(78, 78) index:i divide:Divide];
-            UIImageView* imageView = [[UIImageView alloc]initWithFrame:imageFrame];
-            [imageView sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:DefaultPlaceHolderSquare];
+            CZJImageView* imageView = [[CZJImageView alloc]initWithFrame:imageFrame];
+            imageView.tag = indexPath.section * 10000;
+            imageView.subTag = i;
+            imageView.secondTag = 0;
+            [imageView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showBigImage:)]];
+            [imageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",url,SUOLUE_PIC_200]] placeholderImage:DefaultPlaceHolderSquare];
             [cell.picView addSubview:imageView];
             cell.picView.hidden = NO;
         }
@@ -214,8 +218,12 @@ UITableViewDelegate
         {
             NSString* url = evaluationForm.addedEval.evalImgs[i];
             CGRect imageFrame = [CZJUtils viewFramFromDynamic:CZJMarginMake(0, 0) size:CGSizeMake(70, 70) index:i divide:Divide];
-            UIImageView* imageView = [[UIImageView alloc]initWithFrame:imageFrame];
-            [imageView sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:DefaultPlaceHolderSquare];
+            CZJImageView* imageView = [[CZJImageView alloc]initWithFrame:imageFrame];
+            imageView.tag = indexPath.section * 10000;
+            imageView.subTag = i;
+            imageView.secondTag = 0;
+            [imageView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showBigImage:)]];
+            [imageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",url,SUOLUE_PIC_200]] placeholderImage:DefaultPlaceHolderSquare];
             [cell.picView addSubview:imageView];
         }
         return cell;
@@ -256,7 +264,11 @@ UITableViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
+    CZJEvaluateForm* evaluationForm = myEvaluationAry[indexPath.section];
+    //去评价详情
+    CZJUserEvalutionDetailController* detailEvaluate = (CZJUserEvalutionDetailController*)[CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:@"evaluateDetailSBID"];
+    detailEvaluate.evalutionForm = evaluationForm;
+    [self.navigationController pushViewController:detailEvaluate animated:YES];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -294,6 +306,25 @@ UITableViewDelegate
     {
         CZJAddMyEvalutionController* addEvaluVC = segue.destinationViewController;
         addEvaluVC.currentEvaluation = sender;
+    }
+}
+
+
+#pragma mark- 点小图显示大图
+- (void)showBigImage:(UIGestureRecognizer*)recogonizer
+{
+    CZJImageView* evalutionImg = (CZJImageView*)recogonizer.view;
+    //通过view的tag值可以获取section值，取到相应的数据
+    NSInteger section = evalutionImg.tag / 10000;
+    CZJEvaluateForm* evalutionForm  = (CZJEvaluateForm*)myEvaluationAry[section];
+    
+    if (evalutionImg.secondTag == 0)
+    {//一级评价的图片
+        [CZJUtils showDetailInfoWithIndex:evalutionImg.subTag withImgAry:evalutionForm.evalImgs onTarget:self];
+    }
+    else
+    {//追加评价的图片
+        [CZJUtils showDetailInfoWithIndex:evalutionImg.subTag withImgAry:evalutionForm.addedEval.evalImgs onTarget:self];
     }
 }
 

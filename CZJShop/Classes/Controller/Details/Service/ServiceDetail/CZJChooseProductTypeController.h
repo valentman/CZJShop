@@ -10,11 +10,6 @@
 #import "CZJFilterBaseController.h"
 #import "CZJGoodsDetailForm.h"
 
-@interface CZJLevelSku : NSObject
-@property(strong, nonatomic)NSString* valueId;
-@property(strong, nonatomic)NSString* valueName;
-@property(strong, nonatomic)NSMutableArray* twoSkus;
-@end
 
 @protocol CZJChooseProductTypeDelegate <NSObject>
 

@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CZJOrderLogisticsCompCell : UITableViewCell
+@interface CZJOrderLogisticsCompCell : CZJTableViewCell
 
 @property (weak, nonatomic) IBOutlet UILabel *logisticsNoLabel;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *spatatorWidth;

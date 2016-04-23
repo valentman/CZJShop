@@ -30,13 +30,12 @@
 
 - (void)awakeFromNib {
     // Initialization code
+    
 }
 
 - (void)prepareForReuse
 {
     [super prepareForReuse];
-
-    
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -69,6 +68,7 @@
             _chooseBtn.enabled=YES;
             self.contentView.alpha = 1;
         }
+        self.changeView.hidden = YES;
     }
     else
     {//有货
@@ -79,20 +79,24 @@
         self.goodPrice.text = [NSString stringWithFormat:@"￥%@", shoppingGoodsInfo.currentPrice];
         self.choosedCount = [shoppingGoodsInfo.itemCount integerValue];
         
-        //加减数量控件
-        int width = 90;
-        if (iPhone4 || iPhone5)
-        {
-            width  = width * 0.8;
-        }
-        int heigh = width/3;
-        
-        self.changeView = [[WLZ_ChangeCountView alloc]initWithFrame:CGRectMake(PJ_SCREEN_WIDTH - width - 10, (self.frame.size.height + self.goodImage.frame.size.height)*0.5 - heigh, width, heigh) chooseCount:1 totalCount: 99];
-        self.changeView.layer.cornerRadius = 3;
-        [self.contentView addSubview:self.changeView];
-        self.changeView.numberFD.text = [NSString stringWithFormat:@"%ld", self.choosedCount];
-        [self.changeView.subButton addTarget:self action:@selector(subButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
-        [self.changeView.addButton addTarget:self action:@selector(addButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+//        if (!VIEWWITHTAG(self.contentView, 998))
+//        {
+            //加减数量控件
+            int width = 90;
+            if (iPhone4 || iPhone5)
+            {
+                width  = width * 0.8;
+            }
+            int heigh = width/3;
+            
+            self.changeView = [[WLZ_ChangeCountView alloc]initWithFrame:CGRectMake(PJ_SCREEN_WIDTH - width - 10, (self.frame.size.height + self.goodImage.frame.size.height)*0.5 - heigh, width, heigh) chooseCount:self.choosedCount totalCount: 99];
+            self.changeView.tag = 998;
+            self.changeView.layer.cornerRadius = 3;
+            self.changeView.numberFD.text = [NSString stringWithFormat:@"%ld", self.choosedCount];
+            [self.changeView.subButton addTarget:self action:@selector(subButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+            [self.changeView.addButton addTarget:self action:@selector(addButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+            [self.contentView addSubview:self.changeView];
+//        }
     }
     [self.goodImage sd_setImageWithURL:[NSURL URLWithString:shoppingGoodsInfo.itemImg] placeholderImage:DefaultPlaceHolderSquare];
     self.chooseBtn.selected = self.goodsInfoForm.isSelect;
@@ -121,6 +125,7 @@
     }
     
     _changeView.numberFD.text=[NSString stringWithFormat:@"%zi",self.choosedCount];
+    _changeView.choosedCount = self.choosedCount;
     self.goodsInfoForm.itemCount = _changeView.numberFD.text;
     self.goodsInfoForm.isSelect=_chooseBtn.selected;
     [self calculatePriceNumber];
@@ -144,6 +149,7 @@
         
     }
     _changeView.numberFD.text=[NSString stringWithFormat:@"%zi",self.choosedCount];
+    _changeView.choosedCount = self.choosedCount;
     self.goodsInfoForm.itemCount = _changeView.numberFD.text;
     self.goodsInfoForm.isSelect=_chooseBtn.selected;
     [self calculatePriceNumber];

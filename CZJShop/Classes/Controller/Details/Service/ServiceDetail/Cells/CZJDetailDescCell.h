@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface CZJDetailDescCell : UITableViewCell
-@property (weak, nonatomic) IBOutlet UILabel *currentPriceLabel;
+@property (weak, nonatomic) IBOutlet MMLabel *currentPriceLabel;
 @property (weak, nonatomic) IBOutlet UILabel *originPriceLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *goShopImage;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *labelLayoutConst;

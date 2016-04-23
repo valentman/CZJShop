@@ -12,6 +12,7 @@
 
 - (void)awakeFromNib {
     // Initialization code
+    [super awakeFromNib];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -20,9 +21,20 @@
     // Configure the view for the selected state
 }
 
-- (IBAction)deleteMyCarAction:(id)sender {
+- (IBAction)deleteMyCarAction:(id)sender
+{
+    if ([self.delegate respondsToSelector:@selector(deleteMyCarActionCallBack:)]) {
+        ((UIButton*)sender).tag = self.tag;
+        [self.delegate deleteMyCarActionCallBack:sender];
+    }
 }
 
-- (IBAction)setDefaultAction:(id)sender {
+- (IBAction)setDefaultAction:(id)sender
+{
+    if ([self.delegate respondsToSelector:@selector(setDefaultAcitonCallBack:)])
+    {
+        ((UIButton*)sender).tag = self.tag;
+        [self.delegate setDefaultAcitonCallBack:sender];
+    }
 }
 @end

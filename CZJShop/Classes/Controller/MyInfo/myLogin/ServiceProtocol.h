@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ServiceProtocol : UIViewController<UIGestureRecognizerDelegate>
-@property (weak, nonatomic) IBOutlet UIWebView *myWebView;
+@interface ServiceProtocol : CZJViewController<UIGestureRecognizerDelegate,UIWebViewDelegate>
+@property (strong, nonatomic) UIWebView *myWebView;
 @property(nonatomic,strong)NSString* cur_url;
 @end

@@ -50,10 +50,20 @@
     [rightBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
     [rightBtn setTag:1001];
     UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithCustomView:rightBtn];
-    self.navigationItem.rightBarButtonItem = rightItem;
+    if (IS_IOS9)
+    {
+        self.navigationItem.rightBarButtonItem = rightItem;
+    }
+    else
+    {
+        UIBarButtonItem *spaceBar = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+        spaceBar.width = 50;
+        self.navigationItem.rightBarButtonItems = @[spaceBar,rightItem];
+    }
+    
     [rightItem setTag:1001];
     
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 64, PJ_SCREEN_WIDTH-50, PJ_SCREEN_HEIGHT) style:UITableViewStylePlain];
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 64, PJ_SCREEN_WIDTH-50, PJ_SCREEN_HEIGHT - 64) style:UITableViewStylePlain];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     self.tableView.separatorStyle = UITableViewCellSelectionStyleNone;
@@ -144,7 +154,7 @@
     {
         cell = [[CZJTableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"cell2"];
         UIImageView* selectedView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"shaixuan_icon_gou_sel"]];
-        selectedView.frame = CGRectMake(cell.frame.size.width - 10, 10, 20 ,12);
+        selectedView.frame = CGRectMake(PJ_SCREEN_WIDTH- 85, 10, 20 ,12);
         [cell addSubview:selectedView];
         selectedView.hidden = YES;
         [selectedView setTag:5001];

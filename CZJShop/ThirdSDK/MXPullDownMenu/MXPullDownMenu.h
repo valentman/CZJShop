@@ -56,7 +56,9 @@ UICollectionViewDataSource,
 UICollectionViewDelegate
 >
 - (MXPullDownMenu *)initWithArray:(NSArray *)array AndType:(CZJMXPullDownMenuType)menutype WithFrame:(CGRect)frame;
+- (void)storeDetailConfiMenuWithSelectRow:(NSInteger)row;
 - (void)confiMenuWithSelectRow:(NSInteger)row;
+- (void)tapIndexSetTitleColor:(NSInteger)tapIndex;
 - (void)touchMXPullDownMenuAtMenuIndex:(NSInteger)tapIndex;
 - (void)registNotification;
 - (void)removeNotificationObserve;

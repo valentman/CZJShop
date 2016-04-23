@@ -7,9 +7,16 @@
 //
 
 #import "CZJMyInfoInputCodeController.h"
+#import "CZJBaseDataManager.h"
 
 @interface CZJMyInfoInputCodeController ()
+<
+UITextFieldDelegate
+>
 
+@property (weak, nonatomic) IBOutlet UITextField *inputCodeTextField;
+
+- (IBAction)confirmAction:(id)sender;
 @end
 
 @implementation CZJMyInfoInputCodeController
@@ -19,6 +26,11 @@
     [CZJUtils customizeNavigationBarForTarget:self];
     [self addCZJNaviBarView:CZJNaviBarViewTypeGeneral];
     self.naviBarView.btnBack.hidden = YES;
+    
+    UILabel *paddingView = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 10, 25)];
+    self.inputCodeTextField.leftView = paddingView;
+    self.inputCodeTextField.leftViewMode = UITextFieldViewModeAlways;
+    self.inputCodeTextField.delegate = self;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -30,15 +42,13 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (IBAction)confirmAction:(id)sender
+{
+    [self.view endEditing:YES];
+    [CZJBaseDataInstance generalPost:@{@"type": @"1", @"content": self.inputCodeTextField.text} success:^(id json) {
+        NSDictionary* dict = [CZJUtils DataFromJson:json];
+    }  fail:^{
+        
+    } andServerAPI:kCZJServerAPIPGetScanCode];
 }
-*/
-
 @end

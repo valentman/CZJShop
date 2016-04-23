@@ -26,7 +26,27 @@ GKHpickerAddressView * instance;
 {
     self = [super initWithFrame:frame];
     if (self) {
-        // Initialization code
+//        // 创建半透黑色背景
+//        UIView* _backGroundView = [[UIView alloc] initWithFrame:PJ_SCREEN_BOUNDS];
+//        _backGroundView.tag = 1002;
+//        _backGroundView.backgroundColor = RGBA(100, 240, 240, 0);
+//        UIGestureRecognizer *gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapBackGround:)];
+//        [_backGroundView addGestureRecognizer:gesture];
+//        [self addSubview:_backGroundView];
+//        
+//        //保存按钮
+//        UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+//        [btn setTitleColor:[UIColor whiteColor]forState:UIControlStateNormal];
+//        [btn.layer setMasksToBounds:YES];//设置按钮的圆角半径不会被遮挡
+//        btn.layer.cornerRadius = 5.0;
+//        btn.tag = 1001;
+//        btn.backgroundColor = CZJREDCOLOR;
+//        [btn.titleLabel setFont:[UIFont systemFontOfSize:16]];
+//        [btn setTitle:@"保存" forState:UIControlStateNormal];
+//        [btn addTarget:self action:@selector(dismiss) forControlEvents:UIControlEventTouchUpInside];
+//        btn.frame = CGRectMake(50, 5 * 44 + 61 + 15 + 50, PJ_SCREEN_WIDTH - 100, 50);
+//        [self addSubview:btn];
+
     }
     return self;
 }
@@ -35,14 +55,19 @@ GKHpickerAddressView * instance;
     static dispatch_once_t   p;
     dispatch_once(&p,^{
         instance=[[GKHpickerAddressView alloc] init];
+        
         [instance setBackgroundColor:[UIColor colorWithRed:0.94 green:0.94 blue:0.94 alpha:1.0]];
         [instance setUserInteractionEnabled:YES];
         [instance createPickerView];
         [ctrl.view endEditing:YES];
         [ctrl.view addSubview:instance];
         [instance.textfield becomeFirstResponder];
+        
     });
-    //
+    
+    [UIView animateWithDuration:0.35 animations:^{
+        VIEWWITHTAG(instance, 1002).backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.3];
+    }];
     [instance getAddressPickerData];
     [instance.textfield becomeFirstResponder];
     instance.valueBlock=block;
@@ -91,7 +116,6 @@ GKHpickerAddressView * instance;
         keyboardToolbar.backgroundColor=[UIColor blackColor];
         keyboardToolbar.superview.backgroundColor=[UIColor clearColor];
         [keyboardToolbar setItems:[NSArray arrayWithObjects:doneBarItem,nil]];
-        //    NSLog(@"%lu",(unsigned long)self.keyboardToolbar.subviews.count);
         self.textfield.inputAccessoryView =keyboardToolbar;
         self.textfield.inputView=self.pickerView;
     }
@@ -165,6 +189,13 @@ GKHpickerAddressView * instance;
     [pickerView reloadComponent:2];
 }
 -(void)dismiss{
+    
+    [UIView animateWithDuration:0.35 animations:^{
+        VIEWWITHTAG(instance, 1002).backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.0];
+    } completion:^(BOOL finished) {
+        [VIEWWITHTAG(instance, 1002) removeFromSuperview];
+    }];
+    
     [self.textfield resignFirstResponder];
     NSString *provinceStr=self.provinceArray[[self.pickerView selectedRowInComponent:0]];
     NSString *cityStr=self.cityArray[[self.pickerView selectedRowInComponent:1]];
@@ -173,6 +204,13 @@ GKHpickerAddressView * instance;
     self.valueBlock(self.ctrl,string);
 }
 
-
+- (void)tapBackGround:(UITapGestureRecognizer *)paramSender
+{
+    [UIView animateWithDuration:0.35 animations:^{
+        VIEWWITHTAG(instance, 1002).backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.0];
+    } completion:^(BOOL finished) {
+        [VIEWWITHTAG(instance, 1002) removeFromSuperview];
+    }];
+}
 
 @end

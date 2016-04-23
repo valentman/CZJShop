@@ -16,28 +16,26 @@
     self.selectionStyle = UITableViewCellSelectionStyleNone;
     
     //分割线
-
-//    _separatorView.hidden = YES;
+    CGRect cellRect = self.frame;
+    _separatorView = [[UIView alloc]init];
+    _separatorView.backgroundColor = CZJGRAYCOLOR;
+    _separatorView.frame = CGRectMake(0, cellRect.size.height, PJ_SCREEN_WIDTH, 0.5);
+    [self addSubview:_separatorView];
+    _separatorView.hidden = YES;
     
 }
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated
+{
     [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
 }
 
 - (void)setSeparatorViewHidden:(BOOL)_hidden
 {
-    CGRect cellRect = self.frame;
-    UIView* _separatorView = [[UIView alloc]init];
-    _separatorView.backgroundColor = CZJGRAYCOLOR;
-    _separatorView.frame = CGRectMake(0, cellRect.size.height, PJ_SCREEN_WIDTH, 0.5);
-    [self addSubview:_separatorView];
     _separatorView.hidden = _hidden;
     if (!_hidden)
     {//需要显示自定义分割线时，就隐藏系统分割线
-//        self.separatorInset = HiddenCellSeparator;
+        self.separatorInset = HiddenCellSeparator;
     }
 }
 

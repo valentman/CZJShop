@@ -15,7 +15,8 @@
 @interface CZJMyCarListController ()
 <
 UITableViewDataSource,
-UITableViewDelegate
+UITableViewDelegate,
+CZJMyCarListCellDelegate
 >
 {
     NSArray* carList;
@@ -31,13 +32,11 @@ UITableViewDelegate
     [super viewDidLoad];
     [self initViews];
     [self getCarListFromServer];
-    // Do any additional setup after loading the view.
 }
 
 - (void)initViews
 {
     [CZJUtils customizeNavigationBarForTarget:self];
-    self.navigationController.toolbar.translucent = NO;
     
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.myTableView.tableFooterView = [[UIView alloc]init];
@@ -54,17 +53,21 @@ UITableViewDelegate
 {
     [CZJBaseDataInstance getMyCarList:nil Success:^(id json) {
         NSDictionary* dict = [CZJUtils DataFromJson:json];
-        carList = [dict valueForKey:@"msg"];
-        if ([carList isKindOfClass:[NSArray class]])
-        {
-            if (carList.count > 0) {
-                self.myTableView.hidden = NO;
-                self.myTableView.delegate = self;
-                self.myTableView.dataSource = self;
-                [self.myTableView reloadData];
-            }
+        DLog(@"%@", [dict description]);
+        carList = [HaveCarsForm objectArrayWithKeyValuesArray:[[CZJUtils DataFromJson:json] valueForKey:@"msg"]];
+        if (carList.count > 0) {
+            [CZJUtils removeNoDataAlertViewFromTarget:self.view];
+            self.myTableView.hidden = NO;
+            self.myTableView.delegate = self;
+            self.myTableView.dataSource = self;
+            [self.myTableView reloadData];
         }
-
+        else
+        {
+            [self.myTableView reloadData];
+            self.myTableView.hidden = YES;
+            [CZJUtils showNoDataAlertViewOnTarget:self.view withPromptString:@"您还没有爱车，去添加吧/(ToT)/~~"];
+        }
     } fail:^{
         
     }];
@@ -97,13 +100,15 @@ UITableViewDelegate
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     CZJMyCarListCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJMyCarListCell" forIndexPath:indexPath];
-    NSDictionary* dict = carList[indexPath.section];
-    
-    [cell.brandImg sd_setImageWithURL:[NSURL URLWithString:[dict valueForKey:@"logo"]] placeholderImage:DefaultPlaceHolderSquare];
-    NSString* carName = [NSString stringWithFormat:@"%@ %@ %@%@%@",[dict valueForKey:@"brandName"], [dict valueForKey:@"seriesName"],[dict valueForKey:@"prov"],[dict valueForKey:@"number"],[dict valueForKey:@"numberPlate"]];
+    cell.delegate = self;
+    HaveCarsForm* carForm = carList[indexPath.section];
+    cell.tag  = indexPath.section;
+    [cell.brandImg sd_setImageWithURL:[NSURL URLWithString:carForm.logo] placeholderImage:DefaultPlaceHolderSquare];
+    NSString* carName = [NSString stringWithFormat:@"%@ %@",carForm.brandName, carForm.seriesName];
     cell.carNameLabel.text = carName;
-    cell.carModelLabel.text = [dict valueForKey:@"modelName"];
-    cell.setDefaultBtn.selected = [[dict valueForKey:@"dftFlag"] boolValue];
+    cell.carModelLabel.text = carForm.modelName;
+    cell.setDefaultBtn.selected = carForm.dftFlag;
+    cell.carNumberPlate.text = [NSString stringWithFormat:@"%@%@-%@",carForm.prov,carForm.number,carForm.numberPlate];
     return cell;
 }
 
@@ -120,6 +125,37 @@ UITableViewDelegate
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     return 10;
+}
+
+
+#pragma mark -CZJMyCarListCellDelegate
+- (void)deleteMyCarActionCallBack:(id)sender
+{
+    HaveCarsForm* carForm = carList[((UIButton*)sender).tag];
+    __weak typeof(self) weakSelf = self;
+    [self showCZJAlertView:@"确认删除此爱车么？" andConfirmHandler:^{
+        [CZJBaseDataInstance removeMyCar:@{@"id" : carForm.haveCarID} Success:^(id json) {
+            [CZJUtils tipWithText:@"删除爱车成功" andView:self.view];
+            [weakSelf getCarListFromServer];
+        } fail:^{
+            
+        }];
+        [weakSelf hideWindow];
+    } andCancleHandler:^{
+        
+    }];
+}
+
+- (void)setDefaultAcitonCallBack:(id)sender
+{
+    HaveCarsForm* carForm = carList[((UIButton*)sender).tag];
+    __weak typeof(self) weakSelf = self;
+    [CZJBaseDataInstance setDefaultCar:@{@"id" : carForm.haveCarID} Success:^(id json) {
+        [CZJUtils tipWithText:@"设置默认成功" andView:self.view];
+        [weakSelf getCarListFromServer];
+    } fail:^{
+        
+    }];
 }
 
 - (IBAction)addMyCarAction:(id)sender

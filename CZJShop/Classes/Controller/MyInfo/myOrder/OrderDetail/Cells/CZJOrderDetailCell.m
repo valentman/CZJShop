@@ -62,10 +62,13 @@
             
         case 2:
             self.buttonThree.hidden = NO;
-            if (0 == type ||
-                1 == type)
+            if (0 == type)
             {
                 imageName = @"order_icon_recommend";
+            }
+            else if (1 == type)
+            {
+                imageName = @"order_icon_shigong";
             }
             break;
             

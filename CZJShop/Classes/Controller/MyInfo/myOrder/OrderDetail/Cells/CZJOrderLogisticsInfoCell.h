@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CZJOrderLogisticsInfoCell : UITableViewCell
+@interface CZJOrderLogisticsInfoCell : CZJTableViewCell
 @property (weak, nonatomic) IBOutlet UIImageView *goodImg;
 @property (weak, nonatomic) IBOutlet UILabel *goodNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *logisticsLabel;

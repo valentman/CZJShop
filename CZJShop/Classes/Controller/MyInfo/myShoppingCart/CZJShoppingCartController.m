@@ -31,6 +31,7 @@ UIGestureRecognizerDelegate
     UIButton* editBtn;
     
     MJRefreshAutoNormalFooter* refreshFooter;
+    MJRefreshGifHeader* refreshHeader;
     __block CZJHomeGetDataFromServerType _getdataType;
     __block NSInteger page;
 }
@@ -102,14 +103,23 @@ UIGestureRecognizerDelegate
             [self.myTableView.header endRefreshing];
         }];
     }];
+    
+    //添加MJRefresh上拉下拉刷新控件
     __weak typeof(self) weak = self;
-    refreshFooter = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^(){
-        _getdataType = CZJHomeGetDataFromServerTypeTwo;
-        page++;
-        [weak getShoppingCartInfoFromServer];;
+    refreshHeader = [MJRefreshGifHeader headerWithRefreshingBlock:^{
+        [refreshFooter resetNoMoreData];
+        [weak getShoppingCartInfoFromServer];
     }];
-    self.myTableView.footer = refreshFooter;
-    self.myTableView.footer.hidden = YES;
+    self.myTableView.header = refreshHeader;
+    
+//    __weak typeof(self) weak = self;
+//    refreshFooter = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^(){
+//        _getdataType = CZJHomeGetDataFromServerTypeTwo;
+//        page++;
+//        [weak getShoppingCartInfoFromServer];;
+//    }];
+//    self.myTableView.footer = refreshFooter;
+//    self.myTableView.footer.hidden = YES;
     
     //右按钮
     editBtn = [[ UIButton alloc ] initWithFrame : CGRectMake(PJ_SCREEN_WIDTH - 59 , 0 , 44 , 44 )];
@@ -133,7 +143,6 @@ UIGestureRecognizerDelegate
     self.settleView.hidden = YES;
 }
 
-
 - (void)getShoppingCartInfoFromServer
 {
     __weak typeof(self) weak = self;
@@ -142,12 +151,17 @@ UIGestureRecognizerDelegate
     [CZJUtils removeNoDataAlertViewFromTarget:self.view];
     CZJSuccessBlock successBlock = ^(id json)
     {
-        [MBProgressHUD hideAllHUDsForView:self.myTableView animated:NO];
+        [MBProgressHUD hideAllHUDsForView:weak.myTableView animated:NO];
         
         //========获取数据返回，判断数据大于0不==========
         NSDictionary* dict = [CZJUtils DataFromJson:json];
+        DLog(@"shoppingCart:%@",[dict description]);
         NSArray* tmpAry = [dict valueForKey:@"msg"];
+        [shoppingInfos removeAllObjects];
+        shoppingInfos = [[CZJShoppingCartInfoForm objectArrayWithKeyValuesArray:tmpAry] mutableCopy];
         
+        //分页，暂时不需要
+        /*
         if (CZJHomeGetDataFromServerTypeTwo == _getdataType)
         {
             [shoppingInfos addObjectsFromArray:[CZJShoppingCartInfoForm objectArrayWithKeyValuesArray:tmpAry]];
@@ -165,29 +179,31 @@ UIGestureRecognizerDelegate
             [shoppingInfos removeAllObjects];
             shoppingInfos = [[CZJShoppingCartInfoForm objectArrayWithKeyValuesArray:tmpAry] mutableCopy];
         }
-        
+        */
+        [weak.myTableView.header endRefreshing];
         if (shoppingInfos.count == 0)
         {
-            [CZJUtils showNoDataAlertViewOnTarget:self.view withPromptString:@"木有商品，快去添加吧/(ToT)/~~"];
-            self.settleView.hidden = YES;
-            self.myTableView.hidden = YES;
+            [CZJUtils showNoDataAlertViewOnTarget:weak.view withPromptString:@"木有商品，快去添加吧/(ToT)/~~"];
+            weak.settleView.hidden = YES;
+            weak.myTableView.hidden = YES;
             editBtn.hidden = YES;
         }
         else
         {
             DLog(@"settleView.y:%f",_settleView.frame.origin.y);
-            self.settleView.hidden = NO;
-            self.myTableView.hidden = NO;
+            weak.settleView.hidden = NO;
+            weak.myTableView.hidden = NO;
             editBtn.hidden = NO;
-            self.myTableView.delegate = self;
-            self.myTableView.dataSource = self;
-            [self calculateTotalPrice];
-            [self.myTableView reloadData];
-            self.myTableView.footer.hidden = self.myTableView.mj_contentH < self.myTableView.frame.size.height;
+            weak.myTableView.delegate = self;
+            weak.myTableView.dataSource = self;
+            [weak calculateTotalPrice];
+            [weak.myTableView reloadData];
+            weak.myTableView.footer.hidden = weak.myTableView.mj_contentH < weak.myTableView.frame.size.height;
         }
 
     };
     CZJFailureBlock failBlock = ^{
+        self.myTableView.hidden = YES;
         [MBProgressHUD hideAllHUDsForView:self.myTableView animated:NO];
         [CZJUtils showReloadAlertViewOnTarget:weak.view withReloadHandle:^{
             [weak getShoppingCartInfoFromServer];
@@ -255,6 +271,7 @@ UIGestureRecognizerDelegate
         self.addUpNumLabel.hidden = NO;
         [self.settleBtn setTitle:[NSString stringWithFormat:@"去结算(%ld)",_selectedCount] forState:UIControlStateNormal];
     }
+//    [self calculateTotalPrice];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -267,7 +284,6 @@ UIGestureRecognizerDelegate
 {
     [((CZJNaviagtionBarView*)self.delegate) refreshShopBadgeLabel];
     [[NSNotificationCenter defaultCenter]removeObserver:self name:@"commitOrderSuccess" object:nil];
-//    [self.navigationController popViewControllerAnimated:true];
 }
 
 
@@ -276,7 +292,6 @@ UIGestureRecognizerDelegate
     UIButton* itemButton = (UIButton*)sender;
     itemButton.selected = !itemButton.selected;
     self.isEdit = !self.isEdit;
-    [self calculateSelectdCount];
     for (int i=0; i<shoppingInfos.count; i++)
     {
         NSArray *goodsList = ((CZJShoppingCartInfoForm*)shoppingInfos[i]).items;
@@ -292,6 +307,7 @@ UIGestureRecognizerDelegate
             }
         }
     }
+    [self calculateSelectdCount];
     [self pitchOn];
     [self.myTableView reloadData];
 }
@@ -513,7 +529,7 @@ UIGestureRecognizerDelegate
     CZJReceiveCouponsController *receiveCouponsController = [[CZJReceiveCouponsController alloc] init];
     receiveCouponsController.storeId = ((CZJShoppingCartInfoForm*)shoppingInfos[indexPath.section]).storeId;
     receiveCouponsController.popWindowInitialRect = self.popWindowInitialRect;
-    [CZJUtils showMyWindowOnTarget:self withMyVC:receiveCouponsController];
+    [CZJUtils showMyWindowOnTarget:self withPopVc:receiveCouponsController];
     
     __weak typeof(self) weak = self;
     [receiveCouponsController setCancleBarItemHandle:^{

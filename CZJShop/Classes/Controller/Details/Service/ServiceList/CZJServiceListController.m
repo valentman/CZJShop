@@ -143,12 +143,12 @@
     //获取导航栏和下拉栏原始位置，为了上拉或下拉时动画
     pullDownMenuOriginPoint = _pullDownMenu.frame.origin;
     naviBraviewOriginPoint = self.naviBarView.frame.origin;
-    [[UIApplication sharedApplication]setStatusBarHidden:(self.naviBarView.frame.origin.y < 0)];
+    [[UIApplication sharedApplication]setStatusBarHidden:(self.naviBarView.frame.origin.y < 0) withAnimation:UIStatusBarAnimationFade];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
-    [[UIApplication sharedApplication]setStatusBarHidden:NO];
+    [[UIApplication sharedApplication]setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -164,7 +164,7 @@
     __weak typeof(self) weak = self;
     [CZJUtils removeReloadAlertViewFromTarget:self.view];
     [CZJUtils removeNoDataAlertViewFromTarget:self.view];
-    [[MBProgressHUD showHUDAddedTo:self.view animated:YES] setLabelText:@"刷新数据"];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     CZJSuccessBlock successBlock = ^(id json) {
         [MBProgressHUD hideAllHUDsForView:weak.view animated:YES];
         
@@ -216,6 +216,8 @@
     [CZJBaseDataInstance generalPost:storePostParams success:successBlock  fail:^{
         [MBProgressHUD hideAllHUDsForView:weak.view animated:YES];
         [CZJUtils showReloadAlertViewOnTarget:weak.view withReloadHandle:^{
+            _getdataType = CZJHomeGetDataFromServerTypeOne;
+            weak.page = 1;
             [weak getStoreServiceListDataFromServer];
         }];
     } andServerAPI:kCZJServerAPIGetServiceList];
@@ -237,11 +239,13 @@
     cell.distance.text = storeForm.distance;
     cell.serviceItemName.text = storeForm.itemName;
     NSString* currentPrice = [NSString stringWithFormat:@"￥%@",storeForm.currentPrice];
+    cell.currentPrice.keyWordFont = SYSTEMFONT(12);
     cell.currentPrice.text = currentPrice;
+    cell.currentPrice.keyWord = @"￥";
     cell.priceLabelWidth.constant = [CZJUtils calculateTitleSizeWithString:currentPrice AndFontSize:15].width + 5;
     cell.goodRate.text = storeForm.goodEvalRate;
-    cell.purchasedCount.text = storeForm.purchaseCount;
-    cell.purchasedCountWidth.constant = [CZJUtils calculateTitleSizeWithString:storeForm.purchaseCount AndFontSize:12].width + 5;
+    cell.purchasedCount.text = storeForm.evalCount;
+    cell.purchasedCountWidth.constant = [CZJUtils calculateTitleSizeWithString:storeForm.evalCount AndFontSize:12].width + 5;
     cell.serviceTypeImg.hidden = !storeForm.goStoreFlag;
     
     cell.imageOne.hidden = YES;
@@ -422,6 +426,7 @@
         [[CCLocationManager shareLocation] getCity:^(NSString *addressString) {
             cityID = [CZJBaseDataInstance.storeForm getCityIDWithCityName:addressString];
             _getdataType = CZJHomeGetDataFromServerTypeOne;
+            self.page = 1;
             [self getStoreServiceListDataFromServer];
             if (nil != addressString)
             {
@@ -435,6 +440,7 @@
         [[ZXLocationManager sharedZXLocationManager] getCityName:^(NSString *addressString) {
             cityID = [CZJBaseDataInstance.storeForm getCityIDWithCityName:addressString];
             _getdataType = CZJHomeGetDataFromServerTypeOne;
+            self.page = 1;
             [self getStoreServiceListDataFromServer];
             if (nil != addressString)
             {
@@ -538,6 +544,8 @@
     DLog(@"%ld, %ld",column, row);
     _getdataType = CZJHomeGetDataFromServerTypeOne;
     sortType = [NSString stringWithFormat:@"%ld",row];
+    _getdataType = CZJHomeGetDataFromServerTypeOne;
+    self.page = 1;
     [self getStoreServiceListDataFromServer];
 }
 
@@ -547,6 +555,7 @@
     //根据城市名称
     cityID = [CZJBaseDataInstance.storeForm getCityIDWithCityName:cityName];
     _getdataType = CZJHomeGetDataFromServerTypeOne;
+    self.page = 1;
     [self getStoreServiceListDataFromServer];
 }
 
@@ -557,6 +566,7 @@
 }
 
 - (void)actionBtn{
+    __weak typeof(self) weakSelf = self;
     
     UIWindow *window = [[UIWindow alloc] initWithFrame:CGRectMake(PJ_SCREEN_WIDTH, 0, PJ_SCREEN_WIDTH-50, PJ_SCREEN_HEIGHT)];
     window.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:1.0];
@@ -567,67 +577,53 @@
     CZJServiceFilterController *serviceFilterController = [[CZJServiceFilterController alloc] init];
     serviceFilterController.typeId = self.typeId;
     serviceFilterController.delegate = self;
-    
+    //传入取消回调
+    [serviceFilterController setCancleBarItemHandle:^{
+        [weakSelf tapAction];
+    }];
     
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:serviceFilterController];
     serviceFilterController.view.frame = window.bounds;
     window.rootViewController = nav;
     self.window = window;
     
-    UIView *view = [[UIView alloc] initWithFrame:self.view.bounds];
-    view.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.5];
-    //点击隐藏手势
-    UITapGestureRecognizer *tap  = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapAction)];
-    [view addGestureRecognizer:tap];
-    //侧滑隐藏手势
-    UISwipeGestureRecognizer *swipeLeft = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipe:)];
-    [self.view addGestureRecognizer:swipeLeft];
-    [self.view addSubview:view];
-    self.upView = view;
+    //初始化upView
+    self.upView = [[UIView alloc] initWithFrame:self.view.bounds];
+    self.upView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.5];
     self.upView.alpha = 0.0;
+    //点击隐藏手势、侧滑隐藏手势
+    [self.upView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapAction)]];
+    [self.upView addGestureRecognizer:[[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(tapAction)]];
+    //将upView添加到当前View上
+    [self.view addSubview:self.upView];
+
+    //开始执行出场动画
     [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
-        self.window.frame = CGRectMake(50, 0, PJ_SCREEN_WIDTH-50, PJ_SCREEN_HEIGHT);
-        self.upView.alpha = 1.0;
+        weakSelf.window.frame = CGRectMake(50, 0, PJ_SCREEN_WIDTH-50, PJ_SCREEN_HEIGHT);
+        weakSelf.upView.alpha = 1.0;
     } completion:nil];
-    
-    
-    __weak typeof(self) weak = self;
-    [serviceFilterController setCancleBarItemHandle:^{
-        [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
-            weak.window.frame = CGRectMake(PJ_SCREEN_WIDTH, 0, PJ_SCREEN_WIDTH-50, PJ_SCREEN_HEIGHT);
-            self.upView.alpha = 0.0;
-        } completion:^(BOOL finished) {
-            if (finished) {
-                [weak.upView removeFromSuperview];
-                [weak.window resignKeyWindow];
-                weak.window  = nil;
-                weak.upView = nil;
-                weak.navigationController.interactivePopGestureRecognizer.enabled = YES;
-            }
-        }];
-    }];
-    
 }
 
 - (void)tapAction{
+    __weak typeof(self) weakSelf = self;
     [UIView animateWithDuration:0.5 animations:^{
-        self.window.frame = CGRectMake(PJ_SCREEN_WIDTH, 0, PJ_SCREEN_WIDTH-50, PJ_SCREEN_HEIGHT);
-        self.upView.alpha = 0.0;
+        weakSelf.window.frame = CGRectMake(PJ_SCREEN_WIDTH, 0, PJ_SCREEN_WIDTH-50, PJ_SCREEN_HEIGHT);
+        weakSelf.upView.alpha = 0.0;
     } completion:^(BOOL finished) {
         if (finished) {
-            [self.upView removeFromSuperview];
-            [self.window resignKeyWindow];
-            self.window  = nil;
-            self.upView = nil;
-            self.navigationController.interactivePopGestureRecognizer.enabled = YES;
+            [weakSelf.upView removeFromSuperview];
+            [weakSelf.window resignKeyWindow];
+            //获取弹出Window上的筛选控制器，移除控制器中得通知监听
+            CZJServiceFilterController* serviceFilter = (CZJServiceFilterController*)[CZJUtils getViewControllerInUINavigator:(UINavigationController*)weakSelf.window.rootViewController withClass:[CZJServiceFilterController class]];
+            if (serviceFilter)
+            {
+                [serviceFilter removeServiceFilterNotification];
+            }
+            weakSelf.window  = nil;
+            weakSelf.upView = nil;
+            weakSelf.navigationController.interactivePopGestureRecognizer.enabled = YES;
         }
     }];
-}
-
-- (void)handleSwipe:(UISwipeGestureRecognizer *)gestureRecognizer
-{
-    CGPoint location = [gestureRecognizer locationInView:self.view];
-    [self tapAction];
 }
 
 #pragma mark -CZJServiceFilterDelegate
@@ -639,6 +635,8 @@
     goHouseFlag = @"";
     goStoreFlag = @"";
     self.typeId = [USER_DEFAULT valueForKey:kUserDefaultServiceTypeID];
+    _getdataType = CZJHomeGetDataFromServerTypeOne;
+    self.page = 1;
     [self getStoreServiceListDataFromServer];
 }
 

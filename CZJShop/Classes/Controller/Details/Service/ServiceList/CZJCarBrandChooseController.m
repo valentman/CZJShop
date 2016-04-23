@@ -39,15 +39,19 @@ static NSString *CarListCellIdentifierID = @"CarListCellIdentifierID";
 {
     self.title = @"选择车辆";
     
-    UIView* topView = [[UIView alloc]initWithFrame:CGRectMake(0,-20, PJ_SCREEN_WIDTH, 64)];
-    [self.view addSubview:topView];
-    topView.backgroundColor = CZJNAVIBARBGCOLOR;
+    [CZJUtils customizeNavigationBarForTarget:self];
+    if (_carlistType == CZJCarListTypeGeneral)
+    {
+        [self addCZJNaviBarViewWithNotHiddenNavi:CZJNaviBarViewTypeGeneral];
+        self.naviBarView.btnBack.hidden = YES;
+    }
     
     NSInteger width = PJ_SCREEN_WIDTH - (CZJCarListTypeFilter == _carlistType ? kMGLeftSpace  : 0);
     self.tableView = [[SKSTableView alloc] initWithFrame:CGRectMake(0, 64, width, PJ_SCREEN_HEIGHT)];
-    self.tableView.clipsToBounds = NO;
+    self.tableView.clipsToBounds = YES;
     self.tableView.backgroundColor = CZJTableViewBGColor;
     self.tableView.tableFooterView = [[UIView alloc]init];
+    self.automaticallyAdjustsScrollViewInsets = NO;
     [self.view addSubview:self.tableView];
 }
 
@@ -103,7 +107,6 @@ static NSString *CarListCellIdentifierID = @"CarListCellIdentifierID";
     {
         if (CZJCarListTypeFilter == _carlistType)
         {
-//            return 1 ;
             return 0;
         }
         else if (CZJCarListTypeGeneral == _carlistType)

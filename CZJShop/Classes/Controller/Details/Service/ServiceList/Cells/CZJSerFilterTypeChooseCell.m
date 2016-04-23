@@ -108,15 +108,15 @@
             {
                 NSString* name = self.buttonDatas[i];
                 [child setTitle:name forState:UIControlStateNormal];
-                if (0 == i && [[USER_DEFAULT valueForKey:kUSerDefaultRecommendFlag] floatValue] == 1)
+                if (0 == i && [[USER_DEFAULT valueForKey:kUSerDefaultRecommendFlag] isEqualToString:@"true"])
                 {
                     [self selectedBtnClick:child];
                 }
-                if (1 == i && [[USER_DEFAULT valueForKey:kUSerDefaultPromotionFlag] floatValue] == 1)
+                if (1 == i && [[USER_DEFAULT valueForKey:kUSerDefaultPromotionFlag] isEqualToString:@"true"])
                 {
                     [self selectedBtnClick:child];
                 }
-                if (2 == i && [[USER_DEFAULT valueForKey:kUSerDefaultStockFlag] floatValue] == 1)
+                if (2 == i && [[USER_DEFAULT valueForKey:kUSerDefaultStockFlag] isEqualToString:@"true"])
                 {
                     [self selectedBtnClick:child];
                 }
@@ -125,9 +125,10 @@
                 
             case kCZJSerfilterTypeChooseCellTypeDetail:
             {
-                NSString* name = [self.buttonDatas[i] valueForKey:@"valueName"];
+                CZJLevelSku* levelSku = (CZJLevelSku*)self.buttonDatas[i];
+                NSString* name = levelSku.valueName;
                 [child setTitle:name forState:UIControlStateNormal];
-                child.tag = [[self.buttonDatas[i] valueForKey:@"valueId"] integerValue];
+                child.tag = [levelSku.valueId integerValue];
             }
                 break;
                 
@@ -144,9 +145,19 @@
     for (int i = 0; i< self.buttonDatas.count; i++)
     {
         UIButton *child = self.contentView.subviews[i];
-        if ([child.titleLabel.text isEqualToString:selectdString])
+        if (kCZJSerfilterTypeChooseCellTypeDetail == cellType)
         {
-            [self selectedBtnClick:child];
+            if (child.tag == [selectdString integerValue])
+            {
+                [self selectedBtnClick:child];
+            }
+        }
+        else
+        {
+            if ([child.titleLabel.text isEqualToString:selectdString])
+            {
+                [self selectedBtnClick:child];
+            }
         }
     }
 }
@@ -227,7 +238,7 @@
             break;
         case kCZJSerFilterTypeChooseCellTypeGoods:
         {
-            NSString* typeName = [NSString stringWithFormat:@"%d",_button.selected];
+            NSString* typeName = _button.selected ? @"true" : @"false";
             if (0 == tag)
             {
                 [USER_DEFAULT setValue:typeName forKey:kUSerDefaultRecommendFlag];

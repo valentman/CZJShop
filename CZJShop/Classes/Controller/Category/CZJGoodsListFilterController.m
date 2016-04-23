@@ -57,8 +57,8 @@ CZJGoodsListFilterSubControllerDelegate
     _brandIDArys = [NSMutableArray array];
     _arrtrIDArys = [NSMutableArray array];
     
-    startPrice = @"";
-    endPrice = @"";
+    startPrice = @"0";
+    endPrice = @"0";
     
     CZJFilterBrandForm* brandForm = [[CZJFilterBrandForm alloc]init];
     brandForm.name = @"品牌";
@@ -77,20 +77,36 @@ CZJGoodsListFilterSubControllerDelegate
     [rightBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
     [rightBtn setTag:1001];
     UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithCustomView:rightBtn];
-    self.navigationItem.rightBarButtonItem = rightItem;
+    if (IS_IOS9)
+    {
+        self.navigationItem.rightBarButtonItem = rightItem;
+    }
+    else
+    {
+        UIBarButtonItem *spaceBar = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+        spaceBar.width = 50;
+        self.navigationItem.rightBarButtonItems = @[spaceBar,rightItem];
+    }
+
     [rightItem setTag:1001];
     
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0,64, PJ_SCREEN_WIDTH-50, PJ_SCREEN_HEIGHT) style:UITableViewStylePlain];
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0,64, PJ_SCREEN_WIDTH-50, PJ_SCREEN_HEIGHT - 64) style:UITableViewStylePlain];
     self.tableView.separatorStyle = UITableViewCellSelectionStyleNone;
     self.tableView.tableFooterView = [[UIView alloc]init];
-    self.tableView.clipsToBounds = true;
+    self.tableView.clipsToBounds = NO;
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     self.automaticallyAdjustsScrollViewInsets = NO;
     [self.view addSubview:self.tableView];
 
+    [self.view addGestureRecognizer:[[UISwipeGestureRecognizer alloc] initWithTarget:self  action:@selector(cancelAction:)]];
     
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(refreshTableView:) name:@"ChooseCartype" object:nil];
+}
+
+- (void)removeGoodsListFilterNotification
+{
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:@"ChooseCartype" object:nil];
 }
 
 - (void)refreshTableView:(id)sender
@@ -358,15 +374,28 @@ CZJGoodsListFilterSubControllerDelegate
     }
 }
 
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    //去掉tableview中section的headerview粘性
+    CGFloat sectionHeaderHeight = 40;
+    if (scrollView.contentOffset.y<=sectionHeaderHeight&&scrollView.contentOffset.y>=0) {
+        scrollView.contentInset = UIEdgeInsetsMake(-scrollView.contentOffset.y, 0, 0, 0);
+    }
+    else if (scrollView.contentOffset.y>=sectionHeaderHeight) {
+        scrollView.contentInset = UIEdgeInsetsMake(-sectionHeaderHeight, 0, 0, 0);
+    }
+}
+
 
 - (void)resetFilterConditioins
 {
+    [USER_DEFAULT setValue:@"" forKey:kUserDefaultChoosedCarModelType];
     for (CZJFilterBaseForm* baseForm in _filterConditionArys)
     {
         CZJFilterBaseForm* filterObject = (CZJFilterBaseForm*)baseForm;
         [filterObject.selectedItems removeAllObjects];
-        [self.tableView reloadData];
     }
+    [self.tableView reloadData];
 }
 
 

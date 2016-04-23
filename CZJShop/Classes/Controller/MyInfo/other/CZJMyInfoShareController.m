@@ -9,6 +9,7 @@
 #import "CZJMyInfoShareController.h"
 #import "ShareMessage.h"
 #import "CommonUnit.h"
+#import "CZJBaseDataManager.h"
 
 @interface CZJMyInfoShareController ()
 <MFMessageComposeViewControllerDelegate>
@@ -56,7 +57,7 @@
     self.separatorViewHeight.constant = 0.8;
     self.separatorLineHeight.constant = 0.8;
     
-    _messageCode = @"分享得红包，yeah~";
+    _messageCode = [NSString stringWithFormat:@"%@%@",SHARE_CONTENT,SHARE_URL];
     
     
     //UIButton
@@ -100,7 +101,9 @@
             QRCodeImage.image = tmpImag;
             CGRect qrFram = QRCodeImage.frame;
             DLog(@"qrframe: %f",qrFram.size.width);
-            UIImageView* centerImage = [[UIImageView alloc]initWithImage:IMAGENAMED(@"icon-small-40")];
+            
+            NSString* headImg = CZJBaseDataInstance.userInfoForm.headPic == nil ? @"icon-small" : CZJBaseDataInstance.userInfoForm.headPic;
+            UIImageView* centerImage = [[UIImageView alloc]initWithImage:IMAGENAMED(headImg)];
             centerImage.layer.cornerRadius = 5;
             centerImage.clipsToBounds = YES;
             [centerImage setSize:CGSizeMake(40, 40)];

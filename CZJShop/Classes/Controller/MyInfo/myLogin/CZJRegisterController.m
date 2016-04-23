@@ -68,12 +68,14 @@ FDAlertViewDelegate
     [self.isPasswordTypeBtn setImage:[UIImage imageNamed:@"login_btn_eye_off"] forState:UIControlStateNormal];
     [self.isPasswordTypeBtn setSelected:NO];
     
+    
     self.phoneNumTextField.delegate = self;
     self.pwdTextField.delegate = self;
     self.codeTextField.delegate = self;
     [self.phoneNumTextField setTag:1000];
     [self.pwdTextField setTag:1001];
     [self.codeTextField setTag:1002];
+    self.pwdTextField.secureTextEntry = YES;
     
     self.identityVerifyBtn.backgroundColor = UIColorFromRGB(0xff9494);
     self.identityVerifyBtn.titleLabel.textColor = [UIColor whiteColor];
@@ -203,8 +205,13 @@ FDAlertViewDelegate
             {
                 [self showAlert:[dict valueForKey:@"msg"]];
             }
-            [self.confirmBtn setEnabled:YES];
-            self.confirmBtn.backgroundColor = kLoginColorRed;
+            __weak typeof(self) weakSelf = self;
+            [CZJUtils tipWithText:@"设置密码成功" withCompeletHandler:^{
+                [weakSelf.confirmBtn setEnabled:YES];
+                weakSelf.confirmBtn.backgroundColor = kLoginColorRed;
+                [weakSelf dismissViewControllerAnimated:YES completion:nil];
+            }];
+            
         };
         CZJFailureBlock failure = ^{
             NSLog(@"login fail");

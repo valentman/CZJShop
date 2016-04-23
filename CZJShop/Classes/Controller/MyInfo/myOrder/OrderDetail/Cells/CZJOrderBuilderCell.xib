@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
@@ -21,21 +21,21 @@
                             <constraint firstAttribute="height" constant="65" id="NU2-Ks-Cd7"/>
                         </constraints>
                     </imageView>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="order_head_default.png" translatesAutoresizingMaskIntoConstraints="NO" id="r6T-5E-UUV">
-                        <rect key="frame" x="126" y="40" width="69" height="69"/>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="order_head_default.png" translatesAutoresizingMaskIntoConstraints="NO" id="r6T-5E-UUV">
+                        <rect key="frame" x="126" y="40" width="70" height="69"/>
                         <animations/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="69" id="0Td-Pg-KTs"/>
-                            <constraint firstAttribute="height" constant="69" id="7xk-dM-clu"/>
+                            <constraint firstAttribute="width" constant="70" id="0Td-Pg-KTs"/>
+                            <constraint firstAttribute="height" constant="70" id="7xk-dM-clu"/>
                         </constraints>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                <real key="value" value="34.5"/>
+                                <integer key="value" value="35"/>
                             </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YVc-GT-tfp">
-                        <rect key="frame" x="130" y="111" width="60" height="21"/>
+                        <rect key="frame" x="130" y="112" width="60" height="21"/>
                         <animations/>
                         <constraints>
                             <constraint firstAttribute="height" constant="21" id="VUm-0L-egO"/>
@@ -46,7 +46,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="正在施工" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T6p-JP-z0K">
-                        <rect key="frame" x="198" y="114" width="60" height="15"/>
+                        <rect key="frame" x="198" y="115" width="60" height="15"/>
                         <animations/>
                         <constraints>
                             <constraint firstAttribute="height" constant="15" id="5If-IG-c9M"/>

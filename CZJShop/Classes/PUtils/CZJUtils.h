@@ -35,6 +35,7 @@
 
 
 //-----------------------正则判断---------------------------------
++ (BOOL)isCarNumberPlate:(NSString*)carNo;
 + (BOOL)isLicencePlate:(NSString *)plateNum;
 + (BOOL)isPhoneNumber:(NSString *)mobileNum;
 + (BOOL)isMobileNumber:(NSString *)mobileNum;
@@ -56,6 +57,7 @@
 //----------------------------提示框------------------------------
 + (UIView*)showInfoCanvasOnTarget:(id)target action:(SEL)buttonSel;
 + (void)tipWithText:(NSString *)text andView:(UIView *)view;
++ (void)tipWithText:(NSString*)text withCompeletHandler:(CZJGeneralBlock)compeletBlock;
 + (void)showExitAlertViewWithContent;
 + (void)showExitAlertViewWithContentOnParent:(id)parent;
 
@@ -74,9 +76,10 @@
 + (NSMutableAttributedString*)stringWithDeleteLine:(NSString*)string;
 
 //----------------------------界面控制器处理--------------------------
-+ (void)showMyWindowOnTarget:(UIViewController*)target withMyVC:(UIViewController*)myViewController;
++ (void)showMyWindowOnTarget:(UIViewController*)target withPopVc:(UIViewController*)popViewController;
 //从SB中获取VC
 + (UIViewController*)getViewControllerFromStoryboard:(NSString*)storyboardName andVCName:(NSString*)vcName;
++ (UIViewController*)getViewControllerInUINavigator:(UINavigationController*)navi withClass:(Class)_class;
 //从Xib文件中获取View
 + (id)getXibViewByName:(NSString*)xibName;
 //搜索界面
@@ -144,4 +147,8 @@
 
 + (UIView*)getBackgroundPromptViewWithPrompt:(NSString*)prompt;
 
++ (NSString*)getCurrentVersion;
+
+//大图预览
++ (void)showDetailInfoWithIndex:(NSInteger)index withImgAry:(NSArray*)imgs onTarget:(UIViewController*)target;
 @end

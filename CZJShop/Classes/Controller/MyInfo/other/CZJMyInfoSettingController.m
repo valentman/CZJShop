@@ -33,8 +33,10 @@ UITableViewDataSource
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    TICK;
     [CZJUtils customizeNavigationBarForTarget:self];
     [self initViews];
+    TOCK;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -45,7 +47,7 @@ UITableViewDataSource
 - (void)initViews
 {
     settingAry = @[@"推送消息",
-                   @"引导页",
+//                   @"引导页",
                    @"清除本地缓存",
                    @"检测新版本",
                    @"关于车之健"
@@ -83,7 +85,7 @@ UITableViewDataSource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 5;
+    return 4;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -102,13 +104,13 @@ UITableViewDataSource
         cell.chooseButton.hidden = NO;
         [cell.chooseButton addTarget:self action:@selector(pushAction:) forControlEvents:UIControlEventTouchUpInside];
     }
-    if (3 == indexPath.row)
+    if (2 == indexPath.row)
     {
         cell.arrowImg.hidden = YES;
         cell.myDetailLabel.hidden = NO;
         cell.myDetailLabel.text = [NSString stringWithFormat:@"V%@",[self getCurrentVersion]];
     }
-    if (2 == indexPath.row)
+    if (1 == indexPath.row)
     {
         cell.arrowImg.hidden = YES;
         cell.myDetailLabel.hidden = NO;
@@ -135,11 +137,11 @@ UITableViewDataSource
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (4 == indexPath.row)
+    if (3 == indexPath.row)
     {
         [self performSegueWithIdentifier:@"segueToAboutUs" sender:self];
     }
-    if (2 == indexPath.row)
+    if (1 == indexPath.row)
     {
         __weak typeof(self) weak = self;
         [self showCZJAlertView:@"确定清除本地缓存" andConfirmHandler:^{
@@ -151,7 +153,7 @@ UITableViewDataSource
             [weak hideWindow];
         } andCancleHandler:nil];
     }
-    if (3 == indexPath.row)
+    if (2 == indexPath.row)
     {
         [self getAppID];
     }
@@ -189,9 +191,9 @@ UITableViewDataSource
         [USER_DEFAULT setValue:@"" forKey:kUserDefaultChoosedBrandID];
         [USER_DEFAULT setValue:@"" forKey:kUserDefaultStartPrice];
         [USER_DEFAULT setValue:@"" forKey:kUserDefaultEndPrice];
-        [USER_DEFAULT setValue:@"" forKey:kUSerDefaultStockFlag];
-        [USER_DEFAULT setValue:@"" forKey:kUSerDefaultPromotionFlag];
-        [USER_DEFAULT setValue:@"" forKey:kUSerDefaultRecommendFlag];
+        [USER_DEFAULT setValue:@"false" forKey:kUSerDefaultStockFlag];
+        [USER_DEFAULT setValue:@"false" forKey:kUSerDefaultPromotionFlag];
+        [USER_DEFAULT setValue:@"false" forKey:kUSerDefaultRecommendFlag];
         [USER_DEFAULT setValue:@"" forKey:kUserDefaultServicePlace];
         [USER_DEFAULT setValue:@"" forKey:kUserDefaultDetailStoreItemPid];
         [USER_DEFAULT setValue:@"" forKey:kUserDefaultDetailItemCode];

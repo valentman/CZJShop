@@ -35,9 +35,11 @@
     _timestamp = timestamp;
     if (_timestamp != 0) {
         [self refreshLessTime];
-        timer =[NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(refreshLessTime) userInfo:nil repeats:YES];
-        // 如果不添加下面这条语句，在UITableView拖动的时候，会阻塞定时器的调用
-        [[NSRunLoop currentRunLoop] addTimer:timer forMode:UITrackingRunLoopMode];
+        if (!timer) {
+            timer =[NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(refreshLessTime) userInfo:nil repeats:YES];
+            // 如果不添加下面这条语句，在UITableView拖动的时候，会阻塞定时器的调用
+            [[NSRunLoop currentRunLoop] addTimer:timer forMode:UITrackingRunLoopMode];
+        }
     }
 }
 

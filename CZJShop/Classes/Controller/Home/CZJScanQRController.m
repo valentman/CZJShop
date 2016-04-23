@@ -75,7 +75,7 @@ UIAlertViewDelegate
     [CZJUtils hideSearchBarViewForTarget:self];
     [self addCZJNaviBarView:CZJNaviBarViewTypeScan];
     self.naviBarView.mainTitleLabel.text = @"条形码/二维码";
-    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
     
     //打开/关闭闪光灯按钮
     UIButton* btnTorch = [[ UIButton alloc ]initWithFrame:CGRectMake((PJ_SCREEN_WIDTH - 100)*0.5, PJ_SCREEN_HEIGHT - 150, 100, 100)];
@@ -108,7 +108,7 @@ UIAlertViewDelegate
 {
     if (!isHomeview)
     {
-        [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
     }
 }
 
@@ -233,10 +233,11 @@ UIAlertViewDelegate
             NSString* scanStr = metadataObj.stringValue;
             if ([scanStr hasPrefix:@"http://"] || [scanStr hasPrefix:@"https://"])
             {
-                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:scanStr]];
-                [CZJUtils performBlock:^{
-                    [_captureSession startRunning];
-                } afterDelay:1.0];
+                CZJSCanQRForm* scanForm = [[CZJSCanQRForm alloc]init];
+                scanForm.type = @"0";
+                scanForm.content = scanStr;
+                scanForm.isLogin = @"0";
+                [self performSelectorOnMainThread:@selector(dealWithQRScanData:) withObject:scanForm waitUntilDone:NO];
             }
             else
             {

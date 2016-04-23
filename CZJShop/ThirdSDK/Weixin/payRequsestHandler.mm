@@ -127,6 +127,10 @@
                 
                 [debugInfo appendFormat:@"获取预支付交易标示成功！\n"];
             }
+            else
+            {
+                [CZJUtils tipWithText:[resParams objectForKey:@"err_code_des"] andView:nil];
+            }
         }else{
             last_errcode = 1;
             [debugInfo appendFormat:@"gen_sign=%@\n   _sign=%@\n",sign,send_sign];

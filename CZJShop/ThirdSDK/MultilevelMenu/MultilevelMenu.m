@@ -95,9 +95,10 @@
         
         //默认点击第一个
         self.selelctIndexPath = [NSIndexPath indexPathForRow:0 inSection:0];
-        if (self.allData.count>0) {
+        if (_allData.count>0) {
             [self tableView:self.leftTablew didSelectRowAtIndexPath: self.selelctIndexPath];
         }
+        [self registNotification];
       
         self.isReturnLastOffset=YES;
         self.rightCollection.backgroundColor=self.leftSelectBgColor;
@@ -106,6 +107,20 @@
     }
     return self;
 }
+
+- (void)registNotification
+{
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(clickService) name:@"moreService" object:nil];
+}
+
+- (void)clickService
+{
+    NSIndexPath* defaultPath = [NSIndexPath indexPathForRow:0 inSection:0];
+    NSIndexPath* lastPath = [NSIndexPath indexPathForRow:_selectIndex inSection:0];
+    [self tableView:self.leftTablew didDeselectRowAtIndexPath:lastPath];
+    [self tableView:self.leftTablew didSelectRowAtIndexPath: defaultPath];
+}
+
 
 //---------颜色配置--------
 -(void)setLeftBgColor:(UIColor *)leftBgColor{
@@ -133,34 +148,43 @@
 - (void)getCategoryDataFromServer
 {
     __weak typeof(self) weak = self;
-    [MBProgressHUD showHUDAddedTo:self.rightCollection animated:YES];
+
     [CZJUtils removeReloadAlertViewFromTarget:self.rightCollection];
     [CZJUtils removeNoDataAlertViewFromTarget:self.rightCollection];
     //从服务器获取数据成功返回回调
     CZJSuccessBlock successBlock = ^(id json){
-        [MBProgressHUD hideAllHUDsForView:self.rightCollection animated:YES];
-        NSDictionary* tempdata = [CZJUtils DataFromJson:json];
+        NSDictionary* tempdata = [[CZJUtils DataFromJson:json] valueForKey:@"msg"];
         DLog(@"%@",[tempdata description]);
         //分类数据信息
-        NSArray* types = [[tempdata valueForKey:@"msg"] valueForKey:@"types"];
-        rightMeun* tempMenu = self.allData[self.selectIndex];
-        for (id dict in types) {
-            rightMeun* menu = [[rightMeun alloc]init];
-            menu.ID = [NSString stringWithFormat:@"%ld",[[dict valueForKey:@"typeId"] integerValue]];
-            menu.meunName = [dict valueForKey:@"name"];
-            menu.urlName = [dict valueForKey:@"img"];
-            [tempMenu.nextArray addObject:menu];
+        /**
+         *  这个通过比较返回数据的父id与当前点击分类的id是否相同来将数据放入相应的分类子项目数组里
+         *  如果不做此判断，则会出现数据混入的情况，比如明明请求的是线下服务的数据会因为网络延迟
+         *  在点击请求油品化学品分类数据后，显示在油品化学品分类里面。
+         */
+        NSArray* types = [rightMeun objectArrayWithKeyValuesArray:[tempdata valueForKey:@"types"]];
+        rightMeun* tempRightMenu = types.firstObject;
+        rightMeun* tempLeftMenu;
+        for (int i = 0; i < _allData.count; i++)
+        {
+            tempLeftMenu = _allData[i];
+            if ([tempLeftMenu.typeId isEqualToString:tempRightMenu.parentId])
+            {
+                //分类子项目
+                [tempLeftMenu.nextArray addObjectsFromArray:types];
+                
+                //广告栏信息
+                NSDictionary* banners = [[tempdata valueForKey:@"msg"] valueForKey:@"banner"];
+                tempLeftMenu.bannerAd = [BannerAdForm objectWithKeyValues:banners];
+                self.rightCollection.hidden = NO;
+                [self.rightCollection reloadData];
+                break;
+            }
         }
-        
-        //广告栏信息
-        NSDictionary* banners = [[tempdata valueForKey:@"msg"] valueForKey:@"banner"];
-        tempMenu.bannerAd = [BannerAdForm objectWithKeyValues:banners];
-        [self.rightCollection reloadData];
     };
     
     CZJFailureBlock failBlock = ^{
-        [MBProgressHUD hideAllHUDsForView:self.rightCollection animated:NO];
         [CZJUtils showReloadAlertViewOnTarget:self.rightCollection withReloadHandle:^{
+            weak.rightCollection.hidden = YES;
             [weak getCategoryDataFromServer];
         }];
     };
@@ -175,7 +199,7 @@
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return self.allData.count;
+    return _allData.count;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -192,7 +216,7 @@
         [cell addSubview:label];
         label.tag=100;
     }
-    rightMeun * title=self.allData[indexPath.row];
+    rightMeun * title = _allData[indexPath.row];
     cell.titile.text=title.meunName;
     
     UILabel * line=(UILabel*)[cell viewWithTag:100];
@@ -233,8 +257,8 @@
     cell.backgroundColor=self.leftSelectBgColor;
     self.selectIndex = indexPath.row;
     cell.selected = YES;
-    rightMeun * title=self.allData[indexPath.row];
-    currentTypeID = title.ID;
+    rightMeun * title = _allData[indexPath.row];
+    currentTypeID = title.typeId;
     NSArray* nextAry = title.nextArray;
 
     UILabel * line=(UILabel*)[cell viewWithTag:100];
@@ -257,6 +281,7 @@
     }
     else
     {
+        self.rightCollection.hidden = NO;
         [self.rightCollection reloadData];
     }
 }
@@ -275,7 +300,7 @@
 #pragma mark---------------------imageCollectionView--------------------------
 -(NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
 {
-    rightMeun * title=self.allData[self.selectIndex];
+    rightMeun * title = _allData[self.selectIndex];
     if (title.nextArray.count==0) {
         return 0;
     }
@@ -284,12 +309,12 @@
 }
 
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
-    rightMeun * title=self.allData[self.selectIndex];
+    rightMeun * title = _allData[self.selectIndex];
     return title.nextArray.count;
 }
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
-    rightMeun * title=self.allData[self.selectIndex];
+    rightMeun * title = _allData[self.selectIndex];
     rightMeun * touchedItemMeun=title.nextArray[indexPath.item];
     if (self.block)
     {
@@ -301,7 +326,7 @@
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     
     MultilevelCollectionViewCell *cell=[collectionView dequeueReusableCellWithReuseIdentifier:kMultilevelCollectionViewCell forIndexPath:indexPath];
-    rightMeun * title=self.allData[self.selectIndex];
+    rightMeun * title = _allData[self.selectIndex];
     rightMeun * itemMenu=title.nextArray[indexPath.item];
 
     cell.titile.text=itemMenu.meunName;
@@ -320,7 +345,7 @@
         reuseIdentifier = kMultilevelCollectionHeader;
     }
     
-    rightMeun * title=self.allData[self.selectIndex];
+    rightMeun * title = _allData[self.selectIndex];
     CollectionHeader *view =  [collectionView dequeueReusableSupplementaryViewOfKind :kind   withReuseIdentifier:reuseIdentifier   forIndexPath:indexPath];
     [view.bannerBtn addTarget:self action:@selector(bannerADClick:) forControlEvents:UIControlEventTouchUpInside];
     if ([kind isEqualToString:UICollectionElementKindSectionHeader]){
@@ -361,7 +386,7 @@
 -(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section{
     float ratio = 160.0 / 526.0;
     NSInteger height = (kScreenWidth - 120)*ratio;
-    rightMeun * title=self.allData[self.selectIndex];
+    rightMeun * title= _allData[self.selectIndex];
     if (title.nextArray.count>0)
     {
         rightMeun * meun;
@@ -395,7 +420,7 @@
 -(void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
 {
     if ([scrollView isEqual:self.rightCollection]) {
-        rightMeun * title=self.allData[self.selectIndex];
+        rightMeun * title = _allData[self.selectIndex];
         title.offsetScorller=scrollView.contentOffset.y;
         self.isReturnLastOffset=NO;
     }
@@ -404,7 +429,7 @@
 -(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
     if ([scrollView isEqual:self.rightCollection]) {
         
-        rightMeun * title=self.allData[self.selectIndex];
+        rightMeun * title = _allData[self.selectIndex];
         
         title.offsetScorller=scrollView.contentOffset.y;
         self.isReturnLastOffset=NO;
@@ -413,14 +438,14 @@
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
     if ([scrollView isEqual:self.rightCollection] && self.isReturnLastOffset) {
-        rightMeun * title=self.allData[self.selectIndex];
+        rightMeun * title= _allData[self.selectIndex];
         title.offsetScorller=scrollView.contentOffset.y;
     }
 }
 
 -(void)bannerADClick:(id)sender
 {
-    rightMeun * title=self.allData[self.selectIndex];
+    rightMeun * title= _allData[self.selectIndex];
     if (title.nextArray.count>0)
     {
         rightMeun * meun;
@@ -450,5 +475,11 @@
         return self;
     }
     return nil;
+}
+
++(NSDictionary*)replacedKeyFromPropertyName
+{
+    return @{@"urlName" : @"img",
+             @"meunName" : @"name"};
 }
 @end

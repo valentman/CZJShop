@@ -67,13 +67,14 @@
                     </label>
                 </subviews>
                 <animations/>
+                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                 <constraints>
+                    <constraint firstItem="jD8-6S-MZc" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="2Nf-Dw-HdA"/>
                     <constraint firstAttribute="trailing" secondItem="QEY-WS-JgA" secondAttribute="trailing" constant="110" id="5Ti-1r-LmT"/>
                     <constraint firstItem="QEY-WS-JgA" firstAttribute="centerY" secondItem="jD8-6S-MZc" secondAttribute="centerY" id="9v5-pf-YCy"/>
                     <constraint firstItem="xAy-0b-yUe" firstAttribute="centerY" secondItem="jD8-6S-MZc" secondAttribute="centerY" id="Cqf-7E-gaO"/>
                     <constraint firstItem="xAy-0b-yUe" firstAttribute="leading" secondItem="jD8-6S-MZc" secondAttribute="trailing" constant="5" id="JQe-sN-uHB"/>
-                    <constraint firstItem="jD8-6S-MZc" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="15" id="O4e-gc-ml8"/>
                     <constraint firstItem="jD8-6S-MZc" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="fGc-4M-yek"/>
                     <constraint firstItem="9Mg-eg-WxZ" firstAttribute="centerY" secondItem="jD8-6S-MZc" secondAttribute="centerY" id="jnw-41-gsV"/>
                     <constraint firstAttribute="trailing" secondItem="9Mg-eg-WxZ" secondAttribute="trailing" constant="45" id="zuw-A2-kKC"/>

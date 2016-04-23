@@ -138,7 +138,7 @@ UITableViewDelegate
     }
     else if (CZJCarListTypeFilter == _carlistType)
     {
-        [USER_DEFAULT setValue:_currentSelect.name forKey:kUserDefaultChoosedCarModelType];
+        [USER_DEFAULT setValue:[NSString stringWithFormat:@"%@ %@",_carBrand.name,_carSeries.name] forKey:kUserDefaultChoosedCarModelType];
         [USER_DEFAULT setValue:_currentSelect.modelId forKey:kUserDefaultChoosedCarModelID];
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
         [self.navigationController popToRootViewControllerAnimated:YES];

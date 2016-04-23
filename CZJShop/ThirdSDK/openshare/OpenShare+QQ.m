@@ -23,7 +23,7 @@ enum
     [self set:schema Keys:@{@"appid":appId,@"callback_name":[NSString stringWithFormat:@"QQ%02llx",[appId longLongValue]]}];
 }
 +(BOOL)isQQInstalled{
-    return [self canOpen:@"mqqapi://"];
+    return [self canOpen:@"mqq://"];
 }
 +(void)shareToQQFriends:(OSMessage*)msg Success:(shareSuccess)success Fail:(shareFail)fail{
     if ([self beginShare:schema Message:msg Success:success Fail:fail]) {

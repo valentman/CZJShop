@@ -64,11 +64,10 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="0.0" translatesAutoresizingMaskIntoConstraints="NO" id="oa9-jE-rr9">
-                        <rect key="frame" x="173" y="64" width="80" height="16"/>
+                        <rect key="frame" x="173" y="64" width="127" height="16"/>
                         <animations/>
                         <constraints>
                             <constraint firstAttribute="height" constant="16" id="BkG-7R-MXD"/>
-                            <constraint firstAttribute="width" constant="80" id="Nmt-1c-SID"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                         <color key="textColor" red="0.60000002379999995" green="0.60000002379999995" blue="0.60000002379999995" alpha="1" colorSpace="calibratedRGB"/>
@@ -85,6 +84,7 @@
                     <constraint firstItem="hip-US-Pwa" firstAttribute="leading" secondItem="lEH-St-HM4" secondAttribute="trailing" constant="10" id="VtO-7W-MZB"/>
                     <constraint firstItem="oa9-jE-rr9" firstAttribute="bottom" secondItem="FJy-kZ-KCr" secondAttribute="bottom" id="YaI-XG-Zoq"/>
                     <constraint firstItem="oa9-jE-rr9" firstAttribute="leading" secondItem="FJy-kZ-KCr" secondAttribute="trailing" constant="3" id="cyW-3V-8yJ"/>
+                    <constraint firstAttribute="trailing" secondItem="oa9-jE-rr9" secondAttribute="trailing" constant="20" id="p4T-VW-Rrl"/>
                     <constraint firstItem="z08-2X-3Le" firstAttribute="bottom" secondItem="lEH-St-HM4" secondAttribute="bottom" constant="-40" id="saS-Ao-ezT"/>
                     <constraint firstItem="FJy-kZ-KCr" firstAttribute="bottom" secondItem="lEH-St-HM4" secondAttribute="bottom" constant="-20" id="yIk-NX-X2A"/>
                 </constraints>

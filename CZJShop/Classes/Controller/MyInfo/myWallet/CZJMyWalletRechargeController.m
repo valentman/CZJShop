@@ -11,6 +11,7 @@
 #import "CZJOrderTypeCell.h"
 #import "CZJBaseDataManager.h"
 #import "CZJPaymentManager.h"
+#import "OpenShareHeader.h"
 
 @interface CZJMyWalletRechargeController ()
 <
@@ -113,7 +114,7 @@ UITextFieldDelegate
 
 - (IBAction)confirmAction:(id)sender
 {
-    
+    [self.view endEditing:YES];
     if ([finalChargeNumber floatValue] < 0.001)
     {
         [CZJUtils tipWithText:@"充值金额为0，请输入充值金额" andView:self.view];
@@ -136,19 +137,38 @@ UITextFieldDelegate
         paymentOrderForm.order_for = @"charge";
         if ([_defaultOrderType.orderTypeName isEqualToString:@"微信支付"])
         {
-            DLog(@"提交订单页面请求微信支付");
-            [CZJPaymentInstance weixinPay:self OrderInfo:paymentOrderForm Success:^(NSDictionary *message) {
-            } Fail:^(NSDictionary *message, NSError *error) {
-                [CZJUtils tipWithText:@"微信支付失败" andView:weak.view];
-            }];
+            if ([OpenShare isWeixinInstalled])
+            {
+                DLog(@"提交订单页面请求微信支付");
+                [CZJPaymentInstance weixinPay:self OrderInfo:paymentOrderForm Success:^(NSDictionary *message) {
+                } Fail:^(NSDictionary *message, NSError *error) {
+                    [CZJUtils tipWithText:@"微信支付失败" andView:weak.view];
+                }];
+            }
+            else
+            {
+                UIWindow *window = [[UIApplication sharedApplication] keyWindow];
+                UIAlertView* alertview = [[UIAlertView alloc]initWithTitle:@"温馨提示" message:@"您的手机未安装微信客户端，请安装后支付" delegate:window cancelButtonTitle:@"收到" otherButtonTitles:nil, nil];
+                [alertview show];
+            }
         }
         if ([_defaultOrderType.orderTypeName isEqualToString:@"支付宝支付"])
         {
-            DLog(@"提交订单页面请求支付宝支付");
-            [CZJPaymentInstance aliPay:self OrderInfo:paymentOrderForm Success:^(NSDictionary *message) {
-            } Fail:^(NSDictionary *message, NSError *error) {
-                [CZJUtils tipWithText:@"支付宝支付失败" andView:weak.view];
-            }];
+            if ([OpenShare isAlipayInstalled])
+            {
+                DLog(@"提交订单页面请求支付宝支付");
+                [CZJPaymentInstance aliPay:self OrderInfo:paymentOrderForm Success:^(NSDictionary *message) {
+                } Fail:^(NSDictionary *message, NSError *error) {
+                    [CZJUtils tipWithText:@"支付宝支付失败" andView:weak.view];
+                }];
+            }
+            else
+            {
+                UIWindow *window = [[UIApplication sharedApplication] keyWindow];
+                UIAlertView* alertview = [[UIAlertView alloc]initWithTitle:@"温馨提示" message:@"您的手机未安装支付宝客户端，请安装后支付" delegate:window cancelButtonTitle:@"收到" otherButtonTitles:nil, nil];
+                [alertview show];
+            }
+            
         }
     }  fail:^{
         

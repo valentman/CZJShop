@@ -27,12 +27,11 @@
 @interface CZJStoreMapController ()
 <
 MAMapViewDelegate,
-UIGestureRecognizerDelegate,
-AMapSearchDelegate
+UIGestureRecognizerDelegate
 >
 {
-    CZJStoreMapCell* locationView;          //地图中心
     MAMapView *_mapView;
+    CZJStoreMapCell* locationView;          //地图中心
     UIButton *_locationBtn;                 //定位按钮
     
     //地址转码
@@ -43,24 +42,43 @@ AMapSearchDelegate
     NSMutableArray *_annotations;
     
     CLLocationCoordinate2D nearstoreLocation;
-    
-    NSString* _curItemId;
-    BOOL _isJumped;
 }
+
 @end
 
 @implementation CZJStoreMapController
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self myLocation];
+    //添加NaviBarView
+    [self addCZJNaviBarView:CZJNaviBarViewTypeGeneral];
+    self.naviBarView.mainTitleLabel.text = @"附近门店";
+    
     [self initAttributes];
+    [self initMapViews];
     [self initViews];
-    [self getAroundMerchantData];
+
+    
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    if (_annotations.count > 0)
+    {
+        [self updateUI];
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:YES];
-    _isJumped = NO;
+    MAIN(^{
+        [self getAroundMerchantData];
+    });
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+//    _mapView.delegate = nil;
 }
 
 - (void)myLocation
@@ -89,33 +107,36 @@ AMapSearchDelegate
     _currentLocation = [[CLLocation alloc]initWithLatitude:CZJBaseDataInstance.curLocation.latitude longitude:CZJBaseDataInstance.curLocation.longitude];
 }
 
--(void)initViews{
+- (void)initMapViews
+{
     //添加MapView
     [MAMapServices sharedServices].apiKey = MAPKEY;
     _mapView = [[MAMapView alloc] initWithFrame:CGRectMake(0, 64, CGRectGetWidth(self.view.bounds), CGRectGetHeight(self.view.bounds) - 64)];
     _mapView.delegate = self;
-    _mapView.compassOrigin = CGPointMake(_mapView.compassOrigin.x, 14);     //右上角罗盘
-    _mapView.showsScale = false;
+    _mapView.showsScale = NO;
+    _mapView.showsCompass = NO;
     _mapView.showTraffic = NO;                                              //交通状况
     _mapView.showsUserLocation = YES;
     _mapView.userTrackingMode = MAUserTrackingModeFollow;
     [self.view addSubview:_mapView];
-    
+}
+
+
+-(void)initViews{
+
     //左下角自身定位按钮
     _locationBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    _locationBtn.frame = CGRectMake(20, CGRectGetHeight(_mapView.bounds)-100, 40, 40);
+    _locationBtn.frame = CGRectMake(20, PJ_SCREEN_HEIGHT-80, 40, 40);
     _locationBtn.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin;//
     _locationBtn.backgroundColor = [UIColor whiteColor];
     _locationBtn.layer.cornerRadius = 5;
     [_locationBtn setImage:[UIImage imageNamed:@"wl_map_icon_position"] forState:UIControlStateNormal];
     [_locationBtn setImage:[UIImage imageNamed:@"wl_map_icon_position_press"] forState:UIControlStateHighlighted];
     [_locationBtn addTarget:self action:@selector(locateAction) forControlEvents:UIControlEventTouchUpInside];
-    [_mapView addSubview:_locationBtn];
+    [self.view addSubview:_locationBtn];
     
     
-    //添加NaviBarView
-    [self addCZJNaviBarView:CZJNaviBarViewTypeGeneral];
-    self.naviBarView.mainTitleLabel.text = @"附近门店";
+
     
     //添加中心位置图标按钮
     CGPoint pt = CGPointMake(PJ_SCREEN_WIDTH*0.5, PJ_SCREEN_HEIGHT*0.5);
@@ -146,6 +167,7 @@ AMapSearchDelegate
     NSDictionary* params = @{@"lat" : [NSString stringWithFormat:@"%f", _currentLocation.coordinate.latitude] , @"lng" : [NSString stringWithFormat:@"%f", _currentLocation.coordinate.longitude]};
     [CZJBaseDataInstance generalPost:params success:^(id json) {
         NSArray* dict = [[CZJUtils DataFromJson:json] valueForKey:@"msg"];
+        DLog(@"%@",[dict description]);
         NSArray* arroundStores = [CZJNearbyStoreForm objectArrayWithKeyValuesArray:dict];
         
         if (arroundStores > 0)
@@ -183,18 +205,20 @@ AMapSearchDelegate
             //更新距离最近门店
             CZJNearbyStoreForm* nearForm = [arroundStores firstObject];
             float meteDistance = [nearForm.distanceMeter floatValue];
-            NSString* distancStr;
-            if (meteDistance > 1000)
+            NSString* distancStr = @"";
+            if (meteDistance >= 1000)
             {
                 meteDistance = meteDistance / 1000;
                 distancStr = [NSString stringWithFormat:@"%.1fkm",meteDistance];
             }
-            else
+            else if (meteDistance >= 0 &&
+                     meteDistance < 1000 &&
+                     nearForm != nil)
             {
                 distancStr = [NSString stringWithFormat:@"%.0fm",meteDistance];
             }
             locationView.distanceLabel.text = distancStr;
-            locationView.storeNameLabel.text = nearForm.name;
+            locationView.storeNameLabel.text = nearForm.name == nil ? @"附近没有门店" : nearForm.name;
             locationView.storeAddrLabel.text = nearForm.addr;
             locationView.storeId = nearForm.storeId;
             
@@ -203,21 +227,13 @@ AMapSearchDelegate
                 _mapView.centerCoordinate = CLLocationCoordinate2DMake([[[arroundStores firstObject] lat] doubleValue], [[[arroundStores firstObject] lng] doubleValue]);
             }
         }
+        
         [self performSelectorOnMainThread:@selector(updateUI)withObject:_annotations waitUntilDone:YES];
     }  fail:^{
         
     } andServerAPI:kCZJServerAPIGetMapNearByStores];
 }
 
-NSInteger compareDistance(CZJNearbyStoreForm* obj1, CZJNearbyStoreForm* obj2,void* context){
-    if ([obj1.distanceMeter intValue] > [obj2.distanceMeter intValue]) {
-        return (NSComparisonResult)NSOrderedDescending;
-    }
-    if ([obj1.distanceMeter intValue] < [obj1.distanceMeter intValue]) {
-        return (NSComparisonResult)NSOrderedAscending;
-    }
-    return (NSComparisonResult)NSOrderedSame;
-}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -242,6 +258,17 @@ NSInteger compareDistance(CZJNearbyStoreForm* obj1, CZJNearbyStoreForm* obj2,voi
 #pragma mark - MAMapViewDelegate
 //地图区域改变完成后回调
 - (void)mapView:(MAMapView *)mapView regionDidChangeAnimated:(BOOL)animated
+{
+    CLLocationCoordinate2D centerCoordinate = mapView.region.center;
+    if (_currentLocation.coordinate.latitude != centerCoordinate.latitude ||
+        _currentLocation.coordinate.longitude != centerCoordinate.longitude)
+    {
+        _currentLocation = [[CLLocation alloc]initWithLatitude:centerCoordinate.latitude longitude:centerCoordinate.longitude];
+        [self getAroundMerchantData];
+    }
+}
+
+- (void)mapView:(MAMapView *)mapView didUpdateUserLocation:(MAUserLocation *)userLocation updatingLocation:(BOOL)updatingLocation
 {
     CLLocationCoordinate2D centerCoordinate = mapView.region.center;
     if (_currentLocation.coordinate.latitude != centerCoordinate.latitude ||

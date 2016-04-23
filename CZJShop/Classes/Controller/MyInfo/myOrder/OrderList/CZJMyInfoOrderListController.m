@@ -21,6 +21,7 @@
 #import "CZJPopPayViewController.h"
 #import "CZJMiaoShaTimesView.h"
 #import "CZJPaymentManager.h"
+#import "OpenShareHeader.h"
 
 @interface CZJMyInfoOrderListController ()
 <
@@ -162,6 +163,32 @@ CZJPopPayViewDelegate
 {
     [((UIButton*)VIEWWITHTAG(self.naviBarView, 2999)) setTitle:btnStr forState:UIControlStateNormal];
     [self tapBackground:nil];
+    NSString* timeTypeStr;
+    if ([btnStr isEqualToString:@"一个月内"])
+    {
+        timeTypeStr = @"1";
+    }
+    if ([btnStr isEqualToString:@"三个月内"])
+    {
+        timeTypeStr = @"2";
+    }
+    if ([btnStr isEqualToString:@"一年内"])
+    {
+        timeTypeStr = @"3";
+    }
+    if ([btnStr isEqualToString:@"全部"])
+    {
+        timeTypeStr = @"0";
+    }
+    for (CZJOrderListBaseController* vc in orderListAry)
+    {
+        if ([vc isKindOfClass:[CZJOrderListAllController class]])
+        {
+            [vc.params setValue:timeTypeStr forKey:@"timeType"];
+            [vc getOrderListFromServer];
+            break;
+        }
+    }
 }
 
 #pragma mark -CZJOrderListDelegate
@@ -238,7 +265,7 @@ CZJPopPayViewDelegate
     float popViewHeight = CZJBaseDataInstance.orderPaymentTypeAry.count * 70 + 60 +50.5;
     self.popWindowInitialRect = VERTICALHIDERECT(0);
     self.popWindowDestineRect = VERTICALSHOWRECT(popViewHeight);
-    [CZJUtils showMyWindowOnTarget:self withMyVC:payPopView];
+    [CZJUtils showMyWindowOnTarget:self withPopVc:payPopView];
     __weak typeof(self) weak = self;
     
     hidePayViewBlock = ^{
@@ -277,19 +304,38 @@ CZJPopPayViewDelegate
         paymentOrderForm.order_for = @"pay";
         if ([selectOrderTypeForm.orderTypeName isEqualToString:@"微信支付"])
         {
-            [CZJPaymentInstance weixinPay:self OrderInfo:paymentOrderForm Success:^(NSDictionary *message) {
-                DLog(@"微信支付成功");
-            } Fail:^(NSDictionary *message, NSError *error) {
-                [CZJUtils tipWithText:@"微信支付失败" andView:weak.view];
-            }];
+            if ([OpenShare isWeixinInstalled])
+            {
+                [CZJPaymentInstance weixinPay:self OrderInfo:paymentOrderForm Success:^(NSDictionary *message) {
+                    DLog(@"微信支付成功");
+                } Fail:^(NSDictionary *message, NSError *error) {
+                    [CZJUtils tipWithText:@"微信支付失败" andView:weak.view];
+                }];
+            }
+            else
+            {
+                UIWindow *window = [[UIApplication sharedApplication] keyWindow];
+                UIAlertView* alertview = [[UIAlertView alloc]initWithTitle:@"温馨提示" message:@"您的手机未安装微信客户端，请安装后支付" delegate:window cancelButtonTitle:@"收到" otherButtonTitles:nil, nil];
+                [alertview show];
+            }
         }
         if ([selectOrderTypeForm.orderTypeName isEqualToString:@"支付宝支付"])
         {
-            [CZJPaymentInstance aliPay:self OrderInfo:paymentOrderForm Success:^(NSDictionary *message) {
-                DLog(@"支付宝支付成功");
-            } Fail:^(NSDictionary *message, NSError *error) {
-                [CZJUtils tipWithText:@"支付宝支付失败" andView:weak.view];
-            }];
+            if ([OpenShare isAlipayInstalled])
+            {
+                [CZJPaymentInstance aliPay:self OrderInfo:paymentOrderForm Success:^(NSDictionary *message) {
+                    DLog(@"支付宝支付成功");
+                } Fail:^(NSDictionary *message, NSError *error) {
+                    [CZJUtils tipWithText:@"支付宝支付失败" andView:weak.view];
+                }];
+            }
+            else
+            {
+                UIWindow *window = [[UIApplication sharedApplication] keyWindow];
+                UIAlertView* alertview = [[UIAlertView alloc]initWithTitle:@"温馨提示" message:@"您的手机未安装支付宝客户端，请安装后支付" delegate:window cancelButtonTitle:@"收到" otherButtonTitles:nil, nil];
+                [alertview show];
+            }
+            
         }
     }  fail:^{
         

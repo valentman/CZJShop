@@ -33,7 +33,14 @@ VPImageCropperDelegate
 - (void)viewDidLoad {
     [super viewDidLoad];
     [CZJUtils customizeNavigationBarForTarget:self];
+    [self initMyViews];
+}
+
+- (void)initMyViews
+{
     self.tableView.tableFooterView = [[UIView alloc] init];
+    
+    //头像
     headview = [[UIImageView alloc]initWithFrame:CGRectMake(PJ_SCREEN_WIDTH - 51-15, 5, 51, 51)];
     headview.layer.cornerRadius = 25.5;
     headview.clipsToBounds = YES;
@@ -41,11 +48,14 @@ VPImageCropperDelegate
     [headview setTag:255];
     isFromServer = YES;
     
+    //昵称
     nameTextField = [[UITextField alloc]initWithFrame:CGRectMake(PJ_SCREEN_WIDTH - 200 - 15, 15, 200, 21)];
     nameTextField.textAlignment = NSTextAlignmentRight;
     nameTextField.font = SYSTEMFONT(14);
     nameTextField.textColor = [UIColor darkTextColor];
     [nameTextField setTag:255];
+    
+    //手机号
     phoneNumTextField = [[UITextField alloc]initWithFrame:CGRectMake(PJ_SCREEN_WIDTH - 200 - 15, 15, 200, 21)];
     phoneNumTextField.textAlignment = NSTextAlignmentRight;
     [phoneNumTextField setTag:255];
@@ -53,6 +63,7 @@ VPImageCropperDelegate
     phoneNumTextField.textColor = [UIColor lightGrayColor];
     [phoneNumTextField setEnabled:false];
     
+    //保存按钮
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
     [btn setTitleColor:[UIColor whiteColor]forState:UIControlStateNormal];
     [btn.layer setMasksToBounds:YES];//设置按钮的圆角半径不会被遮挡
@@ -64,39 +75,13 @@ VPImageCropperDelegate
     btn.frame = CGRectMake(50, 5 * 44 + 61 + 15 + 50, PJ_SCREEN_WIDTH - 100, 50);
     [self.tableView addSubview:btn];
     
+    
     self.tableView.backgroundColor = CZJNAVIBARBGCOLOR;
     self.view.backgroundColor = CZJNAVIBARBGCOLOR;
 }
 
-- (void)unLogin:(id)sender
-{
-    NSString* name = nameTextField.text;
-    NSString* sexual = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:3 inSection:0]].detailTextLabel.text;
-    NSString* sex;
-    if ([sexual isEqualToString:@"保密"]) {
-        sex = @"0";
-    }
-    if ([sexual isEqualToString:@"男"]) {
-        sex = @"1";
-    }
-    if ([sexual isEqualToString:@"女"]) {
-        sex = @"2";
-    }
-    NSDictionary* params = @{@"chezhu.name": name, @"chezhu.sex":sex};
-    CZJBaseDataInstance.userInfoForm.chezhuName = name;
-    CZJBaseDataInstance.userInfoForm.sex = sexual;
 
-    [CZJBaseDataInstance updateUserInfo:params Success:^(id json)
-     {
-         [CZJUtils tipWithText:@"修改成功" andView:self.tableView];
-         [self.navigationController popViewControllerAnimated:true];
-     }fail:nil];
-    /*
-    CZJBaseDataInstance.userInfoForm = nil;
-    [CZJBaseDataInstance refreshChezhuID:nil];
-    [USER_DEFAULT setObject:[NSNumber numberWithBool:NO] forKey:kCZJIsUserHaveLogined];
-     */
-}
+
 
 - (void)viewWillAppear:(BOOL)animated
 {
@@ -199,6 +184,34 @@ VPImageCropperDelegate
     }
     return 0;
 }
+
+
+- (void)unLogin:(id)sender
+{
+    NSString* name = nameTextField.text;
+    NSString* sexual = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:3 inSection:0]].detailTextLabel.text;
+    NSString* sex;
+    if ([sexual isEqualToString:@"保密"]) {
+        sex = @"0";
+    }
+    if ([sexual isEqualToString:@"男"]) {
+        sex = @"1";
+    }
+    if ([sexual isEqualToString:@"女"]) {
+        sex = @"2";
+    }
+    NSDictionary* params = @{@"chezhu.name": name, @"chezhu.sex":sex};
+    CZJBaseDataInstance.userInfoForm.chezhuName = name;
+    CZJBaseDataInstance.userInfoForm.sex = sexual;
+    
+    [CZJBaseDataInstance updateUserInfo:params Success:^(id json)
+     {
+         [CZJUtils tipWithText:@"修改成功" andView:self.tableView];
+         [self.navigationController popViewControllerAnimated:true];
+     }fail:nil];
+}
+
+
 
 #pragma mark UIActionSheetDelegate
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {

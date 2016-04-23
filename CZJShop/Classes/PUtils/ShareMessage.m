@@ -57,7 +57,8 @@
     
     _shareMsg = [[OSMessage alloc] init];
     _shareMsg.title = title;
-    _shareMsg.desc = body;
+//    _shareMsg.desc = body;
+    _shareMsg.desc = [NSString stringWithFormat:@"%@",SHARE_CONTENT];
     _messageType = type;
 }
 
@@ -66,18 +67,19 @@
     OSMessage *msg=[[OSMessage alloc]init];
     msg.title= _shareMsg.title;
     msg.desc = _shareMsg.desc;
+    msg.link = SHARE_URL;
 
     switch (msgType) {
         case 1:
         {
-            msg.link=@"http://m.chezhijian.com/appserver/html/download.html";
+//            msg.link=@"http://m.chezhijian.com/appserver/html/download.html";
             msg.image=[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"share_icon" ofType:@"png"]];
         }
             break;
         case 2:
         {
             //app
-            msg.link=@"http://m.chezhijian.com/appserver/html/download.html";//分享到朋友圈以后，微信就不会调用app了，跟news类型分享到朋友圈一样。
+//            msg.link=@"http://m.chezhijian.com/appserver/html/download.html";//分享到朋友圈以后，微信就不会调用app了，跟news类型分享到朋友圈一样。
             msg.image=[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"share_icon" ofType:@"png"]];
         }
             
@@ -88,20 +90,38 @@
     switch (msgPlatform) {
         case 1: //分享微信好友
         {
-            [OpenShare shareToWeixinSession:msg Success:^(OSMessage *message) {
-                DLog(@"微信分享到会话成功：\n%@",message);
-            } Fail:^(OSMessage *message, NSError *error) {
-                DLog(@"微信分享到会话失败：\n%@\n%@",error,message);
-            }];
+            if ([OpenShare isWeixinInstalled]) {
+                [OpenShare shareToWeixinSession:msg Success:^(OSMessage *message) {
+                    DLog(@"微信分享到会话成功：\n%@",message);
+                } Fail:^(OSMessage *message, NSError *error) {
+                    DLog(@"微信分享到会话失败：\n%@\n%@",error,message);
+                }];
+            }
+            else
+            {
+                UIWindow *window = [[UIApplication sharedApplication] keyWindow];
+                UIAlertView* alertview = [[UIAlertView alloc]initWithTitle:@"温馨提示" message:@"您的手机未安装微信客户端，请安装后分享" delegate:window cancelButtonTitle:@"收到" otherButtonTitles:nil, nil];
+                [alertview show];
+            }
+            
         }
             break;
         case 2://分享朋友圈
         {
-            [OpenShare shareToWeixinTimeline:msg Success:^(OSMessage *message) {
-                DLog(@"微信分享到朋友圈成功：\n%@",message);
-            } Fail:^(OSMessage *message, NSError *error) {
-                DLog(@"微信分享到朋友圈失败：\n%@\n%@",error,message);
-            }];
+            if ([OpenShare isWeixinInstalled])
+            {
+                [OpenShare shareToWeixinTimeline:msg Success:^(OSMessage *message) {
+                    DLog(@"微信分享到朋友圈成功：\n%@",message);
+                } Fail:^(OSMessage *message, NSError *error) {
+                    DLog(@"微信分享到朋友圈失败：\n%@\n%@",error,message);
+                }];
+            }
+            else
+            {
+                UIWindow *window = [[UIApplication sharedApplication] keyWindow];
+                UIAlertView* alertview = [[UIAlertView alloc]initWithTitle:@"温馨提示" message:@"您的手机未安装微信客户端，请安装后分享" delegate:window cancelButtonTitle:@"收到" otherButtonTitles:nil, nil];
+                [alertview show];
+            }
         }
             break;
         default:
@@ -113,10 +133,12 @@
     OSMessage *msg=[[OSMessage alloc]init];
     msg.title= _shareMsg.title;
     msg.desc = _shareMsg.desc;
+    msg.link = SHARE_URL;
+    
     switch (msgType) {
         case 1:
         {
-            msg.link=@"http://m.chezhijian.com/appserver/html/download.html";
+//            msg.link=@"http://m.chezhijian.com/appserver/html/download.html";
             msg.image=[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"share_icon" ofType:@"png"]];
         }
             break;
@@ -124,18 +146,27 @@
         {
             //app
             msg.image= [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"share_icon" ofType:@"png"]];
-            msg.link=@"http://m.chezhijian.com/appserver/html/download.html";
+//            msg.link=@"http://m.chezhijian.com/appserver/html/download.html";
         }
             
         default:
             break;
     }
     
-    [OpenShare shareToWeibo:msg Success:^(OSMessage *message) {
-        DLog(@"分享到sina微博成功:\%@",message);
-    } Fail:^(OSMessage *message, NSError *error) {
-        DLog(@"分享到sina微博失败:\%@\n%@",message,error);
-    }];
+    if ([OpenShare isWeiboInstalled])
+    {
+        [OpenShare shareToWeibo:msg Success:^(OSMessage *message) {
+            DLog(@"分享到sina微博成功:\%@",message);
+        } Fail:^(OSMessage *message, NSError *error) {
+            DLog(@"分享到sina微博失败:\%@\n%@",message,error);
+        }];
+    }
+    else
+    {
+        UIWindow *window = [[UIApplication sharedApplication] keyWindow];
+        UIAlertView* alertview = [[UIAlertView alloc]initWithTitle:@"温馨提示" message:@"您的手机未安装新浪客户端，请安装后分享" delegate:window cancelButtonTitle:@"收到" otherButtonTitles:nil, nil];
+        [alertview show];
+    }
 }
 
 -(void)qqViewHandlerMsgType:(int)msgType MsgPlatform:(int)msgPlatform{
@@ -144,17 +175,18 @@
     
     msg.title= _shareMsg.title;
     msg.desc = _shareMsg.desc;
+    msg.link = SHARE_URL;
     
     switch (msgType) {
         case 1:
         {
-            msg.link=@"http://m.chezhijian.com/appserver/html/download.html";
+//            msg.link=@"http://m.chezhijian.com/appserver/html/download.html";
         }
             break;
         case 2:
         {
             //app
-            msg.link=@"http://m.chezhijian.com/appserver/html/download.html";
+//            msg.link=@"http://m.chezhijian.com/appserver/html/download.html";
         }
         default:
             break;
@@ -164,20 +196,39 @@
     switch (msgPlatform) {
         case 1: //分享QQ好友
         {
-            [OpenShare shareToQQFriends:msg Success:^(OSMessage *message) {
-                DLog(@"分享到QQ好友成功:%@",msg);
-            } Fail:^(OSMessage *message, NSError *error) {
-                DLog(@"分享到QQ好友失败:%@\n%@",msg,error);
-            }];
+            if ([OpenShare isQQInstalled])
+            {
+                [OpenShare shareToQQFriends:msg Success:^(OSMessage *message) {
+                    DLog(@"分享到QQ好友成功:%@",msg);
+                } Fail:^(OSMessage *message, NSError *error) {
+                    DLog(@"分享到QQ好友失败:%@\n%@",msg,error);
+                }];
+            }
+            else
+            {
+                UIWindow *window = [[UIApplication sharedApplication] keyWindow];
+                UIAlertView* alertview = [[UIAlertView alloc]initWithTitle:@"温馨提示" message:@"您的手机未安装QQ客户端，请安装后分享" delegate:window cancelButtonTitle:@"收到" otherButtonTitles:nil, nil];
+                [alertview show];
+            }
+
         }
             break;
         case 2://分享QQ空间
         {
-            [OpenShare shareToQQZone:msg Success:^(OSMessage *message) {
-                DLog(@"分享到QQ空间成功:%@",msg);
-            } Fail:^(OSMessage *message, NSError *error) {
-                DLog(@"分享到QQ空间失败:%@\n%@",msg,error);
-            }];
+            if ([OpenShare isQQInstalled])
+            {
+                [OpenShare shareToQQZone:msg Success:^(OSMessage *message) {
+                    DLog(@"分享到QQ空间成功:%@",msg);
+                } Fail:^(OSMessage *message, NSError *error) {
+                    DLog(@"分享到QQ空间失败:%@\n%@",msg,error);
+                }];
+            }
+            else
+            {
+                UIWindow *window = [[UIApplication sharedApplication] keyWindow];
+                UIAlertView* alertview = [[UIAlertView alloc]initWithTitle:@"温馨提示" message:@"您的手机未安装QQ客户端，请安装后分享" delegate:window cancelButtonTitle:@"收到" otherButtonTitles:nil, nil];
+                [alertview show];
+            }
         }
             break;
         default:

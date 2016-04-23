@@ -114,6 +114,7 @@ typedef NS_ENUM(NSInteger, CZJReturnListType)
     CZJReturnListTypeReturnable
 };
 
+//车辆品牌选择类型（筛选界面、一般界面）
 typedef NS_ENUM(NSInteger, CZJCarListType)
 {
     CZJCarListTypeFilter = 0,

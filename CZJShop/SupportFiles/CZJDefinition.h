@@ -11,10 +11,10 @@
 
 //----------------------------服务器接口-------------------------------
 //服务地址
-static NSString *const kCZJServerAddr = @"http://192.168.0.251:8080/appserver/";
+//static NSString *const kCZJServerAddr = @"http://192.168.0.251:8080/appserver/";
 //static NSString *const kCZJServerAddr = @"http://101.201.197.202:8080/appserver/";
 //static NSString *const kCZJServerAddr = @"http://101.200.189.9:8080/appserver2/";
-//static NSString *const kCZJServerAddr = @"http://czapp.chezhijian.com/appserver2";
+static NSString *const kCZJServerAddr = @"http://czapp.chezhijian.com/appserver/";
 
 //首页接口组
 static NSString *const kCZJServerAPIShowHome = @"chezhu/showHomeV2.do";                             //获取首页数据
@@ -148,6 +148,12 @@ static NSString *const kCZJServerAPIReplyEvalution = @"chezhu/evalReply.do";    
 static NSString *const kCZJServerAPIZHIBAOCARD = @"chezhu/showWarrantyCenter.do";                   //质保卡查询
 static NSString *const kCZJServerAPICheckVersion = @"chezhu/checkVersion.do";                       //检测版本
 static NSString *const kCZJServerAPIGetStartPage = @"chezhu/loadStartPage.do";                      //获取启动页信息
+static NSString *const kCZJServerAPIFeedBack = @"chezhu/sendSuggestion.do";                         //意见反馈
+
+static NSString *const SHARE_URL = @"http://czapp.chezhijian.com/appserver/html/share.html";        //分享的url
+static NSString *const SHARE_LOGO_URL = @"http://czapp.chezhijian.com/appserver/images/logo.png";   //分享的LOGO
+static NSString *const SHARE_CONTENT = @"车之健是汽车后市场的移动商城,每用一次,多省一点";                  //分享的内容
+
 
 
 //--------------------------------------------------
@@ -157,10 +163,9 @@ static NSString *const YUE_HINT = @"jsp/cardmoney.jsp";                         
 static NSString *const COUPON_HINT = @"jsp/coupon.jsp";                                             //优惠券使用说明
 
 static NSString *const SUOLUE_PIC_200 = @"?imageView2/1/w/200/h/200/q/75";
-static NSString *const SUOLUE_PIC_500 = @"?imageView2/1/w/600/h/600/q/75";
-static NSString *const SUOLUE_PIC_800 = @"?imageView2/1/w/800/h/800/q/75";
+static NSString *const SUOLUE_PIC_600 = @"?imageView2/1/w/600/h/600/q/75";
+static NSString *const SUOLUE_PIC_1000 = @"?imageView2/1/w/1000/h/1000/q/75";
 static NSString *const SUOLUE_PIC_400 = @"?imageView2/1/w/400/h/400/q/75";
-static NSString *const SUOLUE_PIC_150 = @"?imageView2/1/w/150/h/150/q/75";
 
 
 //-----------------------系统常量定义---------------------------
@@ -213,6 +218,7 @@ static NSString *const kUserDefaultStartPageForm = @"StartPageForm";            
 
 //-----------------------常用字符常量定义---------------------------
 //登录信息
+static NSString *const kCZJLastVersion = @"lastVersion";
 static NSString *const kCZJIsFirstLogin = @"isFirstLogin";
 static NSString *const kCZJIsUserHaveLogined = @"isHaveLogined";
 
@@ -238,6 +244,7 @@ static NSString *const kCZJAlipaySuccseful = @"alipaySuccseful";
 //-----------------------Notification常量定义---------------------------
 static NSString *const kCZJNotifiRefreshDetailView = @"refreshDetailView";
 static NSString *const kCZJNotifiPicDetailBack = @"PicDetailBack";
+static NSString *const kCZJNotifiJumpToOrderList = @"jumptoOrderList";
 static NSString *const kCZJNotifikOrderListType = @"kOrderListType";
 static NSString *const kCZJNotifiRefreshOrderlist = @"refreshOrderListNotify";
 static NSString *const kCZJNotifiRefreshReturnOrderlist = @"refreshReturnOrderListNotify";

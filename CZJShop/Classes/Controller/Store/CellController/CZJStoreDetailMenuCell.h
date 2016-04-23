@@ -12,4 +12,5 @@
 @property (weak, nonatomic) IBOutlet UIView *myView;
 @property (strong, nonatomic)NSMutableArray* titles;
 
+- (void)updateCellTitleColor:(NSInteger)tapIndex;
 @end

@@ -48,6 +48,7 @@
 
 
 - (void)addCZJNaviBarView:(CZJNaviBarViewType)naviBarViewType;
+- (void)addCZJNaviBarViewWithNotHiddenNavi:(CZJNaviBarViewType)naviBarViewType;
 
 - (void)showCZJAlertView:(NSString*)promptStr
        andConfirmHandler:(CZJGeneralBlock)confirmBlock

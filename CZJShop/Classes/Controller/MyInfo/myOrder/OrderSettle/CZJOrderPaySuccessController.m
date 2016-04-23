@@ -15,7 +15,7 @@
 @interface CZJOrderPaySuccessController ()
 
 @property (weak, nonatomic) IBOutlet UILabel *orderNumber;
-@property (weak, nonatomic) IBOutlet UILabel *payNumber;
+@property (weak, nonatomic) IBOutlet MMLabel *payNumber;
 - (IBAction)showOrderAction:(id)sender;
 - (IBAction)backToHomeAction:(id)sender;
 
@@ -25,6 +25,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.payNumber.keyWordFont = SYSTEMFONT(10);
     [self addCZJNaviBarView:CZJNaviBarViewTypeBack];
     self.naviBarView.btnShop.hidden = YES;
     self.naviBarView.customSearchBar.hidden = YES;
@@ -39,8 +40,9 @@
 
 - (void)viewDidAppear:(BOOL)animated
 {
-    self.orderNumber.text = self.orderNo;
-    self.payNumber.text = self.orderPrice;
+//    self.orderNumber.text = self.orderNo;
+    self.payNumber.text = [NSString stringWithFormat:@"￥%@",self.orderPrice];
+    self.payNumber.keyWord = @"￥";
 }
 
 - (IBAction)showOrderAction:(id)sender

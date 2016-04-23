@@ -42,6 +42,11 @@ CZJNaviagtionBarViewDelegate
     [self initMiaoShaViews];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateMiaoShaTime:) name:kCZJNotifikOrderListType object:nil];
+}
+
 - (void)viewDidDisappear:(BOOL)animated
 {
     [[NSNotificationCenter defaultCenter]removeObserver:self name:kCZJNotifikOrderListType object:nil];
@@ -70,16 +75,19 @@ CZJNaviagtionBarViewDelegate
     //秒杀场次栏
     miaoShaTimesView = [CZJUtils getXibViewByName:@"CZJMiaoShaTimesView"];
     miaoShaTimesView.frame = CGRectMake(0, 64, PJ_SCREEN_WIDTH, 50);
+    miaoShaTimesView.hidden = YES;
     [self.view addSubview:miaoShaTimesView];
     
     //秒杀倒计时栏
     headerCell = [CZJUtils getXibViewByName:@"CZJMiaoShaControlHeaderCell"];
     headerCell.frame = CGRectMake(0, 114, PJ_SCREEN_WIDTH, 35);
+    headerCell.hidden = YES;
     [self.view addSubview:headerCell];
     
     //红色提示小三角
     trangleView = [[UIImageView alloc]initWithImage:IMAGENAMED(@"miaosha_icon_angle")];
     [trangleView setSize:CGSizeMake(21, 6)];
+    trangleView.hidden = YES;
     [self.view addSubview:trangleView];
     
     //秒杀内容
@@ -109,7 +117,7 @@ CZJNaviagtionBarViewDelegate
 {
     CZJDateTime* dateTime3 = [CZJUtils getLeftDatetime:[miaoShaControllerForm.currentTime integerValue]/1000];
     DLog(@" day:%@,hour:%@,minute:%@,second:%@", dateTime3.day,dateTime3.hour,dateTime3.minute,dateTime3.second);
-    for (int i = 0; i < pageControls.count; i++)
+    for (int i = 0; i < miaoShaControllerForm.skillTimes.count; i++)
     {
         CZJMiaoShaTimesForm* miaoShaTimes = miaoShaControllerForm.skillTimes[i];
         CZJMiaoShaListBaseController* baseVC = pageControls[i];
@@ -125,7 +133,6 @@ CZJNaviagtionBarViewDelegate
         [topTimeView addGestureRecognizer:tapGes];
     }
     [pageControlView setTitleArray:@[@"",@"",@"",@"",@""] andVCArray:pageControls];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateMiaoShaTime:) name:kCZJNotifikOrderListType object:nil];
     [self updateMiaoshaHeaderViews];
 }
 
@@ -140,6 +147,7 @@ CZJNaviagtionBarViewDelegate
 - (void)updateMiaoshaHeaderViews
 {
     UIView* miaoShaViewTmp;
+    miaoShaTimesView.hidden = NO;
     //秒杀场次栏
     for (UIView* cellView in [miaoShaTimesView.contentView subviews])
     {
@@ -154,6 +162,7 @@ CZJNaviagtionBarViewDelegate
     }
 
     //红色提示小三角
+    trangleView.hidden = NO;
     [trangleView setPosition:CGPointMake(miaoShaViewTmp.frame.origin.x + miaoShaViewTmp.frame.size.width * 0.5, 113) atAnchorPoint:CGPointTopMiddle];
     
     
@@ -163,6 +172,7 @@ CZJNaviagtionBarViewDelegate
     NSInteger skillTime = [miaoshaTimeForm.skillTime integerValue];
     NSInteger timeinterval = [miaoshaTimeForm.status boolValue] ? ([((CZJMiaoShaTimesForm*)miaoShaControllerForm.skillTimes[currentIndex + 1]).skillTime integerValue] - currentTime) : (skillTime - currentTime);
     [self setTimestamp:timeinterval/1000];
+    headerCell.hidden = NO;
     headerCell.miaoShaTypeLabel.text = [miaoshaTimeForm.status boolValue] ? @"抢购中" : @"即将开始";
     headerCell.miaoshaTimeStampLabel.text = [miaoshaTimeForm.status boolValue] ? @"距结束" : @"距开始";
 }
@@ -210,10 +220,21 @@ CZJNaviagtionBarViewDelegate
     CZJDetailViewController* detailVC = (CZJDetailViewController*)[CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:kCZJStoryBoardIDGoodsDetailVC];
     detailVC.storeItemPid = cellForm.storeItemPid;
     detailVC.detaiViewType = CZJDetailTypeGoods;
-    detailVC.promotionType = CZJGoodsPromotionTypeMiaoSha;
-    detailVC.promotionPrice = cellForm.currentPrice;
-    detailVC.miaoShaInterval = _timestamp;
-    detailVC.skillId = miaoShaTimes.skillId;
+    
+    if ([miaoShaTimes.status boolValue] &&
+        [cellForm.limitPoint floatValue] < 1.0)
+    {
+        detailVC.promotionType = CZJGoodsPromotionTypeMiaoSha;
+        detailVC.promotionPrice =  cellForm.currentPrice;
+        detailVC.miaoShaInterval = _timestamp;
+        detailVC.skillId = miaoShaTimes.skillId;
+    }
+    else
+    {
+        detailVC.promotionType = CZJGoodsPromotionTypeGeneral;
+        detailVC.promotionPrice =  @"0";
+    }
+
     [self.navigationController pushViewController:detailVC animated:YES];
 }
 

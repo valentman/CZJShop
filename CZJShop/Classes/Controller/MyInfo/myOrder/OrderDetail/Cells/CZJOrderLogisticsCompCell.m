@@ -12,6 +12,7 @@
 
 - (void)awakeFromNib {
     self.spatatorWidth.constant = 0.5;
+    [super awakeFromNib];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

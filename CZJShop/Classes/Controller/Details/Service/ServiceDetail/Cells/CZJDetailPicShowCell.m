@@ -46,7 +46,7 @@
 {
     __weak typeof(self) weak = self;
     imageView.alpha = 0;
-    [imageView sd_setImageWithURL:[_imageArray objectAtIndex:index] placeholderImage:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+    [imageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",[_imageArray objectAtIndex:index],SUOLUE_PIC_600]] placeholderImage:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
        [UIView animateWithDuration:1.0 animations:^{
            weak.holderImg.alpha = 0;
            imageView.alpha = 1;

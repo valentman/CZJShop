@@ -30,8 +30,12 @@ CZJDeliveryAddrListCellDelegate
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    
+    [self initMyViews];
+    [self getAddrListDataFromServer];
+}
+
+- (void)initMyViews
+{
     _addrListAry = [NSMutableArray array];
     self.addrListTableView.delegate = self;
     self.addrListTableView.dataSource = self;
@@ -39,19 +43,14 @@ CZJDeliveryAddrListCellDelegate
     UINib* nib = [UINib nibWithNibName:@"CZJDeliveryAddrListCell" bundle:nil];
     [self.addrListTableView registerNib:nib forCellReuseIdentifier:@"CZJDeliveryAddrListCell"];
     self.addrListTableView.tableFooterView = [[UIView alloc] init];
-    
     [self addCZJNaviBarView:CZJNaviBarViewTypeGeneral];
     self.naviBarView.mainTitleLabel.text = @"收货地址";
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [self getAddrListDataFromServer];
 }
 
 
 - (void)getAddrListDataFromServer
 {
+    [CZJUtils removeNoDataAlertViewFromTarget:self.view];
     [CZJBaseDataInstance loadAddrList:nil Success:^(id json){
         [self convertJsonDataToModel:json];
     } fail:^{
@@ -63,15 +62,24 @@ CZJDeliveryAddrListCellDelegate
 {
     [_addrListAry removeAllObjects];
     NSArray* tmpAry = [[CZJUtils DataFromJson:json] valueForKey:@"msg"];
+    if (tmpAry.count == 0)
+    {
+        self.addrListTableView.hidden = YES;
+        [self.addrListTableView reloadData];
+        [CZJUtils showNoDataAlertViewOnTarget:self.view withPromptString:@"您还没有收货地址，去添加吧/(ToT)/~~"];
+        return;
+    }
     for (NSDictionary* dict in tmpAry)
     {
         CZJAddrForm* form  = [CZJAddrForm objectWithKeyValues:dict];
         if (form.dftFlag)
         {//每次更新地址之后都将更新地址中得默认地址存到本地
+            [FileManager removeItemAtPath:[DocumentsDirectory stringByAppendingPathComponent:kCZJPlistFileDefaultDeliveryAddr] error:nil];
             [CZJUtils writeDictionaryToDocumentsDirectory:[form.keyValues mutableCopy] withPlistName:kCZJPlistFileDefaultDeliveryAddr];
         }
         [_addrListAry addObject:form];
     }
+    self.addrListTableView.hidden = NO;
     [self.addrListTableView reloadData];
 }
 
@@ -133,6 +141,18 @@ CZJDeliveryAddrListCellDelegate
     return 10;
 }
 
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    //去掉tableview中section的headerview粘性
+    CGFloat sectionHeaderHeight = 40;
+    if (scrollView.contentOffset.y<=sectionHeaderHeight&&scrollView.contentOffset.y>=0) {
+        scrollView.contentInset = UIEdgeInsetsMake(-scrollView.contentOffset.y, 0, 0, 0);
+    }
+    else if (scrollView.contentOffset.y>=sectionHeaderHeight) {
+        scrollView.contentInset = UIEdgeInsetsMake(-sectionHeaderHeight, 0, 0, 0);
+    }
+}
+
 #pragma mark- CZJDeliveryAddrListCellDelegate
 - (void)clickEditAddrButton:(id)sender andIndexPath:(NSIndexPath*)indexPath
 {
@@ -143,12 +163,12 @@ CZJDeliveryAddrListCellDelegate
 - (void)clickDeleteAddrButton:(id)sender andIndexPath:(NSIndexPath *)indexPath
 {
     __weak typeof(self) weak = self;
+    __block BOOL isDefalutDeliveryAddr = NO;
     [self showCZJAlertView:@"确定删除该地址？" andConfirmHandler:^{
         NSString* willDeleteAddrId = ((CZJAddrForm*)_addrListAry[indexPath.section]).addrId;
         NSDictionary* params = @{@"id" : willDeleteAddrId};
         
         NSDictionary* addrDict = [CZJUtils readDictionaryFromDocumentsDirectoryWithPlistName:kCZJPlistFileDefaultDeliveryAddr];
-        __block isDefalutDeliveryAddr = NO;
         CZJAddrForm* defalutAddr = [CZJAddrForm objectWithKeyValues:addrDict];
         if ([defalutAddr.addrId isEqualToString:willDeleteAddrId])
         {//所删除地址是否为默认地址，如果为默认地址，则删除本地存储的默认地址文件
@@ -156,8 +176,7 @@ CZJDeliveryAddrListCellDelegate
         }
         
         [CZJBaseDataInstance removeDeliveryAddr:params Success:^(id json){
-            [_addrListAry removeObjectAtIndex:indexPath.section];
-            [_addrListTableView reloadData];
+            [weak getAddrListDataFromServer];
             if (isDefalutDeliveryAddr)
             {
                 [FileManager removeItemAtPath:[DocumentsDirectory stringByAppendingPathComponent:kCZJPlistFileDefaultDeliveryAddr] error:nil];

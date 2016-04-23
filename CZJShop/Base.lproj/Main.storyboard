@@ -409,7 +409,7 @@
                                                             <action selector="storeAction:" destination="1NL-NI-3nV" eventType="touchUpInside" id="6KJ-eb-yBu"/>
                                                         </connections>
                                                     </button>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="门店" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g7n-4b-gbd">
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="进店" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g7n-4b-gbd">
                                                         <rect key="frame" x="2" y="28" width="31" height="20"/>
                                                         <animations/>
                                                         <constraints>
@@ -584,6 +584,7 @@
                         <outlet property="myScrollView" destination="qgN-gM-kK2" id="36e-0w-8TQ"/>
                         <outlet property="serviceView" destination="VFo-eZ-fwd" id="e9a-Dg-1Ua"/>
                         <outlet property="shoppingCartView" destination="6d8-GN-bqe" id="wqK-r4-GNN"/>
+                        <outlet property="storeView" destination="yiS-Fh-2Eg" id="nit-sM-TSV"/>
                         <segue destination="Lkd-DO-uAL" kind="push" identifier="segueToUserEvalution" id="XMN-tt-QLY"/>
                     </connections>
                 </viewController>
@@ -642,7 +643,7 @@
         <!--评价详情-->
         <scene sceneID="9mk-X8-zdY">
             <objects>
-                <viewController title="评价详情" extendedLayoutIncludesOpaqueBars="YES" hidesBottomBarWhenPushed="YES" id="fVL-gr-OkP" userLabel="评价详情" customClass="CZJUserEvalutionDetailController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="evaluateDetailSBID" title="评价详情" extendedLayoutIncludesOpaqueBars="YES" hidesBottomBarWhenPushed="YES" id="fVL-gr-OkP" userLabel="评价详情" customClass="CZJUserEvalutionDetailController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="hun-ne-gh1"/>
                         <viewControllerLayoutGuide type="bottom" id="4X2-9y-J77"/>
@@ -830,7 +831,6 @@
                     <navigationItem key="navigationItem" id="KsL-Og-Arh"/>
                     <nil key="simulatedTopBarMetrics"/>
                     <connections>
-                        <outlet property="cateNaviBarView" destination="cXM-Z5-708" id="TeG-rz-4Xl"/>
                         <outlet property="multiView" destination="Lsi-A4-FkV" id="vy6-HC-sXT"/>
                         <segue destination="KWm-qr-OMB" kind="push" identifier="segueToGoodsList" id="8UY-GN-64p"/>
                         <segue destination="4qu-mg-FqA" kind="push" identifier="segueToServiceList" id="Yrw-VN-Mar"/>
@@ -1401,7 +1401,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <animations/>
                         <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
-                        <color key="separatorColor" patternImage="A849C8DE-F284-42AA-A4BA-6E2D78C8AD27" colorSpace="pattern"/>
+                        <color key="separatorColor" patternImage="0542D57E-4EA5-4E88-9765-744B9919C229" colorSpace="pattern"/>
                         <inset key="separatorInset" minX="15" minY="0.0" maxX="15" maxY="0.0"/>
                         <sections>
                             <tableViewSection id="t6n-nw-cfg" userLabel="Activity">
@@ -1973,7 +1973,7 @@
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MoJ-KI-EOz">
                                         <rect key="frame" x="0.0" y="0.0" width="240" height="46"/>
                                         <animations/>
-                                        <color key="backgroundColor" red="1" green="0.40000000600000002" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" red="0.98431372640000003" green="0.27450981740000002" blue="0.3058823645" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="46" id="I6B-PZ-1zc"/>
                                         </constraints>
@@ -1999,7 +1999,7 @@
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <state key="normal" title="创建新账号">
-                                            <color key="titleColor" red="1" green="0.12874946139999999" blue="0.1621697557" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleColor" red="0.98431372640000003" green="0.27450981740000002" blue="0.3058823645" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <connections>
                                             <segue destination="hrs-j7-omz" kind="push" id="lel-ft-RgU"/>
@@ -2416,7 +2416,7 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DTp-NT-i5Y">
                                 <rect key="frame" x="40" y="280" width="240" height="46"/>
                                 <animations/>
-                                <color key="backgroundColor" red="1" green="0.40000000600000002" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="0.9843137264251709" green="0.27450981736183167" blue="0.30588236451148987" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="46" id="dOh-bp-QRX"/>
                                 </constraints>
@@ -2566,7 +2566,7 @@
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rjT-t4-xlh">
                                         <rect key="frame" x="189" y="0.0" width="131" height="50"/>
                                         <animations/>
-                                        <color key="backgroundColor" red="1" green="0.40000000600000002" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" red="0.98431372640000003" green="0.27450981740000002" blue="0.3058823645" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="J7G-qe-ktA"/>
                                             <constraint firstAttribute="width" constant="131" id="jiH-Te-WoF"/>
@@ -2597,7 +2597,7 @@
                                             <constraint firstAttribute="height" constant="21" id="6J6-eH-P2r"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                        <color key="textColor" red="1" green="0.40000000600000002" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="textColor" red="0.98431372640000003" green="0.27450981740000002" blue="0.3058823645" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
@@ -2650,10 +2650,10 @@
             </objects>
             <point key="canvasLocation" x="-898" y="2584"/>
         </scene>
-        <!--提交订单-->
+        <!--订单确认-->
         <scene sceneID="V6g-Z7-jac">
             <objects>
-                <viewController storyboardIdentifier="SBIDCommitSettle" title="提交订单" id="mAw-nk-uOF" customClass="CZJCommitOrderController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SBIDCommitSettle" title="订单确认" id="mAw-nk-uOF" customClass="CZJCommitOrderController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="cKh-9R-cDh"/>
                         <viewControllerLayoutGuide type="bottom" id="uyF-SO-xgs"/>
@@ -2703,13 +2703,13 @@
                                             <constraint firstAttribute="height" constant="16" id="qv7-hg-gqd"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                        <color key="textColor" red="1" green="0.40000000600000002" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="textColor" red="0.98431372640000003" green="0.27450981740000002" blue="0.3058823645" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uxh-PC-Da2">
                                         <rect key="frame" x="189" y="0.0" width="131" height="50"/>
                                         <animations/>
-                                        <color key="backgroundColor" red="1" green="0.40000000600000002" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" red="0.98431372640000003" green="0.27450981740000002" blue="0.3058823645" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="131" id="wLy-Iy-Bwd"/>
                                         </constraints>
@@ -2752,7 +2752,7 @@
                             <constraint firstItem="SGs-Fg-eEb" firstAttribute="leading" secondItem="E9i-yI-kmG" secondAttribute="leading" id="mn3-b3-BJF"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="提交订单" id="x9t-HM-p8A"/>
+                    <navigationItem key="navigationItem" title="订单确认" id="x9t-HM-p8A"/>
                     <connections>
                         <outlet property="myTableView" destination="WXl-OE-GPC" id="Y7s-fc-mj8"/>
                         <outlet property="totalPriceLabel" destination="yZ3-Dl-WRn" id="gdr-TY-uR8"/>
@@ -2819,13 +2819,13 @@
                                             <constraint firstAttribute="height" constant="16" id="cSU-nf-3eh"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                        <color key="textColor" red="1" green="0.40000000600000002" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="textColor" red="0.9843137264251709" green="0.27450981736183167" blue="0.30588236451148987" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hVS-8d-U1d">
                                         <rect key="frame" x="189" y="0.0" width="131" height="50"/>
                                         <animations/>
-                                        <color key="backgroundColor" red="1" green="0.40000000600000002" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" red="0.98431372640000003" green="0.27450981740000002" blue="0.3058823645" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="131" id="ymg-it-PMu"/>
                                         </constraints>
@@ -2943,7 +2943,7 @@
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1dJ-Xb-0um">
                                         <rect key="frame" x="189" y="0.0" width="131" height="50"/>
                                         <animations/>
-                                        <color key="backgroundColor" red="1" green="0.40000000600000002" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" red="0.98431372640000003" green="0.27450981740000002" blue="0.3058823645" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="131" id="BiB-qo-ACg"/>
                                             <constraint firstAttribute="height" constant="50" id="CFR-81-Wjo"/>
@@ -2974,7 +2974,7 @@
                                             <constraint firstAttribute="height" constant="21" id="StZ-gf-Kbt"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                        <color key="textColor" red="1" green="0.40000000600000002" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="textColor" red="0.98431372640000003" green="0.27450981740000002" blue="0.3058823645" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
@@ -3049,7 +3049,7 @@
                                         </state>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                <real key="value" value="3.5"/>
+                                                <integer key="value" value="4"/>
                                             </userDefinedRuntimeAttribute>
                                             <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
                                                 <real key="value" value="0.5"/>
@@ -3067,11 +3067,11 @@
                                         <animations/>
                                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                         <state key="normal" title="查看施工进度">
-                                            <color key="titleColor" red="1" green="0.40000000600000002" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleColor" red="0.98431372640000003" green="0.27450981740000002" blue="0.3058823645" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                <real key="value" value="3.5"/>
+                                                <integer key="value" value="4"/>
                                             </userDefinedRuntimeAttribute>
                                             <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
                                                 <real key="value" value="0.5"/>
@@ -3089,11 +3089,11 @@
                                         <animations/>
                                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                         <state key="normal" title="付款">
-                                            <color key="titleColor" red="1" green="0.40000000600000002" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleColor" red="0.98431372640000003" green="0.27450981740000002" blue="0.3058823645" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                <real key="value" value="3.5"/>
+                                                <integer key="value" value="4"/>
                                             </userDefinedRuntimeAttribute>
                                             <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
                                                 <real key="value" value="0.5"/>
@@ -3140,7 +3140,7 @@
                                         </state>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                <real key="value" value="3.5"/>
+                                                <integer key="value" value="4"/>
                                             </userDefinedRuntimeAttribute>
                                             <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
                                                 <real key="value" value="0.5"/>
@@ -3161,11 +3161,11 @@
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                         <state key="normal" title="确认收货">
-                                            <color key="titleColor" red="1" green="0.40000000600000002" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleColor" red="0.98431372640000003" green="0.27450981740000002" blue="0.3058823645" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                <real key="value" value="3.5"/>
+                                                <integer key="value" value="4"/>
                                             </userDefinedRuntimeAttribute>
                                             <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
                                                 <real key="value" value="0.5"/>
@@ -3205,7 +3205,7 @@
                                         </state>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                <real key="value" value="3.5"/>
+                                                <integer key="value" value="4"/>
                                             </userDefinedRuntimeAttribute>
                                             <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
                                                 <real key="value" value="0.5"/>
@@ -3242,7 +3242,7 @@
                                         </state>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                <real key="value" value="3.5"/>
+                                                <integer key="value" value="4"/>
                                             </userDefinedRuntimeAttribute>
                                             <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
                                                 <real key="value" value="0.5"/>
@@ -3279,7 +3279,7 @@
                                         </state>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                <real key="value" value="3.5"/>
+                                                <integer key="value" value="4"/>
                                             </userDefinedRuntimeAttribute>
                                             <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
                                                 <real key="value" value="0.5"/>
@@ -3300,11 +3300,11 @@
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                         <state key="normal" title="付款">
-                                            <color key="titleColor" red="1" green="0.40000000600000002" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleColor" red="0.98431372640000003" green="0.27450981740000002" blue="0.3058823645" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                <real key="value" value="3.5"/>
+                                                <integer key="value" value="4"/>
                                             </userDefinedRuntimeAttribute>
                                             <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
                                                 <real key="value" value="0.5"/>
@@ -3329,7 +3329,7 @@
                                         </state>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                <real key="value" value="3.5"/>
+                                                <integer key="value" value="4"/>
                                             </userDefinedRuntimeAttribute>
                                             <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
                                                 <real key="value" value="0.5"/>
@@ -3372,7 +3372,7 @@
                                         </state>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                <real key="value" value="3.5"/>
+                                                <integer key="value" value="4"/>
                                             </userDefinedRuntimeAttribute>
                                             <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
                                                 <real key="value" value="0.5"/>
@@ -3397,7 +3397,7 @@
                                         </state>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                <real key="value" value="3.5"/>
+                                                <integer key="value" value="4"/>
                                             </userDefinedRuntimeAttribute>
                                             <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
                                                 <real key="value" value="0.5"/>
@@ -3437,7 +3437,7 @@
                                         </state>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                <real key="value" value="3.5"/>
+                                                <integer key="value" value="4"/>
                                             </userDefinedRuntimeAttribute>
                                             <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
                                                 <real key="value" value="0.5"/>
@@ -3462,7 +3462,7 @@
                                         </state>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                <real key="value" value="3.5"/>
+                                                <integer key="value" value="4"/>
                                             </userDefinedRuntimeAttribute>
                                             <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
                                                 <real key="value" value="0.5"/>
@@ -3502,7 +3502,7 @@
                                         </state>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                <real key="value" value="3.5"/>
+                                                <integer key="value" value="4"/>
                                             </userDefinedRuntimeAttribute>
                                             <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
                                                 <real key="value" value="0.5"/>
@@ -3523,17 +3523,17 @@
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                         <state key="normal" title="去评价">
-                                            <color key="titleColor" red="0.20000000300000001" green="0.20000000300000001" blue="0.20000000300000001" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleColor" red="0.98431372640000003" green="0.27450981740000002" blue="0.3058823645" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                <real key="value" value="3.5"/>
+                                                <integer key="value" value="4"/>
                                             </userDefinedRuntimeAttribute>
                                             <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
                                                 <real key="value" value="0.5"/>
                                             </userDefinedRuntimeAttribute>
                                             <userDefinedRuntimeAttribute type="color" keyPath="layer.borderColorWithUIColor">
-                                                <color key="value" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                                <color key="value" red="0.9843137264251709" green="0.27450981736183167" blue="0.30588236451148987" alpha="1" colorSpace="calibratedRGB"/>
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
                                         <connections>
@@ -3567,7 +3567,7 @@
                                         </state>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                <real key="value" value="3.5"/>
+                                                <integer key="value" value="4"/>
                                             </userDefinedRuntimeAttribute>
                                             <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
                                                 <real key="value" value="0.5"/>
@@ -3588,11 +3588,11 @@
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                         <state key="normal" title="去评价">
-                                            <color key="titleColor" red="1" green="0.40000000600000002" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleColor" red="0.98431372640000003" green="0.27450981740000002" blue="0.3058823645" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                <real key="value" value="3.5"/>
+                                                <integer key="value" value="4"/>
                                             </userDefinedRuntimeAttribute>
                                             <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
                                                 <real key="value" value="0.5"/>
@@ -3632,7 +3632,7 @@
                                         </state>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                <real key="value" value="3.5"/>
+                                                <integer key="value" value="4"/>
                                             </userDefinedRuntimeAttribute>
                                             <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
                                                 <real key="value" value="0.5"/>
@@ -3665,11 +3665,11 @@
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                         <state key="normal" title="付款">
-                                            <color key="titleColor" red="1" green="0.40000000600000002" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleColor" red="0.98431372640000003" green="0.27450981740000002" blue="0.3058823645" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                <real key="value" value="3.5"/>
+                                                <integer key="value" value="4"/>
                                             </userDefinedRuntimeAttribute>
                                             <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
                                                 <real key="value" value="0.5"/>
@@ -3694,7 +3694,7 @@
                                         </state>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                <real key="value" value="3.5"/>
+                                                <integer key="value" value="4"/>
                                             </userDefinedRuntimeAttribute>
                                             <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
                                                 <real key="value" value="0.5"/>
@@ -3730,11 +3730,11 @@
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                         <state key="normal" title="去评价">
-                                            <color key="titleColor" red="1" green="0.40000000600000002" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleColor" red="0.98431372640000003" green="0.27450981740000002" blue="0.3058823645" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                <real key="value" value="3.5"/>
+                                                <integer key="value" value="4"/>
                                             </userDefinedRuntimeAttribute>
                                             <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
                                                 <real key="value" value="0.5"/>
@@ -3768,7 +3768,7 @@
                                         </state>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                <real key="value" value="3.5"/>
+                                                <integer key="value" value="4"/>
                                             </userDefinedRuntimeAttribute>
                                             <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
                                                 <real key="value" value="0.5"/>
@@ -3790,7 +3790,7 @@
                                         </state>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                <real key="value" value="3.5"/>
+                                                <integer key="value" value="4"/>
                                             </userDefinedRuntimeAttribute>
                                             <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
                                                 <real key="value" value="0.5"/>
@@ -3829,7 +3829,7 @@
                                         </state>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                <real key="value" value="3.5"/>
+                                                <integer key="value" value="4"/>
                                             </userDefinedRuntimeAttribute>
                                             <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
                                                 <real key="value" value="0.5"/>
@@ -3884,7 +3884,6 @@
                             <constraint firstItem="GrZ-uC-gWx" firstAttribute="height" secondItem="CQZ-KX-Bgt" secondAttribute="height" id="Duq-Dr-mEq"/>
                             <constraint firstAttribute="trailing" secondItem="7Xw-cu-8cP" secondAttribute="trailing" id="FcN-OK-zeO"/>
                             <constraint firstItem="8VR-8Q-lMm" firstAttribute="height" secondItem="CQZ-KX-Bgt" secondAttribute="height" id="Ffw-Jv-zif"/>
-                            <constraint firstItem="ccX-Xg-iTB" firstAttribute="top" secondItem="TOS-Qn-etf" secondAttribute="bottom" id="JgO-5b-9I9"/>
                             <constraint firstItem="lpd-1F-MvY" firstAttribute="leading" secondItem="PTm-3Q-4tX" secondAttribute="leading" id="K3M-8U-UMP"/>
                             <constraint firstItem="cQ3-0t-lzV" firstAttribute="height" secondItem="CQZ-KX-Bgt" secondAttribute="height" id="KP3-eQ-5WI"/>
                             <constraint firstAttribute="trailing" secondItem="GrZ-uC-gWx" secondAttribute="trailing" id="KXu-oe-aGN"/>
@@ -3907,6 +3906,7 @@
                             <constraint firstItem="PpD-FD-zkH" firstAttribute="top" secondItem="kRd-bI-oFv" secondAttribute="bottom" id="eFD-Lj-1ks"/>
                             <constraint firstItem="0Pe-ji-9xX" firstAttribute="leading" secondItem="PTm-3Q-4tX" secondAttribute="leading" id="eud-VN-E86"/>
                             <constraint firstItem="RhH-LZ-8FV" firstAttribute="height" secondItem="CQZ-KX-Bgt" secondAttribute="height" id="f0W-iO-EsI"/>
+                            <constraint firstItem="PpD-FD-zkH" firstAttribute="top" secondItem="TOS-Qn-etf" secondAttribute="bottom" constant="56" id="fFP-gk-q5J"/>
                             <constraint firstItem="eiR-S6-zrk" firstAttribute="height" secondItem="CQZ-KX-Bgt" secondAttribute="height" id="fcM-s2-Un2"/>
                             <constraint firstItem="TOS-Qn-etf" firstAttribute="leading" secondItem="PTm-3Q-4tX" secondAttribute="leading" id="gHm-bU-jor"/>
                             <constraint firstItem="kRd-bI-oFv" firstAttribute="height" secondItem="CQZ-KX-Bgt" secondAttribute="height" id="gbM-M3-0bO"/>
@@ -3945,6 +3945,7 @@
                         <outlet property="carCheckView" destination="kRd-bI-oFv" id="CTQ-lB-sJ1"/>
                         <outlet property="goEvaluateView" destination="nxG-dv-Hfc" id="wtp-fE-HLo"/>
                         <outlet property="myTableView" destination="TOS-Qn-etf" id="Vd3-Th-aXD"/>
+                        <outlet property="myTableViewButtom" destination="fFP-gk-q5J" id="Qzz-G7-Jsu"/>
                         <outlet property="noReceiveView" destination="TxE-DN-iPc" id="fad-vj-1JV"/>
                         <outlet property="onlyCarCheckView" destination="n2Y-qm-WYm" id="tXG-4l-btG"/>
                         <outlet property="payCancleOrderView" destination="RhH-LZ-8FV" id="Vx0-TA-f9I"/>
@@ -4724,7 +4725,7 @@
                                             <constraint firstAttribute="width" constant="131" id="rTi-iD-bJC"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <state key="normal" title="删除">
+                                        <state key="normal" title="取消关注">
                                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <connections>
@@ -4766,6 +4767,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="buttomView" destination="7cj-nT-zGU" id="l9w-O7-pGK"/>
+                        <outlet property="deleteBtn" destination="JTe-SU-exF" id="kIi-L5-1lm"/>
                         <outlet property="myTableView" destination="4bu-eG-OmT" id="7Rj-5O-oKs"/>
                         <outlet property="selectAllBtn" destination="EnI-De-cJv" id="etE-AB-WZ7"/>
                     </connections>
@@ -4985,13 +4987,13 @@
                                             <constraint firstAttribute="width" constant="100" id="r84-6K-YoP"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                        <color key="textColor" red="1" green="0.40000000600000002" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="textColor" red="0.98431372640000003" green="0.27450981740000002" blue="0.3058823645" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ytI-ZK-tiA">
                                         <rect key="frame" x="200" y="0.0" width="120" height="50"/>
                                         <animations/>
-                                        <color key="backgroundColor" red="1" green="0.40000000600000002" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" red="0.98431372640000003" green="0.27450981740000002" blue="0.3058823645" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="120" id="M5V-qt-1Se"/>
                                         </constraints>
@@ -5225,7 +5227,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="t0G-My-EOC" customClass="CZJTextView">
-                                <rect key="frame" x="20" y="20" width="280" height="200"/>
+                                <rect key="frame" x="20" y="40" width="280" height="200"/>
                                 <animations/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
@@ -5235,9 +5237,9 @@
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Npv-UD-kxC">
-                                <rect key="frame" x="50" y="264" width="220" height="50"/>
+                                <rect key="frame" x="50" y="284" width="220" height="50"/>
                                 <animations/>
-                                <color key="backgroundColor" red="1" green="0.40000000600000002" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="0.98431372640000003" green="0.27450981740000002" blue="0.3058823645" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="Ffk-zU-hXb"/>
                                 </constraints>
@@ -5249,6 +5251,9 @@
                                         <integer key="value" value="3"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="confirmAction:" destination="eoR-X0-XT7" eventType="touchUpInside" id="Onr-MX-dsE"/>
+                                </connections>
                             </button>
                         </subviews>
                         <animations/>
@@ -5257,7 +5262,7 @@
                             <constraint firstItem="t0G-My-EOC" firstAttribute="leading" secondItem="DOG-t2-bhE" secondAttribute="leading" constant="20" id="8nN-Bk-F1n"/>
                             <constraint firstAttribute="trailing" secondItem="Npv-UD-kxC" secondAttribute="trailing" constant="50" id="bVe-oT-xsP"/>
                             <constraint firstAttribute="trailing" secondItem="t0G-My-EOC" secondAttribute="trailing" constant="20" id="cbN-XO-SeP"/>
-                            <constraint firstItem="t0G-My-EOC" firstAttribute="top" secondItem="1jN-Di-e1X" secondAttribute="bottom" id="iMY-0A-p64"/>
+                            <constraint firstItem="t0G-My-EOC" firstAttribute="top" secondItem="1jN-Di-e1X" secondAttribute="bottom" constant="20" id="iMY-0A-p64"/>
                             <constraint firstItem="Npv-UD-kxC" firstAttribute="top" secondItem="t0G-My-EOC" secondAttribute="bottom" constant="44" id="m6j-6y-N5M"/>
                             <constraint firstItem="Npv-UD-kxC" firstAttribute="leading" secondItem="DOG-t2-bhE" secondAttribute="leading" constant="50" id="xJh-a6-wf9"/>
                         </constraints>
@@ -5776,7 +5781,7 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Etm-YD-MCj">
                                 <rect key="frame" x="50" y="337" width="220" height="46"/>
                                 <animations/>
-                                <color key="backgroundColor" red="1" green="0.40000000600000002" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="0.98431372640000003" green="0.27450981740000002" blue="0.3058823645" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="46" id="ya1-ui-rRU"/>
                                 </constraints>
@@ -5933,14 +5938,14 @@
                                             </constraint>
                                         </constraints>
                                     </view>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="33o-QK-OQm">
-                                        <rect key="frame" x="0.0" y="-147" width="30" height="30"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="33o-QK-OQm">
+                                        <rect key="frame" x="5" y="5" width="60" height="51"/>
                                         <animations/>
                                         <connections>
                                             <action selector="chooseCarPlateNumAction:" destination="dE4-Y7-9IX" eventType="touchUpInside" id="HZg-D1-Urq"/>
                                         </connections>
                                     </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="川A" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5aa-kg-K0v">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5aa-kg-K0v">
                                         <rect key="frame" x="15" y="20" width="36" height="21"/>
                                         <animations/>
                                         <constraints>
@@ -5948,7 +5953,7 @@
                                             <constraint firstAttribute="height" constant="21" id="SQ4-Yq-2kU"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <color key="textColor" red="1" green="0.40000000600000002" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="textColor" red="0.98431372640000003" green="0.27450981740000002" blue="0.3058823645" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FKs-va-lbM">
@@ -5982,15 +5987,19 @@
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
+                                    <constraint firstItem="TS1-CV-U4w" firstAttribute="leading" secondItem="33o-QK-OQm" secondAttribute="trailing" constant="15" id="0zp-wO-AVQ"/>
                                     <constraint firstAttribute="height" constant="61" id="BeG-N4-R3b"/>
                                     <constraint firstItem="5aa-kg-K0v" firstAttribute="leading" secondItem="C86-Ar-bfk" secondAttribute="leading" constant="15" id="CGr-3F-pWo"/>
                                     <constraint firstItem="2oE-W3-Xj8" firstAttribute="centerY" secondItem="C86-Ar-bfk" secondAttribute="centerY" id="LX3-5i-bwd"/>
                                     <constraint firstItem="TS1-CV-U4w" firstAttribute="top" secondItem="C86-Ar-bfk" secondAttribute="top" id="Ont-Xq-bdH"/>
+                                    <constraint firstItem="33o-QK-OQm" firstAttribute="leading" secondItem="C86-Ar-bfk" secondAttribute="leading" constant="5" id="PTd-5r-gfN"/>
                                     <constraint firstItem="FKs-va-lbM" firstAttribute="centerY" secondItem="C86-Ar-bfk" secondAttribute="centerY" id="TLw-4R-neZ"/>
                                     <constraint firstItem="5aa-kg-K0v" firstAttribute="centerY" secondItem="C86-Ar-bfk" secondAttribute="centerY" id="Ya5-Ug-eHF"/>
                                     <constraint firstAttribute="trailing" secondItem="FKs-va-lbM" secondAttribute="trailing" constant="15" id="Yav-6A-5EZ"/>
+                                    <constraint firstItem="33o-QK-OQm" firstAttribute="top" secondItem="C86-Ar-bfk" secondAttribute="top" constant="5" id="d5Y-aZ-oXt"/>
                                     <constraint firstItem="TS1-CV-U4w" firstAttribute="leading" secondItem="C86-Ar-bfk" secondAttribute="leading" constant="80" id="dUM-tO-huL"/>
                                     <constraint firstAttribute="bottom" secondItem="TS1-CV-U4w" secondAttribute="bottom" id="fLZ-YH-zvv"/>
+                                    <constraint firstAttribute="bottom" secondItem="33o-QK-OQm" secondAttribute="bottom" constant="5" id="fOF-VL-drk"/>
                                     <constraint firstItem="FKs-va-lbM" firstAttribute="leading" secondItem="2oE-W3-Xj8" secondAttribute="trailing" constant="10" id="oJx-Nv-Wq8"/>
                                     <constraint firstItem="2oE-W3-Xj8" firstAttribute="leading" secondItem="TS1-CV-U4w" secondAttribute="trailing" constant="8" id="qg2-7W-cYd"/>
                                 </constraints>
@@ -5998,7 +6007,7 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JpU-Y2-h55">
                                 <rect key="frame" x="50" y="258" width="220" height="46"/>
                                 <animations/>
-                                <color key="backgroundColor" red="1" green="0.40000000600000002" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="0.9843137264251709" green="0.27450981736183167" blue="0.30588236451148987" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="46" id="7KE-90-wE4"/>
                                 </constraints>
@@ -6303,7 +6312,7 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Un7-fx-PxI">
                                 <rect key="frame" x="50" y="392" width="220" height="50"/>
                                 <animations/>
-                                <color key="backgroundColor" red="1" green="0.40000000600000002" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="0.98431372640000003" green="0.27450981740000002" blue="0.3058823645" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="1jT-eA-7Pn"/>
                                 </constraints>
@@ -6319,18 +6328,18 @@
                                     <action selector="showOrderAction:" destination="3EO-oy-Uxv" eventType="touchUpInside" id="cS9-zo-Ya5"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="在线支付:" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gkv-Sy-5LM">
-                                <rect key="frame" x="100" y="324" width="60" height="15"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="在线支付金额:" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gkv-Sy-5LM">
+                                <rect key="frame" x="80" y="324" width="80" height="15"/>
                                 <animations/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="60" id="4zi-h6-PV6"/>
+                                    <constraint firstAttribute="width" constant="80" id="4zi-h6-PV6"/>
                                     <constraint firstAttribute="height" constant="15" id="PCl-fH-zZ6"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <color key="textColor" red="0.60000002379999995" green="0.60000002379999995" blue="0.60000002379999995" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="订单编号:" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pOZ-Kd-2mm">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pOZ-Kd-2mm">
                                 <rect key="frame" x="100" y="347" width="60" height="15"/>
                                 <animations/>
                                 <constraints>
@@ -6352,7 +6361,7 @@
                                 <color key="textColor" red="0.60000002379999995" green="0.60000002379999995" blue="0.60000002379999995" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g0C-8j-9zN">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g0C-8j-9zN" customClass="MMLabel">
                                 <rect key="frame" x="165" y="324" width="100" height="15"/>
                                 <animations/>
                                 <constraints>
@@ -6394,7 +6403,7 @@
                             <constraint firstItem="IIt-mT-jHY" firstAttribute="top" secondItem="2Ld-hf-ypK" secondAttribute="bottom" constant="80" id="3JZ-Gu-YEb"/>
                             <constraint firstItem="fxp-vc-tN4" firstAttribute="leading" secondItem="eKg-y8-Idp" secondAttribute="leading" constant="50" id="45p-5k-Qvh"/>
                             <constraint firstItem="Un7-fx-PxI" firstAttribute="top" secondItem="1Ay-ZR-iZD" secondAttribute="bottom" constant="30" id="9kv-L7-ulT"/>
-                            <constraint firstItem="Gkv-Sy-5LM" firstAttribute="centerX" secondItem="eKg-y8-Idp" secondAttribute="centerX" constant="-30" id="BJh-Jf-UCC"/>
+                            <constraint firstItem="Gkv-Sy-5LM" firstAttribute="centerX" secondItem="eKg-y8-Idp" secondAttribute="centerX" constant="-40" id="BJh-Jf-UCC"/>
                             <constraint firstItem="pOZ-Kd-2mm" firstAttribute="centerX" secondItem="eKg-y8-Idp" secondAttribute="centerX" constant="-30" id="HPv-ie-YSV"/>
                             <constraint firstItem="fxp-vc-tN4" firstAttribute="top" secondItem="Un7-fx-PxI" secondAttribute="bottom" constant="20" id="QgY-Td-8WG"/>
                             <constraint firstItem="g0C-8j-9zN" firstAttribute="leading" secondItem="Gkv-Sy-5LM" secondAttribute="trailing" constant="5" id="WSR-EM-cdH"/>
@@ -6593,7 +6602,7 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                         <inset key="titleEdgeInsets" minX="7" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         <state key="normal" title="定位" image="shop_icon_location.png">
-                                            <color key="titleColor" red="1" green="0.40000000600000002" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleColor" red="0.98431372640000003" green="0.27450981740000002" blue="0.3058823645" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <connections>
                                             <action selector="locationAction:" destination="LRZ-Oa-zDb" eventType="touchUpInside" id="K4p-Cq-6th"/>
@@ -6695,7 +6704,7 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4Va-rp-sjl">
                                 <rect key="frame" x="40" y="370" width="240" height="50"/>
                                 <animations/>
-                                <color key="backgroundColor" red="1" green="0.40000000600000002" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="0.98431372640000003" green="0.27450981740000002" blue="0.3058823645" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="1bW-j2-ZIb"/>
                                 </constraints>
@@ -6887,7 +6896,7 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gdA-kg-vuo">
                                 <rect key="frame" x="50" y="320" width="220" height="50"/>
                                 <animations/>
-                                <color key="backgroundColor" red="1" green="0.40000000600000002" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="0.98431372640000003" green="0.27450981740000002" blue="0.3058823645" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="KI0-S8-3o8"/>
                                 </constraints>
@@ -7017,7 +7026,7 @@
                                             <constraint firstAttribute="height" constant="40" id="hOz-0a-IG8"/>
                                         </constraints>
                                         <state key="normal" title="社交分享">
-                                            <color key="titleColor" red="1" green="0.40000000600000002" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleColor" red="0.9843137264251709" green="0.27450981736183167" blue="0.30588236451148987" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
@@ -7139,7 +7148,7 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5Oq-4i-JQ1">
                                 <rect key="frame" x="30" y="130" width="260" height="45"/>
                                 <animations/>
-                                <color key="backgroundColor" red="1" green="0.40000000600000002" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="0.98431372640000003" green="0.27450981740000002" blue="0.3058823645" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="45" id="LZu-SD-eDh"/>
                                 </constraints>
@@ -7152,6 +7161,9 @@
                                         <integer key="value" value="3"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="confirmAction:" destination="JpP-6E-tjj" eventType="touchUpInside" id="h1a-mo-Aof"/>
+                                </connections>
                             </button>
                         </subviews>
                         <animations/>
@@ -7166,6 +7178,9 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="输入优惠码" id="kWB-f6-MVB"/>
+                    <connections>
+                        <outlet property="inputCodeTextField" destination="RKU-ie-yBQ" id="fZZ-Ii-cf8"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hw3-3R-uHT" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -7328,7 +7343,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="A849C8DE-F284-42AA-A4BA-6E2D78C8AD27" width="256" height="256">
+        <image name="0542D57E-4EA5-4E88-9765-744B9919C229" width="256" height="256">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPT5YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQrLjE3OlUkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw
@@ -11707,7 +11722,7 @@ ohscgAWABoAJEADSIAohIl8QFE5TVElGRlJlcHJlc2VudGF0aW9ugAeACE8SAAQNHk1NACoABAAIdXiB
 AgAAAREABAAAAAIABADGARIAAwAAAAEAAQAAARUAAwAAAAEABAAAARYAAwAAAAEAgAAAARcABAAAAAIA
 BAC+ARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAQABADOh3MABwAADEgABADWAAAAAAAIAAgA
 CAAIAAIAAAACAAAAAAAIAAIACAABAAEAAQABAAAMSExpbm8CEAAAbW50clJHQiBYWVogB84AAgAJAAYA
-MQAAYWNzcE1TRlQAAAAASUVDIHNSR0IAAAAAAAAAAAAAAAAAAPbWAAEAAAAA0y1IUCAgAAAAAAAAAAAA
+MQAAYWNzcE1TRlQAAAAASUVDIHNSR0IAAAAAAAAAAAAAAAEAAPbWAAEAAAAA0y1IUCAgAAAAAAAAAAAA
 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAARY3BydAAAAVAAAAAzZGVzYwAAAYQA
 AABsd3RwdAAAAfAAAAAUYmtwdAAAAgQAAAAUclhZWgAAAhgAAAAUZ1hZWgAAAiwAAAAUYlhZWgAAAkAA
 AAAUZG1uZAAAAlQAAABwZG1kZAAAAsQAAACIdnVlZAAAA0wAAACGdmlldwAAA9QAAAAkbHVtaQAAA/gA
@@ -11817,16 +11832,16 @@ AAAAAAAEDtA
         <image name="yue_img_bj.png" width="375" height="289"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="9kg-PH-ln9"/>
+        <segue reference="lKt-0d-hD3"/>
+        <segue reference="s7d-yk-Kc5"/>
+        <segue reference="IN0-Kp-x1L"/>
         <segue reference="ftO-I4-rYb"/>
         <segue reference="S3X-r2-NXJ"/>
-        <segue reference="IN0-Kp-x1L"/>
-        <segue reference="s7d-yk-Kc5"/>
-        <segue reference="lKt-0d-hD3"/>
-        <segue reference="DcO-CT-9a9"/>
-        <segue reference="J2q-4Y-2ay"/>
-        <segue reference="qf8-R0-rau"/>
-        <segue reference="qV1-hw-Cqi"/>
-        <segue reference="9kg-PH-ln9"/>
+        <segue reference="OGv-AU-DWf"/>
+        <segue reference="Eev-Mt-eBi"/>
+        <segue reference="yxJ-Kx-arp"/>
+        <segue reference="md8-5U-07U"/>
         <segue reference="lel-ft-RgU"/>
         <segue reference="B1X-5g-nhm"/>
     </inferredMetricsTieBreakers>

@@ -36,6 +36,7 @@
 #import "CZJGeneralCell.h"
 #import "CZJMiaoShaControlHeaderCell.h"
 #import "ShareMessage.h"
+#import "CZJMyInfoOrderListController.h"
 
 #define kTagScrollView 1002
 #define kTagTableView 1001
@@ -88,6 +89,7 @@ CZJChooseProductTypeDelegate
 @property (weak, nonatomic) IBOutlet UIView *serviceView;
 
 @property (strong, nonatomic) UITableView* detailTableView;
+@property (weak, nonatomic) IBOutlet UIView *storeView;
 
 - (IBAction)immediatelyBuyAction:(id)sender;
 - (IBAction)addProductToShoppingCartAction:(id)sender;
@@ -111,8 +113,8 @@ CZJChooseProductTypeDelegate
     
     [CZJUtils performBlock:^{
         [self getDataFromServer];
-    } afterDelay:0.5];
-    
+    } afterDelay:0.2];
+    [self registNotification];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -122,17 +124,28 @@ CZJChooseProductTypeDelegate
 
 - (void)viewDidAppear:(BOOL)animated
 {
-    [self registNotification];
     self.navigationController.interactivePopGestureRecognizer.delegate = self;
     self.navigationController.navigationBarHidden = YES;
     [[UIApplication sharedApplication]setStatusBarHidden:NO];
 }
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+    NSArray *viewControllers = self.navigationController.viewControllers;
+    if (viewControllers.count > 1 && [viewControllers objectAtIndex:viewControllers.count-2] == self) {
+        // View is disappearing because a new view controller was pushed onto the stack
+        NSLog(@"New view controller was pushed");
+    } else if ([viewControllers indexOfObject:self] == NSNotFound) {
+        // View is disappearing because it was popped from the stack
+        NSLog(@"View controller was popped");
+        [self removeNotification];
+    }
+}
+
 - (void)viewDidDisappear:(BOOL)animated
 {
-    [[NSNotificationCenter  defaultCenter] removeObserver:self name:kCZJNotifiRefreshDetailView object:nil];
-    [[NSNotificationCenter  defaultCenter] removeObserver:self name:kCZJNotifiPicDetailBack object:nil];
 }
+
 
 - (void)initDatas
 {
@@ -144,6 +157,10 @@ CZJChooseProductTypeDelegate
 
 - (void)initViews
 {
+    [self.naviBarView.btnBack setBackgroundColor:RGBA(230, 230, 230, 0.8)];
+    [self.naviBarView.btnMore setBackgroundColor:RGBA(230, 230, 230, 0.8)];
+    [self.naviBarView.btnShop setBackgroundColor:RGBA(230, 230, 230, 0.8)];
+    
     self.borderLineLayoutHeight.constant = 0.5;
     self.borderLineView.layer.borderColor = [UIColor lightGrayColor].CGColor;
     [self.attentionBtn setImage:IMAGENAMED(@"prodetail_icon_guanzhu02") forState:UIControlStateNormal];
@@ -203,6 +220,14 @@ CZJChooseProductTypeDelegate
 {
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(reloadDetailData:) name:kCZJNotifiRefreshDetailView  object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(picDetailViewBack:) name:kCZJNotifiPicDetailBack object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(jumpToOrderListWithPayFailed:) name:kCZJNotifiJumpToOrderList object:nil];
+}
+
+- (void)removeNotification
+{
+    [[NSNotificationCenter  defaultCenter] removeObserver:self name:kCZJNotifiRefreshDetailView object:nil];
+    [[NSNotificationCenter  defaultCenter] removeObserver:self name:kCZJNotifiPicDetailBack object:nil];
+    [[NSNotificationCenter  defaultCenter] removeObserver:self name:kCZJNotifiJumpToOrderList object:nil];
 }
 
 - (void)reloadDetailData:(NSNotification*)notif
@@ -215,6 +240,13 @@ CZJChooseProductTypeDelegate
 - (void)picDetailViewBack:(NSNotification*)notif
 {
     [self.myScrollView setContentOffset:CGPointZero animated:YES];
+}
+
+- (void)jumpToOrderListWithPayFailed:(NSNotification*)notif
+{
+    CZJMyInfoOrderListController* orderListVC = (CZJMyInfoOrderListController*)[CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:kCZJStoryBoardIDMyOrderList];
+    orderListVC.orderListTypeIndex = 1;
+    [self.navigationController pushViewController:orderListVC animated:YES];
 }
 
 - (void)getDataFromServer
@@ -251,6 +283,7 @@ CZJChooseProductTypeDelegate
             weakSelf.addProductToWidth.constant = 0;
             weakSelf.immediatelyBuyWidth.constant = (iPhone4 || iPhone5) ? 130 : 160;;
         }
+        _storeView.hidden = goodsDetailForm.goods.selfFlag;
         
         [weakSelf dealWithData];
         [weakSelf.detailTableView reloadData];
@@ -271,7 +304,14 @@ CZJChooseProductTypeDelegate
         
         CZJPageControlView* webVie = [[CZJPageControlView alloc]initWithFrame:CGRectMake(0, (PJ_SCREEN_HEIGHT-50), PJ_SCREEN_WIDTH, (PJ_SCREEN_HEIGHT-114)) andPageIndex:kPagePicDetail];
         webVie.backgroundColor = CZJNAVIBARBGCOLOR;
-        [webVie setTitleArray:@[@"图文详情",@"购买须知",@"包装售后",@"适用车型"] andVCArray:@[FController,SController,TController,AController]];
+        if (_detaiViewType == CZJDetailTypeService)
+        {
+            [webVie setTitleArray:@[@"图文详情",@"购买须知",@"适用车型"] andVCArray:@[FController,SController,AController]];
+        }
+        else
+        {
+            [webVie setTitleArray:@[@"图文详情",@"规格参数",@"包装售后",@"适用车型"] andVCArray:@[FController,SController,TController,AController]];
+        }
         [weakSelf.myScrollView addSubview:webVie];
     };
     
@@ -384,14 +424,15 @@ CZJChooseProductTypeDelegate
             CZJDetailDescCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJDetailDescCell" forIndexPath:indexPath];
             //商品名称
             cell.productNameLabel.text = _goodsDetail.itemName;
-            CGSize prolabelSize = [CZJUtils calculateStringSizeWithString:_goodsDetail.itemName Font:cell.productNameLabel.font Width:PJ_SCREEN_WIDTH - 45];
-            cell.productNameLayoutHeight.constant = prolabelSize.height;
+            CGSize prolabelSize = [CZJUtils calculateStringSizeWithString:_goodsDetail.itemName Font:cell.productNameLabel.font Width:PJ_SCREEN_WIDTH - 40];
+            cell.productNameLayoutHeight.constant = (prolabelSize.height > 20) ? 40 : 20;
             
             //商品当前价格
             NSString* currentStr = [NSString stringWithFormat:@"￥%@", _goodsDetail.currentPrice == nil ? @"" :_goodsDetail.currentPrice];
             cell.currentPriceLabel.text = currentStr;
             CGSize labelSize = [CZJUtils calculateTitleSizeWithString:currentStr WithFont:BOLDSYSTEMFONT(22)];
             cell.labelLayoutConst.constant = labelSize.width + 5;
+            cell.currentPriceLabel.keyWord = @"￥";
             
             //是否到店标示
             cell.goShopImage.hidden = !goodsDetailForm.goods.goHouseFlag;
@@ -460,7 +501,7 @@ CZJChooseProductTypeDelegate
             cell.couponScrollView.clipsToBounds = NO;
             if (goodsDetailForm.promotions.count > 0)
             {
-                NSInteger range = goodsDetailForm.promotions.count > 2 ? 2 : goodsDetailForm.promotions.count;
+                NSInteger range = goodsDetailForm.promotions.count >= 2 ? 2 : goodsDetailForm.promotions.count;
                 for (int i = 0 ; i < range; i++)
                 {
                     CZJPromotionItemForm* promotionItem = (CZJPromotionItemForm*)goodsDetailForm.promotions[i];
@@ -527,7 +568,7 @@ CZJChooseProductTypeDelegate
                     for (int i = 0; i < evalutionForm.evalImgs .count; i++)
                     {
                         UIImageView* evaluateImage = [[UIImageView alloc]init];
-                        [evaluateImage sd_setImageWithURL:[NSURL URLWithString:evalutionForm.evalImgs[i]] placeholderImage:DefaultPlaceHolderSquare];
+                        [evaluateImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",evalutionForm.evalImgs[i],SUOLUE_PIC_200]] placeholderImage:DefaultPlaceHolderSquare];
                         CGRect iamgeRect = [CZJUtils viewFramFromDynamic:CZJMarginMake(0, 10) size:CGSizeMake(78, 78) index:i divide:Divide];
                         evaluateImage.frame = iamgeRect;
                         [cell.picView addSubview:evaluateImage];
@@ -553,7 +594,7 @@ CZJChooseProductTypeDelegate
                             NSString* url = evalutionForm.addedEval.evalImgs[i];
                             CGRect imageFrame = [CZJUtils viewFramFromDynamic:CZJMarginMake(0, 0) size:CGSizeMake(70, 70) index:i divide:Divide];
                             UIImageView* imageView = [[UIImageView alloc]initWithFrame:imageFrame];
-                            [imageView sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:DefaultPlaceHolderSquare];
+                            [imageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",url,SUOLUE_PIC_200]] placeholderImage:DefaultPlaceHolderSquare];
                             [addedCell.picView addSubview:imageView];
                         }
                         
@@ -675,10 +716,10 @@ CZJChooseProductTypeDelegate
         {
             CZJDetailDescCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJDetailDescCell"];
             NSString* itemName = _goodsDetail.itemName;
-            CGSize prolabelSize = [CZJUtils calculateStringSizeWithString:itemName Font:cell.productNameLabel.font Width:PJ_SCREEN_WIDTH - 45];
-            float itemNameHeight = prolabelSize.height < 15 ? 15 : prolabelSize.height;
+            CGSize prolabelSize = [CZJUtils calculateStringSizeWithString:itemName Font:cell.productNameLabel.font Width:PJ_SCREEN_WIDTH - 40];
+            float itemNameHeight = prolabelSize.height > 20 ? 40 : 20;
             float miaoshaHeight = ((CZJGoodsPromotionTypeMiaoSha == _promotionType) ? 35 : 0);
-            return 65 + itemNameHeight + miaoshaHeight + 5;
+            return 50 + itemNameHeight + miaoshaHeight + 5;
         }
             break;
         case 2:
@@ -695,7 +736,7 @@ CZJChooseProductTypeDelegate
             }
             break;
         case 3:
-            if (goodsDetailForm.promotions.count > 2)
+            if (goodsDetailForm.promotions.count >= 2)
             {
                 return 75;
             }
@@ -780,7 +821,7 @@ CZJChooseProductTypeDelegate
         CZJReceiveCouponsController *receiveCouponsController = [[CZJReceiveCouponsController alloc] init];
         receiveCouponsController.storeId = _storeInfo.storeId;
         receiveCouponsController.popWindowInitialRect = self.popWindowInitialRect;
-        [CZJUtils showMyWindowOnTarget:weak withMyVC:receiveCouponsController];
+        [CZJUtils showMyWindowOnTarget:weak withPopVc:receiveCouponsController];
         
         
         [receiveCouponsController setCancleBarItemHandle:^{
@@ -807,7 +848,7 @@ CZJChooseProductTypeDelegate
         chooseProductTypeController.goodsDetail = chooosedProductCell.goodsDetail;
         chooseProductTypeController.buycount = buyCount;
         chooseProductTypeController.delegate = self;
-        [CZJUtils showMyWindowOnTarget:weak withMyVC:chooseProductTypeController];
+        [CZJUtils showMyWindowOnTarget:weak withPopVc:chooseProductTypeController];
         
         [chooseProductTypeController setCancleBarItemHandle:^{
             [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
@@ -919,7 +960,7 @@ CZJChooseProductTypeDelegate
         [CZJBaseDataInstance attentionStore:params success:^(id json) {
             _storeInfo.attentionFlag = !_storeInfo.attentionFlag;
             _storeInfo.attentionCount = [[CZJUtils DataFromJson:json] valueForKey:@"msg"];
-            [self.detailTableView reloadSections:[NSIndexSet indexSetWithIndex:5] withRowAnimation:UITableViewRowAnimationFade];
+            [self.detailTableView reloadData];
             [CZJUtils tipWithText:@"关注门店成功" andView:self.view];
         }];
     }
@@ -928,7 +969,7 @@ CZJChooseProductTypeDelegate
         [CZJBaseDataInstance cancleAttentionStore:params success:^(id json) {
             _storeInfo.attentionFlag = !_storeInfo.attentionFlag;
             _storeInfo.attentionCount = [[CZJUtils DataFromJson:json] valueForKey:@"msg"];
-            [self.detailTableView reloadSections:[NSIndexSet indexSetWithIndex:5] withRowAnimation:UITableViewRowAnimationFade];
+            [self.detailTableView reloadData];
             [CZJUtils tipWithText:@"取消门店关注" andView:self.view];
         }];
     }
@@ -943,6 +984,9 @@ CZJChooseProductTypeDelegate
     if (kTagTableView == scrollView.tag && contentOffsetY <=0)
     {
         [self.naviBarView setBackgroundColor:CZJNAVIBARBGCOLORALPHA(0)];
+        [self.naviBarView.btnBack setBackgroundColor:RGBA(230, 230, 230, 0.8)];
+        [self.naviBarView.btnMore setBackgroundColor:RGBA(230, 230, 230, 0.8)];
+        [self.naviBarView.btnShop setBackgroundColor:RGBA(230, 230, 230, 0.8)];
     }
     else if (kTagTableView == scrollView.tag && contentOffsetY > 0)
     {
@@ -951,9 +995,9 @@ CZJChooseProductTypeDelegate
         {
             alphaValue = 1;
         }
-        [self.naviBarView.btnBack setBackgroundColor:RGBA(247, 247, 247,(1 - alphaValue))];
-        [self.naviBarView.btnMore setBackgroundColor:RGBA(247, 247, 247,(1 - alphaValue))];
-        [self.naviBarView.btnShop setBackgroundColor:RGBA(247, 247, 247,(1 - alphaValue))];
+        [self.naviBarView.btnBack setBackgroundColor:RGBA(230, 230, 230,(1 - alphaValue)*0.8)];
+        [self.naviBarView.btnMore setBackgroundColor:RGBA(230, 230, 230,(1 - alphaValue)*0.8)];
+        [self.naviBarView.btnShop setBackgroundColor:RGBA(230, 230, 230,(1 - alphaValue)*0.8)];
         [self.naviBarView setBackgroundColor:CZJNAVIBARBGCOLORALPHA(alphaValue)];
     }
     
@@ -1030,7 +1074,9 @@ CZJChooseProductTypeDelegate
                                    @"itemType" : goodsDetailForm.goods.itemType,
                                    @"itemCount" : @"1",
                                    @"currentPrice" : goodsDetailForm.goods.currentPrice,
-                                   @"skillId" : self.skillId == nil ? @"" : self.skillId
+                                   @"skillId" : self.skillId == nil ? @"0" : self.skillId,
+                                   @"promotionType" : @(_promotionType),
+                                   @"promotionPrice" : _promotionPrice == nil ? @"0" : _promotionPrice
                                    };
         
         NSArray* itemAry = @[itemDict];
@@ -1069,7 +1115,12 @@ CZJChooseProductTypeDelegate
                                  @"counterKey" : _goodsDetail.counterKey
                                  };
         
-        [CZJBaseDataInstance addProductToShoppingCart:pramas Success:^{
+        [CZJBaseDataInstance addProductToShoppingCart:pramas Success:^(id json){
+            
+            NSDictionary* dict = [CZJUtils DataFromJson:json];
+            DLog(@"%@",[dict description]);
+            [USER_DEFAULT setObject:[dict valueForKey:@"msg"] forKey:kUserDefaultShoppingCartCount];
+            
             CGRect addBtnRect = [self.view convertRect:_addProductToShoppingCartBtn.frame fromView:_shoppingCartView];
             CGRect shoppingCartBtnRect = [self.view convertRect:self.naviBarView.btnShop.frame fromView:self.naviBarView];
             
@@ -1114,7 +1165,13 @@ CZJChooseProductTypeDelegate
          {
              _goodsDetail.attentionFlag = !_goodsDetail.attentionFlag;
              self.attentionBtn.selected = !self.attentionBtn.selected;
-             [CZJUtils tipWithText:@"关注商品成功" andView:self.view];
+             if (_detaiViewType == CZJDetailTypeGoods) {
+                 [CZJUtils tipWithText:@"关注商品成功" andView:self.view];
+             }
+             if (_detaiViewType == CZJDetailTypeService)
+             {
+                 [CZJUtils tipWithText:@"关注服务成功" andView:self.view];
+             }
          }];
     }
     else
@@ -1123,7 +1180,15 @@ CZJChooseProductTypeDelegate
          {
              _goodsDetail.attentionFlag = !_goodsDetail.attentionFlag;
              self.attentionBtn.selected = !self.attentionBtn.selected;
-             [CZJUtils tipWithText:@"取消商品关注" andView:self.view];
+             
+             if (_detaiViewType == CZJDetailTypeService)
+             {
+                 [CZJUtils tipWithText:@"取消服务关注" andView:self.view];
+             }
+             if (_detaiViewType == CZJDetailTypeGoods)
+             {
+                 [CZJUtils tipWithText:@"取消商品关注" andView:self.view];
+             }
          }];
     }
 }

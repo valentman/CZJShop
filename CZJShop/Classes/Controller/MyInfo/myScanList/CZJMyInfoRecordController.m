@@ -35,6 +35,7 @@ UITableViewDelegate
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    DLog();
     self.navigationController.navigationBarHidden = NO;
 }
 
@@ -150,6 +151,7 @@ UITableViewDelegate
 - (void)edit:(id)sender
 {
     __weak typeof(self) weak = self;
+    [self.navigationItem.rightBarButtonItem setEnabled:false];
     [self showCZJAlertView:@"确认清除浏览记录？" andConfirmHandler:^{
         [CZJBaseDataInstance clearScanList:nil Success:^(id json) {
             [scanListAry removeAllObjects];
@@ -161,6 +163,7 @@ UITableViewDelegate
             [CZJUtils tipWithText:@"服务器异常，清除失败" andView:weak.view];
         }];
         [weak hideWindow];
+        [weak.navigationItem.rightBarButtonItem setEnabled:true];
     } andCancleHandler:nil];
 
 }

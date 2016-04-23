@@ -31,7 +31,7 @@
         
         UILabel* label_title = [[UILabel alloc] init];
         label_title.textAlignment = NSTextAlignmentLeft;
-        label_title.font = [UIFont systemFontOfSize:16.0f];;
+        label_title.font = [UIFont systemFontOfSize:14.0f];;
         label_title.text = data.title;
         label_title.frame = CGRectMake(60, 0, frame.size.width - 60, frame.size.height);
         

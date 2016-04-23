@@ -279,10 +279,15 @@ UITableViewDataSource
         [cell.picView removeAllSubViews];
         for (int i = 0; i < detailEvalform.evalImgs.count; i++)
         {
-            UIImageView* evaluateImage = [[UIImageView alloc]init];
-            [evaluateImage sd_setImageWithURL:[NSURL URLWithString:detailEvalform.evalImgs[i]] placeholderImage:DefaultPlaceHolderSquare];
             CGRect iamgeRect = [CZJUtils viewFramFromDynamic:CZJMarginMake(0, 10) size:CGSizeMake(78, 78) index:i divide:Divide];
-            evaluateImage.frame = iamgeRect;
+            CZJImageView* evaluateImage = [[CZJImageView alloc]initWithFrame:iamgeRect];
+            evaluateImage.tag = indexPath.section * 10000;
+            evaluateImage.subTag = i;
+            evaluateImage.secondTag = 0;
+            [evaluateImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",detailEvalform.evalImgs[i],SUOLUE_PIC_200]] placeholderImage:DefaultPlaceHolderSquare];
+            [evaluateImage addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showBigImage:)]];
+            
+
             [cell.picView addSubview:evaluateImage];
             cell.picView.hidden = NO;
         }
@@ -302,8 +307,13 @@ UITableViewDataSource
         {
             NSString* url = detailEvalform.addedEval.evalImgs[i];
             CGRect imageFrame = [CZJUtils viewFramFromDynamic:CZJMarginMake(0, 0) size:CGSizeMake(70, 70) index:i divide:Divide];
-            UIImageView* imageView = [[UIImageView alloc]initWithFrame:imageFrame];
-            [imageView sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:DefaultPlaceHolderSquare];
+            CZJImageView* imageView = [[CZJImageView alloc]initWithFrame:imageFrame];
+            imageView.tag = indexPath.section * 10000;
+            imageView.subTag = i;
+            imageView.secondTag = 1;
+            
+            [imageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",url,SUOLUE_PIC_200]] placeholderImage:DefaultPlaceHolderSquare];
+            [imageView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showBigImage:)]];
             [cell.picView addSubview:imageView];
         }
 
@@ -440,6 +450,23 @@ UITableViewDataSource
     }
 }
 
+
+- (void)showBigImage:(UIGestureRecognizer*)recogonizer
+{
+    CZJImageView* evalutionImg = (CZJImageView*)recogonizer.view;
+    //通过view的tag值可以获取section值，取到相应的数据
+    NSInteger section = evalutionImg.tag / 10000;
+    CZJEvaluateForm* evalutionForm  = (CZJEvaluateForm*)_tmpEvalutionAry[section];
+    
+    if (evalutionImg.secondTag == 0)
+    {//一级评价的图片
+        [CZJUtils showDetailInfoWithIndex:evalutionImg.subTag withImgAry:evalutionForm.evalImgs onTarget:self];
+    }
+    else
+    {//追加评价的图片
+        [CZJUtils showDetailInfoWithIndex:evalutionImg.subTag withImgAry:evalutionForm.addedEval.evalImgs onTarget:self];
+    }
+}
 
 #pragma mark- CZJImageViewTouchDelegate
 - (void)showDetailInfoWithForm:(id)form

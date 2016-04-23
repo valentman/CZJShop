@@ -12,6 +12,7 @@
 
 - (void)awakeFromNib {
     // Initialization code
+    self.productPrice.keyWordFont = SYSTEMFONT(12);
 }
 
 @end

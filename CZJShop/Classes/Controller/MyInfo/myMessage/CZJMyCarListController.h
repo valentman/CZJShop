@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface CZJMyCarListController : CZJViewController
-
+- (void)getCarListFromServer;
 @end

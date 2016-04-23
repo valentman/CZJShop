@@ -48,9 +48,16 @@
     recommendCellPromotionType = promotionType;
     self.isInit = YES;
     GoodsRecommendForm * form = datas.firstObject;
+    if (form)
+    {
+        self.viewOne.hidden = NO;
+    }
     [self.goodImg sd_setImageWithURL:[NSURL URLWithString:form.itemImg] placeholderImage:DefaultPlaceHolderSquare];
     self.goodNameLabel.text = form.itemName;
+    CGSize goodNameSize = [CZJUtils calculateStringSizeWithString:form.itemName Font:self.goodNameLabel.font Width:(PJ_SCREEN_WIDTH - 15)*0.5 - 10];
+    self.goodNameLabelHeight.constant = goodNameSize.height > 20 ? 40 : 20;
     self.goodPriceLabel.text = [NSString stringWithFormat:@"￥%@",form.currentPrice];
+    
     self.goodPriceWidth.constant = [CZJUtils calculateTitleSizeWithString:self.goodPriceLabel.text WithFont:self.goodPriceLabel.font].width + 5;
     if (CZJGoodsPromotionTypeBaoKuan == promotionType)
     {
@@ -68,7 +75,10 @@
         itemTwoId = form2.storeItemPid;
         [self.goodImg2 sd_setImageWithURL:[NSURL URLWithString:form2.itemImg] placeholderImage:DefaultPlaceHolderSquare];
         self.goodNameLabel2.text = form2.itemName;
+        CGSize goodNameSize2 = [CZJUtils calculateStringSizeWithString:form2.itemName Font:self.goodNameLabel2.font Width:(PJ_SCREEN_WIDTH - 15)*0.5 - 10];
+        self.goodNameLabelheight2.constant = goodNameSize2.height > 20 ? 40 : 20;
         self.goodPriceLabel2.text = [NSString stringWithFormat:@"￥%@",form2.currentPrice];
+        
         self.goodPriceWidth2.constant = [CZJUtils calculateTitleSizeWithString:self.goodPriceLabel2.text WithFont:self.goodPriceLabel2.font].width + 5;
         if (CZJGoodsPromotionTypeBaoKuan == promotionType)
         {
@@ -80,9 +90,6 @@
     }
     self.goodPriceLabel.keyWord = @"￥";
     self.goodPriceLabel2.keyWord = @"￥";
-    self.goodOriginPriceLabel.keyWord = @"￥";
-    self.goodOriginPriceLabel2.keyWord = @"￥";
-    
     UIGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapMenu:)];
     [self addGestureRecognizer:tapGesture];
 }

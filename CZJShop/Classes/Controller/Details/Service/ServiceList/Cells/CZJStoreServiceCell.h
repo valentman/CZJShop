@@ -10,7 +10,7 @@
 
 @interface CZJStoreServiceCell : CZJTableViewCell
 @property (weak, nonatomic) IBOutlet UILabel *serviceItemName;
-@property (weak, nonatomic) IBOutlet UILabel *currentPrice;
+@property (weak, nonatomic) IBOutlet MMLabel *currentPrice;
 @property (weak, nonatomic) IBOutlet UIImageView *serviceTypeImg;
 @property (weak, nonatomic) IBOutlet UILabel *purchasedCount;
 @property (weak, nonatomic) IBOutlet UILabel *storeName;

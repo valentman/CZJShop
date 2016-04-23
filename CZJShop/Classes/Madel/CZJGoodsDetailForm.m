@@ -11,6 +11,13 @@
 @implementation CZJGoodsSKU
 @end
 
+@implementation CZJLevelSku
++ (NSDictionary*)objectClassInArray
+{
+    return @{@"twoSkus" : @"CZJLevelSku"};
+}
+@end
+
 @implementation CZJGoodsDetail
 @end
 

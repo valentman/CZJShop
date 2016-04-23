@@ -19,7 +19,8 @@
 
 
 @interface CZJLoginController ()
-<UITextFieldDelegate,
+<
+UITextFieldDelegate,
 FDAlertViewDelegate
 >
 {

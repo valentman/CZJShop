@@ -8,6 +8,8 @@
 
 #import "CZJMyWalletCardDetailController.h"
 #import "CZJMyWalletCardCell.h"
+#import "CZJMyWalletCardItemCell.h"
+#import "CZJMyWalletCardItemLeftCell.h"
 #import "CZJRedPacketUseCaseCell.h"
 #import "CZJBaseDataManager.h"
 
@@ -110,8 +112,8 @@ UITableViewDelegate
     else
     {
         CZJCardDetailInfoForm* cardDetailForm = _cardDetailAry[indexPath.row];
-        CZJCardDetailInfoFormItem* cardDetailItemForm = cardDetailForm.items[0];
         CZJRedPacketUseCaseCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJRedPacketUseCaseCell" forIndexPath:indexPath];
+        float leftViewWidth = (PJ_SCREEN_WIDTH - 50)*0.5;
         if (indexPath.row % 2 == 0)
         {
             cell.leftView.hidden = YES;
@@ -120,7 +122,18 @@ UITableViewDelegate
             cell.rightBalanceLabel.hidden = YES;
             cell.rightNumberLabel.hidden = YES;
             
-            cell.rightItemNameLabel.text = [NSString stringWithFormat:@"(扣%@次)%@",cardDetailItemForm.useCount, cardDetailItemForm.itemName];
+            for (int i = 0; i < cardDetailForm.items.count; i++)
+            {
+                CZJCardDetailInfoFormItem* cardDetailItemForm = cardDetailForm.items[i];
+                CZJMyWalletCardItemCell* itemCell = [CZJUtils getXibViewByName:@"CZJMyWalletCardItemCell"];
+                itemCell.itemNameLabel.text = [NSString stringWithFormat:@"(扣%@次)%@",cardDetailItemForm.useCount, cardDetailItemForm.itemName];
+                itemCell.itemNamelabelWidth.constant = [CZJUtils calculateStringSizeWithString:itemCell.itemNameLabel.text Font:itemCell.itemNameLabel.font Width:leftViewWidth].width + 10;
+                itemCell.dotLabel.backgroundColor = CZJGRAYCOLOR;
+                itemCell.backgroundColor = CLEARCOLOR;
+                itemCell.contentView.backgroundColor = CLEARCOLOR;
+                itemCell.frame = CGRectMake(-10, 5 + i*20, leftViewWidth, 20);
+                [cell.rightView addSubview:itemCell];
+            }
         }
         else
         {
@@ -130,7 +143,18 @@ UITableViewDelegate
             cell.leftBalanceLabel.hidden = YES;
             cell.leftNumberLabel.hidden = YES;
             
-            cell.leftItemNameLabel.text = [NSString stringWithFormat:@"(扣%@次)%@",cardDetailItemForm.useCount, cardDetailItemForm.itemName];
+            for (int i = 0; i < cardDetailForm.items.count; i++)
+            {
+                CZJCardDetailInfoFormItem* cardDetailItemForm = cardDetailForm.items[i];
+                CZJMyWalletCardItemLeftCell* itemCell = [CZJUtils getXibViewByName:@"CZJMyWalletCardItemLeftCell"];
+                itemCell.itemNameLabel.text = [NSString stringWithFormat:@"(扣%@次)%@",cardDetailItemForm.useCount, cardDetailItemForm.itemName];
+                itemCell.itemNameLabelWidth.constant = [CZJUtils calculateStringSizeWithString:itemCell.itemNameLabel.text Font:itemCell.itemNameLabel.font Width:leftViewWidth].width + 10;
+                itemCell.dotLabel.backgroundColor = CZJGRAYCOLOR;
+                itemCell.contentView.backgroundColor = CLEARCOLOR;
+                itemCell.frame = CGRectMake(0, 5 + i*20, leftViewWidth, 20);
+                [itemCell setPosition:CGPointMake(leftViewWidth-5, 5 + i*20) atAnchorPoint:CGPointTopRight];
+                [cell.leftView addSubview:itemCell];
+            }
         }
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
@@ -147,7 +171,9 @@ UITableViewDelegate
     }
     else
     {
-        return 100;
+        CZJCardDetailInfoForm* cardDetailForm = _cardDetailAry[indexPath.row];
+        
+        return 40 + cardDetailForm.items.count * 20;
     }
     return 100;
 }

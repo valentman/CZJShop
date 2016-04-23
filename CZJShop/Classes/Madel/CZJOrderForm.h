@@ -7,6 +7,9 @@
 //
 #import <Foundation/Foundation.h>
 
+@class CZJOrderDetailBuildForm;
+@class CZJCarDetailForm;
+
 @interface CZJOrderForm : NSObject
 @property(strong, nonatomic)NSString* cardMoney;
 @property(strong, nonatomic)NSString* needAddr;
@@ -55,6 +58,7 @@
 @end
 
 @interface CZJOrderGoodsForm : NSObject
+@property(strong, nonatomic)NSString* skillId;                  //秒杀场点ID
 @property(strong, nonatomic)NSString* activityId;               //活动ID
 @property(strong, nonatomic)NSString* costPrice;                //成本价
 @property(strong, nonatomic)NSString* currentPrice;             //商品价格
@@ -112,6 +116,7 @@
 @interface CZJOrderDetailForm : NSObject
 @property (strong, nonatomic)NSString*  activityId;
 @property (strong, nonatomic)NSString*  benefitMoney;
+@property (strong, nonatomic)CZJOrderDetailBuildForm* build;
 @property (strong, nonatomic)NSString*  companyId;
 @property (strong, nonatomic)NSString*  couponPrice;
 @property (strong, nonatomic)NSString*  createTime;
@@ -139,6 +144,15 @@
 
 
 #pragma mark- CarCheck
+@interface CZJOrderDetailBuildForm : NSObject
+@property (strong, nonatomic)NSString* builder;
+@property (strong, nonatomic)CZJCarDetailForm* car;
+@property (strong, nonatomic)NSString* head;
+@property (strong, nonatomic)NSArray* photos;
+@property (strong, nonatomic)NSString* useTime;
+@end
+
+
 @interface CZJCarDetailForm : NSObject
 @property (strong, nonatomic)NSString* brandName;
 @property (strong, nonatomic)NSString* modelName;

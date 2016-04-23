@@ -29,6 +29,8 @@
 #import "CZJLeaveMessageView.h"
 #import "CZJPaymentManager.h"
 #import "CZJOrderPaySuccessController.h"
+#import "CZJMyInfoOrderListController.h"
+#import "OpenShareHeader.h"
 
 
 @interface CZJCommitOrderController ()
@@ -45,8 +47,8 @@ CZJRedPacketCellDelegate,
 CZJNaviagtionBarViewDelegate
 >
 {
-    CZJOrderForm* _orderForm;                   //服务器返回的订单页面是数据
-    CZJOrderTypeForm* _defaultOrderType;        //默认支付方式（为支付宝）
+    __block CZJOrderForm* _orderForm;                   //服务器返回的订单页面是数据
+    __block CZJOrderTypeForm* _defaultOrderType;        //默认支付方式（为支付宝）
     CZJAddrForm* _currentChooseAddr;            //当前选择地址
     
     NSArray* _orderTypeAry;                     //支付方式（支付宝，微信，银联）
@@ -60,6 +62,7 @@ CZJNaviagtionBarViewDelegate
     BOOL isHaveSelfShop;                        //是否有车之健自营商品
     BOOL isRedPacketSelectd;                    //红包是否选中
     BOOL isBalanceSelectd;                      //余额是否选中
+    __block BOOL isGoods;                               //是商品还是服务
     
     id touchedCell;
     float orderTotalPrice;                      //初始订单结算额
@@ -108,13 +111,6 @@ CZJNaviagtionBarViewDelegate
     
     //是否展开
     isOrderTypeExpand = NO;
-    
-    //获取默认地址
-    NSDictionary* addrDict = [CZJUtils readDictionaryFromDocumentsDirectoryWithPlistName:kCZJPlistFileDefaultDeliveryAddr];
-    if (addrDict)
-    {
-        _currentChooseAddr = [CZJAddrForm objectWithKeyValues:addrDict];
-    }
 }
 
 - (void)setIsUseCouponAble:(BOOL)isUseCouponAble
@@ -140,7 +136,6 @@ CZJNaviagtionBarViewDelegate
                          @"CZJGiftCell",
                          @"CZJLeaveMessageCell"
                          ];
-    
     for (id cells in nibArys) {
         UINib *nib=[UINib nibWithNibName:cells bundle:nil];
         [self.myTableView registerNib:nib forCellReuseIdentifier:cells];
@@ -160,6 +155,9 @@ CZJNaviagtionBarViewDelegate
         DLog(@"feedbackData: %@",[[CZJUtils DataFromJson:json] description]);
         _orderForm  = [CZJOrderForm objectWithKeyValues:[[CZJUtils DataFromJson:json] valueForKey:@"msg"]];
         _orderStoreAry = [_orderForm.stores mutableCopy];
+        CZJOrderStoreForm* storeForm = _orderStoreAry.firstObject;
+        CZJShoppingGoodsInfoForm* goodsForm = storeForm.items.firstObject;
+        isGoods = ![goodsForm.itemType boolValue];
         [self dealWithOrderFormDatas];
     } fail:^{
         
@@ -168,6 +166,13 @@ CZJNaviagtionBarViewDelegate
 
 - (void)dealWithOrderFormDatas
 {
+    //获取默认地址
+    NSDictionary* addrDict = [CZJUtils readDictionaryFromDocumentsDirectoryWithPlistName:kCZJPlistFileDefaultDeliveryAddr];
+    if (addrDict && isGoods)
+    {
+        _currentChooseAddr = [CZJAddrForm objectWithKeyValues:addrDict];
+    }
+    
     orderFinalPrice = 0;
     orderTotalPrice = 0;
     useRedPacketPrice = 0;
@@ -895,7 +900,8 @@ CZJNaviagtionBarViewDelegate
                                         @"totalMoney":[NSString stringWithFormat:@"%.2f",orderFinalPrice]}
                                       mutableCopy];
     //收货地址
-    if (_orderForm.needAddr) {
+    if (_orderForm.needAddr && isGoods)
+    {
         if (_currentChooseAddr)
         {
             [orderInfo setObject:_currentChooseAddr.keyValues forKey:@"receiver"];
@@ -908,6 +914,26 @@ CZJNaviagtionBarViewDelegate
         }
     }
     
+    
+    if ([_defaultOrderType.orderTypeName isEqualToString:@"微信支付"] &&
+        ![OpenShare isWeixinInstalled] &&
+        [[orderInfo valueForKey:@"totalMoney"] floatValue] > 0.0)
+    {
+        UIWindow *window = [[UIApplication sharedApplication] keyWindow];
+        UIAlertView* alertview = [[UIAlertView alloc]initWithTitle:@"温馨提示" message:@"您的手机未安装微信客户端，请安装后支付" delegate:window cancelButtonTitle:@"收到" otherButtonTitles:nil, nil];
+        [alertview show];
+        return;
+    }
+    if ([_defaultOrderType.orderTypeName isEqualToString:@"支付宝支付"] &&
+        ![OpenShare isAlipayInstalled] &&
+        [[orderInfo valueForKey:@"totalMoney"] floatValue] > 0.0)
+    {
+        UIWindow *window = [[UIApplication sharedApplication] keyWindow];
+        UIAlertView* alertview = [[UIAlertView alloc]initWithTitle:@"温馨提示" message:@"您的手机未安装支付宝客户端，请安装后支付" delegate:window cancelButtonTitle:@"收到" otherButtonTitles:nil, nil];
+        [alertview show];
+        return;
+    }
+    
     //获取支付订单编号
     DLog(@"paramsJson:%@",[[CZJUtils JsonFromData:orderInfo] description]);
     NSDictionary* params = @{@"paramJson":[CZJUtils JsonFromData:orderInfo]};
@@ -917,7 +943,7 @@ CZJNaviagtionBarViewDelegate
         DLog(@"服务器请求订单编号返回");
         NSDictionary* dict = [[CZJUtils DataFromJson:json] valueForKey:@"msg"];
         [NSThread sleepForTimeInterval:1.0f];
-        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        [MBProgressHUD hideAllHUDsForView:weak.view animated:YES];
         if ([[dict valueForKey:@"totalMoney"] floatValue] <= 0.0)
         {
             CZJOrderPaySuccessController* paySuccessVC = (CZJOrderPaySuccessController*)[CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:kCZJStoryBoardIDPaymentSuccess];
@@ -936,23 +962,32 @@ CZJNaviagtionBarViewDelegate
             if ([_defaultOrderType.orderTypeName isEqualToString:@"微信支付"])
             {
                 DLog(@"提交订单页面请求微信支付");
-                [CZJPaymentInstance weixinPay:self OrderInfo:paymentOrderForm Success:^(NSDictionary *message) {
+                [CZJPaymentInstance weixinPay:weak OrderInfo:paymentOrderForm Success:^(NSDictionary *message) {
                 } Fail:^(NSDictionary *message, NSError *error) {
-                    [CZJUtils tipWithText:@"微信支付失败" andView:weak.view];
+                    [CZJUtils tipWithText:@"微信支付失败" withCompeletHandler:^{
+                        [weak dismissViewControllerAnimated:YES completion:^{
+                            [[NSNotificationCenter defaultCenter]postNotificationName:kCZJNotifiJumpToOrderList object:nil];
+                        }];
+                    }];
                 }];
             }
             if ([_defaultOrderType.orderTypeName isEqualToString:@"支付宝支付"])
             {
                 DLog(@"提交订单页面请求支付宝支付");
-                [CZJPaymentInstance aliPay:self OrderInfo:paymentOrderForm Success:^(NSDictionary *message) {
+                [CZJPaymentInstance aliPay:weak OrderInfo:paymentOrderForm Success:^(NSDictionary *message) {
                 } Fail:^(NSDictionary *message, NSError *error) {
-                    [CZJUtils tipWithText:@"支付宝支付失败" andView:weak.view];
+                    [CZJUtils tipWithText:@"支付宝支付失败" withCompeletHandler:^{
+                        [weak dismissViewControllerAnimated:YES completion:^{
+                            [[NSNotificationCenter defaultCenter]postNotificationName:kCZJNotifiJumpToOrderList object:nil];
+                        }];
+                        DLog(@"支付宝支付失败");
+                    }];
                 }];
             }
         }
 
     } fail:^{
-        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        [MBProgressHUD hideAllHUDsForView:weak.view animated:YES];
     }];
 }
 

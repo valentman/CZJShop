@@ -18,7 +18,7 @@ UITableViewDataSource,
 UITableViewDelegate
 >
 {
-    NSDictionary* builderData;
+    CZJOrderDetailBuildForm* builderData;
 }
 @property (weak, nonatomic) IBOutlet UITableView *myTableView;
 
@@ -54,7 +54,7 @@ UITableViewDelegate
 {
     NSDictionary* params = @{@"orderNo":self.orderNo};
     [CZJBaseDataInstance getOrderBuildProgress:params Success:^(id json) {
-        builderData = [[CZJUtils DataFromJson:json] valueForKey:@"msg"];
+        builderData = [CZJOrderDetailBuildForm objectWithKeyValues:[[CZJUtils DataFromJson:json] valueForKey:@"msg"]];
         self.myTableView.delegate = self;
         self.myTableView.dataSource = self;
         [self.myTableView reloadData];
@@ -88,23 +88,23 @@ UITableViewDelegate
     {
         CZJOrderBuildCarCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJOrderBuildCarCell" forIndexPath:indexPath];
         [cell.carBrandImg sd_setImageWithURL:[NSURL URLWithString:@""] placeholderImage:DefaultPlaceHolderSquare];
-        NSString* carBrandName = [[builderData valueForKey:@"car"] valueForKey:@"brandName"];
-        NSString* carSeriesName = [[builderData valueForKey:@"car"] valueForKey:@"seriesName"];
-        NSString* carNumberPlate = [[builderData valueForKey:@"car"] valueForKey:@"numberPlate"];
+        NSString* carBrandName = builderData.car.brandName;
+        NSString* carSeriesName = builderData.car.seriesName;
+        NSString* carNumberPlate = builderData.car.numberPlate;
         cell.myCarInfoLabel.text = [NSString stringWithFormat:@"%@ %@ %@",carBrandName, carSeriesName, carNumberPlate];
-        cell.myCarModelLabel.text = [[builderData valueForKey:@"car"] valueForKey:@"modelName"];
+        cell.myCarModelLabel.text = builderData.car.modelName;
         return cell;
     }
     if (1 == indexPath.section)
     {
         CZJOrderBuilderCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJOrderBuilderCell" forIndexPath:indexPath];
-        cell.builderNameLabel.text = [builderData valueForKey:@"builder"];
+        cell.builderNameLabel.text = builderData.builder;
         cell.buildingLabel.hidden = YES;
         
-        [cell.builderHeadImg sd_setImageWithURL:[NSURL URLWithString:[builderData valueForKey:@"head"]] placeholderImage:IMAGENAMED(@"order_head_default.png")];
-        CGSize size = [CZJUtils calculateTitleSizeWithString:[builderData valueForKey:@"useTime"] AndFontSize:12];
+        [cell.builderHeadImg sd_setImageWithURL:[NSURL URLWithString:builderData.head] placeholderImage:IMAGENAMED(@"order_head_default.png")];
+        CGSize size = [CZJUtils calculateTitleSizeWithString:builderData.useTime AndFontSize:12];
         cell.leftTimeLabelWidth.constant = size.width + 40;
-        cell.leftTimeLabel.text = [NSString stringWithFormat:@"已用时%@",[builderData valueForKey:@"useTime"]];
+        cell.leftTimeLabel.text = [NSString stringWithFormat:@"已用时%@",builderData.useTime];
         cell.separatorInset = HiddenCellSeparator;
         return cell;
     }
@@ -120,11 +120,12 @@ UITableViewDelegate
         else
         {
             UITableViewCell* cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
-            NSArray* photosAry = [builderData valueForKey:@"photos"];
+            NSArray* photosAry = builderData.photos;
             for (int i = 0; i< photosAry.count; i++)
             {
-                UIImageView* image = [[UIImageView alloc]init];
-                image.frame = [CZJUtils viewFramFromDynamic:CZJMarginMake(15, 10) size:CGSizeMake(78, 78) index:i divide:4];
+                CZJImageView* image = [[CZJImageView alloc]initWithFrame:[CZJUtils viewFramFromDynamic:CZJMarginMake(15, 10) size:CGSizeMake(78, 78) index:i divide:4]];
+                image.subTag = i;
+                [image addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showBigImage:)]];
                 [cell addSubview:image];
                 [image sd_setImageWithURL:[NSURL URLWithString:photosAry[i]] placeholderImage:DefaultPlaceHolderSquare];
             }
@@ -167,7 +168,7 @@ UITableViewDelegate
         }
         if (1 == indexPath.row)
         {
-            if (((NSArray*)[builderData valueForKey:@"photos"]).count > 0)
+            if (builderData.photos.count > 0)
             {
                 return 100;
             }
@@ -180,7 +181,6 @@ UITableViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -204,4 +204,14 @@ UITableViewDelegate
     }
 }
 
+
+#pragma mark- 点小图显示大图
+- (void)showBigImage:(UIGestureRecognizer*)recogonizer
+{
+    CZJImageView* evalutionImg = (CZJImageView*)recogonizer.view;
+    //通过view的tag值可以获取section值，取到相应的数据
+
+    [CZJUtils showDetailInfoWithIndex:evalutionImg.subTag withImgAry:builderData.photos onTarget:self];
+
+}
 @end

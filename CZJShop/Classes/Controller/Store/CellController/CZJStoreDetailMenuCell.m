@@ -25,6 +25,8 @@
     }
     UIGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapMenu:)];
     [self addGestureRecognizer:tapGesture];
+    
+    [self updateCellTitleColor:1];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -42,6 +44,23 @@
     if (self.buttonClick)
     {
         self.buttonClick([NSString stringWithFormat:@"%ld",tapIndex]);
+        [self updateCellTitleColor:tapIndex];
+    }
+}
+
+- (void)updateCellTitleColor:(NSInteger)tapIndex
+{
+    if (tapIndex == 0)
+        return;
+    
+    for ( int i = 0; i < self.titles.count; i++)
+    {
+        CATextLayer *title = (CATextLayer*)self.titles[i];
+        title.foregroundColor = [UIColor darkGrayColor].CGColor;
+        if (i == tapIndex)
+        {
+            title.foregroundColor = CZJREDCOLOR.CGColor;
+        }
     }
 }
 

@@ -81,6 +81,7 @@ CZJMiaoShaCellDelegate
     BOOL isLoadSuccess;
     BOOL _isRefresh;
     BOOL _isFirstInNetWorkReachable;
+    __block BOOL _isRefreshMiaoshaCell;
 }
 @property (strong, nonatomic)NSString* recommandId;
 @property (nonatomic,retain)NSString* curUrl;
@@ -111,7 +112,7 @@ CZJMiaoShaCellDelegate
     [CZJUtils setExtraCellLineHidden:self.homeTableView];
     [CZJUtils performBlock:^{
         [self checkTheLatestVersion];
-    } afterDelay:1];
+    } afterDelay:0.5];
     [self checkNetWorkStatus];
     _isFirstInNetWorkReachable = _isNetWorkCanReachable;
 }
@@ -120,7 +121,7 @@ CZJMiaoShaCellDelegate
 {
     [self.naviBarView refreshShopBadgeLabel];
     self.naviBarView.hidden = NO;
-    
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
     //注册进入后台通知
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stopTimer) name:@"stopTimer" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(beginTimer) name:@"beginTimer" object:nil];
@@ -138,7 +139,7 @@ CZJMiaoShaCellDelegate
 
 - (void)viewDidAppear:(BOOL)animated
 {
-    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:NO];
     self.isJumpToAnotherView = YES;
     [self beginTimer];
 }
@@ -146,7 +147,7 @@ CZJMiaoShaCellDelegate
 - (void)viewWillDisappear:(BOOL)animated
 {
     [self stopTimer];
-    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:NO];
     [[NSNotificationCenter defaultCenter]removeObserver:self name:@"stopTimer" object:nil];
     [[NSNotificationCenter defaultCenter]removeObserver:self name:@"beginTimer" object:nil];
 }
@@ -154,6 +155,7 @@ CZJMiaoShaCellDelegate
 - (void)propertysInit
 {
     //隐藏toTop按钮
+    _isRefreshMiaoshaCell = YES;
     self.btnToTop.hidden = YES;
     self.isFirst = YES;
     self.isJumpToAnotherView = NO;
@@ -225,7 +227,7 @@ CZJMiaoShaCellDelegate
     refreshFooter = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^(){
         _refreshType = CZJHomeGetDataFromServerTypeTwo;
         weak.page++;
-        [weak getRecommendDataFromServer];;
+        [weak getRecommendDataFromServer];
     }];
     self.homeTableView.footer = refreshFooter;
     self.homeTableView.footer.backgroundColor = CZJTableViewBGColor;
@@ -247,6 +249,7 @@ CZJMiaoShaCellDelegate
     if (miaoShaHeaderCell)
     {
         miaoShaHeaderCell.isInit = NO;
+        _isRefreshMiaoshaCell = YES;
     }
     
     [CZJBaseDataInstance generalPost:nil success:^(id json) {
@@ -260,7 +263,8 @@ CZJMiaoShaCellDelegate
         [weak dealWithArray];
         [weak.homeTableView reloadData];
         [weak.homeTableView.header endRefreshing];
-        weak.homeTableView.footer.hidden = weak.homeTableView.mj_contentH < weak.homeTableView.frame.size.height;
+        weak.page++;
+        [weak getRecommendDataFromServer];
         
     } fail:^{
         [weak.homeTableView.header endRefreshing];
@@ -293,6 +297,7 @@ CZJMiaoShaCellDelegate
     [CZJBaseDataInstance generalPost:recommendParams success:^(id json) {
         //推荐商品分页返回数据
         NSArray* tmpAry = [[CZJUtils DataFromJson:json] valueForKey:@"msg"];
+        DLog(@"recommend:%@",[[CZJUtils DataFromJson:json] description]);
         if (tmpAry.count < 20)
         {
             [refreshFooter noticeNoMoreData];
@@ -304,6 +309,7 @@ CZJMiaoShaCellDelegate
         [CZJBaseDataInstance.homeForm  appendGoodsRecommendDataWith:[CZJUtils DataFromJson:json]];
         [weak dealWithArray];
         [weak.homeTableView reloadData];
+        weak.homeTableView.footer.hidden = weak.homeTableView.mj_contentH < weak.homeTableView.frame.size.height;
     } fail:^{
         [weak.homeTableView.footer endRefreshing];
     } andServerAPI:kCZJServerAPIGetRecoGoods];
@@ -378,8 +384,9 @@ CZJMiaoShaCellDelegate
         {//秒杀数据
             if (1 == indexPath.row) {
                 CZJMiaoShaCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CZJMiaoShaCell" forIndexPath:indexPath];
-                if (cell && _miaoShaArray.count > 0 && !cell.isInit)
+                if (cell && _miaoShaArray.count > 0 && _isRefreshMiaoshaCell)
                 {
+                    _isRefreshMiaoshaCell = NO;
                     cell.delegate = self;
                     [cell initMiaoShaInfoWithData:_miaoShaArray];
                 }
@@ -404,7 +411,17 @@ CZJMiaoShaCellDelegate
                         if (skillTime > currentTime)
                         {
                             CZJMiaoShaTimesForm* timeForms = CZJBaseDataInstance.homeForm.skillTimes[i -1];
-                            miaoShaHeaderCell.miaoShaChangCiLabel.text = [NSString stringWithFormat:@"%@场",[CZJUtils getDateTimeSinceTime:[timeForms.skillTime integerValue] / 1000]];
+                            NSString* timeStr = [NSString stringWithFormat:@"%@场",[CZJUtils getDateTimeSinceTime:[timeForms.skillTime integerValue] / 1000]];
+                            NSRange range = {2,4};
+                            NSString* timerStrRange = [timeStr stringByReplacingCharactersInRange:range withString:@""];
+                            NSRange range2 = {0,1};
+                            NSString* timeStrFirstNumb = [timerStrRange substringWithRange:range2];
+                            if ([timeStrFirstNumb isEqualToString:@"0"])
+                            {
+                                timerStrRange = [timerStrRange stringByReplacingOccurrencesOfString:@"0" withString:@""];
+                            }
+                            
+                            miaoShaHeaderCell.miaoShaChangCiLabel.text = [NSString stringWithFormat:@"%@点场",timerStrRange];
                             break;
                         }
                     }
@@ -416,6 +433,7 @@ CZJMiaoShaCellDelegate
                     //倒计时结束后的回调
                     __weak typeof(self) weak = self;
                     miaoShaHeaderCell.buttonClick = ^(id data){
+                        _isRefreshMiaoshaCell = YES;
                         [weak getHomeDataFromServer];
                     };
                 }
@@ -519,10 +537,7 @@ CZJMiaoShaCellDelegate
                 cell.imageOneHeight.constant = width;
                 cell.imageTwoHeight.constant = width;
                 cell.backgroundColor = CZJTableViewBGColor;
-                if (cell && _goodsRecommentArray.count > 0 && !cell.isInit)
-                {
-                    [cell initGoodsRecommendWithDatas:_goodsRecommentArray[indexPath.row - 1]];
-                }
+                [cell initGoodsRecommendWithDatas:_goodsRecommentArray[indexPath.row - 1]];
                 return cell;
             }
         }
@@ -724,6 +739,7 @@ CZJMiaoShaCellDelegate
     if ([serviceForm.typeId isEqualToString:@"2000"])
     {
         self.tabBarController.selectedIndex = 1;
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"moreService" object:nil];
     }
     else
     {
@@ -764,7 +780,7 @@ CZJMiaoShaCellDelegate
 
 - (void)removeShoppingOrLoginView:(nullable id)sender
 {
-    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
 }
 
 

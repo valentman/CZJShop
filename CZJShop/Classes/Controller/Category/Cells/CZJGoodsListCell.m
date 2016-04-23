@@ -12,6 +12,7 @@
 
 - (void)awakeFromNib {
     // Initialization code
+    self.goodPrice.keyWordFont = SYSTEMFONT(12);
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

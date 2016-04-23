@@ -17,6 +17,7 @@
 #import "CZJBackgroundPromptView.h"
 #import "CZJCommitOrderController.h"
 #import "CZJLoadingFailedAlertView.h"
+#import "WyzAlbumViewController.h"
 
 
 @interface CZJUtils ()<UIAlertViewDelegate>
@@ -60,7 +61,7 @@
         NSLog(@"Got an error");
     } else {
         jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-        DLog(@"jsonString:%@",jsonString);
+//        DLog(@"jsonString:%@",jsonString);
     }
     return jsonString;
 }
@@ -217,8 +218,16 @@
 
 
 #pragma mark 正则判断
+
++ (BOOL)isCarNumberPlate:(NSString*)carNo
+{
+    NSString *carRegex = @"^[A-Za-z]{1}[A-Za-z_0-9]{5}$";
+    BOOL isMatched = [carNo isMatchedByRegex:carRegex];
+    return isMatched;
+}
+
 + (BOOL)isLicencePlate:(NSString *)plateNum{
-    NSString* PhoneNum = @"^[A-Z0-9]\\d{5}";
+    NSString* PhoneNum = @"^[A-Z0-9]{5}";
     NSPredicate *regextestmobile = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", PhoneNum];
     if ([regextestmobile evaluateWithObject:plateNum] == YES)
     {
@@ -252,16 +261,17 @@
     
     /**
      * 手机号码
-     * 移动：134[0-8],135,136,137,138,139,150,151,157,158,159,182,187,188
+     * 移动：134[0-8],135,136,137,138,139,150,151,152,157,158,159,182,187,183,184,187,188
      * 联通：130,131,132,152,155,156,185,186
-     * 电信：133,1349,153,180,189
+     * 电信：133,153,177,180,181,189
+     * 最新号段：145、147、170、176、178
      */
-    NSString * MOBILE = @"^1(3[0-9]|5[0-35-9]|8[025-9])\\d{8}$";
+    NSString * MOBILE = @"^1(3[0-9]|5[0-35-9]|8[025-9]|4[57]|7[068])\\d{8}$";
     /**
      10         * 中国移动：China Mobile
-     11         * 134[0-8],135,136,137,138,139,150,151,157,158,159,182,187,188
+     11         * 134[0-8],135,136,137,138,139,150,151,152,157,158,159,182,187,183,184,187,188
      12         */
-    NSString * CM = @"^1(34[0-8]|(3[5-9]|5[017-9]|8[278])\\d)\\d{7}$";
+    NSString * CM = @"^1(34[0-8]|(3[5-9]|5[0217-9]|8[2-478])\\d)\\d{7}$";
     /**
      15         * 中国联通：China Unicom
      16         * 130,131,132,152,155,156,185,186
@@ -269,7 +279,7 @@
     NSString * CU = @"^1(3[0-2]|5[256]|8[56])\\d{8}$";
     /**
      20         * 中国电信：China Telecom
-     21         * 133,1349,153,180,189
+     21         * 133,153,177,180,181,189
      22         */
     NSString * CT = @"^1((33|53|8[09])[0-9]|349)\\d{7}$";
     /**
@@ -359,7 +369,7 @@ void backLastView(id sender, SEL _cmd)
     
     //UIButton
     UIButton *leftBtn = [[ UIButton alloc ] initWithFrame : CGRectMake(- 20 , 0 , 44 , 44 )];
-    [leftBtn setBackgroundImage:[UIImage imageNamed:hidden? @"" : @"prodetail_btn_backnor"] forState:UIControlStateNormal];
+    [leftBtn setBackgroundImage:[UIImage imageNamed:(hidden? @"all_arrow_backwhite" : @"prodetail_btn_backnor")] forState:UIControlStateNormal];
     [leftBtn addTarget:target action:backToLastView forControlEvents:UIControlEventTouchUpInside];
     [leftBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal]; //将leftItem设置为自定义按钮
     
@@ -418,6 +428,11 @@ void backLastView(id sender, SEL _cmd)
 #pragma mark 提示框
 +(void)tipWithText:(NSString *)text andView:(UIView *)view
 {
+    [CZJUtils tipWithText:text withCompeletHandler:nil];
+}
+
++ (void)tipWithText:(NSString*)text withCompeletHandler:(CZJGeneralBlock)compeletBlock
+{
     UIWindow *window = [[UIApplication sharedApplication] keyWindow];
     NSArray *windowViews = [window subviews];
     if(windowViews && [windowViews count] > 0)
@@ -434,7 +449,8 @@ void backLastView(id sender, SEL _cmd)
         hud.yOffset = 20.f;
         hud.removeFromSuperViewOnHide = YES;
         [hud setYOffset:PJ_SCREEN_HEIGHT/4];
-        [hud hide:YES afterDelay:1];
+        [hud hide:YES afterDelay:1.5];
+        hud.completionBlock = compeletBlock;
     }
 }
 
@@ -564,60 +580,67 @@ void backLastView(id sender, SEL _cmd)
 
 #pragma mark 界面控制器处理
 /**
- * @target              当前视图控制器，承载弹窗视图控制器
+ * @baseViewController  当前视图控制器，承载弹窗视图控制器
  * @myViewController    弹窗视图控制器
  */
-+ (void)showMyWindowOnTarget:(CZJViewController*)target withMyVC:(UIViewController*)myViewController
++ (void)showMyWindowOnTarget:(CZJViewController*)baseViewController withPopVc:(UIViewController*)popViewController
 {
     //初始化一个自定义弹窗视图
-    UIWindow *myWindow = [[UIWindow alloc] initWithFrame:target.popWindowInitialRect];
-    target.window = myWindow;
-    myWindow.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:target.windowAlpha];
+    UIWindow *myWindow = [[UIWindow alloc] initWithFrame:baseViewController.popWindowInitialRect];
+    baseViewController.window = myWindow;
+    myWindow.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:baseViewController.windowAlpha];
     myWindow.windowLevel = UIWindowLevelNormal;
     myWindow.hidden = NO;
-    myWindow.rootViewController = myViewController;
+    myWindow.rootViewController = popViewController;
     [myWindow makeKeyAndVisible];
     
-    
-    //动态给当前视图控制器添加点击回调函数（隐藏弹窗视图）
+    //动态给当前基础视图控制器添加点击回调函数（隐藏弹窗视图）
     SEL dismissPopview = sel_registerName("tapToHidePopViewAction:");
-    class_addMethod([target class],dismissPopview,(IMP)tapToHidePopViewAction,"v@:");
+    class_addMethod([baseViewController class],dismissPopview,(IMP)tapToHidePopViewAction,"v@:");
     
     //当前视图控制器的upView上添加手势监测
-    UIView *view = [[UIView alloc] initWithFrame:target.view.bounds];
-    view.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.5];
-    UITapGestureRecognizer *tap  = [[UITapGestureRecognizer alloc] initWithTarget:target action:dismissPopview];
-    [view addGestureRecognizer:tap];
-    UISwipeGestureRecognizer *swipeLeft = [[UISwipeGestureRecognizer alloc] initWithTarget:target action:dismissPopview];
-    [view addGestureRecognizer:swipeLeft];
-    [target.view addSubview:view];
-    target.upView = view;
-    target.upView.alpha = 0.0;
+    //初始化upView
+    baseViewController.upView = [[UIView alloc] initWithFrame:baseViewController.view.bounds];
+    baseViewController.upView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.5];
+    baseViewController.upView.alpha = 0.0;
+    //添加背景层点击隐藏手势、向右侧滑隐藏手势、向下滑隐藏手势和弹出页向右侧滑隐藏手势
+    [baseViewController.upView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:baseViewController action:dismissPopview]];
+    [baseViewController.upView addGestureRecognizer:[[UISwipeGestureRecognizer alloc] initWithTarget:baseViewController action:dismissPopview]];
+    [popViewController.view addGestureRecognizer:[[UISwipeGestureRecognizer alloc] initWithTarget:baseViewController action:dismissPopview]];
+    UISwipeGestureRecognizer* downGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:baseViewController action:dismissPopview];
+    [downGesture setDirection:UISwipeGestureRecognizerDirectionDown];
+    [baseViewController.upView addGestureRecognizer:downGesture];
+    //将upView添加到当前View上
+    [baseViewController.view addSubview:baseViewController.upView];
+    
     
     //动画出现弹窗视图
+    __weak typeof(baseViewController) weakSelf = baseViewController;
     [UIView animateWithDuration:0.5 animations:^{
-        target.windowAlpha = 1.0f;
-        target.window.frame =  target.popWindowDestineRect;
-        target.upView.alpha = 1.0;
+        weakSelf.windowAlpha = 1.0f;
+        weakSelf.window.frame =  weakSelf.popWindowDestineRect;
+        weakSelf.upView.alpha = 1.0;
     } completion:nil];
-    target.navigationController.interactivePopGestureRecognizer.enabled = NO;
+    baseViewController.navigationController.interactivePopGestureRecognizer.enabled = NO;
 }
 
 void tapToHidePopViewAction(id sender, SEL _cmd)
 {
     //此为当前视图控制器，这是upView上手势的回调函数，已动态添加到当前视图控制器
-    CZJViewController* target = ((CZJViewController*)sender);
+    
+    CZJViewController* baseViewController = ((CZJViewController*)sender);
+    __weak typeof(baseViewController) weakSelf = baseViewController;
     [UIView animateWithDuration:0.5 animations:^{
-        target.window.frame = target.popWindowInitialRect;
-        target.windowAlpha = 1.0f;
-        target.upView.alpha = 0.0;
+        weakSelf.window.frame = weakSelf.popWindowInitialRect;
+        weakSelf.windowAlpha = 1.0f;
+        weakSelf.upView.alpha = 0.0;
     } completion:^(BOOL finished) {
         if (finished) {
-            [target.upView removeFromSuperview];
-            [target.window resignKeyWindow];
-            target.window  = nil;
-            target.upView = nil;
-            target.navigationController.interactivePopGestureRecognizer.enabled = YES;
+            [weakSelf.upView removeFromSuperview];
+            [weakSelf.window resignKeyWindow];
+            weakSelf.window  = nil;
+            weakSelf.upView = nil;
+            weakSelf.navigationController.interactivePopGestureRecognizer.enabled = YES;
         }
     }];
 }
@@ -628,6 +651,19 @@ void tapToHidePopViewAction(id sender, SEL _cmd)
     //获取storyboard: 通过bundle根据storyboard的名字来获取我们的storyboard,
     UIStoryboard *story = [UIStoryboard storyboardWithName:storyboardName bundle:[NSBundle mainBundle]];
     return [story instantiateViewControllerWithIdentifier:vcName];
+}
+
++ (UIViewController*)getViewControllerInUINavigator:(UINavigationController*)navi withClass:(Class)_class
+{
+    UIViewController* vc;
+    for (vc in navi.viewControllers)
+    {
+        if ([vc isKindOfClass:_class])
+        {
+            break;
+        }
+    }
+    return vc;
 }
 
 + (id)getXibViewByName:(NSString*)xibName
@@ -655,7 +691,7 @@ void tapToHidePopViewAction(id sender, SEL _cmd)
         ((CZJSearchController*)searchVC).delegate = naviBar ? naviBar : target;
         ((CZJSearchController*)searchVC).detailType = naviBar.detailType;
     } completion:^(BOOL finished) {
-        [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
     }];
 }
 
@@ -677,7 +713,7 @@ void tapToHidePopViewAction(id sender, SEL _cmd)
         target.window.frame = CGRectMake(0, 0, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT);
         ((CZJLoginController*)loginView.topViewController).delegate = naviBar ? naviBar : target;
     } completion:^(BOOL finished) {
-        [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
     }];
 }
 
@@ -710,7 +746,7 @@ void tapToHidePopViewAction(id sender, SEL _cmd)
         target.window.frame = CGRectMake(0, 0, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT);
         ((CZJShoppingCartController*)shopping.topViewController).delegate = naviBar ? naviBar : target;
     } completion:^(BOOL finished) {
-        [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
     }];
 }
 
@@ -1194,5 +1230,25 @@ void tapToHidePopViewAction(id sender, SEL _cmd)
 }
 
 
++ (NSString*)getCurrentVersion
+{
+    //获取bundle里面关于当前版本的信息
+    NSDictionary *infoDict = [[NSBundle mainBundle] infoDictionary];
+    NSString *nowVersion = [infoDict objectForKey:@"CFBundleVersion"];
+    NSLog(@"nowVersion == %@",nowVersion);
+    return nowVersion;
+}
+
++ (void)showDetailInfoWithIndex:(NSInteger)index withImgAry:(NSArray*)imgs onTarget:(UIViewController*)target
+{
+    WyzAlbumViewController *wyzAlbumVC = [[WyzAlbumViewController alloc]init];
+    wyzAlbumVC.currentIndex =index;//这个参数表示当前图片的index，默认是0
+    //用url
+    wyzAlbumVC.imgArr = [imgs mutableCopy];
+    //进入动画
+    [target presentViewController:wyzAlbumVC animated:YES completion:^
+     {
+     }];
+}
 
 @end

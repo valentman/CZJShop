@@ -11,7 +11,7 @@
 
 @interface CZJGoodsListFilterController : CZJFilterBaseController
 @property (nonatomic,weak)id<CZJFilterControllerDelegate>delegate;
-@property (strong, nonatomic) NSString *typeId;
 @property (strong, nonatomic) NSArray* selectedConditionArys;
 - (void)setCancleBarItemHandle:(CZJGeneralBlock)basicBlock;
+- (void)removeGoodsListFilterNotification;
 @end

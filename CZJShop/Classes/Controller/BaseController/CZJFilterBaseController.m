@@ -61,12 +61,19 @@
 
 - (void)setTitle:(NSString *)title{
     
-    self.lblTitle = [[UILabel alloc] initWithFrame:CGRectMake(0, (PJ_SCREEN_WIDTH - kMGLeftSpace - 50)/2,100 , self.navigationController.navigationBar.frame.size.height)];
-    self.lblTitle.text = title;
-    self.lblTitle.font = [UIFont systemFontOfSize:19];
-    self.lblTitle.textAlignment = NSTextAlignmentCenter;
-    self.navigationItem.titleView = self.lblTitle;
+    CGRect titleRect = CGRectMake(0, (PJ_SCREEN_WIDTH - kMGLeftSpace - 50)/2,100 , self.navigationController.navigationBar.frame.size.height);
+    if (IS_IOS9)
+    {
+        self.navigationItem.title = title;
+    }
     
+    else if (IS_IOS8 || IS_IOS7)
+    {
+        self.lblTitle = [[UILabel alloc] initWithFrame:titleRect];
+        self.lblTitle.text = title;
+        self.lblTitle.font = [UIFont systemFontOfSize:19];
+        self.navigationItem.titleView = self.lblTitle;
+    }
 }
 
 - (UIBarButtonItem *)spacerWithSpace:(CGFloat)space
