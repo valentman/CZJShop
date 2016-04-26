@@ -177,7 +177,7 @@ CZJMiaoShaCellDelegate
     
     //导航栏添加搜索栏
     [self addCZJNaviBarView:CZJNaviBarViewTypeHome];
-    self.view.backgroundColor = CZJTableViewBGColor;
+    self.view.backgroundColor = CZJNAVIBARBGCOLOR;
 }
 
 

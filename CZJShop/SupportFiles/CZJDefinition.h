@@ -11,10 +11,10 @@
 
 //----------------------------服务器接口-------------------------------
 //服务地址
-//static NSString *const kCZJServerAddr = @"http://192.168.0.251:8080/appserver/";
+static NSString *const kCZJServerAddr = @"http://192.168.0.251:8080/appserver/";
 //static NSString *const kCZJServerAddr = @"http://101.201.197.202:8080/appserver/";
 //static NSString *const kCZJServerAddr = @"http://101.200.189.9:8080/appserver2/";
-static NSString *const kCZJServerAddr = @"http://czapp.chezhijian.com/appserver/";
+//static NSString *const kCZJServerAddr = @"http://czapp.chezhijian.com/appserver/";
 
 //首页接口组
 static NSString *const kCZJServerAPIShowHome = @"chezhu/showHomeV2.do";                             //获取首页数据
@@ -151,6 +151,7 @@ static NSString *const kCZJServerAPIGetStartPage = @"chezhu/loadStartPage.do";  
 static NSString *const kCZJServerAPIFeedBack = @"chezhu/sendSuggestion.do";                         //意见反馈
 
 
+//-------------------------------分享-------------------
 static NSString *const kCZJGoodsShare = @"chezhu/showGoodsShare.do";                                //分享商品
 static NSString *const kCZJServiceShare = @"chezhu/showServiceShare.do";                            //分享服务
 static NSString *const kCZJStoreShare = @"chezhu/showStoreShare.do";                                //分享门店
@@ -198,6 +199,7 @@ static NSString *const kCZJPlistFileUserBaseForm = @"userBaseForm.plist";
 //----------------------UserDefault键名定义
 static NSString *const kUserDefaultTimeDay = @"userdefaultTimeDay";                         //以天为间隔时间
 static NSString *const kUserDefaultTimeMin = @"userdefaultTimeMin";                         //以分钟为间隔时间
+static NSString *const kUserDefaultTimeMinLocation = @"userdefaultTimeMinLocation";         //定位间隔时间
 static NSString *const kUserDefaultRandomCode = @"userdefaultRandomCode";                   //随机码
 static NSString *const kUserDefaultServiceTypeID = @"userdefaultserviceyypeid";             //服务项目ID
 static NSString *const kUserDefaultChoosedCarModelType = @"userdefaultchoosedcarmodel";     //选择的车型名称

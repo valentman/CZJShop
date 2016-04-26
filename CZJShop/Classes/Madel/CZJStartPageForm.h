@@ -23,3 +23,17 @@
 @property(nonatomic,strong)NSString* version;
 @property(nonatomic,strong)NSString* versionNo;
 @end
+
+
+
+@interface CZJNotificationForm : NSObject
+@property(nonatomic,strong)NSString* type;
+@property(nonatomic,strong)NSString* runType;
+@property(nonatomic,strong)NSString* msg;
+@property(nonatomic,strong)NSString* url;
+@property(nonatomic,strong)NSString* time;
+@property(nonatomic,strong)NSString* orderNo;
+@property(nonatomic,strong)NSString* title;
+@property(nonatomic,strong)NSString* storeName;
+
+@end

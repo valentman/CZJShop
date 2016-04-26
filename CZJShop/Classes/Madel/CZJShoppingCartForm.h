@@ -17,9 +17,6 @@
 @property(nonatomic, strong)NSMutableArray* shoppingCouponsList;
 
 - (id)init;
-- (void)setNewShoppingCartDictionary:(NSDictionary*)dict;
-- (void)appendNewShoppingCartData:(NSDictionary*)dict;
-
 - (void)setNewCouponsDictionary:(NSDictionary*)dict;
 @end
 

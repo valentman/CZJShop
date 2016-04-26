@@ -89,7 +89,7 @@ UIGestureRecognizerDelegate
 {
     //tableview
     self.myTableView.tableFooterView = [[UIView alloc]init];
-    self.myTableView.backgroundColor = CZJNAVIBARGRAYBG;
+    self.myTableView.backgroundColor = CZJNAVIBARBGCOLOR;
     self.automaticallyAdjustsScrollViewInsets = NO;
     UINib* nib1 = [UINib nibWithNibName:@"CZJShoppingCartCell" bundle:nil];
     UINib* nib2 = [UINib nibWithNibName:@"CZJShoppingCartHeaderCell" bundle:nil];

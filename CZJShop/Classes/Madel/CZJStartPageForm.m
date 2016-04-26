@@ -13,3 +13,6 @@
 
 @implementation CZJVersionForm
 @end
+
+@implementation CZJNotificationForm
+@end

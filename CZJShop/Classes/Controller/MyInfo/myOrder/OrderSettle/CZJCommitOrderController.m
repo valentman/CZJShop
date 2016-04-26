@@ -123,7 +123,7 @@ CZJNaviagtionBarViewDelegate
     self.myTableView.delegate = self;
     self.myTableView.dataSource = self;
     self.myTableView.backgroundColor = CLEARCOLOR;
-    self.view.backgroundColor = CZJNAVIBARGRAYBG;
+    self.view.backgroundColor = CZJNAVIBARBGCOLOR;
     NSArray* nibArys = @[@"CZJAddDeliveryAddrCell",
                          @"CZJDeliveryAddrCell",
                          @"CZJOrderTypeCell",

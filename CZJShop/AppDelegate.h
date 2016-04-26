@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "iConsole.h"
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate,UIAlertViewDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate,UIAlertViewDelegate,iConsoleDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 @property (assign, nonatomic) UIBackgroundTaskIdentifier backgroundUpdateTask;

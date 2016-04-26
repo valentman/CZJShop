@@ -58,7 +58,7 @@ UITableViewDataSource
     self.myTableView.delegate = self;
     self.myTableView.dataSource = self;
     self.myTableView.scrollEnabled = NO;
-    self.myTableView.backgroundColor = CZJNAVIBARGRAYBG;
+    self.myTableView.backgroundColor = CZJNAVIBARBGCOLOR;
     self.automaticallyAdjustsScrollViewInsets = NO;
     [self.view addSubview:self.myTableView];
     

@@ -17,7 +17,6 @@
 @end
 
 @interface CZJGoodsListFilterSubController : CZJFilterBaseController
-@property (strong, nonatomic) NSString *typeId;
 @property (strong, nonatomic) NSString* subFilterName;
 @property (strong, nonatomic) NSArray* subFilterArys;
 @property (strong, nonatomic) NSMutableArray* selectdCondictionArys;

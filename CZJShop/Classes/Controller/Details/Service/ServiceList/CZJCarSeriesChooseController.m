@@ -80,9 +80,7 @@ UITableViewDataSource
     
     [_curCarBrandLogo sd_setImageWithURL:[NSURL URLWithString:self.carBrand.icon]
                         placeholderImage:DefaultPlaceHolderSquare
-                               completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL){
-                                   
-                               }];
+                               completed:nil];
     _curCarBrandName.text = self.carBrand.name;
 }
 

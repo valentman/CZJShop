@@ -25,7 +25,7 @@
     
     CGRect rect = CGRectMake(20, 84, PJ_SCREEN_WIDTH- 40, 200);
     _textView = [[CZJTextView alloc]initWithFrame:rect];
-    [_textView setBackgroundColor:CZJNAVIBARGRAYBG];
+    [_textView setBackgroundColor:CZJNAVIBARBGCOLOR];
     [_textView setMyPlaceholder:@"请输入您宝贵的意见，以便我们不断优化体验"];
     [_textView setMyPlaceholderColor:[UIColor lightGrayColor]];
     _textView.layer.cornerRadius = 5;

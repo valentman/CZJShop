@@ -896,7 +896,14 @@ CZJChooseProductTypeDelegate
             break;
             
         case CZJButtonTypeNaviBarBack:
-            [self.navigationController popViewControllerAnimated:true];
+            if (self.myScrollView.contentOffset.y == 0)
+            {
+                [self.navigationController popViewControllerAnimated:true];
+            }
+            else
+            {
+                [self.myScrollView setContentOffset:CGPointZero animated:YES];
+            }
             break;
             
         case CZJButtonTypeHomeShopping:

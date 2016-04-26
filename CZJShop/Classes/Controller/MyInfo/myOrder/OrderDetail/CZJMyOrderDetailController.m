@@ -141,7 +141,7 @@ CZJPopPayViewDelegate
     self.myTableView.dataSource = self;
     self.myTableView.backgroundColor = CLEARCOLOR;
     self.myTableView.hidden = YES;
-    self.view.backgroundColor = CZJNAVIBARGRAYBG;
+    self.view.backgroundColor = CZJNAVIBARBGCOLOR;
     self.separatorViewHeight.constant = 0.5;
     
     NSArray* nibArys = @[@"CZJOrderDetailCell",

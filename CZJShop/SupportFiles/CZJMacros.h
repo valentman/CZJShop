@@ -148,46 +148,32 @@ CGSizeEqualToSize(CGSizeMake(1125, 2001), [[UIScreen mainScreen] currentMode].si
 #define GRAYCOLOR  [UIColor grayColor]
 #define LIGHTGRAYCOLOR [UIColor lightGrayColor]
 
-
-
 //本项目自定义颜色
 #define CZJBLUECOLOR RGB(44, 148, 255)
 #define CZJREDCOLOR RGB(251, 70, 78)
 #define CZJGRAYCOLOR RGB(180, 180, 180)
 #define CZJGREENCOLOR RGB(0, 204, 204)
 #define CZJTableViewBGColor RGB(240, 240, 240)
-#define CZJNAVIBARGRAYBG RGB(247, 247, 247)
 #define CZJNAVIBARBGCOLOR RGB(247, 247, 247)
 #define CZJNAVIBARBGCOLORALPHA(a) UIColorFromHEX(0xF7F7F7,a)
 
 
-
-
 //------------------------调试-------------------------
-//DEBUG模式下 打印日志,当前行
 #ifdef DEBUG
+//DEBUG模式下 打印日志,当前行
 #define DLog(fmt, ...) NSLog((@"^_^%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
 
-#else
-#define DLog(...)
-#endif
+//DEBUG模式下 脱机打印日志
+#define iLog(fmt, ...) [iConsole info:(@"%@\n" fmt),([NSString stringWithFormat:@"%s",__FUNCTION__]),##__VA_ARGS__];
 
-//DEBUG模式下 打印日志,当前行 并弹出一个警告
-#ifdef DEBUG
+//DEBUG模式下 打印日志，并弹出提示框
 #define ULog(fmt, ...)  { DLog(fmt);UIAlertView *alert = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"%s\n [Line %d] ", __PRETTY_FUNCTION__, __LINE__] message:[NSString stringWithFormat:fmt, ##__VA_ARGS__]  delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil]; [alert show];}
-#else
-#define ULog(...)
-#endif
 
-//DEBUG模式下，条件判断打印日志,当前行
-#ifdef DEBUG
+//DEBUG模式下 判断条件打印日志，并弹出提示框
 #define DCONDITIONLOG(condition, xx, ...) { if ((condition)) { \
 DLog(xx, ##__VA_ARGS__); \
 } \
 } ((void)0)
-#else
-#define DCONDITIONLOG(condition, xx, ...) ((void)0)
-#endif
 
 //DEBUG模式下，条件判断打印日志
 #define PJAssert(condition, ...)                                       \
@@ -206,6 +192,17 @@ description:__VA_ARGS__];                             \
 ULog(xx, ##__VA_ARGS__); \
 } \
 } ((void)0)
+
+#else
+#define DLog(...)
+#define iLog(...)
+#define ULog(...)
+#define DCONDITIONLOG(condition, xx, ...) ((void)0)
+#define PJAssert(condition, ...)
+#define PJAlertAssert(condition, xx, ...) ((void)0)
+#endif
+
+
 
 //成对出现，显示一段程序运行时间
 #define TICK   NSDate *startTime = [NSDate date]
@@ -240,9 +237,11 @@ ULog(xx, ##__VA_ARGS__); \
 #define degreesToRadian(x) (M_PI * (x) / 180.0)
 #define radianToDegrees(radian) (radian*180.0)/(M_PI)
 
+//TableViewCell分割线
 #define HiddenCellSeparator UIEdgeInsetsMake(46, PJ_SCREEN_WIDTH, 0, 0);
 #define IndentCellSeparator(num) UIEdgeInsetsMake(0, num, 0, num);
 
+//视图锚点
 #define CGPointMiddle CGPointMake(0.5, 0.5)
 #define CGPointButtomMiddle CGPointMake(0.5,1.0)
 #define CGPointButtomRight CGPointMake(1.0,1.0)
@@ -252,6 +251,7 @@ ULog(xx, ##__VA_ARGS__); \
 #define CGPointLeftMiddle CGPointMake(0,0.5)
 #define CGPointRightMiddle CGPointMake(1.0,0.5)
 
+//位置
 #define CGPointPositionMiddle CGPointMake(PJ_SCREEN_WIDTH*0.5,PJ_SCREEN_HEIGHT*0.5)
 
 

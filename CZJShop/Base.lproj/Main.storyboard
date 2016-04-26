@@ -1390,7 +1390,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ae6-sD-faY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1975" y="551"/>
+            <point key="canvasLocation" x="2025" y="543"/>
         </scene>
         <!--发现-->
         <scene sceneID="IMb-3M-78S">
@@ -1401,7 +1401,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <animations/>
                         <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
-                        <color key="separatorColor" patternImage="38C50094-4324-43D3-B898-0BA07EC15651" colorSpace="pattern"/>
+                        <color key="separatorColor" patternImage="B3C9E9A7-DF8B-4F4A-AEF9-02A7C88F0452" colorSpace="pattern"/>
                         <inset key="separatorInset" minX="15" minY="0.0" maxX="15" maxY="0.0"/>
                         <sections>
                             <tableViewSection id="t6n-nw-cfg" userLabel="Activity">
@@ -2505,7 +2505,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7sf-Ra-eXn" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-495" y="2584"/>
+            <point key="canvasLocation" x="-892" y="3298"/>
         </scene>
         <!--购物车-->
         <scene sceneID="Wl4-AM-2VH">
@@ -2648,7 +2648,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YOJ-hW-POe" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-898" y="2584"/>
+            <point key="canvasLocation" x="-495" y="2584"/>
         </scene>
         <!--订单确认-->
         <scene sceneID="V6g-Z7-jac">
@@ -2764,7 +2764,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="38y-CJ-t1h" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-82" y="2584"/>
+            <point key="canvasLocation" x="-495" y="3298"/>
         </scene>
         <!--选择优惠券-->
         <scene sceneID="gwf-F0-dkc">
@@ -2877,7 +2877,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FgN-KL-Wxe" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="354" y="2584"/>
+            <point key="canvasLocation" x="-82" y="3298"/>
         </scene>
         <!--订单列表-->
         <scene sceneID="Cuv-74-4rt">
@@ -4202,7 +4202,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Q8i-WN-THS" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3766" y="1869"/>
+            <point key="canvasLocation" x="3345" y="1869"/>
         </scene>
         <!--积分-->
         <scene sceneID="JXt-GD-uGn">
@@ -4222,7 +4222,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="a6J-XT-NkA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4146" y="1869"/>
+            <point key="canvasLocation" x="3766" y="1869"/>
         </scene>
         <!--优惠券-->
         <scene sceneID="wVN-e3-3fO">
@@ -4242,7 +4242,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="S36-mZ-XFn" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4510" y="1869"/>
+            <point key="canvasLocation" x="4171" y="1869"/>
         </scene>
         <!--套餐卡详情-->
         <scene sceneID="rc8-kf-Dqa">
@@ -4277,7 +4277,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yrn-61-j2f" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4894" y="2548"/>
+            <point key="canvasLocation" x="4557" y="2584"/>
         </scene>
         <!--套餐卡-->
         <scene sceneID="uQF-ud-B4h">
@@ -4300,7 +4300,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Tr4-O4-Aoa" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4894" y="1869"/>
+            <point key="canvasLocation" x="4557" y="1869"/>
         </scene>
         <!--充值-->
         <scene sceneID="6yf-eL-nTG">
@@ -4495,7 +4495,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2zO-Ji-eaf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3766" y="1221"/>
+            <point key="canvasLocation" x="3345" y="1221"/>
         </scene>
         <!--账户余额-->
         <scene sceneID="KRN-S5-QEf">
@@ -4656,7 +4656,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5kh-a9-Uaa" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3335" y="1869"/>
+            <point key="canvasLocation" x="2917" y="1869"/>
         </scene>
         <!--关注列表-->
         <scene sceneID="dGP-DB-yNC">
@@ -5110,7 +5110,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7vG-KI-lgW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="361" y="3298"/>
+            <point key="canvasLocation" x="-82" y="4012"/>
         </scene>
         <!--消息中心-->
         <scene sceneID="C5N-Vh-WCL">
@@ -5139,17 +5139,6 @@
                                             <constraint firstAttribute="height" constant="40" id="ds4-Oe-FyC"/>
                                         </constraints>
                                     </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="客服消息" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kdm-mv-muZ">
-                                        <rect key="frame" x="70" y="22" width="150" height="16"/>
-                                        <animations/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="150" id="ZZm-gT-rZU"/>
-                                            <constraint firstAttribute="height" constant="16" id="j6z-Qz-aBM"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="commit_arrow_next.png" translatesAutoresizingMaskIntoConstraints="NO" id="hpE-NU-rtU">
                                         <rect key="frame" x="299" y="24" width="6" height="12"/>
                                         <animations/>
@@ -5158,13 +5147,18 @@
                                             <constraint firstAttribute="height" constant="12" id="zed-ir-XQa"/>
                                         </constraints>
                                     </imageView>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="riU-4z-3db" customClass="CZJButton">
+                                        <rect key="frame" x="75" y="15" width="60" height="30"/>
+                                        <animations/>
+                                        <state key="normal" title="客服消息">
+                                            <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                    </button>
                                 </subviews>
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstItem="dEl-k6-kqH" firstAttribute="centerY" secondItem="UD2-oU-wNZ" secondAttribute="centerY" id="8By-WU-clL"/>
-                                    <constraint firstItem="Kdm-mv-muZ" firstAttribute="centerY" secondItem="dEl-k6-kqH" secondAttribute="centerY" id="986-N8-cAC"/>
-                                    <constraint firstItem="Kdm-mv-muZ" firstAttribute="leading" secondItem="UD2-oU-wNZ" secondAttribute="leading" constant="70" id="B3l-BC-zYt"/>
                                     <constraint firstItem="qxG-3z-9DT" firstAttribute="leading" secondItem="UD2-oU-wNZ" secondAttribute="leading" id="C43-Ve-v3l"/>
                                     <constraint firstItem="hpE-NU-rtU" firstAttribute="centerY" secondItem="UD2-oU-wNZ" secondAttribute="centerY" id="GrT-xA-ubM"/>
                                     <constraint firstAttribute="trailing" secondItem="hpE-NU-rtU" secondAttribute="trailing" constant="15" id="PC4-Hl-mKU"/>
@@ -5185,10 +5179,13 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="消息中心" id="O1p-65-rMy"/>
+                    <connections>
+                        <outlet property="serviceInfoBtn" destination="riU-4z-3db" id="9Dy-RS-BIh"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7Xv-fE-1hv" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2917" y="1869"/>
+            <point key="canvasLocation" x="354" y="2584"/>
         </scene>
         <!--我的已退换货列表-->
         <scene sceneID="Yya-Jz-5EF">
@@ -6194,7 +6191,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="id6-VU-uul" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-495" y="3298"/>
+            <point key="canvasLocation" x="-892" y="4012"/>
         </scene>
         <!--收货地址-->
         <scene sceneID="voi-0e-hVT">
@@ -6287,7 +6284,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HqV-9E-fp9" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-82" y="3298"/>
+            <point key="canvasLocation" x="-495" y="4012"/>
         </scene>
         <!--订单支付成功-->
         <scene sceneID="j4L-kE-dyy">
@@ -6425,7 +6422,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rbK-9P-y4m" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-495" y="3994"/>
+            <point key="canvasLocation" x="-892" y="4712"/>
         </scene>
         <!--添加收货地址-->
         <scene sceneID="11B-Fe-w1J">
@@ -6753,7 +6750,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CBU-Jz-fb6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-82" y="3994"/>
+            <point key="canvasLocation" x="-495" y="4712"/>
         </scene>
         <!--车之健服务协议-->
         <scene sceneID="gB3-RT-54b">
@@ -7343,7 +7340,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="38C50094-4324-43D3-B898-0BA07EC15651" width="256" height="256">
+        <image name="B3C9E9A7-DF8B-4F4A-AEF9-02A7C88F0452" width="256" height="256">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPT5YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQrLjE3OlUkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw
@@ -11832,16 +11829,16 @@ AAAAAAAEDtA
         <image name="yue_img_bj.png" width="375" height="289"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="9kg-PH-ln9"/>
-        <segue reference="lKt-0d-hD3"/>
-        <segue reference="s7d-yk-Kc5"/>
-        <segue reference="IN0-Kp-x1L"/>
         <segue reference="ftO-I4-rYb"/>
         <segue reference="S3X-r2-NXJ"/>
-        <segue reference="OGv-AU-DWf"/>
-        <segue reference="Eev-Mt-eBi"/>
+        <segue reference="IN0-Kp-x1L"/>
+        <segue reference="lKt-0d-hD3"/>
+        <segue reference="s7d-yk-Kc5"/>
+        <segue reference="e36-zy-AYm"/>
+        <segue reference="9kg-PH-ln9"/>
         <segue reference="yxJ-Kx-arp"/>
         <segue reference="md8-5U-07U"/>
+        <segue reference="Eev-Mt-eBi"/>
         <segue reference="lel-ft-RgU"/>
         <segue reference="B1X-5g-nhm"/>
     </inferredMetricsTieBreakers>

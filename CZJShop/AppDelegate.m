@@ -25,6 +25,7 @@
 #import "MZGuidePages.h"
 #import <KSCrash/KSCrashInstallationStandard.h>
 
+
 @interface AppDelegate ()
 {
     __block NSString* currentStartPateURL;
@@ -153,7 +154,7 @@
 
 #pragma mark- AppDelegate
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    //-------------------1.版本更新检测------------------
+    //-------------------1.设置状态栏隐藏，因为有广告------------------
     [[UIApplication sharedApplication]setStatusBarHidden:YES withAnimation:UIStatusBarAnimationNone];
     
     //------------------2.设置URL缓存机制----------------
@@ -244,6 +245,16 @@
     };
     //角标清0
     [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
+    iLog(@"launchOptions:%@",[launchOptions description]);
+    
+    
+    NSDictionary* aps = [[launchOptions valueForKey:@"UIApplicationLaunchOptionsRemoteNotificationKey"]valueForKey:@"aps"];
+    if (aps.count > 0)
+    {
+        [[[UIAlertView alloc]initWithTitle:@"通知" message:[aps valueForKey:@"alert"] delegate:self cancelButtonTitle:@"收到，闪边去~" otherButtonTitles:nil, nil] show];
+    }
+    
+    
     [XGPush handleLaunching:launchOptions successCallback:_successBlock errorCallback:_errorBlock];
     
     //给信鸽用户设置标签
@@ -255,10 +266,14 @@
              [XGPush setAccount:CZJLoginModelInstance.usrBaseForm.chezhuId];
          }fail:^(){}];
     }
-    [XGPush clearLocalNotifications];
+//    [XGPush clearLocalNotifications];
     
     //-----------------6.设置主页并判断是否启动广告页面--------------
+#ifdef DEBUG
+    self.window = [[iConsoleWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+#else
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+#endif
     UIViewController *_CZJRootViewController = [CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:kCZJStoryBoardIDHomeView];
     self.window.rootViewController = _CZJRootViewController;
     [self.window makeKeyAndVisible];
@@ -346,11 +361,11 @@
     [OpenShare connectAlipay];
     
     
-    //-------------------8.字典描述分类替换---------------
+    //-------------------8.字典描述分类替换----------------
     [NSDictionary jr_swizzleMethod:@selector(description) withMethod:@selector(my_description) error:nil];
     
     
-    //-------------------9.开启帧数显示---------------
+    //--------------------9.开启帧数显示------------------
     [KMCGeigerCounter sharedGeigerCounter].enabled = false;
     
     
@@ -367,7 +382,10 @@
                                              appkey:@"douser#istore"
                                        apnsCertName:@"istore_dev"
                                         otherConfig:@{kSDKConfigEnableConsoleLogger:[NSNumber numberWithBool:YES]}];
-
+    
+    
+    //-------------------12.本地日志代理---------------
+    [iConsole sharedConsole].delegate = self;
     return YES;
 }
 
@@ -409,19 +427,6 @@
     [[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound)];
 }
 
-//接收本地推送通知
-- (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification
-{
-    //notification是发送推送时传入的字典信息
-    [XGPush localNotificationAtFrontEnd:notification userInfoKey:@"clockID" userInfoValue:@"myid"];
-    
-    //删除推送列表中的这一条
-    [XGPush delLocalNotification:notification];
-    
-//    //当App在前台运行时，远程通知转换成本地通知到这里，显示出来
-//    [[[UIAlertView alloc]initWithTitle:@"通知" message:@"这是一条通知消息" delegate:self cancelButtonTitle:@"收到，闪边去~" otherButtonTitles:nil, nil] show];
-}
-
 
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= _IPHONE80_
 
@@ -429,7 +434,7 @@
 - (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings
 {
     //用户已经允许接收以下类型的推送
-    //UIUserNotificationType allowedTypes = [notificationSettings types];
+//    UIUserNotificationType allowedTypes = [notificationSettings types];
     
 }
 
@@ -467,9 +472,26 @@
 }
 
 
+//接收本地推送通知
+- (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification
+{
+    iLog();
+    DLog(@"localNotification:%@,%@",notification.alertTitle, notification.alertBody);
+    //notification是发送推送时传入的字典信息
+    [XGPush localNotificationAtFrontEnd:notification userInfoKey:@"clockID" userInfoValue:@"myid"];
+    
+    //删除推送列表中的这一条
+    [XGPush delLocalNotification:notification];
+    
+    //当App在前台运行时，远程通知转换成本地通知到这里，显示出来
+    [[[UIAlertView alloc]initWithTitle:notification.alertTitle message:notification.alertBody delegate:self cancelButtonTitle:@"收到，闪边去~" otherButtonTitles:nil, nil] show];
+}
+
+
 //接收APNs推送通知
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
+    iLog();
     NSLog(@"========CZJ receivedRemoteNotification:%@", [userInfo description]);
     [XGPush handleReceiveNotification:userInfo];
     
@@ -479,6 +501,9 @@
 //接收APNs推送通知并启动或恢复应用
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
 {
+    CZJNotificationForm* notifiForm = [CZJNotificationForm objectWithKeyValues:userInfo];
+    iLog(@"notificationInfo:%@",notifiForm.keyValues);
+    
     if (application.applicationState == UIApplicationStateActive) {
         NSLog(@"========CZJ active");
         //程序当前正处于前台
@@ -558,26 +583,33 @@
     [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
     
     //清除所有通知(包含本地通知)
-    [[UIApplication sharedApplication] cancelAllLocalNotifications];
+//    [[UIApplication sharedApplication] cancelAllLocalNotifications];
+    NSArray* notifications = [UIApplication sharedApplication].scheduledLocalNotifications;
+    DLog(@"notifications:%@",notifications);
     
-//    if (CZJBaseDataInstance.curLocation.latitude == 0 &&
-//        CZJBaseDataInstance.curLocation.longitude == 0) {
-//        if (IS_IOS8)
-//        {
-//            [[CCLocationManager shareLocation] getLocationCoordinate:^(CLLocationCoordinate2D locationCorrrdinate)
-//             {
-//                 [CZJBaseDataInstance setCurLocation:locationCorrrdinate];
-//                 DLog(@"--%f",locationCorrrdinate.latitude);
-//             }];
-//        }
-//        else if(IS_IOS7)
-//        {
-//            [[ZXLocationManager sharedZXLocationManager] getLocationCoordinate:^(CLLocationCoordinate2D locationCorrrdinate)
-//             {
-//                 [CZJBaseDataInstance setCurLocation:locationCorrrdinate];
-//             }];
-//        }
-//    }
+    
+    //=====================进入前台即重新定位==========================
+    if ([CZJUtils isTimeCrossMinInterval:5 withIdentity:kUserDefaultTimeMinLocation])
+    {
+        if (CZJBaseDataInstance.curLocation.latitude == 0 &&
+            CZJBaseDataInstance.curLocation.longitude == 0) {
+            if (IS_IOS8)
+            {
+                [[CCLocationManager shareLocation] getLocationCoordinate:^(CLLocationCoordinate2D locationCorrrdinate)
+                 {
+                     [CZJBaseDataInstance setCurLocation:locationCorrrdinate];
+                     DLog(@"--%f",locationCorrrdinate.latitude);
+                 }];
+            }
+            else if(IS_IOS7)
+            {
+                [[ZXLocationManager sharedZXLocationManager] getLocationCoordinate:^(CLLocationCoordinate2D locationCorrrdinate)
+                 {
+                     [CZJBaseDataInstance setCurLocation:locationCorrrdinate];
+                 }];
+            }
+        }
+    }
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
@@ -587,6 +619,18 @@
 }
 
 
-
+- (void)handleConsoleCommand:(NSString *)command
+{
+    if ([command isEqualToString:@"version"])
+    {
+        [iConsole info:@"%@ version %@",
+         [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleName"],
+         [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"]];
+    }
+    else
+    {
+        [iConsole error:@"unrecognised command, try 'version' instead"];
+    }
+}
 
 @end

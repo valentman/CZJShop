@@ -40,7 +40,7 @@ UITableViewDelegate
     self.myTableView.tableFooterView = [[UIView alloc]init];
     self.myTableView.delegate = self;
     self.myTableView.dataSource = self;
-    self.myTableView.backgroundColor = CZJNAVIBARGRAYBG;
+    self.myTableView.backgroundColor = CZJNAVIBARBGCOLOR;
     self.myTableView.scrollEnabled = NO;
     self.automaticallyAdjustsScrollViewInsets = NO;
     

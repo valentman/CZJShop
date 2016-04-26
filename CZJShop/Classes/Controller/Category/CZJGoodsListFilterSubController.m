@@ -22,6 +22,7 @@
 @end
 
 @implementation CZJGoodsListFilterSubController
+@synthesize typeId = _typeId;
 
 - (void)viewDidLoad
 {

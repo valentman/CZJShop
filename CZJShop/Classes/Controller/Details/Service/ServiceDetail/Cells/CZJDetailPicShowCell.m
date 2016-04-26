@@ -22,17 +22,17 @@
 - (void)someMethodNeedUse:(NSIndexPath *)indexPath DataModel:(NSMutableArray*)array
 {
     self.isInit = YES;
-    [_imageArray removeAllObjects];
-    _imageArray = array;
+    _imageArray = [array mutableCopy];
 
     [self loadImageData];
 }
 
 - (void)loadImageData{
     self.picDetailView.imagePlayerViewDelegate = self;
-    self.picDetailView.scrollInterval = 5.0f;
-    self.picDetailView.pageControlPosition = ICPageControlPosition_BottomCenter;
+    self.picDetailView.autoScroll = NO;
+    self.picDetailView.pageControlPosition = ICPageControlPosition_BottomRight;
     self.picDetailView.hidePageControl = NO;
+    self.picDetailView.pageControl.pageIndicatorTintColor = CZJNAVIBARBGCOLOR;
     [self.picDetailView reloadData];
 }
 

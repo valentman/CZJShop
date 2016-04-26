@@ -7,7 +7,7 @@
 //
 
 #import "CZJMyMessageCenterController.h"
-
+#import "CZJBaseDataManager.h"
 @interface CZJMyMessageCenterController ()
 <
 UITableViewDelegate,
@@ -17,6 +17,7 @@ UITableViewDataSource
     BOOL isEdit;
 }
 @property (strong, nonatomic)UITableView* myTableView;
+@property (weak, nonatomic) IBOutlet CZJButton *serviceInfoBtn;
 @end
 
 @implementation CZJMyMessageCenterController
@@ -24,6 +25,7 @@ UITableViewDataSource
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self initViews];
+    [self getMessageInfosFromServer];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -36,18 +38,11 @@ UITableViewDataSource
     isEdit = NO;
     [CZJUtils customizeNavigationBarForTarget:self];
     //右按钮
-    UIButton* rightBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    rightBtn.frame = CGRectMake(PJ_SCREEN_WIDTH - 44 , 0 , 88 , 44 );
-    rightBtn.titleLabel.textAlignment = NSTextAlignmentRight;
-    [rightBtn setTitle:@"编辑" forState:UIControlStateNormal];
-    [rightBtn setTitleColor:BLACKCOLOR forState:UIControlStateNormal];
-    [rightBtn setSelected:NO];
-    [rightBtn setTag:2999];
-    rightBtn.titleLabel.font = SYSTEMFONT(16);
-    [rightBtn addTarget:self action:@selector(edit:) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem *rightItem =[[UIBarButtonItem alloc]initWithCustomView: rightBtn];
-    self.navigationItem.rightBarButtonItem = rightItem;
+    UIBarButtonItem* rightItem2 = [[UIBarButtonItem alloc]initWithTitle:@"编辑" style:UIBarButtonItemStylePlain target:self action:@selector(edit:)];
+    self.navigationItem.rightBarButtonItem = rightItem2;
+    [self.navigationItem.rightBarButtonItem setTintColor:BLACKCOLOR];
     
+    //消息中心表格视图
     CGRect tableRect = CGRectMake(0, 64 + 80, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - StatusBar_HEIGHT - NavigationBar_HEIGHT);
     self.myTableView = [[UITableView alloc]initWithFrame:tableRect style:UITableViewStylePlain];
     self.myTableView.tableFooterView = [[UIView alloc]init];
@@ -67,17 +62,34 @@ UITableViewDataSource
                          @"CZJOrderBuildCarCell"
                          ];
     
-    for (id cells in nibArys) {
+    for (id cells in nibArys)
+    {
         UINib *nib=[UINib nibWithNibName:cells bundle:nil];
         [self.myTableView registerNib:nib forCellReuseIdentifier:cells];
     }
-
+    
+    [self.serviceInfoBtn setBadgeNum:-1];
 }
 
 - (void)edit:(id)sender
 {
     isEdit = !isEdit;
+    if (isEdit)
+    {
+        [self.navigationItem.rightBarButtonItem setTitle:@"完成"];
+    }
+    else
+    {
+        [self.navigationItem.rightBarButtonItem setTitle:@"编辑"];
+    }
 }
+
+
+- (void)getMessageInfosFromServer
+{
+
+}
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

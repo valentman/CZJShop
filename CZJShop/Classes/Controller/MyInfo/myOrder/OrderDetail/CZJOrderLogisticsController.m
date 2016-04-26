@@ -52,7 +52,7 @@ UITableViewDelegate
     self.myTableView.showsVerticalScrollIndicator = NO;
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.myTableView.backgroundColor = CLEARCOLOR;
-    self.view.backgroundColor = CZJNAVIBARGRAYBG;
+    self.view.backgroundColor = CZJNAVIBARBGCOLOR;
     NSArray* nibArys = @[@"CZJOrderLogisticsInfoCell",
                          @"CZJOrderLogisticsCompCell"
                          ];

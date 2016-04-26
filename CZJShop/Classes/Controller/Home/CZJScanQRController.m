@@ -309,7 +309,6 @@ UIAlertViewDelegate
             case 6:
             case 7:
                 [CZJBaseDataInstance generalPost:@{@"type": scanForm.type, @"content": scanForm.content} success:^(id json) {
-                    NSDictionary* dict = [CZJUtils DataFromJson:json];
                 }  fail:^{
                     
                 } andServerAPI:kCZJServerAPIPGetScanCode];

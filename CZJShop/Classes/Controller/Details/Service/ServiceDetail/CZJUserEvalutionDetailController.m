@@ -512,7 +512,7 @@ CZJNaviagtionBarViewDelegate
 //判断当前输入法
 - (void)textViewDidChangeSelection:(UITextView *)textView
 {
-    DLog(@"wewe:%@",[[UITextInputMode currentInputMode] primaryLanguage]);
+//    DLog(@"wewe:%@",[[UITextInputMode currentInputMode] primaryLanguage]);
 }
 
 

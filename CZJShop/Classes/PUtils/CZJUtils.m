@@ -795,13 +795,18 @@ void tapToHidePopViewAction(id sender, SEL _cmd)
 
 + (BOOL)isTimeCrossFiveMin:(int)intervalMin
 {
+    return [self isTimeCrossMinInterval:intervalMin withIdentity:kUserDefaultTimeMin];
+}
+
++ (BOOL)isTimeCrossMinInterval:(int)intervalTimer withIdentity:(NSString*)userDefault
+{
     UInt64 currentTime = [[NSDate date] timeIntervalSince1970];     //当前时间
-    UInt64 lastUpdateTime = [[USER_DEFAULT valueForKey:kUserDefaultTimeMin] longLongValue];   //上次更新时间
+    UInt64 lastUpdateTime = [[USER_DEFAULT valueForKey:userDefault] longLongValue];   //上次更新时间
     UInt64 intervalTime = currentTime - lastUpdateTime;
     if (0 == lastUpdateTime ||
-        intervalTime > intervalMin*60)
+        intervalTime > intervalTimer*60)
     {
-        [USER_DEFAULT setValue:[NSString stringWithFormat:@"%llu",currentTime] forKey:kUserDefaultTimeMin];
+        [USER_DEFAULT setValue:[NSString stringWithFormat:@"%llu",currentTime] forKey:userDefault];
         return YES;
     }
     return NO;
@@ -851,6 +856,14 @@ void tapToHidePopViewAction(id sender, SEL _cmd)
 {
     NSDateFormatter* formatter = [[NSDateFormatter alloc]init];
     [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    NSString* dateTime = [formatter stringFromDate:[NSDate date]];
+    return dateTime;
+}
+
++ (NSString*)getCurrentHourTime
+{
+    NSDateFormatter* formatter = [[NSDateFormatter alloc]init];
+    [formatter setDateFormat:@"HH:mm:ss"];
     NSString* dateTime = [formatter stringFromDate:[NSDate date]];
     return dateTime;
 }
