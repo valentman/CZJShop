@@ -49,7 +49,7 @@ CZJStarRateViewDelegate
     myEvaluationForm.storeId = self.orderDetailForm.storeId;
     NSString* head = CZJBaseDataInstance.userInfoForm.headPic;
     myEvaluationForm.head = head.length > 0 ? head : @"";
-    myEvaluationForm.name = CZJBaseDataInstance.userInfoForm.chezhuName;
+    myEvaluationForm.name = CZJBaseDataInstance.userInfoForm.name;
     myEvaluationForm.orderTime = self.orderDetailForm.createTime;
     myEvaluationForm.descScore = @"5";
     myEvaluationForm.serviceScore = @"5";

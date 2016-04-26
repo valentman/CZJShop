@@ -17,7 +17,7 @@
 @property(nonatomic,strong)NSString* cityName;
 @property(nonatomic,strong)NSString* chezhuId;
 @property(nonatomic,strong)NSString* mobile;
-@property(nonatomic,strong)NSString* chezhuName;
+@property(nonatomic,strong)NSString* name;
 @property(nonatomic,strong)NSString* levelName;
 @property(nonatomic,strong)NSString* headPic;
 @property(assign)BOOL isHaveNewMessage;

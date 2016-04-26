@@ -127,6 +127,7 @@ singleton_implementation(CZJLoginModelManager)
 - (void)loginSuccess:(id)json
 {
     self.usrBaseForm = [[UserBaseForm alloc] init];
+    DLog(@"UserBaseForm:%@",[[CZJUtils DataFromJson:json] description]);
     [self.usrBaseForm setUserInfoWithDictionary:[[CZJUtils DataFromJson:json] valueForKey:@"msg"]];
     [CZJUtils writeDictionaryToDocumentsDirectory:[self.usrBaseForm.keyValues mutableCopy] withPlistName:kCZJPlistFileUserBaseForm];
     if ([self saveLoginInfoDataToLocal:json]) {

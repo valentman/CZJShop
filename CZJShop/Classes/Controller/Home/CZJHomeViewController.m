@@ -849,7 +849,7 @@ CZJMiaoShaCellDelegate
     
     //获取bundle里面关于当前版本的信息
     NSDictionary *infoDict = [[NSBundle mainBundle] infoDictionary];
-    NSString *nowVersion = [infoDict objectForKey:@"CFBundleVersion"];
+    NSString *nowVersion = [infoDict objectForKey:@"CFBundleShortVersionString"];
     NSLog(@"nowVersion == %@",nowVersion);
     [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
     

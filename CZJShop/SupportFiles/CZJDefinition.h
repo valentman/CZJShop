@@ -150,6 +150,10 @@ static NSString *const kCZJServerAPICheckVersion = @"chezhu/checkVersion.do";   
 static NSString *const kCZJServerAPIGetStartPage = @"chezhu/loadStartPage.do";                      //获取启动页信息
 static NSString *const kCZJServerAPIFeedBack = @"chezhu/sendSuggestion.do";                         //意见反馈
 
+
+static NSString *const kCZJGoodsShare = @"chezhu/showGoodsShare.do";                                //分享商品
+static NSString *const kCZJServiceShare = @"chezhu/showServiceShare.do";                            //分享服务
+static NSString *const kCZJStoreShare = @"chezhu/showStoreShare.do";                                //分享门店
 static NSString *const SHARE_URL = @"http://czapp.chezhijian.com/appserver/html/share.html";        //分享的url
 static NSString *const SHARE_LOGO_URL = @"http://czapp.chezhijian.com/appserver/images/logo.png";   //分享的LOGO
 static NSString *const SHARE_CONTENT = @"车之健是汽车后市场的移动商城,每用一次,多省一点";                  //分享的内容

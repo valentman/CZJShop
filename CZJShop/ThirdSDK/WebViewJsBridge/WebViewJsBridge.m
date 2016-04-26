@@ -135,14 +135,14 @@
     if (webView != _webView) { return; }
     
     
-    NSBundle *bundle = _resourceBundle ? _resourceBundle : [NSBundle mainBundle];
-    NSString *filePath = [bundle pathForResource:@"WebViewJsBridge" ofType:@"js"];
-    NSString *js = [NSString stringWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:nil];
-    [CZJBaseDataInstance getSomeInfoSuccess:^(id dic){
-        NSString* javastring = [NSString stringWithFormat:js,@ "",dic];
-        DLog(@"javastring22:%@",javastring);
-        [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:js,@"",dic]];
-    }];
+//    NSBundle *bundle = _resourceBundle ? _resourceBundle : [NSBundle mainBundle];
+//    NSString *filePath = [bundle pathForResource:@"WebViewJsBridge" ofType:@"js"];
+//    NSString *js = [NSString stringWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:nil];
+//    [CZJBaseDataInstance getSomeInfoSuccess:^(id dic){
+//        NSString* javastring = [NSString stringWithFormat:js,@ "",dic];
+//        DLog(@"javastring22:%@",javastring);
+//        [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:js,@"",dic]];
+//    }];
     
     __strong typeof(_webViewDelegate) strongDelegate = _webViewDelegate;
     if (strongDelegate && [strongDelegate respondsToSelector:@selector(webViewDidStartLoad:)]) {

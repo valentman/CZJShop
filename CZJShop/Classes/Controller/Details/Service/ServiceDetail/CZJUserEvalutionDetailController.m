@@ -656,11 +656,17 @@ CZJNaviagtionBarViewDelegate
     DLog(@"%@",textStr);
     [self.view endEditing:NO];
 
+    if ([CZJUtils isBlankString:descStr])
+    {
+        [CZJUtils tipWithText:@"请发表一下你的想法在提交吧，亲~" andView:self.view];
+        return;
+    }
     //发送信息到服务器，再获取数据返回刷新
     __weak typeof(self) weakSelf = self;
     NSString* evaluid = _evalutionForm.evaluateID;
-    NSString* headImg = CZJLoginModelInstance.usrBaseForm.headPic;
-    NSString* name = CZJLoginModelInstance.usrBaseForm.chezhuName;
+    UserBaseForm* userform = CZJBaseDataInstance.userInfoForm;
+    NSString* headImg = userform.headPic;
+    NSString* name = userform.name;
     NSDictionary* replyDict = @{@"evalId": evaluid,
                                 @"replyHead" : headImg,
                                 @"replyName": name,

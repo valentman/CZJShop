@@ -409,7 +409,7 @@ CZJChooseProductTypeDelegate
         case 0:
         {//图片展示
             CZJDetailPicShowCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CZJDetailPicShowCell" forIndexPath:indexPath];
-            if (_goodsDetail.imgs.count > 0 && !cell.isInit) {
+            if (_goodsDetail.imgs.count > 0) {
                 [cell someMethodNeedUse:indexPath DataModel:_goodsDetail.imgs];
                 cell.delegate = self;
             }
@@ -750,7 +750,7 @@ CZJChooseProductTypeDelegate
             {
                 CZJEvaluateForm* evalutionForm  = (CZJEvaluateForm*)_evalutionInfo.evalList[indexPath.row - 1];
                 CGSize contenSize = [CZJUtils calculateStringSizeWithString:evalutionForm.message Font:SYSTEMFONT(12) Width:PJ_SCREEN_WIDTH - 40];
-                NSInteger row = 1;
+                NSInteger row = evalutionForm.evalImgs.count > 0 ? 1 : 0;
                 NSInteger cellHeight = 60 + (contenSize.height > 20 ? contenSize.height : 20) + row * 88;
                 
                 NSInteger addedHeight = 0;

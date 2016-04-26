@@ -171,11 +171,13 @@
             [USER_DEFAULT setObject:kCZJChengdu forKey:kCZJDefaultyCityName];
             CZJLoginModelInstance.usrBaseForm.cityId = kCZJChengduID;
             CZJLoginModelInstance.usrBaseForm.cityName = kCZJChengdu;
+            [CZJBaseDataInstance setCurCityName:kCZJChengdu];
         }
         else
         {
             CZJLoginModelInstance.usrBaseForm.cityId = [USER_DEFAULT valueForKey: kCZJDefaultCityID];
             CZJLoginModelInstance.usrBaseForm.cityName = [USER_DEFAULT valueForKey:kCZJDefaultyCityName];
+            [CZJBaseDataInstance setCurCityName:[USER_DEFAULT valueForKey:kCZJDefaultyCityName]];
         }
     } fail:^{
         
@@ -354,9 +356,17 @@
     
     //-------------------10.崩溃收集接口---------------
     KSCrashInstallationStandard* installation = [KSCrashInstallationStandard sharedInstance];
-    installation.url = [NSURL URLWithString:@"https://collector.bughd.com/kscrash?key=d84c241e5cde9210eeefa96f8a784917"];
+    installation.url = [NSURL URLWithString:@"https://collector.bughd.com/kscrash?key=0a9aa597ce509ecb9ccf098ff457400b"];
     [installation install];
     [installation sendAllReportsWithCompletion:nil];
+    
+    
+    //-------------------11.环信聊天接口---------------
+    [[EaseSDKHelper shareHelper] easemobApplication:application
+                      didFinishLaunchingWithOptions:launchOptions
+                                             appkey:@"douser#istore"
+                                       apnsCertName:@"istore_dev"
+                                        otherConfig:@{kSDKConfigEnableConsoleLogger:[NSNumber numberWithBool:YES]}];
 
     return YES;
 }

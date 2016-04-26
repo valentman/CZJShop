@@ -113,7 +113,7 @@ VPImageCropperDelegate
             {
                 [cell addSubview:nameTextField];
             }
-            nameTextField.text = userinfo.chezhuName;
+            nameTextField.text = userinfo.name;
         }
         if (2 == i)
         {
@@ -188,6 +188,7 @@ VPImageCropperDelegate
 
 - (void)unLogin:(id)sender
 {
+    [self.view endEditing:YES];
     NSString* name = nameTextField.text;
     NSString* sexual = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:3 inSection:0]].detailTextLabel.text;
     NSString* sex;
@@ -201,7 +202,7 @@ VPImageCropperDelegate
         sex = @"2";
     }
     NSDictionary* params = @{@"chezhu.name": name, @"chezhu.sex":sex};
-    CZJBaseDataInstance.userInfoForm.chezhuName = name;
+    CZJBaseDataInstance.userInfoForm.name = name;
     CZJBaseDataInstance.userInfoForm.sex = sexual;
     
     [CZJBaseDataInstance updateUserInfo:params Success:^(id json)

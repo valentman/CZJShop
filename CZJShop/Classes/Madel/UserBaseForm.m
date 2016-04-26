@@ -24,7 +24,7 @@
     self.cityName = [dictionary  valueForKey:@"cityName"];
     self.chezhuId = [dictionary  valueForKey:@"chezhuId"];
     
-    self.chezhuName = [dictionary valueForKey:@"name"];
+    self.name = [dictionary valueForKey:@"name"];
     self.mobile = [dictionary valueForKey:@"mobile"];
     self.headPic = [dictionary valueForKey:@"headPic"];
     self.levelName = [dictionary valueForKey:@"levelName"];
