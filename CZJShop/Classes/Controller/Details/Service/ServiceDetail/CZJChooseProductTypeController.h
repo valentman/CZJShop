@@ -18,7 +18,7 @@
 
 @end
 
-@interface CZJChooseProductTypeController : CZJFilterBaseController
+@interface CZJChooseProductTypeController : CZJViewController
 @property (strong, nonatomic)CZJGoodsDetail* goodsDetail;
 @property (assign, nonatomic)NSInteger buycount;
 @property (weak, nonatomic) id<CZJChooseProductTypeDelegate> delegate;

@@ -8,14 +8,14 @@
 
 #import "CZJWebViewJSI.h"
 #import "CZJBaseDataManager.h"
+#import "AppDelegate.h"
+
 @implementation CZJWebViewJSI
 #pragma mark- JSAction
 - (void)toGoodsOrServiceInfo:(NSArray*)json
 {
-    NSString* ns1 = [CZJUtils resetString:[json firstObject]];
-    NSLog(@"%@",ns1);
-    CZJDetailType detaitype = CZJDetailTypeGoods;
-    [self.JSIDelegate showGoodsOrServiceInfo:ns1 andType:detaitype];
+    NSDictionary* ns1 = [CZJUtils dictionaryFromJsonString:[json firstObject]];
+    [self.JSIDelegate showGoodsOrServiceInfo:ns1];
 }
 
 - (void)toStoreInfo:(NSArray*)json
@@ -45,10 +45,21 @@
     [self.JSIDelegate showToast:ns1];
 }
 
--(NSString*)getChezhuInfo{
-    UserBaseForm* myinfo = CZJBaseDataInstance.userInfoForm;
-    NSDictionary* infoDict =  myinfo.keyValues;
-    DLog(@"%@",[infoDict description]);
-    return [infoDict description];
+-(void)getChezhuInfo{
 }
+
+- (void)logon
+{
+    if (![USER_DEFAULT boolForKey:kCZJIsUserHaveLogined])
+    {
+        UIViewController* currentVC = ((AppDelegate*)[UIApplication sharedApplication].delegate).window.rootViewController;
+        [CZJUtils showLoginView:currentVC andNaviBar:nil];
+    }
+}
+
+- (void)toShare:(NSArray*)json
+{
+    [self.JSIDelegate toShare:json];
+}
+
 @end

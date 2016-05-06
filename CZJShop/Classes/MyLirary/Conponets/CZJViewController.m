@@ -15,6 +15,8 @@ CZJNaviagtionBarViewDelegate,
 UIGestureRecognizerDelegate
 >
 
+@property (strong, nonatomic) __block UIView* notifyView;
+
 @end
 
 @implementation CZJViewController
@@ -29,6 +31,7 @@ UIGestureRecognizerDelegate
 {
     self.windowAlpha = 1.0f;
 }
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -145,4 +148,11 @@ UIGestureRecognizerDelegate
 {
     [super setTitle:title];
 }
+
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    [self.view endEditing:YES];
+}
+
 @end

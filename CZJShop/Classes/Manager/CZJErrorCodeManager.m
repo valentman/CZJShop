@@ -54,32 +54,32 @@ singleton_implementation(CZJErrorCodeManager)
 
 -(void)showErrorWranAsSheetWithError:(NSString *)Error
 {
-    UIWindow *window = [[UIApplication sharedApplication] keyWindow];
-    NSArray *windowViews = [window subviews];
-    if(windowViews && [windowViews count] > 0)
-    {
-        UIView *subView = [windowViews objectAtIndex:[windowViews count]-1];
-        for(UIView *aSubView in subView.subviews)
-        {
-            [aSubView.layer removeAllAnimations];
-        }
-        [CZJUtils tipWithText:Error andView:subView];
-    }
+//    UIWindow *window = [[UIApplication sharedApplication] keyWindow];
+//    NSArray *windowViews = [window subviews];
+//    if(windowViews && [windowViews count] > 0)
+//    {
+//        UIView *subView = [windowViews objectAtIndex:[windowViews count]-1];
+//        for(UIView *aSubView in subView.subviews)
+//        {
+//            [aSubView.layer removeAllAnimations];
+//        }
+        [CZJUtils tipWithText:Error andView:nil];
+//    }
 }
 
 -(void)showErrorDescriptionWithError:(NSString *)Error
 {
-    UIWindow *window = [[UIApplication sharedApplication] keyWindow];
-    NSArray *windowViews = [window subviews];
-    if(windowViews && [windowViews count] > 0)
-    {
-        UIView *subView = [windowViews objectAtIndex:[windowViews count]-1];
-        for(UIView *aSubView in subView.subviews)
-        {
-            [aSubView.layer removeAllAnimations];
-        }
-        [CZJUtils tipWithText:Error andView:subView];
-    }
+//    UIWindow *window = [[UIApplication sharedApplication] keyWindow];
+//    NSArray *windowViews = [window subviews];
+//    if(windowViews && [windowViews count] > 0)
+//    {
+//        UIView *subView = [windowViews objectAtIndex:[windowViews count]-1];
+//        for(UIView *aSubView in subView.subviews)
+//        {
+//            [aSubView.layer removeAllAnimations];
+//        }
+        [CZJUtils tipWithText:Error andView:nil];
+//    }
 }
 
 - (void)alertView:(FDAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {

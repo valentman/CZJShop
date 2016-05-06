@@ -60,7 +60,7 @@ UITableViewDataSource
 - (void)initViews
 {
     [self addCZJNaviBarView:CZJNaviBarViewTypeGeneral];
-    self.naviBarView.mainTitleLabel.text = @"退换货";
+    self.naviBarView.mainTitleLabel.text = @"退换货列表";
     
     
     //创建TableView，注册Cell

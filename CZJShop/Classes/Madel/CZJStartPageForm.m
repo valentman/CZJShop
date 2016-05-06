@@ -15,4 +15,15 @@
 @end
 
 @implementation CZJNotificationForm
+- (id)init
+{
+    if (self = [super init])
+    {
+        self.isRead = NO;
+        self.isSelected = NO;
+        self.storeName = @"车之健";
+        return self;
+    }
+    return nil;
+}
 @end

@@ -37,7 +37,7 @@
     [_imageArray removeAllObjects];
     _imageArray = [img mutableCopy];
     [self loadImageData];
-    self.adBannerImageView.hidePageControl = YES;
+    self.adBannerImageView.hidePageControl = NO;
 }
 
 - (void)loadImageData{

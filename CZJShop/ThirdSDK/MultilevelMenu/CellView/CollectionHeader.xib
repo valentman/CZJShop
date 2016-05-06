@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionReusableView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="CollectionHeader" id="U6b-Vx-4bR" customClass="CollectionHeader">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="80"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <subviews>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="za1-pm-fBx">
+                    <rect key="frame" x="15" y="15" width="290" height="65"/>
+                    <animations/>
+                </imageView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8EH-43-Sp8">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="80"/>
+                    <animations/>
+                </button>
+            </subviews>
+            <animations/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="8EH-43-Sp8" secondAttribute="bottom" id="89B-Zc-5zF"/>
+                <constraint firstItem="8EH-43-Sp8" firstAttribute="leading" secondItem="U6b-Vx-4bR" secondAttribute="leading" id="BRN-vY-UoT"/>
+                <constraint firstAttribute="trailing" secondItem="za1-pm-fBx" secondAttribute="trailing" constant="15" id="OSI-Zf-CxP"/>
+                <constraint firstItem="8EH-43-Sp8" firstAttribute="top" secondItem="U6b-Vx-4bR" secondAttribute="top" id="aKw-8N-d8I"/>
+                <constraint firstAttribute="trailing" secondItem="8EH-43-Sp8" secondAttribute="trailing" id="aMO-kx-lrY"/>
+                <constraint firstItem="za1-pm-fBx" firstAttribute="top" secondItem="U6b-Vx-4bR" secondAttribute="top" constant="15" id="bvo-dI-4ED"/>
+                <constraint firstAttribute="bottom" secondItem="za1-pm-fBx" secondAttribute="bottom" id="uIY-qA-dxD"/>
+                <constraint firstItem="za1-pm-fBx" firstAttribute="leading" secondItem="U6b-Vx-4bR" secondAttribute="leading" constant="15" id="zN9-JI-KoT"/>
+            </constraints>
+            <connections>
+                <outlet property="bannerAdImageview" destination="za1-pm-fBx" id="sav-5f-AhP"/>
+                <outlet property="bannerBtn" destination="8EH-43-Sp8" id="1Br-FO-SGI"/>
+            </connections>
+            <point key="canvasLocation" x="368" y="311"/>
+        </collectionReusableView>
+    </objects>
+</document>

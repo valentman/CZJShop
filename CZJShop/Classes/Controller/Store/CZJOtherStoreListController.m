@@ -77,9 +77,10 @@ CZJNaviagtionBarViewDelegate
     cell.dealCount.text = storeForm.purchaseCount;
     cell.storeDistance.text = storeForm.distance;
     cell.storeLocation.text = storeForm.addr;
-    cell.feedbackRate.text = storeForm.star;
+    cell.feedbackRate.text = storeForm.evaluationAvg;
     [cell.storeCellImageView sd_setImageWithURL:[NSURL URLWithString:storeForm.homeImg] placeholderImage:DefaultPlaceHolderSquare];
     TOCK;
+    cell.separatorInset = HiddenCellSeparator;
     return cell;
     
 }

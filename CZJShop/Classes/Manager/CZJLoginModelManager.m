@@ -13,6 +13,9 @@
 #import "ZXLocationManager.h"
 #import "CCLocationManager.h"
 #import "CZJBaseDataManager.h"
+#import "XGPush.h"
+#import "XGSetting.h"
+
 
 @implementation CZJLoginModelManager
 
@@ -71,7 +74,7 @@ singleton_implementation(CZJLoginModelManager)
 - (void)loginWithAuthCode:(NSString*)codeNum
               mobilePhone:(NSString*)phoneNum
                   success:(CZJSuccessBlock)success
-                     fali:(CZJGeneralBlock)fail
+                     fali:(CZJSuccessBlock)fail
 {
     NSDictionary *params = @{@"mobile" : phoneNum,
                              @"code" : codeNum};
@@ -82,11 +85,16 @@ singleton_implementation(CZJLoginModelManager)
             [self loginSuccess:json];
             success(json);
         }
+        else
+        {
+            if (fail) {
+                fail(json);
+            }
+        }
     };
     CZJFailureBlock failure = ^()
     {
         [[CZJErrorCodeManager sharedCZJErrorCodeManager] ShowNetError];
-        fail();
     };
     
     [CZJNetWorkInstance postJSONWithUrl:kCZJServerAPILoginInByVerifiCode
@@ -98,8 +106,8 @@ singleton_implementation(CZJLoginModelManager)
 
 - (void)loginWithPassword:(NSString*)pwd
               mobilePhone:(NSString*)phoneNum
-                  success:(CZJGeneralBlock)success
-                     fali:(CZJGeneralBlock)fail
+                  success:(CZJSuccessBlock)success
+                     fali:(CZJSuccessBlock)fail
 {
     NSDictionary *params = @{@"mobile" : phoneNum,
                              @"passwd" : pwd};
@@ -110,12 +118,16 @@ singleton_implementation(CZJLoginModelManager)
             [self loginSuccess:json];
             success(json);
         }
+        else
+        {
+            if (fail) {
+                fail(json);
+            }
+        }
     };
     CZJFailureBlock failure = ^()
     {
         [[CZJErrorCodeManager sharedCZJErrorCodeManager] ShowNetError];
-        
-        fail();
     };
     
     [CZJNetWorkInstance postJSONWithUrl:kCZJServerAPILoginInByPassword
@@ -129,12 +141,18 @@ singleton_implementation(CZJLoginModelManager)
     self.usrBaseForm = [[UserBaseForm alloc] init];
     DLog(@"UserBaseForm:%@",[[CZJUtils DataFromJson:json] description]);
     [self.usrBaseForm setUserInfoWithDictionary:[[CZJUtils DataFromJson:json] valueForKey:@"msg"]];
-    [CZJUtils writeDictionaryToDocumentsDirectory:[self.usrBaseForm.keyValues mutableCopy] withPlistName:kCZJPlistFileUserBaseForm];
-    if ([self saveLoginInfoDataToLocal:json]) {
+    
+    //登录成功，个人信息写入本地文件中
+    if ([CZJUtils writeDictionaryToDocumentsDirectory:[self.usrBaseForm.keyValues mutableCopy] withPlistName:kCZJPlistFileUserBaseForm]) {
         [USER_DEFAULT setObject:[NSNumber numberWithBool:YES] forKey:kCZJIsUserHaveLogined];
     }
+    
+    //将个人信息存入数据管理单例类中，并刷新上传参数
     CZJBaseDataInstance.userInfoForm = self.usrBaseForm;
     [CZJBaseDataInstance refreshChezhuID];
+    
+    //注册个人推送
+    [XGPush setAccount:self.usrBaseForm.chezhuId];
 }
 
 - (void)setPassword:(NSString*)pwd

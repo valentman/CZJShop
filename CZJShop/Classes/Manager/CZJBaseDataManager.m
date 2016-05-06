@@ -19,6 +19,8 @@
 #import "CZJShoppingCartForm.h"
 #import "CZJOrderForm.h"
 #import "UserBaseForm.h"
+#import "AppDelegate.h"
+
 @implementation CZJBaseDataManager
 #pragma mark- synthesize
 @synthesize curLocation =  _curLocation;
@@ -171,7 +173,14 @@ singleton_implementation(CZJBaseDataManager);
 -(void)getSomeInfoSuccess:(CZJSuccessBlock)success{
     NSString* tst = [self.userInfoForm.chezhuId stringByReplacingOccurrencesOfString:@"-" withString:@""];
     NSString* str = [NSString stringWithFormat:@"{\"chezhuId\":\"%@\",\"cityId\":\"%@\",\"mobile\":\"%@\",\"lat\":\"%@\",\"lng\":\"%@\"}",tst,_curCityID,self.userInfoForm.mobile,[NSNumber numberWithDouble:_curLocation.latitude],[NSNumber numberWithDouble:_curLocation.longitude]];
-    success(str);
+    if ([USER_DEFAULT boolForKey:kCZJIsUserHaveLogined])
+    {
+        success(str);
+    }
+    else
+    {
+        success(@"");
+    }
 }
 
 

@@ -31,15 +31,31 @@
     __block NSString* currentStartPateURL;
 }
 @property (strong, nonatomic) UIView *lunchView;
+@property (strong, nonatomic) __block UIView* notifyView;
 @end
 
 @implementation AppDelegate
-
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
-    if (buttonIndex)
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    NSMutableDictionary* start_Info = [CZJUtils readDictionaryFromDocumentsDirectoryWithPlistName:@"checkVersion.plist"];
+    if (0 == buttonIndex)
     {
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:kCZJAPPURL]];
-        sleep(2.0f);
+        if ([[start_Info valueForKey:@"enforce"] boolValue])
+        {
+            NSString* url = [start_Info valueForKey:@"url"];
+            NSString* czjUrl = @"https://itunes.apple.com/us/app/id1035567397";
+            if ([czjUrl isEqualToString:url]) {
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:czjUrl]];
+                [CZJUtils performBlock:^{
+                    exit(0);
+                } afterDelay:0.5];
+            }
+        }
+    }
+    else if (1 == buttonIndex)
+    {
+        NSString* url = [start_Info valueForKey:@"url"];
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
     }
 }
 
@@ -57,7 +73,6 @@
 
 - (void)getStartPageDataFromServer:(BOOL)isLoadStartPage
 {
-    __weak typeof(self) weakSelf = self;
     [CZJBaseDataInstance generalPost:nil success:^(id json) {
         CZJStartPageForm* startpageFormTmp  = [CZJStartPageForm objectWithKeyValues:[[CZJUtils DataFromJson:json] valueForKey:@"msg"]];
         //存在本地启动页URL（旧）
@@ -67,32 +82,16 @@
         //第一次进入或有最新启动页时去下载
         if (![startPageUrl isEqualToString:currentStartPateURL] && isLoadStartPage)
         {
-            [weakSelf downLoadStartPage:currentStartPateURL];
+            [CZJUtils downloadImageWithURL:currentStartPateURL andFileName:@"StartPage.jpg" withSuccess:^{
+                DLog(@"启动页图片存入本地成功");
+            } andFail:^{
+                DLog(@"启动页图片存入本地失败");
+            }];
             [USER_DEFAULT setValue:currentStartPateURL forKey:kUserDefaultStartPageUrl];
         }
         [CZJUtils writeDictionaryToDocumentsDirectory:[startpageFormTmp.keyValues mutableCopy] withPlistName:kUserDefaultStartPageForm];
     } fail:nil andServerAPI:kCZJServerAPIGetStartPage];
 }
-
-- (void)downLoadStartPage:(NSString*)currentPageUrl
-{
-    [[SDWebImageManager sharedManager]downloadImageWithURL:[NSURL URLWithString:currentPageUrl] options:SDWebImageContinueInBackground progress:^(NSInteger receivedSize, NSInteger expectedSize) {
-        DLog(@"receivedSize:%ld, expectedSize:%ld",receivedSize,expectedSize);
-    }completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL){
-        NSString* imagepath2 = [DocumentsDirectory stringByAppendingPathComponent:@"StartPage.jpg"];
-        //把图片直接保存到指定的路径（同时应该把图片的路径imagePath存起来，下次就可以直接用来取）
-        if ([UIImageJPEGRepresentation(image,0) writeToFile:imagepath2 atomically:YES])
-        {
-            DLog(@"启动页图片存入本地成功");
-        }
-        else
-        {
-            DLog(@"启动页图片存入本地失败");
-        }
-        
-    }];
-}
-
 
 
 - (void)initUserDefaultDatas
@@ -141,21 +140,57 @@
                          }];
     };
     
-    //  初始化方法2
-    //    MZGuidePagesController *mzgpc = [[MZGuidePagesController alloc]
-    //    initWithImageDatas:imageArray
-    //                                                                            completion:^{
-    //                                                                              NSLog(@"click!");
-    //
-    
     //要在makeKeyAndVisible之后调用才有效
     [self.window addSubview:mzgpc];
 }
+
+
+- (void)initNotifyView
+{
+    _notifyView = [[UIView alloc]initWithFrame:CGRectMake(0, -64, PJ_SCREEN_WIDTH, 64)];
+    _notifyView.backgroundColor = CZJREDCOLOR;
+    _notifyView.alpha = 0.9;
+    UISwipeGestureRecognizer* downGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipToHideNotifyView:)];
+    [downGesture setDirection:UISwipeGestureRecognizerDirectionUp];
+    [_notifyView addGestureRecognizer:downGesture];
+    UILabel* notifyLabel = [[UILabel alloc]initWithFrame:CGRectMake(15, 27, PJ_SCREEN_WIDTH - 30, 35)];
+    notifyLabel.tag = 1001;
+    notifyLabel.textColor = WHITECOLOR;
+    notifyLabel.textAlignment = NSTextAlignmentLeft;
+    notifyLabel.font = SYSTEMFONT(14);
+    notifyLabel.lineBreakMode = NSLineBreakByTruncatingTail;
+    notifyLabel.numberOfLines = 2;
+    [_notifyView addSubview:notifyLabel];
+    [self.window addSubview:_notifyView];
+}
+
 
 #pragma mark- AppDelegate
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     //-------------------1.设置状态栏隐藏，因为有广告------------------
     [[UIApplication sharedApplication]setStatusBarHidden:YES withAnimation:UIStatusBarAnimationNone];
+    NSMutableDictionary* start_Info = [CZJUtils readDictionaryFromDocumentsDirectoryWithPlistName:@"checkVersion.plist"];
+    if (start_Info && start_Info.count > 0) {
+        int  enforce = [[start_Info valueForKey:@"enforce"] intValue];
+        NSString* net_version = [start_Info valueForKey:@"version"];
+        NSString *cur_version = [[[NSBundle mainBundle] infoDictionary] valueForKey:@"CFBundleShortVersionString"];
+        DLog(@"cur_version %@   %d",cur_version,enforce);
+        
+        //检查当前版本与appstore的版本是否一致
+        UIAlertView *createUserResponseAlert;
+        NSString* messge = @"亲，版本已升级，为保证正常使用，请立即去更新吧~";
+        if ([net_version floatValue] > [cur_version floatValue]) {
+            if (enforce == 1) {
+                createUserResponseAlert = [[UIAlertView alloc] initWithTitle:@"提示" message:messge delegate:self cancelButtonTitle:@"去AppStore下载" otherButtonTitles:nil];
+                return YES;
+            }
+            else
+            {
+                createUserResponseAlert = [[UIAlertView alloc] initWithTitle:@"提示" message:messge delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"去AppStore下载", nil];
+            };
+        }
+    }
+    
     
     //------------------2.设置URL缓存机制----------------
     NSURLCache *URLCache = [[NSURLCache alloc] initWithMemoryCapacity:40 * 1024 * 1024 diskCapacity:40 * 1024 * 1024 diskPath:nil];
@@ -266,10 +301,11 @@
              [XGPush setAccount:CZJLoginModelInstance.usrBaseForm.chezhuId];
          }fail:^(){}];
     }
-//    [XGPush clearLocalNotifications];
+    [XGPush clearLocalNotifications];
+    
     
     //-----------------6.设置主页并判断是否启动广告页面--------------
-#ifdef DEBUG
+#ifdef DEBUG//离线日志打印
     self.window = [[iConsoleWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 #else
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
@@ -377,18 +413,45 @@
     
     
     //-------------------11.环信聊天接口---------------
+    //调用EaseUI对应方法
     [[EaseSDKHelper shareHelper] easemobApplication:application
                       didFinishLaunchingWithOptions:launchOptions
-                                             appkey:@"douser#istore"
+                                             appkey:@"chelifang#czjshop"
                                        apnsCertName:@"istore_dev"
                                         otherConfig:@{kSDKConfigEnableConsoleLogger:[NSNumber numberWithBool:YES]}];
+    //初始化环信SDK
+    EMOptions *options = [EMOptions optionsWithAppkey:@"chelifang#czjshop"];
+    options.apnsCertName = @"istore_dev";
+    [[EMClient sharedClient] initializeSDKWithOptions:options];
+    
+    EMError *error = [[EMClient sharedClient] registerWithUsername:@"8001" password:@"111111"];
+    if (error==nil) {
+        NSLog(@"注册成功");
+    }
+    
+    EMError *errors = [[EMClient sharedClient] loginWithUsername:@"8001" password:@"111111"];
+    if (!errors) {
+        NSLog(@"登陆成功");
+    }
+    
+    EMError *errorss = [[EMClient sharedClient] loginWithUsername:@"8001" password:@"111111"];
+    if (!errorss)
+    {
+        [[EMClient sharedClient].options setIsAutoLogin:YES];
+    }
+    
+    //应该先判断是否设置了自动登录，如果设置了，则不需要您再调用
+    BOOL isAutoLogin = [EMClient sharedClient].options.isAutoLogin;
+    if (!isAutoLogin) {
+        EMError *erroras = [[EMClient sharedClient] loginWithUsername:@"8001" password:@"111111"];
+    }
     
     
-    //-------------------12.本地日志代理---------------
-    [iConsole sharedConsole].delegate = self;
+    //-------------------12.接收远程通知本地显示---------------
+    [self initNotifyView];
+    
     return YES;
 }
-
 
 
 #pragma mark- PushNotification
@@ -434,10 +497,8 @@
 - (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings
 {
     //用户已经允许接收以下类型的推送
-//    UIUserNotificationType allowedTypes = [notificationSettings types];
-    
+    iLog(@"注册用户通知成功");
 }
-
 
 //按钮点击事件回调
 - (void)application:(UIApplication *)application handleActionWithIdentifier:(NSString *)identifier forRemoteNotification:(NSDictionary *)userInfo completionHandler:(void (^)())completionHandler{
@@ -462,7 +523,8 @@
         DLog(@"[XGPush]register errorBlock");
     };
     NSString * deviceTokenStr = [XGPush registerDevice:deviceToken successCallback:successBlock errorCallback:errorBlock];
-    DLog(@"deviceTokenStr:%@",deviceTokenStr);
+    [USER_DEFAULT setValue:deviceToken forKey:kUserDefaultDeviceTokenStr];
+    iLog(@"deviceTokenStr:%@",deviceTokenStr);
 }
 
 //如果deviceToken获取不到会进入此事件
@@ -471,41 +533,46 @@
     DLog(@"%@", [NSString stringWithFormat: @"[XGPush] Error: %@",error]);
 }
 
-
 //接收本地推送通知
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification
 {
-    iLog();
-    DLog(@"localNotification:%@,%@",notification.alertTitle, notification.alertBody);
+    iLog(@"LocalNotification:%@,%@",notification.alertTitle, notification.alertBody);
     //notification是发送推送时传入的字典信息
     [XGPush localNotificationAtFrontEnd:notification userInfoKey:@"clockID" userInfoValue:@"myid"];
     
     //删除推送列表中的这一条
     [XGPush delLocalNotification:notification];
     
-    //当App在前台运行时，远程通知转换成本地通知到这里，显示出来
-    [[[UIAlertView alloc]initWithTitle:notification.alertTitle message:notification.alertBody delegate:self cancelButtonTitle:@"收到，闪边去~" otherButtonTitles:nil, nil] show];
+    //当App在前台运行时，远程通知转换成本地通知到这里，发送一条新消息通知
+    ((UILabel*)VIEWWITHTAG(_notifyView, 1001)).text = [notification.userInfo valueForKey:@"msg"];
+    [self showNotifyView];
+    [[NSNotificationCenter defaultCenter]postNotificationName:kCZJNotifiGetNewNotify object:nil];
 }
 
 
 //接收APNs推送通知
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
-    iLog();
-    NSLog(@"========CZJ receivedRemoteNotification:%@", [userInfo description]);
+    iLog(@"========CZJ receivedRemoteNotification:%@", [userInfo description]);
     [XGPush handleReceiveNotification:userInfo];
-    
-    [[CZJMessageManager sharedCZJMessageManager] addMessageWithObject:userInfo];
 }
 
 //接收APNs推送通知并启动或恢复应用
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
 {
+    //通知消息模型化
     CZJNotificationForm* notifiForm = [CZJNotificationForm objectWithKeyValues:userInfo];
-    iLog(@"notificationInfo:%@",notifiForm.keyValues);
+    iLog(@"RemoteNotification:%@",[notifiForm.keyValues description]);
     
+    //存入单例中，并写入本地文件中
+    [[CZJMessageManager sharedCZJMessageManager] addMessageWithObject:notifiForm];
+    
+    //给TabBar发送新消息未读通知
+    [[NSNotificationCenter defaultCenter] postNotificationName:kCZJNotifiRefreshMessageReadStatus object:nil];
+    
+    //根据不同的状态做不同的处理
     if (application.applicationState == UIApplicationStateActive) {
-        NSLog(@"========CZJ active");
+        iLog(@"========CZJ active");
         //程序当前正处于前台
         // 转换成一个本地通知，显示到通知栏，你也可以直接显示出一个alertView，只是那样稍显aggressive：）
         UILocalNotification *localNotification = [[UILocalNotification alloc] init];
@@ -517,11 +584,11 @@
     }
     else if(application.applicationState == UIApplicationStateInactive)
     {
-        NSLog(@"========CZJ inactive");
+        iLog(@"========CZJ inactive");
         //程序处于后台
-        
     }
 }
+
 
 
 #pragma mark- 应用跳转
@@ -553,7 +620,12 @@
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
+    //主页定时器
     [[NSNotificationCenter defaultCenter]postNotificationName:@"stopTimer" object:nil];
+    
+    //环信
+    [[EMClient sharedClient] applicationDidEnterBackground:application];
+    
     [self beingBackgroundUpdateTask];
     /**
      *  在这里加上你需要长久运行的代码
@@ -577,7 +649,11 @@
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
+    //主页定时器
     [[NSNotificationCenter defaultCenter]postNotificationName:@"beginTimer" object:nil];
+    
+    //环信
+    [[EMClient sharedClient] applicationWillEnterForeground:application];
     
     //角标清0
     [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
@@ -615,22 +691,36 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application {
 }
 
+
 - (void)applicationWillTerminate:(UIApplication *)application {
 }
 
 
-- (void)handleConsoleCommand:(NSString *)command
+#pragma mark- LocalNotification
+//显示通知条
+- (void)showNotifyView
 {
-    if ([command isEqualToString:@"version"])
-    {
-        [iConsole info:@"%@ version %@",
-         [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleName"],
-         [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"]];
-    }
-    else
-    {
-        [iConsole error:@"unrecognised command, try 'version' instead"];
-    }
+    [UIView animateWithDuration:0.5 animations:^{
+        _notifyView.frame = CGRectMake(0, 0, PJ_SCREEN_WIDTH, 64);
+    } completion:^(BOOL finished) {
+        if (finished)
+        {
+            [self performSelector:@selector(hideNotifyView) withObject:nil afterDelay:4];
+        }
+    }];
+}
+
+- (void)swipToHideNotifyView:(UIGestureRecognizer*)gestture
+{
+    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(hideNotifyView) object:nil];
+    [self hideNotifyView];
+}
+
+- (void)hideNotifyView
+{
+    [UIView animateWithDuration:0.3 animations:^{
+        _notifyView.frame = CGRectMake(0, -64, PJ_SCREEN_WIDTH, 64);
+    }];
 }
 
 @end

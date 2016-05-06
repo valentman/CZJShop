@@ -188,7 +188,7 @@ description:__VA_ARGS__];                             \
 } while(0)
 
 //DEBUG模式下，条件判断打印日志,当前行 并弹出一个警告
-#define PJAlertAssert(condition, xx, ...) { if (!(condition)) { \
+#define PJAlertAssert(condition, xx, ...) { if ((condition)) { \
 ULog(xx, ##__VA_ARGS__); \
 } \
 } ((void)0)
@@ -206,7 +206,7 @@ ULog(xx, ##__VA_ARGS__); \
 
 //成对出现，显示一段程序运行时间
 #define TICK   NSDate *startTime = [NSDate date]
-#define TOCK   NSLog(@"Time: %f", -[startTime timeIntervalSinceNow])
+#define TOCK   NSLog(@"\n============>>>IntervalTime: %f", -[startTime timeIntervalSinceNow])
 
 
 //-------------------------其他-----------------------------

@@ -18,6 +18,7 @@
 #import "CZJCommitOrderController.h"
 #import "CZJLoadingFailedAlertView.h"
 #import "WyzAlbumViewController.h"
+#import "AppDelegate.h"
 
 
 @interface CZJUtils ()<UIAlertViewDelegate>
@@ -30,6 +31,14 @@
 + (NSDictionary*)DataFromJson:(id)json {
     
     NSDictionary *DataDic = [NSJSONSerialization JSONObjectWithData:json
+                                                            options:NSJSONReadingMutableLeaves
+                                                              error:nil];
+    return DataDic;
+}
+
++ (NSArray*)ArrayFromJson:(id)json {
+    
+    NSArray *DataDic = [NSJSONSerialization JSONObjectWithData:json
                                                             options:NSJSONReadingMutableLeaves
                                                               error:nil];
     return DataDic;
@@ -426,6 +435,18 @@ void backLastView(id sender, SEL _cmd)
 
 
 #pragma mark 提示框
++(void)tipWithText:(NSString *)text onView:(UIView *)view
+{
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
+    hud.mode = MBProgressHUDModeText;
+    hud.labelText = text;
+    hud.margin = 15.f;
+    hud.yOffset = 20.f;
+    hud.removeFromSuperViewOnHide = YES;
+    [hud setYOffset:PJ_SCREEN_HEIGHT/4];
+    [hud hide:YES afterDelay:1.5];
+}
+
 +(void)tipWithText:(NSString *)text andView:(UIView *)view
 {
     [CZJUtils tipWithText:text withCompeletHandler:nil];
@@ -433,25 +454,16 @@ void backLastView(id sender, SEL _cmd)
 
 + (void)tipWithText:(NSString*)text withCompeletHandler:(CZJGeneralBlock)compeletBlock
 {
-    UIWindow *window = [[UIApplication sharedApplication] keyWindow];
-    NSArray *windowViews = [window subviews];
-    if(windowViews && [windowViews count] > 0)
-    {
-        UIView *subView = [windowViews objectAtIndex:[windowViews count]-1];
-        for(UIView *aSubView in subView.subviews)
-        {
-            [aSubView.layer removeAllAnimations];
-        }
-        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:subView animated:YES];
-        hud.mode = MBProgressHUDModeText;
-        hud.labelText = text;
-        hud.margin = 15.f;
-        hud.yOffset = 20.f;
-        hud.removeFromSuperViewOnHide = YES;
-        [hud setYOffset:PJ_SCREEN_HEIGHT/4];
-        [hud hide:YES afterDelay:1.5];
-        hud.completionBlock = compeletBlock;
-    }
+    AppDelegate* mydelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:mydelegate.window animated:YES];
+    hud.mode = MBProgressHUDModeText;
+    hud.labelText = text;
+    hud.margin = 15.f;
+    hud.yOffset = 20.f;
+    hud.removeFromSuperViewOnHide = YES;
+    [hud setYOffset:PJ_SCREEN_HEIGHT/4];
+    [hud hide:YES afterDelay:1.5];
+    hud.completionBlock = compeletBlock;
 }
 
 + (UIView*)showInfoCanvasOnTarget:(id)target action:(SEL)buttonSel{
@@ -695,27 +707,53 @@ void tapToHidePopViewAction(id sender, SEL _cmd)
     }];
 }
 
+
 + (void)showLoginView:(CZJViewController*)target andNaviBar:(CZJNaviagtionBarView*)naviBar
 {
     //由storyboard根据LoginView获取到登录界面
     UINavigationController* loginView = (UINavigationController*)[self getViewControllerFromStoryboard:@"Main" andVCName:@"LoginView"];
     
     //把loginView加入到当前navigationController中
-    UIWindow *window = [[UIWindow alloc] initWithFrame:CGRectMake(0, PJ_SCREEN_HEIGHT, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT)];
-    window.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:1.0];
-    window.windowLevel = UIWindowLevelNormal;
-    window.hidden = NO;
-    window.rootViewController = loginView;
-    target.window = window;
-    [window makeKeyAndVisible];
+//    UIWindow *window = [[UIWindow alloc] initWithFrame:CGRectMake(0, PJ_SCREEN_HEIGHT, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT)];
+//    window.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:1.0];
+//    window.windowLevel = UIWindowLevelNormal;
+//    window.hidden = NO;
+//    window.rootViewController = loginView;
+//    target.window = window;
+//    [window makeKeyAndVisible];
     
-    [UIView animateWithDuration:0.4 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
-        target.window.frame = CGRectMake(0, 0, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT);
-        ((CZJLoginController*)loginView.topViewController).delegate = naviBar ? naviBar : target;
-    } completion:^(BOOL finished) {
+    
+    ((CZJLoginController*)loginView.topViewController).delegate = naviBar ? naviBar : target;
+    [target presentViewController:loginView animated:YES completion:^{
         [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
     }];
+    
+//    [UIView animateWithDuration:0.4 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+//        target.window.frame = CGRectMake(0, 0, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT);
+//        ((CZJLoginController*)loginView.topViewController).delegate = naviBar ? naviBar : target;
+//        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
+//    } completion:^(BOOL finished) {
+//        
+//    }];
 }
+
+
++ (void)removeLoginViewFromCurrent:(CZJViewController*)target
+{
+    [UIView animateWithDuration:0.4 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^
+     {
+         target.window.frame = CGRectMake(0, PJ_SCREEN_HEIGHT, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT);
+         [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
+     }
+                     completion:^(BOOL finished)
+     {
+         if (finished) {
+             [target.window resignKeyWindow];
+             target.window  = nil;
+         }
+     }];
+}
+
 
 + (void)showCommitOrderView:(UIViewController *)target andParams:(NSArray*)_settleOrderAry
 {
@@ -748,31 +786,6 @@ void tapToHidePopViewAction(id sender, SEL _cmd)
     } completion:^(BOOL finished) {
         [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
     }];
-}
-
-
-
-+ (void)removeLoginViewFromCurrent:(CZJViewController*)target
-{
-    [UIView animateWithDuration:0.4 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^
-    {
-        target.window.frame = CGRectMake(0, PJ_SCREEN_HEIGHT, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT);
-        
-    }
-    completion:^(BOOL finished)
-    {
-        if (finished) {
-            [target.window resignKeyWindow];
-            target.window  = nil;
-        }
-    }];
-}
-
-+ (void)removeSearchVCFromCurrent:(CZJViewController*)target
-{
-    target.window.frame = CGRectMake(PJ_SCREEN_WIDTH, 0, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT);
-    [target.window resignKeyWindow];
-    target.window  = nil;
 }
 
 
@@ -947,10 +960,20 @@ void tapToHidePopViewAction(id sender, SEL _cmd)
                         andItemPid:(NSString*)sid
                         detailType:(CZJDetailType)detailtype
 {
+    [self showGoodsServiceDetailView:navi andItemPid:sid detailType:detailtype promotionType:CZJGoodsPromotionTypeGeneral promotionPrice:@""];
+}
+
++ (void)showGoodsServiceDetailView:(UINavigationController*)navi
+                        andItemPid:(NSString*)sid
+                        detailType:(CZJDetailType)detailtype
+                     promotionType:(CZJGoodsPromotionType)promotionType
+                    promotionPrice:(NSString*)promotionPrice
+{
     CZJDetailViewController* detailView = (CZJDetailViewController*)[CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:kCZJStoryBoardIDGoodsDetailVC];
     detailView.storeItemPid = sid;
     detailView.detaiViewType = detailtype;
-    detailView.promotionPrice = @"";
+    detailView.promotionPrice = promotionPrice;
+    detailView.promotionType = promotionType;
     [navi pushViewController:detailView animated:true];
 }
 
@@ -1047,6 +1070,18 @@ void tapToHidePopViewAction(id sender, SEL _cmd)
 
 
 #pragma mark - Camera Utility
++ (BOOL) isCameraAvailable:(UIViewController *)base
+{
+    AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
+    if (authStatus == AVAuthorizationStatusRestricted || authStatus ==AVAuthorizationStatusDenied)
+    {
+        UIAlertView* alertView = [[UIAlertView alloc]initWithTitle:@"提示" message:@"您的相机功能好像有问题哦~\n去\"设置>隐私>相机\"开启一下吧" delegate:base cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+        [alertView show];
+        return NO;
+    }
+    return YES;
+}
+
 + (BOOL) isCameraAvailable{
     return [UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera];
 }
@@ -1160,6 +1195,36 @@ void tapToHidePopViewAction(id sender, SEL _cmd)
 }
 
 
+
++ (void)downloadImageWithURL:(NSString*)imgUrl
+                 andFileName:(NSString*)imgName
+                 withSuccess:(CZJGeneralBlock)success
+                     andFail:(CZJGeneralBlock)fail
+{
+    [[SDWebImageManager sharedManager]downloadImageWithURL:[NSURL URLWithString:imgUrl] options:SDWebImageContinueInBackground progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+        DLog(@"receivedSize:%ld, expectedSize:%ld",receivedSize,expectedSize);
+    }completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL){
+        NSString* imagepath2 = [DocumentsDirectory stringByAppendingPathComponent:imgName];
+        //把图片直接保存到指定的路径（同时应该把图片的路径imagePath存起来，下次就可以直接用来取）
+        if ([UIImageJPEGRepresentation(image,0) writeToFile:imagepath2 atomically:YES])
+        {
+            if (success)
+            {
+                success();
+            }
+        }
+        else
+        {
+            if (fail)
+            {
+                fail();
+            }
+        }
+        
+    }];
+}
+
+
 //计算单个文件大小返回值是M
 + (float)fileSizeAtPath:(NSString *)path
 {
@@ -1247,7 +1312,7 @@ void tapToHidePopViewAction(id sender, SEL _cmd)
 {
     //获取bundle里面关于当前版本的信息
     NSDictionary *infoDict = [[NSBundle mainBundle] infoDictionary];
-    NSString *nowVersion = [infoDict objectForKey:@"CFBundleVersion"];
+    NSString *nowVersion = [infoDict objectForKey:@"CFBundleShortVersionString"];
     NSLog(@"nowVersion == %@",nowVersion);
     return nowVersion;
 }
@@ -1263,5 +1328,8 @@ void tapToHidePopViewAction(id sender, SEL _cmd)
      {
      }];
 }
+
+
+
 
 @end

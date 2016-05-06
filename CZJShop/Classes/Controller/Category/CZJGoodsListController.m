@@ -137,6 +137,7 @@ CZJFilterControllerDelegate
     self.myGoodsCollectionView.delegate = self;
     self.myGoodsCollectionView.dataSource = self;
     self.myGoodsCollectionView.backgroundColor = [UIColor clearColor];
+    self.myGoodsCollectionView.showsVerticalScrollIndicator = NO;
     UINib *nib=[UINib nibWithNibName:kCZJCollectionCellReuseIdGoodReco bundle:nil];
     [self.myGoodsCollectionView registerNib: nib forCellWithReuseIdentifier:kCZJCollectionCellReuseIdGoodReco];
     [self.view addSubview:self.myGoodsCollectionView];
@@ -172,9 +173,13 @@ CZJFilterControllerDelegate
     __weak typeof(self) weak = self;
     [CZJUtils removeReloadAlertViewFromTarget:self.view];
     [CZJUtils removeNoDataAlertViewFromTarget:self.view];
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    if (_getdataType == CZJHomeGetDataFromServerTypeOne)
+    {
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    }
+    
     CZJSuccessBlock successBlock = ^(id json) {
-        [MBProgressHUD hideAllHUDsForView:weak.view animated:YES];
+        [MBProgressHUD hideAllHUDsForView:weak.view animated:NO];
         //返回数据回来还未解析到本地数组中时就添加下拉刷新footer
         if (isArrangeByList) {
             [weak.myTableView.footer endRefreshing];
@@ -223,13 +228,18 @@ CZJFilterControllerDelegate
             if (goodsListAry.count == 0)
             {
                 [weak.myTableView setHidden:YES];
-                [CZJUtils showNoDataAlertViewOnTarget:self.view withPromptString:@"木有该品类商品/(ToT)/~~"];
+                [CZJUtils showNoDataAlertViewOnTarget:self.view withPromptString:@"暂木有该品类商品/(ToT)/~~"];
             }
             else
             {
                 if (isArrangeByList) {
                     [weak.myGoodsCollectionView setHidden:YES];
                     [weak.myTableView setHidden:NO];
+                    
+                    if (_getdataType == CZJHomeGetDataFromServerTypeOne)
+                    {
+                        [weak.myTableView setContentOffset:CGPointMake(0,0) animated:YES];
+                    }
                     [weak.myTableView reloadData];
                     weak.myTableView.footer.hidden = weak.myTableView.mj_contentH < weak.myTableView.frame.size.height;
                 }
@@ -237,6 +247,10 @@ CZJFilterControllerDelegate
                 {
                     [weak.myTableView setHidden:YES];
                     [weak.myGoodsCollectionView setHidden:NO];
+                    if (_getdataType == CZJHomeGetDataFromServerTypeOne)
+                    {
+                        [weak.myGoodsCollectionView setContentOffset:CGPointMake(0,0) animated:NO];
+                    }
                     [weak.myGoodsCollectionView reloadData];
                     //这里为什么要用延时加载，因为马上执行获取Collectionview的Height为0，延时之后则为正常值
                     [CZJUtils performBlock:^{
@@ -254,7 +268,7 @@ CZJFilterControllerDelegate
                                   type:_getdataType
                                success:successBlock
                                   fail:^{
-                                      [MBProgressHUD hideAllHUDsForView:weak.view animated:YES];
+                                      [MBProgressHUD hideAllHUDsForView:weak.view animated:NO];
                                       [CZJUtils showReloadAlertViewOnTarget:weak.view withReloadHandle:^{
                                           _getdataType = CZJHomeGetDataFromServerTypeTwo;
                                           weak.page = 1;
@@ -364,6 +378,7 @@ CZJFilterControllerDelegate
     cell.purchaseCountWidth.constant = [CZJUtils calculateTitleSizeWithString:goodsForm.evalCount AndFontSize:13].width + 5;
     [cell.goodImageView sd_setImageWithURL:[NSURL URLWithString:goodsForm.itemImg] placeholderImage:DefaultPlaceHolderSquare];
     
+    //促销，新品标示显示
     cell.imageOne.hidden = YES;
     cell.imageTwo.hidden = YES;
     if (goodsForm.newlyFlag && !goodsForm.promotionFlag)
@@ -438,18 +453,39 @@ CZJFilterControllerDelegate
     
     NSString* rmb = @"￥";
     cell.productName.text = form.itemName;
-    CGSize productSize = [CZJUtils calculateStringSizeWithString:form.itemName Font:cell.productName.font Width:PJ_SCREEN_WIDTH - 30];
+    CGSize productSize = [CZJUtils calculateStringSizeWithString:form.itemName Font:cell.productName.font Width:PJ_SCREEN_WIDTH*0.5 - 30];
     cell.productNameHeight.constant = productSize.height > 20 ? 40 : 20;
     cell.productPrice.text = [rmb stringByAppendingString:form.currentPrice];
     cell.productPrice.keyWord = rmb;
     cell.iconImageView.backgroundColor= CZJNAVIBARBGCOLOR;
     [cell.iconImageView sd_setImageWithURL:[NSURL URLWithString:form.itemImg] placeholderImage:DefaultPlaceHolderSquare];
+    
+    //促销，新品标示显示
+    cell.imageOne.hidden = YES;
+    cell.imageTwo.hidden = YES;
+    if (form.newlyFlag && !form.promotionFlag)
+    {
+        cell.imageTwo.hidden = NO;
+        [cell.imageTwo setImage:IMAGENAMED(@"label_icon_new")];
+    }
+    else if (!form.newlyFlag && form.promotionFlag)
+    {
+        cell.imageTwo.hidden = NO;
+        [cell.imageTwo setImage:IMAGENAMED(@"label_icon_cu")];
+    }
+    else if (form.newlyFlag && form.promotionFlag)
+    {
+        cell.imageOne.hidden = NO;
+        cell.imageTwo.hidden = NO;
+        [cell.imageOne setImage:IMAGENAMED(@"label_icon_new")];
+        [cell.imageTwo setImage:IMAGENAMED(@"label_icon_cu")];
+    }
     return cell;
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
     
-    return CGSizeMake((PJ_SCREEN_WIDTH - 40)/2, 244);
+    return CGSizeMake((PJ_SCREEN_WIDTH - 30)/2, 244);
 }
 -(UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section{
     return UIEdgeInsetsMake(0, 10, 0, 10);

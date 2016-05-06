@@ -57,6 +57,8 @@
 #import "OpenShare.h"
 
 //环信聊天
+#import "EMSDK.h"
+#import "EMSDKFull.h"
 #import "EaseUI.h"
 
 

@@ -17,6 +17,7 @@
 @property(weak, nonatomic)id<CZJMyInfoHeadCellDelegate> delegate;
 @property (weak, nonatomic) IBOutlet UIView *unLoginView;
 @property (weak, nonatomic) IBOutlet UIView *haveLoginView;
+@property (weak, nonatomic) IBOutlet CZJButton *messageBtn;
 
 - (void)setUserPersonalInfo:(UserBaseForm*)userinfo;
 @end

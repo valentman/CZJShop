@@ -20,6 +20,9 @@
 
 #define CZJPaymentInstance [CZJPaymentManager sharedCZJPaymentManager]
 
+#define CZJMessageInstance [CZJMessageManager sharedCZJMessageManager]
+
+
 
 typedef enum{
     eNone,

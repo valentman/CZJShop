@@ -35,38 +35,26 @@ UITableViewDelegate
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    DLog();
-    self.navigationController.navigationBarHidden = NO;
 }
 
 - (void)initViews
 {
+    [self addCZJNaviBarView:CZJNaviBarViewTypeGeneral];
+    self.naviBarView.mainTitleLabel.text = @"浏览记录";
+    
     scanListAry = [NSMutableArray array];
     self.page = 1;
     _getdataType = CZJHomeGetDataFromServerTypeOne;
     
-    [CZJUtils customizeNavigationBarForTarget:self];
     //右按钮
-    UIButton *rightBtn = [[ UIButton alloc ] initWithFrame : CGRectMake(0 , 0 , 44 , 44 )];
+    UIButton *rightBtn = [[ UIButton alloc ] initWithFrame : CGRectMake(PJ_SCREEN_WIDTH - 59 , 0 , 44 , 44 )];
     [rightBtn setTitle:@"清空" forState:UIControlStateNormal];
     [rightBtn addTarget:self action:@selector(edit:) forControlEvents:UIControlEventTouchUpInside];
     [rightBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
     [rightBtn setSelected:NO];
     rightBtn.titleLabel.font = SYSTEMFONT(16);
     [rightBtn setTag:1999];
-    UIBarButtonItem *rightItem =[[UIBarButtonItem alloc]initWithCustomView: rightBtn];
-    if ((IS_IOS7 ? 20 : 0))
-    {
-        UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
-        negativeSpacer.width = 0 ;//这个数值可以根据情况自由变化
-        self.navigationItem.rightBarButtonItems = @[negativeSpacer, rightItem];
-    } else
-    {
-        self.navigationItem.rightBarButtonItem = rightItem;
-    }
-    
-    [self addCZJNaviBarView:CZJNaviBarViewTypeGeneral];
-    self.naviBarView.btnBack.hidden = YES;
+    [self.naviBarView addSubview: rightBtn];
     
     
     self.myTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 64, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - StatusBar_HEIGHT - NavigationBar_HEIGHT) style:UITableViewStylePlain];

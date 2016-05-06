@@ -46,15 +46,19 @@
 /* 网络是否联通 */
 @property (assign, nonatomic) BOOL isNetWorkCanReachable;
 
-
+/* 添加自定义导航栏 */
 - (void)addCZJNaviBarView:(CZJNaviBarViewType)naviBarViewType;
 - (void)addCZJNaviBarViewWithNotHiddenNavi:(CZJNaviBarViewType)naviBarViewType;
 
+/* 显示弹出框，带确认和取消回调 */
 - (void)showCZJAlertView:(NSString*)promptStr
        andConfirmHandler:(CZJGeneralBlock)confirmBlock
         andCancleHandler:(CZJGeneralBlock)cancleBlock;
 
+/* 隐藏弹出框，弹出框必须u加载在window上的 */
 - (void)hideWindow;
 
+/* 检测网络状态 */
 - (void)checkNetWorkStatus;
+
 @end

@@ -129,6 +129,16 @@ VPImageCropperDelegate
         }
 
     }
+    
+    //隐藏车辆cell的分割线（但貌似不行）
+    UITableViewCell* cell2 = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:1]];
+    UILabel* carManageLabel = [[UILabel alloc]initWithFrame:CGRectMake(15, 12, 100, 20)];
+    carManageLabel.font = SYSTEMFONT(14);
+    carManageLabel.text = @"车辆管理:";
+    carManageLabel.textColor = RGB(153, 153, 153);
+    [cell2 addSubview:carManageLabel];
+    
+    cell2.separatorInset = IndentCellSeparator(PJ_SCREEN_WIDTH*0.5);
 }
 
 - (void)didReceiveMemoryWarning {

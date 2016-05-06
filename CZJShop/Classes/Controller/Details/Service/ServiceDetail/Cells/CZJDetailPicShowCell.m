@@ -36,6 +36,11 @@
     [self.picDetailView reloadData];
 }
 
+-(void)dealloc
+{
+    [self.picDetailView removeFromSuperview];
+}
+
 #pragma mark - ImagePlayerViewDelegate
 - (NSInteger)numberOfItems
 {
@@ -47,7 +52,7 @@
     __weak typeof(self) weak = self;
     imageView.alpha = 0;
     [imageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",[_imageArray objectAtIndex:index],SUOLUE_PIC_600]] placeholderImage:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-       [UIView animateWithDuration:1.0 animations:^{
+       [UIView animateWithDuration:0.5 animations:^{
            weak.holderImg.alpha = 0;
            imageView.alpha = 1;
        }];

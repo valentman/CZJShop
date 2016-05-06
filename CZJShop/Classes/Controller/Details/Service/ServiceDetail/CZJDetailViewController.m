@@ -6,6 +6,7 @@
 //  Copyright © 2015 JoeP. All rights reserved.
 //
 
+#import <Accelerate/Accelerate.h>
 #import "CZJDetailViewController.h"
 #import "NIDropDown.h"
 #import "CZJBaseDataManager.h"
@@ -37,9 +38,18 @@
 #import "CZJMiaoShaControlHeaderCell.h"
 #import "ShareMessage.h"
 #import "CZJMyInfoOrderListController.h"
+#import "CZJMyInfoAttentionController.h"
+#import "CZJMyInfoRecordController.h"
 
-#define kTagScrollView 1002
-#define kTagTableView 1001
+#define kTagScrollView  1002
+#define kTagTableView   1001
+#define kTagOverLay     9999
+#define kTagRenderImage 9998
+
+
+@interface UIImage (Blur)
+- (UIImage*)boxblurImageWithBlur:(CGFloat)blur;
+@end
 
 @interface CZJDetailViewController ()
 <
@@ -56,6 +66,7 @@ CZJChooseProductTypeDelegate
 {
     NIDropDown *dropDown;
     BOOL isScorllUp;
+    BOOL isLoadDataFromServer;
     
     CGFloat tableViewContentSizeHeight;
     __block BOOL isButtom;
@@ -109,17 +120,17 @@ CZJChooseProductTypeDelegate
     [CZJUtils customizeNavigationBarForTarget:self];
     [self addCZJNaviBarView:CZJNaviBarViewTypeDetail];
     [self initDatas];
-    [self initViews];
-    
+    [self initViews];    
     [CZJUtils performBlock:^{
         [self getDataFromServer];
-    } afterDelay:0.2];
+    } afterDelay:0.3];
     [self registNotification];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [self.naviBarView refreshShopBadgeLabel];
+    self.navigationController.navigationBarHidden = YES;
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -127,6 +138,31 @@ CZJChooseProductTypeDelegate
     self.navigationController.interactivePopGestureRecognizer.delegate = self;
     self.navigationController.navigationBarHidden = YES;
     [[UIApplication sharedApplication]setStatusBarHidden:NO];
+    
+    [CZJUtils performBlock:^{
+            //图文详情页
+            CZJPicDetailController *FController = [[CZJPicDetailController alloc]init];
+            FController.detaiViewType = self.detaiViewType;
+            CZJBuyNoticeController *SController = [[CZJBuyNoticeController alloc]init];
+            SController.detaiViewType = self.detaiViewType;
+            CZJAfterServiceController *TController = [[CZJAfterServiceController alloc]init];
+            TController.detaiViewType = self.detaiViewType;
+            CZJApplicableCarController *AController = [[CZJApplicableCarController alloc]init];
+            AController.detaiViewType = self.detaiViewType;
+            
+            CZJPageControlView* webVie = [[CZJPageControlView alloc]initWithFrame:CGRectMake(0, (PJ_SCREEN_HEIGHT-50), PJ_SCREEN_WIDTH, (PJ_SCREEN_HEIGHT-114)) andPageIndex:kPagePicDetail];
+            webVie.backgroundColor = CZJNAVIBARBGCOLOR;
+            if (_detaiViewType == CZJDetailTypeService)
+            {
+                [webVie setTitleArray:@[@"图文详情",@"购买须知",@"适用车型"] andVCArray:@[FController,SController,AController]];
+            }
+            else
+            {
+                [webVie setTitleArray:@[@"图文详情",@"规格参数",@"包装售后",@"适用车型"] andVCArray:@[FController,SController,TController,AController]];
+            }
+            [self.myScrollView addSubview:webVie];
+    } afterDelay:0.5];
+
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -169,7 +205,19 @@ CZJChooseProductTypeDelegate
     //背景触摸层
     _backgroundView.backgroundColor = RGBA(100, 240, 240, 0);
     UIGestureRecognizer *gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapBackground:)];
+    UISwipeGestureRecognizer* leftGesture = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(tapBackground:)];
+    [leftGesture setDirection:UISwipeGestureRecognizerDirectionLeft];
+    UISwipeGestureRecognizer* rightGesture = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(tapBackground:)];
+    [rightGesture setDirection:UISwipeGestureRecognizerDirectionRight];
+    UISwipeGestureRecognizer* downGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(tapBackground:)];
+    [downGesture setDirection:UISwipeGestureRecognizerDirectionDown];
+    UISwipeGestureRecognizer* upGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(tapBackground:)];
+    [upGesture setDirection:UISwipeGestureRecognizerDirectionUp];
     [_backgroundView addGestureRecognizer:gesture];
+    [_backgroundView addGestureRecognizer:downGesture];
+    [_backgroundView addGestureRecognizer:upGesture];
+    [_backgroundView addGestureRecognizer:leftGesture];
+    [_backgroundView addGestureRecognizer:rightGesture];
     _backgroundView.hidden = YES;
     
     //背景Scrollview
@@ -268,7 +316,6 @@ CZJChooseProductTypeDelegate
     CZJSuccessBlock successBlock = ^(id json)
     {
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-        
         NSDictionary* dict = [[CZJUtils DataFromJson:json] valueForKey:@"msg"];
         goodsDetailForm = [CZJGoodsDetailForm objectWithKeyValues:dict];
         DLog(@"goodsDetailForm:%@",[goodsDetailForm.keyValues description]);
@@ -292,29 +339,7 @@ CZJChooseProductTypeDelegate
         //获取热门商品或服务
         [weakSelf getHotRecommendDataFromServer];
         
-        //图文详情页
-        CZJPicDetailController *FController = [[CZJPicDetailController alloc]init];
-        FController.detaiViewType = weakSelf.detaiViewType;
-        CZJBuyNoticeController *SController = [[CZJBuyNoticeController alloc]init];
-        SController.detaiViewType = weakSelf.detaiViewType;
-        CZJAfterServiceController *TController = [[CZJAfterServiceController alloc]init];
-        TController.detaiViewType = weakSelf.detaiViewType;
-        CZJApplicableCarController *AController = [[CZJApplicableCarController alloc]init];
-        AController.detaiViewType = weakSelf.detaiViewType;
-        
-        CZJPageControlView* webVie = [[CZJPageControlView alloc]initWithFrame:CGRectMake(0, (PJ_SCREEN_HEIGHT-50), PJ_SCREEN_WIDTH, (PJ_SCREEN_HEIGHT-114)) andPageIndex:kPagePicDetail];
-        webVie.backgroundColor = CZJNAVIBARBGCOLOR;
-        if (_detaiViewType == CZJDetailTypeService)
-        {
-            [webVie setTitleArray:@[@"图文详情",@"购买须知",@"适用车型"] andVCArray:@[FController,SController,AController]];
-        }
-        else
-        {
-            [webVie setTitleArray:@[@"图文详情",@"规格参数",@"包装售后",@"适用车型"] andVCArray:@[FController,SController,TController,AController]];
-        }
-        [weakSelf.myScrollView addSubview:webVie];
     };
-    
     
 
     [CZJUtils removeReloadAlertViewFromTarget:self.view];
@@ -332,9 +357,12 @@ CZJChooseProductTypeDelegate
     CZJSuccessBlock successBlock = ^(id json)
     {
         NSArray* dict = [[CZJUtils DataFromJson:json]valueForKey:@"msg"];
-        DLog(@"hotrecommend:%@",[dict description]);
+//        DLog(@"hotrecommend:%@",[dict description]);
         _recommendServiceForms = [CZJStoreServiceForm objectArrayWithKeyValuesArray:dict];
         [self.detailTableView reloadData];
+        /*为什么不能用 [self.detailTableView reloadSections:[NSIndexSet  indexSetWithIndex:*withRowAnimation:UITableViewRowAnimationNone];，
+        *是因为要重新计算TableView的ContentSize
+        */
         
         //推荐商品获取完成后再计算TableView的contentSize
         DLog(@"contentSizeHeight:%f, frameHeight:%f",self.detailTableView.mj_contentH,self.detailTableView.mj_h)
@@ -357,6 +385,7 @@ CZJChooseProductTypeDelegate
     [USER_DEFAULT setValue:_goodsDetail.storeItemPid forKey:kUserDefaultDetailStoreItemPid];
     [USER_DEFAULT setValue:_goodsDetail.itemCode forKey:kUserDefaultDetailItemCode];
     self.attentionBtn.selected = _goodsDetail.attentionFlag;
+    isLoadDataFromServer = YES;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -376,7 +405,7 @@ CZJChooseProductTypeDelegate
     }
     if (4 == section)
     {
-        return ((CZJDetailTypeGoods == _detaiViewType) ? 2 : 0);
+        return ((CZJDetailTypeGoods == _detaiViewType && CZJGoodsPromotionTypeGeneral == _promotionType) ? 2 : 0);
     }
     if (3 == section)
     {
@@ -409,7 +438,9 @@ CZJChooseProductTypeDelegate
         case 0:
         {//图片展示
             CZJDetailPicShowCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CZJDetailPicShowCell" forIndexPath:indexPath];
-            if (_goodsDetail.imgs.count > 0) {
+            if (_goodsDetail.imgs.count > 0 && isLoadDataFromServer)
+            {
+                isLoadDataFromServer = NO;
                 [cell someMethodNeedUse:indexPath DataModel:_goodsDetail.imgs];
                 cell.delegate = self;
             }
@@ -443,14 +474,14 @@ CZJChooseProductTypeDelegate
                 //商品原价
                 NSString* originStr = [NSString stringWithFormat:@"￥%@", _goodsDetail.originalPrice == nil ? @"" :_goodsDetail.originalPrice];
                 [cell.originPriceLabel setAttributedText:[CZJUtils stringWithDeleteLine:originStr]];
-                CGSize originSize = [CZJUtils calculateTitleSizeWithString:originStr WithFont:SYSTEMFONT(12)];
+                CGSize originSize = [CZJUtils calculateTitleSizeWithString:originStr WithFont:SYSTEMFONT(14)];
                 cell.originPriceWidth.constant = originSize.width + 5;
                 
                 //秒杀栏
                 miaoShaCell = [CZJUtils getXibViewByName:@"CZJMiaoShaControlHeaderCell"];
                 miaoShaCell.miaoshaIconLeading.constant = 20;
                 miaoShaCell.miaoShaTypeLabel.hidden = YES;
-                miaoShaCell.frame = CGRectMake(0, 65 + ((prolabelSize.height < 15) ? 15 : prolabelSize.height), PJ_SCREEN_WIDTH, 35);
+                miaoShaCell.frame = CGRectMake(0, 50 + cell.productNameLayoutHeight.constant, PJ_SCREEN_WIDTH, 35);
                 [cell addSubview:miaoShaCell];
                 [self setTimestamp:_miaoShaInterval];
             }
@@ -480,7 +511,7 @@ CZJChooseProductTypeDelegate
                 
                 chooosedProductCell.goodsDetail = _goodsDetail;
                 chooosedProductCell.storeItemPid = _goodsDetail.storeItemPid;
-                chooosedProductCell.productType.text = [NSString stringWithFormat:@"%@ %ld个",[_goodsDetail.sku.skuValues isEqualToString:@"null"]? @"" : _goodsDetail.sku.skuValues,buyCount];
+                chooosedProductCell.productType.text = [NSString stringWithFormat:@"%@ %ld个",[_goodsDetail.sku.skuValues isEqualToString:@"null"] ? @"" : _goodsDetail.sku.skuValues,buyCount];
                 chooosedProductCell.counterKey = _goodsDetail.counterKey;
                 [chooosedProductCell setSelectionStyle:UITableViewCellSelectionStyleNone];
                 return chooosedProductCell;
@@ -813,7 +844,7 @@ CZJChooseProductTypeDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (2 == indexPath.section)
+    if (2 == indexPath.section )
     {
         __weak typeof(self) weak = self;
         self.popWindowInitialRect = CGRectMake(0, PJ_SCREEN_HEIGHT, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - 200);
@@ -821,48 +852,124 @@ CZJChooseProductTypeDelegate
         CZJReceiveCouponsController *receiveCouponsController = [[CZJReceiveCouponsController alloc] init];
         receiveCouponsController.storeId = _storeInfo.storeId;
         receiveCouponsController.popWindowInitialRect = self.popWindowInitialRect;
-        [CZJUtils showMyWindowOnTarget:weak withPopVc:receiveCouponsController];
+
+        
+        //当前视图控制器的upView上添加手势监测
+        //初始化upView
+        self.upView = [[UIView alloc] initWithFrame:self.view.bounds];
+        //添加背景层点击隐藏手势、向右侧滑隐藏手势、向下滑隐藏手势和弹出页向右侧滑隐藏手势
+        [self.upView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissWithAnimation)]];
+        [self.upView addGestureRecognizer:[[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(dismissWithAnimation)]];
+        [receiveCouponsController.view addGestureRecognizer:[[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(dismissWithAnimation)]];
+        UISwipeGestureRecognizer* downGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(dismissWithAnimation)];
+        [downGesture setDirection:UISwipeGestureRecognizerDirectionDown];
+        [self.upView addGestureRecognizer:downGesture];
+        //将upView添加到当前View上
+        [self.view addSubview:self.upView];
+        
+        //动画效果
+        UIGraphicsBeginImageContext(self.view.bounds.size);
+        [self.view.layer renderInContext:UIGraphicsGetCurrentContext()];
+        UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+        UIImageView * ss = [[UIImageView alloc] initWithImage:[image boxblurImageWithBlur:0.1]];
+        ss.tag = kTagRenderImage;
+        [self.upView addSubview:ss];
+        self.upView.backgroundColor = BLACKCOLOR;
+        DLog(@"基图:%p, 覆盖图:%p, renderImage:%p",self.view,self.upView,ss);
+        
+        [ss.layer addAnimation:[self animationGroupForward:YES] forKey:@"pushedBackAnimation"];
+        [UIView animateWithDuration:0.5 animations:^{
+            ss.alpha = 0.7;
+        }];
+        
+        //初始化一个自定义弹窗视图
+        UIWindow *myWindow = [[UIWindow alloc] initWithFrame:self.popWindowInitialRect];
+        self.window = myWindow;
+        myWindow.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:self.windowAlpha];
+        myWindow.windowLevel = UIWindowLevelNormal;
+        myWindow.hidden = NO;
+        myWindow.rootViewController = receiveCouponsController;
+        [myWindow makeKeyAndVisible];
+        
+        
+        //动画出现弹窗视图
+        __weak typeof(self) weakSelf = self;
+        [UIView animateWithDuration:0.5 animations:^{
+            weakSelf.windowAlpha = 1.0f;
+            weakSelf.window.frame =  weakSelf.popWindowDestineRect;
+            weakSelf.upView.alpha = 1.0;
+        } completion:nil];
+        self.navigationController.interactivePopGestureRecognizer.enabled = NO;
         
         
         [receiveCouponsController setCancleBarItemHandle:^{
-            [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
-                weak.window.frame = self.popWindowInitialRect;
-                weak.upView.alpha = 0.0;
-            } completion:^(BOOL finished) {
-                if (finished) {
-                    [weak.upView removeFromSuperview];
-                    [weak.window resignKeyWindow];
-                    weak.window  = nil;
-                    weak.upView = nil;
-                    weak.navigationController.interactivePopGestureRecognizer.enabled = YES;
-                }
-            }];
+            [weak dismissWithAnimation];
         }];
+        return;
     }
     if (4 == indexPath.section && 0 == indexPath.row)
     {
         __weak typeof(self) weak = self;
-        self.popWindowInitialRect =  CGRectMake(PJ_SCREEN_WIDTH, 0, PJ_SCREEN_WIDTH-50, PJ_SCREEN_HEIGHT);
-        self.popWindowDestineRect = CGRectMake(50, 0, PJ_SCREEN_WIDTH-50, PJ_SCREEN_HEIGHT);
+        self.popWindowInitialRect = CGRectMake(0, PJ_SCREEN_HEIGHT, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - 200);
+        self.popWindowDestineRect = CGRectMake(0, 200, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - 200);
         CZJChooseProductTypeController *chooseProductTypeController = [[CZJChooseProductTypeController alloc] init];
         chooseProductTypeController.goodsDetail = chooosedProductCell.goodsDetail;
         chooseProductTypeController.buycount = buyCount;
         chooseProductTypeController.delegate = self;
-        [CZJUtils showMyWindowOnTarget:weak withPopVc:chooseProductTypeController];
+        chooseProductTypeController.popWindowInitialRect = self.popWindowInitialRect;
+        
+        
+        //当前视图控制器的upView上添加手势监测
+        //初始化upView
+        self.upView = [[UIView alloc] initWithFrame:self.view.bounds];
+        //添加背景层点击隐藏手势、向右侧滑隐藏手势、向下滑隐藏手势和弹出页向右侧滑隐藏手势
+        [self.upView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissWithAnimation)]];
+        [self.upView addGestureRecognizer:[[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(dismissWithAnimation)]];
+        [chooseProductTypeController.view addGestureRecognizer:[[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(dismissWithAnimation)]];
+        UISwipeGestureRecognizer* downGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(dismissWithAnimation)];
+        [downGesture setDirection:UISwipeGestureRecognizerDirectionDown];
+        [self.upView addGestureRecognizer:downGesture];
+        //将upView添加到当前View上
+        [self.view addSubview:self.upView];
+        
+        //动画效果
+        UIGraphicsBeginImageContext(self.view.bounds.size);
+        [self.view.layer renderInContext:UIGraphicsGetCurrentContext()];
+        UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+        UIImageView * ss = [[UIImageView alloc] initWithImage:[image boxblurImageWithBlur:0.1]];
+        ss.tag = kTagRenderImage;
+        [self.upView addSubview:ss];
+        self.upView.backgroundColor = BLACKCOLOR;
+        DLog(@"基图:%p, 覆盖图:%p, renderImage:%p",self.view,self.upView,ss);
+        
+        [ss.layer addAnimation:[self animationGroupForward:YES] forKey:@"pushedBackAnimation"];
+        [UIView animateWithDuration:0.5 animations:^{
+            ss.alpha = 0.7;
+        }];
+        
+        
+        //初始化一个自定义弹窗视图
+        UIWindow *myWindow = [[UIWindow alloc] initWithFrame:self.popWindowInitialRect];
+        self.window = myWindow;
+        myWindow.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:self.windowAlpha];
+        myWindow.windowLevel = UIWindowLevelNormal;
+        myWindow.hidden = NO;
+        myWindow.rootViewController = chooseProductTypeController;
+        [myWindow makeKeyAndVisible];
+        
+        
+        //动画出现弹窗视图
+        __weak typeof(self) weakSelf = self;
+        [UIView animateWithDuration:0.5 animations:^{
+            weakSelf.windowAlpha = 1.0f;
+            weakSelf.window.frame =  weakSelf.popWindowDestineRect;
+            weakSelf.upView.alpha = 1.0;
+        } completion:nil];
+        self.navigationController.interactivePopGestureRecognizer.enabled = NO;
+        
         
         [chooseProductTypeController setCancleBarItemHandle:^{
-            [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
-                weak.window.frame = self.popWindowInitialRect;
-                weak.upView.alpha = 0.0;
-            } completion:^(BOOL finished) {
-                if (finished) {
-                    [weak.upView removeFromSuperview];
-                    [weak.window resignKeyWindow];
-                    weak.window  = nil;
-                    weak.upView = nil;
-                    weak.navigationController.interactivePopGestureRecognizer.enabled = YES;
-                }
-            }];
+            [weak dismissWithAnimation];
         }];
     }
     if (3 == indexPath.section)
@@ -874,6 +981,76 @@ CZJChooseProductTypeDelegate
     }
 }
 
+-(void)dismissWithAnimation {
+    __weak typeof(self) weakSelf = self;
+    [UIView animateWithDuration:0.5 animations:^{
+        weakSelf.window.frame = weakSelf.popWindowInitialRect;
+        weakSelf.windowAlpha = 1.0f;
+    } completion:^(BOOL finished) {
+        if (finished) {
+            [weakSelf.window resignKeyWindow];
+            weakSelf.window  = nil;
+            weakSelf.navigationController.interactivePopGestureRecognizer.enabled = YES;
+        }
+    }];
+    
+//    UIView * overlay = VIEWWITHTAG(self.view, kTagOverLay);
+    DLog(@"基图:%p 覆盖图:%p",self.view,self.upView);
+//    for (id obje in overlay.subviews)
+//    {
+//        DLog(@"覆盖图的姿势图：%p",obje);
+//    }
+//    PJAlertAssert(overlay == nil,@"没有获取到覆盖图");
+    UIImageView * ss = (UIImageView *)VIEWWITHTAG(self.upView, kTagRenderImage);
+    PJAlertAssert(ss == nil,@"没有获取到渲染图");
+    [ss.layer addAnimation:[self animationGroupForward:NO] forKey:@"bringForwardAnimation"];
+    [UIView animateWithDuration:0.5 animations:^{
+        ss.alpha = 1;
+    }completion:^(BOOL finished) {
+        [UIView animateWithDuration:0.1 animations:^{
+            weakSelf.upView.alpha = 0.0;
+        } completion:^(BOOL finished) {
+        [weakSelf.upView removeFromSuperview];
+        weakSelf.upView = nil;
+        }];
+    }];
+}
+
+-(CAAnimationGroup*)animationGroupForward:(BOOL)_forward {
+    // Create animation keys, forwards and backwards
+    CATransform3D t1 = CATransform3DIdentity;
+    t1.m34 = 1.0/-900;
+    t1 = CATransform3DScale(t1, 0.95, 0.95, 1);
+    t1 = CATransform3DRotate(t1, 15.0f*M_PI/180.0f, 1, 0, 0);
+    
+    CATransform3D t2 = CATransform3DIdentity;
+    t2.m34 = t1.m34;
+    t2 = CATransform3DTranslate(t2, 0, [[UIScreen mainScreen] bounds].size.height*-0.02, 0);
+    t2 = CATransform3DScale(t2, 0.9, 0.9, 1);
+    
+    CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"transform"];
+    animation.toValue = [NSValue valueWithCATransform3D:t1];
+    animation.duration = 0.4/2;
+    animation.fillMode = kCAFillModeForwards;
+    animation.removedOnCompletion = NO;
+    [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut]];
+    
+    CABasicAnimation *animation2 = [CABasicAnimation animationWithKeyPath:@"transform"];
+    animation2.toValue = [NSValue valueWithCATransform3D:(_forward?t2:CATransform3DIdentity)];
+    animation2.beginTime = animation.duration;
+    animation2.duration = animation.duration;
+    animation2.fillMode = kCAFillModeForwards;
+    animation2.removedOnCompletion = NO;
+    [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn]];
+    
+    CAAnimationGroup *group = [CAAnimationGroup animation];
+    group.fillMode = kCAFillModeForwards;
+    group.removedOnCompletion = NO;
+    [group setDuration:animation.duration*2];
+    [group setAnimations:[NSArray arrayWithObjects:animation,animation2, nil]];
+    return group;
+}
+
 
 #pragma mark- CZJNaviBarViewDelegate(导航栏三个按钮的代理回调)
 - (void)clickEventCallBack:(id)sender
@@ -882,12 +1059,13 @@ CZJChooseProductTypeDelegate
     switch (barButton.tag) {
         case CZJButtonTypeNaviBarMore:
         {
-            NSArray * arr = @[
-                              //                              @{@"消息" : @"prodetail_icon_msg"},
+            NSArray * arr = @[@{@"消息" : @"prodetail_icon_msg"},
                               @{@"首页":@"prodetail_icon_home"},
-                              @{@"分享" :@"prodetail_icon_share"}];
+                              @{@"分享" :@"prodetail_icon_share"},
+                              @{@"我的关注" :@"all_pop_attention"},
+                              @{@"浏览记录" :@"all_pop_record"}];
             if(dropDown == nil) {
-                CGRect rect = CGRectMake(PJ_SCREEN_WIDTH - 120 - 14, StatusBar_HEIGHT + 78, 120, 100);
+                CGRect rect = CGRectMake(PJ_SCREEN_WIDTH - 150 - 14, StatusBar_HEIGHT + 78, 150, 250);
                 _backgroundView.hidden = NO;
                 dropDown = [[NIDropDown alloc]showDropDown:_backgroundView Frame:rect WithObjects:arr  andType:CZJNIDropDownTypeNormal];
                 dropDown.delegate = self;
@@ -902,6 +1080,7 @@ CZJChooseProductTypeDelegate
             }
             else
             {
+                [self.detailTableView setContentOffset:CGPointZero];
                 [self.myScrollView setContentOffset:CGPointZero animated:YES];
             }
             break;
@@ -945,16 +1124,58 @@ CZJChooseProductTypeDelegate
 #pragma mark- NIDropDownDelegate(更多按钮弹出框回调)
 - (void) niDropDownDelegateMethod:(NSString*)btnStr
 {
+    [self tapBackground:nil];
     if ([btnStr isEqualToString:@"消息"])
     {
+        DLog(@"消息");
     }
     if ([btnStr isEqualToString:@"首页"])
     {
         [self.navigationController popToRootViewControllerAnimated:YES];
     }
+    if ([btnStr isEqualToString:@"我的关注"])
+    {
+        CZJMyInfoAttentionController* attentionVC = (CZJMyInfoAttentionController*)[CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:@"myAttentionSBID"];
+        [self.navigationController pushViewController:attentionVC animated:YES];
+    }
+    if ([btnStr isEqualToString:@"浏览记录"])
+    {
+        CZJMyInfoRecordController* recordVC = (CZJMyInfoRecordController*)[CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:@"myScanRecordSBID"];
+        [self.navigationController pushViewController:recordVC animated:YES];
+    }
     if ([btnStr isEqualToString:@"分享"])
     {
-        [[ShareMessage shareMessage] showPanel:self.view Type:1 WithTitle:@"车之健" AndBody:@"当前需要分享的东西"];
+        NSString* shareUrl;
+        if (_detaiViewType == CZJDetailTypeGoods)
+        {
+            shareUrl = [NSString stringWithFormat:@"%@%@?storeItemPid=%@",kCZJServerAddr,kCZJGoodsShare,self.storeItemPid];
+        }
+        if (_detaiViewType == CZJDetailTypeService)
+        {
+            shareUrl = [NSString stringWithFormat:@"%@%@?storeItemPid=%@",kCZJServerAddr,kCZJServiceShare,self.storeItemPid];
+        }
+
+        NSString* desc = @"我在车之健发现这个不错的商品，赶快去看看吧~";
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        [CZJUtils downloadImageWithURL:_goodsDetail.imgs.firstObject andFileName:@"detail_icon.png" withSuccess:^{
+            [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+            NSData* imageData =[NSData dataWithContentsOfFile:[DocumentsDirectory stringByAppendingPathComponent:@"detail_icon.png"]];
+            [[ShareMessage shareMessage] showPanel:self.view
+                                              type:1
+                                             title:_goodsDetail.itemName
+                                              body:desc
+                                              link:shareUrl
+                                             image:imageData];
+        } andFail:^{
+            [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+            NSData* imageData =[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"share_icon" ofType:@"png"]];
+            [[ShareMessage shareMessage] showPanel:self.view
+                                              type:1
+                                             title:_goodsDetail.itemName
+                                              body:desc
+                                              link:shareUrl
+                                             image:imageData];
+        }];
     }
 }
 
@@ -987,7 +1208,7 @@ CZJChooseProductTypeDelegate
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     float contentOffsetY = [scrollView contentOffset].y;
-    DLog(@"contentOffsetY:%f, tableViewContentSizeHeight:%f",contentOffsetY, tableViewContentSizeHeight);
+//    DLog(@"contentOffsetY:%f, tableViewContentSizeHeight:%f",contentOffsetY, tableViewContentSizeHeight);
     if (kTagTableView == scrollView.tag && contentOffsetY <=0)
     {
         [self.naviBarView setBackgroundColor:CZJNAVIBARBGCOLORALPHA(0)];
@@ -1055,7 +1276,7 @@ CZJChooseProductTypeDelegate
 {
     __weak typeof(self) weak = self;
     [CZJUtils performBlock:^{
-        [weak immediatelyBuyAction:nil];
+        [weak buyNow];
     } afterDelay:0.5];
 }
 
@@ -1063,12 +1284,32 @@ CZJChooseProductTypeDelegate
 {
     __weak typeof(self) weak = self;
     [CZJUtils performBlock:^{
-        [weak addProductToShoppingCartAction:nil];
+        [weak addGoodsToShoppingCart];
     } afterDelay:0.5];
 }
 
 #pragma mark- Action
 - (IBAction)immediatelyBuyAction:(id)sender
+{
+    //如果是秒杀、爆款、没有多余SKU值选择，则不用进入SKU选择界面
+    if (CZJGoodsPromotionTypeBaoKuan == _promotionType ||
+        CZJGoodsPromotionTypeMiaoSha == _promotionType ||
+        [_goodsDetail.sku.skuValues isEqualToString:@"null"] ||
+        [_goodsDetail.sku.skuValues isEqualToString:@""] ||
+        _detaiViewType == CZJDetailTypeService)
+    {
+        [self buyNow];
+    }
+    //如果有多个SKU值则跳转到SKU选择界面
+    else
+    {
+        NSIndexPath* indexPath = [NSIndexPath indexPathForRow:0 inSection:4];
+        [self tableView:self.detailTableView didSelectRowAtIndexPath:indexPath];
+    }
+}
+
+
+- (void)buyNow
 {
     [_settleOrderAry removeAllObjects];
     if ([USER_DEFAULT boolForKey:kCZJIsUserHaveLogined])
@@ -1101,12 +1342,28 @@ CZJChooseProductTypeDelegate
     {
         [CZJUtils showLoginView:self andNaviBar:self.naviBarView];
     }
-    
 }
 
 - (IBAction)addProductToShoppingCartAction:(id)sender
 {
-    
+    //如果是秒杀、爆款、没有多余SKU值选择，则不用进入SKU选择界面
+    if (CZJGoodsPromotionTypeBaoKuan == _promotionType ||
+        CZJGoodsPromotionTypeMiaoSha == _promotionType ||
+        [_goodsDetail.sku.skuValues isEqualToString:@"null"] ||
+        [_goodsDetail.sku.skuValues isEqualToString:@""])
+    {
+        [self addGoodsToShoppingCart];
+    }
+    //如果有多个SKU值则跳转到SKU选择界面
+    else
+    {
+        NSIndexPath* indexPath = [NSIndexPath indexPathForRow:0 inSection:4];
+        [self tableView:self.detailTableView didSelectRowAtIndexPath:indexPath];
+    }
+}
+
+- (void)addGoodsToShoppingCart
+{
     if ([USER_DEFAULT boolForKey:kCZJIsUserHaveLogined])
     {
         NSDictionary* pramas = @{@"companyId" : _goodsDetail.companyId ? _goodsDetail.companyId : @"",
@@ -1260,5 +1517,80 @@ CZJChooseProductTypeDelegate
         [self getDataFromServer];
     }
 }
-
 @end
+
+#pragma mark -
+@implementation UIImage (Blur)
+- (UIImage*)boxblurImageWithBlur:(CGFloat)blur{
+    if (blur < 0.f || blur > 1.f) {
+        blur = 0.5f;
+    }
+    int boxSize = (int)(blur * 40);
+    boxSize = boxSize - (boxSize % 2) + 1;
+    
+    //不做转换有时候会崩掉
+    NSData *imageData = UIImageJPEGRepresentation(self, 1); // convert to jpeg
+    UIImage* destImage = [UIImage imageWithData:imageData];
+    
+    
+    CGImageRef img = destImage.CGImage;
+    vImage_Buffer inBuffer, outBuffer;
+    vImage_Error error;
+    void *pixelBuffer;
+    
+    //create vImage_Buffer with data from CGImageRef
+    CGDataProviderRef inProvider = CGImageGetDataProvider(img);
+    CFDataRef inBitmapData = CGDataProviderCopyData(inProvider);
+    
+    inBuffer.width = CGImageGetWidth(img);
+    inBuffer.height = CGImageGetHeight(img);
+    inBuffer.rowBytes = CGImageGetBytesPerRow(img);
+    
+    inBuffer.data = (void*)CFDataGetBytePtr(inBitmapData);
+    
+    //create vImage_Buffer for output
+    pixelBuffer = malloc(CGImageGetBytesPerRow(img) * CGImageGetHeight(img));
+    
+    if(pixelBuffer == NULL)
+        NSLog(@"No pixelbuffer");
+    
+    outBuffer.data = pixelBuffer;
+    outBuffer.width = CGImageGetWidth(img);
+    outBuffer.height = CGImageGetHeight(img);
+    outBuffer.rowBytes = CGImageGetBytesPerRow(img);
+    
+    //perform convolution
+    error = vImageBoxConvolve_ARGB8888(&inBuffer, &outBuffer, NULL, 0, 0, boxSize, boxSize, NULL, kvImageEdgeExtend)
+    ?: vImageBoxConvolve_ARGB8888(&outBuffer, &inBuffer, NULL, 0, 0, boxSize, boxSize, NULL, kvImageEdgeExtend)
+    ?: vImageBoxConvolve_ARGB8888(&inBuffer, &outBuffer, NULL, 0, 0, boxSize, boxSize, NULL, kvImageEdgeExtend);
+    
+    if (error) {
+        NSLog(@"error from convolution %ld", error);
+    }
+    
+    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+    CGContextRef ctx = CGBitmapContextCreate(outBuffer.data,
+                                             outBuffer.width,
+                                             outBuffer.height,
+                                             8,
+                                             outBuffer.rowBytes,
+                                             colorSpace,
+                                             (CGBitmapInfo)kCGImageAlphaNoneSkipLast);
+    CGImageRef imageRef = CGBitmapContextCreateImage (ctx);
+    UIImage *boxBluredImage = [UIImage imageWithCGImage:imageRef];
+    
+    //clean up
+    CGContextRelease(ctx);
+    CGColorSpaceRelease(colorSpace);
+    
+    free(pixelBuffer);
+    
+    CFRelease(inBitmapData);
+    
+    CGImageRelease(imageRef);
+    
+    return boxBluredImage;
+}
+@end
+
+

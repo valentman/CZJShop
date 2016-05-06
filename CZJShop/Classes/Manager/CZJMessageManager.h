@@ -11,12 +11,15 @@
 @interface CZJMessageManager : NSObject
 singleton_interface(CZJMessageManager)
 @property(nonatomic,retain)NSMutableArray* messages;
-@property(nonatomic,assign)BOOL isNewMessage;
+-(void)readMessageFromPlist;
+-(void)wirteMessages;
+
 -(void)addMessageWithObject:(id)obj;
 -(void)removeObjAtIndex:(int)index;
--(void)wirteMessages;
+-(void)removeObjInArray:(NSArray*)removeArray;
 -(void)removeAllMessages;
--(void)readAllMessage;
--(void)readMessageFromPlist;
+-(void)markReadAllMessage;
+
+-(BOOL)isAllReaded;
 
 @end

@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CZJOtherStoreListController : UIViewController
+@interface CZJOtherStoreListController : CZJViewController
 
 @property (strong, nonatomic)NSString* companyId;
 @property (strong, nonatomic)NSString* storeID;

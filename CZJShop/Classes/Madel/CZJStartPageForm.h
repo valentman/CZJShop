@@ -35,5 +35,8 @@
 @property(nonatomic,strong)NSString* orderNo;
 @property(nonatomic,strong)NSString* title;
 @property(nonatomic,strong)NSString* storeName;
+@property(nonatomic,assign)BOOL isRead;
+@property(nonatomic,assign)BOOL isSelected;
 
+- (id)init;
 @end

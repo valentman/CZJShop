@@ -175,6 +175,6 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="prodetail_icon_reply" width="20" height="20"/>
+        <image name="prodetail_icon_reply" width="375" height="170"/>
     </resources>
 </document>

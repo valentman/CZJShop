@@ -27,12 +27,12 @@ singleton_interface(CZJLoginModelManager)
 - (void)loginWithAuthCode:(NSString*)codeNum
               mobilePhone:(NSString*)phoneNum
                   success:(CZJSuccessBlock)success
-                     fali:(CZJGeneralBlock)fail;
+                     fali:(CZJSuccessBlock)fail;
 //密码登录
 - (void)loginWithPassword:(NSString*)pwd
               mobilePhone:(NSString*)phoneNum
-                  success:(CZJGeneralBlock)success
-                     fali:(CZJGeneralBlock)fail;
+                  success:(CZJSuccessBlock)success
+                     fali:(CZJSuccessBlock)fail;
 
 //登录成功
 - (void)loginWithDefaultInfoSuccess:(CZJGeneralBlock)success

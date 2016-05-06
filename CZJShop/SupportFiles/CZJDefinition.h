@@ -11,10 +11,10 @@
 
 //----------------------------服务器接口-------------------------------
 //服务地址
-static NSString *const kCZJServerAddr = @"http://192.168.0.251:8080/appserver/";
+//static NSString *const kCZJServerAddr = @"http://192.168.0.251:8080/appserver/";
 //static NSString *const kCZJServerAddr = @"http://101.201.197.202:8080/appserver/";
 //static NSString *const kCZJServerAddr = @"http://101.200.189.9:8080/appserver2/";
-//static NSString *const kCZJServerAddr = @"http://czapp.chezhijian.com/appserver/";
+static NSString *const kCZJServerAddr = @"http://czapp.chezhijian.com/appserver/";
 
 //首页接口组
 static NSString *const kCZJServerAPIShowHome = @"chezhu/showHomeV2.do";                             //获取首页数据
@@ -184,7 +184,7 @@ static NSString *const kCZJPushServerAppKey = @"I18QP9TZB66R";
 
 //分享设置ID
 static NSString *const kCZJOpenShareQQAppId = @"1104733921";
-static NSString *const kCZJOpenShareWeiboAppKey = @"1958823046";
+static NSString *const kCZJOpenShareWeiboAppKey = @"2485849568";
 static NSString *const kCZJOpenShareWeixinAppId = @"wxe3d6ba717d704a6e";
 
 
@@ -220,6 +220,7 @@ static NSString *const kUSerDefaultRecommendFlag = @"recommendFlag";            
 static NSString *const kUserDefaultStartPageUrl = @"StartPageUrl";                          //启动页图片地址
 static NSString *const kUserDefaultStartPageImagePath = @"StartPageImagePath";              //启动页图片地址
 static NSString *const kUserDefaultStartPageForm = @"StartPageForm";                        //启动页数据
+static NSString *const kUserDefaultDeviceTokenStr = @"DeviceTokenStr";                      //设备Token
 
 
 //-----------------------常用字符常量定义---------------------------
@@ -254,6 +255,10 @@ static NSString *const kCZJNotifiJumpToOrderList = @"jumptoOrderList";
 static NSString *const kCZJNotifikOrderListType = @"kOrderListType";
 static NSString *const kCZJNotifiRefreshOrderlist = @"refreshOrderListNotify";
 static NSString *const kCZJNotifiRefreshReturnOrderlist = @"refreshReturnOrderListNotify";
+static NSString *const kCZJNotifiRefreshMessageReadStatus = @"refreshMessageReadStatus";        //新消息已读
+static NSString *const kCZJNotifiGetNewNotify = @"getNewNotify";                                //新消息通知
+static NSString *const kCZJNotifiLoginSuccess = @"loginSuccess";                                //登录成功
+static NSString *const kCZJNotifiLoginOut = @"loginout";                                        //退出登录
 
 
 //-----------------------StoryBoardID常量定义---------------------------

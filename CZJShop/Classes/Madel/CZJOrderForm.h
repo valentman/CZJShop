@@ -189,6 +189,9 @@
 @end
 
 @interface CZJReturnedOrderDetailForm : NSObject
+@property (strong, nonatomic)NSString* contactAccount;
+@property (strong, nonatomic)NSString* contactName;
+@property (strong, nonatomic)NSString* logo;
 @property (strong, nonatomic)NSString* orderItemPid;
 @property (strong, nonatomic)NSString* orderNo;
 @property (strong, nonatomic)NSArray* returnImgs;

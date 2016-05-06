@@ -142,9 +142,12 @@ UITableViewDelegate
 - (void)getStoreDataFromServer
 {
     __weak typeof(self) weak = self;
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [CZJUtils removeNoDataAlertViewFromTarget:self.view];
     [CZJUtils removeReloadAlertViewFromTarget:self.view];
+    if (_getdataType == CZJHomeGetDataFromServerTypeOne)
+    {
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    }
     NSDictionary* params = @{@"q" : (self.searchStr == nil ? @"" : self.searchStr),
                              @"cityId" : cityID == nil ? @"" : cityID,
                              @"storeType" : storeType,
@@ -155,10 +158,13 @@ UITableViewDelegate
         
         NSDictionary* dict = [CZJUtils DataFromJson:json];
         NSArray* tmpAry = [dict valueForKey:@"msg"];
-        if (tmpAry.count == 0)
+        if (tmpAry.count < 10)
         {
             [weak.storeTableView.footer noticeNoMoreData];
-            return;
+        }
+        else
+        {
+            [weak.storeTableView.footer endRefreshing];
         }
         if (CZJHomeGetDataFromServerTypeOne == _getdataType) {
             [CZJBaseDataInstance.storeForm setNewStoreListDataWithDictionary:dict];
@@ -177,7 +183,6 @@ UITableViewDelegate
         {
             weak.storeTableView.footer.hidden = NO;
         }
-        [weak.storeTableView.footer endRefreshing];
         
         [self dealWithArray];
         if (_sortedStoreArys.count == 0)
@@ -188,6 +193,10 @@ UITableViewDelegate
         else
         {
             weak.storeTableView.hidden = NO;
+            if (_getdataType == CZJHomeGetDataFromServerTypeOne)
+            {
+                [weak.storeTableView setContentOffset:CGPointMake(0,0) animated:NO];
+            }
             [weak.storeTableView reloadData];
             weak.storeTableView.footer.hidden = weak.storeTableView.mj_contentH < weak.storeTableView.frame.size.height;
         }

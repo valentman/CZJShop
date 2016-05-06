@@ -174,8 +174,11 @@ UITableViewDelegate
     {
         if (0 == indexPath.row)
         {
-            CZJScanQRController* scanVC = (CZJScanQRController*)[CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:kCZJStoryBoardIDScanQR];
-            [self.navigationController pushViewController:scanVC animated:YES];
+            if ([CZJUtils isCameraAvailable:self])
+            {
+                CZJScanQRController* scanVC = (CZJScanQRController*)[CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:kCZJStoryBoardIDScanQR];
+                [self.navigationController pushViewController:scanVC animated:YES];
+            }
         }
     }
 }

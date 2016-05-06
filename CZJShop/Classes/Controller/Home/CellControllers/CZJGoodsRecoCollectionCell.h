@@ -14,4 +14,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *productName;
 @property (weak, nonatomic) IBOutlet MMLabel *productPrice;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *productNameHeight;
+@property (weak, nonatomic) IBOutlet UIImageView *imageOne;
+@property (weak, nonatomic) IBOutlet UIImageView *imageTwo;
 @end

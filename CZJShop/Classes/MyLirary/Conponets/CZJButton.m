@@ -37,8 +37,8 @@
         CGRect labelRect;
         if (-1 == badgeNum)
         {
-            labelRect = CGRectMake(self.bounds.size.width - 5, 5, 5, 5);
-            _badgeLabel.layer.cornerRadius = 2.5;
+            [_badgeLabel setSize:CGSizeMake(8, 8)];
+            _badgeLabel.layer.cornerRadius = 4;
         }
         else
         {
@@ -53,7 +53,6 @@
         }
         [self setBadgeLabelPosition:CGPointMake(self.bounds.size.width, 0)];
         _badgeLabel.hidden = NO;
-        
     }
 
 }

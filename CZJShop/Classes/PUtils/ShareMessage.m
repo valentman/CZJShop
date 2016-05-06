@@ -34,10 +34,9 @@
 }
 
 -(void)setMessageType:(int)type Text:(NSString*)text SmallImage:(UIImage*)simage {
-
 }
+
 -(void)showPanel:(UIView*)pView{
-    
     NSArray *shareButtonTitleArray = [[NSArray alloc] init];
     NSArray *shareButtonImageNameArray = [[NSArray alloc] init];
     
@@ -53,13 +52,29 @@
 }
 
 -(void)showPanel:(UIView*)pView Type:(int)type WithTitle:(NSString*)title AndBody:(NSString*)body{
-    [self showPanel:pView];
-    
+    NSData* image = [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"share_icon" ofType:@"png"]];
+    [self showPanel:pView
+               type:type
+              title:title
+               body:body
+               link:@"http://m.chezhijian.com/appserver/html/download.html"
+              image:image];
+}
+
+-(void)showPanel:(UIView*)pView
+            type:(int)type
+           title:(NSString*)title
+            body:(NSString*)body
+            link:(NSString*)url
+           image:(NSData*)imageData;
+{
+    _messageType = type;
     _shareMsg = [[OSMessage alloc] init];
     _shareMsg.title = title;
-//    _shareMsg.desc = body;
-    _shareMsg.desc = [NSString stringWithFormat:@"%@",SHARE_CONTENT];
-    _messageType = type;
+    _shareMsg.desc = body;
+    _shareMsg.link = url;
+    _shareMsg.image = imageData;
+    [self showPanel:pView];
 }
 
 
@@ -67,25 +82,8 @@
     OSMessage *msg=[[OSMessage alloc]init];
     msg.title= _shareMsg.title;
     msg.desc = _shareMsg.desc;
-    msg.link = SHARE_URL;
-
-    switch (msgType) {
-        case 1:
-        {
-//            msg.link=@"http://m.chezhijian.com/appserver/html/download.html";
-            msg.image=[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"share_icon" ofType:@"png"]];
-        }
-            break;
-        case 2:
-        {
-            //app
-//            msg.link=@"http://m.chezhijian.com/appserver/html/download.html";//分享到朋友圈以后，微信就不会调用app了，跟news类型分享到朋友圈一样。
-            msg.image=[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"share_icon" ofType:@"png"]];
-        }
-            
-        default:
-            break;
-    }
+    msg.image = _shareMsg.image;
+    msg.link = _shareMsg.link;
 
     switch (msgPlatform) {
         case 1: //分享微信好友
@@ -133,25 +131,8 @@
     OSMessage *msg=[[OSMessage alloc]init];
     msg.title= _shareMsg.title;
     msg.desc = _shareMsg.desc;
-    msg.link = SHARE_URL;
-    
-    switch (msgType) {
-        case 1:
-        {
-//            msg.link=@"http://m.chezhijian.com/appserver/html/download.html";
-            msg.image=[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"share_icon" ofType:@"png"]];
-        }
-            break;
-        case 2:
-        {
-            //app
-            msg.image= [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"share_icon" ofType:@"png"]];
-//            msg.link=@"http://m.chezhijian.com/appserver/html/download.html";
-        }
-            
-        default:
-            break;
-    }
+    msg.link = _shareMsg.link;
+    msg.image = _shareMsg.image;
     
     if ([OpenShare isWeiboInstalled])
     {
@@ -164,34 +145,17 @@
     else
     {
         UIWindow *window = [[UIApplication sharedApplication] keyWindow];
-        UIAlertView* alertview = [[UIAlertView alloc]initWithTitle:@"温馨提示" message:@"您的手机未安装新浪客户端，请安装后分享" delegate:window cancelButtonTitle:@"收到" otherButtonTitles:nil, nil];
+        UIAlertView* alertview = [[UIAlertView alloc]initWithTitle:@"温馨提示" message:@"您的手机未安装新浪微博客户端，请安装后分享" delegate:window cancelButtonTitle:@"收到" otherButtonTitles:nil, nil];
         [alertview show];
     }
 }
 
 -(void)qqViewHandlerMsgType:(int)msgType MsgPlatform:(int)msgPlatform{
     OSMessage *msg=[[OSMessage alloc] init];
-    msg.image=[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"share_icon" ofType:@"png"]];
-    
     msg.title= _shareMsg.title;
     msg.desc = _shareMsg.desc;
-    msg.link = SHARE_URL;
-    
-    switch (msgType) {
-        case 1:
-        {
-//            msg.link=@"http://m.chezhijian.com/appserver/html/download.html";
-        }
-            break;
-        case 2:
-        {
-            //app
-//            msg.link=@"http://m.chezhijian.com/appserver/html/download.html";
-        }
-        default:
-            break;
-    }
-    
+    msg.link = _shareMsg.link;
+    msg.image = _shareMsg.image;
     
     switch (msgPlatform) {
         case 1: //分享QQ好友

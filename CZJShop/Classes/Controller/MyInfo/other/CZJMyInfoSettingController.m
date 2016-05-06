@@ -12,6 +12,8 @@
 #import "CZJLoginModelManager.h"
 #import "SVHTTPRequest.h"
 #import "CZJNetworkManager.h"
+#import "XGPush.h"
+#import "XGSetting.h"
 
 @interface CZJMyInfoSettingController ()
 <
@@ -49,7 +51,7 @@ UITableViewDataSource
     settingAry = @[@"推送消息",
 //                   @"引导页",
                    @"清除本地缓存",
-                   @"检测新版本",
+//                   @"检测新版本",
                    @"关于车之健"
                    ];
     
@@ -85,7 +87,7 @@ UITableViewDataSource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 4;
+    return 3;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -104,18 +106,28 @@ UITableViewDataSource
         cell.chooseButton.hidden = NO;
         [cell.chooseButton addTarget:self action:@selector(pushAction:) forControlEvents:UIControlEventTouchUpInside];
     }
-    if (2 == indexPath.row)
-    {
-        cell.arrowImg.hidden = YES;
-        cell.myDetailLabel.hidden = NO;
-        cell.myDetailLabel.text = [NSString stringWithFormat:@"V%@",[self getCurrentVersion]];
-    }
+//    if (2 == indexPath.row)
+//    {
+//        cell.arrowImg.hidden = YES;
+//        cell.myDetailLabel.hidden = NO;
+//        cell.myDetailLabel.text = [NSString stringWithFormat:@"V%@",[self getCurrentVersion]];
+//    }
     if (1 == indexPath.row)
     {
         cell.arrowImg.hidden = YES;
         cell.myDetailLabel.hidden = NO;
-        float size = [CZJUtils folderSizeAtPath:CachesDirectory];
-        cell.myDetailLabel.text = [NSString stringWithFormat:@"%.2fM",size];
+        __block float size;
+        BACK(^{
+            size = [CZJUtils folderSizeAtPath:CachesDirectory];
+            MAIN((^{
+                cell.myDetailLabel.text = [NSString stringWithFormat:@"%.2fM",size];
+            }));
+        });
+        
+    }
+    if (2 == indexPath.row)
+    {
+        cell.separatorInset = HiddenCellSeparator;
     }
     return cell;
 }
@@ -137,7 +149,7 @@ UITableViewDataSource
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (3 == indexPath.row)
+    if (2 == indexPath.row)
     {
         [self performSegueWithIdentifier:@"segueToAboutUs" sender:self];
     }
@@ -153,10 +165,10 @@ UITableViewDataSource
             [weak hideWindow];
         } andCancleHandler:nil];
     }
-    if (2 == indexPath.row)
-    {
-        [self getAppID];
-    }
+//    if (2 == indexPath.row)
+//    {
+//        [self getAppID];
+//    }
 }
 
 
@@ -164,6 +176,18 @@ UITableViewDataSource
 {
     UIButton* btn = (UIButton*)sender;
     btn.selected = !btn.selected;
+    
+    if (btn.selected && [XGPush isUnRegisterStatus])
+    {
+        [XGPush setAccount:CZJBaseDataInstance.userInfoForm.chezhuId];
+        [XGPush registerDeviceStr:[USER_DEFAULT valueForKey:kUserDefaultDeviceTokenStr]];
+        [XGPush registerDevice:[USER_DEFAULT valueForKey:kUserDefaultDeviceTokenStr]];
+    }
+    else
+    {
+        [XGPush unRegisterDevice];
+    }
+    
 }
 
 - (IBAction)exitLoginAction:(id)sender
@@ -213,6 +237,8 @@ UITableViewDataSource
         
         
         [weak.navigationController popViewControllerAnimated:YES];
+        [CZJUtils tipWithText:@"退出成功" andView:nil];
+        [[NSNotificationCenter defaultCenter]postNotificationName:kCZJNotifiLoginOut object:nil];
          [weak hideWindow];
     } andCancleHandler:nil];
     

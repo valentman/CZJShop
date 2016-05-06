@@ -28,7 +28,6 @@
 #import "CZJGoodsRecommendCell.h"
 #import "CZJServiceListController.h"
 #import "CZJShoppingCartController.h"
-#import "CZJLoginController.h"
 #import "CZJDetailViewController.h"
 #import "CZJCategoryController.h"
 #import "CZJMiaoShaController.h"
@@ -79,9 +78,17 @@ CZJMiaoShaCellDelegate
     UIButton* btnShop;
     
     BOOL isLoadSuccess;
-    BOOL _isRefresh;
-    BOOL _isFirstInNetWorkReachable;
+    
+    //===========每个Cell单独设置刷新标识============
+    __block BOOL _isAllRefresh;
+    __block BOOL _isBannerOneRefresh;
+    __block BOOL _isLimitRefresh;
+    __block BOOL _isBrandRecoRefresh;
+    __block BOOL _isBannerTwoRefresh;
+    __block BOOL _isSpecialRefresh;
     __block BOOL _isRefreshMiaoshaCell;
+    
+    BOOL _isFirstInNetWorkReachable;
 }
 @property (strong, nonatomic)NSString* recommandId;
 @property (nonatomic,retain)NSString* curUrl;
@@ -119,6 +126,7 @@ CZJMiaoShaCellDelegate
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    [super viewWillAppear:animated];
     [self.naviBarView refreshShopBadgeLabel];
     self.naviBarView.hidden = NO;
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
@@ -152,10 +160,21 @@ CZJMiaoShaCellDelegate
     [[NSNotificationCenter defaultCenter]removeObserver:self name:@"beginTimer" object:nil];
 }
 
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+}
+
 - (void)propertysInit
 {
     //隐藏toTop按钮
     _isRefreshMiaoshaCell = YES;
+    _isAllRefresh = YES;
+    _isBannerOneRefresh = YES;
+    _isLimitRefresh = YES;
+    _isBrandRecoRefresh = YES;
+    _isBannerTwoRefresh = YES;
+    _isSpecialRefresh = YES;
     self.btnToTop.hidden = YES;
     self.isFirst = YES;
     self.isJumpToAnotherView = NO;
@@ -218,6 +237,12 @@ CZJMiaoShaCellDelegate
     //添加MJRefresh上拉下拉刷新控件
     __weak typeof(self) weak = self;
     refreshHeader = [MJRefreshGifHeader headerWithRefreshingBlock:^{
+        _isAllRefresh = YES;
+        _isBannerOneRefresh = YES;
+        _isLimitRefresh = YES;
+        _isBrandRecoRefresh = YES;
+        _isBannerTwoRefresh = YES;
+        _isSpecialRefresh = YES;
         _refreshType = CZJHomeGetDataFromServerTypeOne;
         weak.page = 0;
         [refreshFooter resetNoMoreData];
@@ -230,15 +255,14 @@ CZJMiaoShaCellDelegate
         [weak getRecommendDataFromServer];
     }];
     self.homeTableView.footer = refreshFooter;
-    self.homeTableView.footer.backgroundColor = CZJTableViewBGColor;
+    self.homeTableView.footer.backgroundColor = CZJNAVIBARBGCOLOR;
 }
 
 - (void)dealWithInitTabbar
 {
     //TabBarItem选中颜色设置及右上角标记设置
     [self.tabBarController.tabBar setTintColor:RGB(235, 20, 20)];
-//        NSArray *items = self.tabBarController.tabBar.items;
-//        [[items objectAtIndex:eTabBarItemShop] setBadgeValue:@"1"];
+        
 }
 
 
@@ -253,7 +277,7 @@ CZJMiaoShaCellDelegate
     }
     
     [CZJBaseDataInstance generalPost:nil success:^(id json) {
-        DLog(@"%@",[[CZJUtils DataFromJson:json] description]);
+//        DLog(@"%@",[[CZJUtils DataFromJson:json] description]);
         [CZJBaseDataInstance.homeForm setNewDictionary:[CZJUtils DataFromJson:json]];
         if (CZJBaseDataInstance.storeForm.provinceForms.count == 0)
         {
@@ -297,7 +321,7 @@ CZJMiaoShaCellDelegate
     [CZJBaseDataInstance generalPost:recommendParams success:^(id json) {
         //推荐商品分页返回数据
         NSArray* tmpAry = [[CZJUtils DataFromJson:json] valueForKey:@"msg"];
-        DLog(@"recommend:%@",[[CZJUtils DataFromJson:json] description]);
+//        DLog(@"recommend:%@",[[CZJUtils DataFromJson:json] description]);
         if (tmpAry.count < 20)
         {
             [refreshFooter noticeNoMoreData];
@@ -309,6 +333,7 @@ CZJMiaoShaCellDelegate
         [CZJBaseDataInstance.homeForm  appendGoodsRecommendDataWith:[CZJUtils DataFromJson:json]];
         [weak dealWithArray];
         [weak.homeTableView reloadData];
+        _isAllRefresh = NO;
         weak.homeTableView.footer.hidden = weak.homeTableView.mj_contentH < weak.homeTableView.frame.size.height;
     } fail:^{
         [weak.homeTableView.footer endRefreshing];
@@ -342,7 +367,7 @@ CZJMiaoShaCellDelegate
         case 0:
         {//ad广告展示
             CZJActivityCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CZJActivityCell" forIndexPath:indexPath];
-            if (_activityArray.count > 0 && !cell.isInit)
+            if (_activityArray.count > 0 && _isAllRefresh)
             {
                 [cell someMethodNeedUse:indexPath DataModel:_activityArray];
                 cell.delegate = self;
@@ -354,7 +379,8 @@ CZJMiaoShaCellDelegate
         case 1:
         {//服务列表
             CZJServiceCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJServiceCell" forIndexPath:indexPath];
-            if ((cell && _serviceArray.count > 0 && !cell.isInit) || (CZJHomeGetDataFromServerTypeOne == _refreshType))
+            if ((cell && _serviceArray.count > 0 && _isAllRefresh) ||
+                (CZJHomeGetDataFromServerTypeOne == _refreshType))
             {
                 [cell initServiceCellWithDatas:_serviceArray];
                 cell.delegate = self;
@@ -367,7 +393,7 @@ CZJMiaoShaCellDelegate
         case 2:
         {//汽车资讯
             carInfoCell = [tableView dequeueReusableCellWithIdentifier:@"CZJCarInfoCell" forIndexPath:indexPath];
-            if (carInfoCell && _carInfoArray.count > 0 && !carInfoCell.isInit)
+            if (carInfoCell && _carInfoArray.count > 0 && _isAllRefresh)
             {
                 __weak typeof(self) weak = self;
                 [carInfoCell initWithCarInfoDatas:_carInfoArray andButtonClick:^(id data) {
@@ -397,7 +423,7 @@ CZJMiaoShaCellDelegate
             {
                 miaoShaHeaderCell = [tableView dequeueReusableCellWithIdentifier:@"CZJMiaoShaCellHeader" forIndexPath:indexPath];
                 
-                if (miaoShaHeaderCell && _miaoShaArray.count > 0 && !miaoShaHeaderCell.isInit)
+                if (miaoShaHeaderCell && _miaoShaArray.count > 0 && _isAllRefresh)
                 {
                     //获取服务器返回当前时间
                     NSInteger currentTime = [CZJBaseDataInstance.homeForm.serverTime integerValue];
@@ -410,7 +436,8 @@ CZJMiaoShaCellDelegate
                         skillTime = [timeForm.skillTime integerValue];
                         if (skillTime > currentTime)
                         {
-                            CZJMiaoShaTimesForm* timeForms = CZJBaseDataInstance.homeForm.skillTimes[i -1];
+                            
+                            CZJMiaoShaTimesForm* timeForms = CZJBaseDataInstance.homeForm.skillTimes[(i - 1 < 0 ? 0 : i - 1)];
                             NSString* timeStr = [NSString stringWithFormat:@"%@场",[CZJUtils getDateTimeSinceTime:[timeForms.skillTime integerValue] / 1000]];
                             NSRange range = {2,4};
                             NSString* timerStrRange = [timeStr stringByReplacingCharactersInRange:range withString:@""];
@@ -434,6 +461,12 @@ CZJMiaoShaCellDelegate
                     __weak typeof(self) weak = self;
                     miaoShaHeaderCell.buttonClick = ^(id data){
                         _isRefreshMiaoshaCell = YES;
+                        _isAllRefresh = YES;
+                        _isBannerOneRefresh = YES;
+                        _isLimitRefresh = YES;
+                        _isBrandRecoRefresh = YES;
+                        _isBannerTwoRefresh = YES;
+                        _isSpecialRefresh = YES;
                         [weak getHomeDataFromServer];
                     };
                 }
@@ -447,7 +480,11 @@ CZJMiaoShaCellDelegate
         {//广告栏一
             CZJAdBanerCell *cell = (CZJAdBanerCell*)[tableView dequeueReusableCellWithIdentifier:@"CZJAdBanerCell" forIndexPath:indexPath];
             cell.delegate = self;
-            [cell initBannerOneWithDatas:_bannerOneArray];
+            if (_bannerOneArray.count > 0 && _isBannerOneRefresh)
+            {
+                _isBannerOneRefresh = NO;
+                [cell initBannerOneWithDatas:_bannerOneArray];
+            }
             return cell;
         }
             break;
@@ -462,8 +499,9 @@ CZJMiaoShaCellDelegate
             else if (1 == indexPath.row)
             {
                 CZJLimitBuyCell *cell = (CZJLimitBuyCell*)[tableView dequeueReusableCellWithIdentifier:@"CZJLimitBuyCell" forIndexPath:indexPath];
-                if (cell && _limitBuyArray.count > 0 && !cell.isInit)
+                if (cell && _limitBuyArray.count > 0 && _isLimitRefresh)
                 {
+                    _isLimitRefresh = NO;
                     [cell initLimitBuyWithDatas:_limitBuyArray];
                 }
                 return cell;
@@ -482,8 +520,9 @@ CZJMiaoShaCellDelegate
             if (1 == indexPath.row)
             {
                 CZJBrandRecommendCell *cell = (CZJBrandRecommendCell*)[tableView dequeueReusableCellWithIdentifier:@"CZJBrandRecommendCell" forIndexPath:indexPath];
-                if (cell && _brandRecommentArray.count > 0 && !cell.isInit)
+                if (cell && _brandRecommentArray.count > 0 && _isBrandRecoRefresh)
                 {
+                    _isBrandRecoRefresh = NO;
                     cell.delegate = self;
                     [cell initBrandRecommendWithDatas:_brandRecommentArray];
                 }
@@ -496,7 +535,11 @@ CZJMiaoShaCellDelegate
         {//广告条二
             CZJAdBanerPlusCell *cell = (CZJAdBanerPlusCell*)[tableView dequeueReusableCellWithIdentifier:@"CZJAdBanerPlusCell" forIndexPath:indexPath];
             cell.delegate = self;
-            [cell initBannerTwoWithDatas:_bannerTwoArray];
+            if (_bannerTwoArray.count > 0 && _isBannerTwoRefresh)
+            {
+                _isBannerTwoRefresh = NO;
+                [cell initBannerTwoWithDatas:_bannerTwoArray];
+            }
             return cell;
         }
             break;
@@ -511,8 +554,9 @@ CZJMiaoShaCellDelegate
             else if (1 == indexPath.row)
             {
                 CZJSpecialRecommendCell *cell = (CZJSpecialRecommendCell*)[tableView dequeueReusableCellWithIdentifier:@"CZJSpecialRecommendCell" forIndexPath:indexPath];
-                if (cell && _specialRecommentArray.count > 0 && !cell.isInit)
+                if (cell && _specialRecommentArray.count > 0 && _isSpecialRefresh)
                 {
+                    _isSpecialRefresh = NO;
                     cell.delegate = self;
                     [cell initSpecialRecommendWithDatas:_specialRecommentArray];
                 }
@@ -526,7 +570,7 @@ CZJMiaoShaCellDelegate
             if (0 == indexPath.row)
             {
                 CZJGoodsRecoCellHeader* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJGoodsRecoCellHeader" forIndexPath:indexPath];
-                cell.backgroundColor = CZJTableViewBGColor;
+                cell.backgroundColor = CZJNAVIBARBGCOLOR;
                 return cell;
             }
             else
@@ -536,7 +580,7 @@ CZJMiaoShaCellDelegate
                 float width = (PJ_SCREEN_WIDTH - 30) / 2;
                 cell.imageOneHeight.constant = width;
                 cell.imageTwoHeight.constant = width;
-                cell.backgroundColor = CZJTableViewBGColor;
+                cell.backgroundColor = CZJNAVIBARBGCOLOR;
                 [cell initGoodsRecommendWithDatas:_goodsRecommentArray[indexPath.row - 1]];
                 return cell;
             }
@@ -831,65 +875,15 @@ CZJMiaoShaCellDelegate
 
 
 
-#pragma mark - 强制更新
+#pragma mark - 
 #pragma mark -版本检测
 - (void)checkTheLatestVersion {
-    __weak typeof(self) weakSelft = self;
     [CZJBaseDataInstance generalPost:nil success:^(id json) {
         DLog(@"version:%@",[[CZJUtils DataFromJson:json] description]);
-        versionForm = [CZJVersionForm objectWithKeyValues:[[CZJUtils DataFromJson:json]valueForKey:@"msg"]];
-        [weakSelft checkUpdate:versionForm.version];
-        
+        [CZJUtils writeDictionaryToDocumentsDirectory:[[CZJUtils DataFromJson:json]valueForKey:@"msg"] withPlistName:@"checkVersion.plist"];
     } fail:^{
         
     } andServerAPI:kCZJServerAPICheckVersion];
-}
-
-- (void)checkUpdate:(NSString *)versionFromAppStroe {
-    
-    //获取bundle里面关于当前版本的信息
-    NSDictionary *infoDict = [[NSBundle mainBundle] infoDictionary];
-    NSString *nowVersion = [infoDict objectForKey:@"CFBundleShortVersionString"];
-    NSLog(@"nowVersion == %@",nowVersion);
-    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-    
-    NSString* messge = @"亲，版本已升级，请立即更新吧~";
-    //检查当前版本与appstore的版本是否一致
-    if (![versionFromAppStroe isEqualToString:nowVersion])
-    {
-        UIAlertView *createUserResponseAlert;
-        if ([versionForm.enforce boolValue])
-        {
-            createUserResponseAlert = [[UIAlertView alloc] initWithTitle:@"提示" message:messge delegate:self cancelButtonTitle:@"去AppStore下载" otherButtonTitles:nil];
-        }
-        else
-        {
-            createUserResponseAlert = [[UIAlertView alloc] initWithTitle:@"提示" message:messge delegate:self cancelButtonTitle:@"以后再说" otherButtonTitles:@"去AppStore下载", nil];
-        }
-        [createUserResponseAlert show];
-    }
-}
-
-
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if (0 == buttonIndex)
-    {
-        //是否需要强制更新
-        if ([versionForm.enforce boolValue])
-        {
-            NSString* url = versionForm.url;
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
-            [CZJUtils performBlock:^{
-                exit(0);
-            } afterDelay:0.5];
-        }
-    }
-    else if (1 == buttonIndex)
-    {
-        NSString* url = versionForm.url;
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
-    }
 }
 
 @end

@@ -337,8 +337,11 @@
             
         case CZJButtonTypeHomeScan:
         {
-            CZJScanQRController* scanVC = (CZJScanQRController*)[CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:kCZJStoryBoardIDScanQR];
-            [((UIViewController*)_delegate).navigationController pushViewController:scanVC animated:YES];
+            if ([CZJUtils isCameraAvailable:((UIViewController*)_delegate)])
+            {
+                CZJScanQRController* scanVC = (CZJScanQRController*)[CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:kCZJStoryBoardIDScanQR];
+                [((UIViewController*)_delegate).navigationController pushViewController:scanVC animated:YES];
+            }
         }
             
             break;
@@ -355,7 +358,7 @@
     {
         [touchBt setEnabled:YES];
     };
-    [CZJUtils performBlock:generBlock afterDelay:1.5];
+    [CZJUtils performBlock:generBlock afterDelay:0.5];
 }
 
 - (void)didCancel:(id)controller

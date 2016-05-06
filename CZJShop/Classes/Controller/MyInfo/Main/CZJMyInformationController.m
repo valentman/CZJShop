@@ -19,6 +19,7 @@
 #import "CZJOrderListReturnedController.h"
 #import "CZJMyInfoShareController.h"
 #import "CZJMyWalletRedpacketController.h"
+#import "CZJMessageManager.h"
 
 @implementation CZJMyInfoForm
 @end
@@ -129,6 +130,8 @@ CZJViewControllerDelegate
 
 - (void)initViews
 {
+    self.view.backgroundColor = CZJNAVIBARBGCOLOR;
+    
     self.myInfoTableView.delegate = self;
     self.myInfoTableView.dataSource = self;
     self.myInfoTableView.backgroundColor = WHITECOLOR;
@@ -223,7 +226,8 @@ CZJViewControllerDelegate
             CZJMyInfoHeadCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJMyInfoHeadCell" forIndexPath:indexPath];
             cell.unLoginView.hidden = [USER_DEFAULT boolForKey:kCZJIsUserHaveLogined];
             cell.haveLoginView.hidden = ![USER_DEFAULT boolForKey:kCZJIsUserHaveLogined];
-            
+            [cell.messageBtn setBadgeNum:([CZJMessageInstance isAllReaded]? 0 : -1)];
+            [cell.messageBtn setBadgeLabelPosition:CGPointMake(cell.messageBtn.size.width * 0.95, cell.messageBtn.size.height * 0.07)];
             if (CZJBaseDataInstance.userInfoForm && [USER_DEFAULT boolForKey:kCZJIsUserHaveLogined])
             {
                 [cell setUserPersonalInfo:CZJBaseDataInstance.userInfoForm];
@@ -527,8 +531,8 @@ CZJViewControllerDelegate
 {
     if ([controller isKindOfClass: [CZJLoginController class]] )
     {
-        [CZJUtils removeLoginViewFromCurrent:self];
         [self getMyInfoDataFromServer];
+        [CZJUtils removeLoginViewFromCurrent:self];
     }
 }
 

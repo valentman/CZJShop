@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CZJLoginController : UIViewController
+@interface CZJLoginController : CZJViewController
 @property (nonatomic, weak) id <CZJViewControllerDelegate> delegate;
 
 - (IBAction)exitOutAction:(id)sender;

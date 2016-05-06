@@ -19,7 +19,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.0.0</string>
+	<string>2.0.1</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -50,7 +50,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>2.0.0</string>
+	<string>11</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>alipayshare</string>
@@ -58,7 +58,11 @@
 		<string>mqzoneshare</string>
 		<string>mqzone</string>
 		<string>mqq</string>
+		<string>weibo</string>
+		<string>sinaweibohd</string>
 		<string>sinaweibo</string>
+		<string>weibosdk</string>
+		<string>weibosdk2.5</string>
 		<string>wechat</string>
 		<string>weixin</string>
 		<string>baidumap</string>

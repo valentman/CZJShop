@@ -9,7 +9,7 @@
 #import "CZJMyInfoHeadCell.h"
 
 @interface CZJMyInfoHeadCell ()
-@property (weak, nonatomic) IBOutlet CZJButton *messageBtn;
+
 @property (weak, nonatomic) IBOutlet UIImageView *userHeadImg;
 @property (weak, nonatomic) IBOutlet UILabel *userNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *userPhoneLabel;
@@ -41,7 +41,6 @@
     self.userTypeLabel.text = userinfo.levelName;
     self.userTypeLabel.layer.cornerRadius = 9;
     self.userTypeLabel.layer.backgroundColor = RGBA(240, 240, 240,0.5).CGColor;
-    [self.messageBtn setBadgeNum:-1];
 }
 
 - (IBAction)messageAction:(id)sender

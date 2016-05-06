@@ -11,6 +11,7 @@
 #import "LJWKeyboardHandlerHeaders.h"
 #import "ServiceProtocol.h"
 #import "CZJBaseDataManager.h"
+#import "CZJRegisterController.h"
 
 #define kLoginColorRed RGB(255, 102, 102)
 #define kPhoneNum 1000
@@ -61,13 +62,17 @@ FDAlertViewDelegate
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self initNaviBar];
+    [self initViewButtons];
+}
+
+- (void)initNaviBar
+{
     id navigationBarAppearance = self.navigationController.navigationBar;
     [navigationBarAppearance setBackgroundImage:[UIImage imageNamed:@"nav_bargound"] forBarMetrics:UIBarMetricsDefault];
     self.navigationController.toolbar.translucent = NO;
     self.navigationController.navigationBar.shadowImage =[UIImage imageNamed:@"nav_bargound"];
     [self.navigationController setNavigationBarHidden:YES];
-    
-    [self initViewButtons];
 }
 
 - (void)initViewButtons
@@ -104,7 +109,6 @@ FDAlertViewDelegate
     self.confirmBtn.backgroundColor = [UIColor lightGrayColor];
     
     loginViewOriginRect = self.loginBtnView.frame;
-    
 }
 
 
@@ -117,7 +121,8 @@ FDAlertViewDelegate
 #pragma mark- Actions
 - (IBAction)exitOutAction:(id)sender
 {
-    [self.delegate didCancel:self];
+//    [self.delegate didCancel:self];
+    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (IBAction)loginWithCodeAction:(id)sender
@@ -136,10 +141,21 @@ FDAlertViewDelegate
     self.loginWithPWDBtn.titleLabel.font = [UIFont systemFontOfSize:13];
     
     
-    //登录按钮动画
-    [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
-//        self.loginBtnView.frame = loginViewOriginRect;
-    } completion:nil];
+    if (self.codeTextField.text.length == 0) {
+        [self.codePrompt setHidden:NO];
+    }
+    else if (self.codeTextField.text.length > 0 && self.codeTextField.text.length < 6)
+    {
+        [self.codePrompt setHidden:YES];
+        self.confirmBtn.enabled = NO;
+        [self.confirmBtn setBackgroundColor:GRAYCOLOR];
+    }
+    else if (self.codeTextField.text.length == 6 && self.phoneNumTextField.text.length == 11)
+    {
+        [self.codePrompt setHidden:YES];
+        self.confirmBtn.enabled = YES;
+        [self.confirmBtn setBackgroundColor:CZJREDCOLOR];
+    }
 }
 
 - (IBAction)loginWithPWDAction:(id)sender
@@ -157,11 +173,18 @@ FDAlertViewDelegate
     self.loginWithPWDBtn.titleLabel.textColor = [UIColor blackColor];
     self.loginWithPWDBtn.titleLabel.font = [UIFont systemFontOfSize:15];
     
-    //登录按钮动画
-//    CGRect pwdRect = CGRectMake(loginViewOriginRect.origin.x, loginViewOriginRect.origin.y + 80, loginViewOriginRect.size.width, loginViewOriginRect.size.height);
-    [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
-//        self.loginBtnView.frame = pwdRect;
-    } completion:nil];
+    
+    if (self.pwdTextField.text.length == 0) {
+        [self.pwdPrompt setHidden:NO];
+        self.confirmBtn.enabled = NO;
+        [self.confirmBtn setBackgroundColor:GRAYCOLOR];
+    }
+    if (self.pwdTextField.text.length > 0 && self.phoneNumTextField.text.length == 11)
+    {
+        [self.pwdPrompt setHidden:YES];
+        self.confirmBtn.enabled = YES;
+        [self.confirmBtn setBackgroundColor:CZJREDCOLOR];
+    }
 }
 
 - (IBAction)getCodeAction:(id)sender
@@ -171,7 +194,7 @@ FDAlertViewDelegate
         ![CZJUtils isPhoneNumber:self.phoneNumTextField.text] ||
         [self.phoneNumTextField.text isEqualToString:@""])
     {
-        [self showAlert:@"请输入正确手机号码!"];
+        [CZJUtils tipWithText:@"请输入正确手机号码!" onView:self.view];
         return;
     }
     
@@ -224,21 +247,23 @@ FDAlertViewDelegate
 
 - (IBAction)confirmLoginAction:(id)sender
 {
+    [self.view endEditing:YES];
     CZJSuccessBlock successBlock = ^(id json){
         NSDictionary* dict = [CZJUtils DataFromJson:json];
         if ([[dict valueForKey:@"code"] integerValue] != 0)
         {
-            [self showAlert:[dict valueForKey:@"msg"]];
+            [CZJUtils tipWithText:[dict valueForKey:@"msg"] onView:self.view];
         }
         [self.confirmBtn setEnabled:YES];
         [self.confirmBtn setBackgroundColor:kLoginColorRed];
+        [[NSNotificationCenter defaultCenter]postNotificationName:kCZJNotifiLoginSuccess object:nil];
         [CZJBaseDataInstance loadShoppingCartCount:nil Success:^(id json){
             [self exitOutAction:nil];
         } fail:nil];
     };
-    CZJFailureBlock failure = ^{
-        NSLog(@"login fail");
-        
+    CZJSuccessBlock failure = ^(id json){
+        NSDictionary* dict = [CZJUtils DataFromJson:json];
+        [CZJUtils tipWithText:[dict valueForKey:@"msg"] onView:self.view];
         [self.confirmBtn setEnabled:YES];
         [self.confirmBtn setBackgroundColor:kLoginColorRed];
     };
@@ -283,16 +308,17 @@ FDAlertViewDelegate
 
 #pragma mark - Navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([segue.identifier isEqualToString:@"forgetToRegister"] ||
+        [segue.identifier isEqualToString:@"createToRegister"])
+    {
+        CZJRegisterController* registerVC = segue.destinationViewController;
+        registerVC.phoneNum = _phoneNumTextField.text;
+    }
 }
 
 
 - (void)showAlert:(NSString*)str{
-    FDAlertView *alert = [[FDAlertView alloc] initWithTitle:@"提示"
-                                                       icon:nil
-                                                    message:[NSString stringWithFormat:@"%@ !",str]
-                                                   delegate:self
-                                               buttonTitles:@"确定",nil];
-    [alert show];
+    [CZJUtils tipWithText:str onView:self.view];
 }
 
 - (void)alertView:(FDAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
@@ -328,6 +354,56 @@ FDAlertViewDelegate
 }
 
 
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
+    
+    //-shouldChangeCharactersInRange gets called before text field actually changes its text, that's why you're getting old text value. To get the text after update use:
+    NSString * new_text_str = [textField.text stringByReplacingCharactersInRange:range withString:string];//变化后的字符串
+    switch (textField.tag) {
+        case kPhoneNum:
+            if (new_text_str.length == 0) {
+                [self.phoneNumPrompt setHidden:NO];
+            }
+            break;
+            
+        case kPwdNum:
+            if (new_text_str.length == 0) {
+                [self.pwdPrompt setHidden:NO];
+                self.confirmBtn.enabled = NO;
+                [self.confirmBtn setBackgroundColor:GRAYCOLOR];
+            }
+            if (new_text_str.length > 0 && self.phoneNumTextField.text.length == 11)
+            {
+                [self.pwdPrompt setHidden:YES];
+                self.confirmBtn.enabled = YES;
+                [self.confirmBtn setBackgroundColor:CZJREDCOLOR];
+            }
+            break;
+            
+        case kCodeNum:
+            if (new_text_str.length == 0) {
+                [self.codePrompt setHidden:NO];
+            }
+            else if (new_text_str.length > 0 && new_text_str.length < 6)
+            {
+                [self.codePrompt setHidden:YES];
+                self.confirmBtn.enabled = NO;
+                [self.confirmBtn setBackgroundColor:GRAYCOLOR];
+            }
+            else if (new_text_str.length == 6 && self.phoneNumTextField.text.length == 11)
+            {
+                [self.codePrompt setHidden:YES];
+                self.confirmBtn.enabled = YES;
+                [self.confirmBtn setBackgroundColor:CZJREDCOLOR];
+            }
+            break;
+            
+        default:
+            break;
+    }
+    
+    return YES;
+}
+
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
     switch (textField.tag) {
@@ -340,11 +416,14 @@ FDAlertViewDelegate
         case kPwdNum:
             if (textField.text.length == 0) {
                 [self.pwdPrompt setHidden:NO];
+                self.confirmBtn.enabled = NO;
+                [self.confirmBtn setBackgroundColor:GRAYCOLOR];
             }
             if (textField.text.length > 0 && self.phoneNumTextField.text.length == 11)
             {
+                [self.pwdPrompt setHidden:YES];
                 self.confirmBtn.enabled = YES;
-                [self.confirmBtn setBackgroundColor:kLoginColorRed];
+                [self.confirmBtn setBackgroundColor:CZJREDCOLOR];
             }
             break;
             
@@ -352,16 +431,28 @@ FDAlertViewDelegate
             if (textField.text.length == 0) {
                 [self.codePrompt setHidden:NO];
             }
-            if (textField.text.length == 6 && self.phoneNumTextField.text.length == 11)
+            else if (textField.text.length > 0 && textField.text.length < 6)
             {
+                [self.codePrompt setHidden:YES];
+                self.confirmBtn.enabled = NO;
+                [self.confirmBtn setBackgroundColor:GRAYCOLOR];
+            }
+            else if (textField.text.length == 6 && self.phoneNumTextField.text.length == 11)
+            {
+                [self.codePrompt setHidden:YES];
                 self.confirmBtn.enabled = YES;
-                [self.confirmBtn setBackgroundColor:kLoginColorRed];
+                [self.confirmBtn setBackgroundColor:CZJREDCOLOR];
             }
             break;
             
         default:
             break;
     }
+}
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    [self.view endEditing:YES];
 }
 
 @end

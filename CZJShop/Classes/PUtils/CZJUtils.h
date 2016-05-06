@@ -14,6 +14,7 @@
 #pragma mark- Zhouxin
 //---------------------------数据解析-----------------------------
 + (NSDictionary*)DataFromJson:(id)json;
++ (NSArray*)ArrayFromJson:(id)json;
 + (NSDictionary *)dictionaryFromJsonString:(NSString *)jsonString;
 + (NSString*)JsonFromData:(id)data;
 + (NSData*)JsonFormData:(id)data;
@@ -56,6 +57,7 @@
 
 //----------------------------提示框------------------------------
 + (UIView*)showInfoCanvasOnTarget:(id)target action:(SEL)buttonSel;
++ (void)tipWithText:(NSString *)text onView:(UIView *)view;
 + (void)tipWithText:(NSString *)text andView:(UIView *)view;
 + (void)tipWithText:(NSString*)text withCompeletHandler:(CZJGeneralBlock)compeletBlock;
 + (void)showExitAlertViewWithContent;
@@ -95,6 +97,11 @@
 + (void)showGoodsServiceDetailView:(UINavigationController*)navi
                         andItemPid:(NSString*)sid
                         detailType:(CZJDetailType)detailtype;
++ (void)showGoodsServiceDetailView:(UINavigationController*)navi
+                        andItemPid:(NSString*)sid
+                        detailType:(CZJDetailType)detailtype
+                     promotionType:(CZJGoodsPromotionType)promotionType
+                    promotionPrice:(NSString*)promotionPrice;
 
 + (void)showReloadAlertViewOnTarget:(UIView*)targetView withReloadHandle:(CZJGeneralBlock)reloadhandle;
 + (void)removeReloadAlertViewFromTarget:(UIView*)targetView;
@@ -126,6 +133,7 @@
 
 
 //-----------------------------拍照或选取相册图片处理方法---------------------------
++ (BOOL)isCameraAvailable:(UIViewController*)base;
 + (BOOL)isCameraAvailable;
 + (BOOL)isRearCameraAvailable;
 + (BOOL)isFrontCameraAvailable;
@@ -136,6 +144,10 @@
 + (BOOL)cameraSupportsMedia:(NSString *)paramMediaType sourceType:(UIImagePickerControllerSourceType)paramSourceType;
 + (UIImage *)imageByScalingToMaxSize:(UIImage *)sourceImage;
 + (UIImage *)imageByScalingAndCroppingForSourceImage:(UIImage *)sourceImage targetSize:(CGSize)targetSize;
++ (void)downloadImageWithURL:(NSString*)imgUrl
+                 andFileName:(NSString*)imgName
+                 withSuccess:(CZJGeneralBlock)success
+                     andFail:(CZJGeneralBlock)fail;
 
 
 //-----------------------------------程序缓存处理---------------------------------

@@ -164,9 +164,12 @@
     __weak typeof(self) weak = self;
     [CZJUtils removeReloadAlertViewFromTarget:self.view];
     [CZJUtils removeNoDataAlertViewFromTarget:self.view];
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    if (_getdataType == CZJHomeGetDataFromServerTypeOne)
+    {
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    }
     CZJSuccessBlock successBlock = ^(id json) {
-        [MBProgressHUD hideAllHUDsForView:weak.view animated:YES];
+        [MBProgressHUD hideAllHUDsForView:weak.view animated:NO];
         
         //返回数据回来还未解析到本地数组中时就添加下拉刷新footer
         if (_serviceListArys.count == 0)
@@ -207,14 +210,18 @@
             {
                 [CZJUtils showNoDataAlertViewOnTarget:weak.view withPromptString:@"木有该类服务/(ToT)/~~"];
             }
-            [weak.serviceTableView reloadData];
             
+            if (_getdataType == CZJHomeGetDataFromServerTypeOne)
+            {
+                [weak.serviceTableView setContentOffset:CGPointMake(0,0) animated:NO];
+            }
+            [weak.serviceTableView reloadData];
             weak.serviceTableView.footer.hidden = weak.serviceTableView.mj_contentH < weak.serviceTableView.frame.size.height;
         }
     };
     
     [CZJBaseDataInstance generalPost:storePostParams success:successBlock  fail:^{
-        [MBProgressHUD hideAllHUDsForView:weak.view animated:YES];
+        [MBProgressHUD hideAllHUDsForView:weak.view animated:NO];
         [CZJUtils showReloadAlertViewOnTarget:weak.view withReloadHandle:^{
             _getdataType = CZJHomeGetDataFromServerTypeOne;
             weak.page = 1;

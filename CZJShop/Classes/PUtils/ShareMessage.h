@@ -19,4 +19,10 @@
 -(void)qqViewHandlerMsgType:(int)msgType MsgPlatform:(int)msgPlatform;
 -(void)showPanel:(UIView*)pView;
 -(void)showPanel:(UIView*)pView Type:(int)type WithTitle:(NSString*)title AndBody:(NSString*)body;
+-(void)showPanel:(UIView*)pView
+            type:(int)type
+           title:(NSString*)title
+            body:(NSString*)body
+            link:(NSString*)url
+           image:(NSData*)imageData;
 @end

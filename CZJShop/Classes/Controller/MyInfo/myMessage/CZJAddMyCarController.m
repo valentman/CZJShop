@@ -19,7 +19,8 @@
 <
 LewPickerControllerDelegate,
 UIPickerViewDataSource,
-UIPickerViewDelegate
+UIPickerViewDelegate,
+UITextFieldDelegate
 >
 {
     NSArray* provinceAry;
@@ -64,6 +65,8 @@ UIPickerViewDelegate
     CGPoint pt = CGPointMake(self.carPlateNumLabel.origin.x + self.carPlateNumLabel.size.width, self.carPlateNumLabel.origin.y + self.carPlateNumLabel.size.height * 0.5);
     CAShapeLayer *indicator = [CZJUtils creatIndicatorWithColor:[UIColor blackColor] andPosition:pt];
     [self.viewTwo.layer addSublayer:indicator];
+    
+    self.plateNumTextField.delegate = self;
     
     //背景触摸层
     _backgroundView = [[UIView alloc]initWithFrame:self.view.bounds];
@@ -206,6 +209,11 @@ UIPickerViewDelegate
 }
 
 
+#pragma mark - UITextFieldDelegate
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
+    self.plateNumTextField.text = [textField.text uppercaseString];
+}
 
 
 #pragma mark - UIPickerViewDelegate,UIPickerViewDataSource

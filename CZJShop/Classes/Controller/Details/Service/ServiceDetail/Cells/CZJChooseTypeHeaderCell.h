@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CZJChooseTypeHeaderCell : UITableViewCell
+@interface CZJChooseTypeHeaderCell : CZJTableViewCell
 @property (weak, nonatomic) IBOutlet UIImageView *productImage;
 @property (weak, nonatomic) IBOutlet UILabel *productNameLabel;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *productNameLabelLayoutHeight;

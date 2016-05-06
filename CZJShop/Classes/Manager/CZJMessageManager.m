@@ -10,63 +10,133 @@
 
 @implementation CZJMessageManager
 singleton_implementation(CZJMessageManager)
-- (id) init{
-    if (self = [super init]) {
-        _messages = [CZJUtils  readArrayFromDocumentsDirectoryWithName:kCZJPlistFileMessage];
-        if (!_messages) {
-            _isNewMessage = NO;
+- (id) init
+{
+    if (self = [super init])
+    {
+        if (!_messages)
+        {
             _messages = [NSMutableArray array];
         }
+        if (_messages.count > 0)
+        {
+            [_messages removeAllObjects];
+        }
+        [_messages addObjectsFromArray:[CZJNotificationForm objectArrayWithKeyValuesArray:[CZJUtils  readArrayFromDocumentsDirectoryWithName:kCZJPlistFileMessage]]];;
         return self;
     }
-    
     return nil;
 }
 
-
--(void)addMessageWithObject:(id)obj{
-    if (_messages) {
-        NSMutableDictionary* dict = [NSMutableDictionary dictionaryWithDictionary:obj];
-        [dict setObject:[NSNumber numberWithBool:NO] forKey:@"isRead"];
+-(void)addMessageWithObject:(id)obj
+{
+    if (_messages)
+    {
         [_messages addObject:obj];
-        _isNewMessage = YES;
         [self wirteMessages];
     }
 }
 
--(void)readAllMessage{
-    if (_messages) {
-        for (id dict in _messages) {
-            [dict setObject:[NSNumber numberWithBool:YES] forKey:@"isRead"];
+-(void)markReadAllMessage
+{
+    if (_messages)
+    {
+        for (CZJNotificationForm* dict in _messages)
+        {
+            dict.isRead = YES;
             [self wirteMessages];
         }
     }
 }
 
--(void)readMessageFromPlist{
-    if (_messages) {
-        [_messages removeAllObjects];
-        _messages = [CZJUtils  readArrayFromDocumentsDirectoryWithName:kCZJPlistFileMessage];
+-(void)readMessageFromPlist
+{
+    if (_messages)
+    {
+        if (_messages.count > 0)
+        {
+            [_messages removeAllObjects];
+        }
+        [_messages addObjectsFromArray:[CZJNotificationForm objectArrayWithKeyValuesArray:[CZJUtils  readArrayFromDocumentsDirectoryWithName:kCZJPlistFileMessage]]];
     }
 }
 
--(void)removeObjAtIndex:(int)index{
-    if (_messages) {
+-(void)wirteMessages
+{
+    if (_messages)
+    {
+        NSMutableArray* tmpNotiAry = [NSMutableArray array];
+        for (CZJNotificationForm* notifyForm in _messages)
+        {
+            [tmpNotiAry addObject:notifyForm.keyValues];
+        }
+        BACK(^{
+            [CZJUtils writeArrayToDocumentsDirectory:tmpNotiAry withPlistName:kCZJPlistFileMessage];
+        });
+        
+    }
+}
+
+
+-(void)removeObjAtIndex:(int)index
+{
+    if (_messages)
+    {
         [_messages removeObjectAtIndex:index];
+        [self wirteMessages];
     }
 }
 
--(void)wirteMessages{
-    if (_messages) {
-        [CZJUtils writeArrayToDocumentsDirectory:_messages withPlistName:kCZJPlistFileMessage];
+-(void)removeObjInArray:(NSArray*)removeArray
+{
+    if (_messages)
+    {
+        [_messages removeObjectsInArray:removeArray];
+        [self wirteMessages];
     }
 }
 
 
--(void)removeAllMessages{
-    if (_messages) {
+-(void)removeAllMessages
+{
+    if (_messages)
+    {
         [_messages removeAllObjects];
         [self wirteMessages];
     }
 }
+
+-(BOOL)isAllReaded
+{
+    BOOL isAll = YES;
+    if (_messages)
+    {
+        for (CZJNotificationForm* dict in _messages)
+        {
+            if (!dict.isRead)
+            {
+                isAll = NO;
+                break;
+            }
+        }
+    }
+    return isAll;
+}
+
+- (void)setMessages:(NSMutableArray *)messages
+{
+    if (_messages)
+    {
+        [_messages removeAllObjects];
+        _messages = [messages mutableCopy];
+        [self wirteMessages];
+    }
+    else
+    {
+        _messages = [NSMutableArray array];
+        _messages = [messages copy];
+        [self wirteMessages];
+    }
+}
+
 @end

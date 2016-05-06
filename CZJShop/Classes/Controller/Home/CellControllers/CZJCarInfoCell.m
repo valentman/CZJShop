@@ -67,6 +67,7 @@
     self.isInit = YES;
     _carInfoDatas = infoDatas;
     _infocount = _carInfoDatas.count;
+    [_infoView removeAllSubViews];
     for (int i  = 0; i < _infocount; i++) {
         CGRect frame = CGRectMake(10, i * 39, _infoView.frame.size.width, _infoView.frame.size.height);
         CarInfoBarView* view = [[CarInfoBarView alloc]initWithFrame:frame AndData:_carInfoDatas[i]];
@@ -80,7 +81,7 @@
     UIView* lines = [[UIView alloc]initWithFrame:CGRectMake(0, (_infoView.frame.size.height - 20) / 2, 0.5, 20)];
     lines.backgroundColor = [UIColor lightGrayColor];
     [_infoView addSubview:lines];
-    if (_infocount > 1)
+    if (_infocount > 1 && !self.autoScrollTimer)
     {
         self.autoScrollTimer = [NSTimer scheduledTimerWithTimeInterval:4.0 target:self selector:@selector(beginLoop:) userInfo:nil repeats:YES];
         [[NSRunLoop currentRunLoop] addTimer:self.autoScrollTimer forMode:UITrackingRunLoopMode];

@@ -11,6 +11,7 @@
 #import "UIScrollView+EmptyDataSet.h"
 #import "IMYWebView.h"
 #import "CZJCommitOrderController.h"
+#import "ShareMessage.h"
 
 @interface CZJWebViewController ()
 <
@@ -52,6 +53,7 @@ DZNEmptyDataSetDelegate
     [self.view addSubview:self.myWebView];
     self.view.backgroundColor = CZJNAVIBARBGCOLOR;
     self.myWebView.backgroundColor = CZJNAVIBARBGCOLOR;
+    self.myWebView.scrollView.backgroundColor = CZJNAVIBARBGCOLOR;
     
     //webView JS交互接口
     self.webViewJSI = [CZJWebViewJSI bridgeForWebView:_myWebView webViewDelegate:self];
@@ -143,9 +145,14 @@ DZNEmptyDataSetDelegate
 
 
 #pragma mark - jsActionDelegate （JS网页交互代理）
-- (void)showGoodsOrServiceInfo:(NSString*)storeItemPid andType:(CZJDetailType)detaiType;
+- (void)showGoodsOrServiceInfo:(NSDictionary*)dict
 {
-    [CZJUtils showGoodsServiceDetailView:self.navigationController andItemPid:storeItemPid detailType:detaiType];
+    NSLog(@"%@",dict);
+    CZJDetailType detaitype = [[dict valueForKey:@"itemType"] integerValue] == 0 ? CZJDetailTypeGoods : CZJDetailTypeService;
+    CZJGoodsPromotionType promotionType = [[dict valueForKey:@"promotionType"] integerValue];
+    NSString* promotionPrice = [dict valueForKey:@"promotionPrice"];
+    NSString* storeItemPid = [dict valueForKey:@"storeItemPid"];
+    [CZJUtils showGoodsServiceDetailView:self.navigationController andItemPid:storeItemPid detailType:detaitype promotionType:promotionType promotionPrice:promotionPrice];
 }
 
 - (void)showStoreInfo:(NSString*)storeId
@@ -173,4 +180,38 @@ DZNEmptyDataSetDelegate
 {
     [CZJUtils tipWithText:msg andView:self.navigationController.view];
 }
+
+- (void)toShare:(NSArray*)json
+{
+    NSString* desc = json.firstObject;
+    NSString* imgUrl = json[1];
+    NSString* title = json[3];
+    NSString* shareUrl = json[2];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [CZJUtils downloadImageWithURL:imgUrl andFileName:@"storeShare_icon.png" withSuccess:^{
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        NSData* imageData =[NSData dataWithContentsOfFile:[DocumentsDirectory stringByAppendingPathComponent:@"storeShare_icon.png"]];
+        [[ShareMessage shareMessage] showPanel:self.view
+                                          type:1
+                                         title:title
+                                          body:desc
+                                          link:shareUrl
+                                         image:imageData];
+    } andFail:^{
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        NSData* imageData =[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"share_icon" ofType:@"png"]];
+        [[ShareMessage shareMessage] showPanel:self.view
+                                          type:1
+                                         title:title
+                                          body:desc
+                                          link:shareUrl
+                                         image:imageData];
+    }];
+}
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+}
+
+
 @end

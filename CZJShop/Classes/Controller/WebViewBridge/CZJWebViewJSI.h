@@ -13,9 +13,10 @@
 @protocol jsActionDelegate <NSObject>
 @optional
 - (void)showToast:(NSString*)msg;
-- (void)showGoodsOrServiceInfo:(NSString*)storeItemPid andType:(CZJDetailType)detaiType;
+- (void)showGoodsOrServiceInfo:(NSDictionary*)storeItemPid;
 - (void)showStoreInfo:(NSString*)storeId;
 - (void)toSettleOrder:(NSArray*)goodsInfo andCouponUsable:(BOOL)couponUseable;
+- (void)toShare:(NSArray*)json;
 @end
 
 @interface CZJWebViewJSI : WebViewJsBridge
@@ -26,4 +27,5 @@
 - (void)toStoreInfo:(NSArray*)json;                     //跳转到门店详情
 - (void)jiesuan:(NSArray*)json;                         //结算
 - (void)showToast:(NSString*)json;                      //提示框
+- (void)toShare:(NSString*)json;
 @end

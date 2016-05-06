@@ -26,6 +26,9 @@
 #import "MXPullDownMenu.h"
 #import "CZJDetailViewController.h"
 #import "ShareMessage.h"
+#import "CZJMyInfoAttentionController.h"
+#import "CZJMyInfoRecordController.h"
+#import "CZJChatViewController.h"
 
 
 @interface CZJStoreDetailController ()
@@ -86,6 +89,7 @@ MKMapViewDelegate
 
 - (IBAction)callAction:(id)sender;
 - (IBAction)callNaviAction:(id)sender;
+- (IBAction)contactServiceAction:(id)sender;
 @end
 
 @implementation CZJStoreDetailController
@@ -102,15 +106,19 @@ MKMapViewDelegate
     [[NSNotificationCenter defaultCenter]removeObserver:self name:@"MXPullDownMenuTitleChange" object:nil];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+}
 
 - (void)viewWillLayoutSubviews
 {
-    _buttomView2.frame = CGRectMake(0, PJ_SCREEN_HEIGHT - 50, PJ_SCREEN_WIDTH, 50);
+    
+    _buttomView.frame = CGRectMake(0, PJ_SCREEN_HEIGHT - 50, PJ_SCREEN_WIDTH, 50);
 }
 
 - (void)viewDidLayoutSubviews
 {
-    _buttomView2.frame = CGRectMake(0, PJ_SCREEN_HEIGHT - 50, PJ_SCREEN_WIDTH, 50);
+    _buttomView.frame = CGRectMake(0, PJ_SCREEN_HEIGHT - 50, PJ_SCREEN_WIDTH, 50);
 }
 
 - (void)initDatas
@@ -145,7 +153,7 @@ MKMapViewDelegate
     [self addCZJNaviBarView:CZJNaviBarViewTypeStoreDetail];
     self.naviBarView.customSearchBar.alpha = 0;
     self.naviBarView.customSearchBar.placeholder = @"搜索门店内服务、商品";
-    [self.buttomView2 setBackgroundColor:RGBA(255, 255, 255, 0.9)];
+    [self.buttomView setBackgroundColor:RGBA(255, 255, 255, 0.9)];
     
     
     //TableView
@@ -180,7 +188,19 @@ MKMapViewDelegate
     _backgroundView = [[UIView alloc]initWithFrame:self.view.bounds];
     _backgroundView.backgroundColor = RGBA(100, 240, 240, 0);
     UIGestureRecognizer *gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapBackground:)];
+    UISwipeGestureRecognizer* leftGesture = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(tapBackground:)];
+    [leftGesture setDirection:UISwipeGestureRecognizerDirectionLeft];
+    UISwipeGestureRecognizer* rightGesture = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(tapBackground:)];
+    [rightGesture setDirection:UISwipeGestureRecognizerDirectionRight];
+    UISwipeGestureRecognizer* downGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(tapBackground:)];
+    [downGesture setDirection:UISwipeGestureRecognizerDirectionDown];
+    UISwipeGestureRecognizer* upGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(tapBackground:)];
+    [upGesture setDirection:UISwipeGestureRecognizerDirectionUp];
     [_backgroundView addGestureRecognizer:gesture];
+    [_backgroundView addGestureRecognizer:downGesture];
+    [_backgroundView addGestureRecognizer:upGesture];
+    [_backgroundView addGestureRecognizer:leftGesture];
+    [_backgroundView addGestureRecognizer:rightGesture];
     _backgroundView.hidden = YES;
     [self.view addSubview:_backgroundView];
     
@@ -260,7 +280,6 @@ MKMapViewDelegate
                              @"page": @(self.page)};
     DLog(@"%@",[params description]);
     __weak typeof(self) weak = self;
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [CZJBaseDataInstance loadStoreInfo:params success:^(id json) {
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
         [weak dealWithGoodsServiceData:json];
@@ -431,7 +450,9 @@ MKMapViewDelegate
         cell.buttonClick = ^(id data)
         {
             NSInteger inde = [data integerValue];
-            [weak showWebViewWithURL: ((CZJStoreDetailActivityForm*)_activityArray[inde]).url];
+            NSString* composeUrl = [NSString stringWithFormat:@"%@?storeId=%@&storeName=%s",((CZJStoreDetailActivityForm*)_activityArray[inde]).url,self.storeId,[_storeDetailForm.storeName UTF8String]];
+            NSString* encodedString = [composeUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+            [weak showWebViewWithURL: encodedString];
             
         };
         [cell initBannerWithImg:_imageArray];
@@ -772,13 +793,14 @@ MKMapViewDelegate
             
         case CZJButtonTypeNaviBarMore:
         {
-            NSArray * arr = [[NSArray alloc] init];
-            arr = [NSArray arrayWithObjects:
-//                   @{@"消息" : @"prodetail_icon_msg"},
-                   @{@"首页":@"prodetail_icon_home"},
-                   @{@"分享" :@"prodetail_icon_share"},nil];
+            NSArray * arr = @[@{@"消息" : @"prodetail_icon_msg"},
+                              @{@"首页":@"prodetail_icon_home"},
+                              @{@"分享" :@"prodetail_icon_share"},
+                              @{@"我的关注" :@"all_pop_attention"},
+                              @{@"浏览记录" :@"all_pop_record"}
+                              ];
             if(dropDown == nil) {
-                CGRect rect = CGRectMake(PJ_SCREEN_WIDTH - 120 - 14, StatusBar_HEIGHT + 78, 120, 100);
+                CGRect rect = CGRectMake(PJ_SCREEN_WIDTH - 150 - 14, StatusBar_HEIGHT + 78, 150, 250);
                 _backgroundView.hidden = NO;
                 dropDown = [[NIDropDown alloc]showDropDown:_backgroundView Frame:rect WithObjects:arr andType:CZJNIDropDownTypeNormal];
                 dropDown.delegate = self;
@@ -821,6 +843,7 @@ MKMapViewDelegate
 #pragma mark NIDropDownDelegate
 - (void) niDropDownDelegateMethod:(NSString*)btnStr
 {
+    [self tapBackground:nil];
     if ([btnStr isEqualToString:@"消息"])
     {
         DLog(@"消息");
@@ -829,10 +852,44 @@ MKMapViewDelegate
     {
         [self.navigationController popToRootViewControllerAnimated:YES];
     }
+    if ([btnStr isEqualToString:@"我的关注"])
+    {
+        CZJMyInfoAttentionController* attentionVC = (CZJMyInfoAttentionController*)[CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:@"myAttentionSBID"];
+        [self.navigationController pushViewController:attentionVC animated:YES];
+    }
+    if ([btnStr isEqualToString:@"浏览记录"])
+    {
+        CZJMyInfoRecordController* recordVC = (CZJMyInfoRecordController*)[CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:@"myScanRecordSBID"];
+        [self.navigationController pushViewController:recordVC animated:YES];
+    }
     if ([btnStr isEqualToString:@"分享"])
     {
         DLog(@"分享");
-        [[ShareMessage shareMessage] showPanel:self.view Type:1 WithTitle:@"车之健" AndBody:@"当前需要分享的东西"];
+        NSString* shareUrl = [NSString stringWithFormat:@"%@%@?storeId=%@",kCZJServerAddr,kCZJStoreShare,self.storeId];
+        NSString* desc = @"我在车之健发现一个不错的门店，赶快去看看吧~";
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        [CZJUtils downloadImageWithURL:_imgsArray.firstObject andFileName:@"storeShare_icon.png" withSuccess:^{
+            [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+            NSData* imageData =[NSData dataWithContentsOfFile:[DocumentsDirectory stringByAppendingPathComponent:@"storeShare_icon.png"]];
+            [[ShareMessage shareMessage] showPanel:self.view
+                                              type:1
+                                             title:_storeDetailForm.storeName
+                                              body:desc
+                                              link:shareUrl
+                                             image:imageData];
+        } andFail:^{
+            [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+            NSData* imageData =[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"share_icon" ofType:@"png"]];
+            [[ShareMessage shareMessage] showPanel:self.view
+                                              type:1
+                                             title:_storeDetailForm.storeName
+                                              body:desc
+                                              link:shareUrl
+                                             image:imageData];
+        }];
+        
+        
+        
     }
 }
 
@@ -997,6 +1054,13 @@ MKMapViewDelegate
 
 
 #pragma mark- Actions
+- (IBAction)contactServiceAction:(id)sender
+{
+    CZJChatViewController *chatController = [[CZJChatViewController alloc] initWithConversationChatter: _storeDetailForm.contactAccount conversationType:EMConversationTypeChat];
+    [self.navigationController pushViewController:chatController animated:YES];
+}
+
+
 - (IBAction)callAction:(id)sender {
     [CZJUtils callHotLine:_storeDetailForm.hotline AndTarget:self.view];
     

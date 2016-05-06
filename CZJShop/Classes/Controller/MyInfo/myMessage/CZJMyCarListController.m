@@ -109,6 +109,8 @@ CZJMyCarListCellDelegate
     cell.carModelLabel.text = carForm.modelName;
     cell.setDefaultBtn.selected = carForm.dftFlag;
     cell.carNumberPlate.text = [NSString stringWithFormat:@"%@%@-%@",carForm.prov,carForm.number,carForm.numberPlate];
+    if (indexPath.section == (carList.count - 1))
+        cell.separatorInset = HiddenCellSeparator;
     return cell;
 }
 

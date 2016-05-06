@@ -41,6 +41,22 @@
                         <color key="textColor" red="1" green="0.12874946139999999" blue="0.1621697557" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="tOt-sw-UA1" userLabel="imageOne">
+                        <rect key="frame" x="129" y="226" width="12" height="12"/>
+                        <animations/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="12" id="7Hk-WV-cUH"/>
+                            <constraint firstAttribute="height" constant="12" id="pRK-Jg-csW"/>
+                        </constraints>
+                    </imageView>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="h3T-LF-ULD" userLabel="imageTwo">
+                        <rect key="frame" x="146" y="226" width="12" height="12"/>
+                        <animations/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="12" id="lM5-3w-e3P"/>
+                            <constraint firstAttribute="height" constant="12" id="rWd-4C-KKV"/>
+                        </constraints>
+                    </imageView>
                 </subviews>
                 <animations/>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -48,6 +64,7 @@
             <animations/>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
+                <constraint firstAttribute="trailing" secondItem="h3T-LF-ULD" secondAttribute="trailing" constant="15" id="BkZ-9I-EsJ"/>
                 <constraint firstItem="Wp9-ap-mAA" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="ST2-36-UG1"/>
                 <constraint firstItem="IBm-2p-YCp" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="5" id="ST4-jZ-8dh"/>
                 <constraint firstItem="iyg-4Z-LIt" firstAttribute="top" secondItem="Wp9-ap-mAA" secondAttribute="bottom" id="YJB-Mi-nkU"/>
@@ -55,10 +72,15 @@
                 <constraint firstItem="Wp9-ap-mAA" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="b13-YU-dK2"/>
                 <constraint firstItem="iyg-4Z-LIt" firstAttribute="width" secondItem="Wp9-ap-mAA" secondAttribute="width" constant="-5" id="br3-MP-qbT"/>
                 <constraint firstAttribute="bottom" secondItem="IBm-2p-YCp" secondAttribute="bottom" constant="2" id="eA5-5R-5LW"/>
+                <constraint firstItem="h3T-LF-ULD" firstAttribute="centerY" secondItem="tOt-sw-UA1" secondAttribute="centerY" id="gm9-9J-A4r"/>
                 <constraint firstItem="iyg-4Z-LIt" firstAttribute="centerX" secondItem="Wp9-ap-mAA" secondAttribute="centerX" id="oZw-Vc-7V9"/>
+                <constraint firstAttribute="bottom" secondItem="h3T-LF-ULD" secondAttribute="bottom" constant="6" id="r7W-P1-QC0"/>
+                <constraint firstItem="h3T-LF-ULD" firstAttribute="leading" secondItem="tOt-sw-UA1" secondAttribute="trailing" constant="5" id="xbt-Pp-zFD"/>
             </constraints>
             <connections>
                 <outlet property="iconImageView" destination="Wp9-ap-mAA" id="MDT-AQ-6mr"/>
+                <outlet property="imageOne" destination="tOt-sw-UA1" id="i30-nE-ZAh"/>
+                <outlet property="imageTwo" destination="h3T-LF-ULD" id="mag-jJ-Ahs"/>
                 <outlet property="productName" destination="iyg-4Z-LIt" id="5LQ-b0-g6N"/>
                 <outlet property="productNameHeight" destination="lNT-Pk-waG" id="DU3-qS-BHc"/>
                 <outlet property="productPrice" destination="IBm-2p-YCp" id="KbD-Kk-QJA"/>

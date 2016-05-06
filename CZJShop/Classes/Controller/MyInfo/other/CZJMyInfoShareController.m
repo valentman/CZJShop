@@ -57,7 +57,7 @@
     self.separatorViewHeight.constant = 0.8;
     self.separatorLineHeight.constant = 0.8;
     
-    _messageCode = [NSString stringWithFormat:@"%@%@",SHARE_CONTENT,SHARE_URL];
+    _messageCode = [NSString stringWithFormat:@"%@",SHARE_CONTENT];
     
     
     //UIButton

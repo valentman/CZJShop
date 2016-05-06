@@ -89,7 +89,7 @@ UIGestureRecognizerDelegate
 {
     //tableview
     self.myTableView.tableFooterView = [[UIView alloc]init];
-    self.myTableView.backgroundColor = CZJNAVIBARBGCOLOR;
+
     self.automaticallyAdjustsScrollViewInsets = NO;
     UINib* nib1 = [UINib nibWithNibName:@"CZJShoppingCartCell" bundle:nil];
     UINib* nib2 = [UINib nibWithNibName:@"CZJShoppingCartHeaderCell" bundle:nil];
@@ -112,14 +112,16 @@ UIGestureRecognizerDelegate
     }];
     self.myTableView.header = refreshHeader;
     
-//    __weak typeof(self) weak = self;
-//    refreshFooter = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^(){
-//        _getdataType = CZJHomeGetDataFromServerTypeTwo;
-//        page++;
-//        [weak getShoppingCartInfoFromServer];;
-//    }];
-//    self.myTableView.footer = refreshFooter;
-//    self.myTableView.footer.hidden = YES;
+    /*
+    __weak typeof(self) weak = self;
+    refreshFooter = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^(){
+        _getdataType = CZJHomeGetDataFromServerTypeTwo;
+        page++;
+        [weak getShoppingCartInfoFromServer];;
+    }];
+    self.myTableView.footer = refreshFooter;
+    self.myTableView.footer.hidden = YES;
+     */
     
     //右按钮
     editBtn = [[ UIButton alloc ] initWithFrame : CGRectMake(PJ_SCREEN_WIDTH - 59 , 0 , 44 , 44 )];
@@ -146,12 +148,12 @@ UIGestureRecognizerDelegate
 - (void)getShoppingCartInfoFromServer
 {
     __weak typeof(self) weak = self;
-    [MBProgressHUD showHUDAddedTo:self.myTableView animated:YES];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [CZJUtils removeReloadAlertViewFromTarget:self.view];
     [CZJUtils removeNoDataAlertViewFromTarget:self.view];
     CZJSuccessBlock successBlock = ^(id json)
     {
-        [MBProgressHUD hideAllHUDsForView:weak.myTableView animated:NO];
+        [MBProgressHUD hideAllHUDsForView:weak.view animated:NO];
         
         //========获取数据返回，判断数据大于0不==========
         NSDictionary* dict = [CZJUtils DataFromJson:json];
@@ -204,7 +206,7 @@ UIGestureRecognizerDelegate
     };
     CZJFailureBlock failBlock = ^{
         self.myTableView.hidden = YES;
-        [MBProgressHUD hideAllHUDsForView:self.myTableView animated:NO];
+        [MBProgressHUD hideAllHUDsForView:weak.view animated:NO];
         [CZJUtils showReloadAlertViewOnTarget:weak.view withReloadHandle:^{
             [weak getShoppingCartInfoFromServer];
         }];

@@ -39,7 +39,6 @@
         [cell.hotRecoImage sd_setImageWithURL:[NSURL URLWithString:form.itemImg] placeholderImage:DefaultPlaceHolderSquare];
         //品牌名称
         cell.hotRecoName.text = form.itemName;
-        DLog(@"%@",form.itemName);
         CGSize hotSize = [CZJUtils calculateStringSizeWithString:form.itemName Font:SYSTEMFONT(12) Width:cellWidth - 5];
         cell.hotRecoNameLayoutHeight.constant = hotSize.height > 30 ? 30 : 15;
         //品牌价格
@@ -67,7 +66,6 @@
                 int column = x%divide;
                 // 行数
                 int row = x/divide;
-                DLog(@"row:%d, column:%d", row, column);
                 // 很据列数和行数算出x、y
                 int childX = column * (cellWidth + horiMiddleMargin);
                 int childY = row * (cellHeight + vertiMiddleMargin);

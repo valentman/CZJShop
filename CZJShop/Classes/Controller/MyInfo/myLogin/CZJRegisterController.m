@@ -85,6 +85,13 @@ FDAlertViewDelegate
     
     [self.confirmBtn setEnabled:NO];
     self.confirmBtn.backgroundColor = [UIColor lightGrayColor];
+    
+    if (self.phoneNum)
+    {
+        self.phoneNumTextField.text = self.phoneNum;
+        self.phoneNumPrompt.hidden = YES;
+    }
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -96,11 +103,10 @@ FDAlertViewDelegate
 - (IBAction)getCodeAction:(id)sender
 {
     //输入内容校验（是不是手机号，以及有没有输入文字）
-    if (!self.phoneNumTextField.text ||
-        ![CZJUtils isPhoneNumber:self.phoneNumTextField.text] ||
-        [self.phoneNumTextField.text isEqualToString:@""])
+    if ([CZJUtils isBlankString:self.phoneNumTextField.text] ||
+        ![CZJUtils isPhoneNumber:self.phoneNumTextField.text])
     {
-        [self showAlert:@"请输入正确手机号码!"];
+        [CZJUtils tipWithText:@"请输入正确手机号码!" onView:self.view];
         return;
     }
     
@@ -166,7 +172,7 @@ FDAlertViewDelegate
             }
             
             //身份验证成功
-            [self showAlert:@"身份验证成功，请设置密码"];
+            [CZJUtils tipWithText:@"身份验证成功，请设置密码" onView:self.view];
             isIdentityVerify = NO;
             
             //顶部身份验证和设置密码栏重置
@@ -209,7 +215,7 @@ FDAlertViewDelegate
             [CZJUtils tipWithText:@"设置密码成功" withCompeletHandler:^{
                 [weakSelf.confirmBtn setEnabled:YES];
                 weakSelf.confirmBtn.backgroundColor = kLoginColorRed;
-                [weakSelf dismissViewControllerAnimated:YES completion:nil];
+                [CZJUtils removeLoginViewFromCurrent:nil];
             }];
             
         };
@@ -249,12 +255,7 @@ FDAlertViewDelegate
 }
 
 - (void)showAlert:(NSString*)str{
-    FDAlertView *alert = [[FDAlertView alloc] initWithTitle:@"提示"
-                                                       icon:nil
-                                                    message:[NSString stringWithFormat:@"%@ !",str]
-                                                   delegate:self
-                                               buttonTitles:@"确定",nil];
-    [alert show];
+    [CZJUtils tipWithText:str onView:self.view];
 }
 
 
@@ -291,7 +292,42 @@ FDAlertViewDelegate
     DLog();
 }
 
-
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
+    NSString * new_text_str = [textField.text stringByReplacingCharactersInRange:range withString:string];
+    switch (textField.tag) {
+        case 1000:
+            if (new_text_str.length == 0) {
+                [self.phoneNumPrompt setHidden:NO];
+            }
+            break;
+            
+        case 1001:
+            if (new_text_str.length == 0) {
+                [self.pwdPrompt setHidden:NO];
+            }
+            if (new_text_str.length > 0)
+            {
+                self.confirmBtn.enabled = YES;
+                [self.confirmBtn setBackgroundColor:kLoginColorRed];
+            }
+            break;
+            
+        case 1002:
+            if (new_text_str.length == 0) {
+                [self.codePrompt setHidden:NO];
+            }
+            if (new_text_str.length == 6 && self.phoneNumTextField.text.length == 11)
+            {
+                self.confirmBtn.enabled = YES;
+                [self.confirmBtn setBackgroundColor:kLoginColorRed];
+            }
+            break;
+            
+        default:
+            break;
+    }
+    return YES;
+}
 
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
@@ -305,11 +341,14 @@ FDAlertViewDelegate
         case 1001:
             if (textField.text.length == 0) {
                 [self.pwdPrompt setHidden:NO];
+                self.confirmBtn.enabled = NO;
+                [self.confirmBtn setBackgroundColor:GRAYCOLOR];
             }
-            if (textField.text.length > 0)
+            if (textField.text.length > 0 && self.phoneNumTextField.text.length == 11)
             {
+                [self.pwdPrompt setHidden:YES];
                 self.confirmBtn.enabled = YES;
-                [self.confirmBtn setBackgroundColor:kLoginColorRed];
+                [self.confirmBtn setBackgroundColor:CZJREDCOLOR];
             }
             break;
             
@@ -317,16 +356,28 @@ FDAlertViewDelegate
             if (textField.text.length == 0) {
                 [self.codePrompt setHidden:NO];
             }
-            if (textField.text.length == 6 && self.phoneNumTextField.text.length == 11)
+            else if (textField.text.length > 0 && textField.text.length < 6)
             {
+                [self.codePrompt setHidden:YES];
+                self.confirmBtn.enabled = NO;
+                [self.confirmBtn setBackgroundColor:GRAYCOLOR];
+            }
+            else if (textField.text.length == 6 && self.phoneNumTextField.text.length == 11)
+            {
+                [self.codePrompt setHidden:YES];
                 self.confirmBtn.enabled = YES;
-                [self.confirmBtn setBackgroundColor:kLoginColorRed];
+                [self.confirmBtn setBackgroundColor:CZJREDCOLOR];
             }
             break;
             
         default:
             break;
     }
+}
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    [self.view endEditing:YES];
 }
 
 @end

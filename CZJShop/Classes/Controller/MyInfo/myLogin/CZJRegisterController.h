@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface CZJRegisterController : CZJViewController
-
+@property(strong, nonatomic)NSString* phoneNum;
 @end

@@ -438,7 +438,7 @@ CZJPopPayViewDelegate
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    //订单进度，收货地址为固定区域
+    //=============订单进度，收货地址为固定区域=============
     if (0 == indexPath.section)
     {
         if (0 == indexPath.row)
@@ -496,13 +496,13 @@ CZJPopPayViewDelegate
         }
     }
     
-    //详情区域需要区分是退货订单详情，还是一般订单详情
+    //=============详情区域需要区分是退货订单详情，还是一般订单详情=============
     if (CZJOrderDetailTypeReturned == self.orderDetailType)
     {//退换货订单详情
         if (0 == indexPath.row)
         {
             CZJOrderReturnedListCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJOrderReturnedListCell" forIndexPath:indexPath];
-            [cell.goodImg sd_setImageWithURL:[NSURL URLWithString:@""] placeholderImage:DefaultPlaceHolderSquare];
+            [cell.goodImg sd_setImageWithURL:[NSURL URLWithString:self.returnedGoodsForm.itemImg] placeholderImage:DefaultPlaceHolderSquare];
             cell.goodNameLabel.text = self.returnedGoodsForm.itemName;
             cell.goodPriceLabel.text = [NSString stringWithFormat:@"￥%@",self.returnedGoodsForm.currentPrice];
             cell.goodModelLabel.text = self.returnedGoodsForm.itemSku;

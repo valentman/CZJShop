@@ -29,8 +29,13 @@
                         <animations/>
                         <color key="backgroundColor" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="1" id="Pk0-uF-D1P"/>
-                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="1" id="y44-ox-saf"/>
+                            <constraint firstAttribute="height" constant="1" id="Pk0-uF-D1P">
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="constant">
+                                        <real key="value" value="0.5"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </constraint>
                         </constraints>
                     </view>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ms9-xB-Q3y">
@@ -60,7 +65,7 @@
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="收货人" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lNG-UQ-VEU">
-                        <rect key="frame" x="62" y="20" width="162" height="18"/>
+                        <rect key="frame" x="62" y="20" width="152" height="18"/>
                         <animations/>
                         <constraints>
                             <constraint firstAttribute="height" constant="18" id="pYl-y5-gBh"/>
@@ -87,14 +92,14 @@
                         </connections>
                     </button>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8dN-6c-Ee5">
-                        <rect key="frame" x="230" y="21" width="80" height="15"/>
+                        <rect key="frame" x="220" y="21" width="90" height="15"/>
                         <animations/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="80" id="fUc-ZL-dHE"/>
+                            <constraint firstAttribute="width" constant="90" id="fUc-ZL-dHE"/>
                             <constraint firstAttribute="height" constant="15" id="r3V-RI-tHD"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>

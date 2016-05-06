@@ -15,7 +15,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="miaosha_icon_miao.png" translatesAutoresizingMaskIntoConstraints="NO" id="6LI-q1-gdb">
-                        <rect key="frame" x="15" y="8" width="32" height="18"/>
+                        <rect key="frame" x="20" y="8" width="32" height="18"/>
                         <animations/>
                         <constraints>
                             <constraint firstAttribute="width" constant="32" id="MhU-2n-fxF"/>
@@ -23,7 +23,7 @@
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="抢购中" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Xx-eK-bIP">
-                        <rect key="frame" x="52" y="10" width="60" height="15"/>
+                        <rect key="frame" x="57" y="10" width="60" height="15"/>
                         <animations/>
                         <constraints>
                             <constraint firstAttribute="height" constant="15" id="hts-9g-fA4"/>
@@ -247,7 +247,7 @@
                     <constraint firstItem="9Xx-eK-bIP" firstAttribute="centerY" secondItem="6LI-q1-gdb" secondAttribute="centerY" id="XOO-sQ-l9r"/>
                     <constraint firstItem="csl-N3-C7Y" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="YUW-UD-rWe"/>
                     <constraint firstItem="6LI-q1-gdb" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="Zij-Lm-fFs"/>
-                    <constraint firstItem="6LI-q1-gdb" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="a5l-Cq-3Q3"/>
+                    <constraint firstItem="6LI-q1-gdb" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="a5l-Cq-3Q3"/>
                     <constraint firstAttribute="trailing" secondItem="X5Y-9v-QuL" secondAttribute="trailing" constant="10" id="sjU-hY-XbM"/>
                 </constraints>
             </tableViewCellContentView>
