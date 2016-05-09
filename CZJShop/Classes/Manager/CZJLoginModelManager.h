@@ -34,13 +34,12 @@ singleton_interface(CZJLoginModelManager)
                   success:(CZJSuccessBlock)success
                      fali:(CZJSuccessBlock)fail;
 
-//登录成功
+//启动验证是否登录成功，登录成功则获取用户信息
 - (void)loginWithDefaultInfoSuccess:(CZJGeneralBlock)success
                                fail:(CZJGeneralBlock)fail;
 
 //设置密码（注册或忘记密码重置）
-- (void)setPassword:(NSString*)pwd
-        mobliePhone:(NSString*)phoneNum
+- (void)setPassword:(NSDictionary*)params
             success:(CZJGeneralBlock)success
                fali:(CZJGeneralBlock)fail;
 
@@ -48,5 +47,8 @@ singleton_interface(CZJLoginModelManager)
 - (void)questCityIdByName:(NSString*)choiceCityName
                   success:(CZJSuccessBlock)success
                      fail:(CZJGeneralBlock)fail;
+
+//登录成功，写入本地文件
+- (void)loginSuccess:(id)json;
 
 @end

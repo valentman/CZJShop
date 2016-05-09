@@ -82,7 +82,6 @@ singleton_implementation(CZJLoginModelManager)
     CZJSuccessBlock successBlock = ^(id json)
     {
         if ([self showAlertView:json]) {
-            [self loginSuccess:json];
             success(json);
         }
         else
@@ -115,7 +114,6 @@ singleton_implementation(CZJLoginModelManager)
     CZJSuccessBlock successBlock = ^(id json)
     {
         if ([self showAlertView:json]) {
-            [self loginSuccess:json];
             success(json);
         }
         else
@@ -153,16 +151,19 @@ singleton_implementation(CZJLoginModelManager)
     
     //注册个人推送
     [XGPush setAccount:self.usrBaseForm.chezhuId];
+    
+    //注册环信
+    EMError *errorss = [[EMClient sharedClient] loginWithUsername:CZJLoginModelInstance.usrBaseForm.imId password:@"123456"];
+    if (!errorss)
+    {
+        [[EMClient sharedClient].options setIsAutoLogin:YES];
+    }
 }
 
-- (void)setPassword:(NSString*)pwd
-        mobliePhone:(NSString*)phoneNum
+- (void)setPassword:(NSDictionary*)params
             success:(CZJGeneralBlock)success
-               fali:(CZJGeneralBlock)fail
+               fali:(CZJGeneralBlock)fail;
 {
-    NSDictionary *params = @{@"mobile" : phoneNum,
-                             @"passwd" : pwd};
-    
     CZJSuccessBlock successBlock = ^(id json)
     {
         if ([self showAlertView:json])
@@ -174,7 +175,6 @@ singleton_implementation(CZJLoginModelManager)
             self.usrBaseForm.mobile = [[dict valueForKey:@"msg"] valueForKey:@"mobile"];
             self.usrBaseForm.cityName = [[dict valueForKey:@"msg"] valueForKey:@"cityName"];
             self.usrBaseForm.cityId = [[dict valueForKey:@"msg"] valueForKey:@"cityId"];
-            success(json);
         }
     };
     CZJFailureBlock failure = ^()

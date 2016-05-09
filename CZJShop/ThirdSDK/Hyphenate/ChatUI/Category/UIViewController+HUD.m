@@ -44,7 +44,7 @@ static const void *HttpRequestHUDKey = &HttpRequestHUDKey;
     hud.mode = MBProgressHUDModeText;
     hud.labelText = hint;
     hud.margin = 10.f;
-    hud.yOffset = IS_IPHONE_5?200.f:150.f;
+    hud.yOffset = iPhone5?200.f:150.f;
     hud.removeFromSuperViewOnHide = YES;
     [hud hide:YES afterDelay:2];
 }
@@ -58,7 +58,7 @@ static const void *HttpRequestHUDKey = &HttpRequestHUDKey;
     hud.mode = MBProgressHUDModeText;
     hud.labelText = hint;
     hud.margin = 10.f;
-    hud.yOffset = IS_IPHONE_5?200.f:150.f;
+    hud.yOffset = iPhone5?200.f:150.f;
     hud.yOffset += yOffset;
     hud.removeFromSuperViewOnHide = YES;
     [hud hide:YES afterDelay:2];

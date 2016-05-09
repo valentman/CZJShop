@@ -197,6 +197,20 @@
     [NSURLCache setSharedURLCache:URLCache];
     
     
+    
+    //-------------------11.环信聊天接口---------------
+    //初始化环信SDK
+//    EMOptions *options = [EMOptions optionsWithAppkey:@"chelifang#chezhijian"];
+//    options.apnsCertName = @"";
+//    [[EMClient sharedClient] initializeSDKWithOptions:options];
+//    //调用EaseUI对应方法
+//    [[EaseSDKHelper shareHelper] easemobApplication:application
+//                      didFinishLaunchingWithOptions:launchOptions
+//                                             appkey:@"chelifang#czjshop"
+//                                       apnsCertName:@""
+//                                        otherConfig:@{kSDKConfigEnableConsoleLogger:[NSNumber numberWithBool:YES]}];
+    
+    
     //------------------3.登录设置----------------
     [CZJLoginModelInstance loginWithDefaultInfoSuccess:^
     {
@@ -215,6 +229,14 @@
             CZJLoginModelInstance.usrBaseForm.cityName = [USER_DEFAULT valueForKey:kCZJDefaultyCityName];
             [CZJBaseDataInstance setCurCityName:[USER_DEFAULT valueForKey:kCZJDefaultyCityName]];
         }
+        
+        UserBaseForm* userForm = CZJBaseDataInstance.userInfoForm;
+        //应该先判断是否设置了自动登录，如果设置了，则不需要您再调用
+//        EMError *erroras = [[EMClient sharedClient] loginWithUsername:userForm.imId password:@"123456"];
+//        if (erroras)
+//        {
+//            DLog(@"*********%@",erroras.errorDescription);
+//        }
     } fail:^{
         
     }];
@@ -223,19 +245,23 @@
     //--------------------4.初始化定位-------------------
     if (IS_IOS8)
     {
-        [[CCLocationManager shareLocation] getLocationCoordinate:^(CLLocationCoordinate2D locationCorrrdinate) {
-            [CZJBaseDataInstance setCurLocation:locationCorrrdinate];
-        }];
+//        [[CCLocationManager shareLocation] getLocationCoordinate:^(CLLocationCoordinate2D locationCorrrdinate) {
+//            
+//        }];
         [[CCLocationManager shareLocation]getCity:^(NSString *addressString) {
+            CLLocationCoordinate2D location = CLLocationCoordinate2DMake([USER_DEFAULT doubleForKey:CCLastLatitude],[USER_DEFAULT doubleForKey:CCLastLongitude]);
+            [CZJBaseDataInstance setCurLocation:location];
             [CZJBaseDataInstance setCurCityName:addressString];
         }];
     }
     else if (IS_IOS7)
     {
-        [[ZXLocationManager sharedZXLocationManager] getLocationCoordinate:^(CLLocationCoordinate2D coord) {
-            [CZJBaseDataInstance setCurLocation:coord];
-        }];
+//        [[ZXLocationManager sharedZXLocationManager] getLocationCoordinate:^(CLLocationCoordinate2D coord) {
+//            [CZJBaseDataInstance setCurLocation:coord];
+//        }];
         [[ZXLocationManager sharedZXLocationManager]getCityName:^(NSString *addressString) {
+            CLLocationCoordinate2D location = CLLocationCoordinate2DMake([USER_DEFAULT doubleForKey:CCLastLatitude],[USER_DEFAULT doubleForKey:CCLastLongitude]);
+            [CZJBaseDataInstance setCurLocation:location];
             [CZJBaseDataInstance setCurCityName:addressString];
         }];
     }
@@ -410,41 +436,7 @@
     installation.url = [NSURL URLWithString:@"https://collector.bughd.com/kscrash?key=0a9aa597ce509ecb9ccf098ff457400b"];
     [installation install];
     [installation sendAllReportsWithCompletion:nil];
-    
-    
-    //-------------------11.环信聊天接口---------------
-    //调用EaseUI对应方法
-    [[EaseSDKHelper shareHelper] easemobApplication:application
-                      didFinishLaunchingWithOptions:launchOptions
-                                             appkey:@"chelifang#czjshop"
-                                       apnsCertName:@"istore_dev"
-                                        otherConfig:@{kSDKConfigEnableConsoleLogger:[NSNumber numberWithBool:YES]}];
-    //初始化环信SDK
-    EMOptions *options = [EMOptions optionsWithAppkey:@"chelifang#czjshop"];
-    options.apnsCertName = @"istore_dev";
-    [[EMClient sharedClient] initializeSDKWithOptions:options];
-    
-    EMError *error = [[EMClient sharedClient] registerWithUsername:@"8001" password:@"111111"];
-    if (error==nil) {
-        NSLog(@"注册成功");
-    }
-    
-    EMError *errors = [[EMClient sharedClient] loginWithUsername:@"8001" password:@"111111"];
-    if (!errors) {
-        NSLog(@"登陆成功");
-    }
-    
-    EMError *errorss = [[EMClient sharedClient] loginWithUsername:@"8001" password:@"111111"];
-    if (!errorss)
-    {
-        [[EMClient sharedClient].options setIsAutoLogin:YES];
-    }
-    
-    //应该先判断是否设置了自动登录，如果设置了，则不需要您再调用
-    BOOL isAutoLogin = [EMClient sharedClient].options.isAutoLogin;
-    if (!isAutoLogin) {
-        EMError *erroras = [[EMClient sharedClient] loginWithUsername:@"8001" password:@"111111"];
-    }
+
     
     
     //-------------------12.接收远程通知本地显示---------------

@@ -191,8 +191,7 @@
     [USER_DEFAULT setObject:@(newLocation.coordinate.latitude) forKey:CCLastLatitude];
     [USER_DEFAULT setObject:@(newLocation.coordinate.longitude) forKey:CCLastLongitude];
     
-    [manager stopUpdatingLocation];
-    
+    [manager stopUpdatingLocation];   
 }
 
 

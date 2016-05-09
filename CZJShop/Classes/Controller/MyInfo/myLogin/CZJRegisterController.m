@@ -20,6 +20,7 @@ FDAlertViewDelegate
 >
 {
     BOOL isIdentityVerify;
+    NSDictionary* vertifySuccessDict;
 }
 @property (weak, nonatomic) IBOutlet UIButton *identityVerifyBtn;
 @property (weak, nonatomic) IBOutlet UIButton *stateButton;
@@ -86,11 +87,14 @@ FDAlertViewDelegate
     [self.confirmBtn setEnabled:NO];
     self.confirmBtn.backgroundColor = [UIColor lightGrayColor];
     
-    if (self.phoneNum)
+    if (![CZJUtils isBlankString:self.phoneNum])
     {
         self.phoneNumTextField.text = self.phoneNum;
         self.phoneNumPrompt.hidden = YES;
+        [self.phoneNumTextField becomeFirstResponder];
     }
+    
+    vertifySuccessDict = [NSDictionary dictionary];
     
 }
 
@@ -116,6 +120,8 @@ FDAlertViewDelegate
             [self.getCodeBtn setEnabled:NO];
             [self.getCodeBtn setHidden:YES];
             [self.daojishiLab setHidden:NO];
+            
+            [self.codeTextField becomeFirstResponder];
             
             __block int timeout=119; //倒计时时间
             dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
@@ -156,6 +162,7 @@ FDAlertViewDelegate
 
 - (IBAction)confirmAction:(id)sender
 {
+    [self.view endEditing:YES];
     //验证手机有效性
     if (isIdentityVerify &&
         self.phoneNumTextField.text.length == 11 &&
@@ -164,15 +171,17 @@ FDAlertViewDelegate
         [self.confirmBtn setEnabled:NO];
         self.confirmBtn.backgroundColor = [UIColor lightGrayColor];
         CZJSuccessBlock successBlock = ^(id json){
-            NSDictionary* dict = [CZJUtils DataFromJson:json];
-            if ([[dict valueForKey:@"code"] integerValue] != 0)
+            vertifySuccessDict = [[CZJUtils DataFromJson:json] valueForKey:@"msg"];
+            if ([[vertifySuccessDict valueForKey:@"code"] integerValue] != 0)
             {
-                [self showAlert:[dict valueForKey:@"msg"]];
+                [self showAlert:[vertifySuccessDict valueForKey:@"msg"]];
                 return;
             }
             
             //身份验证成功
-            [CZJUtils tipWithText:@"身份验证成功，请设置密码" onView:self.view];
+            [CZJUtils tipWithText:@"身份验证成功，请设置密码" withCompeletHandler:^{
+                [self.pwdTextField becomeFirstResponder];
+            }];
             isIdentityVerify = NO;
             
             //顶部身份验证和设置密码栏重置
@@ -189,6 +198,7 @@ FDAlertViewDelegate
             
             self.phoneNumTextField.enabled = NO;
             self.phoneNumTextField.textColor = [UIColor lightGrayColor];
+            
         };
         CZJFailureBlock failure = ^{
             NSLog(@"login fail");
@@ -202,7 +212,7 @@ FDAlertViewDelegate
     }
     //重设密码中
     if (!isIdentityVerify &&
-        self.codeTextField.text.length > 0)
+        self.pwdTextField.text.length > 0)
     {
         [self.confirmBtn setEnabled:NO];
         CZJSuccessBlock successBlock = ^(id json){
@@ -210,12 +220,13 @@ FDAlertViewDelegate
             if ([[dict valueForKey:@"code"] integerValue] != 0)
             {
                 [self showAlert:[dict valueForKey:@"msg"]];
+                
             }
             __weak typeof(self) weakSelf = self;
-            [CZJUtils tipWithText:@"设置密码成功" withCompeletHandler:^{
+            [CZJUtils tipWithText:@"设置密码成功,请到登录页面重新登录" withCompeletHandler:^{
                 [weakSelf.confirmBtn setEnabled:YES];
                 weakSelf.confirmBtn.backgroundColor = kLoginColorRed;
-                [CZJUtils removeLoginViewFromCurrent:nil];
+                [self.navigationController popViewControllerAnimated:YES];
             }];
             
         };
@@ -224,10 +235,12 @@ FDAlertViewDelegate
             [self.confirmBtn setEnabled:YES];
             self.confirmBtn.backgroundColor = kLoginColorRed;
         };
-        [CZJLoginModelInstance setPassword:self.pwdTextField.text
-                               mobliePhone:self.phoneNumTextField.text
-                                   success:successBlock
-                                      fali:failure];
+        NSString* pwdStr = self.pwdTextField.text;
+        NSDictionary* parms = @{@"chezhuId": [vertifySuccessDict valueForKey:@"chezhuId"],
+                                @"mobile": [vertifySuccessDict valueForKey:@"mobile"],
+                                @"passwd": pwdStr,
+                                };
+        [CZJLoginModelInstance setPassword:parms success:successBlock fali:failure];
     }
 }
 
@@ -299,6 +312,10 @@ FDAlertViewDelegate
             if (new_text_str.length == 0) {
                 [self.phoneNumPrompt setHidden:NO];
             }
+            else
+            {
+                [self.phoneNumPrompt setHidden:YES];
+            }
             break;
             
         case 1001:
@@ -307,6 +324,7 @@ FDAlertViewDelegate
             }
             if (new_text_str.length > 0)
             {
+                [self.pwdPrompt setHidden:YES];
                 self.confirmBtn.enabled = YES;
                 [self.confirmBtn setBackgroundColor:kLoginColorRed];
             }
@@ -316,7 +334,13 @@ FDAlertViewDelegate
             if (new_text_str.length == 0) {
                 [self.codePrompt setHidden:NO];
             }
-            if (new_text_str.length == 6 && self.phoneNumTextField.text.length == 11)
+            else if (new_text_str.length > 0 && new_text_str.length < 6)
+            {
+                [self.codePrompt setHidden:YES];
+                self.confirmBtn.enabled = NO;
+                [self.confirmBtn setBackgroundColor:GRAYCOLOR];
+            }
+            else if (new_text_str.length == 6 && self.phoneNumTextField.text.length == 11)
             {
                 self.confirmBtn.enabled = YES;
                 [self.confirmBtn setBackgroundColor:kLoginColorRed];

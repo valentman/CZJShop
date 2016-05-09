@@ -20,6 +20,7 @@
 #import "CZJMyInfoShareController.h"
 #import "CZJMyWalletRedpacketController.h"
 #import "CZJMessageManager.h"
+#import "CZJMyInfoServiceFeedbackController.h"
 
 @implementation CZJMyInfoForm
 @end
@@ -574,6 +575,11 @@ CZJViewControllerDelegate
     {
         CZJMyWalletRedpacketController* redpackeVC = segue.destinationViewController;
         redpackeVC.redPacketNum = myInfoForm.redpacket;
+    }
+    if ([segue.identifier isEqualToString:@"segueToService"])
+    {
+        CZJMyInfoServiceFeedbackController* serviceFeedBack = segue.destinationViewController;
+        serviceFeedBack.hotLine = myInfoForm.hotline;
     }
 }
 

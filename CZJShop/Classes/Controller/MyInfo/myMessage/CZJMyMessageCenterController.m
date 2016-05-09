@@ -63,7 +63,7 @@ UITableViewDataSource
     [self.navigationItem.rightBarButtonItem setTintColor:BLACKCOLOR];
     
     //消息中心表格视图
-    CGRect tableRect = CGRectMake(0, 64 + 70, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - 64 - 70);
+    CGRect tableRect = CGRectMake(0, 64 + 60, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - 64 - 60);
     self.myTableView = [[UITableView alloc]initWithFrame:tableRect style:UITableViewStylePlain];
     self.myTableView.tableFooterView = [[UIView alloc]init];
     self.myTableView.delegate = self;
@@ -103,7 +103,7 @@ UITableViewDataSource
         [self.navigationItem.rightBarButtonItem setTitle:@"完成"];
         [UIView animateWithDuration:0.3 animations:^{
             [buttomView setPosition:CGPointMake(0, PJ_SCREEN_HEIGHT - 60) atAnchorPoint:CGPointZero];
-            [self.myTableView setSize:CGSizeMake(PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - 64 - 70 - 60)];
+            [self.myTableView setSize:CGSizeMake(PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - 64 - 60 - 60)];
         }];
     }
     else
@@ -111,7 +111,7 @@ UITableViewDataSource
         [self.navigationItem.rightBarButtonItem setTitle:@"编辑"];
         [UIView animateWithDuration:0.3 animations:^{
             [buttomView setPosition:CGPointMake(0, PJ_SCREEN_HEIGHT) atAnchorPoint:CGPointZero];
-            [self.myTableView setSize:CGSizeMake(PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - 64 - 70)];
+            [self.myTableView setSize:CGSizeMake(PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - 64 - 60)];
         }];
     }
     [self.myTableView reloadData];

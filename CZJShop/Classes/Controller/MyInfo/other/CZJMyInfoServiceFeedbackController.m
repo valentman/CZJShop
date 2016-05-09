@@ -116,7 +116,7 @@ UITableViewDelegate
     }
     if (0 == indexPath.row)
     {
-        [CZJUtils callHotLine:@"400-800-1100" AndTarget:self.view];
+        [CZJUtils callHotLine:self.hotLine AndTarget:self.view];
     }
     if (1 == indexPath.row )
     {

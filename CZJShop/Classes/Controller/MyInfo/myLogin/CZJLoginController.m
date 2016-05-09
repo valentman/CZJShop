@@ -149,6 +149,7 @@ FDAlertViewDelegate
         [self.codePrompt setHidden:YES];
         self.confirmBtn.enabled = NO;
         [self.confirmBtn setBackgroundColor:GRAYCOLOR];
+        [self.codeTextField becomeFirstResponder];
     }
     else if (self.codeTextField.text.length == 6 && self.phoneNumTextField.text.length == 11)
     {
@@ -173,7 +174,10 @@ FDAlertViewDelegate
     self.loginWithPWDBtn.titleLabel.textColor = [UIColor blackColor];
     self.loginWithPWDBtn.titleLabel.font = [UIFont systemFontOfSize:15];
     
-    
+    if (![CZJUtils isBlankString:self.phoneNumTextField.text])
+    {
+        [self.pwdTextField becomeFirstResponder];
+    }
     if (self.pwdTextField.text.length == 0) {
         [self.pwdPrompt setHidden:NO];
         self.confirmBtn.enabled = NO;
@@ -204,6 +208,7 @@ FDAlertViewDelegate
             [self.getCodeBtn setEnabled:NO];
             [self.getCodeBtn setHidden:YES];
             [self.daojishiLab setHidden:NO];
+            [self.codeTextField becomeFirstResponder];
             
             __block int timeout=119; //倒计时时间
             dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
@@ -260,6 +265,7 @@ FDAlertViewDelegate
         [CZJBaseDataInstance loadShoppingCartCount:nil Success:^(id json){
             [self exitOutAction:nil];
         } fail:nil];
+        [CZJLoginModelInstance loginSuccess:json];
     };
     CZJSuccessBlock failure = ^(id json){
         NSDictionary* dict = [CZJUtils DataFromJson:json];
@@ -362,6 +368,10 @@ FDAlertViewDelegate
         case kPhoneNum:
             if (new_text_str.length == 0) {
                 [self.phoneNumPrompt setHidden:NO];
+            }
+            if (new_text_str.length > 0)
+            {
+                [self.phoneNumPrompt setHidden:YES];
             }
             break;
             

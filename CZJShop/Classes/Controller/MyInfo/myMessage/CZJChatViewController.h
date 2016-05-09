@@ -9,5 +9,5 @@
 #import "CZJViewController.h"
 
 @interface CZJChatViewController : EaseMessageViewController
-
+@property (strong, nonatomic)NSString* storeName;
 @end

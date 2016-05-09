@@ -249,7 +249,8 @@ UITableViewDelegate
 - (void)justLocation
 {
     if (IS_IOS8) {
-        if (![[CCLocationManager shareLocation] isLocationEnable]) {
+        if (![[CCLocationManager shareLocation] isLocationEnable])
+        {
             _refreshLocationBarView.locationNameLabel.text = @"亲，未开启定位功能哦~";
             if (_refreshLocationBarView.locationButton.tag == CZJViewMoveOrientationRight)
             {
@@ -324,8 +325,6 @@ UITableViewDelegate
     }
     else if (IS_IOS7)
     {
-        
-        
         [[ZXLocationManager sharedZXLocationManager] getCityName:^(NSString *addressString) {
             cityID = [CZJBaseDataInstance.storeForm getCityIDWithCityName:addressString];
             _getdataType = CZJHomeGetDataFromServerTypeOne;

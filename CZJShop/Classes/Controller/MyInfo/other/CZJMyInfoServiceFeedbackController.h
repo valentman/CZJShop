@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface CZJMyInfoServiceFeedbackController : CZJViewController
+@property (strong, nonatomic)NSString* hotLine;
 
 @end

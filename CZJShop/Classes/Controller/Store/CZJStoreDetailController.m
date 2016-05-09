@@ -29,6 +29,7 @@
 #import "CZJMyInfoAttentionController.h"
 #import "CZJMyInfoRecordController.h"
 #import "CZJChatViewController.h"
+#import "ChatViewController.h"
 
 
 @interface CZJStoreDetailController ()
@@ -1057,14 +1058,15 @@ MKMapViewDelegate
 - (IBAction)contactServiceAction:(id)sender
 {
     CZJChatViewController *chatController = [[CZJChatViewController alloc] initWithConversationChatter: _storeDetailForm.contactAccount conversationType:EMConversationTypeChat];
+    chatController.storeName = _storeDetailForm.storeName;
     [self.navigationController pushViewController:chatController animated:YES];
 }
 
 
 - (IBAction)callAction:(id)sender {
     [CZJUtils callHotLine:_storeDetailForm.hotline AndTarget:self.view];
-    
 }
+
 
 - (IBAction)callNaviAction:(id)sender {
     NSArray *appListArr = [CheckInstalledMapAPP checkHasOwnApp];
