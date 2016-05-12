@@ -60,6 +60,7 @@
 
 //--------------------我的评价简介Item信息---------------------
 @interface CZJMyEvaluationForm : NSObject
+@property (strong, nonatomic)NSString*  activityId;
 @property (strong, nonatomic)NSString* orderNo;
 @property (strong, nonatomic)NSString* serviceScore;
 @property (strong, nonatomic)NSString* descScore;

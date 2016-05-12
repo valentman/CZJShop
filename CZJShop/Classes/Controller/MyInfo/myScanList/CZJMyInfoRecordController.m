@@ -29,6 +29,7 @@ UITableViewDelegate
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self initDatas];
     [self initViews];
     [self getScanListFromServer];
 }
@@ -37,24 +38,32 @@ UITableViewDelegate
 {
 }
 
-- (void)initViews
+- (void)initDatas
 {
-    [self addCZJNaviBarView:CZJNaviBarViewTypeGeneral];
-    self.naviBarView.mainTitleLabel.text = @"浏览记录";
-    
     scanListAry = [NSMutableArray array];
     self.page = 1;
     _getdataType = CZJHomeGetDataFromServerTypeOne;
-    
-    //右按钮
-    UIButton *rightBtn = [[ UIButton alloc ] initWithFrame : CGRectMake(PJ_SCREEN_WIDTH - 59 , 0 , 44 , 44 )];
-    [rightBtn setTitle:@"清空" forState:UIControlStateNormal];
-    [rightBtn addTarget:self action:@selector(edit:) forControlEvents:UIControlEventTouchUpInside];
-    [rightBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
-    [rightBtn setSelected:NO];
-    rightBtn.titleLabel.font = SYSTEMFONT(16);
-    [rightBtn setTag:1999];
-    [self.naviBarView addSubview: rightBtn];
+}
+
+- (void)initViews
+{
+    [self addCZJNaviBarView:CZJNaviBarViewTypeGeneral];
+    if (!self.fromMessage) {
+        self.naviBarView.mainTitleLabel.text = @"浏览记录";
+        //右按钮
+        UIButton *rightBtn = [[ UIButton alloc ] initWithFrame : CGRectMake(PJ_SCREEN_WIDTH - 59 , 0 , 44 , 44 )];
+        [rightBtn setTitle:@"清空" forState:UIControlStateNormal];
+        [rightBtn addTarget:self action:@selector(edit:) forControlEvents:UIControlEventTouchUpInside];
+        [rightBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+        [rightBtn setSelected:NO];
+        rightBtn.titleLabel.font = SYSTEMFONT(16);
+        [rightBtn setTag:1999];
+        [self.naviBarView addSubview: rightBtn];
+    }
+    else
+    {
+        self.naviBarView.mainTitleLabel.text = @"发送浏览记录";
+    }
     
     
     self.myTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 64, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - StatusBar_HEIGHT - NavigationBar_HEIGHT) style:UITableViewStylePlain];
@@ -85,6 +94,14 @@ UITableViewDelegate
     __weak typeof(self) weak = self;
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     NSDictionary* params = @{@"page": @(self.page)};
+    if (!self.fromMessage)
+    {
+        params = @{@"page": @(self.page)};
+    }
+    else
+    {
+        params = @{@"page": @(self.page),@"storeId" :self.storeId};
+    }
     [CZJUtils removeNoDataAlertViewFromTarget:self.view];
     [CZJUtils removeReloadAlertViewFromTarget:self.view];
     [CZJBaseDataInstance loadScanList:params Success:^(id json) {
@@ -169,18 +186,18 @@ UITableViewDelegate
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSDictionary* form = scanListAry[indexPath.row];
+    CZJMyScanRecordForm* form = scanListAry[indexPath.row];
     CZJGoodsAttentionCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJGoodsAttentionCell" forIndexPath:indexPath];
     //关注图片
-    [cell.goodImg sd_setImageWithURL:[NSURL URLWithString:[form valueForKey:@"itemImg"]] placeholderImage:DefaultPlaceHolderSquare];
+    [cell.goodImg sd_setImageWithURL:[NSURL URLWithString:form.itemImg] placeholderImage:DefaultPlaceHolderSquare];
     
     //关注名称
-    CGSize nameSize = [CZJUtils calculateStringSizeWithString:[form valueForKey:@"itemName"] Font:SYSTEMFONT(15) Width:PJ_SCREEN_WIDTH - 115];
-    cell.goodNameLabel.text = [form valueForKey:@"itemName"];
+    CGSize nameSize = [CZJUtils calculateStringSizeWithString:form.itemName Font:SYSTEMFONT(15) Width:PJ_SCREEN_WIDTH - 115];
+    cell.goodNameLabel.text = form.itemName;
     cell.goodNameLayoutHeight.constant = nameSize.height > 15 ? nameSize.height + 5 : 15;
     
     //关注价格
-    cell.priceLabel.text = [form valueForKey:@"currentPrice"];
+    cell.priceLabel.text = form.currentPrice;
     cell.priceButton.constant = 10;
     
     //好评等隐藏
@@ -200,8 +217,19 @@ UITableViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSDictionary* dict = scanListAry[indexPath.row];
-    [CZJUtils showGoodsServiceDetailView:self.navigationController andItemPid:[dict valueForKey:@"storeItemPid"] detailType:[[dict valueForKey:@"itemType"] intValue] == 0 ? CZJDetailTypeGoods : CZJDetailTypeService];
+    CZJMyScanRecordForm* dict = scanListAry[indexPath.row];
+    if (!self.fromMessage)
+    {
+        [CZJUtils showGoodsServiceDetailView:self.navigationController andItemPid:dict.storeItemPid detailType:[dict.itemType intValue] == 0 ? CZJDetailTypeGoods : CZJDetailTypeService];
+    }
+    else
+    {
+        if ([self.delegate respondsToSelector:@selector(clickOneRecordToMessage:)])
+        {
+            [self.delegate clickOneRecordToMessage:dict];
+            [self.navigationController popViewControllerAnimated:YES];
+        }
+    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section

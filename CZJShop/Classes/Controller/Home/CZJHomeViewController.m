@@ -875,15 +875,66 @@ CZJMiaoShaCellDelegate
 
 
 
-#pragma mark - 
+#pragma mark -
 #pragma mark -版本检测
 - (void)checkTheLatestVersion {
+    __weak typeof(self) weakSelft = self;
     [CZJBaseDataInstance generalPost:nil success:^(id json) {
         DLog(@"version:%@",[[CZJUtils DataFromJson:json] description]);
+        versionForm = [CZJVersionForm objectWithKeyValues:[[CZJUtils DataFromJson:json]valueForKey:@"msg"]];
+        [weakSelft checkUpdate:versionForm.version];
+        
         [CZJUtils writeDictionaryToDocumentsDirectory:[[CZJUtils DataFromJson:json]valueForKey:@"msg"] withPlistName:@"checkVersion.plist"];
     } fail:^{
         
     } andServerAPI:kCZJServerAPICheckVersion];
+}
+
+- (void)checkUpdate:(NSString *)versionFromAppStroe {
+    
+    //获取bundle里面关于当前版本的信息
+    NSDictionary *infoDict = [[NSBundle mainBundle] infoDictionary];
+    NSString *nowVersion = [infoDict objectForKey:@"CFBundleShortVersionString"];
+    NSLog(@"nowVersion == %@",nowVersion);
+    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+    
+    NSString* messge = @"亲，版本已升级，请立即更新吧~";
+    //检查当前版本与appstore的版本是否一致
+    if (![versionFromAppStroe isEqualToString:nowVersion])
+    {
+        UIAlertView *createUserResponseAlert;
+        if ([versionForm.enforce boolValue])
+        {
+            createUserResponseAlert = [[UIAlertView alloc] initWithTitle:@"提示" message:messge delegate:self cancelButtonTitle:@"去AppStore下载" otherButtonTitles:nil];
+        }
+        else
+        {
+            createUserResponseAlert = [[UIAlertView alloc] initWithTitle:@"提示" message:messge delegate:self cancelButtonTitle:@"以后再说" otherButtonTitles:@"去AppStore下载", nil];
+        }
+        [createUserResponseAlert show];
+    }
+}
+
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (0 == buttonIndex)
+    {
+        //是否需要强制更新
+        if ([versionForm.enforce boolValue])
+        {
+            NSString* url = versionForm.url;
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
+            [CZJUtils performBlock:^{
+                exit(0);
+            } afterDelay:0.5];
+        }
+    }
+    else if (1 == buttonIndex)
+    {
+        NSString* url = versionForm.url;
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
+    }
 }
 
 @end

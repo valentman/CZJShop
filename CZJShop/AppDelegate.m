@@ -169,27 +169,6 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     //-------------------1.设置状态栏隐藏，因为有广告------------------
     [[UIApplication sharedApplication]setStatusBarHidden:YES withAnimation:UIStatusBarAnimationNone];
-    NSMutableDictionary* start_Info = [CZJUtils readDictionaryFromDocumentsDirectoryWithPlistName:@"checkVersion.plist"];
-    if (start_Info && start_Info.count > 0) {
-        int  enforce = [[start_Info valueForKey:@"enforce"] intValue];
-        NSString* net_version = [start_Info valueForKey:@"version"];
-        NSString *cur_version = [[[NSBundle mainBundle] infoDictionary] valueForKey:@"CFBundleShortVersionString"];
-        DLog(@"cur_version %@   %d",cur_version,enforce);
-        
-        //检查当前版本与appstore的版本是否一致
-        UIAlertView *createUserResponseAlert;
-        NSString* messge = @"亲，版本已升级，为保证正常使用，请立即去更新吧~";
-        if ([net_version floatValue] > [cur_version floatValue]) {
-            if (enforce == 1) {
-                createUserResponseAlert = [[UIAlertView alloc] initWithTitle:@"提示" message:messge delegate:self cancelButtonTitle:@"去AppStore下载" otherButtonTitles:nil];
-                return YES;
-            }
-            else
-            {
-                createUserResponseAlert = [[UIAlertView alloc] initWithTitle:@"提示" message:messge delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"去AppStore下载", nil];
-            };
-        }
-    }
     
     
     //------------------2.设置URL缓存机制----------------
@@ -197,18 +176,17 @@
     [NSURLCache setSharedURLCache:URLCache];
     
     
-    
     //-------------------11.环信聊天接口---------------
     //初始化环信SDK
-//    EMOptions *options = [EMOptions optionsWithAppkey:@"chelifang#chezhijian"];
-//    options.apnsCertName = @"";
-//    [[EMClient sharedClient] initializeSDKWithOptions:options];
-//    //调用EaseUI对应方法
-//    [[EaseSDKHelper shareHelper] easemobApplication:application
-//                      didFinishLaunchingWithOptions:launchOptions
-//                                             appkey:@"chelifang#czjshop"
-//                                       apnsCertName:@""
-//                                        otherConfig:@{kSDKConfigEnableConsoleLogger:[NSNumber numberWithBool:YES]}];
+    EMOptions *options = [EMOptions optionsWithAppkey:@"chelifang#chezhijian"];
+    options.apnsCertName = @"";
+    [[EMClient sharedClient] initializeSDKWithOptions:options];
+    //调用EaseUI对应方法
+    [[EaseSDKHelper shareHelper] easemobApplication:application
+                      didFinishLaunchingWithOptions:launchOptions
+                                             appkey:@"chelifang#czjshop"
+                                       apnsCertName:@""
+                                        otherConfig:@{kSDKConfigEnableConsoleLogger:[NSNumber numberWithBool:YES]}];
     
     
     //------------------3.登录设置----------------
@@ -232,11 +210,11 @@
         
         UserBaseForm* userForm = CZJBaseDataInstance.userInfoForm;
         //应该先判断是否设置了自动登录，如果设置了，则不需要您再调用
-//        EMError *erroras = [[EMClient sharedClient] loginWithUsername:userForm.imId password:@"123456"];
-//        if (erroras)
-//        {
-//            DLog(@"*********%@",erroras.errorDescription);
-//        }
+        EMError *erroras = [[EMClient sharedClient] loginWithUsername:userForm.imId password:@"123456"];
+        if (erroras)
+        {
+            DLog(@"*********%@",erroras.errorDescription);
+        }
     } fail:^{
         
     }];
@@ -245,9 +223,6 @@
     //--------------------4.初始化定位-------------------
     if (IS_IOS8)
     {
-//        [[CCLocationManager shareLocation] getLocationCoordinate:^(CLLocationCoordinate2D locationCorrrdinate) {
-//            
-//        }];
         [[CCLocationManager shareLocation]getCity:^(NSString *addressString) {
             CLLocationCoordinate2D location = CLLocationCoordinate2DMake([USER_DEFAULT doubleForKey:CCLastLatitude],[USER_DEFAULT doubleForKey:CCLastLongitude]);
             [CZJBaseDataInstance setCurLocation:location];
@@ -256,9 +231,6 @@
     }
     else if (IS_IOS7)
     {
-//        [[ZXLocationManager sharedZXLocationManager] getLocationCoordinate:^(CLLocationCoordinate2D coord) {
-//            [CZJBaseDataInstance setCurLocation:coord];
-//        }];
         [[ZXLocationManager sharedZXLocationManager]getCityName:^(NSString *addressString) {
             CLLocationCoordinate2D location = CLLocationCoordinate2DMake([USER_DEFAULT doubleForKey:CCLastLatitude],[USER_DEFAULT doubleForKey:CCLastLongitude]);
             [CZJBaseDataInstance setCurLocation:location];
@@ -713,6 +685,11 @@
     [UIView animateWithDuration:0.3 animations:^{
         _notifyView.frame = CGRectMake(0, -64, PJ_SCREEN_WIDTH, 64);
     }];
+}
+
+- (void)didLoginFromOtherDevice
+{
+    [[EMClient sharedClient] logout:YES];
 }
 
 @end

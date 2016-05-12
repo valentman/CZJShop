@@ -451,7 +451,7 @@ MKMapViewDelegate
         cell.buttonClick = ^(id data)
         {
             NSInteger inde = [data integerValue];
-            NSString* composeUrl = [NSString stringWithFormat:@"%@?storeId=%@&storeName=%s",((CZJStoreDetailActivityForm*)_activityArray[inde]).url,self.storeId,[_storeDetailForm.storeName UTF8String]];
+            NSString* composeUrl = [NSString stringWithFormat:@"%@?storeId=%@&storeName=%@",((CZJStoreDetailActivityForm*)_activityArray[inde]).url,self.storeId,_storeDetailForm.storeName];
             NSString* encodedString = [composeUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
             [weak showWebViewWithURL: encodedString];
             
@@ -1057,9 +1057,19 @@ MKMapViewDelegate
 #pragma mark- Actions
 - (IBAction)contactServiceAction:(id)sender
 {
-    CZJChatViewController *chatController = [[CZJChatViewController alloc] initWithConversationChatter: _storeDetailForm.contactAccount conversationType:EMConversationTypeChat];
-    chatController.storeName = _storeDetailForm.storeName;
-    [self.navigationController pushViewController:chatController animated:YES];
+    if ([USER_DEFAULT boolForKey:kCZJIsUserHaveLogined])
+    {
+        CZJChatViewController *chatController = [[CZJChatViewController alloc] initWithConversationChatter: _storeDetailForm.contactAccount conversationType:EMConversationTypeChat];
+        chatController.storeName = _storeDetailForm.storeName;
+        chatController.storeId = _storeDetailForm.storeId;
+        chatController.storeImg = _imgsArray.firstObject;
+        [self.navigationController pushViewController:chatController animated:YES];
+    }
+    else
+    {
+        [CZJUtils showLoginView:self andNaviBar:nil];
+    }
+    
 }
 
 
@@ -1091,7 +1101,8 @@ MKMapViewDelegate
     
     NSString *btnTitle = [actionSheet buttonTitleAtIndex:buttonIndex];
     if (buttonIndex == 0) {
-        if (IOS_VERSION < 6) {//ios6 调用goole网页地图
+        if (IOS_VERSION < 6)
+        {//ios6 调用goole网页地图
             NSString *urlString = [[NSString alloc]
                                    initWithFormat:@"http://maps.google.com/maps?saddr=&daddr=%.8f,%.8f&dirfl=d",self.naviCoordsGd.latitude,self.naviCoordsGd.longitude];
             
@@ -1109,23 +1120,21 @@ MKMapViewDelegate
             [MKMapItem openMapsWithItems:[NSArray arrayWithObjects:currentLocation, toLocation, nil] launchOptions:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:MKLaunchOptionsDirectionsModeDriving, [NSNumber numberWithBool:YES], nil] forKeys:[NSArray arrayWithObjects:MKLaunchOptionsDirectionsModeKey, MKLaunchOptionsShowsTrafficKey, nil]]];
         }
     }
-    if ([btnTitle isEqualToString:@"google地图"]) {
-//        NSString *urlStr = [NSString stringWithFormat:@"comgooglemaps://?saddr=%.8f,%.8f&daddr=%.8f,%.8f&directionsmode=transit",self.nowCoords.latitude,self.nowCoords.longitude,self.naviCoordsGd.latitude,self.naviCoordsGd.longitude];
-//        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlStr]];
-    }else if ([btnTitle isEqualToString:@"高德地图"]){
+
+    if ([btnTitle isEqualToString:@"高德地图"])
+    {
         NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"iosamap://navi?sourceApplication=broker&backScheme=openbroker2&poiname=%@&poiid=BGVIS&lat=%.8f&lon=%.8f&dev=1&style=2",_storeDetailForm.storeAddr,self.naviCoordsGd.latitude,self.naviCoordsGd.longitude]];
         [[UIApplication sharedApplication] openURL:url];
         
-    }else if ([btnTitle isEqualToString:@"百度地图"]){
+    }else if ([btnTitle isEqualToString:@"百度地图"])
+    {
         double bdNowLat,bdNowLon;
         bd_encrypt(self.nowCoords.latitude, self.nowCoords.longitude, &bdNowLat, &bdNowLon);
         
         NSString *stringURL = [NSString stringWithFormat:@"baidumap://map/direction?origin=%.8f,%.8f&destination=%.8f,%.8f&&mode=driving",bdNowLat,bdNowLon,self.naviCoordsBd.latitude,self.naviCoordsBd.longitude];
         NSURL *url = [NSURL URLWithString:stringURL];
         [[UIApplication sharedApplication] openURL:url];
-    }else if ([btnTitle isEqualToString:@"显示路线"]){
-//        [self drawRout];
-    }
+    }else if ([btnTitle isEqualToString:@"显示路线"]){}
 }
 
 

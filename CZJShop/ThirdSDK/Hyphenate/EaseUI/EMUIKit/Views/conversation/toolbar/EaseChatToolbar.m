@@ -117,11 +117,11 @@
 - (void)_setupSubviews
 {
     //backgroundImageView
-    _backgroundImageView = [[UIImageView alloc] initWithFrame:self.bounds];
-    _backgroundImageView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
-    _backgroundImageView.backgroundColor = [UIColor clearColor];
-    _backgroundImageView.image = [[UIImage imageNamed:@"EaseUIResource.bundle/messageToolbarBg"] stretchableImageWithLeftCapWidth:0.5 topCapHeight:10];
-    [self addSubview:_backgroundImageView];
+//    _backgroundImageView = [[UIImageView alloc] initWithFrame:self.bounds];
+//    _backgroundImageView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+//    _backgroundImageView.backgroundColor = [UIColor clearColor];
+//    _backgroundImageView.image = [[UIImage imageNamed:@"EaseUIResource.bundle/messageToolbarBg"] stretchableImageWithLeftCapWidth:0.5 topCapHeight:10];
+//    [self addSubview:_backgroundImageView];
     
     //toolbar
     _toolbarView = [[UIView alloc] initWithFrame:self.bounds];
@@ -130,21 +130,18 @@
     
     _toolbarBackgroundImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, _toolbarView.frame.size.width, _toolbarView.frame.size.height)];
     _toolbarBackgroundImageView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
-    _toolbarBackgroundImageView.backgroundColor = [UIColor clearColor];
+    _toolbarBackgroundImageView.backgroundColor = CZJNAVIBARBGCOLOR;
     [_toolbarView addSubview:_toolbarBackgroundImageView];
     
     //输入框
-    _inputTextView = [[EaseTextView alloc] initWithFrame:CGRectMake(self.horizontalPadding, self.verticalPadding, self.frame.size.width - self.verticalPadding * 2, self.frame.size.height - self.verticalPadding * 2)];
+    _inputTextView = [[EaseTextView alloc] initWithFrame:CGRectMake(self.horizontalPadding, self.verticalPadding, self.frame.size.width - self.horizontalPadding * 2, self.frame.size.height - self.verticalPadding * 2)];
     _inputTextView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
     _inputTextView.scrollEnabled = YES;
     _inputTextView.returnKeyType = UIReturnKeySend;
     _inputTextView.enablesReturnKeyAutomatically = YES; // UITextView内部判断send按钮是否可以用
-    _inputTextView.placeHolder = NSEaseLocalizedString(@"message.toolBar.inputPlaceHolder", @"input a new message");
+//    _inputTextView.placeHolder = NSEaseLocalizedString(@"message.toolBar.inputPlaceHolder", @"input a new message");
     _inputTextView.delegate = self;
-    _inputTextView.backgroundColor = [UIColor clearColor];
-    _inputTextView.layer.borderColor = [UIColor colorWithWhite:0.8f alpha:1.0f].CGColor;
-    _inputTextView.layer.borderWidth = 0.65f;
-    _inputTextView.layer.cornerRadius = 6.0f;
+    _inputTextView.layer.cornerRadius = 5.0f;
     _previousTextViewContentHeight = [self _getTextViewContentH:_inputTextView];
     [_toolbarView addSubview:_inputTextView];
     
@@ -156,7 +153,7 @@
     [styleChangeButton addTarget:self action:@selector(styleButtonAction:) forControlEvents:UIControlEventTouchUpInside];
     
     EaseChatToolbarItem *styleItem = [[EaseChatToolbarItem alloc] initWithButton:styleChangeButton withView:nil];
-    [self setInputViewLeftItems:@[styleItem]];
+//    [self setInputViewLeftItems:@[styleItem]];
     
     //录制
     self.recordButton = [[UIButton alloc] initWithFrame:self.inputTextView.frame];
@@ -193,7 +190,7 @@
     [self.moreButton addTarget:self action:@selector(moreButtonAction:) forControlEvents:UIControlEventTouchUpInside];
     EaseChatToolbarItem *moreItem = [[EaseChatToolbarItem alloc] initWithButton:self.moreButton withView:self.moreView];
     
-    [self setInputViewRightItems:@[faceItem, moreItem]];
+//    [self setInputViewRightItems:@[faceItem, moreItem]];
 }
 
 - (void)dealloc
@@ -207,37 +204,37 @@
 
 #pragma mark - getter
 
-- (UIView *)recordView
-{
-    if (_recordView == nil) {
-        _recordView = [[EaseRecordView alloc] initWithFrame:CGRectMake(90, 130, 140, 140)];
-    }
-    
-    return _recordView;
-}
-
-- (UIView *)faceView
-{
-    if (_faceView == nil) {
-        _faceView = [[EaseFaceView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(_toolbarView.frame), self.frame.size.width, 180)];
-        [(EaseFaceView *)_faceView setDelegate:self];
-        _faceView.backgroundColor = [UIColor colorWithRed:240 / 255.0 green:242 / 255.0 blue:247 / 255.0 alpha:1.0];
-        _faceView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
-    }
-    
-    return _faceView;
-}
-
-- (UIView *)moreView
-{
-    if (_moreView == nil) {
-        _moreView = [[EaseChatBarMoreView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(_toolbarView.frame), self.frame.size.width, 80) type:self.chatBarType];
-        _moreView.backgroundColor = [UIColor colorWithRed:240 / 255.0 green:242 / 255.0 blue:247 / 255.0 alpha:1.0];
-        _moreView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
-    }
-    
-    return _moreView;
-}
+//- (UIView *)recordView
+//{
+//    if (_recordView == nil) {
+//        _recordView = [[EaseRecordView alloc] initWithFrame:CGRectMake(90, 130, 140, 140)];
+//    }
+//    
+//    return _recordView;
+//}
+//
+//- (UIView *)faceView
+//{
+//    if (_faceView == nil) {
+//        _faceView = [[EaseFaceView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(_toolbarView.frame), self.frame.size.width, 180)];
+//        [(EaseFaceView *)_faceView setDelegate:self];
+//        _faceView.backgroundColor = [UIColor colorWithRed:240 / 255.0 green:242 / 255.0 blue:247 / 255.0 alpha:1.0];
+//        _faceView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+//    }
+//    
+//    return _faceView;
+//}
+//
+//- (UIView *)moreView
+//{
+//    if (_moreView == nil) {
+//        _moreView = [[EaseChatBarMoreView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(_toolbarView.frame), self.frame.size.width, 80) type:self.chatBarType];
+//        _moreView.backgroundColor = [UIColor colorWithRed:240 / 255.0 green:242 / 255.0 blue:247 / 255.0 alpha:1.0];
+//        _moreView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+//    }
+//    
+//    return _moreView;
+//}
 
 #pragma mark - setter
 

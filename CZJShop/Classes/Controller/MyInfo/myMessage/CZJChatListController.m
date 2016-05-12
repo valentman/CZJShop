@@ -8,6 +8,9 @@
 
 #import "CZJChatListController.h"
 #import "CZJButtomView.h"
+#import "CZJChatViewCell.h"
+#import "CZJChatViewController.h"
+#import "CZJConversation.h"
 
 @interface CZJChatListController ()
 <
@@ -17,7 +20,7 @@ UITableViewDelegate
 {
     BOOL isEdit;
     CZJButtomView* buttomView;
-    NSArray* conversationAry;
+    NSMutableArray* conversationAry;
 }
 @property (strong, nonatomic)UITableView* myTableView;
 @end
@@ -28,6 +31,12 @@ UITableViewDelegate
     [super viewDidLoad];
     [self initChatListViews];
     [self getChatConversations];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    self.navigationController.navigationBarHidden = NO;
+    
 }
 
 - (void)initChatListViews
@@ -51,7 +60,7 @@ UITableViewDelegate
     self.automaticallyAdjustsScrollViewInsets = NO;
     [self.view addSubview:self.myTableView];
     
-    NSArray* nibArys = @[@"CZJCommentCell"
+    NSArray* nibArys = @[@"CZJChatViewCell"
                          ];
     for (id cells in nibArys) {
         UINib *nib=[UINib nibWithNibName:cells bundle:nil];
@@ -66,6 +75,8 @@ UITableViewDelegate
     [buttomView.allChooseBtn addTarget:self action:@selector(allChooseAction:) forControlEvents:UIControlEventTouchUpInside];
     [buttomView.buttonOne addTarget:self action:@selector(markReadedAction:) forControlEvents:UIControlEventTouchUpInside];
     [buttomView.buttonTwo addTarget:self action:@selector(deleteMessageAction:) forControlEvents:UIControlEventTouchUpInside];
+    
+    conversationAry = [NSMutableArray array];
 
 }
 
@@ -94,7 +105,15 @@ UITableViewDelegate
 
 - (void)getChatConversations
 {
-    conversationAry = [[EMClient sharedClient].chatManager getAllConversations];
+    NSArray* tmpConversations = [[EMClient sharedClient].chatManager getAllConversations];
+    for (int i = 0; i < tmpConversations.count; i++)
+    {
+        CZJConversation* conversation = [[CZJConversation alloc]init];
+        conversation.emConversation = tmpConversations[i];
+        conversation.isSelected = NO;
+        [conversationAry addObject:conversation];
+    }
+    [self.myTableView reloadData];
 }
 
 
@@ -111,19 +130,34 @@ UITableViewDelegate
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 0;
+    return conversationAry.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    EMConversation* conversation = conversationAry[indexPath.row];
-    return nil;
+    CZJConversation* conversation = conversationAry[indexPath.row];
+    EMConversation* emConversation = conversation.emConversation;
+    NSDictionary* extDict = emConversation.latestMessage.ext;
+    EaseMessageModel* model = [[EaseMessageModel alloc]initWithMessage:emConversation.latestMessage];
+    CZJChatViewCell* chatCell = [tableView dequeueReusableCellWithIdentifier:@"CZJChatViewCell" forIndexPath:indexPath];
+    chatCell.viewLeading.constant = isEdit? 40 : 0;
+    [chatCell.headPic sd_setImageWithURL:[NSURL URLWithString:[extDict valueForKey:@"storeImg"]] placeholderImage:IMAGENAMED(@"personal_icon_head")];
+    chatCell.nameLabel.text = [extDict valueForKey:@"storeName"];
+    
+    chatCell.timeLabel.text = [CZJUtils getChatDatetime:emConversation.latestMessage.timestamp];
+    chatCell.contentLabel.text = model.text;
+    
+    chatCell.selectBtn.hidden = !isEdit;
+    chatCell.selectBtn.selected = conversation.isSelected;
+    chatCell.selectBtn.tag = indexPath.row;
+    [chatCell.selectBtn addTarget:self action:@selector(notifyCellChoose:) forControlEvents:UIControlEventTouchUpInside];
+    return chatCell;
 }
 
 #pragma mark-UITableViewDelegate
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 0;
+    return 80;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -132,50 +166,66 @@ UITableViewDelegate
     {
         return 0;
     }
-    return 10;
+    return 0;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    CZJConversation* conversation = conversationAry[indexPath.row];
+    EMConversation* emConversation = conversation.emConversation;
+    NSDictionary* extDict = emConversation.latestMessage.ext;
+    CZJChatViewController *chatController = [[CZJChatViewController alloc] initWithConversationChatter: emConversation.conversationId conversationType:EMConversationTypeChat];
+    chatController.storeName = [extDict valueForKey:@"storeName"];
+    chatController.storeImg = [extDict valueForKey:@"storeImg"];
+    chatController.storeId = [extDict valueForKey:@"storeId"];
+
+    [self.navigationController pushViewController:chatController animated:YES];
+}
+
+
+- (void)notifyCellChoose:(UIButton*)sender
+{
+    sender.selected = !sender.selected;
+    CZJConversation* conversation = conversationAry[sender.tag];
+    conversation.isSelected = sender.selected;
     
+    BOOL isallchoosed = YES;
+    for (CZJConversation* conver in conversationAry)
+    {
+        if (!conver.isSelected)
+        {
+            isallchoosed = NO;
+            break;
+        }
+    }
+    buttomView.allChooseBtn.selected = isallchoosed;
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 
 - (void)allChooseAction:(UIButton*)sender
 {
     sender.selected = !sender.selected;
-//    for (CZJNotificationForm* notifyForm in messageInfoAry)
-//    {
-//        notifyForm.isSelected = sender.selected;
-//    }
+    for (CZJConversation* conver in conversationAry)
+    {
+        conver.isSelected = sender.selected;
+    }
     [self.myTableView reloadData];
 }
 
 - (void)markReadedAction:(UIButton*)sender
 {
     BOOL isSelected = NO;
-//    for (CZJNotificationForm* notifyForm in messageInfoAry)
+//    for (CZJConversation* conver in conversationAry)
 //    {
-//        if (notifyForm.isSelected)
+//        if (conver.isSelected)
 //        {
 //            isSelected = YES;
-//            notifyForm.isRead = YES;
+//            
 //        }
 //    }
 //    if (isSelected)
 //    {
 //        [self.myTableView reloadData];
-//        [CZJMessageInstance setMessages:messageInfoAry];
 //        [[NSNotificationCenter defaultCenter]postNotificationName:kCZJNotifiRefreshMessageReadStatus object:nil];
 //        [CZJUtils tipWithText:@"标记成功" andView:nil];
 //    }
@@ -189,21 +239,21 @@ UITableViewDelegate
 {
     BOOL isSelected = NO;
     NSMutableArray* tmpAry = [NSMutableArray array];
-//    for (CZJNotificationForm* notifyForm in messageInfoAry)
+//    for (CZJConversation* conver in conversationAry)
 //    {
-//        if (notifyForm.isSelected)
+//        if (conver.isSelected)
 //        {
 //            isSelected = YES;
-//            [tmpAry addObject:notifyForm];
+//            [tmpAry addObject:conver];
 //        }
 //    }
-//    
+    
 //    if (isSelected)
 //    {
 //        [CZJUtils tipWithText:@"删除成功" andView:nil];
-//        [messageInfoAry removeObjectsInArray:tmpAry];
-//        [CZJMessageInstance setMessages:messageInfoAry];
-//        if (messageInfoAry.count == 0)
+//        [conversationAry removeObjectsInArray:tmpAry];
+//        [[EMClient sharedClient].chatManager deleteConversations:tmpAry deleteMessages:YES];
+//        if (conversationAry.count == 0)
 //        {
 //            buttomView.allChooseBtn.selected = NO;
 //            buttomView.allChooseBtn.enabled = NO;

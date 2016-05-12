@@ -130,7 +130,7 @@ CZJOrderListPayCellDelegate
         CZJOrderTypeCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJOrderTypeCell" forIndexPath:indexPath];
         [cell setOrderTypeForm:_orderTypeAry[indexPath.row]];
         cell.separatorInset = IndentCellSeparator(20);
-        if (2 == indexPath.row)
+        if (_orderTypeAry.count - 1 == indexPath.row)
         {
             cell.separatorInset = HiddenCellSeparator;
         }

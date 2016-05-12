@@ -392,6 +392,15 @@ shouldSendHasReadAckForMessage:(EMMessage *)message
  */
 @property (strong, nonatomic) UIImagePickerController *imagePicker;
 
+
+/**
+ *  自定义的属性
+ */
+@property (strong, nonatomic) NSString* storeName;
+@property (strong, nonatomic) NSString* storeId;
+@property (strong, nonatomic) NSString* storeImg;
+
+
 /*!
  @method
  @brief 初始化聊天页面

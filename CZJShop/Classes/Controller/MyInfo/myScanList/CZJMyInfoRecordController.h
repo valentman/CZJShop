@@ -8,6 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CZJMyInfoRecordController : CZJViewController
+@protocol CZJScanRecordMessageDelegate <NSObject>
 
+- (void)clickOneRecordToMessage:(CZJMyScanRecordForm*)scanForm;
+
+@end
+
+@interface CZJMyInfoRecordController : CZJViewController
+@property (strong, nonatomic) NSString* fromMessage;
+@property (strong, nonatomic)NSString* storeId;
+@property (weak, nonatomic) id<CZJScanRecordMessageDelegate> delegate;
 @end

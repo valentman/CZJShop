@@ -272,6 +272,7 @@ static NSString *const kCZJStoryBoardIDPaymentSuccess = @"paymentSuccessSBID";  
 static NSString *const kCZJStoryBoardIDCommitSettle = @"SBIDCommitSettle";
 static NSString *const kCZJStoryBoardIDMyOrderList = @"myOrderSBID";                    //订单列表
 static NSString *const kCZJStoryBoardIDScanQR= @"scanQRSBID";                           //订单列表
+static NSString *const kCZJStoryBoardIDRecord = @"myScanRecordSBID";                    //浏览记录
 
 
 //-----------------------CollectionViewCellIdentifier常量定义---------------------------

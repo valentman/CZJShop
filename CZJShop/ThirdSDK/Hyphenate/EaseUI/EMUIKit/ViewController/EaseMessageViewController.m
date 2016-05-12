@@ -26,9 +26,18 @@
 #import "UIImage+GIF.h"
 #import "EaseLocalDefine.h"
 
+
+#pragma mark- 浸入代码
+#import "CZJChatViewButtomView.h"
+#import "CZJMessageOrderController.h"
+#import "CZJMyInfoRecordController.h"
+#import "CZJOrderMessageCell.h"
+#import "CZJScanRecordMessageCell.h"
+
+
 #define KHintAdjustY    50
 
-@interface EaseMessageViewController ()<EaseMessageCellDelegate>
+@interface EaseMessageViewController ()<EaseMessageCellDelegate,CZJChatViewButtomViewDelegate>
 {
     UIMenuItem *_copyMenuItem;
     UIMenuItem *_deleteMenuItem;
@@ -40,6 +49,8 @@
 @property (strong, nonatomic) id<IMessageModel> playingVoiceModel;
 @property (nonatomic) BOOL isKicked;
 @property (nonatomic) BOOL isPlayingAudio;
+
+@property (nonatomic, strong) CZJChatViewButtomView* czjChatView;
 
 @end
 
@@ -83,8 +94,18 @@
     //初始化页面
     CGFloat chatbarHeight = [EaseChatToolbar defaultHeight];
     EMChatToolbarType barType = self.conversation.type == EMConversationTypeChat ? EMChatToolbarTypeChat : EMChatToolbarTypeGroup;
-    self.chatToolbar = [[EaseChatToolbar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - chatbarHeight, self.view.frame.size.width, chatbarHeight) type:barType];
-    self.chatToolbar.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;    
+    self.chatToolbar = [[EaseChatToolbar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - 50 -chatbarHeight, self.view.frame.size.width, chatbarHeight) type:barType];
+    self.chatToolbar.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+
+    
+    self.czjChatView = [CZJUtils getXibViewByName:@"CZJChatViewButtomView"];
+    [self.czjChatView setSize:CGSizeMake(PJ_SCREEN_WIDTH, 50)];
+    [self.czjChatView setPosition:CGPointMake(0, PJ_SCREEN_HEIGHT) atAnchorPoint:CGPointButtomLeft];
+    [self.view addSubview:self.czjChatView];
+    self.czjChatView.delegate = self;
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(chatKeyboardWillChangeFrame:) name:UIKeyboardWillChangeFrameNotification object:nil];
+    
     
     //初始化手势
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(keyBoardHidden:)];
@@ -150,7 +171,7 @@
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillChangeFrameNotification object:nil];
     [[EMCDDeviceManager sharedInstance] stopPlaying];
     [EMCDDeviceManager sharedInstance].delegate = nil;
     
@@ -301,13 +322,14 @@
     }
     
     CGRect tableFrame = self.tableView.frame;
-    tableFrame.size.height = self.view.frame.size.height - _chatToolbar.frame.size.height;
+//    tableFrame.size.height = self.view.frame.size.height - _chatToolbar.frame.size.height - 64;
+    tableFrame.size.height = self.view.frame.size.height - 96 - 64;
     self.tableView.frame = tableFrame;
     if ([chatToolbar isKindOfClass:[EaseChatToolbar class]]) {
         [(EaseChatToolbar *)self.chatToolbar setDelegate:self];
-        self.chatBarMoreView = (EaseChatBarMoreView*)[(EaseChatToolbar *)self.chatToolbar moreView];
-        self.faceView = (EaseFaceView*)[(EaseChatToolbar *)self.chatToolbar faceView];
-        self.recordView = (EaseRecordView*)[(EaseChatToolbar *)self.chatToolbar recordView];
+//        self.chatBarMoreView = (EaseChatBarMoreView*)[(EaseChatToolbar *)self.chatToolbar moreView];
+//        self.faceView = (EaseFaceView*)[(EaseChatToolbar *)self.chatToolbar faceView];
+//        self.recordView = (EaseRecordView*)[(EaseChatToolbar *)self.chatToolbar recordView];
     }
 }
 
@@ -900,6 +922,7 @@
     }
     else{
         id<IMessageModel> model = object;
+        
         if (_delegate && [_delegate respondsToSelector:@selector(messageViewController:cellForMessageModel:)]) {
             UITableViewCell *cell = [_delegate messageViewController:tableView cellForMessageModel:model];
             if (cell) {
@@ -943,14 +966,33 @@
         
         EaseBaseMessageCell *sendCell = (EaseBaseMessageCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         
+        //messageType = 4 为订单信息。messageType = 3 为商品信息
+        EMMessage* message = model.message;
+        NSDictionary* extentsionDic = message.ext;
+        int messageType = [[extentsionDic valueForKey:@"messageType"] intValue];
         // Configure the cell...
         if (sendCell == nil) {
             sendCell = [[EaseBaseMessageCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier model:model];
             sendCell.selectionStyle = UITableViewCellSelectionStyleNone;
             sendCell.delegate = self;
         }
-        
         sendCell.model = model;
+        if (3 == messageType)
+        {
+            CZJScanRecordMessageCell* recordMessage = [CZJUtils getXibViewByName:@"CZJScanRecordMessageCell"];
+        }
+        if (4 == messageType)
+        {
+            CZJOrderMessageCell* orderView = [CZJUtils getXibViewByName:@"CZJOrderMessageCell"];
+            orderView.imgeWidth.constant = 0;
+            orderView.orderNoLeading.constant = 0;
+            orderView.orderNoLabel.text = [[extentsionDic valueForKey:@"info"] valueForKey:@"orderNo"];
+            orderView.orderMoneyNumLabel.text = [[extentsionDic valueForKey:@"info"] valueForKey:@"orderPrice"];
+            orderView.orderTimerLabel.text = [[extentsionDic valueForKey:@"info"] valueForKey:@"createTime"];
+            [orderView.goodImg sd_setImageWithURL:[NSURL URLWithString:[[extentsionDic valueForKey:@"info"] valueForKey:@""]] placeholderImage:DefaultPlaceHolderSquare];
+            orderView.frame = sendCell.bubbleView.frame;
+            [sendCell addSubview:orderView];
+        }
         return sendCell;
     }
 }
@@ -978,7 +1020,18 @@
                 return [EaseCustomMessageCell cellHeightWithModel:model];
             }
         }
-        
+        //messageType = 4 为订单信息。messageType = 3 为商品信息
+        EMMessage* message = model.message;
+        NSDictionary* extentsionDic = message.ext;
+        int messageType = [[extentsionDic valueForKey:@"messageType"] intValue];
+        if (3 == messageType)
+        {
+            return 150;
+        }
+        if (4 == messageType)
+        {
+            return 100;
+        }
         return [EaseBaseMessageCell cellHeightWithModel:model];
     }
 }
@@ -1139,9 +1192,11 @@
 {
     [UIView animateWithDuration:0.3 animations:^{
         CGRect rect = self.tableView.frame;
-        rect.origin.y = 0;
-        rect.size.height = self.view.frame.size.height - toHeight;
+        rect.origin.y = 64;
+        rect.size.height = self.view.frame.size.height - toHeight - 110;
         self.tableView.frame = rect;
+        
+//        [self.czjChatView setPosition:CGPointMake(0, self.view.frame.size.height - toHeight - 4) atAnchorPoint:CGPointZero];
     }];
     
     [self _scrollViewToBottom:NO];
@@ -1600,7 +1655,6 @@
 }
 
 #pragma mark - send message
-
 - (void)_sendMessage:(EMMessage *)message
 {
     if (self.conversation.type == EMConversationTypeGroupChat){
@@ -1610,6 +1664,7 @@
         message.chatType = EMChatTypeChatRoom;
     }
     
+    DLog(@"Message:%@",[message.ext description]);
     [self addMessageToDataSource:message
                         progress:nil];
     
@@ -1626,10 +1681,13 @@
 
 - (void)sendTextMessage:(NSString *)text withExt:(NSDictionary*)ext
 {
+    NSDictionary* extDict = @{@"storeName" : self.storeName,
+                              @"storeImg" : self.storeImg,
+                              @"storeId" : self.storeId};
     EMMessage *message = [EaseSDKHelper sendTextMessage:text
                                                    to:self.conversation.conversationId
                                           messageType:[self _messageTypeFromConversationType]
-                                           messageExt:ext];
+                                           messageExt:extDict];
     [self _sendMessage:message];
 }
 
@@ -1655,7 +1713,6 @@
     else{
         progress = self;
     }
-    
     EMMessage *message = [EaseSDKHelper sendImageMessageWithImageData:imageData
                                                                    to:self.conversation.conversationId
                                                           messageType:[self _messageTypeFromConversationType]
@@ -1811,6 +1868,175 @@
             }
         }
     }
+}
+
+
+#pragma mark- CZJChatViewButtomViewDelegate
+- (void)takePicAction:(id)sender
+{
+    // 隐藏键盘
+    [self.chatToolbar endEditing:YES];
+    
+#if TARGET_IPHONE_SIMULATOR
+    [self showHint:NSEaseLocalizedString(@"message.simulatorNotSupportCamera", @"simulator does not support taking picture")];
+#elif TARGET_OS_IPHONE
+    self.imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
+    self.imagePicker.mediaTypes = @[(NSString *)kUTTypeImage,(NSString *)kUTTypeMovie];
+    [self presentViewController:self.imagePicker animated:YES completion:NULL];
+    
+    self.isViewDidAppear = NO;
+    [[EaseSDKHelper shareHelper] setIsShowingimagePicker:YES];
+#endif
+}
+
+- (void)photoAction:(id)sender
+{
+    // 隐藏键盘
+    [self.chatToolbar endEditing:YES];
+    
+    // 弹出照片选择
+    self.imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    self.imagePicker.mediaTypes = @[(NSString *)kUTTypeImage];
+    [self presentViewController:self.imagePicker animated:YES completion:NULL];
+    
+    self.isViewDidAppear = NO;
+    [[EaseSDKHelper shareHelper] setIsShowingimagePicker:YES];
+}
+
+- (void)emotionAction:(id)sender
+{
+    
+}
+
+- (void)myOrderAction:(id)sender
+{
+    CZJMessageOrderController* orderlist = [[CZJMessageOrderController alloc]init];
+    orderlist.delegate = self;
+    orderlist.storeId = self.storeId;
+    [self.navigationController pushViewController:orderlist animated:YES];
+}
+
+- (void)scanRecordAction:(id)sender
+{
+    CZJMyInfoRecordController* recordVC = (CZJMyInfoRecordController*)[CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:kCZJStoryBoardIDRecord];
+    recordVC.delegate = self;
+    recordVC.fromMessage = @"YES";
+    recordVC.storeId = self.storeId;
+    [self.navigationController pushViewController:recordVC animated:YES];
+}
+
+- (void)chatKeyboardWillChangeFrame:(NSNotification *)notification
+{
+    NSDictionary *userInfo = notification.userInfo;
+    CGRect endFrame = [userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
+    CGRect beginFrame = [userInfo[UIKeyboardFrameBeginUserInfoKey] CGRectValue];
+    CGFloat duration = [userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue];
+    UIViewAnimationCurve curve = [userInfo[UIKeyboardAnimationCurveUserInfoKey] integerValue];
+    
+    float toHeight;
+    if (endFrame.origin.y + endFrame.size.height == PJ_SCREEN_HEIGHT)
+    {
+        toHeight = endFrame.size.height + 50;
+    }
+    else
+    {
+        toHeight = 50;
+    }
+    
+    void(^animations)() = ^{
+        [self.czjChatView setPosition:CGPointMake(0, self.view.frame.size.height - toHeight) atAnchorPoint:CGPointZero];
+    };
+    
+    [UIView animateWithDuration:duration delay:0.0f options:(curve << 16 | UIViewAnimationOptionBeginFromCurrentState) animations:animations completion:nil];
+}
+
+
+#pragma mark-  CZJMessageOrderListDelegate
+
+- (void)clickMessageOneOrder:(CZJOrderListForm*)orderListForm
+{
+    DLog(@"%@",[orderListForm.keyValues description]);
+    NSString *title = @"[订单信息]";
+    NSString *desc = [NSString stringWithFormat:@"订单号:%@",orderListForm.orderNo];
+    NSString *price = ((CZJOrderGoodsForm*)orderListForm.items.firstObject).currentPrice;
+    NSString *imageUrl = ((CZJOrderGoodsForm*)orderListForm.items.firstObject).itemImg;
+    NSString *itemUrl = ((CZJOrderGoodsForm*)orderListForm.items.firstObject).itemImg;
+    NSDictionary* orderDict = @{@"orderNo" : orderListForm.orderNo,
+                                @"orderPrice" : ((CZJOrderGoodsForm*)orderListForm.items.firstObject).currentPrice,
+                                @"createTime" : orderListForm.createTime,
+                                };
+    
+    NSMutableDictionary *itemDic = [NSMutableDictionary dictionary];
+    if (title) {
+        [itemDic setObject:title forKey:@"order_title"];
+    }
+    if (desc) {
+        [itemDic setObject:desc forKey:@"desc"];
+    }
+    if (price) {
+        [itemDic setObject:price forKey:@"price"];
+    }
+    if (imageUrl) {
+        [itemDic setObject:imageUrl forKey:@"img_url"];
+    }
+    if (itemUrl) {
+        [itemDic setObject:itemUrl forKey:@"item_url"];
+    }
+    NSDictionary *extDic = @{@"msgtype":@{@"order":itemDic},
+                             @"storeName" : self.storeName,
+                             @"storeImg" : self.storeImg,
+                             @"storeId" : self.storeId,
+                             @"info" : orderDict,
+                             @"messageType" : @"4"};
+    DLog(@"%@",[extDic description]);
+    
+    EMMessage *message = [EaseSDKHelper sendTextMessage:@"[订单信息]"
+                                                     to:self.conversation.conversationId
+                                            messageType:[self _messageTypeFromConversationType]
+                                             messageExt:extDic];
+    [self _sendMessage:message];
+}
+
+#pragma mark- CZJScanRecordMessageDelegate
+
+- (void)clickOneRecordToMessage:(CZJMyScanRecordForm*)scanForm
+{
+    DLog(@"%@",[scanForm.keyValues description]);
+    NSString *title = scanForm.itemName;
+    NSString *desc = [NSString stringWithFormat:@"商品编码:%@",scanForm.itemCode];
+    NSString *price = scanForm.currentPrice;
+    NSString *imageUrl = scanForm.itemImg;
+    NSString *itemUrl = scanForm.itemImg;
+    
+    NSMutableDictionary *itemDic = [NSMutableDictionary dictionary];
+    if (title) {
+        [itemDic setObject:title forKey:@"title"];
+    }
+    if (desc) {
+        [itemDic setObject:desc forKey:@"desc"];
+    }
+    if (price) {
+        [itemDic setObject:price forKey:@"price"];
+    }
+    if (imageUrl) {
+        [itemDic setObject:imageUrl forKey:@"img_url"];
+    }
+    if (itemUrl) {
+        [itemDic setObject:itemUrl forKey:@"item_url"];
+    }
+    NSDictionary *extDic = @{@"msgtype":@{@"track":itemDic},
+                             @"storeName" : self.storeName,
+                             @"storeImg" : self.storeImg,
+                             @"storeId" : self.storeId,
+                             @"info" : scanForm.keyValues,
+                             @"messageType" : @"3"};
+    DLog(@"%@",[extDic description]);
+    
+    EMMessage *message = [EaseSDKHelper sendTextMessage:@"[商品信息]"
+                                                     to:self.conversation.conversationId
+                                            messageType:[self _messageTypeFromConversationType]
+                                             messageExt:extDic];
+    [self _sendMessage:message];
 }
 
 

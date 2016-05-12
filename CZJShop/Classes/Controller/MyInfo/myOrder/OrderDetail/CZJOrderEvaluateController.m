@@ -55,6 +55,7 @@ CZJStarRateViewDelegate
     myEvaluationForm.serviceScore = @"5";
     myEvaluationForm.deliveryScore = @"5";
     myEvaluationForm.environmentScore = @"5";
+    myEvaluationForm.activityId = self.orderDetailForm.activityId;
     myEvaluationForm.items = [NSMutableArray array];
     for (CZJOrderGoodsForm* goodsForm in self.orderDetailForm.items)
     {

@@ -448,6 +448,13 @@
 		EC393F971C2E349400B17228 /* prodetail_icon_lingqu@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = EC393F891C2E349400B17228 /* prodetail_icon_lingqu@3x.png */; };
 		EC393F981C2E349400B17228 /* prodetail_icon_off@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EC393F8A1C2E349400B17228 /* prodetail_icon_off@2x.png */; };
 		EC393F991C2E349400B17228 /* prodetail_icon_off@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = EC393F8B1C2E349400B17228 /* prodetail_icon_off@3x.png */; };
+		EC4346DC1CE1830900197649 /* CZJChatViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EC4346DA1CE1830900197649 /* CZJChatViewCell.m */; settings = {ASSET_TAGS = (); }; };
+		EC4346DD1CE1830900197649 /* CZJChatViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EC4346DB1CE1830900197649 /* CZJChatViewCell.xib */; settings = {ASSET_TAGS = (); }; };
+		EC4346E01CE1CE9800197649 /* CZJConversation.m in Sources */ = {isa = PBXBuildFile; fileRef = EC4346DF1CE1CE9800197649 /* CZJConversation.m */; settings = {ASSET_TAGS = (); }; };
+		EC4346E41CE1DA1F00197649 /* CZJChatViewButtomView.m in Sources */ = {isa = PBXBuildFile; fileRef = EC4346E21CE1DA1F00197649 /* CZJChatViewButtomView.m */; settings = {ASSET_TAGS = (); }; };
+		EC4346E51CE1DA1F00197649 /* CZJChatViewButtomView.xib in Resources */ = {isa = PBXBuildFile; fileRef = EC4346E31CE1DA1F00197649 /* CZJChatViewButtomView.xib */; settings = {ASSET_TAGS = (); }; };
+		EC4346E91CE1EC7400197649 /* CZJInputView.m in Sources */ = {isa = PBXBuildFile; fileRef = EC4346E71CE1EC7400197649 /* CZJInputView.m */; settings = {ASSET_TAGS = (); }; };
+		EC4346EA1CE1EC7400197649 /* CZJInputView.xib in Resources */ = {isa = PBXBuildFile; fileRef = EC4346E81CE1EC7400197649 /* CZJInputView.xib */; settings = {ASSET_TAGS = (); }; };
 		EC43DFDD1C5B63F600B3C412 /* CZJOrderListBaseController.m in Sources */ = {isa = PBXBuildFile; fileRef = EC43DFDC1C5B63F600B3C412 /* CZJOrderListBaseController.m */; settings = {ASSET_TAGS = (); }; };
 		EC442B531BFEF55500DC6F97 /* CZJServiceCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EC442B511BFEF55500DC6F97 /* CZJServiceCell.m */; };
 		EC442B541BFEF55500DC6F97 /* CZJServiceCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EC442B521BFEF55500DC6F97 /* CZJServiceCell.xib */; };
@@ -753,6 +760,11 @@
 		ECB4B63C1C0E976F00925BCA /* shop_icon_heart@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = ECB4B6281C0E976F00925BCA /* shop_icon_heart@3x.png */; };
 		ECB4B63D1C0E976F00925BCA /* shop_img_shop@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = ECB4B6291C0E976F00925BCA /* shop_img_shop@2x.png */; };
 		ECB4B63E1C0E976F00925BCA /* shop_img_shop@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = ECB4B62A1C0E976F00925BCA /* shop_img_shop@3x.png */; };
+		ECB9D45F1CE322500048D1B5 /* CZJOrderMessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = ECB9D45D1CE322500048D1B5 /* CZJOrderMessageCell.m */; settings = {ASSET_TAGS = (); }; };
+		ECB9D4601CE322500048D1B5 /* CZJOrderMessageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = ECB9D45E1CE322500048D1B5 /* CZJOrderMessageCell.xib */; settings = {ASSET_TAGS = (); }; };
+		ECB9D4641CE322760048D1B5 /* CZJScanRecordMessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = ECB9D4621CE322760048D1B5 /* CZJScanRecordMessageCell.m */; settings = {ASSET_TAGS = (); }; };
+		ECB9D4651CE322760048D1B5 /* CZJScanRecordMessageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = ECB9D4631CE322760048D1B5 /* CZJScanRecordMessageCell.xib */; settings = {ASSET_TAGS = (); }; };
+		ECB9D4681CE32EBF0048D1B5 /* CZJMessageOrderController.m in Sources */ = {isa = PBXBuildFile; fileRef = ECB9D4671CE32EBF0048D1B5 /* CZJMessageOrderController.m */; settings = {ASSET_TAGS = (); }; };
 		ECC16C771C91082A001DF023 /* scan_icon_back@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = ECC16C6F1C91082A001DF023 /* scan_icon_back@2x.png */; settings = {ASSET_TAGS = (); }; };
 		ECC16C781C91082A001DF023 /* scan_icon_back@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = ECC16C701C91082A001DF023 /* scan_icon_back@3x.png */; settings = {ASSET_TAGS = (); }; };
 		ECC16C791C91082A001DF023 /* scan_icon_light_sel@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = ECC16C711C91082A001DF023 /* scan_icon_light_sel@2x.png */; settings = {ASSET_TAGS = (); }; };
@@ -2046,6 +2058,17 @@
 		EC393F891C2E349400B17228 /* prodetail_icon_lingqu@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "prodetail_icon_lingqu@3x.png"; sourceTree = "<group>"; };
 		EC393F8A1C2E349400B17228 /* prodetail_icon_off@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "prodetail_icon_off@2x.png"; sourceTree = "<group>"; };
 		EC393F8B1C2E349400B17228 /* prodetail_icon_off@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "prodetail_icon_off@3x.png"; sourceTree = "<group>"; };
+		EC4346D91CE1830900197649 /* CZJChatViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJChatViewCell.h; sourceTree = "<group>"; };
+		EC4346DA1CE1830900197649 /* CZJChatViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJChatViewCell.m; sourceTree = "<group>"; };
+		EC4346DB1CE1830900197649 /* CZJChatViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CZJChatViewCell.xib; sourceTree = "<group>"; };
+		EC4346DE1CE1CE9800197649 /* CZJConversation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJConversation.h; sourceTree = "<group>"; };
+		EC4346DF1CE1CE9800197649 /* CZJConversation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJConversation.m; sourceTree = "<group>"; };
+		EC4346E11CE1DA1F00197649 /* CZJChatViewButtomView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJChatViewButtomView.h; sourceTree = "<group>"; };
+		EC4346E21CE1DA1F00197649 /* CZJChatViewButtomView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJChatViewButtomView.m; sourceTree = "<group>"; };
+		EC4346E31CE1DA1F00197649 /* CZJChatViewButtomView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CZJChatViewButtomView.xib; sourceTree = "<group>"; };
+		EC4346E61CE1EC7400197649 /* CZJInputView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJInputView.h; sourceTree = "<group>"; };
+		EC4346E71CE1EC7400197649 /* CZJInputView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJInputView.m; sourceTree = "<group>"; };
+		EC4346E81CE1EC7400197649 /* CZJInputView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CZJInputView.xib; sourceTree = "<group>"; };
 		EC43DFDB1C5B63F600B3C412 /* CZJOrderListBaseController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJOrderListBaseController.h; sourceTree = "<group>"; };
 		EC43DFDC1C5B63F600B3C412 /* CZJOrderListBaseController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJOrderListBaseController.m; sourceTree = "<group>"; };
 		EC442B501BFEF55500DC6F97 /* CZJServiceCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJServiceCell.h; sourceTree = "<group>"; };
@@ -2436,6 +2459,14 @@
 		ECB4B6281C0E976F00925BCA /* shop_icon_heart@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "shop_icon_heart@3x.png"; sourceTree = "<group>"; };
 		ECB4B6291C0E976F00925BCA /* shop_img_shop@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "shop_img_shop@2x.png"; sourceTree = "<group>"; };
 		ECB4B62A1C0E976F00925BCA /* shop_img_shop@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "shop_img_shop@3x.png"; sourceTree = "<group>"; };
+		ECB9D45C1CE322500048D1B5 /* CZJOrderMessageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJOrderMessageCell.h; sourceTree = "<group>"; };
+		ECB9D45D1CE322500048D1B5 /* CZJOrderMessageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJOrderMessageCell.m; sourceTree = "<group>"; };
+		ECB9D45E1CE322500048D1B5 /* CZJOrderMessageCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CZJOrderMessageCell.xib; sourceTree = "<group>"; };
+		ECB9D4611CE322760048D1B5 /* CZJScanRecordMessageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJScanRecordMessageCell.h; sourceTree = "<group>"; };
+		ECB9D4621CE322760048D1B5 /* CZJScanRecordMessageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJScanRecordMessageCell.m; sourceTree = "<group>"; };
+		ECB9D4631CE322760048D1B5 /* CZJScanRecordMessageCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CZJScanRecordMessageCell.xib; sourceTree = "<group>"; };
+		ECB9D4661CE32EBF0048D1B5 /* CZJMessageOrderController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJMessageOrderController.h; sourceTree = "<group>"; };
+		ECB9D4671CE32EBF0048D1B5 /* CZJMessageOrderController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJMessageOrderController.m; sourceTree = "<group>"; };
 		ECC16C6F1C91082A001DF023 /* scan_icon_back@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "scan_icon_back@2x.png"; sourceTree = "<group>"; };
 		ECC16C701C91082A001DF023 /* scan_icon_back@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "scan_icon_back@3x.png"; sourceTree = "<group>"; };
 		ECC16C711C91082A001DF023 /* scan_icon_light_sel@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "scan_icon_light_sel@2x.png"; sourceTree = "<group>"; };
@@ -4271,6 +4302,8 @@
 				ECC4FD631CA8E45E00944E30 /* CZJFilterForm.m */,
 				EC023F9C1CB63204004602A6 /* CZJDateTime.h */,
 				EC023F9D1CB63204004602A6 /* CZJDateTime.m */,
+				EC4346DE1CE1CE9800197649 /* CZJConversation.h */,
+				EC4346DF1CE1CE9800197649 /* CZJConversation.m */,
 			);
 			name = Madel;
 			path = Classes/Madel;
@@ -6775,6 +6808,8 @@
 				ECC9731E1CDC9D1D000363B2 /* CZJChatViewController.m */,
 				ECC973201CDC9E41000363B2 /* CZJChatListController.h */,
 				ECC973211CDC9E41000363B2 /* CZJChatListController.m */,
+				ECB9D4661CE32EBF0048D1B5 /* CZJMessageOrderController.h */,
+				ECB9D4671CE32EBF0048D1B5 /* CZJMessageOrderController.m */,
 			);
 			path = myMessage;
 			sourceTree = "<group>";
@@ -6788,6 +6823,21 @@
 				ECAE5F1B1CD9A84F00732E43 /* CZJMyMessageCenterCell.h */,
 				ECAE5F1C1CD9A84F00732E43 /* CZJMyMessageCenterCell.m */,
 				ECAE5F1D1CD9A84F00732E43 /* CZJMyMessageCenterCell.xib */,
+				EC4346D91CE1830900197649 /* CZJChatViewCell.h */,
+				EC4346DA1CE1830900197649 /* CZJChatViewCell.m */,
+				EC4346DB1CE1830900197649 /* CZJChatViewCell.xib */,
+				EC4346E11CE1DA1F00197649 /* CZJChatViewButtomView.h */,
+				EC4346E21CE1DA1F00197649 /* CZJChatViewButtomView.m */,
+				EC4346E31CE1DA1F00197649 /* CZJChatViewButtomView.xib */,
+				EC4346E61CE1EC7400197649 /* CZJInputView.h */,
+				EC4346E71CE1EC7400197649 /* CZJInputView.m */,
+				EC4346E81CE1EC7400197649 /* CZJInputView.xib */,
+				ECB9D45C1CE322500048D1B5 /* CZJOrderMessageCell.h */,
+				ECB9D45D1CE322500048D1B5 /* CZJOrderMessageCell.m */,
+				ECB9D45E1CE322500048D1B5 /* CZJOrderMessageCell.xib */,
+				ECB9D4611CE322760048D1B5 /* CZJScanRecordMessageCell.h */,
+				ECB9D4621CE322760048D1B5 /* CZJScanRecordMessageCell.m */,
+				ECB9D4631CE322760048D1B5 /* CZJScanRecordMessageCell.xib */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -7242,6 +7292,7 @@
 				EC26A30F1C2A386600B166A3 /* coupon_icon_red@2x.png in Resources */,
 				EC9AA5EF1CE0620B00B8DD57 /* chat_receiver_audio_playing003@2x.png in Resources */,
 				EC9AA6031CE0620B00B8DD57 /* icon_013_cover.png in Resources */,
+				EC4346EA1CE1EC7400197649 /* CZJInputView.xib in Resources */,
 				ECDB616A1BFB551600882BB2 /* all_btn_discovery_sel@2x.png in Resources */,
 				ECB4B63A1C0E976F00925BCA /* shop_btn_map@3x.png in Resources */,
 				EC2BF2CB1C7DA74D003B94B5 /* chat_icon_img@3x.png in Resources */,
@@ -7329,6 +7380,7 @@
 				EC9AA6051CE0620B00B8DD57 /* icon_018_cover.png in Resources */,
 				ECC4DEF01C17FEA900FBD6A4 /* serve_icon_shop@2x.png in Resources */,
 				EC9AA6341CE0620B00B8DD57 /* tabbar_contactsHL.png in Resources */,
+				ECB9D4601CE322500048D1B5 /* CZJOrderMessageCell.xib in Resources */,
 				EC6340B71C8FF9FD00DDFB76 /* commit_icon_kefu@3x.png in Resources */,
 				EC28E2C71C152BA0003423F9 /* icon_map_cateid_22.png in Resources */,
 				ECC4DEC51C17FEA900FBD6A4 /* prodetail_btn_shop@3x.png in Resources */,
@@ -7337,6 +7389,7 @@
 				EC9AA5D61CE0620B00B8DD57 /* call_out.png in Resources */,
 				ECC4DEEF1C17FEA900FBD6A4 /* serve_icon_shaixuan@3x.png in Resources */,
 				ECF8E9531C5C6DB300A98707 /* order_icon_chacha@3x.png in Resources */,
+				EC4346E51CE1DA1F00197649 /* CZJChatViewButtomView.xib in Resources */,
 				EC28E2CA1C152BA0003423F9 /* icon_map_cateid_5.png in Resources */,
 				ECC4DDFB1C17D67B00FBD6A4 /* wl_map_icon_1.png in Resources */,
 				EC9AA6371CE0620B00B8DD57 /* tabbar_setting@2x.png in Resources */,
@@ -7545,6 +7598,7 @@
 				ECDB61631BFB551600882BB2 /* all_arrow_next@3x.png in Resources */,
 				EC9AA5E41CE0620B00B8DD57 /* chat_location_detail_disclosureHL.png in Resources */,
 				EC26A2FE1C2A386600B166A3 /* commit_icon_yue@3x.png in Resources */,
+				EC4346DD1CE1830900197649 /* CZJChatViewCell.xib in Resources */,
 				EC9AA5CF1CE0620B00B8DD57 /* 120.png in Resources */,
 				ECC4DED21C17FEA900FBD6A4 /* prodetail_icon_kefu02@2x.png in Resources */,
 				EC442B661BFEF61000DC6F97 /* CZJBrandRecommendCell.xib in Resources */,
@@ -7928,6 +7982,7 @@
 				ECC4DDFE1C17D67B00FBD6A4 /* wl_map_icon_1_press@2x.png in Resources */,
 				ECC4DEBA1C17FEA900FBD6A4 /* icon_logo_dazong@2x.png in Resources */,
 				EC0FED4B1CA0F557001C25D7 /* home_btn_saoyisao@3x.png in Resources */,
+				ECB9D4651CE322760048D1B5 /* CZJScanRecordMessageCell.xib in Resources */,
 				ECC4DEB71C17FEA900FBD6A4 /* all_arrow_down@3x.png in Resources */,
 				ECF8E95B1C5C6DB300A98707 /* order_icon_pay@3x.png in Resources */,
 				ECE55B171C19765700B2A441 /* classify_btn_search@3x.png in Resources */,
@@ -8045,6 +8100,7 @@
 				EC4521591C5F2BF7003272C3 /* CZJOrderBuildingController.m in Sources */,
 				EC074CF21CCE039800405D5E /* MWGridViewController.m in Sources */,
 				ECD6FF831C800043005F8E52 /* QNDomain.m in Sources */,
+				ECB9D4641CE322760048D1B5 /* CZJScanRecordMessageCell.m in Sources */,
 				EC025FC81C21036E00A8085E /* MJRefreshAutoFooter.m in Sources */,
 				ECF2DCDD1C5767F80096FF39 /* CZJShoppingCartHeaderCell.m in Sources */,
 				EC1627051CC51C3F000D7C15 /* CZJMyWalletCardItemLeftCell.m in Sources */,
@@ -8119,6 +8175,7 @@
 				EC0C93721C200DD7002A7FF5 /* CZJCouponsCell.m in Sources */,
 				EC074D351CCE039800405D5E /* EaseBubbleView+Image.m in Sources */,
 				EC025FCD1C21036E00A8085E /* MJRefreshAutoGifFooter.m in Sources */,
+				ECB9D4681CE32EBF0048D1B5 /* CZJMessageOrderController.m in Sources */,
 				ECF2DCAE1C5767F80096FF39 /* CZJRegisterController.m in Sources */,
 				EC074D211CCE039800405D5E /* EaseConvertToCommonEmoticonsHelper.m in Sources */,
 				ECD6FF881C800043005F8E52 /* QNRecord.m in Sources */,
@@ -8148,6 +8205,7 @@
 				EC023F9E1CB63204004602A6 /* CZJDateTime.m in Sources */,
 				ECC4DE0C1C17D67B00FBD6A4 /* NSObject+MJCoding.m in Sources */,
 				ECD555611C9161BA00BAC8A0 /* CZJMiaoShaController.m in Sources */,
+				ECB9D45F1CE322500048D1B5 /* CZJOrderMessageCell.m in Sources */,
 				EC1C89091C8D720000B96602 /* CZJHotBrandViewCell.m in Sources */,
 				EC393F7C1C2E288500B17228 /* CZJReceiveCouponsCell.m in Sources */,
 				ECC4DDFA1C17D67B00FBD6A4 /* RegionAnnotationView.m in Sources */,
@@ -8266,6 +8324,7 @@
 				EC4A4C771C86CCC7008A03EB /* CZJBackgroundPromptView.m in Sources */,
 				EC9AA64E1CE0731100B8DD57 /* UserProfileViewController.m in Sources */,
 				EC442B721BFEF73F00DC6F97 /* CZJGoodsRecommendCell.m in Sources */,
+				EC4346DC1CE1830900197649 /* CZJChatViewCell.m in Sources */,
 				ECC4DDB81C17D67B00FBD6A4 /* RSADataVerifier.m in Sources */,
 				ECD6FF8F1C800043005F8E52 /* QNResponseInfo.m in Sources */,
 				EC0FED541CA13A4B001C25D7 /* CZJPromotionController.m in Sources */,
@@ -8305,8 +8364,10 @@
 				ECF2DCCE1C5767F80096FF39 /* CZJOrderTypeExpandCell.m in Sources */,
 				ECF2DCA61C5767F80096FF39 /* CZJGoodsAttentionCell.m in Sources */,
 				EC074CD11CCE039700405D5E /* EMCDDeviceManager+Media.m in Sources */,
+				EC4346E91CE1EC7400197649 /* CZJInputView.m in Sources */,
 				ECC4DE201C17D67B00FBD6A4 /* PlaceholderTextView.m in Sources */,
 				ECF2DCD51C5767F80096FF39 /* CZJChooseCouponController.m in Sources */,
+				EC4346E41CE1DA1F00197649 /* CZJChatViewButtomView.m in Sources */,
 				EC025FD91C21036E00A8085E /* UIScrollView+MJRefresh.m in Sources */,
 				EC0C937C1C201103002A7FF5 /* CZJEvalutionDescCell.m in Sources */,
 				EC45212F1C5EF0C5003272C3 /* CZJOrderBuildCarCell.m in Sources */,
@@ -8379,6 +8440,7 @@
 				EC025FCB1C21036E00A8085E /* MJRefreshFooter.m in Sources */,
 				ECDB5DCE1BFADB0500882BB2 /* AppDelegate.m in Sources */,
 				ECC4DE121C17D67B00FBD6A4 /* MultilevelCollectionViewCell.m in Sources */,
+				EC4346E01CE1CE9800197649 /* CZJConversation.m in Sources */,
 				EC0223B41C59C7BB00600851 /* CZJButtonArrayCell.m in Sources */,
 				ECAE5F1E1CD9A84F00732E43 /* CZJMyMessageCenterCell.m in Sources */,
 				ECD6FF961C800043005F8E52 /* QNReachability.m in Sources */,

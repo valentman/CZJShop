@@ -12,6 +12,7 @@
 
 #import "EaseChatBarMoreView.h"
 
+
 #define CHAT_BUTTON_SIZE 50
 #define INSETS 10
 #define MOREVIEW_COL 4
@@ -44,6 +45,9 @@
 @property (nonatomic, strong) UIButton *videoButton;
 @property (nonatomic, strong) UIButton *audioCallButton;
 @property (nonatomic, strong) UIButton *videoCallButton;
+
+
+
 
 @end
 

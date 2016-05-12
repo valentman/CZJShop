@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="KGk-i7-Jjw" customClass="CZJChatViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="80"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="79"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hMb-bH-SDQ">
+                        <rect key="frame" x="15" y="29" width="22" height="22"/>
+                        <animations/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="22" id="XgA-sY-bO5"/>
+                            <constraint firstAttribute="height" constant="22" id="r2I-he-u8t"/>
+                        </constraints>
+                        <state key="normal" title="Button" image="commit_btn_circle.png"/>
+                        <state key="selected" image="commit_btn_circle_sel.png"/>
+                    </button>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7Zy-A9-dmv">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="79"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SgE-Hw-l7C">
+                                <rect key="frame" x="10" y="78" width="300" height="1"/>
+                                <animations/>
+                                <color key="backgroundColor" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="1" id="BzM-2B-jap">
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="constant">
+                                                <real key="value" value="0.5"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </constraint>
+                                </constraints>
+                            </view>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Ett-ah-6iv">
+                                <rect key="frame" x="15" y="15" width="50" height="50"/>
+                                <animations/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="50" id="7gD-X4-qWa"/>
+                                    <constraint firstAttribute="height" constant="50" id="841-g2-Guu"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="25"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZxX-Pp-18I">
+                                <rect key="frame" x="85" y="15" width="90" height="21"/>
+                                <animations/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="aJu-Qq-9ds"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RWi-hQ-ejf">
+                                <rect key="frame" x="225" y="18" width="80" height="15"/>
+                                <animations/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="15" id="0uR-j8-azx"/>
+                                    <constraint firstAttribute="width" constant="80" id="Th4-v8-VyG"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <color key="textColor" red="0.7019608021" green="0.7019608021" blue="0.7019608021" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BFV-6W-Fio">
+                                <rect key="frame" x="85" y="50" width="220" height="15"/>
+                                <animations/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="15" id="nf0-kg-Qin"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <color key="textColor" red="0.7019608021" green="0.7019608021" blue="0.7019608021" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <animations/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="RWi-hQ-ejf" secondAttribute="trailing" constant="15" id="7eo-kd-C9Z"/>
+                            <constraint firstItem="RWi-hQ-ejf" firstAttribute="centerY" secondItem="ZxX-Pp-18I" secondAttribute="centerY" id="BjK-x0-Nb7"/>
+                            <constraint firstItem="SgE-Hw-l7C" firstAttribute="leading" secondItem="7Zy-A9-dmv" secondAttribute="leading" constant="10" id="E4r-ER-2UV"/>
+                            <constraint firstItem="RWi-hQ-ejf" firstAttribute="leading" secondItem="ZxX-Pp-18I" secondAttribute="trailing" constant="50" id="HHl-Vy-aPb"/>
+                            <constraint firstItem="Ett-ah-6iv" firstAttribute="centerY" secondItem="7Zy-A9-dmv" secondAttribute="centerY" id="TIY-fS-S9Q"/>
+                            <constraint firstItem="BFV-6W-Fio" firstAttribute="bottom" secondItem="Ett-ah-6iv" secondAttribute="bottom" id="Yg1-uB-482"/>
+                            <constraint firstItem="Ett-ah-6iv" firstAttribute="leading" secondItem="7Zy-A9-dmv" secondAttribute="leading" constant="15" id="a08-Qc-x9J"/>
+                            <constraint firstItem="ZxX-Pp-18I" firstAttribute="leading" secondItem="Ett-ah-6iv" secondAttribute="trailing" constant="20" id="aPj-6o-F5x"/>
+                            <constraint firstAttribute="trailing" secondItem="BFV-6W-Fio" secondAttribute="trailing" constant="15" id="etX-2Z-Z1N"/>
+                            <constraint firstAttribute="bottom" secondItem="SgE-Hw-l7C" secondAttribute="bottom" id="kVd-ND-GD8"/>
+                            <constraint firstItem="ZxX-Pp-18I" firstAttribute="top" secondItem="Ett-ah-6iv" secondAttribute="top" id="tBV-Ma-kbG"/>
+                            <constraint firstItem="BFV-6W-Fio" firstAttribute="leading" secondItem="Ett-ah-6iv" secondAttribute="trailing" constant="20" id="tZG-vn-dIE"/>
+                            <constraint firstAttribute="trailing" secondItem="SgE-Hw-l7C" secondAttribute="trailing" constant="10" id="vtB-h3-s0S"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <animations/>
+                <constraints>
+                    <constraint firstItem="hMb-bH-SDQ" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="Zlz-gi-TZf"/>
+                    <constraint firstItem="hMb-bH-SDQ" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="dk7-gW-l4R"/>
+                    <constraint firstItem="7Zy-A9-dmv" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="neM-f9-dJq"/>
+                    <constraint firstAttribute="bottom" secondItem="7Zy-A9-dmv" secondAttribute="bottom" id="oBt-Gz-jKh"/>
+                    <constraint firstItem="7Zy-A9-dmv" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="wOg-XZ-RrY"/>
+                    <constraint firstAttribute="trailing" secondItem="7Zy-A9-dmv" secondAttribute="trailing" id="wn5-ev-Wow"/>
+                </constraints>
+            </tableViewCellContentView>
+            <animations/>
+            <connections>
+                <outlet property="contentLabel" destination="BFV-6W-Fio" id="Ye0-zI-dxU"/>
+                <outlet property="headPic" destination="Ett-ah-6iv" id="rFN-hB-HH9"/>
+                <outlet property="nameLabel" destination="ZxX-Pp-18I" id="XDX-Hb-kHO"/>
+                <outlet property="selectBtn" destination="hMb-bH-SDQ" id="420-oc-Myn"/>
+                <outlet property="timeLabel" destination="RWi-hQ-ejf" id="6O6-34-WUr"/>
+                <outlet property="viewLeading" destination="neM-f9-dJq" id="HFd-Bs-TkM"/>
+            </connections>
+            <point key="canvasLocation" x="393" y="318"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="commit_btn_circle.png" width="18" height="18"/>
+        <image name="commit_btn_circle_sel.png" width="18" height="18"/>
+    </resources>
+</document>

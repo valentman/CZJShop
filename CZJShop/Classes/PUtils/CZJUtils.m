@@ -864,6 +864,14 @@ void tapToHidePopViewAction(id sender, SEL _cmd)
     return dateTime;
 }
 
++ (NSString*)getCurrentHourTime
+{
+    NSDateFormatter* formatter = [[NSDateFormatter alloc]init];
+    [formatter setDateFormat:@"HH:mm:ss"];
+    NSString* dateTime = [formatter stringFromDate:[NSDate date]];
+    return dateTime;
+}
+
 
 + (NSString*)getCurrentDateTime
 {
@@ -873,11 +881,19 @@ void tapToHidePopViewAction(id sender, SEL _cmd)
     return dateTime;
 }
 
-+ (NSString*)getCurrentHourTime
++ (NSString*)getFullDateTime:(NSInteger)time
 {
     NSDateFormatter* formatter = [[NSDateFormatter alloc]init];
-    [formatter setDateFormat:@"HH:mm:ss"];
-    NSString* dateTime = [formatter stringFromDate:[NSDate date]];
+    [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    NSString* dateTime = [formatter stringFromDate:[NSDate dateWithTimeIntervalSinceNow:time]];
+    return dateTime;
+}
+
++ (NSString*)getChatDatetime:(NSInteger)chatTime
+{
+    NSDateFormatter* formatter = [[NSDateFormatter alloc]init];
+    [formatter setDateFormat:@"HH:mm"];
+    NSString* dateTime = [[NSDate dateWithTimeIntervalInMilliSecondSince1970:chatTime] formattedTime];
     return dateTime;
 }
 

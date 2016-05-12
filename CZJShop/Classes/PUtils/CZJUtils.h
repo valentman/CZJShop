@@ -115,6 +115,8 @@
 + (BOOL)isTimeCrossMinInterval:(int)intervalTimer withIdentity:(NSString*)userDefault;
 + (CZJDateTime*)getLeftDatetime:(NSInteger)timeStamp;
 + (NSString*)getCurrentDateTime;
++ (NSString*)getFullDateTime:(NSInteger)time;
++ (NSString*)getChatDatetime:(NSInteger)chatTime;
 + (NSString*)getCurrentHourTime;
 + (NSString*)getDateTimeSinceTime:(NSInteger)skillTime;
 

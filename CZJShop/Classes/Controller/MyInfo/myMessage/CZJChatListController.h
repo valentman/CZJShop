@@ -10,4 +10,5 @@
 
 @interface CZJChatListController : CZJViewController
 
+- (void)getChatConversations;
 @end

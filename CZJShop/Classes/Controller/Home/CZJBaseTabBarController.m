@@ -42,11 +42,11 @@
     _dotLabel.hidden = YES;
     [self.tabBar addSubview:_dotLabel];
     
-//    [self refreshTabBarDotLabel];
-//    //注册接收有新消息显示小红点通知
-//    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(refreshTabBarDotLabel) name:kCZJNotifiRefreshMessageReadStatus object:nil];
-//    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(refreshTabBarDotLabel) name:kCZJNotifiLoginSuccess object:nil];
-//    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(refreshTabBarDotLabel) name:kCZJNotifiLoginOut object:nil];
+    [self refreshTabBarDotLabel];
+    //注册接收有新消息显示小红点通知
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(refreshTabBarDotLabel) name:kCZJNotifiRefreshMessageReadStatus object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(refreshTabBarDotLabel) name:kCZJNotifiLoginSuccess object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(refreshTabBarDotLabel) name:kCZJNotifiLoginOut object:nil];
 }
 
 - (void)didReceiveMemoryWarning {
