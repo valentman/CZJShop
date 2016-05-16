@@ -64,7 +64,7 @@ CZJNaviagtionBarViewDelegate
     self.navigationController.navigationBarHidden = YES;
     CGRect mainViewBounds = self.navigationController.navigationBar.bounds;
     [self.naviBarView initWithFrame:mainViewBounds AndType:CZJNaviBarViewTypeGeneral].delegate = self;
-    self.naviBarView.mainTitleLabel.text = @"其他分店";
+    self.naviBarView.mainTitleLabel.text = @"其它分店";
 }
 
 #pragma mark - Table view data source

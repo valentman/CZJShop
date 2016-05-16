@@ -202,11 +202,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CZJShop/ThirdSDK/Hyphenate/EaseUI/EMUIKit/ViewController/EaseMessageViewController.m"
-            timestampString = "484736790.349717"
+            timestampString = "485084319.583491"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2033"
-            endingLineNumber = "2033"
+            startingLineNumber = "1952"
+            endingLineNumber = "1952"
             landmarkName = "-clickOneRecordToMessage:"
             landmarkType = "5">
          </BreakpointContent>
@@ -256,6 +256,38 @@
             startingLineNumber = "536"
             endingLineNumber = "536"
             landmarkName = "-didCancel:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CZJShop/ThirdSDK/Hyphenate/EaseUI/EMUIKit/Views/conversation/MessageCell/EaseMessageCell.m"
+            timestampString = "485084669.918071"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "279"
+            endingLineNumber = "279"
+            landmarkName = "-_updateBubbleMaxWidthConstraint"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CZJShop/ThirdSDK/Hyphenate/EaseUI/EMUIKit/Views/conversation/MessageCell/EaseMessageCell.m"
+            timestampString = "485085078.168602"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "153"
+            endingLineNumber = "153"
+            landmarkName = "-_setupSubviewsWithType:isSender:model:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

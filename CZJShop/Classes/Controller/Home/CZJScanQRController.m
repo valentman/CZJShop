@@ -31,6 +31,7 @@ UIAlertViewDelegate
 @property (weak, nonatomic) IBOutlet UIView *preView;
 @property (weak, nonatomic) IBOutlet UIView *operatorView;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *indicator;
+@property (weak, nonatomic) IBOutlet UILabel *readyLabel;
 
 @property (strong, nonatomic) UILabel* hintLabel;
 @property (strong, nonatomic) UIView* boxView;
@@ -157,6 +158,7 @@ UIAlertViewDelegate
 - (BOOL)startReading
 {
     NSError* error;
+    _readyLabel.hidden = NO;
     //1.初始化捕捉设备，类型为AVMediaTypeVideo
     AVCaptureDevice* captureDevice = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
     
@@ -206,6 +208,7 @@ UIAlertViewDelegate
     [_captureSession startRunning];
     [_indicator stopAnimating];
     [_operatorView setHidden:NO];
+    _readyLabel.hidden = YES;
     
     _hintLabel = [[UILabel alloc]init];
     _hintLabel.font = [UIFont systemFontOfSize:12];
@@ -255,7 +258,7 @@ UIAlertViewDelegate
 
 - (void)dealWithQRScanData:(CZJSCanQRForm*)scanForm
 {
-    BOOL isOver = YES;
+    __block BOOL isOver = YES;
     if (scanForm.type)
     {
         switch ([scanForm.type integerValue]) {// 0超链接 1服务 2商品 3门店 4结算 5个人优惠码 6门店优惠码 7合作码
@@ -308,10 +311,19 @@ UIAlertViewDelegate
             case 5:
             case 6:
             case 7:
-                [CZJBaseDataInstance generalPost:@{@"type": scanForm.type, @"content": scanForm.content} success:^(id json) {
-                }  fail:^{
-                    
+            {
+                __weak typeof(self)weakSelf = self;
+                [CZJBaseDataInstance generalPost:@{@"type": scanForm.type, @"content": scanForm.content} success:^(id json){
+                    NSDictionary* dict = [CZJUtils DataFromJson:json];
+                    [CZJUtils tipWithText:[dict valueForKey:@"msg"] withCompeletHandler:^
+                    {
+                        [weakSelf.navigationController popViewControllerAnimated:YES];
+                    }];
+                }  failure:^(id json){
+                    isOver = NO;
+                    [weakSelf startReading];
                 } andServerAPI:kCZJServerAPIPGetScanCode];
+            }
                 break;
                 
             default:
@@ -320,7 +332,6 @@ UIAlertViewDelegate
                 [alert show];
                 isOver = NO;
             }
-                
                 break;
         }
     }

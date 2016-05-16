@@ -179,7 +179,7 @@
         MFMessageComposeViewController * controller = [[MFMessageComposeViewController alloc]init]; //autorelease];
         
         controller.recipients = [NSArray array];
-        controller.body = _messageCode;
+        controller.body = [NSString stringWithFormat:@"使用车之健APP输入优惠码%@获得分享优惠",_myShareCode];
         controller.messageComposeDelegate = self;
         
         [self presentViewController:controller animated:YES completion:nil];

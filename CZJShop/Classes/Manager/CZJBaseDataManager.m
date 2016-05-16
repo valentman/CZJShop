@@ -1174,6 +1174,39 @@ singleton_implementation(CZJBaseDataManager);
 }
 
 
+- (void)generalPost:(NSDictionary*)postParams
+            success:(CZJSuccessBlock)success
+            failure:(CZJSuccessBlock)failure
+       andServerAPI:(NSString*)api
+{
+    CZJSuccessBlock successBlock = ^(id json){
+        if ([self showAlertView:json])
+        {
+            success(json);
+        }
+        else
+        {
+            if (failure)
+                failure(json);
+        }
+    };
+    
+    CZJSuccessBlock failBlock = ^(id json){
+        [[CZJErrorCodeManager sharedCZJErrorCodeManager] ShowNetError];
+        if (failure)
+            failure(json);
+    };
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [params setValuesForKeysWithDictionary:self.params];
+    [params setValuesForKeysWithDictionary:postParams];
+    
+    [CZJNetWorkInstance postJSONWithUrl:api
+                             parameters:params
+                                success:successBlock
+                                   fail:failBlock];
+}
+
 
 - (void)generalPost:(NSDictionary*)postParams
             success:(CZJSuccessBlock)success

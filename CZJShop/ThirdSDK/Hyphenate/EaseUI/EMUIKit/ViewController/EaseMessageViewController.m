@@ -33,6 +33,7 @@
 #import "CZJMyInfoRecordController.h"
 #import "CZJOrderMessageCell.h"
 #import "CZJScanRecordMessageCell.h"
+#import "CZJGoodsChatCell.h"
 
 
 #define KHintAdjustY    50
@@ -50,6 +51,7 @@
 @property (nonatomic) BOOL isKicked;
 @property (nonatomic) BOOL isPlayingAudio;
 
+@property (nonatomic) NSMutableDictionary *emotionDic;
 @property (nonatomic, strong) CZJChatViewButtomView* czjChatView;
 
 @end
@@ -98,6 +100,7 @@
     self.chatToolbar.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
 
     
+    //输入框底部工具栏
     self.czjChatView = [CZJUtils getXibViewByName:@"CZJChatViewButtomView"];
     [self.czjChatView setSize:CGSizeMake(PJ_SCREEN_WIDTH, 50)];
     [self.czjChatView setPosition:CGPointMake(0, PJ_SCREEN_HEIGHT) atAnchorPoint:CGPointButtomLeft];
@@ -122,11 +125,6 @@
     [[EMClient sharedClient].chatManager addDelegate:self delegateQueue:nil];
     [[EMClient sharedClient].roomManager addDelegate:self delegateQueue:nil];
 
-    if (self.conversation.type == EMConversationTypeChatRoom)
-    {
-        [self joinChatroom:self.conversation.conversationId];
-    }
-    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(didBecomeActive)
                                                  name:UIApplicationDidBecomeActiveNotification
@@ -144,6 +142,9 @@
     [[EaseChatBarMoreView appearance] setMoreViewBackgroundColor:[UIColor colorWithRed:240 / 255.0 green:242 / 255.0 blue:247 / 255.0 alpha:1.0]];
     
     [self tableViewDidTriggerHeaderRefresh];
+    
+    self.delegate = self;
+    self.dataSource = self;
 }
 
 - (void)setupEmotion
@@ -203,77 +204,6 @@
 }
 
 #pragma mark - chatroom
-
-- (void)saveChatroom:(EMChatroom *)chatroom
-{
-    NSString *chatroomName = chatroom.subject ? chatroom.subject : @"";
-    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
-    NSString *key = [NSString stringWithFormat:@"OnceJoinedChatrooms_%@", [[EMClient sharedClient] currentUsername]];
-    NSMutableDictionary *chatRooms = [NSMutableDictionary dictionaryWithDictionary:[ud objectForKey:key]];
-    if (![chatRooms objectForKey:chatroom.chatroomId])
-    {
-        [chatRooms setObject:chatroomName forKey:chatroom.chatroomId];
-        [ud setObject:chatRooms forKey:key];
-        [ud synchronize];
-    }
-}
-
-- (void)joinChatroom:(NSString *)chatroomId
-{
-    __weak typeof(self) weakSelf = self;
-    [self showHudInView:self.view hint:NSLocalizedString(@"chatroom.joining",@"Joining the chatroom")];
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        EMError *error = nil;
-        EMChatroom *chatroom = [[EMClient sharedClient].roomManager joinChatroom:chatroomId error:&error];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if (weakSelf) {
-                EaseMessageViewController *strongSelf = weakSelf;
-                [strongSelf hideHud];
-                if (error != nil) {
-                    [strongSelf showHint:[NSString stringWithFormat:NSLocalizedString(@"chatroom.joinFailed",@"join chatroom \'%@\' failed"), chatroomId]];
-                } else {
-                    [strongSelf saveChatroom:chatroom];
-                }
-            }  else {
-                if (!error || (error.code == EMErrorChatroomAlreadyJoined)) {
-                    EMError *leaveError;
-                    [[EMClient sharedClient].roomManager leaveChatroom:chatroomId error:&leaveError];
-                    if (leaveError == nil) {
-                        [[EMClient sharedClient].chatManager deleteConversation:chatroomId deleteMessages:YES];
-                    }
-                }
-            }
-        });
-    });
-}
-
-#pragma mark - EMChatManagerChatroomDelegate
-
-- (void)didReceiveUserJoinedChatroom:(EMChatroom *)aChatroom
-                            username:(NSString *)aUsername
-{
-    CGRect frame = self.chatToolbar.frame;
-    [self showHint:[NSString stringWithFormat:NSEaseLocalizedString(@"chatroom.join", @"\'%@\'join chatroom\'%@\'"), aUsername, aChatroom.chatroomId] yOffset:-frame.size.height + KHintAdjustY];
-}
-
-- (void)didReceiveUserLeavedChatroom:(EMChatroom *)aChatroom
-                            username:(NSString *)aUsername
-{
-    CGRect frame = self.chatToolbar.frame;
-    [self showHint:[NSString stringWithFormat:NSEaseLocalizedString(@"chatroom.leave", @"\'%@\'leave chatroom\'%@\'"), aUsername, aChatroom.chatroomId] yOffset:-frame.size.height + KHintAdjustY];
-}
-
-- (void)didReceiveKickedFromChatroom:(EMChatroom *)aChatroom
-                              reason:(EMChatroomBeKickedReason)aReason
-{
-    if ([_conversation.conversationId isEqualToString:aChatroom.chatroomId])
-    {
-        _isKicked = YES;
-        CGRect frame = self.chatToolbar.frame;
-        [self showHint:[NSString stringWithFormat:NSEaseLocalizedString(@"chatroom.remove", @"be removed from chatroom\'%@\'"), aChatroom.chatroomId] yOffset:-frame.size.height + KHintAdjustY];
-        [self.navigationController popViewControllerAnimated:YES];
-    }
-}
 
 #pragma mark - getter
 
@@ -336,7 +266,6 @@
 - (void)setDataSource:(id<EaseMessageViewControllerDataSource>)dataSource
 {
     _dataSource = dataSource;
-    
     [self setupEmotion];
 }
 
@@ -908,7 +837,8 @@
     id object = [self.dataArray objectAtIndex:indexPath.row];
     
     //时间cell
-    if ([object isKindOfClass:[NSString class]]) {
+    if ([object isKindOfClass:[NSString class]])
+    {
         NSString *TimeCellIdentifier = [EaseMessageTimeCell cellIdentifier];
         EaseMessageTimeCell *timeCell = (EaseMessageTimeCell *)[tableView dequeueReusableCellWithIdentifier:TimeCellIdentifier];
         
@@ -920,22 +850,31 @@
         timeCell.title = object;
         return timeCell;
     }
-    else{
+    //内容cell
+    else
+    {
         id<IMessageModel> model = object;
-        
-        if (_delegate && [_delegate respondsToSelector:@selector(messageViewController:cellForMessageModel:)]) {
-            UITableViewCell *cell = [_delegate messageViewController:tableView cellForMessageModel:model];
-            if (cell) {
-                if ([cell isKindOfClass:[EaseMessageCell class]]) {
-                    EaseMessageCell *emcell= (EaseMessageCell*)cell;
-                    if (emcell.delegate == nil) {
-                        emcell.delegate = self;
+        EMMessage* message = model.message;
+        NSDictionary* extentsionDic = message.ext;
+        int messageType = [[extentsionDic valueForKey:@"messageType"] intValue];
+        if (messageType > 0)
+        {
+            //自定义消息Cell
+            if (_delegate && [_delegate respondsToSelector:@selector(messageViewController:cellForMessageModel:)]) {
+                UITableViewCell *cell = [_delegate messageViewController:tableView cellForMessageModel:model];
+                if (cell) {
+                    if ([cell isKindOfClass:[EaseMessageCell class]]) {
+                        EaseMessageCell *emcell= (EaseMessageCell*)cell;
+                        if (emcell.delegate == nil) {
+                            emcell.delegate = self;
+                        }
                     }
+                    return cell;
                 }
-                return cell;
             }
         }
         
+        //表情消息cell
         if (_dataSource && [_dataSource respondsToSelector:@selector(isEmotionMessageFormessageViewController:messageModel:)]) {
             BOOL flag = [_dataSource isEmotionMessageFormessageViewController:self messageModel:model];
             if (flag) {
@@ -965,34 +904,14 @@
         NSString *CellIdentifier = [EaseMessageCell cellIdentifierWithModel:model];
         
         EaseBaseMessageCell *sendCell = (EaseBaseMessageCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-        
-        //messageType = 4 为订单信息。messageType = 3 为商品信息
-        EMMessage* message = model.message;
-        NSDictionary* extentsionDic = message.ext;
-        int messageType = [[extentsionDic valueForKey:@"messageType"] intValue];
-        // Configure the cell...
+
         if (sendCell == nil) {
             sendCell = [[EaseBaseMessageCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier model:model];
             sendCell.selectionStyle = UITableViewCellSelectionStyleNone;
             sendCell.delegate = self;
         }
         sendCell.model = model;
-        if (3 == messageType)
-        {
-            CZJScanRecordMessageCell* recordMessage = [CZJUtils getXibViewByName:@"CZJScanRecordMessageCell"];
-        }
-        if (4 == messageType)
-        {
-            CZJOrderMessageCell* orderView = [CZJUtils getXibViewByName:@"CZJOrderMessageCell"];
-            orderView.imgeWidth.constant = 0;
-            orderView.orderNoLeading.constant = 0;
-            orderView.orderNoLabel.text = [[extentsionDic valueForKey:@"info"] valueForKey:@"orderNo"];
-            orderView.orderMoneyNumLabel.text = [[extentsionDic valueForKey:@"info"] valueForKey:@"orderPrice"];
-            orderView.orderTimerLabel.text = [[extentsionDic valueForKey:@"info"] valueForKey:@"createTime"];
-            [orderView.goodImg sd_setImageWithURL:[NSURL URLWithString:[[extentsionDic valueForKey:@"info"] valueForKey:@""]] placeholderImage:DefaultPlaceHolderSquare];
-            orderView.frame = sendCell.bubbleView.frame;
-            [sendCell addSubview:orderView];
-        }
+
         return sendCell;
     }
 }
@@ -2038,6 +1957,139 @@
                                              messageExt:extDic];
     [self _sendMessage:message];
 }
+
+#pragma mark - EaseMessageViewControllerDelegate
+
+- (BOOL)messageViewController:(EaseMessageViewController *)viewController
+   canLongPressRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return YES;
+}
+
+- (UITableViewCell *)messageViewController:(UITableView *)tableView cellForMessageModel:(id<IMessageModel>)model
+{
+    //样例为如果消息是文本消息显示用户自定义cell
+    
+    //messageType = 4 为订单信息。messageType = 3 为商品信息
+    EMMessage* message = model.message;
+    NSDictionary* extentsionDic = message.ext;
+    int messageType = [[extentsionDic valueForKey:@"messageType"] intValue];
+    if (3 == messageType)
+    {
+        NSString *CellIdentifier = [CZJGoodsChatCell cellIdentifierWithModel:model];
+        //CustomMessageCell为用户自定义cell,继承了EaseBaseMessageCell
+        CZJGoodsChatCell *cell = (CZJGoodsChatCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        if (cell == nil) {
+            cell = [[CZJGoodsChatCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier model:model];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        }
+        cell.model = model;
+        return cell;
+        
+    }
+    if (4 == messageType)
+    {
+        
+        NSString *CellIdentifier = [CZJGoodsChatCell cellIdentifierWithModel:model];
+        //CustomMessageCell为用户自定义cell,继承了EaseBaseMessageCell
+        CZJGoodsChatCell *cell = (CZJGoodsChatCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        if (cell == nil) {
+            cell = [[CZJGoodsChatCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier model:model];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        }
+        cell.model = model;
+        return cell;
+        
+        CZJOrderMessageCell* orderView = [CZJUtils getXibViewByName:@"CZJOrderMessageCell"];
+        orderView.imgeWidth.constant = 0;
+        orderView.orderNoLeading.constant = 0;
+        orderView.orderNoLabel.text = [[extentsionDic valueForKey:@"info"] valueForKey:@"orderNo"];
+        orderView.orderMoneyNumLabel.text = [NSString stringWithFormat:@"￥%@",[[extentsionDic valueForKey:@"info"] valueForKey:@"orderPrice"]];
+        orderView.orderTimerLabel.text = [[extentsionDic valueForKey:@"info"] valueForKey:@"createTime"];
+        [orderView.goodImg sd_setImageWithURL:[NSURL URLWithString:[[extentsionDic valueForKey:@"info"] valueForKey:@""]] placeholderImage:DefaultPlaceHolderSquare];
+        orderView.backgroundColor = CZJBLUECOLOR;
+    }
+    return nil;
+}
+
+- (CGFloat)messageViewController:(EaseMessageViewController *)viewController
+           heightForMessageModel:(id<IMessageModel>)messageModel
+                   withCellWidth:(CGFloat)cellWidth
+{
+    //样例为如果消息是文本消息使用用户自定义cell的高度
+//    if (messageModel.bodyType == EMMessageBodyTypeText) {
+//        //CustomMessageCell为用户自定义cell,继承了EaseBaseMessageCell
+//        return [CustomMessageCell cellHeightWithModel:messageModel];
+//    }
+    return 0.f;
+}
+
+- (BOOL)messageViewController:(EaseMessageViewController *)viewController
+   didLongPressRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    id object = [self.dataArray objectAtIndex:indexPath.row];
+    if (![object isKindOfClass:[NSString class]]) {
+        EaseMessageCell *cell = (EaseMessageCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+        [cell becomeFirstResponder];
+        self.menuIndexPath = indexPath;
+        [self _showMenuViewController:cell.bubbleView andIndexPath:indexPath messageType:cell.model.bodyType];
+    }
+    return YES;
+}
+
+#pragma mark - EaseMessageViewControllerDataSource
+- (NSArray*)emotionFormessageViewController:(EaseMessageViewController *)viewController
+{
+    NSMutableArray *emotions = [NSMutableArray array];
+    for (NSString *name in [EaseEmoji allEmoji]) {
+        EaseEmotion *emotion = [[EaseEmotion alloc] initWithName:@"" emotionId:name emotionThumbnail:name emotionOriginal:name emotionOriginalURL:@"" emotionType:EMEmotionDefault];
+        [emotions addObject:emotion];
+    }
+    EaseEmotion *temp = [emotions objectAtIndex:0];
+    EaseEmotionManager *managerDefault = [[EaseEmotionManager alloc] initWithType:EMEmotionDefault emotionRow:3 emotionCol:7 emotions:emotions tagImage:[UIImage imageNamed:temp.emotionId]];
+    
+    NSMutableArray *emotionGifs = [NSMutableArray array];
+    _emotionDic = [NSMutableDictionary dictionary];
+    NSArray *names = @[@"icon_002",@"icon_007",@"icon_010",@"icon_012",@"icon_013",@"icon_018",@"icon_019",@"icon_020",@"icon_021",@"icon_022",@"icon_024",@"icon_027",@"icon_029",@"icon_030",@"icon_035",@"icon_040"];
+    int index = 0;
+    for (NSString *name in names) {
+        index++;
+        EaseEmotion *emotion = [[EaseEmotion alloc] initWithName:[NSString stringWithFormat:@"[示例%d]",index] emotionId:[NSString stringWithFormat:@"em%d",(1000 + index)] emotionThumbnail:[NSString stringWithFormat:@"%@_cover",name] emotionOriginal:[NSString stringWithFormat:@"%@",name] emotionOriginalURL:@"" emotionType:EMEmotionGif];
+        [emotionGifs addObject:emotion];
+        [_emotionDic setObject:emotion forKey:[NSString stringWithFormat:@"em%d",(1000 + index)]];
+    }
+    EaseEmotionManager *managerGif= [[EaseEmotionManager alloc] initWithType:EMEmotionGif emotionRow:2 emotionCol:4 emotions:emotionGifs tagImage:[UIImage imageNamed:@"icon_002_cover"]];
+    
+    return @[managerDefault,managerGif];
+}
+
+- (BOOL)isEmotionMessageFormessageViewController:(EaseMessageViewController *)viewController
+                                    messageModel:(id<IMessageModel>)messageModel
+{
+    BOOL flag = NO;
+    if ([messageModel.message.ext objectForKey:MESSAGE_ATTR_IS_BIG_EXPRESSION]) {
+        return YES;
+    }
+    return flag;
+}
+
+- (EaseEmotion*)emotionURLFormessageViewController:(EaseMessageViewController *)viewController
+                                      messageModel:(id<IMessageModel>)messageModel
+{
+    NSString *emotionId = [messageModel.message.ext objectForKey:MESSAGE_ATTR_EXPRESSION_ID];
+    EaseEmotion *emotion = [_emotionDic objectForKey:emotionId];
+    if (emotion == nil) {
+        emotion = [[EaseEmotion alloc] initWithName:@"" emotionId:emotionId emotionThumbnail:@"" emotionOriginal:@"" emotionOriginalURL:@"" emotionType:EMEmotionGif];
+    }
+    return emotion;
+}
+
+- (NSDictionary*)emotionExtFormessageViewController:(EaseMessageViewController *)viewController
+                                        easeEmotion:(EaseEmotion*)easeEmotion
+{
+    return @{MESSAGE_ATTR_EXPRESSION_ID:easeEmotion.emotionId,MESSAGE_ATTR_IS_BIG_EXPRESSION:@(YES)};
+}
+
 
 
 @end

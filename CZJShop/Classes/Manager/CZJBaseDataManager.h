@@ -368,7 +368,13 @@ singleton_interface(CZJBaseDataManager);
                     Success:(CZJSuccessBlock)success
                        fail:(CZJFailureBlock)fail;
 
-//通用
+//通用(失败回调带参数)
+- (void)generalPost:(NSDictionary*)postParams
+            success:(CZJSuccessBlock)success
+            failure:(CZJSuccessBlock)failure
+       andServerAPI:(NSString*)api;
+
+//通用(失败回调不带参数)
 - (void)generalPost:(NSDictionary*)postParams
             success:(CZJSuccessBlock)success
                fail:(CZJFailureBlock)fail

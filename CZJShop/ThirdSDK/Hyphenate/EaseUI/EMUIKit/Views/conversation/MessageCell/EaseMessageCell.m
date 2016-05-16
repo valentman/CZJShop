@@ -119,7 +119,7 @@ NSString *const EaseMessageCellIdentifierSendFile = @"EaseMessageCellSendFile";
     
     _bubbleView = [[EaseBubbleView alloc] initWithMargin:isSender?_rightBubbleMargin:_leftBubbleMargin isSender:isSender];
     _bubbleView.translatesAutoresizingMaskIntoConstraints = NO;
-    _bubbleView.backgroundColor = [UIColor clearColor];
+    _bubbleView.backgroundColor = CZJBLUECOLOR;
     [self.contentView addSubview:_bubbleView];
     
     _avatarView = [[UIImageView alloc] init];
@@ -651,8 +651,10 @@ NSString *const EaseMessageCellIdentifierSendFile = @"EaseMessageCellSendFile";
 + (NSString *)cellIdentifierWithModel:(id<IMessageModel>)model
 {
     NSString *cellIdentifier = nil;
-    if (model.isSender) {
-        switch (model.bodyType) {
+    if (model.isSender)
+    {
+        switch (model.bodyType)
+        {
             case EMMessageBodyTypeText:
                 cellIdentifier = EaseMessageCellIdentifierSendText;
                 break;
@@ -675,8 +677,10 @@ NSString *const EaseMessageCellIdentifierSendFile = @"EaseMessageCellSendFile";
                 break;
         }
     }
-    else{
-        switch (model.bodyType) {
+    else
+    {
+        switch (model.bodyType)
+        {
             case EMMessageBodyTypeText:
                 cellIdentifier = EaseMessageCellIdentifierRecvText;
                 break;
