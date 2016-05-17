@@ -80,6 +80,7 @@
 {
     [super layoutSubviews];
     _bubbleView.backgroundImageView.image = self.model.isSender ? self.sendBubbleBackgroundImage : self.recvBubbleBackgroundImage;
+    
     switch (self.model.bodyType) {
         case EMMessageBodyTypeText:
         {

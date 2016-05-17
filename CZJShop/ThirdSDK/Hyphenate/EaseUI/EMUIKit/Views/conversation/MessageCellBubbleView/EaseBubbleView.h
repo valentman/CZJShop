@@ -12,6 +12,8 @@
 
 
 #import <UIKit/UIKit.h>
+#import "CZJScanRecordMessageCell.h"
+#import "CZJOrderMessageCell.h"
 
 extern CGFloat const EaseMessageCellPadding;
 
@@ -66,6 +68,12 @@ extern NSString *const EaseMessageCellIdentifierRecvFile;
 @property (strong, nonatomic) UIImageView *fileIconView;
 @property (strong, nonatomic) UILabel *fileNameLabel;
 @property (strong, nonatomic) UILabel *fileSizeLabel;
+
+//goods views
+@property (strong, nonatomic) CZJScanRecordMessageCell* goodsView;
+
+//order views
+@property (strong, nonatomic) CZJOrderMessageCell* orderView;
 
 - (instancetype)initWithMargin:(UIEdgeInsets)margin
                       isSender:(BOOL)isSender;

@@ -57,7 +57,7 @@
     self.separatorViewHeight.constant = 0.8;
     self.separatorLineHeight.constant = 0.8;
     
-    _messageCode = [NSString stringWithFormat:@"%@",SHARE_CONTENT];
+    _messageCode = [NSString stringWithFormat:@"我分享了一个%@元的现金红包给你，立即领取。——邀请朋友注册获取更多红包。%@",CZJBaseDataInstance.userInfoForm.couponMoney,SHARE_URL];
     
     
     //UIButton
@@ -179,12 +179,12 @@
         MFMessageComposeViewController * controller = [[MFMessageComposeViewController alloc]init]; //autorelease];
         
         controller.recipients = [NSArray array];
-        controller.body = [NSString stringWithFormat:@"使用车之健APP输入优惠码%@获得分享优惠",_myShareCode];
+        controller.body = [NSString stringWithFormat:@"我分享了一个%@元的现金红包给你，立即领取。——邀请朋友注册获取更多红包。%@",CZJBaseDataInstance.userInfoForm.couponMoney,SHARE_URL];
         controller.messageComposeDelegate = self;
         
         [self presentViewController:controller animated:YES completion:nil];
         
-        [[[[controller viewControllers] lastObject] navigationItem] setTitle:@"车之健"];//修改短信界面标题
+        [[[[controller viewControllers] lastObject] navigationItem] setTitle:@"你收到一个红包，恭喜发财，大吉大利"];//修改短信界面标题
     }else{
         [[CommonUnit  shareCommonUnit] showAlertViewWithContent:@"设备没有短信功能"];
     }
@@ -192,6 +192,6 @@
 
 - (IBAction)appShareAction:(id)sender
 {//社交分享
-    [[ShareMessage shareMessage] showPanel:self.view Type:1 WithTitle:@"车之健" AndBody:_messageCode];
+    [[ShareMessage shareMessage] showPanel:self.view Type:1 WithTitle:@"你收到一个红包，恭喜发财，大吉大利" AndBody:_messageCode];
 }
 @end

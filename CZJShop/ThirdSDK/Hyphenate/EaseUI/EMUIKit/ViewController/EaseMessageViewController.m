@@ -34,6 +34,7 @@
 #import "CZJOrderMessageCell.h"
 #import "CZJScanRecordMessageCell.h"
 #import "CZJGoodsChatCell.h"
+#import "CZJOrderChatCell.h"
 
 
 #define KHintAdjustY    50
@@ -130,8 +131,8 @@
                                                  name:UIApplicationDidBecomeActiveNotification
                                                object:nil];
     
-    [[EaseBaseMessageCell appearance] setSendBubbleBackgroundImage:[[UIImage imageNamed:@"EaseUIResource.bundle/chat_sender_bg"] stretchableImageWithLeftCapWidth:5 topCapHeight:35]];
-    [[EaseBaseMessageCell appearance] setRecvBubbleBackgroundImage:[[UIImage imageNamed:@"EaseUIResource.bundle/chat_receiver_bg"] stretchableImageWithLeftCapWidth:35 topCapHeight:35]];
+    [[EaseBaseMessageCell appearance] setSendBubbleBackgroundImage:[[UIImage imageNamed:@"chat_img_input_b.9"] stretchableImageWithLeftCapWidth:24 topCapHeight:29]];
+    [[EaseBaseMessageCell appearance] setRecvBubbleBackgroundImage:[[UIImage imageNamed:@"chat_img_input_a.9"] stretchableImageWithLeftCapWidth:35 topCapHeight:35]];
     
     [[EaseBaseMessageCell appearance] setSendMessageVoiceAnimationImages:@[[UIImage imageNamed:@"EaseUIResource.bundle/chat_sender_audio_playing_full"], [UIImage imageNamed:@"EaseUIResource.bundle/chat_sender_audio_playing_000"], [UIImage imageNamed:@"EaseUIResource.bundle/chat_sender_audio_playing_001"], [UIImage imageNamed:@"EaseUIResource.bundle/chat_sender_audio_playing_002"], [UIImage imageNamed:@"EaseUIResource.bundle/chat_sender_audio_playing_003"]]];
     [[EaseBaseMessageCell appearance] setRecvMessageVoiceAnimationImages:@[[UIImage imageNamed:@"EaseUIResource.bundle/chat_receiver_audio_playing_full"],[UIImage imageNamed:@"EaseUIResource.bundle/chat_receiver_audio_playing000"], [UIImage imageNamed:@"EaseUIResource.bundle/chat_receiver_audio_playing001"], [UIImage imageNamed:@"EaseUIResource.bundle/chat_receiver_audio_playing002"], [UIImage imageNamed:@"EaseUIResource.bundle/chat_receiver_audio_playing003"]]];
@@ -939,18 +940,7 @@
                 return [EaseCustomMessageCell cellHeightWithModel:model];
             }
         }
-        //messageType = 4 为订单信息。messageType = 3 为商品信息
-        EMMessage* message = model.message;
-        NSDictionary* extentsionDic = message.ext;
-        int messageType = [[extentsionDic valueForKey:@"messageType"] intValue];
-        if (3 == messageType)
-        {
-            return 150;
-        }
-        if (4 == messageType)
-        {
-            return 100;
-        }
+
         return [EaseBaseMessageCell cellHeightWithModel:model];
     }
 }
@@ -1968,8 +1958,6 @@
 
 - (UITableViewCell *)messageViewController:(UITableView *)tableView cellForMessageModel:(id<IMessageModel>)model
 {
-    //样例为如果消息是文本消息显示用户自定义cell
-    
     //messageType = 4 为订单信息。messageType = 3 为商品信息
     EMMessage* message = model.message;
     NSDictionary* extentsionDic = message.ext;
@@ -1977,7 +1965,6 @@
     if (3 == messageType)
     {
         NSString *CellIdentifier = [CZJGoodsChatCell cellIdentifierWithModel:model];
-        //CustomMessageCell为用户自定义cell,继承了EaseBaseMessageCell
         CZJGoodsChatCell *cell = (CZJGoodsChatCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         if (cell == nil) {
             cell = [[CZJGoodsChatCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier model:model];
@@ -1990,24 +1977,14 @@
     if (4 == messageType)
     {
         
-        NSString *CellIdentifier = [CZJGoodsChatCell cellIdentifierWithModel:model];
-        //CustomMessageCell为用户自定义cell,继承了EaseBaseMessageCell
-        CZJGoodsChatCell *cell = (CZJGoodsChatCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        NSString *CellIdentifier = [CZJOrderChatCell cellIdentifierWithModel:model];
+        CZJOrderChatCell *cell = (CZJOrderChatCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         if (cell == nil) {
-            cell = [[CZJGoodsChatCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier model:model];
+            cell = [[CZJOrderChatCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier model:model];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
         }
         cell.model = model;
         return cell;
-        
-        CZJOrderMessageCell* orderView = [CZJUtils getXibViewByName:@"CZJOrderMessageCell"];
-        orderView.imgeWidth.constant = 0;
-        orderView.orderNoLeading.constant = 0;
-        orderView.orderNoLabel.text = [[extentsionDic valueForKey:@"info"] valueForKey:@"orderNo"];
-        orderView.orderMoneyNumLabel.text = [NSString stringWithFormat:@"￥%@",[[extentsionDic valueForKey:@"info"] valueForKey:@"orderPrice"]];
-        orderView.orderTimerLabel.text = [[extentsionDic valueForKey:@"info"] valueForKey:@"createTime"];
-        [orderView.goodImg sd_setImageWithURL:[NSURL URLWithString:[[extentsionDic valueForKey:@"info"] valueForKey:@""]] placeholderImage:DefaultPlaceHolderSquare];
-        orderView.backgroundColor = CZJBLUECOLOR;
     }
     return nil;
 }
@@ -2016,11 +1993,18 @@
            heightForMessageModel:(id<IMessageModel>)messageModel
                    withCellWidth:(CGFloat)cellWidth
 {
-    //样例为如果消息是文本消息使用用户自定义cell的高度
-//    if (messageModel.bodyType == EMMessageBodyTypeText) {
-//        //CustomMessageCell为用户自定义cell,继承了EaseBaseMessageCell
-//        return [CustomMessageCell cellHeightWithModel:messageModel];
-//    }
+    //messageType = 4 为订单信息。messageType = 3 为商品信息
+    EMMessage* message = messageModel.message;
+    NSDictionary* extentsionDic = message.ext;
+    int messageType = [[extentsionDic valueForKey:@"messageType"] intValue];
+    if (3 == messageType)
+    {
+        return [CZJGoodsChatCell cellHeightWithModel:messageModel];
+    }
+    if (4 == messageType)
+    {
+        return [CZJOrderChatCell cellHeightWithModel:messageModel];
+    }
     return 0.f;
 }
 

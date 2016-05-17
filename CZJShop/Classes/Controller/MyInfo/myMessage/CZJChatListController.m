@@ -86,7 +86,7 @@ UITableViewDelegate
     if (isEdit)
     {
         [self.navigationItem.rightBarButtonItem setTitle:@"完成"];
-        [UIView animateWithDuration:0.3 animations:^{
+        [UIView animateWithDuration:0.5 animations:^{
             [buttomView setPosition:CGPointMake(0, PJ_SCREEN_HEIGHT - 60) atAnchorPoint:CGPointZero];
             [self.myTableView setSize:CGSizeMake(PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - 64 - 60)];
         }];
@@ -94,7 +94,8 @@ UITableViewDelegate
     else
     {
         [self.navigationItem.rightBarButtonItem setTitle:@"编辑"];
-        [UIView animateWithDuration:0.3 animations:^{
+        
+        [UIView animateWithDuration:0.5 animations:^{
             [buttomView setPosition:CGPointMake(0, PJ_SCREEN_HEIGHT) atAnchorPoint:CGPointZero];
             [self.myTableView setSize:CGSizeMake(PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - 64)];
         }];
@@ -140,7 +141,16 @@ UITableViewDelegate
     NSDictionary* extDict = emConversation.latestMessage.ext;
     EaseMessageModel* model = [[EaseMessageModel alloc]initWithMessage:emConversation.latestMessage];
     CZJChatViewCell* chatCell = [tableView dequeueReusableCellWithIdentifier:@"CZJChatViewCell" forIndexPath:indexPath];
-    chatCell.viewLeading.constant = isEdit? 40 : 0;
+
+    //约束也能做动画
+    [chatCell layoutIfNeeded];
+    [UIView animateWithDuration:0.5 animations:^{
+        chatCell.viewLeading.constant = isEdit? 40 : 0;
+        [chatCell layoutIfNeeded];
+    } completion:^(BOOL finished) {
+    }];
+    
+    
     [chatCell.headPic sd_setImageWithURL:[NSURL URLWithString:[extDict valueForKey:@"storeImg"]] placeholderImage:IMAGENAMED(@"personal_icon_head")];
     chatCell.nameLabel.text = [extDict valueForKey:@"storeName"];
     
@@ -171,15 +181,24 @@ UITableViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    CZJConversation* conversation = conversationAry[indexPath.row];
-    EMConversation* emConversation = conversation.emConversation;
-    NSDictionary* extDict = emConversation.latestMessage.ext;
-    CZJChatViewController *chatController = [[CZJChatViewController alloc] initWithConversationChatter: emConversation.conversationId conversationType:EMConversationTypeChat];
-    chatController.storeName = [extDict valueForKey:@"storeName"];
-    chatController.storeImg = [extDict valueForKey:@"storeImg"];
-    chatController.storeId = [extDict valueForKey:@"storeId"];
+    if (!isEdit)
+    {
+        CZJConversation* conversation = conversationAry[indexPath.row];
+        EMConversation* emConversation = conversation.emConversation;
+        NSDictionary* extDict = emConversation.latestMessage.ext;
+        CZJChatViewController *chatController = [[CZJChatViewController alloc] initWithConversationChatter: emConversation.conversationId conversationType:EMConversationTypeChat];
+        chatController.storeName = [extDict valueForKey:@"storeName"];
+        chatController.storeImg = [extDict valueForKey:@"storeImg"];
+        chatController.storeId = [extDict valueForKey:@"storeId"];
+        
+        [self.navigationController pushViewController:chatController animated:YES];
+    }
+    else
+    {
+        CZJChatViewCell* chatCell = [tableView cellForRowAtIndexPath:indexPath];
+        [self notifyCellChoose:chatCell.selectBtn];
+    }
 
-    [self.navigationController pushViewController:chatController animated:YES];
 }
 
 
@@ -190,12 +209,16 @@ UITableViewDelegate
     conversation.isSelected = sender.selected;
     
     BOOL isallchoosed = YES;
+    int count = 0;
     for (CZJConversation* conver in conversationAry)
     {
         if (!conver.isSelected)
         {
             isallchoosed = NO;
-            break;
+        }
+        else
+        {
+            count++;
         }
     }
     buttomView.allChooseBtn.selected = isallchoosed;
@@ -239,36 +262,42 @@ UITableViewDelegate
 {
     BOOL isSelected = NO;
     NSMutableArray* tmpAry = [NSMutableArray array];
-//    for (CZJConversation* conver in conversationAry)
-//    {
-//        if (conver.isSelected)
-//        {
-//            isSelected = YES;
-//            [tmpAry addObject:conver];
-//        }
-//    }
+    for (CZJConversation* conver in conversationAry)
+    {
+        if (conver.isSelected)
+        {
+            isSelected = YES;
+            [tmpAry addObject:conver];
+        }
+    }
     
-//    if (isSelected)
-//    {
-//        [CZJUtils tipWithText:@"删除成功" andView:nil];
-//        [conversationAry removeObjectsInArray:tmpAry];
-//        [[EMClient sharedClient].chatManager deleteConversations:tmpAry deleteMessages:YES];
-//        if (conversationAry.count == 0)
-//        {
-//            buttomView.allChooseBtn.selected = NO;
-//            buttomView.allChooseBtn.enabled = NO;
-//            buttomView.buttonOne.enabled = NO;
-//            buttomView.buttonTwo.enabled = NO;
-//            [buttomView.buttonOne setBackgroundColor:CZJGRAYCOLOR];
-//            [buttomView.buttonTwo setBackgroundColor:CZJGRAYCOLOR];
-//        }
-//        [[NSNotificationCenter defaultCenter]postNotificationName:kCZJNotifiRefreshMessageReadStatus object:nil];
-//        [self.myTableView reloadData];
-//    }
-//    else
-//    {
-//        [CZJUtils tipWithText:@"请选择消息记录" andView:nil];
-//    }
+    if (isSelected)
+    {
+        [CZJUtils tipWithText:@"删除成功" andView:nil];
+        [conversationAry removeObjectsInArray:tmpAry];
+        
+        NSMutableArray* tmpAry2 = [NSMutableArray array];
+        for (CZJConversation* conver in tmpAry)
+        {
+            [tmpAry2 addObject:conver.emConversation];
+        }
+        [[EMClient sharedClient].chatManager deleteConversations:tmpAry2 deleteMessages:YES];
+        if (conversationAry.count == 0)
+        {
+            buttomView.allChooseBtn.selected = NO;
+            buttomView.allChooseBtn.enabled = NO;
+            buttomView.buttonOne.enabled = NO;
+            buttomView.buttonTwo.enabled = NO;
+            [buttomView.buttonOne setBackgroundColor:CZJGRAYCOLOR];
+            [buttomView.buttonTwo setBackgroundColor:CZJGRAYCOLOR];
+        }
+        [[NSNotificationCenter defaultCenter]postNotificationName:kCZJNotifiRefreshMessageReadStatus object:nil];
+        [self.myTableView reloadData];
+    }
+    else
+    {
+        [CZJUtils tipWithText:@"请选择消息记录" andView:nil];
+    }
 }
 
 

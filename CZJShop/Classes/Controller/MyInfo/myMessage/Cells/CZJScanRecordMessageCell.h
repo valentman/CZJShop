@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CZJScanRecordMessageCell : EaseBaseMessageCell
+@interface CZJScanRecordMessageCell : CZJTableViewCell
 @property (weak, nonatomic) IBOutlet UILabel *urlLabel;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *urlLabelHeight;
 @property (weak, nonatomic) IBOutlet UIImageView *goodImg;

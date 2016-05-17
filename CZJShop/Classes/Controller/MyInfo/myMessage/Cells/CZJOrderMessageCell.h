@@ -16,4 +16,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *orderTimerLabel;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *imgeWidth;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *orderNoLeading;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *imageLeading;
+@property (weak, nonatomic) IBOutlet UILabel *orderNoTitle;
+@property (weak, nonatomic) IBOutlet UILabel *orderMoneyTitle;
+@property (weak, nonatomic) IBOutlet UILabel *orderTimeTitle;
 @end

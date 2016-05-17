@@ -57,7 +57,7 @@
                type:type
               title:title
                body:body
-               link:@"http://m.chezhijian.com/appserver/html/download.html"
+               link:SHARE_URL
               image:image];
 }
 
