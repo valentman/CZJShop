@@ -50,9 +50,9 @@ UITableViewDelegate
         [self.myTableView registerNib:nib forCellReuseIdentifier:cells];
     }
     
-//    CZJOrderTypeForm* onlineService = [[CZJOrderTypeForm alloc]init];
-//    onlineService.orderTypeName = @"在线客服";
-//    onlineService.orderTypeImg = @"serve_icon_kefu";
+    CZJOrderTypeForm* onlineService = [[CZJOrderTypeForm alloc]init];
+    onlineService.orderTypeName = @"在线客服";
+    onlineService.orderTypeImg = @"serve_icon_kefu";
     CZJOrderTypeForm* phoneAsk = [[CZJOrderTypeForm alloc]init];
     phoneAsk.orderTypeName = @"电话咨询";
     phoneAsk.orderTypeImg = @"serve_icon_call";
@@ -62,7 +62,7 @@ UITableViewDelegate
     CZJOrderTypeForm* zhibaoCard = [[CZJOrderTypeForm alloc]init];
     zhibaoCard.orderTypeName = @"质保卡查询";
     zhibaoCard.orderTypeImg = @"my_icon_zhibao";
-    cellArray = @[phoneAsk,feedback,zhibaoCard];
+    cellArray = @[onlineService,phoneAsk,feedback];
     
     [self.myTableView reloadData];
     
@@ -83,7 +83,7 @@ UITableViewDelegate
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 3;
+    return cellArray.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -114,15 +114,15 @@ UITableViewDelegate
     {
         
     }
-    if (0 == indexPath.row)
+    if (1 == indexPath.row)
     {
         [CZJUtils callHotLine:self.hotLine AndTarget:self.view];
     }
-    if (1 == indexPath.row )
+    if (2 == indexPath.row )
     {
         [self performSegueWithIdentifier:@"segueToOpinionFeedback" sender:self];
     }
-    if (2 == indexPath.row)
+    if (3 == indexPath.row)
     {
         CZJWebViewController* webView = (CZJWebViewController*)[CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:@"webViewSBID"];
         webView.cur_url = [kCZJServerAddr stringByAppendingString:kCZJServerAPIZHIBAOCARD];

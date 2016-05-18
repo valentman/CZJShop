@@ -255,6 +255,7 @@ static NSString *const kCZJNotifiJumpToOrderList = @"jumptoOrderList";
 static NSString *const kCZJNotifikOrderListType = @"kOrderListType";
 static NSString *const kCZJNotifiRefreshOrderlist = @"refreshOrderListNotify";
 static NSString *const kCZJNotifiRefreshReturnOrderlist = @"refreshReturnOrderListNotify";
+static NSString *const kCZJNotifiMoveChatView = @"moveChatview";
 static NSString *const kCZJNotifiRefreshMessageReadStatus = @"refreshMessageReadStatus";        //新消息已读
 static NSString *const kCZJNotifiGetNewNotify = @"getNewNotify";                                //新消息通知
 static NSString *const kCZJNotifiLoginSuccess = @"loginSuccess";                                //登录成功

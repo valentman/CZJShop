@@ -136,10 +136,17 @@ singleton_implementation(CZJLoginModelManager)
 
 - (void)loginSuccess:(id)json
 {
-    self.usrBaseForm = [[UserBaseForm alloc] init];
-    DLog(@"UserBaseForm:%@",[[CZJUtils DataFromJson:json] description]);
-    [self.usrBaseForm setUserInfoWithDictionary:[[CZJUtils DataFromJson:json] valueForKey:@"msg"]];
+    self.usrBaseForm =  CZJBaseDataInstance.userInfoForm;
+    DLog(@"UserBaseForm:%@",[self.usrBaseForm.keyValues description]);
     
+    NSDictionary* dict = [[CZJUtils DataFromJson:json] valueForKey:@"msg"];
+    self.usrBaseForm.chezhuId = [dict valueForKey:@"chezhuId"];
+    self.usrBaseForm.headPic = [dict valueForKey:@"headPic"];
+    self.usrBaseForm.imId = [dict valueForKey:@"imId"];
+    self.usrBaseForm.mobile = [dict valueForKey:@"mobile"];
+    self.usrBaseForm.name = [dict valueForKey:@"name"];
+    
+    DLog(@"UserBaseForm:%@",[self.usrBaseForm.keyValues description]);
     //登录成功，个人信息写入本地文件中
     if ([CZJUtils writeDictionaryToDocumentsDirectory:[self.usrBaseForm.keyValues mutableCopy] withPlistName:kCZJPlistFileUserBaseForm]) {
         [USER_DEFAULT setObject:[NSNumber numberWithBool:YES] forKey:kCZJIsUserHaveLogined];
@@ -158,6 +165,9 @@ singleton_implementation(CZJLoginModelManager)
     {
         [[EMClient sharedClient].options setIsAutoLogin:YES];
     }
+    
+
+    [[NSNotificationCenter defaultCenter]postNotificationName:kCZJNotifiLoginSuccess object:nil];
 }
 
 - (void)setPassword:(NSDictionary*)params

@@ -106,6 +106,8 @@
  */
 - (void)willShowBottomView:(UIView *)bottomView;
 
+- (void)faceButtonAction:(id)sender;
+
 @end
 
 @protocol EMChatToolbarDelegate <NSObject>

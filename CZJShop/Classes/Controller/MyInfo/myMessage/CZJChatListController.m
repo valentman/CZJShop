@@ -12,6 +12,8 @@
 #import "CZJChatViewController.h"
 #import "CZJConversation.h"
 
+#define Duration 0.35
+
 @interface CZJChatListController ()
 <
 UITableViewDataSource,
@@ -86,7 +88,7 @@ UITableViewDelegate
     if (isEdit)
     {
         [self.navigationItem.rightBarButtonItem setTitle:@"完成"];
-        [UIView animateWithDuration:0.5 animations:^{
+        [UIView animateWithDuration:Duration animations:^{
             [buttomView setPosition:CGPointMake(0, PJ_SCREEN_HEIGHT - 60) atAnchorPoint:CGPointZero];
             [self.myTableView setSize:CGSizeMake(PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - 64 - 60)];
         }];
@@ -95,7 +97,7 @@ UITableViewDelegate
     {
         [self.navigationItem.rightBarButtonItem setTitle:@"编辑"];
         
-        [UIView animateWithDuration:0.5 animations:^{
+        [UIView animateWithDuration:Duration animations:^{
             [buttomView setPosition:CGPointMake(0, PJ_SCREEN_HEIGHT) atAnchorPoint:CGPointZero];
             [self.myTableView setSize:CGSizeMake(PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - 64)];
         }];
@@ -144,7 +146,7 @@ UITableViewDelegate
 
     //约束也能做动画
     [chatCell layoutIfNeeded];
-    [UIView animateWithDuration:0.5 animations:^{
+    [UIView animateWithDuration:Duration animations:^{
         chatCell.viewLeading.constant = isEdit? 40 : 0;
         [chatCell layoutIfNeeded];
     } completion:^(BOOL finished) {
@@ -238,24 +240,30 @@ UITableViewDelegate
 - (void)markReadedAction:(UIButton*)sender
 {
     BOOL isSelected = NO;
-//    for (CZJConversation* conver in conversationAry)
-//    {
-//        if (conver.isSelected)
-//        {
-//            isSelected = YES;
-//            
-//        }
-//    }
-//    if (isSelected)
-//    {
-//        [self.myTableView reloadData];
-//        [[NSNotificationCenter defaultCenter]postNotificationName:kCZJNotifiRefreshMessageReadStatus object:nil];
-//        [CZJUtils tipWithText:@"标记成功" andView:nil];
-//    }
-//    else
-//    {
-//        [CZJUtils tipWithText:@"请选择消息记录" andView:nil];
-//    }
+    for (CZJConversation* conver in conversationAry)
+    {
+        if (conver.isSelected)
+        {
+            isSelected = YES;
+        }
+    }
+    if (isSelected)
+    {
+        [self.myTableView reloadData];
+        for (CZJConversation* conver in conversationAry)
+        {
+            if (conver.isSelected)
+            {
+                [conver.emConversation markAllMessagesAsRead];
+            }
+        }
+        [[NSNotificationCenter defaultCenter]postNotificationName:kCZJNotifiRefreshMessageReadStatus object:nil];
+        [CZJUtils tipWithText:@"标记已读成功" andView:nil];
+    }
+    else
+    {
+        [CZJUtils tipWithText:@"请选择消息记录" andView:nil];
+    }
 }
 
 - (void)deleteMessageAction:(UIButton*)sender

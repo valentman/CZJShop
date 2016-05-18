@@ -117,10 +117,10 @@
 - (void)_setupSubviews
 {
     //backgroundImageView
-//    _backgroundImageView = [[UIImageView alloc] initWithFrame:self.bounds];
-//    _backgroundImageView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
-//    _backgroundImageView.backgroundColor = [UIColor clearColor];
-//    _backgroundImageView.image = [[UIImage imageNamed:@"EaseUIResource.bundle/messageToolbarBg"] stretchableImageWithLeftCapWidth:0.5 topCapHeight:10];
+    _backgroundImageView = [[UIImageView alloc] initWithFrame:self.bounds];
+    _backgroundImageView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+    _backgroundImageView.backgroundColor = [UIColor clearColor];
+    _backgroundImageView.image = [[UIImage imageNamed:@"EaseUIResource.bundle/messageToolbarBg"] stretchableImageWithLeftCapWidth:0.5 topCapHeight:10];
 //    [self addSubview:_backgroundImageView];
     
     //toolbar
@@ -170,7 +170,7 @@
     [self.recordButton addTarget:self action:@selector(recordDragOutside) forControlEvents:UIControlEventTouchDragExit];
     [self.recordButton addTarget:self action:@selector(recordDragInside) forControlEvents:UIControlEventTouchDragEnter];
     self.recordButton.hidden = YES;
-    [self.toolbarView addSubview:self.recordButton];
+//    [self.toolbarView addSubview:self.recordButton];
     
     //表情
     self.faceButton = [[UIButton alloc] init];
@@ -212,19 +212,19 @@
 //    
 //    return _recordView;
 //}
-//
-//- (UIView *)faceView
-//{
-//    if (_faceView == nil) {
-//        _faceView = [[EaseFaceView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(_toolbarView.frame), self.frame.size.width, 180)];
-//        [(EaseFaceView *)_faceView setDelegate:self];
-//        _faceView.backgroundColor = [UIColor colorWithRed:240 / 255.0 green:242 / 255.0 blue:247 / 255.0 alpha:1.0];
-//        _faceView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
-//    }
-//    
-//    return _faceView;
-//}
-//
+
+- (UIView *)faceView
+{
+    if (_faceView == nil) {
+        _faceView = [[EaseFaceView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(_toolbarView.frame) + 50, self.frame.size.width, 180)];
+        [(EaseFaceView *)_faceView setDelegate:self];
+        _faceView.backgroundColor = CZJNAVIBARBGCOLOR;
+        _faceView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+    }
+    
+    return _faceView;
+}
+
 //- (UIView *)moreView
 //{
 //    if (_moreView == nil) {
@@ -466,19 +466,57 @@
 {
     if (![self.activityButtomView isEqual:bottomView]) {
         CGFloat bottomHeight = bottomView ? bottomView.frame.size.height : 0;
-        [self _willShowBottomHeight:bottomHeight];
         
-        if (bottomView) {
-            CGRect rect = bottomView.frame;
-            rect.origin.y = CGRectGetMaxY(self.toolbarView.frame);
-            bottomView.frame = rect;
-            [self addSubview:bottomView];
+        //这里是通知页面的Tableview改变大小位置,同时改变自己的大小
+        [UIView animateWithDuration:0.3 delay:0.0f options:(0 << 16 | UIViewAnimationOptionBeginFromCurrentState) animations:^{
+            [self _willShowBottomHeight:bottomHeight];
+            if (bottomView) {
+                CGRect rect = bottomView.frame;
+                rect.origin.y = CGRectGetMaxY(self.toolbarView.frame) + 50;
+                bottomView.frame = rect;
+                [self addSubview:bottomView];
+            }
+            else
+            {
+                CGRect rect = self.activityButtomView.frame;
+                rect.origin.y = 96;
+                self.activityButtomView.frame = rect;
+            }
+        } completion:^(BOOL finished){
+            if (finished && 0 == bottomHeight)
+            {
+                if (self.activityButtomView) {
+                    [self.activityButtomView removeFromSuperview];
+                }
+                self.activityButtomView = bottomView;
+            }
+        }];
+
+        
+//        if (self.activityButtomView) {
+//            [self.activityButtomView removeFromSuperview];
+//        }
+        
+        
+
+        
+        //通知CZJChatView改变位置
+        if (!bottomView && [self.activityButtomView isKindOfClass:[EaseFaceView class]])
+        {
+            [[NSNotificationCenter defaultCenter]postNotificationName:kCZJNotifiMoveChatView object:nil userInfo:@{@"toHeight":@"50"}];
+        }
+        else if (bottomView)
+        {
+            [[NSNotificationCenter defaultCenter]postNotificationName:kCZJNotifiMoveChatView object:nil userInfo:@{@"toHeight":@"230"}];
+        }
+        if (bottomHeight > 0)
+        {
+            if (self.activityButtomView) {
+                [self.activityButtomView removeFromSuperview];
+            }
+            self.activityButtomView = bottomView;
         }
         
-        if (self.activityButtomView) {
-            [self.activityButtomView removeFromSuperview];
-        }
-        self.activityButtomView = bottomView;
     }
 }
 
@@ -709,27 +747,27 @@
 - (void)faceButtonAction:(id)sender
 {
     UIButton *button = (UIButton *)sender;
-    button.selected = !button.selected;
+//    button.selected = !button.selected;
     
-    EaseChatToolbarItem *faceItem = nil;
-    for (EaseChatToolbarItem *item in self.rightItems) {
-        if (item.button == button){
-            faceItem = item;
-            continue;
-        }
-        
-        item.button.selected = NO;
-    }
-    
-    for (EaseChatToolbarItem *item in self.leftItems) {
-        item.button.selected = NO;
-    }
+//    EaseChatToolbarItem *faceItem = nil;
+//    for (EaseChatToolbarItem *item in self.rightItems) {
+//        if (item.button == button){
+//            faceItem = item;
+//            continue;
+//        }
+//        
+//        item.button.selected = NO;
+//    }
+//    
+//    for (EaseChatToolbarItem *item in self.leftItems) {
+//        item.button.selected = NO;
+//    }
     
     if (button.selected) {
         //如果处于文字输入状态，使文字输入框失去焦点
         [self.inputTextView resignFirstResponder];
         
-        [self _willShowBottomView:faceItem.button2View];
+        [self _willShowBottomView:self.faceView];
         [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
             self.recordButton.hidden = button.selected;
             self.inputTextView.hidden = !button.selected;

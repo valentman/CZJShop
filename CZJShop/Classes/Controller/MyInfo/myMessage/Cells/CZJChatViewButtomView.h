@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "EaseChatToolbar.h"
 
 @protocol CZJChatViewButtomViewDelegate <NSObject>
 
@@ -24,6 +25,8 @@
 @property (weak, nonatomic) IBOutlet UIButton *emotionBtn;
 @property (weak, nonatomic) IBOutlet UIButton *picBtn;
 @property (weak, nonatomic) IBOutlet UIButton *photoBtn;
+@property (weak, nonatomic) IBOutlet UIImageView *emotionImg;
+
 
 @property (weak, nonatomic) id<CZJChatViewButtomViewDelegate>delegate;
 

@@ -7,6 +7,7 @@
 //
 
 #import "CZJChatViewButtomView.h"
+#import "EaseFaceView.h"
 
 @implementation CZJChatViewButtomView
 
@@ -50,8 +51,11 @@
 
 - (IBAction)emotionAction:(id)sender
 {
+    UIButton* emotionbutton = (UIButton*)sender;
+    emotionbutton.selected = !emotionbutton.selected;
+    [self.emotionImg setImage:(emotionbutton.selected ? IMAGENAMED(@"chat_icon_face_sel") : IMAGENAMED(@"chat_icon_face"))];
     if (_delegate && [_delegate respondsToSelector:@selector(emotionAction:)]) {
-        [_delegate emotionAction:self];
+        [_delegate emotionAction:self.emotionBtn];
     }
 }
 

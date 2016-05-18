@@ -109,6 +109,7 @@
     self.czjChatView.delegate = self;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(chatKeyboardWillChangeFrame:) name:UIKeyboardWillChangeFrameNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notifyMoveCZJChatView:) name:kCZJNotifiMoveChatView object:nil];
     
     
     //初始化手势
@@ -174,6 +175,7 @@
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillChangeFrameNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kCZJNotifiMoveChatView object:nil];
     [[EMCDDeviceManager sharedInstance] stopPlaying];
     [EMCDDeviceManager sharedInstance].delegate = nil;
     
@@ -253,13 +255,13 @@
     }
     
     CGRect tableFrame = self.tableView.frame;
-//    tableFrame.size.height = self.view.frame.size.height - _chatToolbar.frame.size.height - 64;
-    tableFrame.size.height = self.view.frame.size.height - 96 - 64;
+    tableFrame.size.height = self.view.frame.size.height - 46 - 50 - 64;
     self.tableView.frame = tableFrame;
     if ([chatToolbar isKindOfClass:[EaseChatToolbar class]]) {
         [(EaseChatToolbar *)self.chatToolbar setDelegate:self];
+        self.faceView = (EaseFaceView*)[(EaseChatToolbar *)self.chatToolbar faceView];
+        
 //        self.chatBarMoreView = (EaseChatBarMoreView*)[(EaseChatToolbar *)self.chatToolbar moreView];
-//        self.faceView = (EaseFaceView*)[(EaseChatToolbar *)self.chatToolbar faceView];
 //        self.recordView = (EaseRecordView*)[(EaseChatToolbar *)self.chatToolbar recordView];
     }
 }
@@ -1104,8 +1106,6 @@
         rect.origin.y = 64;
         rect.size.height = self.view.frame.size.height - toHeight - 110;
         self.tableView.frame = rect;
-        
-//        [self.czjChatView setPosition:CGPointMake(0, self.view.frame.size.height - toHeight - 4) atAnchorPoint:CGPointZero];
     }];
     
     [self _scrollViewToBottom:NO];
@@ -1117,6 +1117,12 @@
         _menuController = [UIMenuController sharedMenuController];
     }
     [_menuController setMenuItems:nil];
+}
+
+- (void)inputTextViewDidBeginEditing:(EaseTextView *)inputTextView
+{
+    self.czjChatView.emotionBtn.selected = NO;
+    [self.czjChatView.emotionImg setImage: IMAGENAMED(@"chat_icon_face")];
 }
 
 - (void)didSendText:(NSString *)text
@@ -1814,13 +1820,14 @@
 
 - (void)emotionAction:(id)sender
 {
-    
+    [(EaseChatToolbar*)self.chatToolbar faceButtonAction:sender];
 }
 
 - (void)myOrderAction:(id)sender
 {
+    __weak typeof(self) weakSelf = self;
     CZJMessageOrderController* orderlist = [[CZJMessageOrderController alloc]init];
-    orderlist.delegate = self;
+    orderlist.delegate = weakSelf;
     orderlist.storeId = self.storeId;
     [self.navigationController pushViewController:orderlist animated:YES];
 }
@@ -1838,7 +1845,7 @@
 {
     NSDictionary *userInfo = notification.userInfo;
     CGRect endFrame = [userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
-    CGRect beginFrame = [userInfo[UIKeyboardFrameBeginUserInfoKey] CGRectValue];
+//    CGRect beginFrame = [userInfo[UIKeyboardFrameBeginUserInfoKey] CGRectValue];
     CGFloat duration = [userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue];
     UIViewAnimationCurve curve = [userInfo[UIKeyboardAnimationCurveUserInfoKey] integerValue];
     
@@ -1851,12 +1858,35 @@
     {
         toHeight = 50;
     }
-    
+    [self moveCZJChatView:toHeight
+                 duration:duration
+          animationCureve:curve];
+}
+
+- (void)moveCZJChatView:(float)toHeight
+               duration:(CGFloat)duration
+        animationCureve:(UIViewAnimationCurve) curve
+{
     void(^animations)() = ^{
         [self.czjChatView setPosition:CGPointMake(0, self.view.frame.size.height - toHeight) atAnchorPoint:CGPointZero];
     };
     
     [UIView animateWithDuration:duration delay:0.0f options:(curve << 16 | UIViewAnimationOptionBeginFromCurrentState) animations:animations completion:nil];
+}
+
+- (void)notifyMoveCZJChatView:(NSNotification*)noti
+{
+    float toHeight = [[noti.userInfo valueForKey:@"toHeight"] floatValue];
+    float duration = 0.3;
+    if (50 == toHeight)
+    {
+        duration = 0.3;
+        self.czjChatView.emotionBtn.selected = NO;
+        [self.czjChatView.emotionImg setImage: IMAGENAMED(@"chat_icon_face")];
+    }
+    [self moveCZJChatView:toHeight
+                 duration:duration
+          animationCureve:0];
 }
 
 
@@ -2044,7 +2074,7 @@
     }
     EaseEmotionManager *managerGif= [[EaseEmotionManager alloc] initWithType:EMEmotionGif emotionRow:2 emotionCol:4 emotions:emotionGifs tagImage:[UIImage imageNamed:@"icon_002_cover"]];
     
-    return @[managerDefault,managerGif];
+    return @[managerDefault];
 }
 
 - (BOOL)isEmotionMessageFormessageViewController:(EaseMessageViewController *)viewController

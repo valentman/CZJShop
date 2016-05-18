@@ -15,7 +15,6 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *erweimaWidth;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *logonWidth;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *descTop;
-
 @end
 
 @implementation CZJMyInfoAboutUsController
@@ -23,6 +22,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [CZJUtils customizeNavigationBarForTarget:self];
+    [self addCZJNaviBarViewWithNotHiddenNavi:CZJNaviBarViewTypeGeneral];
+    self.naviBarView.btnBack.hidden = YES;
+    
     if ( iPhone5)
     {
         self.logonTop.constant = 50;
@@ -38,6 +40,8 @@
         self.erweimaWidth.constant = 160;
         self.logonWidth.constant = 180;
     }
+    
+    self.versionLabel.text = [NSString stringWithFormat:@"V%@",[CZJUtils getCurrentVersion]];
 }
 
 - (void)didReceiveMemoryWarning {

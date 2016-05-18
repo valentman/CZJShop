@@ -261,11 +261,14 @@ FDAlertViewDelegate
         }
         [self.confirmBtn setEnabled:YES];
         [self.confirmBtn setBackgroundColor:kLoginColorRed];
-        [[NSNotificationCenter defaultCenter]postNotificationName:kCZJNotifiLoginSuccess object:nil];
+        
+        //先处理登录成功数据
+        [CZJLoginModelInstance loginSuccess:json];
+        
+        //再发送购物车数量请求
         [CZJBaseDataInstance loadShoppingCartCount:nil Success:^(id json){
             [self exitOutAction:nil];
         } fail:nil];
-        [CZJLoginModelInstance loginSuccess:json];
     };
     CZJSuccessBlock failure = ^(id json){
         NSDictionary* dict = [CZJUtils DataFromJson:json];

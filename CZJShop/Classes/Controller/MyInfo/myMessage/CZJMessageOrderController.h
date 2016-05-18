@@ -14,6 +14,6 @@
 @end
 
 @interface CZJMessageOrderController : CZJViewController
-@property (weak, nonatomic)id<CZJMessageOrderListDelegate> delegate;
-@property (strong, nonatomic)NSString* storeId;
+@property (weak, nonatomic) id<CZJMessageOrderListDelegate> delegate;
+@property (strong, nonatomic) NSString* storeId;
 @end

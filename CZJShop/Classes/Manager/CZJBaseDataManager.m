@@ -99,9 +99,9 @@ singleton_implementation(CZJBaseDataManager);
 
 - (void)refreshChezhuID
 {
-    [_params setValue:(nil == self.userInfoForm.chezhuId) ? @"0" : self.userInfoForm.chezhuId forKey:@"chezhuId"];
-     [_params setValue:(nil == self.userInfoForm.cityId) ? @"0" : self.userInfoForm.cityId forKey:@"cityId"];
-    [_params setValue:(nil == self.userInfoForm.mobile) ? @"0" : self.userInfoForm.mobile forKey:@"chezhuMobile"];
+    [_params setValue:((nil == self.userInfoForm.chezhuId) ? @"0" : self.userInfoForm.chezhuId) forKey:@"chezhuId"];
+    [_params setValue:((nil == self.userInfoForm.cityId) ? @"0" : self.userInfoForm.cityId) forKey:@"cityId"];
+    [_params setValue:((nil == self.userInfoForm.mobile) ? @"0" : self.userInfoForm.mobile) forKey:@"chezhuMobile"];
 }
 
 
@@ -129,6 +129,11 @@ singleton_implementation(CZJBaseDataManager);
             self.curCityID = [dict valueForKey:@"cityId"];
             self.curProvinceID = [dict valueForKey:@"provinceId"];
             [_params setValue:self.curCityID forKey:@"cityId"];
+            
+            self.userInfoForm.cityId = self.curCityID;
+            self.userInfoForm.cityName = curCity;
+            [USER_DEFAULT setValue:self.curCityID forKey: kCZJDefaultCityID];
+            [USER_DEFAULT setValue:curCity forKey: kCZJDefaultyCityName];
         } fail:^{
         
         } andServerAPI:kCZJServerAPIGetCityIdByName];

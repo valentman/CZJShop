@@ -18,18 +18,20 @@
     return nil;
 }
 
-- (void)setUserInfoWithDictionary:(NSDictionary*)dictionary
+- (void)setUserInfoWithDictionary:(NSDictionary*)dict
 {
-    self.cityId = [dictionary  valueForKey:@"cityId"];
-    self.cityName = [dictionary  valueForKey:@"cityName"];
-    self.chezhuId = [dictionary  valueForKey:@"chezhuId"];
+    self.cityId = [dict valueForKey:@"cityId"];
+    self.cityName = [dict valueForKey:@"cityName"];
+    self.chezhuId = [dict valueForKey:@"chezhuId"];
     
-    self.name = [dictionary valueForKey:@"name"];
-    self.mobile = [dictionary valueForKey:@"mobile"];
-    self.headPic = [dictionary valueForKey:@"headPic"];
-    self.levelName = [dictionary valueForKey:@"levelName"];
-    self.isHaveNewMessage = [[dictionary valueForKey:@"isHaveNewMessage"]boolValue];
-    self.sex = [dictionary valueForKey:@"sex"];
+    self.name = [dict valueForKey:@"name"];
+    self.mobile = [dict valueForKey:@"mobile"];
+    self.headPic = [dict valueForKey:@"headPic"];
+    self.levelName = [dict valueForKey:@"levelName"];
+    self.isHaveNewMessage = [[dict valueForKey:@"isHaveNewMessage"]boolValue];
+    self.sex = [dict valueForKey:@"sex"];
+    
+    
     NSString* sexual;
     if (2 == [self.sex intValue])
     {
@@ -44,22 +46,22 @@
         sexual = @"保密";
     }
     [USER_DEFAULT setObject:sexual forKey:kUSerDefaultSexual];
-    self.nopay = [dictionary  valueForKey:@"nopay"];
-    self.nobuild = [dictionary  valueForKey:@"nobuild"];
-    self.noreceive = [dictionary  valueForKey:@"noreceive"];
-    self.noEvaluate = [dictionary  valueForKey:@"noEvaluate"];
+    self.nopay = [dict  valueForKey:@"nopay"];
+    self.nobuild = [dict  valueForKey:@"nobuild"];
+    self.noreceive = [dict  valueForKey:@"noreceive"];
+    self.noEvaluate = [dict  valueForKey:@"noEvaluate"];
     
-    self.money = [dictionary valueForKey:@"money"];
-    self.redpacket = [dictionary valueForKey:@"redpacket"];
-    self.point = [dictionary valueForKey:@"point"];
-    self.coupon = [dictionary  valueForKey:@"coupon"];
-    self.card = [dictionary  valueForKey:@"card"];
-    self.hotline = [dictionary  valueForKey:@"hotline"];
+    self.money = [dict valueForKey:@"money"];
+    self.redpacket = [dict valueForKey:@"redpacket"];
+    self.point = [dict valueForKey:@"point"];
+    self.coupon = [dict  valueForKey:@"coupon"];
+    self.card = [dict  valueForKey:@"card"];
+    self.hotline = [dict  valueForKey:@"hotline"];
     
-    self.couponMoney = [dictionary  valueForKey:@"couponMoney"];
-    self.couponCode = [dictionary valueForKey:@"couponCode"];
-    self.imId = [dictionary valueForKey:@"imId"];
-    self.defaultCar = [DeafualtCarModel objectWithKeyValues:[dictionary  valueForKey:@"car"]];
+    self.couponMoney = [dict  valueForKey:@"couponMoney"];
+    self.couponCode = [dict valueForKey:@"couponCode"];
+    self.imId = [dict valueForKey:@"imId"];
+    self.defaultCar = [DeafualtCarModel objectWithKeyValues:[dict  valueForKey:@"car"]];
 }
 @end
 
