@@ -40,7 +40,8 @@ UITableViewDataSource
 - (void)viewWillAppear:(BOOL)animated
 {
     self.navigationController.navigationBarHidden = NO;
-    
+    [self.serviceInfoBtn setBadgeNum:([CZJMessageInstance isAllChatReaded] ? 0 : -1)];
+    [self.serviceInfoBtn setBadgeLabelPosition:CGPointMake(self.serviceInfoBtn.size.width*1.2, 0)];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -81,8 +82,9 @@ UITableViewDataSource
         UINib *nib=[UINib nibWithNibName:cells bundle:nil];
         [self.myTableView registerNib:nib forCellReuseIdentifier:cells];
     }
-    [self.serviceInfoBtn setBadgeNum:-1];
-    [self.serviceInfoBtn setBadgeLabelPosition:CGPointMake(self.serviceInfoBtn.size.width*1.1, 0)];
+    self.serviceInfoBtn.userInteractionEnabled = false;
+    
+    
     
     
     //底部标记栏

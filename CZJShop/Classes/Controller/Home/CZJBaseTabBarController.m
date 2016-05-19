@@ -28,15 +28,15 @@
     CGPoint dotPt;
     if (iPhone5)
     {
-        dotPt = CGPointMake(PJ_SCREEN_WIDTH - 15, 5);
+        dotPt = CGPointMake(PJ_SCREEN_WIDTH - 25, 5);
     }
     if (iPhone6)
     {
-        dotPt = CGPointMake(PJ_SCREEN_WIDTH - 20, 5);
+        dotPt = CGPointMake(PJ_SCREEN_WIDTH - 30, 5);
     }
     if (iPhone6Plus)
     {
-        dotPt = CGPointMake(PJ_SCREEN_WIDTH - 25, 5);
+        dotPt = CGPointMake(PJ_SCREEN_WIDTH - 35, 5);
     }
     [_dotLabel setPosition:dotPt atAnchorPoint:CGPointTopRight];
     _dotLabel.hidden = YES;

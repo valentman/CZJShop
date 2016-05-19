@@ -107,7 +107,6 @@ CZJViewControllerDelegate
 
 - (void)viewDidDisappear:(BOOL)animated
 {
-    
 }
 
 - (void)initDatas
@@ -127,7 +126,15 @@ CZJViewControllerDelegate
     NSMutableDictionary* dict9 = [@{@"title":@"优惠券", @"buttonTitle":@"0", @"item":@"coupon"} mutableCopy];
     NSMutableDictionary* dict0 = [@{@"title":@"套餐卡", @"buttonTitle":@"0", @"item":@"card"} mutableCopy];
     walletSubCellAry = @[dict6,dict7,dict8,dict9,dict0];
+    
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(refreshTabBarDotLabel) name:kCZJNotifiRefreshMessageReadStatus object:nil];
 }
+
+- (void)refreshTabBarDotLabel
+{
+    [self.myInfoTableView reloadData];
+}
+
 
 - (void)initViews
 {

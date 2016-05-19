@@ -21,5 +21,7 @@ singleton_interface(CZJMessageManager)
 -(void)markReadAllMessage;
 
 -(BOOL)isAllReaded;
+-(BOOL)isAllMessageReaded;
+-(BOOL)isAllChatReaded;
 
 @end

@@ -37,14 +37,30 @@
     DLog(@"height:%f",self.view.frame.size.height);
     
     //固定数据
-    NSDictionary* menuNames = @{@"2000" : @"线下服务",
-                               @"2001" : @"油品化学品",
-                               @"2003" : @"美容清洗",
-                               @"2007" : @"汽车装饰",
-                               @"2009" : @"汽车配件",
-                                @"2005" : @"车载电器",
-                               @"2013" : @"安全自驾"
-                           };
+    NSDictionary* serviceMenuNames = @{@"2501" : @"美容清洗",
+                                       @"2503" : @"维修保养"
+                                       };
+    
+    NSDictionary* shopMenuNames = @{@"2001" : @"油品化学品",
+                                    @"2003" : @"美容清洗",
+                                    @"2007" : @"汽车装饰",
+                                    @"2009" : @"汽车配件",
+                                    @"2005" : @"车载电器",
+                                    @"2013" : @"安全自驾"
+                                    };
+    
+    NSDictionary* menuNames;
+    NSString* title;
+    if ([_viewFromWhere isEqualToString:@"5"])
+    {
+        title = @"更多服务";
+        menuNames = [NSDictionary dictionaryWithDictionary:serviceMenuNames];
+    }
+    else if ([_viewFromWhere isEqualToString:@"6"])
+    {
+        title = @"车品商城";
+        menuNames = [NSDictionary dictionaryWithDictionary:shopMenuNames];
+    }
     
     for (NSString* key in menuNames)
     {
@@ -87,12 +103,12 @@
         else
         {//Item
             DLog(@"%@",info.typeId);
-            if (0 == left)
+            if ([_viewFromWhere isEqualToString:@"5"])
             {
                 _serviceTypeId = info.typeId;
                 [self performSegueWithIdentifier:@"segueToServiceList" sender:self];
             }
-            else
+            else if ([_viewFromWhere isEqualToString:@"6"])
             {
                 _goodsTypeId = info.typeId;
                 [self performSegueWithIdentifier:@"segueToGoodsList" sender:self];
@@ -101,20 +117,15 @@
         
     }].isRecordLastScroll=YES;
     
-    [self addCZJNaviBarView:CZJNaviBarViewTypeCategory];
-    //导航栏添加搜索栏
-//    self.navigationController.navigationBarHidden = YES;
-//    CGRect mainViewBounds = self.navigationController.navigationBar.bounds;
-//    [self.cateNaviBarView initWithFrame:mainViewBounds AndType:CZJNaviBarViewTypeCategory].delegate = self;
+    [self addCZJNaviBarView:CZJNaviBarViewTypeGeneral];
+    self.naviBarView.mainTitleLabel.text = title;
 }
 
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [self.naviBarView refreshShopBadgeLabel];
-//    [self.navigationController popToRootViewControllerAnimated:NO];
 }
-
 
 
 - (void)didReceiveMemoryWarning {
@@ -138,12 +149,4 @@
         detailInfo.typeId = _goodsTypeId;
     }
 }
-
-
-#pragma mark- CZJNaviagtionBarViewDelegate
-- (void)clickEventCallBack:(id)sender
-{
-    DLog(@"category");
-}
-
 @end

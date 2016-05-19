@@ -57,6 +57,7 @@
 @property(nonatomic, strong) NSString* name;
 @property(nonatomic, strong) NSString* img;
 @property(nonatomic, strong) NSString* typeId;
+@property(nonatomic, strong) NSString* type;
 @property(nonatomic, assign) BOOL need;
 @property(nonatomic, assign) BOOL open;
 @end

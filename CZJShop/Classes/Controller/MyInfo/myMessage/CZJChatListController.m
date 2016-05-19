@@ -11,6 +11,7 @@
 #import "CZJChatViewCell.h"
 #import "CZJChatViewController.h"
 #import "CZJConversation.h"
+#import "CZJBaseDataManager.h"
 
 #define Duration 0.35
 
@@ -32,6 +33,10 @@ UITableViewDelegate
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self initChatListViews];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
     [self getChatConversations];
 }
 
@@ -108,6 +113,7 @@ UITableViewDelegate
 
 - (void)getChatConversations
 {
+    [conversationAry removeAllObjects];
     NSArray* tmpConversations = [[EMClient sharedClient].chatManager getAllConversations];
     for (int i = 0; i < tmpConversations.count; i++)
     {
@@ -141,9 +147,15 @@ UITableViewDelegate
     CZJConversation* conversation = conversationAry[indexPath.row];
     EMConversation* emConversation = conversation.emConversation;
     NSDictionary* extDict = emConversation.latestMessage.ext;
+    if ([emConversation.conversationId isEqualToString:CZJBaseDataInstance.userInfoForm.kefuId])
+    {
+        [extDict setValue:CZJBaseDataInstance.userInfoForm.kefuHead forKey:@"storeImg"];
+        [extDict setValue:@"车之健客服" forKey:@"storeName"];
+    }
     EaseMessageModel* model = [[EaseMessageModel alloc]initWithMessage:emConversation.latestMessage];
     CZJChatViewCell* chatCell = [tableView dequeueReusableCellWithIdentifier:@"CZJChatViewCell" forIndexPath:indexPath];
-
+    [chatCell.unreadBtn setBadgeNum:[emConversation unreadMessagesCount]];
+    
     //约束也能做动画
     [chatCell layoutIfNeeded];
     [UIView animateWithDuration:Duration animations:^{
@@ -188,6 +200,11 @@ UITableViewDelegate
         CZJConversation* conversation = conversationAry[indexPath.row];
         EMConversation* emConversation = conversation.emConversation;
         NSDictionary* extDict = emConversation.latestMessage.ext;
+        if ([emConversation.conversationId isEqualToString:CZJBaseDataInstance.userInfoForm.kefuId])
+        {
+            [extDict setValue:CZJBaseDataInstance.userInfoForm.kefuHead forKey:@"storeImg"];
+            [extDict setValue:@"车之健客服" forKey:@"storeName"];
+        }
         CZJChatViewController *chatController = [[CZJChatViewController alloc] initWithConversationChatter: emConversation.conversationId conversationType:EMConversationTypeChat];
         chatController.storeName = [extDict valueForKey:@"storeName"];
         chatController.storeImg = [extDict valueForKey:@"storeImg"];

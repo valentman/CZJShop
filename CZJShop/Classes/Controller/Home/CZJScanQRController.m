@@ -75,7 +75,7 @@ UIAlertViewDelegate
     //导航栏初始
     [CZJUtils hideSearchBarViewForTarget:self];
     [self addCZJNaviBarView:CZJNaviBarViewTypeScan];
-    self.naviBarView.mainTitleLabel.text = @"条形码/二维码";
+    self.naviBarView.mainTitleLabel.text = @"二维码";
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
     
     //打开/关闭闪光灯按钮
@@ -212,7 +212,7 @@ UIAlertViewDelegate
     
     _hintLabel = [[UILabel alloc]init];
     _hintLabel.font = [UIFont systemFontOfSize:12];
-    _hintLabel.text = @"对准二维码/条形码到框内即可扫描";
+    _hintLabel.text = @"对准二维码到框内，即可自动扫描";
     _hintLabel.textColor = LIGHTGRAYCOLOR;
     [_operatorView addSubview:_hintLabel];
     [_hintLabel setFrame:CGRectMake(PJ_SCREEN_WIDTH*0.5 - 95, (PJ_SCREEN_HEIGHT  + _preView.bounds.size.height*0.7*PJ_SCREEN_ASPECTRATIO)*0.5 - 30, 190, 15)];

@@ -277,7 +277,7 @@ CZJMiaoShaCellDelegate
     }
     
     [CZJBaseDataInstance generalPost:nil success:^(id json) {
-//        DLog(@"%@",[[CZJUtils DataFromJson:json] description]);
+        DLog(@"%@",[[CZJUtils DataFromJson:json] description]);
         [CZJBaseDataInstance.homeForm setNewDictionary:[CZJUtils DataFromJson:json]];
         if (CZJBaseDataInstance.storeForm.provinceForms.count == 0)
         {
@@ -780,10 +780,14 @@ CZJMiaoShaCellDelegate
 - (void)showDetailInfoWithForm:(id)form
 {
     ServiceForm* serviceForm = (ServiceForm*)form;
-    if ([serviceForm.typeId isEqualToString:@"2000"])
+    if ([serviceForm.type isEqualToString:@"5"] ||
+        [serviceForm.type isEqualToString:@"6"])
     {
-        self.tabBarController.selectedIndex = 1;
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"moreService" object:nil];
+        CZJCategoryController* cateVC = (CZJCategoryController*)[CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:@"CategorySBID"];
+        cateVC.viewFromWhere = serviceForm.type;
+        [self.navigationController pushViewController:cateVC animated:YES];
+//        self.tabBarController.selectedIndex = 1;
+//        [[NSNotificationCenter defaultCenter] postNotificationName:@"moreService" object:nil];
     }
     else
     {

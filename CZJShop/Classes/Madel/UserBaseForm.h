@@ -17,6 +17,8 @@
 @property(nonatomic,strong)NSString* chezhuId;
 @property(nonatomic,strong)NSString* mobile;
 @property(nonatomic,strong)NSString* name;
+@property(strong, nonatomic)NSString* kefuHead;
+@property(strong, nonatomic)NSString* kefuId;
 @property(nonatomic,strong)NSString* levelName;
 @property(nonatomic,strong)NSString* headPic;
 @property(assign)BOOL isHaveNewMessage;
@@ -25,7 +27,7 @@
 @property(nonatomic,strong)NSString* nopay;
 @property(nonatomic,strong)NSString* nobuild;
 @property(nonatomic,strong)NSString* noreceive;
-@property(nonatomic,strong)NSString* noEvaluate;
+@property(nonatomic,strong)NSString* noevaluate;
 
 @property(nonatomic,strong)NSString* money;
 @property(nonatomic,strong)NSString* redpacket;

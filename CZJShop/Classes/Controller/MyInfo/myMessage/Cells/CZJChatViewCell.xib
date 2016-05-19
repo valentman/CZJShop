@@ -85,20 +85,28 @@
                                 <color key="textColor" red="0.7019608021" green="0.7019608021" blue="0.7019608021" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HB8-7y-6aC" customClass="CZJButton">
+                                <rect key="frame" x="15" y="15" width="50" height="50"/>
+                                <animations/>
+                            </button>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="HB8-7y-6aC" firstAttribute="height" secondItem="Ett-ah-6iv" secondAttribute="height" id="5re-uB-85x"/>
                             <constraint firstAttribute="trailing" secondItem="RWi-hQ-ejf" secondAttribute="trailing" constant="15" id="7eo-kd-C9Z"/>
                             <constraint firstItem="RWi-hQ-ejf" firstAttribute="centerY" secondItem="ZxX-Pp-18I" secondAttribute="centerY" id="BjK-x0-Nb7"/>
                             <constraint firstItem="RWi-hQ-ejf" firstAttribute="leading" secondItem="ZxX-Pp-18I" secondAttribute="trailing" constant="20" id="Cp4-Yo-hHX"/>
                             <constraint firstItem="SgE-Hw-l7C" firstAttribute="leading" secondItem="7Zy-A9-dmv" secondAttribute="leading" constant="10" id="E4r-ER-2UV"/>
+                            <constraint firstItem="HB8-7y-6aC" firstAttribute="centerX" secondItem="Ett-ah-6iv" secondAttribute="centerX" id="MpZ-pZ-lAR"/>
+                            <constraint firstItem="HB8-7y-6aC" firstAttribute="width" secondItem="Ett-ah-6iv" secondAttribute="width" id="S4i-qA-HBk"/>
                             <constraint firstItem="Ett-ah-6iv" firstAttribute="centerY" secondItem="7Zy-A9-dmv" secondAttribute="centerY" id="TIY-fS-S9Q"/>
                             <constraint firstItem="BFV-6W-Fio" firstAttribute="bottom" secondItem="Ett-ah-6iv" secondAttribute="bottom" id="Yg1-uB-482"/>
                             <constraint firstItem="Ett-ah-6iv" firstAttribute="leading" secondItem="7Zy-A9-dmv" secondAttribute="leading" constant="15" id="a08-Qc-x9J"/>
                             <constraint firstItem="ZxX-Pp-18I" firstAttribute="leading" secondItem="Ett-ah-6iv" secondAttribute="trailing" constant="20" id="aPj-6o-F5x"/>
                             <constraint firstAttribute="trailing" secondItem="BFV-6W-Fio" secondAttribute="trailing" constant="15" id="etX-2Z-Z1N"/>
                             <constraint firstAttribute="bottom" secondItem="SgE-Hw-l7C" secondAttribute="bottom" id="kVd-ND-GD8"/>
+                            <constraint firstItem="HB8-7y-6aC" firstAttribute="centerY" secondItem="Ett-ah-6iv" secondAttribute="centerY" id="qTb-pX-A8T"/>
                             <constraint firstItem="ZxX-Pp-18I" firstAttribute="top" secondItem="Ett-ah-6iv" secondAttribute="top" id="tBV-Ma-kbG"/>
                             <constraint firstItem="BFV-6W-Fio" firstAttribute="leading" secondItem="Ett-ah-6iv" secondAttribute="trailing" constant="20" id="tZG-vn-dIE"/>
                             <constraint firstAttribute="trailing" secondItem="SgE-Hw-l7C" secondAttribute="trailing" constant="10" id="vtB-h3-s0S"/>
@@ -122,6 +130,7 @@
                 <outlet property="nameLabel" destination="ZxX-Pp-18I" id="XDX-Hb-kHO"/>
                 <outlet property="selectBtn" destination="hMb-bH-SDQ" id="420-oc-Myn"/>
                 <outlet property="timeLabel" destination="RWi-hQ-ejf" id="6O6-34-WUr"/>
+                <outlet property="unreadBtn" destination="HB8-7y-6aC" id="TQc-87-XJN"/>
                 <outlet property="viewLeading" destination="neM-f9-dJq" id="HFd-Bs-TkM"/>
             </connections>
             <point key="canvasLocation" x="393" y="318"/>

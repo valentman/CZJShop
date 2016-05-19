@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "iConsole.h"
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate,UIAlertViewDelegate,EMClientDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate,UIAlertViewDelegate,EMClientDelegate,EMChatManagerDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 @property (assign, nonatomic) UIBackgroundTaskIdentifier backgroundUpdateTask;

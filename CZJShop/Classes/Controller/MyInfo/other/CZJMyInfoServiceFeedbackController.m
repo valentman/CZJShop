@@ -9,6 +9,8 @@
 #import "CZJMyInfoServiceFeedbackController.h"
 #import "CZJOrderCouponCell.h"
 #import "CZJOrderForm.h"
+#import "CZJChatViewController.h"
+#import "CZJBaseDataManager.h"
 
 @interface CZJMyInfoServiceFeedbackController ()
 <
@@ -112,7 +114,11 @@ UITableViewDelegate
 {
     if (0 == indexPath.row)
     {
-        
+        CZJChatViewController *chatController = [[CZJChatViewController alloc] initWithConversationChatter: CZJBaseDataInstance.userInfoForm.kefuId conversationType:EMConversationTypeChat];
+        chatController.storeName = @"车之健客服";
+        chatController.storeId = @"";
+        chatController.storeImg = CZJBaseDataInstance.userInfoForm.kefuHead;
+        [self.navigationController pushViewController:chatController animated:YES];
     }
     if (1 == indexPath.row)
     {

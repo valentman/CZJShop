@@ -140,8 +140,17 @@
             CGPoint pt = CGPointMake(position.x + title.bounds.size.width / 2 + 8, self.frame.size.height / 2);
             if ((CZJMXPullDownMenuTypeService == _menuType || CZJMXPullDownMenuTypeGoods == _menuType) &&
                 2 == i)
-            {//如果是服务列表界面，筛选则用筛选图片代替小三角
+            {
+                //如果是服务列表界面，筛选则用筛选图片代替小三角
                 UIImageView* imgeview = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"serve_icon_shaixuan"]];
+                [self.layer addSublayer:[imgeview layer]];
+                [imgeview layer].position = CGPointMake(position.x + title.bounds.size.width / 2 + 8, self.frame.size.height / 2 + 2);
+                [_indicators addObject:[imgeview layer]];
+            }
+            else if ((CZJMXPullDownMenuTypeGoods == _menuType) && 1 == i)
+            {
+                //如果是商品列表界面，价格即用上下箭头图片代替
+                UIImageView* imgeview = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"pro_icon_price"]];
                 [self.layer addSublayer:[imgeview layer]];
                 [imgeview layer].position = CGPointMake(position.x + title.bounds.size.width / 2 + 8, self.frame.size.height / 2 + 2);
                 [_indicators addObject:[imgeview layer]];
@@ -263,7 +272,7 @@
             {
                 cell.textLabel.text = _array[_currentSelectedMenudIndex][indexPath.row];
                 if (cell.textLabel.text == [(CATextLayer *)[_titles objectAtIndex:_currentSelectedMenudIndex] string]) {
-                    [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
+//                    [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
                     [cell.textLabel setTextColor:[tableView tintColor]];
                 }
                 [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
@@ -299,7 +308,7 @@
             {
                 cell.textLabel.text = _array[_currentSelectedMenudIndex][indexPath.row];
                 if (cell.textLabel.text == [(CATextLayer *)[_titles objectAtIndex:_currentSelectedMenudIndex] string]) {
-                    [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
+//                    [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
                     [cell.textLabel setTextColor:[tableView tintColor]];
                 }
                 [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
@@ -316,7 +325,7 @@
         ((UILabel*)[cell viewWithTag:1001]).text = @"";
         cell.textLabel.text = _array[_currentSelectedMenudIndex][indexPath.row];
         if (cell.textLabel.text == [(CATextLayer *)[_titles objectAtIndex:_currentSelectedMenudIndex] string]) {
-            [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
+//            [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
             [cell.textLabel setTextColor:[tableView tintColor]];
         }
         [cell setSelectionStyle:UITableViewCellSelectionStyleBlue];
@@ -662,10 +671,7 @@
 - (void)animateIndicator:(CAShapeLayer *)indicator Forward:(BOOL)forward complete:(void(^)())complete
 {
     DLog();
-    if (![indicator isKindOfClass:[CAShapeLayer class]])
-    {
-        return;
-    }
+
     [CATransaction begin];
     [CATransaction setAnimationDuration:0.35];
     [CATransaction setAnimationTimingFunction:[CAMediaTimingFunction functionWithControlPoints:0.4 :0.0 :0.2 :1.0]];
@@ -681,7 +687,10 @@
     
     [CATransaction commit];
     
-    indicator.fillColor = forward ? _tableView.tintColor.CGColor : _menuColor.CGColor;
+    if ([indicator isKindOfClass:[CAShapeLayer class]])
+    {
+        indicator.fillColor = forward ? _tableView.tintColor.CGColor : _menuColor.CGColor;
+    }
     
     if (complete)
     {

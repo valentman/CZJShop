@@ -183,7 +183,7 @@
         {
             UITableViewCell* cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell1"];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            cell.textLabel.text = @"类别";
+            cell.textLabel.text = @"服务类别";
             cell.textLabel.font = [UIFont systemFontOfSize:16];
             return cell;
         }

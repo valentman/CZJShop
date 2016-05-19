@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface CZJCategoryController : CZJViewController
-@property (strong, nonatomic)NSString* viewFromWhere;
+@property (strong, nonatomic) NSString* viewFromWhere;
 @end

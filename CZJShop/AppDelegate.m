@@ -187,6 +187,8 @@
                                              appkey:@"chelifang#czjshop"
                                        apnsCertName:@""
                                         otherConfig:@{kSDKConfigEnableConsoleLogger:[NSNumber numberWithBool:YES]}];
+    //注册消息回调
+    [[EMClient sharedClient].chatManager addDelegate:self delegateQueue:nil];
     
     
     //------------------3.登录设置----------------
@@ -691,5 +693,14 @@
 {
     [[EMClient sharedClient] logout:YES];
 }
+
+
+#pragma mark- EMChatManagerDelegate
+- (void)didReceiveMessages:(NSArray *)aMessages
+{
+    [[NSNotificationCenter defaultCenter] postNotificationName:kCZJNotifiRefreshMessageReadStatus object:nil];
+    DLog(@"收到%ld条环信消息",aMessages.count);
+}
+
 
 @end

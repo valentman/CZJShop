@@ -119,6 +119,7 @@ NSString *const EaseMessageCellIdentifierSendFile = @"EaseMessageCellSendFile";
     
     _bubbleView = [[EaseBubbleView alloc] initWithMargin:isSender?_rightBubbleMargin:_leftBubbleMargin isSender:isSender];
     _bubbleView.translatesAutoresizingMaskIntoConstraints = NO;
+
     [self.contentView addSubview:_bubbleView];
     
     _avatarView = [[UIImageView alloc] init];

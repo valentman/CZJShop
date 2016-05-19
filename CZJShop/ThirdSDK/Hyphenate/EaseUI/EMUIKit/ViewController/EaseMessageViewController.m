@@ -35,6 +35,7 @@
 #import "CZJScanRecordMessageCell.h"
 #import "CZJGoodsChatCell.h"
 #import "CZJOrderChatCell.h"
+#import "CZJBaseDataManager.h"
 
 
 #define KHintAdjustY    50
@@ -83,6 +84,7 @@
         _messsagesSource = [NSMutableArray array];
         
         [_conversation markAllMessagesAsRead];
+        [[NSNotificationCenter defaultCenter] postNotificationName:kCZJNotifiRefreshMessageReadStatus object:nil];
     }
     
     return self;
@@ -132,10 +134,13 @@
                                                  name:UIApplicationDidBecomeActiveNotification
                                                object:nil];
     
-    [[EaseBaseMessageCell appearance] setSendBubbleBackgroundImage:[[UIImage imageNamed:@"chat_img_input_b.9"] stretchableImageWithLeftCapWidth:24 topCapHeight:29]];
-    [[EaseBaseMessageCell appearance] setRecvBubbleBackgroundImage:[[UIImage imageNamed:@"chat_img_input_a.9"] stretchableImageWithLeftCapWidth:35 topCapHeight:35]];
+    UIImage* leftImage = [IMAGENAMED(@"chat_img_input_b.9") resizableImageWithCapInsets:UIEdgeInsetsMake(25, 10, 10, 25) resizingMode:UIImageResizingModeTile];
+    UIImage* rightImage = [IMAGENAMED(@"chat_img_input_a.9") resizableImageWithCapInsets:UIEdgeInsetsMake(25, 25, 10, 10) resizingMode:UIImageResizingModeTile];
     
-    [[EaseBaseMessageCell appearance] setSendMessageVoiceAnimationImages:@[[UIImage imageNamed:@"EaseUIResource.bundle/chat_sender_audio_playing_full"], [UIImage imageNamed:@"EaseUIResource.bundle/chat_sender_audio_playing_000"], [UIImage imageNamed:@"EaseUIResource.bundle/chat_sender_audio_playing_001"], [UIImage imageNamed:@"EaseUIResource.bundle/chat_sender_audio_playing_002"], [UIImage imageNamed:@"EaseUIResource.bundle/chat_sender_audio_playing_003"]]];
+    [[EaseBaseMessageCell appearance] setSendBubbleBackgroundImage:leftImage];
+    [[EaseBaseMessageCell appearance] setRecvBubbleBackgroundImage:rightImage];
+    
+    [[EaseBaseMessageCell appearance] setSendMessageVoiceAnimationImages:@[[UIImage imageNamed:@"EaseUIResource.bundle/chat_sender_audio_playing_full"], [UIImage  imageNamed:@"EaseUIResource.bundle/chat_sender_audio_playing_000"], [UIImage imageNamed:@"EaseUIResource.bundle/chat_sender_audio_playing_001"], [UIImage imageNamed:@"EaseUIResource.bundle/chat_sender_audio_playing_002"], [UIImage imageNamed:@"EaseUIResource.bundle/chat_sender_audio_playing_003"]]];
     [[EaseBaseMessageCell appearance] setRecvMessageVoiceAnimationImages:@[[UIImage imageNamed:@"EaseUIResource.bundle/chat_receiver_audio_playing_full"],[UIImage imageNamed:@"EaseUIResource.bundle/chat_receiver_audio_playing000"], [UIImage imageNamed:@"EaseUIResource.bundle/chat_receiver_audio_playing001"], [UIImage imageNamed:@"EaseUIResource.bundle/chat_receiver_audio_playing002"], [UIImage imageNamed:@"EaseUIResource.bundle/chat_receiver_audio_playing003"]]];
     
     [[EaseBaseMessageCell appearance] setAvatarSize:40.f];
@@ -857,6 +862,16 @@
     else
     {
         id<IMessageModel> model = object;
+        if (model.isSender)
+        {
+            model.nickname = CZJBaseDataInstance.userInfoForm.name;
+            model.avatarURLPath = CZJBaseDataInstance.userInfoForm.headPic;
+        }
+        else
+        {
+            model.nickname = self.storeName;
+            model.avatarURLPath = self.storeImg;
+        }
         EMMessage* message = model.message;
         NSDictionary* extentsionDic = message.ext;
         int messageType = [[extentsionDic valueForKey:@"messageType"] intValue];

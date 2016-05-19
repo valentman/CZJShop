@@ -171,7 +171,7 @@ static NSString *CarListCellIdentifierID = @"CarListCellIdentifierID";
             {
                 int divide = (iPhone5 || iPhone4) ? 4 : 5;
                 CarBrandsForm* brandForm = _hotBrands[i];
-                CGRect hotBrandRect = [CZJUtils viewFramFromDynamic:CZJMarginMake(15, 10) size:CGSizeMake(50, 55) index:i divide:divide];
+                CGRect hotBrandRect = [CZJUtils viewFramFromDynamic:CZJMarginMake(15, 10) size:CGSizeMake(40, 55) index:i divide:divide];
                 CZJHotBrandViewCell* hotCell = [CZJUtils getXibViewByName:@"CZJHotBrandViewCell"];
                 hotCell.frame = hotBrandRect;
                 [hotCell.brandImg sd_setImageWithURL:[NSURL URLWithString:brandForm.icon] placeholderImage:DefaultPlaceHolderSquare];

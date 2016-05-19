@@ -108,9 +108,16 @@ singleton_implementation(CZJMessageManager)
 
 -(BOOL)isAllReaded
 {
+    return ([self isAllChatReaded] && [self isAllMessageReaded]);
+}
+
+//1.通知消息是否有未读
+-(BOOL)isAllMessageReaded
+{
     BOOL isAll = YES;
     if (_messages)
     {
+        
         for (CZJNotificationForm* dict in _messages)
         {
             if (!dict.isRead)
@@ -122,6 +129,25 @@ singleton_implementation(CZJMessageManager)
     }
     return isAll;
 }
+
+//2.环信聊天消息是否有未读
+-(BOOL)isAllChatReaded
+{
+    BOOL isAll = YES;
+    
+    NSArray *conversations = [[EMClient sharedClient].chatManager getAllConversations];
+    for (EMConversation* conversation in conversations)
+    {
+        DLog(@"未读消息数目：%d",[conversation unreadMessagesCount]);
+        if ([conversation unreadMessagesCount] > 0 )
+        {
+            isAll = NO;
+            break;
+        }
+    }
+    return isAll;
+}
+
 
 - (void)setMessages:(NSMutableArray *)messages
 {
