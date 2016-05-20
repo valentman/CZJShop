@@ -25,6 +25,7 @@ UITableViewDataSource
 }
 @property (strong, nonatomic)UITableView* myTableView;
 @property (weak, nonatomic) IBOutlet CZJButton *serviceInfoBtn;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *topHeight;
 @end
 
 @implementation CZJMyMessageCenterController
@@ -39,7 +40,6 @@ UITableViewDataSource
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    self.navigationController.navigationBarHidden = NO;
     [self.serviceInfoBtn setBadgeNum:([CZJMessageInstance isAllChatReaded] ? 0 : -1)];
     [self.serviceInfoBtn setBadgeLabelPosition:CGPointMake(self.serviceInfoBtn.size.width*1.2, 0)];
 }
@@ -57,11 +57,24 @@ UITableViewDataSource
 - (void)initViews
 {
     isEdit = NO;
-    [CZJUtils customizeNavigationBarForTarget:self];
+    [self addCZJNaviBarView:CZJNaviBarViewTypeGeneral];
+    self.naviBarView.mainTitleLabel.text = @"消息中心";
+    self.topHeight.constant = 44;
     //右按钮
-    UIBarButtonItem* rightItem2 = [[UIBarButtonItem alloc]initWithTitle:@"编辑" style:UIBarButtonItemStylePlain target:self action:@selector(edit:)];
-    self.navigationItem.rightBarButtonItem = rightItem2;
-    [self.navigationItem.rightBarButtonItem setTintColor:BLACKCOLOR];
+    UIButton* rightBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    rightBtn.frame = CGRectMake(PJ_SCREEN_WIDTH - 100 , 0 , 100 , 44 );
+    rightBtn.titleLabel.textAlignment = NSTextAlignmentRight;
+    [rightBtn setTitle:@"编辑" forState:UIControlStateNormal];
+    [rightBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+    [rightBtn setSelected:NO];
+    [rightBtn setTag:2999];
+    rightBtn.titleLabel.font = SYSTEMFONT(16);
+    [self.naviBarView addSubview:rightBtn];
+    [rightBtn addTarget:self action:@selector(edit:) forControlEvents:UIControlEventTouchUpInside];
+    
+//    UIBarButtonItem* rightItem2 = [[UIBarButtonItem alloc]initWithTitle:@"编辑" style:UIBarButtonItemStylePlain target:self action:@selector(edit:)];
+//    self.navigationItem.rightBarButtonItem = rightItem2;
+//    [self.navigationItem.rightBarButtonItem setTintColor:BLACKCOLOR];
     
     //消息中心表格视图
     CGRect tableRect = CGRectMake(0, 64 + 60, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - 64 - 60);
@@ -74,8 +87,7 @@ UITableViewDataSource
     self.automaticallyAdjustsScrollViewInsets = NO;
     [self.view addSubview:self.myTableView];
     
-    NSArray* nibArys = @[@"CZJMyMessageCenterCell"
-                         ];
+    NSArray* nibArys = @[@"CZJMyMessageCenterCell"];
     
     for (id cells in nibArys)
     {

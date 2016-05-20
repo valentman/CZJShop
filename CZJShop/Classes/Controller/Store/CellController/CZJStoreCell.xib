@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
@@ -59,7 +59,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="一环路南四段兴蓉街1号" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TZM-2i-bFt">
-                        <rect key="frame" x="95" y="65" width="200" height="21"/>
+                        <rect key="frame" x="95" y="65" width="136" height="21"/>
                         <animations/>
                         <constraints>
                             <constraint firstAttribute="width" constant="200" id="RDo-YT-hCB"/>
@@ -68,6 +68,11 @@
                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                         <color key="textColor" red="0.60000002379999995" green="0.60000002379999995" blue="0.60000002379999995" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="RDo-YT-hCB"/>
+                            </mask>
+                        </variation>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="5.9km" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rIv-hj-ga4">
                         <rect key="frame" x="246" y="65" width="60" height="21"/>
@@ -143,6 +148,7 @@
                     <constraint firstItem="ZoM-mr-C5V" firstAttribute="centerY" secondItem="e4f-cn-c5Q" secondAttribute="centerY" id="L3G-it-DGl"/>
                     <constraint firstItem="Qlq-dA-3Ww" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="OkV-Ml-FiJ"/>
                     <constraint firstItem="rPR-2t-GcR" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="QgA-FX-bYy"/>
+                    <constraint firstItem="rIv-hj-ga4" firstAttribute="leading" secondItem="TZM-2i-bFt" secondAttribute="trailing" constant="15" id="R60-CT-gEn"/>
                     <constraint firstItem="rIv-hj-ga4" firstAttribute="centerY" secondItem="TZM-2i-bFt" secondAttribute="centerY" id="Tbv-fe-N30"/>
                     <constraint firstItem="Qlq-dA-3Ww" firstAttribute="trailing" secondItem="rPR-2t-GcR" secondAttribute="leading" id="Xzx-fL-L0I"/>
                     <constraint firstItem="PDL-pf-Ujv" firstAttribute="centerY" secondItem="ZoM-mr-C5V" secondAttribute="centerY" id="aPl-w8-rsL"/>

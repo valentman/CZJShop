@@ -29,14 +29,25 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    self.navigationController.navigationBarHidden = NO;
+//    self.navigationController.navigationBarHidden = NO;
 }
 
 - (void)initViews
 {
-    [CZJUtils customizeNavigationBarForTarget:self];
     [self addCZJNaviBarView:CZJNaviBarViewTypeGeneral];
-    self.naviBarView.btnBack.hidden = YES;
+    self.naviBarView.mainTitleLabel.text = @"我的套餐卡";
+    
+    //右按钮
+    UIButton* rightBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    rightBtn.frame = CGRectMake(PJ_SCREEN_WIDTH - 100 , 0 , 100 , 44 );
+    rightBtn.titleLabel.textAlignment = NSTextAlignmentRight;
+    [rightBtn setTitle:@"使用说明" forState:UIControlStateNormal];
+    [rightBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+    [rightBtn setSelected:NO];
+    [rightBtn setTag:2999];
+    rightBtn.titleLabel.font = SYSTEMFONT(16);
+    [self.naviBarView addSubview:rightBtn];
+    [rightBtn addTarget:self action:@selector(showCardHint:) forControlEvents:UIControlEventTouchUpInside];
     
     CZJMyWalletCardUnUsedController* unUsed = [[CZJMyWalletCardUnUsedController alloc]init];
     CZJMyWalletCardUsedController* used = [[CZJMyWalletCardUsedController alloc]init];
@@ -47,6 +58,13 @@
     [pageview setTitleArray:@[@"未用完",@"已用完"] andVCArray:@[unUsed, used]];
     pageview.backgroundColor = WHITECOLOR;
     [self.view addSubview:pageview];
+}
+
+- (void)showCardHint:(id)sender
+{
+    CZJWebViewController* webView = (CZJWebViewController*)[CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:@"webViewSBID"];
+    webView.cur_url = [NSString stringWithFormat:@"%@%@",kCZJServerAddr,SetMenuCard_HINT];
+    [self.navigationController pushViewController:webView animated:YES];
 }
 
 - (void)didReceiveMemoryWarning {

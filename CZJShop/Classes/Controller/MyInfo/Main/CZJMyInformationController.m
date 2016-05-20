@@ -120,11 +120,12 @@ CZJViewControllerDelegate
     orderSubCellAry = @[dict1,dict2,dict3,dict4,dict5];
     
     walletSubCellAry = [NSArray array];
-    NSMutableDictionary* dict6 = [@{@"title":@"账户余额", @"buttonTitle":@"0.00", @"item":@"money"} mutableCopy];
-    NSMutableDictionary* dict7 = [@{@"title":@"红包", @"buttonTitle":@"0.0", @"item":@"redpacket"} mutableCopy];
-    NSMutableDictionary* dict8 = [@{@"title":@"积分", @"buttonTitle":@"0", @"item":@"point"} mutableCopy];
-    NSMutableDictionary* dict9 = [@{@"title":@"优惠券", @"buttonTitle":@"0", @"item":@"coupon"} mutableCopy];
-    NSMutableDictionary* dict0 = [@{@"title":@"套餐卡", @"buttonTitle":@"0", @"item":@"card"} mutableCopy];
+    NSMutableDictionary* dict6 = [@{@"title":@"红包", @"buttonTitle":@"0.0", @"item":@"redpacket"} mutableCopy];
+    NSMutableDictionary* dict7 = [@{@"title":@"积分卡", @"buttonTitle":@"0", @"item":@"pointCard"} mutableCopy];
+    NSMutableDictionary* dict8 = [@{@"title":@"会员卡", @"buttonTitle":@"0", @"item":@"memberCard"} mutableCopy];
+    NSMutableDictionary* dict9 = [@{@"title":@"套餐卡", @"buttonTitle":@"0", @"item":@"card"} mutableCopy];
+    NSMutableDictionary* dict0 = [@{@"title":@"优惠券", @"buttonTitle":@"0", @"item":@"coupon"} mutableCopy];
+    
     walletSubCellAry = @[dict6,dict7,dict8,dict9,dict0];
     
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(refreshTabBarDotLabel) name:kCZJNotifiRefreshMessageReadStatus object:nil];
@@ -446,28 +447,25 @@ CZJViewControllerDelegate
         switch (_currentTouchOrderListType)
         {
             case 1:
-                segueId = @"segueToBalance";
+                segueId = @"segueToRedPacket";
                 break;
                 
             case 2:
-                segueId = @"segueToRedPacket";
+                segueId = @"segueToPoint";
                 break;
                 
             case 3:
             {
-                segueId = @"";
-                CZJWebViewController* webView = (CZJWebViewController*)[CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:@"webViewSBID"];
-                webView.cur_url = [kCZJServerAddr stringByAppendingString:kCZJServerAPIGetPoint];
-                [self.navigationController pushViewController:webView animated:YES];
+                segueId = @"segueToMemberCard";
             }
                 break;
                 
             case 4:
-                segueId = @"segueToCoupon";
+                segueId = @"segueToCard";
                 break;
                 
             case 5:
-                segueId = @"segueToCard";
+                segueId = @"segueToCoupon";
                 break;
                 
             default:

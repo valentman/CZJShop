@@ -42,20 +42,31 @@ UITableViewDelegate
 
 - (void)viewDidAppear:(BOOL)animated
 {
-    self.navigationController.navigationBarHidden = NO;
     
 }
 
 - (void)initChatListViews
 {
     isEdit = NO;
-    [CZJUtils customizeNavigationBarForTarget:self];
-    self.title = @"客服消息";
+    [self addCZJNaviBarView:CZJNaviBarViewTypeGeneral];
+    self.naviBarView.mainTitleLabel.text = @"客服消息";;
+    
     
     //右按钮
-    UIBarButtonItem* rightItem2 = [[UIBarButtonItem alloc]initWithTitle:@"编辑" style:UIBarButtonItemStylePlain target:self action:@selector(edit:)];
-    self.navigationItem.rightBarButtonItem = rightItem2;
-    [self.navigationItem.rightBarButtonItem setTintColor:BLACKCOLOR];
+    UIButton* rightBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    rightBtn.frame = CGRectMake(PJ_SCREEN_WIDTH - 100 , 0 , 100 , 44 );
+    rightBtn.titleLabel.textAlignment = NSTextAlignmentRight;
+    [rightBtn setTitle:@"编辑" forState:UIControlStateNormal];
+    [rightBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+    [rightBtn setSelected:NO];
+    [rightBtn setTag:2999];
+    rightBtn.titleLabel.font = SYSTEMFONT(16);
+    [self.naviBarView addSubview:rightBtn];
+    [rightBtn addTarget:self action:@selector(edit:) forControlEvents:UIControlEventTouchUpInside];
+    
+//    UIBarButtonItem* rightItem2 = [[UIBarButtonItem alloc]initWithTitle:@"编辑" style:UIBarButtonItemStylePlain target:self action:@selector(edit:)];
+//    self.navigationItem.rightBarButtonItem = rightItem2;
+//    [self.navigationItem.rightBarButtonItem setTintColor:BLACKCOLOR];
     
     self.myTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 64, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - StatusBar_HEIGHT - NavigationBar_HEIGHT) style:UITableViewStylePlain];
     self.myTableView.tableFooterView = [[UIView alloc]init];

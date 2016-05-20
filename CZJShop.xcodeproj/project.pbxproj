@@ -1163,6 +1163,13 @@
 		ECDE1FFE1C23B7A3009DA3E5 /* CZJGoodsListController.m in Sources */ = {isa = PBXBuildFile; fileRef = ECDE1FFD1C23B7A3009DA3E5 /* CZJGoodsListController.m */; };
 		ECDE20031C23BBDF009DA3E5 /* CZJGoodsListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = ECDE20011C23BBDF009DA3E5 /* CZJGoodsListCell.m */; };
 		ECDE20041C23BBDF009DA3E5 /* CZJGoodsListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = ECDE20021C23BBDF009DA3E5 /* CZJGoodsListCell.xib */; };
+		ECE0D7F21CEEB40D0053502F /* CZJMyWalletMemberCardController.m in Sources */ = {isa = PBXBuildFile; fileRef = ECE0D7F11CEEB40D0053502F /* CZJMyWalletMemberCardController.m */; settings = {ASSET_TAGS = (); }; };
+		ECE0D7F61CEEB4990053502F /* CZJCardCell.m in Sources */ = {isa = PBXBuildFile; fileRef = ECE0D7F41CEEB4990053502F /* CZJCardCell.m */; settings = {ASSET_TAGS = (); }; };
+		ECE0D7F71CEEB4990053502F /* CZJCardCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = ECE0D7F51CEEB4990053502F /* CZJCardCell.xib */; settings = {ASSET_TAGS = (); }; };
+		ECE0D7FC1CEEB7B60053502F /* jifen_img_base@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = ECE0D7F81CEEB7B60053502F /* jifen_img_base@2x.png */; settings = {ASSET_TAGS = (); }; };
+		ECE0D7FD1CEEB7B60053502F /* jifen_img_base@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = ECE0D7F91CEEB7B60053502F /* jifen_img_base@3x.png */; settings = {ASSET_TAGS = (); }; };
+		ECE0D7FE1CEEB7B60053502F /* vip_img_base@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = ECE0D7FA1CEEB7B60053502F /* vip_img_base@2x.png */; settings = {ASSET_TAGS = (); }; };
+		ECE0D7FF1CEEB7B60053502F /* vip_img_base@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = ECE0D7FB1CEEB7B60053502F /* vip_img_base@3x.png */; settings = {ASSET_TAGS = (); }; };
 		ECE1CC321CE972C8007B21C3 /* order_icon_cancel@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = ECE1CC2C1CE972C8007B21C3 /* order_icon_cancel@2x.png */; settings = {ASSET_TAGS = (); }; };
 		ECE1CC331CE972C8007B21C3 /* order_icon_cancel@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = ECE1CC2D1CE972C8007B21C3 /* order_icon_cancel@3x.png */; settings = {ASSET_TAGS = (); }; };
 		ECE1CC341CE972C8007B21C3 /* order_icon_canceldot@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = ECE1CC2E1CE972C8007B21C3 /* order_icon_canceldot@2x.png */; settings = {ASSET_TAGS = (); }; };
@@ -3134,6 +3141,15 @@
 		ECDE20001C23BBDF009DA3E5 /* CZJGoodsListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJGoodsListCell.h; sourceTree = "<group>"; };
 		ECDE20011C23BBDF009DA3E5 /* CZJGoodsListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJGoodsListCell.m; sourceTree = "<group>"; };
 		ECDE20021C23BBDF009DA3E5 /* CZJGoodsListCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CZJGoodsListCell.xib; sourceTree = "<group>"; };
+		ECE0D7F01CEEB40D0053502F /* CZJMyWalletMemberCardController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJMyWalletMemberCardController.h; sourceTree = "<group>"; };
+		ECE0D7F11CEEB40D0053502F /* CZJMyWalletMemberCardController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJMyWalletMemberCardController.m; sourceTree = "<group>"; };
+		ECE0D7F31CEEB4990053502F /* CZJCardCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJCardCell.h; sourceTree = "<group>"; };
+		ECE0D7F41CEEB4990053502F /* CZJCardCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJCardCell.m; sourceTree = "<group>"; };
+		ECE0D7F51CEEB4990053502F /* CZJCardCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CZJCardCell.xib; sourceTree = "<group>"; };
+		ECE0D7F81CEEB7B60053502F /* jifen_img_base@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "jifen_img_base@2x.png"; sourceTree = "<group>"; };
+		ECE0D7F91CEEB7B60053502F /* jifen_img_base@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "jifen_img_base@3x.png"; sourceTree = "<group>"; };
+		ECE0D7FA1CEEB7B60053502F /* vip_img_base@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "vip_img_base@2x.png"; sourceTree = "<group>"; };
+		ECE0D7FB1CEEB7B60053502F /* vip_img_base@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "vip_img_base@3x.png"; sourceTree = "<group>"; };
 		ECE1CC2C1CE972C8007B21C3 /* order_icon_cancel@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "order_icon_cancel@2x.png"; sourceTree = "<group>"; };
 		ECE1CC2D1CE972C8007B21C3 /* order_icon_cancel@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "order_icon_cancel@3x.png"; sourceTree = "<group>"; };
 		ECE1CC2E1CE972C8007B21C3 /* order_icon_canceldot@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "order_icon_canceldot@2x.png"; sourceTree = "<group>"; };
@@ -4552,6 +4568,9 @@
 				EC1627021CC51C3F000D7C15 /* CZJMyWalletCardItemLeftCell.h */,
 				EC1627031CC51C3F000D7C15 /* CZJMyWalletCardItemLeftCell.m */,
 				EC1627041CC51C3F000D7C15 /* CZJMyWalletCardItemLeftCell.xib */,
+				ECE0D7F31CEEB4990053502F /* CZJCardCell.h */,
+				ECE0D7F41CEEB4990053502F /* CZJCardCell.m */,
+				ECE0D7F51CEEB4990053502F /* CZJCardCell.xib */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -4712,6 +4731,10 @@
 		EC34FFC11C433D5A0063A071 /* MyInfo */ = {
 			isa = PBXGroup;
 			children = (
+				ECE0D7F81CEEB7B60053502F /* jifen_img_base@2x.png */,
+				ECE0D7F91CEEB7B60053502F /* jifen_img_base@3x.png */,
+				ECE0D7FA1CEEB7B60053502F /* vip_img_base@2x.png */,
+				ECE0D7FB1CEEB7B60053502F /* vip_img_base@3x.png */,
 				ECCCBFDF1CEB23770089B9BC /* chat_img_input_a.9.png */,
 				ECCCBFE01CEB23770089B9BC /* chat_img_input_b.9.png */,
 				ECE1CC2C1CE972C8007B21C3 /* order_icon_cancel@2x.png */,
@@ -7029,8 +7052,6 @@
 				EC1FE7EA1C74121500318505 /* CZJMyWalletBalanceController.m */,
 				EC1FE7EC1C74122F00318505 /* CZJMyWalletRedpacketController.h */,
 				EC1FE7ED1C74122F00318505 /* CZJMyWalletRedpacketController.m */,
-				EC1FE7EF1C74124400318505 /* CZJMyWalletPointController.h */,
-				EC1FE7F01C74124400318505 /* CZJMyWalletPointController.m */,
 				EC1FE7F21C74125A00318505 /* CZJMyWalletCouponController.h */,
 				EC1FE7F31C74125A00318505 /* CZJMyWalletCouponController.m */,
 				EC1FE7F51C74126E00318505 /* CZJMyWalletCardController.h */,
@@ -7039,6 +7060,10 @@
 				EC1FE7F91C7412B400318505 /* CZJMyWalletRechargeController.m */,
 				EC1FE8011C746A8D00318505 /* CZJMyWalletCardDetailController.h */,
 				EC1FE8021C746A8D00318505 /* CZJMyWalletCardDetailController.m */,
+				EC1FE7EF1C74124400318505 /* CZJMyWalletPointController.h */,
+				EC1FE7F01C74124400318505 /* CZJMyWalletPointController.m */,
+				ECE0D7F01CEEB40D0053502F /* CZJMyWalletMemberCardController.h */,
+				ECE0D7F11CEEB40D0053502F /* CZJMyWalletMemberCardController.m */,
 			);
 			path = myWallet;
 			sourceTree = "<group>";
@@ -7317,6 +7342,7 @@
 				ECDB61821BFB551600882BB2 /* home_btn_xiche@2x.png in Resources */,
 				EC914B121C06DB2500E973CA /* CZJGoodsRecoCollectionCell.xib in Resources */,
 				ECC4DECC1C17FEA900FBD6A4 /* prodetail_icon_guanzhu02@2x.png in Resources */,
+				ECE0D7FC1CEEB7B60053502F /* jifen_img_base@2x.png in Resources */,
 				ECF2DCA71C5767F80096FF39 /* CZJGoodsAttentionCell.xib in Resources */,
 				ECF8E9661C5C6DB300A98707 /* order_icon_wancheng@2x.png in Resources */,
 				EC26A2FF1C2A386600B166A3 /* commit_icon_zhifubao@2x.png in Resources */,
@@ -7542,6 +7568,7 @@
 				EC393F7D1C2E288500B17228 /* CZJReceiveCouponsCell.xib in Resources */,
 				EC28E2C81C152BA0003423F9 /* icon_map_cateid_3.png in Resources */,
 				EC5F75E31C0593860073CE04 /* CZJMiaoShaCollectionCell.xib in Resources */,
+				ECE0D7F71CEEB4990053502F /* CZJCardCell.xib in Resources */,
 				EC9AA61C1CE0620B00B8DD57 /* password.png in Resources */,
 				EC393F931C2E349400B17228 /* prodetail_icon_coupon02@3x.png in Resources */,
 				EC3400021C433D5A0063A071 /* my_icon_wallet@2x.png in Resources */,
@@ -7590,6 +7617,7 @@
 				EC9AA62E1CE0620B00B8DD57 /* tabbar_chats.png in Resources */,
 				EC8CB5FB1C60C2D300CCE27F /* CZJOrderReturnedListCell.xib in Resources */,
 				ECC4DDF21C17D67B00FBD6A4 /* anjuke_icon_to_position1@2x.png in Resources */,
+				ECE0D7FD1CEEB7B60053502F /* jifen_img_base@3x.png in Resources */,
 				ECDB61761BFB551600882BB2 /* all_btn_shop@2x.png in Resources */,
 				EC0F00481C326D9300F124F8 /* shop_icon_promotion@3x.png in Resources */,
 				ECB4B6161C0E94EB00925BCA /* CZJStoreCell.xib in Resources */,
@@ -7675,6 +7703,7 @@
 				EC9AA6211CE0620B00B8DD57 /* group_detail@2x.png in Resources */,
 				EC9AA60E1CE0620B00B8DD57 /* icon_024.gif in Resources */,
 				ECC4DEE71C17FEA900FBD6A4 /* prodetail_img01@3x.png in Resources */,
+				ECE0D7FF1CEEB7B60053502F /* vip_img_base@3x.png in Resources */,
 				ECE1CC321CE972C8007B21C3 /* order_icon_cancel@2x.png in Resources */,
 				ECC4DEC31C17FEA900FBD6A4 /* prodetail_btn_morenor@3x.png in Resources */,
 				ECE3D6601BFDB69B00C63712 /* all_btn_top@3x.png in Resources */,
@@ -7843,6 +7872,7 @@
 				EC9AA6091CE0620B00B8DD57 /* icon_020_cover.png in Resources */,
 				ECDB61671BFB551600882BB2 /* all_btn_classify_sel@3x.png in Resources */,
 				ECB4B6371C0E976F00925BCA /* shop_btn_angle@2x.png in Resources */,
+				ECE0D7FE1CEEB7B60053502F /* vip_img_base@2x.png in Resources */,
 				ECCCBFE11CEB23770089B9BC /* chat_img_input_a.9.png in Resources */,
 				EC9AA5D91CE0620B00B8DD57 /* call_out_h@2x.png in Resources */,
 				ECC4DDC61C17D67B00FBD6A4 /* blackArrow@2x.png in Resources */,
@@ -8292,6 +8322,7 @@
 				EC074D501CCE059400405D5E /* MBProgressHUD+Add.m in Sources */,
 				ECC4DE1A1C17D67B00FBD6A4 /* OpenShare+Alipay.m in Sources */,
 				EC025FCA1C21036E00A8085E /* MJRefreshComponent.m in Sources */,
+				ECE0D7F21CEEB40D0053502F /* CZJMyWalletMemberCardController.m in Sources */,
 				EC0223B71C59C7BB00600851 /* CZJTableViewCell.m in Sources */,
 				EC074CF81CCE039800405D5E /* DACircularProgressView.m in Sources */,
 				ECC4FD641CA8E45E00944E30 /* CZJFilterForm.m in Sources */,
@@ -8571,6 +8602,7 @@
 				EC151DB41C8ED2F10089F7B2 /* CZJOrderPaySuccessController.m in Sources */,
 				EC1FE7F41C74125A00318505 /* CZJMyWalletCouponController.m in Sources */,
 				EC5B86EE1C0D346B008EC732 /* CZJDiscoverCell.m in Sources */,
+				ECE0D7F61CEEB4990053502F /* CZJCardCell.m in Sources */,
 				EC074D0A1CCE039800405D5E /* PSTCollectionView.m in Sources */,
 				ECE976981CC89FE20065843C /* LewPickerController.m in Sources */,
 				ECC4DDA31C17D67B00FBD6A4 /* AFHTTPRequestOperationManager.m in Sources */,

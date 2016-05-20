@@ -671,7 +671,10 @@
 - (void)animateIndicator:(CAShapeLayer *)indicator Forward:(BOOL)forward complete:(void(^)())complete
 {
     DLog();
-
+    if (![indicator isKindOfClass:[CALayer class]])
+    {
+        return;
+    }
     [CATransaction begin];
     [CATransaction setAnimationDuration:0.35];
     [CATransaction setAnimationTimingFunction:[CAMediaTimingFunction functionWithControlPoints:0.4 :0.0 :0.2 :1.0]];

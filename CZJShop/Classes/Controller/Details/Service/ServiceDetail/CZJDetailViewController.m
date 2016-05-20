@@ -40,6 +40,7 @@
 #import "CZJMyInfoOrderListController.h"
 #import "CZJMyInfoAttentionController.h"
 #import "CZJMyInfoRecordController.h"
+#import "CZJMyMessageCenterController.h"
 
 #define kTagScrollView  1002
 #define kTagTableView   1001
@@ -1128,6 +1129,8 @@ CZJChooseProductTypeDelegate
     if ([btnStr isEqualToString:@"消息"])
     {
         DLog(@"消息");
+        CZJMyMessageCenterController* messageCenterVC = (CZJMyMessageCenterController*)[CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:@"MessageCenterSBID"];
+        [self.navigationController pushViewController:messageCenterVC animated:YES];
     }
     if ([btnStr isEqualToString:@"首页"])
     {

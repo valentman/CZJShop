@@ -168,6 +168,9 @@ static NSString *const REDPACKET_HINT = @"jsp/redpacket.jsp";                   
 static NSString *const CODE_HINT = @"jsp/couponCode.jsp";                                           //优惠码使用说明
 static NSString *const YUE_HINT = @"jsp/cardmoney.jsp";                                             //余额使用说明
 static NSString *const COUPON_HINT = @"jsp/coupon.jsp";                                             //优惠券使用说明
+static NSString *const MemberCard_HINT = @"jsp/memberCard.jsp";                                     //会员卡使用说明
+static NSString *const PointCard_HINT = @"jsp/pointCard.jsp";                                       //积分卡使用说明
+static NSString *const SetMenuCard_HINT = @"jsp/setmenuCard.jsp";                                   //套餐卡使用说明
 
 static NSString *const SUOLUE_PIC_200 = @"?imageView2/1/w/200/h/200/q/75";
 static NSString *const SUOLUE_PIC_600 = @"?imageView2/1/w/600/h/600/q/75";

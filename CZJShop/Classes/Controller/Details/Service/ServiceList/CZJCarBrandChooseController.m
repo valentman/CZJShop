@@ -188,7 +188,7 @@ static NSString *CarListCellIdentifierID = @"CarListCellIdentifierID";
     {
         SKSTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CarListCellIdentifierID];
         if (!cell) {
-            cell = [[SKSTableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CarListCellIdentifierID];
+            cell = [[SKSTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CarListCellIdentifierID];
         }
         NSString* tmp_key = [_keys objectAtIndex:(indexPath.section - 2)];
         NSArray*  brands = [_carBrands objectForKey:tmp_key];
@@ -200,6 +200,7 @@ static NSString *CarListCellIdentifierID = @"CarListCellIdentifierID";
                                  completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL){
                                      
                                  }];
+        [cell.imageView setSize:CGSizeMake(40, 40)];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
     }

@@ -253,6 +253,7 @@ FDAlertViewDelegate
 - (IBAction)confirmLoginAction:(id)sender
 {
     [self.view endEditing:YES];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     CZJSuccessBlock successBlock = ^(id json){
         NSDictionary* dict = [CZJUtils DataFromJson:json];
         if ([[dict valueForKey:@"code"] integerValue] != 0)
@@ -267,6 +268,8 @@ FDAlertViewDelegate
         
         //再发送购物车数量请求
         [CZJBaseDataInstance loadShoppingCartCount:nil Success:^(id json){
+            [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+            [CZJUtils tipWithText:@"登录成功" andView:nil];
             [self exitOutAction:nil];
         } fail:nil];
     };

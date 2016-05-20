@@ -202,11 +202,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CZJShop/Classes/Controller/MyInfo/Main/CZJMyInformationController.m"
-            timestampString = "485338334.255109"
+            timestampString = "485405586.624132"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "543"
-            endingLineNumber = "543"
+            startingLineNumber = "541"
+            endingLineNumber = "541"
             landmarkName = "-didCancel:"
             landmarkType = "5">
          </BreakpointContent>
@@ -250,11 +250,27 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CZJShop/Classes/Controller/MyInfo/myLogin/CZJLoginController.m"
-            timestampString = "485255985.34452"
+            timestampString = "485419831.044824"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "264"
-            endingLineNumber = "264"
+            startingLineNumber = "265"
+            endingLineNumber = "265"
+            landmarkName = "-confirmLoginAction:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CZJShop/Classes/Controller/MyInfo/myLogin/CZJLoginController.m"
+            timestampString = "485419831.044824"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "273"
+            endingLineNumber = "273"
             landmarkName = "-confirmLoginAction:"
             landmarkType = "5">
          </BreakpointContent>

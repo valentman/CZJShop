@@ -30,7 +30,7 @@
 #import "CZJMyInfoRecordController.h"
 #import "CZJChatViewController.h"
 #import "ChatViewController.h"
-
+#import "CZJMyMessageCenterController.h"
 
 @interface CZJStoreDetailController ()
 <
@@ -109,6 +109,7 @@ MKMapViewDelegate
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    self.navigationController.navigationBarHidden = YES;
 }
 
 - (void)viewWillLayoutSubviews
@@ -848,6 +849,8 @@ MKMapViewDelegate
     if ([btnStr isEqualToString:@"消息"])
     {
         DLog(@"消息");
+        CZJMyMessageCenterController* messageCenterVC = (CZJMyMessageCenterController*)[CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:@"MessageCenterSBID"];
+        [self.navigationController pushViewController:messageCenterVC animated:YES];
     }
     if ([btnStr isEqualToString:@"首页"])
     {
