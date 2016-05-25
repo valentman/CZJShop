@@ -34,7 +34,7 @@
 
 - (void)setUserPersonalInfo:(UserBaseForm*)userinfo
 {
-    self.userNameLabel.text = userinfo.name;
+    self.userNameLabel.text = userinfo.name == nil ? @"昵称" : userinfo.name;
     self.userPhoneLabel.text = userinfo.mobile;
     [self.userHeadImg sd_setImageWithURL:[NSURL URLWithString:userinfo.headPic] placeholderImage:IMAGENAMED(@"my_icon_head")];
     self.userHeadImg.clipsToBounds = YES;

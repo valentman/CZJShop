@@ -230,6 +230,7 @@
 		EC10E7AF1BFC801900CDBFCD /* CZJMessageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = EC10E7AE1BFC801900CDBFCD /* CZJMessageManager.m */; };
 		EC138F9B1CA51A4800E80856 /* my_icon_head@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EC138F971CA51A4800E80856 /* my_icon_head@2x.png */; settings = {ASSET_TAGS = (); }; };
 		EC138F9C1CA51A4800E80856 /* my_icon_head@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = EC138F981CA51A4800E80856 /* my_icon_head@3x.png */; settings = {ASSET_TAGS = (); }; };
+		EC13B0ED1CF55A6E00A27E98 /* FZADScrollerView.m in Sources */ = {isa = PBXBuildFile; fileRef = EC13B0EC1CF55A6E00A27E98 /* FZADScrollerView.m */; settings = {ASSET_TAGS = (); }; };
 		EC1512861CA3C1B100B92F2B /* default_nodata@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EC1512841CA3C1B100B92F2B /* default_nodata@2x.png */; settings = {ASSET_TAGS = (); }; };
 		EC1512871CA3C1B100B92F2B /* default_nodata@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = EC1512851CA3C1B100B92F2B /* default_nodata@3x.png */; settings = {ASSET_TAGS = (); }; };
 		EC15128A1CA3D3F000B92F2B /* label_icon_zengpin@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EC1512881CA3D3F000B92F2B /* label_icon_zengpin@2x.png */; settings = {ASSET_TAGS = (); }; };
@@ -1803,6 +1804,8 @@
 		EC10E7AE1BFC801900CDBFCD /* CZJMessageManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJMessageManager.m; sourceTree = "<group>"; };
 		EC138F971CA51A4800E80856 /* my_icon_head@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "my_icon_head@2x.png"; sourceTree = "<group>"; };
 		EC138F981CA51A4800E80856 /* my_icon_head@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "my_icon_head@3x.png"; sourceTree = "<group>"; };
+		EC13B0EB1CF55A6E00A27E98 /* FZADScrollerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FZADScrollerView.h; sourceTree = "<group>"; };
+		EC13B0EC1CF55A6E00A27E98 /* FZADScrollerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FZADScrollerView.m; sourceTree = "<group>"; };
 		EC1512841CA3C1B100B92F2B /* default_nodata@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "default_nodata@2x.png"; sourceTree = "<group>"; };
 		EC1512851CA3C1B100B92F2B /* default_nodata@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "default_nodata@3x.png"; sourceTree = "<group>"; };
 		EC1512881CA3D3F000B92F2B /* label_icon_zengpin@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "label_icon_zengpin@2x.png"; sourceTree = "<group>"; };
@@ -4396,6 +4399,15 @@
 			path = Classes/PUtils;
 			sourceTree = "<group>";
 		};
+		EC13B0EA1CF55A6E00A27E98 /* FZADScrollView */ = {
+			isa = PBXGroup;
+			children = (
+				EC13B0EB1CF55A6E00A27E98 /* FZADScrollerView.h */,
+				EC13B0EC1CF55A6E00A27E98 /* FZADScrollerView.m */,
+			);
+			path = FZADScrollView;
+			sourceTree = "<group>";
+		};
 		EC154CDA1C1EBEB50004FAF5 /* ServiceDetail */ = {
 			isa = PBXGroup;
 			children = (
@@ -5422,6 +5434,7 @@
 		ECC4DBDF1C17D67A00FBD6A4 /* ThirdSDK */ = {
 			isa = PBXGroup;
 			children = (
+				EC13B0EA1CF55A6E00A27E98 /* FZADScrollView */,
 				ECC4DBE31C17D67A00FBD6A4 /* AFNetworking */,
 				ECC4DBF71C17D67A00FBD6A4 /* Ali */,
 				ECC4DC5F1C17D67A00FBD6A4 /* AMap3DMap */,
@@ -8607,6 +8620,7 @@
 				ECE976981CC89FE20065843C /* LewPickerController.m in Sources */,
 				ECC4DDA31C17D67B00FBD6A4 /* AFHTTPRequestOperationManager.m in Sources */,
 				ECC4DE1C1C17D67B00FBD6A4 /* OpenShare+Renren.m in Sources */,
+				EC13B0ED1CF55A6E00A27E98 /* FZADScrollerView.m in Sources */,
 				EC296B141C7807DF00D9D473 /* CZJGoodsDetailForm.m in Sources */,
 				ECC4DE301C17D67B00FBD6A4 /* UIView+WebCacheOperation.m in Sources */,
 				EC154CF41C1EBEB50004FAF5 /* CZJCarBrandChooseController.m in Sources */,

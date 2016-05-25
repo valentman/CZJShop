@@ -66,7 +66,7 @@ UITableViewDelegate
     [self.view addSubview:self.topView];
     
     //品牌logo
-    _curCarBrandLogo = [[UIImageView alloc]initWithFrame:CGRectMake(14,StatusBar_HEIGHT + NavigationBar_HEIGHT + 5, 60 , 50)];
+    _curCarBrandLogo = [[UIImageView alloc]initWithFrame:CGRectMake(14,StatusBar_HEIGHT + NavigationBar_HEIGHT + 5, 50 , 50)];
     [self.view addSubview:_curCarBrandLogo];
     [_curCarBrandLogo sd_setImageWithURL:[NSURL URLWithString:self.carBrand.icon]
                         placeholderImage:DefaultPlaceHolderSquare
@@ -119,6 +119,8 @@ UITableViewDelegate
     }
     CarModelForm* obj = [_carModels objectAtIndex:indexPath.row];
     ((UILabel*)VIEWWITHTAG(cell, 1999)).text = obj.name;
+    
+    cell.separatorInset = UIEdgeInsetsMake(0, 50, 0, 0);
     return cell;
 }
 

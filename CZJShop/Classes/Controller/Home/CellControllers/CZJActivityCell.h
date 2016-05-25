@@ -7,15 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "ImagePlayerView.h"
+#import "FZADScrollerView.h"
 
 @class ActivityForm;
 
-@interface CZJActivityCell : CZJTableViewCell<ImagePlayerViewDelegate>{
+@interface CZJActivityCell : CZJTableViewCell<FZADScrollerViewDelegate>{
     NSMutableArray* _imageArray;
 }
 
-@property (weak, nonatomic) IBOutlet ImagePlayerView *adScrollView;
+@property (strong, nonatomic) FZADScrollerView *adScrollerView;
 @property (strong, nonatomic) NSMutableArray* activeties;
 @property (weak, nonatomic) id<CZJImageViewTouchDelegate> delegate;
 

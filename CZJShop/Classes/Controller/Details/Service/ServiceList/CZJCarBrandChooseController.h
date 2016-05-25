@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 #import "CZJFilterBaseController.h"
 @interface CZJCarBrandChooseController : CZJFilterBaseController
-
+@property (strong, nonatomic) NSString* viewFrom;
 @end

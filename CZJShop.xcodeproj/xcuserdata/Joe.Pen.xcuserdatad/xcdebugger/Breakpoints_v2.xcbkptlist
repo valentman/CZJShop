@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CZJShop/Classes/Controller/Details/Service/ServiceDetail/CZJUserEvalutionDetailController.m"
-            timestampString = "483160935.586908"
+            timestampString = "485850405.595072"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "670"
-            endingLineNumber = "670"
+            startingLineNumber = "671"
+            endingLineNumber = "671"
             landmarkName = "-commitEvalutionAction:"
             landmarkType = "5">
          </BreakpointContent>
@@ -48,22 +48,6 @@
             startingLineNumber = "40"
             endingLineNumber = "40"
             landmarkName = "-showPanel:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CZJShop/Classes/Controller/MyInfo/myOrder/OrderDetail/CZJMyOrderDetailController.m"
-            timestampString = "483515700.120877"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "587"
-            endingLineNumber = "587"
-            landmarkName = "-tableView:cellForRowAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -202,11 +186,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CZJShop/Classes/Controller/MyInfo/Main/CZJMyInformationController.m"
-            timestampString = "485405586.624132"
+            timestampString = "485853636.305032"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "541"
-            endingLineNumber = "541"
+            startingLineNumber = "543"
+            endingLineNumber = "543"
             landmarkName = "-didCancel:"
             landmarkType = "5">
          </BreakpointContent>
@@ -240,38 +224,6 @@
             startingLineNumber = "1153"
             endingLineNumber = "1153"
             landmarkName = "-didSendText:withExt:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CZJShop/Classes/Controller/MyInfo/myLogin/CZJLoginController.m"
-            timestampString = "485419831.044824"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "265"
-            endingLineNumber = "265"
-            landmarkName = "-confirmLoginAction:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CZJShop/Classes/Controller/MyInfo/myLogin/CZJLoginController.m"
-            timestampString = "485419831.044824"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "273"
-            endingLineNumber = "273"
-            landmarkName = "-confirmLoginAction:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

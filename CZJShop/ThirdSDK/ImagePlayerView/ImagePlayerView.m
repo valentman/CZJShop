@@ -273,7 +273,11 @@
     if (self.autoScrollTimer && self.autoScrollTimer.isValid) {
         [self.autoScrollTimer invalidate];
     }
-    self.autoScrollTimer = [NSTimer scheduledTimerWithTimeInterval:self.scrollInterval target:self selector:@selector(handleScrollTimer:) userInfo:nil repeats:YES];
+    
+    if (_autoScroll)
+    {
+        self.autoScrollTimer = [NSTimer scheduledTimerWithTimeInterval:self.scrollInterval target:self selector:@selector(handleScrollTimer:) userInfo:nil repeats:YES];
+    }
     
     // update UIPageControl
     CGRect visiableRect = CGRectMake(scrollView.contentOffset.x, scrollView.contentOffset.y, scrollView.bounds.size.width, scrollView.bounds.size.height);

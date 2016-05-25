@@ -60,6 +60,7 @@ CZJNaviagtionBarViewDelegate
 - (void)initMydatas
 {
     self.view.backgroundColor = CZJNAVIBARBGCOLOR;
+    self.inputView.backgroundColor = CZJNAVIBARBGCOLOR;
     
     _commitBtn.layer.cornerRadius = 5;
     _textView.layer.cornerRadius = 5;

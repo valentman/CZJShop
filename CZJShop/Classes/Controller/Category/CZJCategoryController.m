@@ -62,6 +62,14 @@
         menuNames = [NSDictionary dictionaryWithDictionary:shopMenuNames];
     }
     
+    menuNames = @{@"2000" : @"线下服务",
+                  @"2001" : @"油品化学品",
+                  @"2003" : @"美容清洗",
+                  @"2007" : @"汽车装饰",
+                  @"2009" : @"汽车配件",
+                  @"2005" : @"车载电器",
+                  @"2013" : @"安全自驾"
+                  };
     for (NSString* key in menuNames)
     {
         rightMeun * meun=[[rightMeun alloc] init];
@@ -71,11 +79,11 @@
     }
     //数组升序排序
     [lis sortUsingComparator:^NSComparisonResult(rightMeun* obj1, rightMeun* obj2) {
-        if (obj1.typeId > obj2.typeId)
+        if ([obj1.typeId integerValue] > [obj2.typeId integerValue])
         {
             return (NSComparisonResult)NSOrderedDescending;
         }
-        if (obj1.typeId < obj2.typeId) {
+        if ([obj1.typeId integerValue] < [obj2.typeId integerValue]) {
             return (NSComparisonResult)NSOrderedAscending;
         }
         return (NSComparisonResult)NSOrderedSame;
@@ -103,12 +111,14 @@
         else
         {//Item
             DLog(@"%@",info.typeId);
-            if ([_viewFromWhere isEqualToString:@"5"])
+//            if ([_viewFromWhere isEqualToString:@"5"])
+            if (0 == left)
             {
                 _serviceTypeId = info.typeId;
                 [self performSegueWithIdentifier:@"segueToServiceList" sender:self];
             }
-            else if ([_viewFromWhere isEqualToString:@"6"])
+//            else if ([_viewFromWhere isEqualToString:@"6"])
+            else
             {
                 _goodsTypeId = info.typeId;
                 [self performSegueWithIdentifier:@"segueToGoodsList" sender:self];
@@ -117,8 +127,10 @@
         
     }].isRecordLastScroll=YES;
     
-    [self addCZJNaviBarView:CZJNaviBarViewTypeGeneral];
-    self.naviBarView.mainTitleLabel.text = title;
+//    [self addCZJNaviBarView:CZJNaviBarViewTypeGeneral];
+//    self.naviBarView.mainTitleLabel.text = title;
+    
+    [self addCZJNaviBarView:CZJNaviBarViewTypeCategory];
 }
 
 

@@ -23,6 +23,7 @@
 #import "CZJMyInfoServiceFeedbackController.h"
 
 @implementation CZJMyInfoForm
+
 @end
 
 @interface CZJMyInformationController ()
@@ -72,6 +73,7 @@ CZJViewControllerDelegate
 {
     [self dealWithInitNavigationBar];
     if ([USER_DEFAULT boolForKey:kCZJIsUserHaveLogined]) {
+        iLog(@"登录成功请求个人数据");
         [self getMyInfoDataFromServer];
     }
     else

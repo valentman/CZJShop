@@ -98,6 +98,7 @@ CZJChooseProductTypeDelegate
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *borderLineLayoutHeight;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *addProductToWidth;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *immediatelyBuyWidth;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *goinStoreViewWidth;
 @property (weak, nonatomic) IBOutlet UIView *serviceView;
 
 @property (strong, nonatomic) UITableView* detailTableView;
@@ -331,7 +332,8 @@ CZJChooseProductTypeDelegate
             weakSelf.addProductToWidth.constant = 0;
             weakSelf.immediatelyBuyWidth.constant = (iPhone4 || iPhone5) ? 130 : 160;;
         }
-        _storeView.hidden = goodsDetailForm.goods.selfFlag;
+//        _storeView.hidden = goodsDetailForm.goods.selfFlag;
+        _goinStoreViewWidth.constant = 0;
         
         [weakSelf dealWithData];
         [weakSelf.detailTableView reloadData];

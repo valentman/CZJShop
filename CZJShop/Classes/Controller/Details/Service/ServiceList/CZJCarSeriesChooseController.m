@@ -61,7 +61,7 @@ UITableViewDataSource
     [self.topView setBackgroundColor:[UIColor whiteColor]];
     [self.view addSubview:self.topView];
     
-    _curCarBrandLogo = [[UIImageView alloc]initWithFrame:CGRectMake(14,StatusBar_HEIGHT + NavigationBar_HEIGHT + 5, 60 , 50)];
+    _curCarBrandLogo = [[UIImageView alloc]initWithFrame:CGRectMake(14,StatusBar_HEIGHT + NavigationBar_HEIGHT + 5, 50 , 50)];
     [self.view addSubview:_curCarBrandLogo];
     
     _curCarBrandName = [[UILabel alloc]initWithFrame:CGRectMake(80,StatusBar_HEIGHT + NavigationBar_HEIGHT + 20, 200 , 21)];
@@ -114,6 +114,8 @@ UITableViewDataSource
     NSString* tmp_key = [_keys objectAtIndex:indexPath.section];
     NSArray*  sess = [_carSes objectForKey:tmp_key];
     CarSeriesForm* obj = [sess objectAtIndex:indexPath.row];
+    
+    cell.separatorInset = UIEdgeInsetsMake(0, 50, 0, 0);
     
     ((UILabel*)VIEWWITHTAG(cell, 1999)).text = obj.name;
     return cell;

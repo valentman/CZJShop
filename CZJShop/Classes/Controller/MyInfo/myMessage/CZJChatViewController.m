@@ -22,7 +22,7 @@ UIGestureRecognizerDelegate
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self addCZJNaviBarView:CZJNaviBarViewTypeGeneral];
-    self.naviBarView.backgroundColor = WHITECOLOR;
+    self.naviBarView.backgroundColor = CZJNAVIBARBGCOLOR;
     self.naviBarView.mainTitleLabel.text = self.storeName;
 }
 

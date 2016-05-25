@@ -33,6 +33,8 @@
     orderList = [NSMutableArray array];
     self.page = 1;
     
+    self.view.backgroundColor = WHITECOLOR;
+    
     //创建TableView，注册Cell
     self.myTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 64, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - StatusBar_HEIGHT - NavigationBar_HEIGHT) style:UITableViewStylePlain];
     self.myTableView.tableFooterView = [[UIView alloc]init];

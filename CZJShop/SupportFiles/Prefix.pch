@@ -61,6 +61,8 @@
 #import "EMSDKFull.h"
 #import "EaseUI.h"
 
+#import "iConsole.h"
+
 
 #endif
 #endif

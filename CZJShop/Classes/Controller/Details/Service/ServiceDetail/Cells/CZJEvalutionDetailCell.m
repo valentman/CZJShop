@@ -14,6 +14,7 @@
     // Initialization code
     _evalWriteHeadImage.layer.cornerRadius  =20;
     _evalWriteHeadImage.clipsToBounds = YES;
+    [super awakeFromNib];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

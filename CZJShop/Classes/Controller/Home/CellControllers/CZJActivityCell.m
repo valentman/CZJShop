@@ -8,7 +8,7 @@
 
 #import "CZJActivityCell.h"
 #import "HomeForm.h"
-#import "ImagePlayerView.h"
+
 
 @implementation CZJActivityCell
 
@@ -31,28 +31,21 @@
     [self loadImageData];
 }
 
-- (void)loadImageData{
-    self.adScrollView.imagePlayerViewDelegate = self;
-    self.adScrollView.scrollInterval = 5.0f;
-    self.adScrollView.pageControlPosition = ICPageControlPosition_BottomCenter;
-    self.adScrollView.hidePageControl = NO;
-    [self.adScrollView reloadData];
+- (void)loadImageData
+{
+    if (!_adScrollerView)
+    {
+        _adScrollerView = [[FZADScrollerView alloc] initWithFrame:CGRectMake(0, 0, PJ_SCREEN_WIDTH, 210)];
+        _adScrollerView.delegate = self;
+        [self addSubview:_adScrollerView];
+    }
+    [_adScrollerView setImages:_imageArray];
 }
 
-#pragma mark - ImagePlayerViewDelegate
-- (NSInteger)numberOfItems
+- (void)didSelectImageAtIndexPath:(NSInteger)indexPath
 {
-    return _imageArray.count;
-}
-
-- (void)imagePlayerView:(ImagePlayerView *)imagePlayerView loadImageForImageView:(UIImageView *)imageView index:(NSInteger)index
-{
-    [imageView sd_setImageWithURL:[NSURL URLWithString:[_imageArray objectAtIndex:index]] placeholderImage:DefaultPlaceHolderRectangle];
-}
-
-- (void)imagePlayerView:(ImagePlayerView *)imagePlayerView didTapAtIndex:(NSInteger)index
-{
-    ActivityForm* tmp = [_activeties objectAtIndex:index];
+    NSLog(@"didSelectImageIndexPath = %ld", indexPath);
+    ActivityForm* tmp = [_activeties objectAtIndex:indexPath];
     [self.delegate showActivityHtmlWithUrl:tmp.url];
 }
 

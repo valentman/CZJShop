@@ -24,6 +24,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *setDefaultBtn;
 @property (weak, nonatomic)id<CZJDeliveryAddrListCellDelegate> delegate;
 @property (strong, nonatomic)NSIndexPath* indexPath;
+@property (weak, nonatomic) IBOutlet UIImageView *arrowImg;
 
 - (IBAction)deleteAddrAction:(id)sender;
 - (IBAction)editAddrAction:(id)sender;

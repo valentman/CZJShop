@@ -57,6 +57,7 @@ UITableViewDelegate
     rightBtn.frame = CGRectMake(PJ_SCREEN_WIDTH - 100 , 0 , 100 , 44 );
     rightBtn.titleLabel.textAlignment = NSTextAlignmentRight;
     [rightBtn setTitle:@"编辑" forState:UIControlStateNormal];
+    [rightBtn setTitle:@"取消" forState:UIControlStateSelected];
     [rightBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
     [rightBtn setSelected:NO];
     [rightBtn setTag:2999];
@@ -100,10 +101,15 @@ UITableViewDelegate
 
 - (void)edit:(id)sender
 {
+    UIButton* btn = (UIButton*)sender;
+    btn.selected = !btn.selected;
     isEdit = !isEdit;
+    
+    if (conversationAry.count <= 0)
+        return;
+    
     if (isEdit)
     {
-        [self.navigationItem.rightBarButtonItem setTitle:@"完成"];
         [UIView animateWithDuration:Duration animations:^{
             [buttomView setPosition:CGPointMake(0, PJ_SCREEN_HEIGHT - 60) atAnchorPoint:CGPointZero];
             [self.myTableView setSize:CGSizeMake(PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - 64 - 60)];
@@ -111,8 +117,6 @@ UITableViewDelegate
     }
     else
     {
-        [self.navigationItem.rightBarButtonItem setTitle:@"编辑"];
-        
         [UIView animateWithDuration:Duration animations:^{
             [buttomView setPosition:CGPointMake(0, PJ_SCREEN_HEIGHT) atAnchorPoint:CGPointZero];
             [self.myTableView setSize:CGSizeMake(PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - 64)];

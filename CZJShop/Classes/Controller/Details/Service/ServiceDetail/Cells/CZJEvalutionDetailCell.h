@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CZJEvalutionDetailCell : UITableViewCell
+@interface CZJEvalutionDetailCell : CZJTableViewCell
 @property (weak, nonatomic) IBOutlet UIImageView *evalWriteHeadImage;
 @property (weak, nonatomic) IBOutlet UILabel *evalWriterName;
 @property (weak, nonatomic) IBOutlet UILabel *evalWriteTime;

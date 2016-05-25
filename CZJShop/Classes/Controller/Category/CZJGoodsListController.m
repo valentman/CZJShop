@@ -98,7 +98,7 @@ CZJFilterControllerDelegate
     self.naviBarView.detailType = CZJDetailTypeGoods;
     
     //下拉菜单筛选条件初始
-    NSArray* sortTypes = @[@"综合排序", @"销量", @"新品", @"评论",@"附近"];
+    NSArray* sortTypes = @[@"默认排序", @"销量", @"新品", @"评论",@"附近"];
     NSArray* storeTypes = @[@"价格"];
     NSArray* filterTypes = @[@"筛选"];
     NSArray* menuArray = @[sortTypes,storeTypes,filterTypes];

@@ -163,6 +163,7 @@ CZJMyCarListCellDelegate
 - (IBAction)addMyCarAction:(id)sender
 {
     CZJCarBrandChooseController *svc = [[CZJCarBrandChooseController alloc] initWithType:CZJCarListTypeGeneral];
+    svc.viewFrom = @"carList";
     [self.navigationController pushViewController:svc animated:YES];
 }
 @end

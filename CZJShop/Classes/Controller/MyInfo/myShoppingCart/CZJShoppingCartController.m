@@ -126,11 +126,10 @@ UIGestureRecognizerDelegate
     //右按钮
     editBtn = [[ UIButton alloc ] initWithFrame : CGRectMake(PJ_SCREEN_WIDTH - 59 , 0 , 44 , 44 )];
     [editBtn setTitle:@"编辑" forState:UIControlStateNormal];
-    [editBtn setTitle:@"完成" forState:UIControlStateSelected];
+    [editBtn setTitle:@"取消" forState:UIControlStateSelected];
     [editBtn addTarget:self action:@selector(edit:) forControlEvents:UIControlEventTouchUpInside];
     [editBtn setTitleColor:BLACKCOLOR forState:UIControlStateNormal];
     [editBtn setSelected:NO];
-    editBtn.hidden = YES;
     editBtn.titleLabel.font = SYSTEMFONT(18);
     
     [_allChooseBtn setImage:IMAGENAMED(@"commit_btn_circle.png") forState:UIControlStateNormal];
@@ -188,7 +187,6 @@ UIGestureRecognizerDelegate
             [CZJUtils showNoDataAlertViewOnTarget:weak.view withPromptString:@"木有商品，快去添加吧/(ToT)/~~"];
             weak.settleView.hidden = YES;
             weak.myTableView.hidden = YES;
-            editBtn.hidden = YES;
         }
         else
         {

@@ -34,7 +34,7 @@
     {
         //UIButton
         UIButton *leftBtn = [[ UIButton alloc ] initWithFrame : CGRectMake(0 , 0 , 44 , 44 )];
-        [leftBtn setTitle:@"取消" forState:UIControlStateNormal];
+        [leftBtn setTitle:@"返回" forState:UIControlStateNormal];
         [leftBtn.titleLabel setFont:[UIFont systemFontOfSize:16]];
         [leftBtn addTarget:self action:@selector(cancelAction:) forControlEvents:UIControlEventTouchUpInside];
         [leftBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal]; //将leftItem设置为自定义按钮

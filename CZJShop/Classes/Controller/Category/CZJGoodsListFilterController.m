@@ -390,6 +390,9 @@ CZJGoodsListFilterSubControllerDelegate
 - (void)resetFilterConditioins
 {
     [USER_DEFAULT setValue:@"" forKey:kUserDefaultChoosedCarModelType];
+    [USER_DEFAULT setValue:@"false" forKey:kUSerDefaultStockFlag];
+    [USER_DEFAULT setValue:@"false" forKey:kUSerDefaultPromotionFlag];
+    [USER_DEFAULT setValue:@"false" forKey:kUSerDefaultRecommendFlag];
     for (CZJFilterBaseForm* baseForm in _filterConditionArys)
     {
         CZJFilterBaseForm* filterObject = (CZJFilterBaseForm*)baseForm;

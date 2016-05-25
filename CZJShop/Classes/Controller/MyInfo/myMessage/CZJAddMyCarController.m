@@ -25,11 +25,14 @@ UITextFieldDelegate
 {
     NSArray* provinceAry;
     NSArray* numberPlateAry;
-    UIPickerView *pickerView;
+    UIPickerView *_pickerView;
     __block UIView* _backgroundView;
     
     NSString* provinceStr;
     NSString* numverPlateStr;
+    
+    NSInteger currentSelectPro;
+    NSInteger currentSelectNum;
 }
 @property (weak, nonatomic) IBOutlet UIView *viewTwo;
 @property (weak, nonatomic) IBOutlet UIView *viewOne;
@@ -193,11 +196,11 @@ UITextFieldDelegate
 - (IBAction)chooseCarPlateNumAction:(id)sender
 {
     [self.view endEditing:YES];
-    pickerView = [[UIPickerView alloc]init];
-    pickerView.delegate = self;
-    pickerView.dataSource = self;
+    _pickerView = [[UIPickerView alloc]init];
+    _pickerView.delegate = self;
+    _pickerView.dataSource = self;
     LewPickerController *pickerController = [[LewPickerController alloc]initWithDelegate:self];
-    pickerController.pickerView = pickerView;
+    pickerController.pickerView = _pickerView;
     pickerController.titleLabel.text = @"选择省市代码";
     
     [self.view addSubview:_backgroundView];
@@ -206,6 +209,18 @@ UITextFieldDelegate
     }];
     
     [pickerController showInView:self.view];
+    
+    if (currentSelectPro > 0)
+    {
+//        [self pickerView:_pickerView didSelectRow:currentSelectPro inComponent:0];
+        [_pickerView selectRow:currentSelectPro inComponent:0 animated:YES];
+    }
+    if (currentSelectNum > 0)
+    {
+//        [self pickerView:_pickerView didSelectRow:currentSelectNum inComponent:1];
+        [_pickerView selectRow:currentSelectNum inComponent:1 animated:YES];
+    }
+
 }
 
 
@@ -249,10 +264,41 @@ UITextFieldDelegate
     return 45;
 }
 
+- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
+//    if (component == 0) {
+//        self.selectedArray = [self.pickerDic objectForKey:[self.provinceArray objectAtIndex:row]];
+//        if (self.selectedArray.count > 0) {
+//            self.cityArray = [[self.selectedArray objectAtIndex:0] allKeys];
+//        } else {
+//            self.cityArray = nil;
+//        }
+//        if (self.cityArray.count > 0) {
+//            self.townArray = [[self.selectedArray objectAtIndex:0] objectForKey:[self.cityArray objectAtIndex:0]];
+//        } else {
+//            self.townArray = nil;
+//        }
+//    }
+//    [pickerView selectedRowInComponent:1];
+//    [pickerView reloadComponent:1];
+//    [pickerView selectedRowInComponent:2];
+//    
+//    if (component == 1) {
+//        if (self.selectedArray.count > 0 && self.cityArray.count > 0) {
+//            self.townArray = [[self.selectedArray objectAtIndex:0] objectForKey:[self.cityArray objectAtIndex:row]];
+//        } else {
+//            self.townArray = nil;
+//        }
+//        [pickerView selectRow:0 inComponent:2 animated:YES];
+//    }
+//    [pickerView reloadComponent:2];
+}
+
 #pragma mark - LewPickerControllerDelegate
 - (BOOL)lewPickerControllerShouldOKButtonPressed:(LewPickerController *)pickerController{
-    provinceStr = provinceAry[[pickerView selectedRowInComponent:0]];
-    numverPlateStr = numberPlateAry[[pickerView selectedRowInComponent:1]];
+    currentSelectPro = [_pickerView selectedRowInComponent:0];
+    currentSelectNum = [_pickerView selectedRowInComponent:1];
+    provinceStr = provinceAry[currentSelectPro];
+    numverPlateStr = numberPlateAry[currentSelectNum];
     NSString *numberPlate = [NSString stringWithFormat:@"%@%@",provinceStr,numverPlateStr];
     _carPlateNumLabel.text = numberPlate;
     [self closeBackgroundView];

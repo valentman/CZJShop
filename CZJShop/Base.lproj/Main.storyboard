@@ -25,6 +25,7 @@
                     </tabBar>
                     <connections>
                         <segue destination="7Xo-v7-Mnv" kind="relationship" relationship="viewControllers" id="mcm-El-JQu"/>
+                        <segue destination="LhC-aZ-FfW" kind="relationship" relationship="viewControllers" id="3Jo-lT-Uqy"/>
                         <segue destination="qp9-bP-aUd" kind="relationship" relationship="viewControllers" id="np6-5v-YRe"/>
                         <segue destination="Vmz-xc-Hcf" kind="relationship" relationship="viewControllers" id="QE4-le-bfl"/>
                         <segue destination="gUF-dn-cNJ" kind="relationship" relationship="viewControllers" id="tb4-DI-GqK"/>
@@ -361,10 +362,10 @@
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
                                         <subviews>
                                             <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VFo-eZ-fwd" userLabel="客服">
-                                                <rect key="frame" x="0.0" y="0.0" width="0.0" height="50"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="107" height="50"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nCX-kq-3fu">
-                                                        <rect key="frame" x="0.0" y="0.0" width="0.0" height="50"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="107" height="50"/>
                                                         <animations/>
                                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="10"/>
                                                         <state key="normal" image="prodetail_icon_kefu02.png"/>
@@ -373,7 +374,7 @@
                                                         </connections>
                                                     </button>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="客服" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tuO-cy-Sdx">
-                                                        <rect key="frame" x="-16" y="28" width="32" height="20"/>
+                                                        <rect key="frame" x="38" y="28" width="31" height="20"/>
                                                         <animations/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="20" id="bve-9o-2F1"/>
@@ -389,7 +390,6 @@
                                                 <constraints>
                                                     <constraint firstItem="nCX-kq-3fu" firstAttribute="leading" secondItem="VFo-eZ-fwd" secondAttribute="leading" id="757-xf-Wl7"/>
                                                     <constraint firstAttribute="trailing" secondItem="nCX-kq-3fu" secondAttribute="trailing" id="Kwb-e8-ATF"/>
-                                                    <constraint firstAttribute="width" id="aMZ-Pt-fMp"/>
                                                     <constraint firstItem="nCX-kq-3fu" firstAttribute="top" secondItem="VFo-eZ-fwd" secondAttribute="top" id="g5X-9K-KF8"/>
                                                     <constraint firstItem="tuO-cy-Sdx" firstAttribute="centerX" secondItem="VFo-eZ-fwd" secondAttribute="centerX" id="j5O-eD-lhE"/>
                                                     <constraint firstAttribute="bottom" secondItem="nCX-kq-3fu" secondAttribute="bottom" id="q9P-FW-UNG"/>
@@ -397,10 +397,10 @@
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yiS-Fh-2Eg" userLabel="门店">
-                                                <rect key="frame" x="30" y="0.0" width="35" height="50"/>
+                                                <rect key="frame" x="107" y="0.0" width="106" height="50"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ef7-5j-UP5">
-                                                        <rect key="frame" x="0.0" y="0.0" width="35" height="50"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="106" height="50"/>
                                                         <animations/>
                                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="10"/>
                                                         <state key="normal" image="prodetail_icon_shop02.png"/>
@@ -409,7 +409,7 @@
                                                         </connections>
                                                     </button>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="进店" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g7n-4b-gbd">
-                                                        <rect key="frame" x="2" y="28" width="31" height="20"/>
+                                                        <rect key="frame" x="38" y="28" width="31" height="20"/>
                                                         <animations/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="20" id="65E-gv-zFN"/>
@@ -424,7 +424,6 @@
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstItem="g7n-4b-gbd" firstAttribute="centerX" secondItem="yiS-Fh-2Eg" secondAttribute="centerX" id="5Wf-EK-zfl"/>
-                                                    <constraint firstAttribute="width" constant="35" id="9AQ-f3-bZM"/>
                                                     <constraint firstAttribute="bottom" secondItem="ef7-5j-UP5" secondAttribute="bottom" id="Dac-Z8-nhN"/>
                                                     <constraint firstAttribute="bottom" secondItem="g7n-4b-gbd" secondAttribute="bottom" constant="2" id="c5Z-SB-cZ8"/>
                                                     <constraint firstAttribute="trailing" secondItem="ef7-5j-UP5" secondAttribute="trailing" id="k3P-2d-I1Y"/>
@@ -433,10 +432,10 @@
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ldp-eQ-FYw" userLabel="关注">
-                                                <rect key="frame" x="255" y="0.0" width="35" height="50"/>
+                                                <rect key="frame" x="213" y="0.0" width="107" height="50"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="K6c-WG-DZw">
-                                                        <rect key="frame" x="0.0" y="0.0" width="35" height="50"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="107" height="50"/>
                                                         <animations/>
                                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="10"/>
                                                         <state key="normal" image="prodetail_icon_guanzhu02.png"/>
@@ -444,8 +443,8 @@
                                                             <action selector="attentionAction:" destination="1NL-NI-3nV" eventType="touchUpInside" id="M6r-FO-XaX"/>
                                                         </connections>
                                                     </button>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="关注" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xf4-Ey-qEC">
-                                                        <rect key="frame" x="2" y="28" width="31" height="20"/>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="关注" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xf4-Ey-qEC">
+                                                        <rect key="frame" x="39" y="28" width="31" height="20"/>
                                                         <animations/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="20" id="ISR-FA-u1z"/>
@@ -465,22 +464,24 @@
                                                     <constraint firstAttribute="bottom" secondItem="xf4-Ey-qEC" secondAttribute="bottom" constant="2" id="TyZ-RK-tvz"/>
                                                     <constraint firstAttribute="trailing" secondItem="K6c-WG-DZw" secondAttribute="trailing" id="YwO-yU-upC"/>
                                                     <constraint firstItem="K6c-WG-DZw" firstAttribute="top" secondItem="Ldp-eQ-FYw" secondAttribute="top" id="eUG-1O-pkg"/>
-                                                    <constraint firstAttribute="width" constant="35" id="hgd-Ju-EWD"/>
                                                 </constraints>
                                             </view>
                                         </subviews>
                                         <animations/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
-                                            <constraint firstItem="yiS-Fh-2Eg" firstAttribute="leading" secondItem="VFo-eZ-fwd" secondAttribute="trailing" constant="30" id="3ht-FI-LKC"/>
-                                            <constraint firstItem="Ldp-eQ-FYw" firstAttribute="top" secondItem="VFo-eZ-fwd" secondAttribute="top" id="IP7-my-m0t"/>
-                                            <constraint firstAttribute="bottom" secondItem="yiS-Fh-2Eg" secondAttribute="bottom" id="IUw-2C-H2a"/>
-                                            <constraint firstAttribute="trailing" secondItem="Ldp-eQ-FYw" secondAttribute="trailing" constant="30" id="TXe-ob-CBr"/>
-                                            <constraint firstItem="VFo-eZ-fwd" firstAttribute="leading" secondItem="atj-V1-rAh" secondAttribute="leading" id="evg-di-pae"/>
-                                            <constraint firstItem="Ldp-eQ-FYw" firstAttribute="bottom" secondItem="VFo-eZ-fwd" secondAttribute="bottom" id="gaG-s7-VFP"/>
-                                            <constraint firstItem="Ldp-eQ-FYw" firstAttribute="top" secondItem="yiS-Fh-2Eg" secondAttribute="top" id="kZB-nc-j7y"/>
-                                            <constraint firstItem="Ldp-eQ-FYw" firstAttribute="bottom" secondItem="yiS-Fh-2Eg" secondAttribute="bottom" id="lo8-PA-WNf"/>
-                                            <constraint firstItem="yiS-Fh-2Eg" firstAttribute="top" secondItem="atj-V1-rAh" secondAttribute="top" id="nl9-8D-7SS"/>
+                                            <constraint firstItem="Ldp-eQ-FYw" firstAttribute="width" secondItem="VFo-eZ-fwd" secondAttribute="width" id="Esg-QB-hg1"/>
+                                            <constraint firstItem="Ldp-eQ-FYw" firstAttribute="leading" secondItem="yiS-Fh-2Eg" secondAttribute="trailing" id="G8q-vX-d4Y"/>
+                                            <constraint firstItem="yiS-Fh-2Eg" firstAttribute="width" secondItem="VFo-eZ-fwd" secondAttribute="width" id="Hse-Rm-DkN"/>
+                                            <constraint firstAttribute="bottom" secondItem="VFo-eZ-fwd" secondAttribute="bottom" id="KWJ-fv-LgN"/>
+                                            <constraint firstItem="VFo-eZ-fwd" firstAttribute="top" secondItem="atj-V1-rAh" secondAttribute="top" id="Otd-aK-77m"/>
+                                            <constraint firstAttribute="bottom" secondItem="yiS-Fh-2Eg" secondAttribute="bottom" id="ZdH-J7-paj"/>
+                                            <constraint firstItem="VFo-eZ-fwd" firstAttribute="leading" secondItem="atj-V1-rAh" secondAttribute="leading" id="bsj-ku-8rj"/>
+                                            <constraint firstItem="Ldp-eQ-FYw" firstAttribute="top" secondItem="atj-V1-rAh" secondAttribute="top" id="fD3-bB-AbC"/>
+                                            <constraint firstAttribute="bottom" secondItem="Ldp-eQ-FYw" secondAttribute="bottom" id="nrj-ic-cvg"/>
+                                            <constraint firstAttribute="trailing" secondItem="Ldp-eQ-FYw" secondAttribute="trailing" id="odz-MQ-D1c"/>
+                                            <constraint firstItem="yiS-Fh-2Eg" firstAttribute="top" secondItem="atj-V1-rAh" secondAttribute="top" id="rKO-HH-tTo"/>
+                                            <constraint firstItem="yiS-Fh-2Eg" firstAttribute="leading" secondItem="VFo-eZ-fwd" secondAttribute="trailing" id="y8k-H2-wLq"/>
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="u43-gr-G0y">
@@ -579,6 +580,7 @@
                         <outlet property="borderLineLayoutHeight" destination="qZ6-Rp-14g" id="Thm-9z-Y38"/>
                         <outlet property="borderLineView" destination="u43-gr-G0y" id="s3V-MF-8NL"/>
                         <outlet property="buyImeditelyBtn" destination="55W-VQ-1Lv" id="Hak-s5-Y1m"/>
+                        <outlet property="goinStoreViewWidth" destination="Hse-Rm-DkN" id="Ylf-Tz-pGQ"/>
                         <outlet property="immediatelyBuyWidth" destination="GIs-Lq-De6" id="Y2c-m9-T9e"/>
                         <outlet property="myScrollView" destination="qgN-gM-kK2" id="36e-0w-8TQ"/>
                         <outlet property="serviceView" destination="VFo-eZ-fwd" id="e9a-Dg-1Ua"/>
@@ -768,18 +770,36 @@
             <point key="canvasLocation" x="1177" y="-142"/>
         </scene>
         <!--分类-->
+        <scene sceneID="Bdk-vK-Hi3">
+            <objects>
+                <navigationController id="LhC-aZ-FfW" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="分类" image="all_btn_classify.png" id="owe-Pt-EKM"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="K5e-an-0gl">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <animations/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="CyP-TN-K1g" kind="relationship" relationship="rootViewController" id="Sxq-fC-Jf5"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="L17-5c-0Be" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="354" y="-142"/>
+        </scene>
+        <!--分类-->
         <scene sceneID="cE7-Pg-heg">
             <objects>
-                <viewController storyboardIdentifier="CategorySBID" extendedLayoutIncludesOpaqueBars="YES" hidesBottomBarWhenPushed="YES" id="CyP-TN-K1g" userLabel="分类" customClass="CZJCategoryController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="CategorySBID" id="CyP-TN-K1g" userLabel="分类" customClass="CZJCategoryController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="79z-8m-7aO"/>
                         <viewControllerLayoutGuide type="bottom" id="Z7r-Ol-XBq"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="0lR-tZ-Qwm">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="519"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Lsi-A4-FkV" customClass="MultilevelMenu">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Lsi-A4-FkV" customClass="MultilevelMenu">
                                 <rect key="frame" x="0.0" y="64" width="320" height="455"/>
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1382,7 +1402,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <animations/>
                         <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
-                        <color key="separatorColor" patternImage="2825BC4B-F3AD-4F50-988F-E0562DEC744E" colorSpace="pattern"/>
+                        <color key="separatorColor" patternImage="2A72D713-B52C-41AD-946D-CF0A20FCA4CD" colorSpace="pattern"/>
                         <inset key="separatorInset" minX="15" minY="0.0" maxX="15" maxY="0.0"/>
                         <sections>
                             <tableViewSection id="t6n-nw-cfg" userLabel="Activity">
@@ -7413,7 +7433,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="2825BC4B-F3AD-4F50-988F-E0562DEC744E" width="256" height="256">
+        <image name="2A72D713-B52C-41AD-946D-CF0A20FCA4CD" width="256" height="256">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPT5YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQrLjE3OlUkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw
@@ -11856,6 +11876,7 @@ AAAAAAAEDtA
 </mutableData>
         </image>
         <image name="all_arrow_next.png" width="6" height="11"/>
+        <image name="all_btn_classify.png" width="21" height="21"/>
         <image name="all_btn_discovery.png" width="22" height="22"/>
         <image name="all_btn_home.png" width="21" height="21"/>
         <image name="all_btn_my.png" width="21" height="21"/>

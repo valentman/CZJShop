@@ -116,6 +116,8 @@ CZJDeliveryAddrListCellDelegate
     cell.indexPath = indexPath;
     cell.delegate = self;
     cell.separatorInset = HiddenCellSeparator;
+    
+    cell.arrowImg.hidden = YES;
     return cell;
 }
 
@@ -127,9 +129,11 @@ CZJDeliveryAddrListCellDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    CZJAddrForm* form = (CZJAddrForm*)_addrListAry[indexPath.section];
-    [self.delegate clickChooseAddr:form];
-    [self.navigationController popViewControllerAnimated:true];
+    if (self.currentAddrId) {
+        CZJAddrForm* form = (CZJAddrForm*)_addrListAry[indexPath.section];
+        [self.delegate clickChooseAddr:form];
+        [self.navigationController popViewControllerAnimated:true];
+    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -176,6 +180,7 @@ CZJDeliveryAddrListCellDelegate
         }
         
         [CZJBaseDataInstance removeDeliveryAddr:params Success:^(id json){
+            [CZJUtils tipWithText:@"删除成功" andView:nil];
             [weak getAddrListDataFromServer];
             if (isDefalutDeliveryAddr)
             {

@@ -711,30 +711,14 @@ void tapToHidePopViewAction(id sender, SEL _cmd)
 + (void)showLoginView:(CZJViewController*)target andNaviBar:(CZJNaviagtionBarView*)naviBar
 {
     //由storyboard根据LoginView获取到登录界面
+    TICK;
     UINavigationController* loginView = (UINavigationController*)[self getViewControllerFromStoryboard:@"Main" andVCName:@"LoginView"];
-    
-    //把loginView加入到当前navigationController中
-//    UIWindow *window = [[UIWindow alloc] initWithFrame:CGRectMake(0, PJ_SCREEN_HEIGHT, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT)];
-//    window.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:1.0];
-//    window.windowLevel = UIWindowLevelNormal;
-//    window.hidden = NO;
-//    window.rootViewController = loginView;
-//    target.window = window;
-//    [window makeKeyAndVisible];
-    
     
     ((CZJLoginController*)loginView.topViewController).delegate = naviBar ? naviBar : target;
     [target presentViewController:loginView animated:YES completion:^{
         [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
     }];
-    
-//    [UIView animateWithDuration:0.4 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
-//        target.window.frame = CGRectMake(0, 0, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT);
-//        ((CZJLoginController*)loginView.topViewController).delegate = naviBar ? naviBar : target;
-//        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
-//    } completion:^(BOOL finished) {
-//        
-//    }];
+    TOCK;
 }
 
 
@@ -1077,6 +1061,32 @@ void tapToHidePopViewAction(id sender, SEL _cmd)
         horiMiddleMargin = 15;
     }
     
+    // 很据列数和行数算出x、y
+    int childX = column * (viewSize.width + horiMiddleMargin);
+    int childY = row * (viewSize.height + margin.vertiMiddleMargin);
+    CGRect rect = CGRectMake(childX + margin.horisideMargin, childY + margin.vertiMiddleMargin, viewSize.width, viewSize.height);
+    return rect;
+}
+
+/**
+ * @margin
+ * @viewSize
+ * @index
+ * @divide
+ * @筛选界面专用，没有间距限制
+ */
++ (CGRect)viewFrameFromDynamic:(CZJMargin)margin
+                          size:(CGSize)viewSize
+                         index:(int)index
+                        divide:(int)divide
+                      subWidth:(int)width
+{
+    // 列数
+    int column = index%divide;
+    // 行数
+    int row = index/divide;
+    // 动态调整中间间距
+    CGFloat horiMiddleMargin = (PJ_SCREEN_WIDTH - width - divide*viewSize.width - 2*margin.horisideMargin) / (divide-1);
     // 很据列数和行数算出x、y
     int childX = column * (viewSize.width + horiMiddleMargin);
     int childY = row * (viewSize.height + margin.vertiMiddleMargin);

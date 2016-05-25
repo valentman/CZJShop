@@ -10,13 +10,17 @@
 #import "CZJBaseDataManager.h"
 #import "CZJCarForm.h"
 #import "CZJCarSeriesChooseController.h"
-#import "SKSTableView.h"
-#import "SKSTableViewCell.h"
+//#import "SKSTableView.h"
+//#import "SKSTableViewCell.h"
 #import "CZJHotBrandViewCell.h"
+#import "CZJGeneralCell.h"
 
 static NSString *CarListCellIdentifierID = @"CarListCellIdentifierID";
 @interface CZJCarBrandChooseController ()
-<SKSTableViewDelegate>
+<
+UITableViewDataSource,
+UITableViewDelegate
+>
 {
     NSMutableDictionary* _carBrands;
     NSArray* _haveCars;
@@ -24,7 +28,7 @@ static NSString *CarListCellIdentifierID = @"CarListCellIdentifierID";
     NSArray* _keys;
     id _currentSelect;
 }
-@property (nonatomic, strong) SKSTableView *tableView;
+@property (nonatomic, strong) UITableView *tableView;
 @end
 
 @implementation CZJCarBrandChooseController
@@ -39,7 +43,6 @@ static NSString *CarListCellIdentifierID = @"CarListCellIdentifierID";
 {
     self.title = @"选择车辆";
     
-    [CZJUtils customizeNavigationBarForTarget:self];
     if (_carlistType == CZJCarListTypeGeneral)
     {
         [self addCZJNaviBarViewWithNotHiddenNavi:CZJNaviBarViewTypeGeneral];
@@ -47,10 +50,12 @@ static NSString *CarListCellIdentifierID = @"CarListCellIdentifierID";
     }
     
     NSInteger width = PJ_SCREEN_WIDTH - (CZJCarListTypeFilter == _carlistType ? kMGLeftSpace  : 0);
-    self.tableView = [[SKSTableView alloc] initWithFrame:CGRectMake(0, 64, width, PJ_SCREEN_HEIGHT)];
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 64, width, PJ_SCREEN_HEIGHT)];
     self.tableView.clipsToBounds = YES;
     self.tableView.backgroundColor = CZJTableViewBGColor;
     self.tableView.tableFooterView = [[UIView alloc]init];
+    UINib *nib=[UINib nibWithNibName:@"CZJGeneralCell" bundle:nil];
+    [self.tableView registerNib:nib forCellReuseIdentifier:@"CZJGeneralCell"];
     self.automaticallyAdjustsScrollViewInsets = NO;
     [self.view addSubview:self.tableView];
 }
@@ -83,7 +88,6 @@ static NSString *CarListCellIdentifierID = @"CarListCellIdentifierID";
         return [obj1 compare:obj2 options:NSNumericSearch];
     }];
     _keys = resultArray;
-    self.tableView.SKSTableViewDelegate = self;
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
     [self.tableView reloadData];
@@ -132,23 +136,18 @@ static NSString *CarListCellIdentifierID = @"CarListCellIdentifierID";
     }
 }
 
-- (NSInteger)tableView:(SKSTableView *)tableView numberOfSubRowsAtIndexPath:(NSIndexPath *)indexPath
-{
-    return _haveCars.count;
-}
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     DLog(@"section:%ld",indexPath.section);
     if (indexPath.section == 0)
     {
-        SKSTableViewCell* cell = [[SKSTableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"SKStableCell"];
+        UITableViewCell* cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"SKStableCell"];
         cell.textLabel.text = @"已有车辆";
         if (_haveCars.count > 0)
         {
             cell.detailTextLabel.text = ((HaveCarsForm*)_haveCars[0]).brandName;
             cell.detailTextLabel.textColor  = CZJREDCOLOR;
             cell.detailTextLabel.font = SYSTEMFONT(14);
-            [cell setExpandable:YES];
         }
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
@@ -157,21 +156,25 @@ static NSString *CarListCellIdentifierID = @"CarListCellIdentifierID";
     {
         if (0 == indexPath.row)
         {
-            SKSTableViewCell* cell = [[SKSTableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"hotBrandHeadCell"];
-            cell.textLabel.text = @"热门品牌";
-            cell.textLabel.textColor = LIGHTGRAYCOLOR;
-            [cell.imageView setImage:IMAGENAMED(@"shaixuan_icon_hot")];
+            CZJGeneralCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJGeneralCell" forIndexPath:indexPath];
+            cell.nameLabel.text = @"热门品牌";
+            cell.nameLabel.textColor = LIGHTGRAYCOLOR;
+            [cell.headImgView setImage:IMAGENAMED(@"shaixuan_icon_hot")];
+            cell.imageViewWidth.constant = 18;
+            cell.imageViewHeight.constant = 18;
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.arrowImg.hidden = YES;
             return cell;
         }
         else
         {
-            SKSTableViewCell* cell = [[SKSTableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"hotBrandCell"];
+            UITableViewCell* cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"hotBrandCell"];
             for (int i = 0; i < _hotBrands.count; i++)
             {
-                int divide = (iPhone5 || iPhone4) ? 4 : 5;
+                int divide = 5;
                 CarBrandsForm* brandForm = _hotBrands[i];
-                CGRect hotBrandRect = [CZJUtils viewFramFromDynamic:CZJMarginMake(15, 10) size:CGSizeMake(40, 55) index:i divide:divide];
+                int subWidth = self.viewFrom == nil ? 50 : 0;
+                CGRect hotBrandRect = [CZJUtils viewFrameFromDynamic:CZJMarginMake(15, 10) size:CGSizeMake(40, 55) index:i divide:divide subWidth:subWidth];
                 CZJHotBrandViewCell* hotCell = [CZJUtils getXibViewByName:@"CZJHotBrandViewCell"];
                 hotCell.frame = hotBrandRect;
                 [hotCell.brandImg sd_setImageWithURL:[NSURL URLWithString:brandForm.icon] placeholderImage:DefaultPlaceHolderSquare];
@@ -186,21 +189,23 @@ static NSString *CarListCellIdentifierID = @"CarListCellIdentifierID";
     }
     else
     {
-        SKSTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CarListCellIdentifierID];
-        if (!cell) {
-            cell = [[SKSTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CarListCellIdentifierID];
-        }
+        CZJGeneralCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJGeneralCell" forIndexPath:indexPath];
         NSString* tmp_key = [_keys objectAtIndex:(indexPath.section - 2)];
         NSArray*  brands = [_carBrands objectForKey:tmp_key];
         CarBrandsForm* obj = [brands objectAtIndex:indexPath.row];
         
-        cell.textLabel.text = obj.name;
-        [cell.imageView sd_setImageWithURL:[NSURL URLWithString:obj.icon]
+        cell.arrowImg.hidden = YES;
+        cell.nameLabel.text = obj.name;
+        [cell.headImgView sd_setImageWithURL:[NSURL URLWithString:obj.icon]
                           placeholderImage:DefaultPlaceHolderSquare
                                  completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL){
                                      
                                  }];
-        [cell.imageView setSize:CGSizeMake(40, 40)];
+
+        cell.imageViewHeight.constant = 40;
+        cell.imageViewWidth.constant = 40;
+        cell.nameLabel.textColor = BLACKCOLOR;
+        
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
     }
@@ -235,14 +240,21 @@ static NSString *CarListCellIdentifierID = @"CarListCellIdentifierID";
 {
     if (0 == indexPath.section)
     {
-        if (CZJCarListTypeFilter == _carlistType)
+        if (0 == indexPath.row)
         {
-            //return 44;
-            return 0;
-        }
-        else if (CZJCarListTypeGeneral == _carlistType)
-        {
-            return 0;
+            if (CZJCarListTypeFilter == _carlistType)
+            {
+                //return 44;
+                return 0;
+            }
+            else if (CZJCarListTypeGeneral == _carlistType)
+            {
+                return 0;
+            }
+            else
+            {
+                return 44;
+            }
         }
         else
         {
@@ -328,13 +340,13 @@ static NSString *CarListCellIdentifierID = @"CarListCellIdentifierID";
     }
 }
 
-- (void)tableView:(SKSTableView *)tableView didSelectSubRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    [self.navigationController popToRootViewControllerAnimated:true];
-    [[NSNotificationCenter defaultCenter]postNotificationName:@"ChooseCartype" object:nil];
-    [USER_DEFAULT setValue:((HaveCarsForm*)_haveCars[indexPath.row]).brandName forKey:kUserDefaultChoosedCarModelType];
-    [USER_DEFAULT setValue:((HaveCarsForm*)_haveCars[indexPath.row]).modelId forKey:kUserDefaultChoosedCarModelID];
-}
+//- (void)tableView:(SKSTableView *)tableView didSelectSubRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    [self.navigationController popToRootViewControllerAnimated:true];
+//    [[NSNotificationCenter defaultCenter]postNotificationName:@"ChooseCartype" object:nil];
+//    [USER_DEFAULT setValue:((HaveCarsForm*)_haveCars[indexPath.row]).brandName forKey:kUserDefaultChoosedCarModelType];
+//    [USER_DEFAULT setValue:((HaveCarsForm*)_haveCars[indexPath.row]).modelId forKey:kUserDefaultChoosedCarModelID];
+//}
 
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView

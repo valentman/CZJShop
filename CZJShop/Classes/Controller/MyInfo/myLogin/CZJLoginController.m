@@ -274,6 +274,7 @@ FDAlertViewDelegate
         } fail:nil];
     };
     CZJSuccessBlock failure = ^(id json){
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
         NSDictionary* dict = [CZJUtils DataFromJson:json];
         [CZJUtils tipWithText:[dict valueForKey:@"msg"] onView:self.view];
         [self.confirmBtn setEnabled:YES];
