@@ -114,6 +114,10 @@ UITableViewDataSource
     [immeditelyBuyBtn.titleLabel setFont:SYSTEMFONT(15)];
     [immeditelyBuyBtn addTarget:self action:@selector(imeditelyBuyAction) forControlEvents:UIControlEventTouchUpInside];
     
+    /*
+     * 暂时屏蔽购买产品相关的按钮
+     */
+    /*
     if (0 == [_goodsDetail.buyType floatValue])
     {
         CGRect addRect = CGRectMake(0, PJ_SCREEN_HEIGHT - 250, PJ_SCREEN_WIDTH*0.5, 50);
@@ -130,6 +134,7 @@ UITableViewDataSource
         immeditelyBuyBtn.frame = imditelyRect;
         [self.view addSubview:immeditelyBuyBtn];
     }
+     */
 }
 
 - (void)imeditelyBuyAction

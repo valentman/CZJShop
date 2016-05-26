@@ -34,10 +34,8 @@ UITableViewDelegate
 
 - (void)initViews
 {
-    [CZJUtils customizeNavigationBarForTarget:self];
     [self addCZJNaviBarView:CZJNaviBarViewTypeGeneral];
-    self.naviBarView.btnBack.hidden = YES;
-    self.navigationController.navigationBarHidden = NO;
+    self.naviBarView.mainTitleLabel.text = @"套餐卡详情";
     
     self.myTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 64, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - StatusBar_HEIGHT - NavigationBar_HEIGHT) style:UITableViewStylePlain];
     self.myTableView.tableFooterView = [[UIView alloc]init];
@@ -167,7 +165,7 @@ UITableViewDelegate
 {
     if (0 == indexPath.section)
     {
-        return  190 + 35 * _cardInfoForm.items.count;
+        return  180 + 30 * _cardInfoForm.items.count;
     }
     else
     {

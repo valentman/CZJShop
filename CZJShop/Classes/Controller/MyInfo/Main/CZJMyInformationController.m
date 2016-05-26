@@ -21,6 +21,8 @@
 #import "CZJMyWalletRedpacketController.h"
 #import "CZJMessageManager.h"
 #import "CZJMyInfoServiceFeedbackController.h"
+#import "CZJChatViewController.h"
+#import "CZJOpinioFeedbackController.h"
 
 @implementation CZJMyInfoForm
 
@@ -72,6 +74,7 @@ CZJViewControllerDelegate
 - (void)viewWillAppear:(BOOL)animated
 {
     [self dealWithInitNavigationBar];
+    iLog(@"显示我的信息界面");
     if ([USER_DEFAULT boolForKey:kCZJIsUserHaveLogined]) {
         iLog(@"登录成功请求个人数据");
         [self getMyInfoDataFromServer];
@@ -250,9 +253,9 @@ CZJViewControllerDelegate
         else if (1 == indexPath.row)
         {
             CZJMyInfoShoppingCartCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJMyInfoShoppingCartCell" forIndexPath:indexPath];
-            NSString* shoppingCartCount = [USER_DEFAULT valueForKey:kUserDefaultShoppingCartCount];
-            [cell.shoppingBtn setBadgeNum:[shoppingCartCount integerValue]];
-            [cell.shoppingBtn setBadgeLabelPosition:CGPointMake(cell.shoppingBtn.frame.size.width*0.95, 5)];
+//            NSString* shoppingCartCount = [USER_DEFAULT valueForKey:kUserDefaultShoppingCartCount];
+//            [cell.shoppingBtn setBadgeNum:[shoppingCartCount integerValue]];
+//            [cell.shoppingBtn setBadgeLabelPosition:CGPointMake(cell.shoppingBtn.frame.size.width*0.95, 5)];
             cell.delegate = self;
             return cell;
         }
@@ -297,15 +300,15 @@ CZJViewControllerDelegate
         if (0 == indexPath.row)
         {
             CZJGeneralCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJGeneralCell" forIndexPath:indexPath];
-            [cell.imageView setImage:IMAGENAMED(@"my_icon_erweima")];
-            cell.nameLabel.text = @"分享优惠码";
+            [cell.imageView setImage:IMAGENAMED(@"serve_icon_kefu")];
+            cell.nameLabel.text = @"在线客服";
             return cell;
         }
         else
         {
             CZJGeneralCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJGeneralCell" forIndexPath:indexPath];
-            [cell.imageView setImage:IMAGENAMED(@"my_icon_input")];
-            cell.nameLabel.text = @"输入优惠码";
+            [cell.imageView setImage:IMAGENAMED(@"serve_icon_call")];
+            cell.nameLabel.text = @"电话咨询";
             return cell;
         }
     }
@@ -315,7 +318,7 @@ CZJViewControllerDelegate
         {
             CZJGeneralCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJGeneralCell" forIndexPath:indexPath];
             [cell.imageView setImage:IMAGENAMED(@"my_icon_serve")];
-            cell.nameLabel.text = @"服务与反馈";
+            cell.nameLabel.text = @"意见反馈";
             return cell;
         }
         else
@@ -403,17 +406,27 @@ CZJViewControllerDelegate
     if (indexPath.section == 2)
     {
         if (indexPath.row == 0) {
-            segueIdentifer = @"segueToShare";
+//            segueIdentifer = @"segueToShare";
+            CZJChatViewController *chatController = [[CZJChatViewController alloc] initWithConversationChatter: CZJBaseDataInstance.userInfoForm.kefuId conversationType:EMConversationTypeChat];
+            chatController.storeName = @"车之健客服";
+            chatController.storeId = @"";
+            chatController.storeImg = CZJBaseDataInstance.userInfoForm.kefuHead;
+            chatController.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:chatController animated:YES];
         }
         else
         {
-            segueIdentifer = @"segueToInputCode";
+//            segueIdentifer = @"segueToInputCode";
+            [CZJUtils callHotLine:myInfoForm.hotline AndTarget:self.view];
         }
     }
     if (indexPath.section == 3)
     {
         if (indexPath.row == 0) {
-            segueIdentifer = @"segueToService";
+//            segueIdentifer = @"segueToOpinionFeedback";
+            CZJOpinioFeedbackController* opinionVC = (CZJOpinioFeedbackController*)[CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:@"OpinionFeedBackSBID"];
+            opinionVC.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:opinionVC animated:YES];
         }
         else
         {
@@ -492,14 +505,15 @@ CZJViewControllerDelegate
     {
         case 0:
         {
+            [self performSegueWithIdentifier:@"segutToRecord" sender:self];
             //如果没有登录则进入登录页面
-            if (![USER_DEFAULT boolForKey:kCZJIsUserHaveLogined])
-            {
-                [CZJUtils showLoginView:self andNaviBar:nil];
-                return;
-            }
-            UIViewController *shoppingcart = [CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:@"SBIDShoppingCart"];
-            [self.navigationController pushViewController:shoppingcart animated:true];
+//            if (![USER_DEFAULT boolForKey:kCZJIsUserHaveLogined])
+//            {
+//                [CZJUtils showLoginView:self andNaviBar:nil];
+//                return;
+//            }
+//            UIViewController *shoppingcart = [CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:@"SBIDShoppingCart"];
+//            [self.navigationController pushViewController:shoppingcart animated:true];
         }
             break;
         case 1:

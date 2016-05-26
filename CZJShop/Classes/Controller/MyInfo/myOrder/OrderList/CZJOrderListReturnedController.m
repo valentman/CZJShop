@@ -60,7 +60,7 @@ UITableViewDataSource
 - (void)initViews
 {
     [self addCZJNaviBarView:CZJNaviBarViewTypeGeneral];
-    self.naviBarView.mainTitleLabel.text = @"退换货列表";
+    self.naviBarView.mainTitleLabel.text = @"退换货";
     
     
     //创建TableView，注册Cell
@@ -131,7 +131,7 @@ UITableViewDataSource
         if (returnedOrderListAry.count == 0)
         {
             self.myTableView.hidden = YES;
-            [CZJUtils showNoDataAlertViewOnTarget:self.view withPromptString:@"木有浏览记录/(ToT)/~~"];
+            [CZJUtils showNoDataAlertViewOnTarget:self.view withPromptString:@"木有退换货的商品/(ToT)/~~"];
         }
         else
         {

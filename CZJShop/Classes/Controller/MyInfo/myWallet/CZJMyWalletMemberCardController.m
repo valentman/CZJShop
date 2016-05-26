@@ -66,10 +66,20 @@
 
 - (void)getMemberCardInfoFromServer
 {
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [CZJBaseDataInstance generalPost:nil success:^(id json) {
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
         NSDictionary* dict = [CZJUtils DataFromJson:json];
         memberCardAry = [NSArray arrayWithArray:[dict valueForKey:@"msg"]];
-        [_myTableView reloadData];
+        if (memberCardAry.count > 0)
+        {
+            [_myTableView reloadData];
+        }
+        else
+        {
+            [CZJUtils showNoDataAlertViewOnTarget:self.view withPromptString:@"木有会员卡/(ToT)/~~"];
+        }
+        
     } fail:^{
         
     } andServerAPI:kCZJServerAPIGetMemberCards];

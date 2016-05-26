@@ -195,7 +195,8 @@ CZJMiaoShaCellDelegate
     self.navigationController.navigationBarHidden = YES;
     
     //导航栏添加搜索栏
-    [self addCZJNaviBarView:CZJNaviBarViewTypeHome];
+    [self addCZJNaviBarView:CZJNaviBarViewTypeSearch];
+    [self.naviBarView setBackgroundColor:RGBA(235, 35, 38, 0)];
     self.view.backgroundColor = CZJNAVIBARBGCOLOR;
 }
 

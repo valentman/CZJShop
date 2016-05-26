@@ -244,7 +244,7 @@ UITableViewDelegate
     CZJMyCardInfoForm* form = (CZJMyCardInfoForm*)_cardList[indexPath.row];
     if (form.items.count > 0)
     {
-        return 230;
+        return 220;
     }
     return 181;
 }

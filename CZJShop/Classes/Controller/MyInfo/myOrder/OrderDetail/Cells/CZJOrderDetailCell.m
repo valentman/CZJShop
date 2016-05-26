@@ -77,9 +77,20 @@
             imageName = @"order_icon_gou2";
             break;
             
+        case 5:
+        {
+            imageName = @"order_icon_gou3";
+            UIImage* gou3 = [[UIImage imageNamed:@"order_icon_greendot"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+            self.buttonFour.hidden = NO;
+            [self.buttonFour setTintColor:RGB(230, 230, 230)];
+            [self.buttonFour setImage:gou3 forState:UIControlStateNormal];
+        }
+            break;
+            
         default:
             break;
     }
+    
     [self.stageImg setImage:IMAGENAMED(imageName)];
 }
 @end

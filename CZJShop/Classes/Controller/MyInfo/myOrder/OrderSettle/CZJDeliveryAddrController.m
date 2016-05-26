@@ -129,7 +129,7 @@ CZJDeliveryAddrListCellDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (self.currentAddrId) {
+    if (self.viewFrom) {
         CZJAddrForm* form = (CZJAddrForm*)_addrListAry[indexPath.section];
         [self.delegate clickChooseAddr:form];
         [self.navigationController popViewControllerAnimated:true];

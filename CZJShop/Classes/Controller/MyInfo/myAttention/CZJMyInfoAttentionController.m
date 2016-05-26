@@ -591,12 +591,30 @@ UITableViewDelegate
         NSString* ids = [deleteIdAry componentsJoinedByString:@","];
         NSDictionary* params = @{@"type": _currentType, @"ids":ids};
         __weak typeof(self) weakSelf = self;
-        [CZJBaseDataInstance cancleAttentionList:params Success:^(id json) {
-            [deleteIdAry removeAllObjects];
-            [weakSelf getDataAttentionDataFromServer];
-        } fail:^{
+        NSString* alertStr;
+        if (0 == [_currentType integerValue])
+        {
+            alertStr = @"商品";
+        }
+        if (1 == [_currentType integerValue])
+        {
+            alertStr = @"服务";
+        }
+        if (2 == [_currentType integerValue])
+        {
+            alertStr = @"门店";
+        }
+        [self showCZJAlertView:[NSString stringWithFormat:@"确认要取消关注这%ld个%@吗?",deleteIdAry.count,alertStr] andConfirmHandler:^{
+            [CZJBaseDataInstance cancleAttentionList:params Success:^(id json) {
+                [deleteIdAry removeAllObjects];
+                [weakSelf getDataAttentionDataFromServer];
+            } fail:^{
+                
+            }];
+        } andCancleHandler:^{
             
         }];
+        
     }
 }
 

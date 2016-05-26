@@ -49,6 +49,8 @@ singleton_interface(CZJLoginModelManager)
                      fail:(CZJGeneralBlock)fail;
 
 //登录成功，写入本地文件
-- (void)loginSuccess:(id)json;
+- (void)loginSuccess:(id)json
+             success:(CZJGeneralBlock)sucessBlock
+                fail:(CZJFailureBlock)failBlock;
 
 @end

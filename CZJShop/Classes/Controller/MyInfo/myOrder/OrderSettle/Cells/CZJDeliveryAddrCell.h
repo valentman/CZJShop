@@ -18,4 +18,5 @@
 @property (strong, nonatomic) CZJAddrForm* addrForm;
 @property (weak, nonatomic) IBOutlet UIImageView *commitNextArrowImg;
 @property (weak, nonatomic) IBOutlet UIImageView *deliverLocaitonIMg;
+@property (weak, nonatomic) IBOutlet UIImageView *addLineImg;
 @end

@@ -277,7 +277,7 @@ CZJNaviagtionBarViewDelegate
 {
     if (0 == section)
     {
-        return 1;
+        return CZJDetailTypeService == _detaiViewType ? 0 : 1;
     }
     else if (1 == section)
     {//付款方式选择
@@ -607,6 +607,10 @@ CZJNaviagtionBarViewDelegate
 {
     if (0 == indexPath.section)
     {
+        if (CZJDetailTypeService == _detaiViewType )
+        {
+            return  0;
+        }
         if (_currentChooseAddr)
         {
             return 85;
@@ -863,6 +867,7 @@ CZJNaviagtionBarViewDelegate
     {
         CZJDeliveryAddrController* deliveryCon = segue.destinationViewController;
         deliveryCon.delegate = self;
+        deliveryCon.viewFrom = @"commitOrder";
         if ([touchedCell isKindOfClass:[CZJDeliveryAddrCell class]])
         {
             CZJAddrForm* addform = ((CZJDeliveryAddrCell*)touchedCell).addrForm;

@@ -328,6 +328,13 @@
                 [self.completeImg setImage:IMAGENAMED(@"order_icon_wancheng")];
                 self.noEvalutionButtomView.hidden = listForm.evaluated;
             }
+            else if (5 == [listForm.status integerValue])
+            {
+                self.stateDescLabel.hidden = YES;
+                self.stateDescLabel.text = @"";
+                self.completeImg.hidden = NO;
+                [self.completeImg setImage:IMAGENAMED(@"order_icon_cancel")];
+            }
         }
         else if (1 == [listForm.type integerValue])
         {
@@ -365,6 +372,13 @@
                 self.noEvalutionButtomView.hidden = listForm.evaluated;
                 
             }
+            else if (5 == [listForm.status integerValue])
+            {
+                self.stateDescLabel.hidden = YES;
+                self.stateDescLabel.text = @"";
+                self.completeImg.hidden = NO;
+                [self.completeImg setImage:IMAGENAMED(@"order_icon_cancel")];
+            }
         }
         else if (2 == [listForm.type integerValue])
         {
@@ -395,8 +409,14 @@
                 [self.completeImg setImage:IMAGENAMED(@"order_icon_wancheng")];
                 self.noEvalutionButtomView.hidden = listForm.evaluated;
             }
+            else if (5 == [listForm.status integerValue])
+            {
+                self.stateDescLabel.hidden = YES;
+                self.stateDescLabel.text = @"";
+                self.completeImg.hidden = NO;
+                [self.completeImg setImage:IMAGENAMED(@"order_icon_cancel")];
+            }
         }
-
     }
 }
 

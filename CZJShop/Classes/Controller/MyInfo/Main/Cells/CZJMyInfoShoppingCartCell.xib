@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
@@ -33,17 +33,17 @@
                                     <constraint firstAttribute="width" constant="50" id="hc3-3x-sNl"/>
                                 </constraints>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="-10" maxX="0.0" maxY="0.0"/>
-                                <state key="normal" image="my_icon_shop.png"/>
+                                <state key="normal" image="my_icon_record.png"/>
                                 <connections>
                                     <action selector="clickAction:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="fcO-aa-FhU"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="购物车" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tiS-5Y-diB">
-                                <rect key="frame" x="32" y="34" width="42" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="浏览记录" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tiS-5Y-diB">
+                                <rect key="frame" x="23" y="34" width="60" height="21"/>
                                 <animations/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="16j-r5-8SW"/>
-                                    <constraint firstAttribute="width" constant="42" id="scf-KR-cH9"/>
+                                    <constraint firstAttribute="width" constant="60" id="scf-KR-cH9"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -178,6 +178,6 @@
     <resources>
         <image name="my_icon_attention.png" width="24" height="24"/>
         <image name="my_icon_evaluate.png" width="24" height="24"/>
-        <image name="my_icon_shop.png" width="24" height="24"/>
+        <image name="my_icon_record.png" width="31" height="31"/>
     </resources>
 </document>

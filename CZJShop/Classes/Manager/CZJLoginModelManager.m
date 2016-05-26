@@ -25,6 +25,7 @@ singleton_implementation(CZJLoginModelManager)
 
 -(id)init{
     if (self = [super init]) {
+        self.usrBaseForm = [[UserBaseForm alloc]init];
         return self;
     }
     return nil;
@@ -135,6 +136,8 @@ singleton_implementation(CZJLoginModelManager)
 }
 
 - (void)loginSuccess:(id)json
+             success:(CZJGeneralBlock)sucessBlock
+                fail:(CZJFailureBlock)failBlock
 {
     self.usrBaseForm =  CZJBaseDataInstance.userInfoForm;
     DLog(@"UserBaseForm:%@",[self.usrBaseForm.keyValues description]);
@@ -150,24 +153,37 @@ singleton_implementation(CZJLoginModelManager)
     //登录成功，个人信息写入本地文件中
     if ([CZJUtils writeDictionaryToDocumentsDirectory:[self.usrBaseForm.keyValues mutableCopy] withPlistName:kCZJPlistFileUserBaseForm]) {
         [USER_DEFAULT setObject:[NSNumber numberWithBool:YES] forKey:kCZJIsUserHaveLogined];
+        
+        //将个人信息存入数据管理单例类中，并刷新上传参数
+        CZJBaseDataInstance.userInfoForm = self.usrBaseForm;
+        [CZJBaseDataInstance refreshChezhuID];
+        
+        //注册个人推送
+        [XGPush setAccount:self.usrBaseForm.chezhuId];
+        
+        //注册环信
+        EMError *errorss = [[EMClient sharedClient] loginWithUsername:CZJLoginModelInstance.usrBaseForm.imId password:@"123456"];
+        if (!errorss)
+        {
+            [[EMClient sharedClient].options setIsAutoLogin:YES];
+        }
+        
+        [[NSNotificationCenter defaultCenter]postNotificationName:kCZJNotifiLoginSuccess object:nil];
+        
+        if (sucessBlock)
+        {
+            sucessBlock();
+        }
     }
-    
-    //将个人信息存入数据管理单例类中，并刷新上传参数
-    CZJBaseDataInstance.userInfoForm = self.usrBaseForm;
-    [CZJBaseDataInstance refreshChezhuID];
-    
-    //注册个人推送
-    [XGPush setAccount:self.usrBaseForm.chezhuId];
-    
-    //注册环信
-    EMError *errorss = [[EMClient sharedClient] loginWithUsername:CZJLoginModelInstance.usrBaseForm.imId password:@"123456"];
-    if (!errorss)
+    else
     {
-        [[EMClient sharedClient].options setIsAutoLogin:YES];
+        [CZJUtils tipWithText:@"登录超时，请重新操作" andView:nil];
+        if (failBlock)
+        {
+            failBlock();
+        }
     }
-    
 
-    [[NSNotificationCenter defaultCenter]postNotificationName:kCZJNotifiLoginSuccess object:nil];
 }
 
 - (void)setPassword:(NSDictionary*)params

@@ -86,12 +86,13 @@
 + (id)getXibViewByName:(NSString*)xibName;
 //搜索界面
 + (void)showSearchView:(UIViewController*)target andNaviBar:(UIView*)naviBar;
++ (void)removeSearchVCFromCurrent:(UIViewController*)target;
 //登录界面和购物车界面的共通处理
 + (void)showLoginView:(UIViewController*)target andNaviBar:(UIView*)naviBar;
 + (void)removeLoginViewFromCurrent:(UIViewController*)target;
 + (void)showCommitOrderView:(UIViewController *)target andParams:(NSArray*)_settleOrderAry;
 + (void)showShoppingCartView:(UIViewController*)target andNaviBar:(UIView*)naviBar;
-+ (void)removeSearchVCFromCurrent:(UIViewController*)target;
+
 //进入详情界面
 + (void)showStoreDetailView:(UINavigationController*)navi andStoreId:(NSString*)sid;
 + (void)showGoodsServiceDetailView:(UINavigationController*)navi

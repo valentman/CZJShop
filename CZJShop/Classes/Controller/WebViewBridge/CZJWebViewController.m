@@ -168,6 +168,7 @@ DZNEmptyDataSetDelegate
         CZJCommitOrderController* settleOrder = ((CZJCommitOrderController*)commitVC.topViewController);
         settleOrder.settleParamsAry = _settleOrderAry;
         settleOrder.isUseCouponAble = couponUseable;
+        settleOrder.detaiViewType = CZJDetailTypeService;
         [self presentViewController:commitVC animated:YES completion:nil];
     }
     else

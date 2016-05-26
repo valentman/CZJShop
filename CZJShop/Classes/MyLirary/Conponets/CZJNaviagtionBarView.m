@@ -229,7 +229,7 @@
             //只有详情界面不需要导航栏
             [self setBackgroundColor:CLEARCOLOR];
             [_btnBack setHidden:NO];
-            [_btnShop setHidden:NO];
+//            [_btnShop setHidden:NO];
             [_btnMore setHidden:NO];
             [_customSearchBar setHidden:YES];
             
@@ -244,12 +244,12 @@
             _btnMore.backgroundColor = RGB(230, 230, 230);
             [_btnMore setBackgroundImage:[UIImage imageNamed:@"prodetail_btn_morenor"] forState:UIControlStateNormal];
 
-            shopBtnImageName = @"prodetail_btn_shopnor";
-            btnShopRect = CGRectMake(CGRectGetMaxX(_selfBounds) - 112, 2, 40, 40);
-            _btnShop.frame = btnShopRect;
-            _btnShop.layer.cornerRadius = 20;
-            _btnShop.backgroundColor = RGB(230, 230, 230);
-            [_btnShop setBackgroundImage:[UIImage imageNamed:shopBtnImageName] forState:UIControlStateNormal];
+//            shopBtnImageName = @"prodetail_btn_shopnor";
+//            btnShopRect = CGRectMake(CGRectGetMaxX(_selfBounds) - 112, 2, 40, 40);
+//            _btnShop.frame = btnShopRect;
+//            _btnShop.layer.cornerRadius = 20;
+//            _btnShop.backgroundColor = RGB(230, 230, 230);
+//            [_btnShop setBackgroundImage:[UIImage imageNamed:shopBtnImageName] forState:UIControlStateNormal];
             break;
             
         case CZJNaviBarViewTypeGoodsList:
@@ -284,6 +284,10 @@
             [_btnBack setBackgroundImage:IMAGENAMED(@"scan_icon_back") forState:UIControlStateNormal];
             _btnBack.hidden = NO;
             [_btnBack setPosition:CGPointMake(15, 0) atAnchorPoint:CGPointZero];
+            break;
+            
+        case CZJNaviBarViewTypeSearch:
+            _customSearchBar.frame = CGRectMake(10, 2, PJ_SCREEN_WIDTH - 20, 40);
             break;
             
         default:

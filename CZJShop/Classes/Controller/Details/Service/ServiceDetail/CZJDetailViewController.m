@@ -41,6 +41,7 @@
 #import "CZJMyInfoAttentionController.h"
 #import "CZJMyInfoRecordController.h"
 #import "CZJMyMessageCenterController.h"
+#import "CZJChatViewController.h"
 
 #define kTagScrollView  1002
 #define kTagTableView   1001
@@ -197,7 +198,9 @@ CZJChooseProductTypeDelegate
 {
     [self.naviBarView.btnBack setBackgroundColor:RGBA(230, 230, 230, 0.8)];
     [self.naviBarView.btnMore setBackgroundColor:RGBA(230, 230, 230, 0.8)];
-    [self.naviBarView.btnShop setBackgroundColor:RGBA(230, 230, 230, 0.8)];
+//    [self.naviBarView.btnShop setBackgroundColor:RGBA(230, 230, 230, 0.8)];
+    self.addProductToWidth.constant = 0;
+    self.immediatelyBuyWidth.constant = 0;
     
     self.borderLineLayoutHeight.constant = 0.5;
     self.borderLineView.layer.borderColor = [UIColor lightGrayColor].CGColor;
@@ -324,16 +327,15 @@ CZJChooseProductTypeDelegate
         //根据购买类型显示底部“加入购物车”与否（0表示是商品，显示“加入购物车”，1则表示服务，只显示“立即购买”）
         if (0 == [goodsDetailForm.goods.buyType floatValue])
         {
-            weakSelf.addProductToWidth.constant = (iPhone4 || iPhone5) ? 80 : 100;
-            weakSelf.immediatelyBuyWidth.constant = (iPhone4 || iPhone5) ? 80 : 100;;
+//            weakSelf.addProductToWidth.constant = (iPhone4 || iPhone5) ? 80 : 100;
+//            weakSelf.immediatelyBuyWidth.constant = (iPhone4 || iPhone5) ? 80 : 100;;
         }
         if (1 == [goodsDetailForm.goods.buyType floatValue])
         {
-            weakSelf.addProductToWidth.constant = 0;
-            weakSelf.immediatelyBuyWidth.constant = (iPhone4 || iPhone5) ? 130 : 160;;
+//            weakSelf.addProductToWidth.constant = 0;
+//            weakSelf.immediatelyBuyWidth.constant = (iPhone4 || iPhone5) ? 130 : 160;;
         }
 //        _storeView.hidden = goodsDetailForm.goods.selfFlag;
-        _goinStoreViewWidth.constant = 0;
         
         [weakSelf dealWithData];
         [weakSelf.detailTableView reloadData];
@@ -1464,7 +1466,18 @@ CZJChooseProductTypeDelegate
 
 - (IBAction)contactServiceAction:(id)sender
 {
-    
+    if ([USER_DEFAULT boolForKey:kCZJIsUserHaveLogined])
+    {
+        CZJChatViewController *chatController = [[CZJChatViewController alloc] initWithConversationChatter: _storeInfo.contactAccount conversationType:EMConversationTypeChat];
+        chatController.storeName = _storeInfo.storeName;
+        chatController.storeId = _storeInfo.storeId;
+        chatController.storeImg = _storeInfo.logo;
+        [self.navigationController pushViewController:chatController animated:YES];
+    }
+    else
+    {
+        [CZJUtils showLoginView:self andNaviBar:nil];
+    }
 }
 
 - (IBAction)storeAction:(id)sender

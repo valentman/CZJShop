@@ -26,8 +26,8 @@
     CGRect rect = CGRectMake(20, 84, PJ_SCREEN_WIDTH- 40, 200);
     _textView = [[CZJTextView alloc]initWithFrame:rect];
     [_textView setBackgroundColor:CZJNAVIBARBGCOLOR];
-    [_textView setMyPlaceholder:@"请输入您宝贵的意见，以便我们不断优化体验"];
-    [_textView setMyPlaceholderColor:[UIColor lightGrayColor]];
+    [_textView setMyPlaceholder:@"请输入您宝贵的意见，以帮助我们不断优化体验"];
+    [_textView setMyPlaceholderColor:RGB(230, 230, 230)];
     _textView.layer.cornerRadius = 5;
     [self.view addSubview:_textView];
 }
@@ -44,6 +44,11 @@
 - (IBAction)confirmAction:(id)sender
 {
     [self.view endEditing:YES];
+    if ([CZJUtils isBlankString:_textView.text])
+    {
+        [CZJUtils tipWithText:@"反馈内容不能为空" andView:nil];
+        return;
+    }
     NSDictionary* params = @{@"suggestion.content" : _textView.text,@"suggestion.mobile": CZJBaseDataInstance.userInfoForm.mobile};
     [CZJBaseDataInstance generalPost:params success:^(id json) {
         

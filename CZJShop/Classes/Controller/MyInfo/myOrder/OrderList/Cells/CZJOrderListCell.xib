@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -560,11 +559,11 @@
                         </constraints>
                     </view>
                     <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="order_icon_wancheng.png" translatesAutoresizingMaskIntoConstraints="NO" id="8am-e7-apj">
-                        <rect key="frame" x="232" y="0.0" width="80" height="80"/>
+                        <rect key="frame" x="240" y="10" width="70" height="70"/>
                         <animations/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="80" id="3Tj-sC-0IK"/>
-                            <constraint firstAttribute="width" constant="80" id="gxa-ck-NXI"/>
+                            <constraint firstAttribute="height" constant="70" id="3Tj-sC-0IK"/>
+                            <constraint firstAttribute="width" constant="70" id="gxa-ck-NXI"/>
                         </constraints>
                     </imageView>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="EAA-tE-ZwP">
@@ -603,7 +602,7 @@
                     <constraint firstItem="xrw-GJ-iwq" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="QJS-4e-KZo"/>
                     <constraint firstItem="Dcq-Gu-kLC" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="15" id="QN9-jb-nJd"/>
                     <constraint firstItem="YBr-jZ-2wk" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="Rak-Sn-jsn"/>
-                    <constraint firstItem="8am-e7-apj" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="SmI-Gk-o9b"/>
+                    <constraint firstItem="8am-e7-apj" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="SmI-Gk-o9b"/>
                     <constraint firstAttribute="bottom" secondItem="olv-eU-MRu" secondAttribute="bottom" constant="61" id="TnF-lY-TXh"/>
                     <constraint firstAttribute="trailing" secondItem="6Yz-CB-vil" secondAttribute="trailing" id="VhE-ci-55h"/>
                     <constraint firstItem="YBr-jZ-2wk" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="XkU-dl-Ish"/>
@@ -627,7 +626,7 @@
                     <constraint firstAttribute="bottom" secondItem="c6i-YI-YuZ" secondAttribute="bottom" id="kvl-63-Fqp"/>
                     <constraint firstAttribute="bottom" secondItem="4gh-26-4M0" secondAttribute="bottom" id="ltF-PR-mH1"/>
                     <constraint firstItem="faH-b7-feA" firstAttribute="top" secondItem="olv-eU-MRu" secondAttribute="bottom" id="mpW-Zc-fTB"/>
-                    <constraint firstAttribute="trailingMargin" secondItem="8am-e7-apj" secondAttribute="trailing" id="mr7-1v-8lz"/>
+                    <constraint firstAttribute="trailing" secondItem="8am-e7-apj" secondAttribute="trailing" constant="10" id="mr7-1v-8lz"/>
                     <constraint firstItem="dHQ-Rm-Dwd" firstAttribute="leading" secondItem="hwo-gv-2Ur" secondAttribute="trailing" id="nPe-wV-9Kg"/>
                     <constraint firstAttribute="bottom" secondItem="Rn6-8H-1Kj" secondAttribute="bottom" id="oBB-Y4-065"/>
                     <constraint firstAttribute="trailing" secondItem="olv-eU-MRu" secondAttribute="trailing" constant="10" id="oRx-PC-DoN"/>

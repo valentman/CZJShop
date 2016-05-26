@@ -317,6 +317,12 @@ CZJPopPayViewDelegate
                             _stageStr = @"等待买家收货";
                             self.noReceiveView.hidden = NO;  //退换货、查看物流、确认收货
                         }
+                        else if (5 == [orderDetailForm.status integerValue])
+                        {
+                            stageNum = 5;
+                            _stageStr = @"订单已取消";
+                            stageLabelColor = RGB(230, 230, 230);
+                        }
                     }
                     else if (1 == [orderDetailForm.type integerValue])
                     {
@@ -344,6 +350,12 @@ CZJPopPayViewDelegate
                             _stageStr = @"门店已完成施工";
                             stageNum = 2;
                             self.onlyCarCheckView.hidden = NO; //查看车检结果、查看施工进度
+                        }
+                        else if (5 == [orderDetailForm.status integerValue])
+                        {
+                            stageNum = 5;
+                            _stageStr = @"订单已取消";
+                            stageLabelColor = RGB(230, 230, 230);
                         }
                     }
                 }
@@ -479,6 +491,7 @@ CZJPopPayViewDelegate
             cell.deliveryAddrLabel.text = receiverAddrForm.addr;
             cell.contactNumLabel.text = receiverAddrForm.mobile;
             cell.defaultLabel.hidden = YES;
+            cell.addLineImg.hidden = YES;
             cell.deliveryAddrLayoutLeading.constant = 41;
             cell.commitNextArrowImg.hidden = YES;
             if (CZJOrderDetailTypeReturned == self.orderDetailType)

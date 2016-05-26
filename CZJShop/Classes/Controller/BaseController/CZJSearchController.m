@@ -26,6 +26,7 @@ UITableViewDelegate
     NSMutableArray* searchHistoryAry;
     NSMutableArray* currentAry;
     SearchType searchType;
+    BOOL isCancel;
 }
 @property (weak, nonatomic) IBOutlet UITableView *myTableView;
 @property (weak, nonatomic) IBOutlet UITextField *searchTextField;
@@ -33,6 +34,7 @@ UITableViewDelegate
 @property (weak, nonatomic) IBOutlet UIView *clearHisView;
 @property (weak, nonatomic) IBOutlet UIView *searchView;
 @property (weak, nonatomic) IBOutlet UIView *backgroundView;
+@property (weak, nonatomic) IBOutlet UIButton *cancelBtn;
 
 - (IBAction)cancelSerchAction:(id)sender;
 - (IBAction)clearHistoryAction:(id)sender;
@@ -53,6 +55,7 @@ UITableViewDelegate
     searchHistoryAry = [NSMutableArray array];
     currentAry = [NSMutableArray array];
     searchType = kSearchTypeHistory;
+    isCancel = YES;
 }
 
 - (void)initViews
@@ -280,7 +283,23 @@ UITableViewDelegate
 
 - (IBAction)cancelSerchAction:(id)sender
 {
-    [self.delegate didCancel:self];
+    if (isCancel)
+    {
+        [self.view endEditing:YES];
+        [self.delegate didCancel:self];
+    }
+    else
+    {
+        [self.view endEditing:YES];
+        isCancel = YES;
+//        [self textFieldDidReturn:_searchTextField];
+        [self beginSearch:_searchTextField.text];
+        if (![_searchTextField.text isEqualToString:@""]) {
+            [searchHistoryAry insertObject:_searchTextField.text atIndex:0];
+            [CZJUtils writeArrayToDocumentsDirectory:searchHistoryAry withPlistName:kCZJPlistFileSearchHistory];
+        }
+    }
+    
 }
 
 - (IBAction)clearHistoryAction:(id)sender
@@ -363,6 +382,17 @@ UITableViewDelegate
 - (void)textFieldDidChanged:(UITextField *)textField
 {
     DLog(@"%@",textField.text);
+    if (![CZJUtils isBlankString:textField.text])
+    {
+        isCancel = NO;
+        [self.cancelBtn setTitle:@"搜索" forState:UIControlStateNormal];
+    }
+    else
+    {
+        isCancel = YES;
+        [self.cancelBtn setTitle:@"取消" forState:UIControlStateNormal];
+    }
+    
     if ([textField.text isEqualToString:@""])
     {
         searchType = kSearchTypeHistory;

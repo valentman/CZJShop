@@ -67,7 +67,7 @@ UITableViewDelegate
     NSDictionary* cell1 = @{@"title":@"活动中心", @"detailTitle":@"activity",  @"buttonTitle":@"find_icon_activity.png"} ;
     NSDictionary* cell2 = @{@"title":@"汽车资讯", @"detailTitle":@"news", @"buttonTitle":@"find_icon_news.png"} ;
     NSDictionary* cell3 = @{@"title":@"扫一扫", @"detailTitle":@"shake", @"buttonTitle":@"find_icon_saoyisao.png"} ;
-    cellTypesAry = @[cell1, cell2, cell3];
+    cellTypesAry = @[cell1, cell2];
 }
 
 
@@ -103,29 +103,18 @@ UITableViewDelegate
 #pragma mark-UITableViewDataSource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 2;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (1 == section)
-    {
-        return 1;
-    }
-    return 2;
+    return cellTypesAry.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSDictionary* dict;
-    if (0 == indexPath.section)
-    {
-        dict = cellTypesAry[indexPath.row];
-    }
-    else
-    {
-        dict = cellTypesAry[2];
-    }
+    NSDictionary* dict = cellTypesAry[indexPath.row];
+
     CZJGeneralCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJGeneralCell" forIndexPath:indexPath];
     [cell.nameLabel setTag:kTypeLabelTag];
     [cell.detailLabel setTag:kNewsLabelTag];
@@ -135,7 +124,7 @@ UITableViewDelegate
     cell.nameLabel.text = [dict valueForKey:@"title"];
     cell.tempData = [dict valueForKey:@"detailTitle"];
 
-    if (1 == indexPath.section && 0 == indexPath.row)
+    if (cellTypesAry.count - 1 == indexPath.row)
     {
         cell.separatorInset = HiddenCellSeparator;
     }

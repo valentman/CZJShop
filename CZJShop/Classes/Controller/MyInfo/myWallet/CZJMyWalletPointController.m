@@ -51,7 +51,6 @@
     self.myTableView.tableFooterView = [[UIView alloc]init];
     self.myTableView.delegate = self;
     self.myTableView.dataSource = self;
-    self.myTableView.scrollEnabled = NO;
     self.myTableView.clipsToBounds = NO;
     self.myTableView.showsVerticalScrollIndicator = NO;
     self.myTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -69,10 +68,20 @@
 
 - (void)getPointInfoFromServer
 {
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [CZJBaseDataInstance generalPost:nil success:^(id json) {
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
         NSDictionary* dict = [CZJUtils DataFromJson:json];
         pointCardAry = [NSArray arrayWithArray:[dict valueForKey:@"msg"]];
-        [_myTableView reloadData];
+        if (pointCardAry.count > 0)
+        {
+            [_myTableView reloadData];
+        }
+        else
+        {
+            [CZJUtils showNoDataAlertViewOnTarget:self.view withPromptString:@"木有积分卡/(ToT)/~~"];
+        }
+        
     } fail:^{
         
     } andServerAPI:kCZJServerAPIGetPointCards];

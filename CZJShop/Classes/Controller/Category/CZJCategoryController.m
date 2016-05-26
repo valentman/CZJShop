@@ -62,14 +62,14 @@
         menuNames = [NSDictionary dictionaryWithDictionary:shopMenuNames];
     }
     
-    menuNames = @{@"2000" : @"线下服务",
-                  @"2001" : @"油品化学品",
-                  @"2003" : @"美容清洗",
-                  @"2007" : @"汽车装饰",
-                  @"2009" : @"汽车配件",
-                  @"2005" : @"车载电器",
-                  @"2013" : @"安全自驾"
-                  };
+//    menuNames = @{@"2000" : @"线下服务",
+//                  @"2001" : @"油品化学品",
+//                  @"2003" : @"美容清洗",
+//                  @"2007" : @"汽车装饰",
+//                  @"2009" : @"汽车配件",
+//                  @"2005" : @"车载电器",
+//                  @"2013" : @"安全自驾"
+//                  };
     for (NSString* key in menuNames)
     {
         rightMeun * meun=[[rightMeun alloc] init];
@@ -111,14 +111,14 @@
         else
         {//Item
             DLog(@"%@",info.typeId);
-//            if ([_viewFromWhere isEqualToString:@"5"])
-            if (0 == left)
+            if ([_viewFromWhere isEqualToString:@"5"])
+//            if (0 == left)
             {
                 _serviceTypeId = info.typeId;
                 [self performSegueWithIdentifier:@"segueToServiceList" sender:self];
             }
-//            else if ([_viewFromWhere isEqualToString:@"6"])
-            else
+            else if ([_viewFromWhere isEqualToString:@"6"])
+//            else
             {
                 _goodsTypeId = info.typeId;
                 [self performSegueWithIdentifier:@"segueToGoodsList" sender:self];
@@ -127,10 +127,10 @@
         
     }].isRecordLastScroll=YES;
     
-//    [self addCZJNaviBarView:CZJNaviBarViewTypeGeneral];
-//    self.naviBarView.mainTitleLabel.text = title;
+    [self addCZJNaviBarView:CZJNaviBarViewTypeGeneral];
+    self.naviBarView.mainTitleLabel.text = title;
     
-    [self addCZJNaviBarView:CZJNaviBarViewTypeCategory];
+//    [self addCZJNaviBarView:CZJNaviBarViewTypeCategory];
 }
 
 

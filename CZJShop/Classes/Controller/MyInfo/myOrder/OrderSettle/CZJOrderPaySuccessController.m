@@ -41,7 +41,7 @@
 - (void)viewDidAppear:(BOOL)animated
 {
 //    self.orderNumber.text = self.orderNo;
-    self.payNumber.text = [NSString stringWithFormat:@"￥%@",self.orderPrice];
+    self.payNumber.text = [NSString stringWithFormat:@"在线支付:￥%@",self.orderPrice];
     self.payNumber.keyWord = @"￥";
 }
 

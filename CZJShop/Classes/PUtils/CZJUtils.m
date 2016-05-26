@@ -707,6 +707,22 @@ void tapToHidePopViewAction(id sender, SEL _cmd)
     }];
 }
 
++ (void)removeSearchVCFromCurrent:(CZJViewController*)target
+{
+    [UIView animateWithDuration:0.4 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^
+     {
+         target.window.frame = CGRectMake(0, PJ_SCREEN_HEIGHT, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT);
+         [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
+     }
+                     completion:^(BOOL finished)
+     {
+         if (finished) {
+             [target.window resignKeyWindow];
+             target.window  = nil;
+         }
+     }];
+}
+
 
 + (void)showLoginView:(CZJViewController*)target andNaviBar:(CZJNaviagtionBarView*)naviBar
 {

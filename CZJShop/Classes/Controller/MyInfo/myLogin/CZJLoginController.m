@@ -254,31 +254,36 @@ FDAlertViewDelegate
 {
     [self.view endEditing:YES];
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    __weak typeof(self) weakSelf = self;
     CZJSuccessBlock successBlock = ^(id json){
         NSDictionary* dict = [CZJUtils DataFromJson:json];
         if ([[dict valueForKey:@"code"] integerValue] != 0)
         {
-            [CZJUtils tipWithText:[dict valueForKey:@"msg"] onView:self.view];
+            [CZJUtils tipWithText:[dict valueForKey:@"msg"] onView:weakSelf.view];
         }
-        [self.confirmBtn setEnabled:YES];
-        [self.confirmBtn setBackgroundColor:kLoginColorRed];
+        [weakSelf.confirmBtn setEnabled:YES];
+        [weakSelf.confirmBtn setBackgroundColor:kLoginColorRed];
         
         //先处理登录成功数据
-        [CZJLoginModelInstance loginSuccess:json];
-        
-        //再发送购物车数量请求
-        [CZJBaseDataInstance loadShoppingCartCount:nil Success:^(id json){
-            [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-            [CZJUtils tipWithText:@"登录成功" andView:nil];
-            [self exitOutAction:nil];
-        } fail:nil];
+        [CZJLoginModelInstance loginSuccess:json success:^{
+            //再发送购物车数量请求
+            [CZJBaseDataInstance loadShoppingCartCount:nil Success:^(id json){
+                [MBProgressHUD hideAllHUDsForView:weakSelf.view animated:YES];
+                [CZJUtils tipWithText:@"登录成功" andView:nil];
+                [weakSelf exitOutAction:nil];
+            } fail:^{
+                [MBProgressHUD hideAllHUDsForView:weakSelf.view animated:YES];
+            }];
+        } fail:^{
+            [MBProgressHUD hideAllHUDsForView:weakSelf.view animated:YES];
+        }];
     };
     CZJSuccessBlock failure = ^(id json){
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
         NSDictionary* dict = [CZJUtils DataFromJson:json];
-        [CZJUtils tipWithText:[dict valueForKey:@"msg"] onView:self.view];
-        [self.confirmBtn setEnabled:YES];
-        [self.confirmBtn setBackgroundColor:kLoginColorRed];
+        [CZJUtils tipWithText:[dict valueForKey:@"msg"] onView:weakSelf.view];
+        [weakSelf.confirmBtn setEnabled:YES];
+        [weakSelf.confirmBtn setBackgroundColor:kLoginColorRed];
     };
     //验证码登录
     if (isLoginWithCode &&
