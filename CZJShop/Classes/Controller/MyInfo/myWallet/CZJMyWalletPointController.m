@@ -51,7 +51,7 @@
     self.myTableView.tableFooterView = [[UIView alloc]init];
     self.myTableView.delegate = self;
     self.myTableView.dataSource = self;
-    self.myTableView.clipsToBounds = NO;
+    self.myTableView.clipsToBounds = YES;
     self.myTableView.showsVerticalScrollIndicator = NO;
     self.myTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.automaticallyAdjustsScrollViewInsets = NO;
@@ -115,7 +115,7 @@
     NSDictionary* dict = pointCardAry[indexPath.row];
     CZJCardCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJCardCell" forIndexPath:indexPath];
     cell.memverCardView.hidden = YES;
-    
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     [cell.bgImg setImage:IMAGENAMED(@"jifen_img_base")];
     cell.storeName.text = [dict valueForKey:@"storeName"];
     cell.currentPoint.text = [dict valueForKey:@"point"];

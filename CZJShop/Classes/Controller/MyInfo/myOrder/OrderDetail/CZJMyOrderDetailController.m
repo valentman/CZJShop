@@ -252,12 +252,19 @@ CZJPopPayViewDelegate
                     orderType = 1;
                     self.carCheckView.hidden = NO; //取消订单、付款 、查看车检结果
                 }
-                else
+                else if (2 == [orderDetailForm.status integerValue])
                 {
                     _stageStr = @"门店正在施工(未付款)";
                     stageNum = 1;
                     orderType = 1;
                     self.payCarCheckView.hidden = NO;  //付款 、查看车检结果
+                }
+                else if (3 == [orderDetailForm.status integerValue])
+                {
+                    _stageStr = @"门店已完成施工(未付款)";
+                    stageNum = 2;
+                    orderType = 1;
+                    self.onlyCarCheckView.hidden = NO;  //付款 、查看车检结果
                 }
             }
             else if (2 == [orderDetailForm.type integerValue])
@@ -421,7 +428,8 @@ CZJPopPayViewDelegate
 {
     if (0 == section)
     {
-        return 1 + ([receiverAddrForm.receiver isEqualToString:@""] ? 0 : 1);
+//        return 1 + ([receiverAddrForm.receiver isEqualToString:@""] ? 0 : 1);
+        return 1;
     }
     
     if (CZJOrderDetailTypeGeneral == self.orderDetailType)
@@ -740,13 +748,13 @@ CZJPopPayViewDelegate
                 leading = -60;
             }
             
-            if ([orderDetailForm.status floatValue] == 2 ||
-                [orderDetailForm.status floatValue] == 3)
+            if ([orderDetailForm.status floatValue] == 2)
             {
                 
                 buildStatusStr = @"正在施工";
             }
-            if ([orderDetailForm.status floatValue] == 4)
+            if ([orderDetailForm.status floatValue] == 4 ||
+                [orderDetailForm.status floatValue] == 3)
             {
                 buildStatusStr = @"已完成施工";
             }
@@ -757,7 +765,9 @@ CZJPopPayViewDelegate
             
             //用时
             NSString* useTimeStr = [NSString stringWithFormat:@"已用时%@",[builderData valueForKey:@"useTime"] == nil ? @"" : [builderData valueForKey:@"useTime"]];
-            if ([orderDetailForm.status floatValue] == 4)
+            if ([orderDetailForm.status floatValue] == 3 ||
+                [orderDetailForm.status floatValue] == 4 ||
+                [orderDetailForm.status floatValue] == 5)
             {
                 useTimeStr = @"请顾客前往取车";
             }
@@ -964,6 +974,7 @@ CZJPopPayViewDelegate
     {
         CZJOrderBuildingController* buildingVC = segue.destinationViewController;
         buildingVC.orderNo = self.orderNo;
+        buildingVC.status = orderDetailForm.status;
     }
     if ([segue.identifier isEqualToString:@"orderDetailToEvaluate"])
     {

@@ -117,6 +117,7 @@
         _manager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;     //定位精度，暂定为十米级别
         _manager.distanceFilter=100;                                        //位置更新最小距离，暂定为100米
         
+//        [_manager requestAlwaysAuthorization];
         [_manager requestWhenInUseAuthorization];
         [_manager startUpdatingLocation];                                   //开始定位追踪
     }

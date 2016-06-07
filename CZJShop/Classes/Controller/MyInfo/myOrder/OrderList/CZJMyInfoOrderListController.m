@@ -113,11 +113,11 @@ CZJPopPayViewDelegate
     noReceiveVC.delegate =  self;
     CZJOrderListNoEvaController* noEvaVC = [[CZJOrderListNoEvaController alloc]init];
     noEvaVC.delegate = self;
-    orderListAry = @[allVC, nopayVC, nobuildVC,noReceiveVC, noEvaVC];
+    orderListAry = @[allVC, nopayVC, nobuildVC, noEvaVC];
     
     CGRect pageViewFrame = CGRectMake(0, StatusBar_HEIGHT + NavigationBar_HEIGHT, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - StatusBar_HEIGHT);
     CZJPageControlView* pageview = [[CZJPageControlView alloc]initWithFrame:pageViewFrame andPageIndex:_orderListTypeIndex];
-    [pageview setTitleArray:@[@"全部",@"待付款",@"待施工",@"待收货",@"待评价"] andVCArray:orderListAry];
+    [pageview setTitleArray:@[@"全部",@"待付款",@"待施工",@"待评价"] andVCArray:orderListAry];
     pageview.backgroundColor = WHITECOLOR;
     [self.view addSubview:pageview];
     
@@ -358,6 +358,7 @@ CZJPopPayViewDelegate
     if ([segue.identifier isEqualToString:@"segueToBuildingProgress"])
     {
         CZJOrderBuildingController* orderBuildProgressVC = segue.destinationViewController;
+        orderBuildProgressVC.status = currentTouchedOrderListForm.status;
         [orderBuildProgressVC setOrderNo:currentTouchedOrderListForm.orderNo];
     }
     if ([segue.identifier isEqualToString:@"segueToCarCheck"])

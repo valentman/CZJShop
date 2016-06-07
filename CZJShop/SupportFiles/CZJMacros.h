@@ -23,6 +23,8 @@
 #define IS_IOS9 (IOS_VERSION >= 9.0)
 #define _IPHONE80_ 80000
 
+#define CZJAppdelegate ((AppDelegate*)[[UIApplication sharedApplication] delegate])
+
 //获取当前语言
 #define CurrentLanguage ([[NSLocale preferredLanguages] objectAtIndex:0])
 

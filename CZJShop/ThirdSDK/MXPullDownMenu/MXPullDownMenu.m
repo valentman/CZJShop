@@ -272,7 +272,6 @@
             {
                 cell.textLabel.text = _array[_currentSelectedMenudIndex][indexPath.row];
                 if (cell.textLabel.text == [(CATextLayer *)[_titles objectAtIndex:_currentSelectedMenudIndex] string]) {
-//                    [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
                     [cell.textLabel setTextColor:[tableView tintColor]];
                 }
                 [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
@@ -308,7 +307,6 @@
             {
                 cell.textLabel.text = _array[_currentSelectedMenudIndex][indexPath.row];
                 if (cell.textLabel.text == [(CATextLayer *)[_titles objectAtIndex:_currentSelectedMenudIndex] string]) {
-//                    [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
                     [cell.textLabel setTextColor:[tableView tintColor]];
                 }
                 [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
@@ -325,7 +323,6 @@
         ((UILabel*)[cell viewWithTag:1001]).text = @"";
         cell.textLabel.text = _array[_currentSelectedMenudIndex][indexPath.row];
         if (cell.textLabel.text == [(CATextLayer *)[_titles objectAtIndex:_currentSelectedMenudIndex] string]) {
-//            [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
             [cell.textLabel setTextColor:[tableView tintColor]];
         }
         [cell setSelectionStyle:UITableViewCellSelectionStyleBlue];
@@ -555,6 +552,8 @@
     if (CZJMXPullDownMenuTypeGoods== _menuType &&
         1 == tapIndex)
     {
+        //改变点击菜单的颜色
+        [self tapIndexSetTitleColor:tapIndex];
         [self.delegate pullDownMenuDidSelectPriceButton:self];
         [self tapBackGround:nil];
         return;

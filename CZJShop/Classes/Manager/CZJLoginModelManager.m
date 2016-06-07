@@ -126,6 +126,9 @@ singleton_implementation(CZJLoginModelManager)
     };
     CZJFailureBlock failure = ^()
     {
+        if (fail) {
+            fail(nil);
+        }
         [[CZJErrorCodeManager sharedCZJErrorCodeManager] ShowNetError];
     };
     
@@ -140,6 +143,10 @@ singleton_implementation(CZJLoginModelManager)
                 fail:(CZJFailureBlock)failBlock
 {
     self.usrBaseForm =  CZJBaseDataInstance.userInfoForm;
+    if (self.usrBaseForm == nil)
+    {
+        self.usrBaseForm = [[UserBaseForm alloc]init];
+    }
     DLog(@"UserBaseForm:%@",[self.usrBaseForm.keyValues description]);
     
     NSDictionary* dict = [[CZJUtils DataFromJson:json] valueForKey:@"msg"];
@@ -153,6 +160,7 @@ singleton_implementation(CZJLoginModelManager)
     //登录成功，个人信息写入本地文件中
     if ([CZJUtils writeDictionaryToDocumentsDirectory:[self.usrBaseForm.keyValues mutableCopy] withPlistName:kCZJPlistFileUserBaseForm]) {
         [USER_DEFAULT setObject:[NSNumber numberWithBool:YES] forKey:kCZJIsUserHaveLogined];
+        [USER_DEFAULT synchronize]; //强制更新到本地
         
         //将个人信息存入数据管理单例类中，并刷新上传参数
         CZJBaseDataInstance.userInfoForm = self.usrBaseForm;

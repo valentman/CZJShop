@@ -11,6 +11,7 @@
 @implementation CZJCardCell
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
     // Initialization code
 }
 

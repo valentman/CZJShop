@@ -158,12 +158,12 @@
     self.noEvalutionContentView.hidden = YES;
     self.normalContentView.hidden = YES;
     
-    //通用
-    if (CZJOrderTypeNoPay == orderType)
-    {
-        self.storeNameViewLeading.constant = 40;
-        self.selectBtn.selected = listForm.isSelected;
-    }
+    //通用,暂时屏蔽付款功能
+//    if (CZJOrderTypeNoPay == orderType)
+//    {
+//        self.storeNameViewLeading.constant = 40;
+//        self.selectBtn.selected = listForm.isSelected;
+//    }
     self.payMoneyNumLabel.text = [NSString stringWithFormat:@"￥%@",listForm.orderMoney ];
     self.storeNameLabel.text = listForm.storeName;
     [self.storeTypeImg setImage:IMAGENAMED(@"commit_icon_shop")];
@@ -201,11 +201,11 @@
         {
             if (0 == [listForm.status integerValue])
             {
-                self.noPayButtomView.hidden = NO;
+                self.noBuildButtomView.hidden = NO;
             }
             else if (1 == [listForm.status integerValue])
             {
-                self.noPayButtomView.hidden = NO;
+                self.noBuildButtomView.hidden = NO;
                 self.stateDescLabel.hidden = NO;
                 self.stateDescLabel.text = @"待施工";
             }
@@ -222,7 +222,7 @@
         {
             if (0 == [listForm.status integerValue])
             {
-                self.noPayButtomView.hidden = NO;
+                self.noBuildButtomView.hidden = NO;
             }
             else if (1 == [listForm.status integerValue])
             {
@@ -235,7 +235,7 @@
                 }
                 else
                 {
-                    self.noPayButtomView.hidden = NO;
+                    self.buildingNoPaidButtomViews.hidden = NO;
                 }
             }
             else if (2 == [listForm.status integerValue])
@@ -263,11 +263,11 @@
                 self.completeImg.hidden = YES;
                 if (CZJOrderTypeAll == orderType)
                 {
-                    self.buildingNoPaidButtomView.hidden = NO;
+                    self.buildingPaidButtomView.hidden = NO;
                 }
                 if (CZJOrderTypeNoPay == orderType)
                 {
-                    self.buildingNoPaidButtomView.hidden = NO;
+                    self.buildingPaidButtomView.hidden = NO;
                     self.viewBuildingProgressBtn.hidden = YES;
                 }
                 if (CZJOrderTypeNoBuild == orderType)
@@ -280,7 +280,7 @@
         {
             if (0 == [listForm.status integerValue])
             {
-                self.noPayButtomView.hidden = NO;
+                self.noBuildButtomView.hidden = NO;
             }
             else if (1 == [listForm.status integerValue])
             {
@@ -301,7 +301,7 @@
         {
             if (0 == [listForm.status integerValue])
             {
-                self.noPayButtomView.hidden = NO;
+                self.noBuildButtomView.hidden = NO;
             }
             else if (1 == [listForm.status integerValue])
             {

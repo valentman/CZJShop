@@ -29,7 +29,7 @@
 - (void)initView
 {
     [self addCZJNaviBarView:CZJNaviBarViewTypeGeneral];
-    self.naviBarView.mainTitleLabel.text = @"我的会员卡";
+    self.naviBarView.mainTitleLabel.text = @"我的储值卡";
     self.naviBarView.buttomSeparator.hidden = YES;
     
     //右按钮
@@ -49,8 +49,7 @@
     self.myTableView.tableFooterView = [[UIView alloc]init];
     self.myTableView.delegate = self;
     self.myTableView.dataSource = self;
-    self.myTableView.scrollEnabled = NO;
-    self.myTableView.clipsToBounds = NO;
+    self.myTableView.clipsToBounds = YES;
     self.myTableView.showsVerticalScrollIndicator = NO;
     self.myTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.automaticallyAdjustsScrollViewInsets = NO;
@@ -77,7 +76,7 @@
         }
         else
         {
-            [CZJUtils showNoDataAlertViewOnTarget:self.view withPromptString:@"木有会员卡/(ToT)/~~"];
+            [CZJUtils showNoDataAlertViewOnTarget:self.view withPromptString:@"木有储值卡/(ToT)/~~"];
         }
         
     } fail:^{
@@ -113,7 +112,7 @@
     NSDictionary* dict = memberCardAry[indexPath.row];
     CZJCardCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CZJCardCell" forIndexPath:indexPath];
     cell.pointCardView.hidden = YES;
-    
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     [cell.bgImg setImage:IMAGENAMED(@"vip_img_base")];
     [cell.bgImg setTintColor:WHITECOLOR];
     

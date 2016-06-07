@@ -178,10 +178,10 @@
             //分类扫一扫按钮和购物车按钮背景图片不一样
             [_buttomSeparator setHidden:NO];
             [_btnScan setHidden:NO];
-            [_btnShop setHidden:NO];
+//            [_btnShop setHidden:NO];
             saoyisaoBtnImageName = @"all_btn_saoyisao";
             shopBtnImageName = @"btn_shopping";
-            [_btnShop setBackgroundImage:[UIImage imageNamed:shopBtnImageName] forState:UIControlStateNormal];
+//            [_btnShop setBackgroundImage:[UIImage imageNamed:shopBtnImageName] forState:UIControlStateNormal];
             [_btnScan setBackgroundImage:[UIImage imageNamed:saoyisaoBtnImageName] forState:UIControlStateNormal];
             break;
             
@@ -189,16 +189,16 @@
             //导航栏添加扫一扫
             [self setBackgroundColor:CLEARCOLOR];
             [_btnScan setHidden:NO];
-            [_btnShop setHidden:NO];
+//            [_btnShop setHidden:NO];
             break;
             
         case CZJNaviBarViewTypeBack:
             //导航栏返回按钮
             [_buttomSeparator setHidden:NO];
             [_btnBack setHidden:NO];
-            [_btnShop setHidden:NO];
+//            [_btnShop setHidden:NO];
             shopBtnImageName = @"btn_shopping";
-            [_btnShop setBackgroundImage:[UIImage imageNamed:shopBtnImageName] forState:UIControlStateNormal];
+//            [_btnShop setBackgroundImage:[UIImage imageNamed:shopBtnImageName] forState:UIControlStateNormal];
             break;
             
         case CZJNaviBarViewTypeStoreDetail:
@@ -296,7 +296,7 @@
 
     [self addSubview:_customSearchBar];
     [self addSubview:_btnScan];
-    [self addSubview:_btnShop];
+//    [self addSubview:_btnShop];
     [self addSubview:_btnBack];
     [self addSubview:_btnMore];
     [self addSubview:_btnArrange];

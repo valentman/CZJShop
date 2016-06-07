@@ -385,9 +385,6 @@ singleton_implementation(CZJBaseDataManager);
         [[CZJErrorCodeManager sharedCZJErrorCodeManager] ShowNetError];
     };
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    [_params setObject:@(_curLocation.longitude) forKey:@"lng"];
-    [_params setObject:@(_curLocation.latitude) forKey:@"lat"];
-    
     [params setValuesForKeysWithDictionary:_params];
     
     if (!_carForm)
@@ -419,9 +416,8 @@ singleton_implementation(CZJBaseDataManager);
         [[CZJErrorCodeManager sharedCZJErrorCodeManager] ShowNetError];
     };
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    [_params setObject:brandId forKey:@"brandId"];
-
     [params setValuesForKeysWithDictionary:_params];
+    [params setObject:brandId forKey:@"brandId"];
     
     [CZJNetWorkInstance postJSONWithUrl:kCZJServerAPILoadCarSeries
                             parameters:params
@@ -448,9 +444,8 @@ singleton_implementation(CZJBaseDataManager);
         [[CZJErrorCodeManager sharedCZJErrorCodeManager] ShowNetError];
     };
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    [_params setObject:seriesId forKey:@"seriesId"];
-    
     [params setValuesForKeysWithDictionary:_params];
+    [params setObject:seriesId forKey:@"seriesId"];
     
     [CZJNetWorkInstance postJSONWithUrl:kCZJServerAPILoadCarModels
                             parameters:params
@@ -479,9 +474,8 @@ singleton_implementation(CZJBaseDataManager);
         [[CZJErrorCodeManager sharedCZJErrorCodeManager] ShowNetError];
     };
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    [_params setObject:storeItemPid forKey:@"storeItemPid"];
-    
     [params setValuesForKeysWithDictionary:_params];
+    [params setObject:storeItemPid forKey:@"storeItemPid"];
     NSString* apiUrl;
     if (CZJDetailTypeGoods == type)
     {
@@ -516,9 +510,9 @@ singleton_implementation(CZJBaseDataManager);
         [[CZJErrorCodeManager sharedCZJErrorCodeManager] ShowNetError];
     };
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    [_params setObject:storeId forKey:@"storeId"];
-    
     [params setValuesForKeysWithDictionary:_params];
+    [params setObject:storeId forKey:@"storeId"];
+
     NSString* apiUrl;
     if (CZJDetailTypeGoods == type)
     {
@@ -552,7 +546,7 @@ singleton_implementation(CZJBaseDataManager);
     };
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    [_params setValuesForKeysWithDictionary:postParams];
+    [params setValuesForKeysWithDictionary:postParams];
     [params setValuesForKeysWithDictionary:_params];
     
     [CZJNetWorkInstance postJSONWithUrl:kCZJServerAPIGoodsSKU
@@ -635,7 +629,7 @@ singleton_implementation(CZJBaseDataManager);
     };
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    [_params setValuesForKeysWithDictionary:postParams];
+    [params setValuesForKeysWithDictionary:postParams];
     [params setValuesForKeysWithDictionary:_params];
     
     [CZJNetWorkInstance postJSONWithUrl:kCZJServerAPICommentsList

@@ -511,6 +511,9 @@
 		EC4EF4C51C3A561400E0FA91 /* add_btn_edit@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = EC4EF4BF1C3A561400E0FA91 /* add_btn_edit@3x.png */; };
 		EC4EF4C61C3A561400E0FA91 /* add_icon_gou@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EC4EF4C01C3A561400E0FA91 /* add_icon_gou@2x.png */; };
 		EC4EF4C71C3A561400E0FA91 /* add_icon_gou@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = EC4EF4C11C3A561400E0FA91 /* add_icon_gou@3x.png */; };
+		EC50B62E1CFD9B5800575508 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EC50B62B1CFD9B5800575508 /* libcrypto.a */; settings = {ASSET_TAGS = (); }; };
+		EC50B62F1CFD9B5800575508 /* libcurl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EC50B62C1CFD9B5800575508 /* libcurl.a */; settings = {ASSET_TAGS = (); }; };
+		EC50B6301CFD9B5800575508 /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EC50B62D1CFD9B5800575508 /* libssl.a */; settings = {ASSET_TAGS = (); }; };
 		EC55F3191C9F91FB00BC209F /* CZJStoreMapCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EC55F3171C9F91FB00BC209F /* CZJStoreMapCell.m */; settings = {ASSET_TAGS = (); }; };
 		EC55F31A1C9F91FB00BC209F /* CZJStoreMapCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EC55F3181C9F91FB00BC209F /* CZJStoreMapCell.xib */; settings = {ASSET_TAGS = (); }; };
 		EC583A031C48D4AF001401FC /* CZJStoreDetailForm.m in Sources */ = {isa = PBXBuildFile; fileRef = EC583A021C48D4AF001401FC /* CZJStoreDetailForm.m */; };
@@ -995,6 +998,9 @@
 		ECC4DEFA1C17FEA900FBD6A4 /* shaixuan_icon_hot@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = ECC4DEB41C17FEA900FBD6A4 /* shaixuan_icon_hot@2x.png */; };
 		ECC4DEFB1C17FEA900FBD6A4 /* shaixuan_icon_hot@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = ECC4DEB51C17FEA900FBD6A4 /* shaixuan_icon_hot@3x.png */; };
 		ECC4FD641CA8E45E00944E30 /* CZJFilterForm.m in Sources */ = {isa = PBXBuildFile; fileRef = ECC4FD631CA8E45E00944E30 /* CZJFilterForm.m */; settings = {ASSET_TAGS = (); }; };
+		ECC78CF21CF7EB8100E41A33 /* CZJButtonView.m in Sources */ = {isa = PBXBuildFile; fileRef = ECC78CF01CF7EB8000E41A33 /* CZJButtonView.m */; settings = {ASSET_TAGS = (); }; };
+		ECC78CF31CF7EB8100E41A33 /* CZJButtonView.xib in Resources */ = {isa = PBXBuildFile; fileRef = ECC78CF11CF7EB8000E41A33 /* CZJButtonView.xib */; settings = {ASSET_TAGS = (); }; };
+		ECC78CF51CF7F72200E41A33 /* OrderTypes.plist in Resources */ = {isa = PBXBuildFile; fileRef = ECC78CF41CF7F72200E41A33 /* OrderTypes.plist */; settings = {ASSET_TAGS = (); }; };
 		ECC9731F1CDC9D1D000363B2 /* CZJChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ECC9731E1CDC9D1D000363B2 /* CZJChatViewController.m */; settings = {ASSET_TAGS = (); }; };
 		ECC973221CDC9E41000363B2 /* CZJChatListController.m in Sources */ = {isa = PBXBuildFile; fileRef = ECC973211CDC9E41000363B2 /* CZJChatListController.m */; settings = {ASSET_TAGS = (); }; };
 		ECCC32A61C50B6BC008A36CB /* errorInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = ECCC32A21C50B6BC008A36CB /* errorInfo.plist */; settings = {ASSET_TAGS = (); }; };
@@ -2173,6 +2179,9 @@
 		EC4EF4BF1C3A561400E0FA91 /* add_btn_edit@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "add_btn_edit@3x.png"; sourceTree = "<group>"; };
 		EC4EF4C01C3A561400E0FA91 /* add_icon_gou@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "add_icon_gou@2x.png"; sourceTree = "<group>"; };
 		EC4EF4C11C3A561400E0FA91 /* add_icon_gou@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "add_icon_gou@3x.png"; sourceTree = "<group>"; };
+		EC50B62B1CFD9B5800575508 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libcrypto.a; sourceTree = "<group>"; };
+		EC50B62C1CFD9B5800575508 /* libcurl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libcurl.a; sourceTree = "<group>"; };
+		EC50B62D1CFD9B5800575508 /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libssl.a; sourceTree = "<group>"; };
 		EC55F3161C9F91FB00BC209F /* CZJStoreMapCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJStoreMapCell.h; sourceTree = "<group>"; };
 		EC55F3171C9F91FB00BC209F /* CZJStoreMapCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJStoreMapCell.m; sourceTree = "<group>"; };
 		EC55F3181C9F91FB00BC209F /* CZJStoreMapCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CZJStoreMapCell.xib; sourceTree = "<group>"; };
@@ -2907,6 +2916,10 @@
 		ECC4DEB51C17FEA900FBD6A4 /* shaixuan_icon_hot@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "shaixuan_icon_hot@3x.png"; sourceTree = "<group>"; };
 		ECC4FD621CA8E45E00944E30 /* CZJFilterForm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJFilterForm.h; sourceTree = "<group>"; };
 		ECC4FD631CA8E45E00944E30 /* CZJFilterForm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJFilterForm.m; sourceTree = "<group>"; };
+		ECC78CEF1CF7EB8000E41A33 /* CZJButtonView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJButtonView.h; sourceTree = "<group>"; };
+		ECC78CF01CF7EB8000E41A33 /* CZJButtonView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJButtonView.m; sourceTree = "<group>"; };
+		ECC78CF11CF7EB8000E41A33 /* CZJButtonView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CZJButtonView.xib; sourceTree = "<group>"; };
+		ECC78CF41CF7F72200E41A33 /* OrderTypes.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = OrderTypes.plist; sourceTree = "<group>"; };
 		ECC9731D1CDC9D1D000363B2 /* CZJChatViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJChatViewController.h; sourceTree = "<group>"; };
 		ECC9731E1CDC9D1D000363B2 /* CZJChatViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZJChatViewController.m; sourceTree = "<group>"; };
 		ECC973201CDC9E41000363B2 /* CZJChatListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZJChatListController.h; sourceTree = "<group>"; };
@@ -3447,6 +3460,7 @@
 				EC074D4B1CCE047D00405D5E /* libresolv.tbd in Frameworks */,
 				EC074D491CCE045100405D5E /* ImageIO.framework in Frameworks */,
 				ECDB5E0B1BFB01DC00882BB2 /* MobileCoreServices.framework in Frameworks */,
+				EC50B62E1CFD9B5800575508 /* libcrypto.a in Frameworks */,
 				ECDB5DF91BFAF9A500882BB2 /* AVFoundation.framework in Frameworks */,
 				EC074D471CCE042E00405D5E /* AudioToolbox.framework in Frameworks */,
 				EC074D451CCE042300405D5E /* CoreMedia.framework in Frameworks */,
@@ -3460,6 +3474,7 @@
 				EC28E2DA1C152F72003423F9 /* libicucore.A.tbd in Frameworks */,
 				EC9AA5BA1CE0620B00B8DD57 /* Bolts.framework in Frameworks */,
 				EC28E2D81C152F21003423F9 /* libstdc++.6.0.9.tbd in Frameworks */,
+				EC50B62F1CFD9B5800575508 /* libcurl.a in Frameworks */,
 				ECDB5E031BFB01B600882BB2 /* CoreTelephony.framework in Frameworks */,
 				ECDB5E0D1BFB022C00882BB2 /* SystemConfiguration.framework in Frameworks */,
 				EC10E7AC1BFC7CC000CDBFCD /* libsqlite3.0.tbd in Frameworks */,
@@ -3477,6 +3492,7 @@
 				ECC4DDAD1C17D67B00FBD6A4 /* AlipaySDK.framework in Frameworks */,
 				EC9AA5C11CE0620B00B8DD57 /* libMobClickLibrary.a in Frameworks */,
 				ECDB5DFB1BFB013700882BB2 /* MapKit.framework in Frameworks */,
+				EC50B6301CFD9B5800575508 /* libssl.a in Frameworks */,
 				EC8DC4131CCB4BAD0078C5EC /* MAMapKit.framework in Frameworks */,
 				ECC4DDB91C17D67B00FBD6A4 /* AMapSearchKit.framework in Frameworks */,
 				EC074CDA1CCE039700405D5E /* libopencore-amrwb.a in Frameworks */,
@@ -3561,6 +3577,9 @@
 				ECAE5F201CD9DDE600732E43 /* CZJButtomView.h */,
 				ECAE5F211CD9DDE600732E43 /* CZJButtomView.m */,
 				ECAE5F221CD9DDE600732E43 /* CZJButtomView.xib */,
+				ECC78CEF1CF7EB8000E41A33 /* CZJButtonView.h */,
+				ECC78CF01CF7EB8000E41A33 /* CZJButtonView.m */,
+				ECC78CF11CF7EB8000E41A33 /* CZJButtonView.xib */,
 			);
 			path = Conponets;
 			sourceTree = "<group>";
@@ -3748,6 +3767,7 @@
 		EC074BA61CCE032A00405D5E /* lib */ = {
 			isa = PBXGroup;
 			children = (
+				EC50B62A1CFD9B5800575508 /* 3rdparty */,
 				EC074BA71CCE032A00405D5E /* libHyphenateFullSDK.a */,
 			);
 			path = lib;
@@ -4911,6 +4931,16 @@
 				EC34FFE31C433D5A0063A071 /* my_img_background@3x.png */,
 			);
 			path = MyInfo;
+			sourceTree = "<group>";
+		};
+		EC50B62A1CFD9B5800575508 /* 3rdparty */ = {
+			isa = PBXGroup;
+			children = (
+				EC50B62B1CFD9B5800575508 /* libcrypto.a */,
+				EC50B62C1CFD9B5800575508 /* libcurl.a */,
+				EC50B62D1CFD9B5800575508 /* libssl.a */,
+			);
+			path = 3rdparty;
 			sourceTree = "<group>";
 		};
 		EC5B86D91C0D3315008EC732 /* Discover */ = {
@@ -6439,6 +6469,7 @@
 				ECDB5F9B1BFB22C600882BB2 /* ValueType.h */,
 				EC1FD23E1C7C5D0000954D1E /* PaymentType.plist */,
 				ECE976921CC884F90065843C /* CZJMacros.h */,
+				ECC78CF41CF7F72200E41A33 /* OrderTypes.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -7695,6 +7726,7 @@
 				EC9AA5E91CE0620B00B8DD57 /* faceDelete@2x.png in Resources */,
 				ECC4DEC61C17FEA900FBD6A4 /* prodetail_btn_shopnor@2x.png in Resources */,
 				ECDB616F1BFB551600882BB2 /* all_btn_home_sel@3x.png in Resources */,
+				ECC78CF31CF7EB8100E41A33 /* CZJButtonView.xib in Resources */,
 				EC0FED4E1CA0F557001C25D7 /* home_icon_love@2x.png in Resources */,
 				EC28E2C41C152BA0003423F9 /* icon_map_cateid_1@2x.png in Resources */,
 				EC9AA5F91CE0620B00B8DD57 /* chat_sender_bg@2x.png in Resources */,
@@ -7952,6 +7984,7 @@
 				EC9AA60C1CE0620B00B8DD57 /* icon_022.gif in Resources */,
 				ECF1FB231C27986800B99D93 /* login_icon_select_sel@3x.png in Resources */,
 				EC9AA6041CE0620B00B8DD57 /* icon_018.gif in Resources */,
+				ECC78CF51CF7F72200E41A33 /* OrderTypes.plist in Resources */,
 				EC8A0BA51C005B9E002A2CED /* CZJSpecialRecoCellHeader.xib in Resources */,
 				EC26A3031C2A386600B166A3 /* commit_lable_anzhuang@2x.png in Resources */,
 				EC7982181C24EC43003FC433 /* pro_btn_list@2x.png in Resources */,
@@ -8636,6 +8669,7 @@
 				EC074D2A1CCE039800405D5E /* EaseMessageViewController.m in Sources */,
 				EC10E6811BFC24C800CDBFCD /* CZJHomeViewController.m in Sources */,
 				ECC4DE231C17D67B00FBD6A4 /* SDImageCache.m in Sources */,
+				ECC78CF21CF7EB8100E41A33 /* CZJButtonView.m in Sources */,
 				EC074D0B1CCE039800405D5E /* PSTCollectionViewCell.m in Sources */,
 				ECC4DE191C17D67B00FBD6A4 /* MXPullDownMenu.m in Sources */,
 				EC10E7AF1BFC801900CDBFCD /* CZJMessageManager.m in Sources */,
@@ -8801,6 +8835,7 @@
 					"$(PROJECT_DIR)/CZJShop/ThirdSDK/Hyphenate/EaseUI/EMUIKit/3rdparty/DeviceHelper/VoiceConvert/opencore-amrnb",
 					"$(PROJECT_DIR)/CZJShop/ThirdSDK/Hyphenate/EaseUI/EMUIKit/3rdparty/DeviceHelper/VoiceConvert/opencore-amrwb",
 					"$(PROJECT_DIR)/CZJShop/ThirdSDK/Hyphenate/ChatUI/3rdparty/UMeng",
+					"$(PROJECT_DIR)/CZJShop/ThirdSDK/Hyphenate/HyphenateFullSDK/lib/3rdparty",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.chezhijian.chezhijian03;
@@ -8850,6 +8885,7 @@
 					"$(PROJECT_DIR)/CZJShop/ThirdSDK/Hyphenate/EaseUI/EMUIKit/3rdparty/DeviceHelper/VoiceConvert/opencore-amrnb",
 					"$(PROJECT_DIR)/CZJShop/ThirdSDK/Hyphenate/EaseUI/EMUIKit/3rdparty/DeviceHelper/VoiceConvert/opencore-amrwb",
 					"$(PROJECT_DIR)/CZJShop/ThirdSDK/Hyphenate/ChatUI/3rdparty/UMeng",
+					"$(PROJECT_DIR)/CZJShop/ThirdSDK/Hyphenate/HyphenateFullSDK/lib/3rdparty",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.chezhijian.chezhijian03;

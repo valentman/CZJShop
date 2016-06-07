@@ -21,7 +21,7 @@ UITableViewDataSource
 {
     BOOL isEdit;
     NSMutableArray* messageInfoAry;
-    CZJButtomView* buttomView;
+    __block CZJButtomView* buttomView;
 }
 @property (strong, nonatomic)UITableView* myTableView;
 @property (weak, nonatomic) IBOutlet CZJButton *serviceInfoBtn;
@@ -73,10 +73,6 @@ UITableViewDataSource
     [self.naviBarView addSubview:rightBtn];
     [rightBtn addTarget:self action:@selector(edit:) forControlEvents:UIControlEventTouchUpInside];
     
-//    UIBarButtonItem* rightItem2 = [[UIBarButtonItem alloc]initWithTitle:@"编辑" style:UIBarButtonItemStylePlain target:self action:@selector(edit:)];
-//    self.navigationItem.rightBarButtonItem = rightItem2;
-//    [self.navigationItem.rightBarButtonItem setTintColor:BLACKCOLOR];
-    
     //消息中心表格视图
     CGRect tableRect = CGRectMake(0, 64 + 60, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - 64 - 60);
     self.myTableView = [[UITableView alloc]initWithFrame:tableRect style:UITableViewStylePlain];
@@ -98,8 +94,6 @@ UITableViewDataSource
     self.serviceInfoBtn.userInteractionEnabled = false;
     
     
-    
-    
     //底部标记栏
     buttomView = (CZJButtomView*)[CZJUtils getXibViewByName:@"CZJButtomView"];
     [buttomView setSize:CGSizeMake(PJ_SCREEN_WIDTH, 60)];
@@ -119,20 +113,7 @@ UITableViewDataSource
     if (messageInfoAry.count <= 0)
         return;
     
-    if (isEdit)
-    {
-        [UIView animateWithDuration:0.3 animations:^{
-            [buttomView setPosition:CGPointMake(0, PJ_SCREEN_HEIGHT - 60) atAnchorPoint:CGPointZero];
-            [self.myTableView setSize:CGSizeMake(PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - 64 - 60 - 60)];
-        }];
-    }
-    else
-    {
-        [UIView animateWithDuration:0.3 animations:^{
-            [buttomView setPosition:CGPointMake(0, PJ_SCREEN_HEIGHT) atAnchorPoint:CGPointZero];
-            [self.myTableView setSize:CGSizeMake(PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - 64 - 60)];
-        }];
-    }
+    [self setButtomViewShowAnimation:isEdit];
     [self.myTableView reloadData];
 }
 
@@ -206,22 +187,31 @@ UITableViewDataSource
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    CZJNotificationForm* notifyForm = messageInfoAry[indexPath.row];
-    if (!notifyForm.isRead)
+    if (!isEdit)
     {
-        notifyForm.isRead = YES;
-        [CZJMessageInstance setMessages:messageInfoAry];
-        [[NSNotificationCenter defaultCenter]postNotificationName:kCZJNotifiRefreshMessageReadStatus object:nil];
-        [self.myTableView reloadData];
+        CZJNotificationForm* notifyForm = messageInfoAry[indexPath.row];
+        if (!notifyForm.isRead)
+        {
+            notifyForm.isRead = YES;
+            [CZJMessageInstance setMessages:messageInfoAry];
+            [[NSNotificationCenter defaultCenter]postNotificationName:kCZJNotifiRefreshMessageReadStatus object:nil];
+            [self.myTableView reloadData];
+        }
+        if (4 == [notifyForm.type integerValue])
+        {
+            CZJMyOrderDetailController* orderDetail = (CZJMyOrderDetailController*)[CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:@"orderDetailSBID"];
+            orderDetail.orderNo = notifyForm.orderNo;
+            orderDetail.orderDetailType = CZJOrderDetailTypeGeneral;
+            [self.navigationController pushViewController:orderDetail animated:YES];
+            
+        }
     }
-    if (4 == [notifyForm.type integerValue])
+    else
     {
-        CZJMyOrderDetailController* orderDetail = (CZJMyOrderDetailController*)[CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:@"orderDetailSBID"];
-        orderDetail.orderNo = notifyForm.orderNo;
-        orderDetail.orderDetailType = CZJOrderDetailTypeGeneral;
-        [self.navigationController pushViewController:orderDetail animated:YES];
-        
+        CZJMyMessageCenterCell* chatCell = [tableView cellForRowAtIndexPath:indexPath];
+        [self notifyCellChoose:chatCell.selectBtn];
     }
+
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -260,16 +250,6 @@ UITableViewDataSource
         [self.myTableView reloadData];
     }
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 
 #pragma mark - 按钮点击事件
@@ -327,6 +307,7 @@ UITableViewDataSource
 
 - (void)deleteMessageAction:(UIButton*)sender
 {
+    __weak typeof(self) weakSelf = self;
     BOOL isSelected = NO;
     NSMutableArray* tmpAry = [NSMutableArray array];
     for (CZJNotificationForm* notifyForm in messageInfoAry)
@@ -340,20 +321,28 @@ UITableViewDataSource
     
     if (isSelected)
     {
-        [CZJUtils tipWithText:@"删除成功" andView:nil];
-        [messageInfoAry removeObjectsInArray:tmpAry];
-        [CZJMessageInstance setMessages:messageInfoAry];
-        if (messageInfoAry.count == 0)
-        {
-            buttomView.allChooseBtn.selected = NO;
-            buttomView.allChooseBtn.enabled = NO;
-            buttomView.buttonOne.enabled = NO;
-            buttomView.buttonTwo.enabled = NO;
-            [buttomView.buttonOne setBackgroundColor:CZJGRAYCOLOR];
-            [buttomView.buttonTwo setBackgroundColor:CZJGRAYCOLOR];
-        }
-        [[NSNotificationCenter defaultCenter]postNotificationName:kCZJNotifiRefreshMessageReadStatus object:nil];
-        [self.myTableView reloadData];
+        NSString* alertStr = [NSString stringWithFormat:@"确认删除这%ld条消息记录吗?",tmpAry.count];
+        [self showCZJAlertView:alertStr andConfirmHandler:^{
+            [weakSelf hideWindow];
+            [CZJUtils tipWithText:@"删除成功" andView:nil];
+            [messageInfoAry removeObjectsInArray:tmpAry];
+            if (messageInfoAry.count == 0)
+            {
+                [weakSelf setButtomViewShowAnimation:NO];
+            }
+            [CZJMessageInstance setMessages:messageInfoAry];
+            if (messageInfoAry.count == 0)
+            {
+                buttomView.allChooseBtn.selected = NO;
+                buttomView.allChooseBtn.enabled = NO;
+                buttomView.buttonOne.enabled = NO;
+                buttomView.buttonTwo.enabled = NO;
+                [buttomView.buttonOne setBackgroundColor:CZJGRAYCOLOR];
+                [buttomView.buttonTwo setBackgroundColor:CZJGRAYCOLOR];
+            }
+            [[NSNotificationCenter defaultCenter]postNotificationName:kCZJNotifiRefreshMessageReadStatus object:nil];
+            [weakSelf.myTableView reloadData];
+        } andCancleHandler:nil];
     }
     else
     {
@@ -361,5 +350,15 @@ UITableViewDataSource
     }
 }
 
+- (void)setButtomViewShowAnimation:(BOOL)_isShow
+{
+    [UIView animateWithDuration:0.3 animations:^{
+        CGPoint destPt = CGPointMake(0, _isShow? PJ_SCREEN_HEIGHT - 60 : PJ_SCREEN_HEIGHT);
+        CGSize destSize = CGSizeMake(PJ_SCREEN_WIDTH, _isShow ? PJ_SCREEN_HEIGHT - 124 - 60 : PJ_SCREEN_HEIGHT - 124);
+        [buttomView setPosition:destPt atAnchorPoint:CGPointZero];
+        [self.myTableView setSize:destSize];
+    }];
+
+}
 
 @end

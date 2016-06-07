@@ -36,6 +36,14 @@ UITableViewDelegate
 {
     [self addCZJNaviBarView:CZJNaviBarViewTypeGeneral];
     self.naviBarView.mainTitleLabel.text = @"正在施工";
+    NSString* useTimeStr = [NSString stringWithFormat:@"已用时%@",[builderData valueForKey:@"useTime"] == nil ? @"" : [builderData valueForKey:@"useTime"]];
+    if ([self.status floatValue] == 3 ||
+        [self.status floatValue] == 4 ||
+        [self.status floatValue] == 5)
+    {
+         self.naviBarView.mainTitleLabel.text = @"施工完成";
+        useTimeStr = @"请顾客前往取车";
+    }
     
     NSArray* nibArys = @[@"CZJOrderBuilderCell",
                          @"CZJOrderBuildCarCell",
@@ -102,9 +110,18 @@ UITableViewDelegate
         cell.buildingLabel.hidden = YES;
         
         [cell.builderHeadImg sd_setImageWithURL:[NSURL URLWithString:builderData.head] placeholderImage:IMAGENAMED(@"order_head_default.png")];
-        CGSize size = [CZJUtils calculateTitleSizeWithString:builderData.useTime AndFontSize:12];
-        cell.leftTimeLabelWidth.constant = size.width + 40;
-        cell.leftTimeLabel.text = [NSString stringWithFormat:@"已用时%@",builderData.useTime];
+        
+        //用时
+        NSString* useTimeStr = [NSString stringWithFormat:@"已用时%@",[builderData valueForKey:@"useTime"] == nil ? @"" : [builderData valueForKey:@"useTime"]];
+        if ([self.status floatValue] == 4 ||
+            [self.status floatValue] == 3 ||
+            [self.status floatValue] == 5)
+        {
+            useTimeStr = @"请顾客前往取车";
+        }
+        CGSize userTimesize = [CZJUtils calculateTitleSizeWithString:useTimeStr AndFontSize:12];
+        cell.leftTimeLabelWidth.constant = userTimesize.width + 5;
+        cell.leftTimeLabel.text = useTimeStr;
         cell.separatorInset = HiddenCellSeparator;
         return cell;
     }

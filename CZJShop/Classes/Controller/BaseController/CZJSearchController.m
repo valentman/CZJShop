@@ -221,6 +221,7 @@ UITableViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    isCancel = YES;
     if (searchType == kSearchTypeServer) {
         NSString* str = [currentAry[indexPath.row] valueForKey:@"kw"];
         [searchHistoryAry insertObject:str atIndex:0];
@@ -238,6 +239,7 @@ UITableViewDelegate
     else if (searchType == kSearchTypeHistory &&  indexPath.row < searchHistoryAry.count)
     {
         [self beginSearch:searchHistoryAry[indexPath.row]];
+        
     }
     
 }
@@ -292,9 +294,12 @@ UITableViewDelegate
     {
         [self.view endEditing:YES];
         isCancel = YES;
-//        [self textFieldDidReturn:_searchTextField];
         [self beginSearch:_searchTextField.text];
         if (![_searchTextField.text isEqualToString:@""]) {
+            if ([searchHistoryAry containsObject:_searchTextField.text])
+            {
+                [searchHistoryAry removeObject:_searchTextField.text];
+            }
             [searchHistoryAry insertObject:_searchTextField.text atIndex:0];
             [CZJUtils writeArrayToDocumentsDirectory:searchHistoryAry withPlistName:kCZJPlistFileSearchHistory];
         }
@@ -372,9 +377,14 @@ UITableViewDelegate
 {
     DLog(@"%@",textField.text);
     [self.searchTextField resignFirstResponder];
+    isCancel = YES;
     [self beginSearch:textField.text];
     if (![textField.text isEqualToString:@""]) {
-        [searchHistoryAry insertObject:textField.text atIndex:0];
+        if ([searchHistoryAry containsObject:_searchTextField.text])
+        {
+            [searchHistoryAry removeObject:_searchTextField.text];
+        }
+        [searchHistoryAry insertObject:_searchTextField.text atIndex:0];
         [CZJUtils writeArrayToDocumentsDirectory:searchHistoryAry withPlistName:kCZJPlistFileSearchHistory];
     }
 }

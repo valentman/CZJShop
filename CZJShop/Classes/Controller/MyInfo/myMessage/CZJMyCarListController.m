@@ -143,9 +143,7 @@ CZJMyCarListCellDelegate
             
         }];
         [weakSelf hideWindow];
-    } andCancleHandler:^{
-        
-    }];
+    } andCancleHandler:nil];
 }
 
 - (void)setDefaultAcitonCallBack:(id)sender

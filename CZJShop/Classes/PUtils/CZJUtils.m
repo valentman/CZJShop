@@ -19,6 +19,11 @@
 #import "CZJLoadingFailedAlertView.h"
 #import "WyzAlbumViewController.h"
 #import "AppDelegate.h"
+#import <CoreTelephony/CTTelephonyNetworkInfo.h>
+#import <CoreTelephony/CTCarrier.h>
+
+
+
 
 
 @interface CZJUtils ()<UIAlertViewDelegate>
@@ -454,8 +459,8 @@ void backLastView(id sender, SEL _cmd)
 
 + (void)tipWithText:(NSString*)text withCompeletHandler:(CZJGeneralBlock)compeletBlock
 {
-    AppDelegate* mydelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:mydelegate.window animated:YES];
+//    AppDelegate* mydelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:CZJAppdelegate.window animated:YES];
     hud.mode = MBProgressHUDModeText;
     hud.labelText = text;
     hud.margin = 15.f;
@@ -947,9 +952,11 @@ void tapToHidePopViewAction(id sender, SEL _cmd)
     [callWebview loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:str]]];
     [target addSubview:callWebview];
      */
-    
-    NSMutableString * str=[[NSMutableString alloc] initWithFormat:@"telprompt://%@",phoneNum];
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
+    if ([self isCanSIMCardAvaiable])
+    {
+        NSMutableString * str=[[NSMutableString alloc] initWithFormat:@"telprompt://%@",phoneNum];
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
+    }
 }
 
 + (CATextLayer *)creatTextLayerWithNSString:(NSString *)string withColor:(UIColor *)color andPosition:(CGPoint)point andNumOfMenu:(int)_numOfMenu
@@ -1372,6 +1379,16 @@ void tapToHidePopViewAction(id sender, SEL _cmd)
 }
 
 
-
++ (BOOL)isCanSIMCardAvaiable
+{
+    CTTelephonyNetworkInfo *networkInfo = [[CTTelephonyNetworkInfo alloc] init];
+    CTCarrier *carrier = [networkInfo subscriberCellularProvider];
+    
+    if (!carrier.isoCountryCode) {
+        [self tipWithText:@"未安装SIM卡" andView:nil];
+        return NO;
+    }
+    return YES;
+}
 
 @end

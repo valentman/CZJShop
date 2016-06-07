@@ -11,10 +11,10 @@
 
 //----------------------------服务器接口-------------------------------
 //服务地址
-static NSString *const kCZJServerAddr = @"http://192.168.0.251:8080/appserver/";
-//static NSString *const kCZJServerAddr = @"http://101.201.197.202:8080/appserver/";
-//static NSString *const kCZJServerAddr = @"http://101.200.189.9:8080/appserver2/";
-//static NSString *const kCZJServerAddr = @"http://czapp.chezhijian.com/appserver/";
+//static NSString *const kCZJServerAddr = @"http://192.168.0.251:8080/appserver/";      //线下测试环境
+//static NSString *const kCZJServerAddr = @"http://101.201.197.202:8080/appserver/";    //线上测试环境1
+//static NSString *const kCZJServerAddr = @"http://101.200.189.9:8080/appserver2/";     //线上测试环境2
+static NSString *const kCZJServerAddr = @"http://czapp.chezhijian.com/appserver/";      //线上正式环境
 
 //首页接口组
 static NSString *const kCZJServerAPIShowHome = @"chezhu/showHomeV2.do";                             //获取首页数据

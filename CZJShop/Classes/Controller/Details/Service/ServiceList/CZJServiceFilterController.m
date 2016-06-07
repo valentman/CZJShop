@@ -216,6 +216,7 @@
     [USER_DEFAULT setValue:@"" forKey:kUserDefaultChoosedCarModelType];
 //    [USER_DEFAULT setValue:@"" forKey:kUserDefaultServicePlace];
     [USER_DEFAULT setValue:self.typeId forKey:kUserDefaultServiceTypeID];
+    [USER_DEFAULT synchronize];
     [self.tableView reloadData];
 }
 

@@ -37,7 +37,7 @@
     DLog(@"height:%f",self.view.frame.size.height);
     
     //固定数据
-    NSDictionary* serviceMenuNames = @{@"2501" : @"美容清洗",
+    NSDictionary* serviceMenuNames = @{@"2501" : @"美容装饰",
                                        @"2503" : @"维修保养"
                                        };
     

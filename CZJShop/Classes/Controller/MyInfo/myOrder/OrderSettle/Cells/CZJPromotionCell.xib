@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
@@ -15,7 +15,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="-￥14" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mzb-lI-WLg">
-                        <rect key="frame" x="75" y="11" width="80" height="21"/>
+                        <rect key="frame" x="60" y="11" width="80" height="21"/>
                         <animations/>
                         <constraints>
                             <constraint firstAttribute="height" constant="21" id="0rN-10-Lhq"/>
@@ -26,7 +26,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="促销满减:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qxJ-e2-UJD">
-                        <rect key="frame" x="175" y="11" width="60" height="21"/>
+                        <rect key="frame" x="160" y="11" width="60" height="21"/>
                         <animations/>
                         <constraints>
                             <constraint firstAttribute="width" constant="60" id="GxU-UR-9Kt"/>
@@ -37,7 +37,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="-￥14" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Uvo-7G-8sa">
-                        <rect key="frame" x="235" y="11" width="80" height="21"/>
+                        <rect key="frame" x="220" y="11" width="80" height="21"/>
                         <animations/>
                         <constraints>
                             <constraint firstAttribute="width" constant="80" id="1BC-QY-Idi"/>
@@ -48,10 +48,10 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="优惠券:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Ts-8o-uSb">
-                        <rect key="frame" x="15" y="14" width="60" height="16"/>
+                        <rect key="frame" x="15" y="14" width="45" height="16"/>
                         <animations/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="60" id="7gy-3P-Bf5"/>
+                            <constraint firstAttribute="width" constant="45" id="7gy-3P-Bf5"/>
                             <constraint firstAttribute="height" constant="16" id="w3b-RL-JKD"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="13"/>

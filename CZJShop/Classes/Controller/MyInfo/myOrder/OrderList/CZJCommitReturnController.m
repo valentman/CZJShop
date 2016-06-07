@@ -108,6 +108,10 @@ CZJLeaveMessageViewDelegate
     [super didReceiveMemoryWarning];
 }
 
+- (void)dealloc
+{
+    [_backgroundView removeFromSuperview];
+}
 
 #pragma mark-UITableViewDataSource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView

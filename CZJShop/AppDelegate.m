@@ -131,9 +131,10 @@
     mzgpc.imageDatas = imageArray;
     __weak typeof(MZGuidePages) *weakMZ = mzgpc;
     mzgpc.buttonAction = ^{
-        [UIView animateWithDuration:2.0f
+        [UIView animateWithDuration:1.0f
                          animations:^{
                              weakMZ.alpha = 0.0;
+                             [[UIApplication sharedApplication]setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
                          }
                          completion:^(BOOL finished) {
                              [weakMZ removeFromSuperview];
@@ -240,7 +241,6 @@
         }];
     }
 
-
     
     //--------------------5.推送注册中心-----------------
     [XGPush startApp:kCZJPushServerAppId appKey:kCZJPushServerAppKey];
@@ -252,12 +252,13 @@
         {
             //iOS8注册push方法
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= _IPHONE80_
-            float sysVer = [[[UIDevice currentDevice] systemVersion] floatValue];
-            if(sysVer < 8){
-                [self registerPush];
-            }
-            else{
+            if(IS_IOS8)
+            {
                 [self registerPushForIOS8];
+            }
+            else
+            {
+                [self registerPush];
             }
 #else
             //iOS8之前注册push方法
@@ -278,10 +279,11 @@
         //失败之后的处理
         DLog(@"[XGPush]handleLaunching's errorBlock");
     };
+    [XGPush handleLaunching:launchOptions successCallback:_successBlock errorCallback:_errorBlock];
+    
     //角标清0
     [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
-    iLog(@"launchOptions:%@",[launchOptions description]);
-    
+    iLog(@"========CZJ launchOptions:%@",[launchOptions description]);
     
     NSDictionary* aps = [[launchOptions valueForKey:@"UIApplicationLaunchOptionsRemoteNotificationKey"]valueForKey:@"aps"];
     if (aps.count > 0)
@@ -289,8 +291,6 @@
         [[[UIAlertView alloc]initWithTitle:@"通知" message:[aps valueForKey:@"alert"] delegate:self cancelButtonTitle:@"收到，闪边去~" otherButtonTitles:nil, nil] show];
     }
     
-    
-    [XGPush handleLaunching:launchOptions successCallback:_successBlock errorCallback:_errorBlock];
     
     //给信鸽用户设置标签
     [XGPush setTag:[CZJLoginModelManager sharedCZJLoginModelManager].usrBaseForm.cityId];
@@ -314,7 +314,7 @@
     self.window.rootViewController = _CZJRootViewController;
     [self.window makeKeyAndVisible];
     
-    if (![USER_DEFAULT valueForKey:kCZJIsFirstLogin])
+    if (![USER_DEFAULT boolForKey:kCZJIsFirstLogin])
     {
         //----------------第一次安装App需要初始化userdefault数据-----------------
         [USER_DEFAULT setValue:@"1" forKey:kCZJIsFirstLogin];
@@ -322,8 +322,6 @@
         
         //---------------然后下载下次启动显示的启动页------------
         [self getStartPageDataFromServer:YES];
-        
-        [[UIApplication sharedApplication]setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
     }
     
     //当版本更新后即要启动引导页
@@ -332,6 +330,7 @@
     {
         [USER_DEFAULT setValue:[CZJUtils getCurrentVersion] forKey:kCZJLastVersion];
         [self guidePages];
+        [[UIApplication sharedApplication]setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
     }
     else
     {
@@ -353,7 +352,7 @@
             NSString* imagepath2 = [DocumentsDirectory stringByAppendingPathComponent:@"StartPage.jpg"];
             if ( [FileManager fileExistsAtPath:imagepath2])
             {
-                
+                [[UIApplication sharedApplication]setStatusBarHidden:YES withAnimation:UIStatusBarAnimationNone];
                 _lunchView = [[NSBundle mainBundle ]loadNibNamed:@"LaunchScreen" owner:nil options:nil][0];
                 [_lunchView setSize:CGSizeMake(PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT)];
                 [_lunchView setPosition:CGPointPositionMiddle atAnchorPoint:CGPointMiddle];
@@ -410,7 +409,6 @@
     installation.url = [NSURL URLWithString:@"https://collector.bughd.com/kscrash?key=0a9aa597ce509ecb9ccf098ff457400b"];
     [installation install];
     [installation sendAllReportsWithCompletion:nil];
-
     
     
     //-------------------12.接收远程通知本地显示---------------
@@ -463,7 +461,7 @@
 - (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings
 {
     //用户已经允许接收以下类型的推送
-    iLog(@"注册用户通知成功");
+    iLog(@"========CZJ 注册用户通知成功");
 }
 
 //按钮点击事件回调
@@ -490,7 +488,7 @@
     };
     NSString * deviceTokenStr = [XGPush registerDevice:deviceToken successCallback:successBlock errorCallback:errorBlock];
     [USER_DEFAULT setValue:deviceToken forKey:kUserDefaultDeviceTokenStr];
-    iLog(@"deviceTokenStr:%@",deviceTokenStr);
+    iLog(@"========CZJ 设备deviceTokenStr:%@",deviceTokenStr);
 }
 
 //如果deviceToken获取不到会进入此事件
@@ -502,7 +500,7 @@
 //接收本地推送通知
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification
 {
-    iLog(@"LocalNotification:%@,%@",notification.alertTitle, notification.alertBody);
+    iLog(@"========CZJ 接收到本地推送通知:%@,%@",notification.alertTitle, notification.alertBody);
     //notification是发送推送时传入的字典信息
     [XGPush localNotificationAtFrontEnd:notification userInfoKey:@"clockID" userInfoValue:@"myid"];
     
@@ -510,7 +508,7 @@
     [XGPush delLocalNotification:notification];
     
     //当App在前台运行时，远程通知转换成本地通知到这里，发送一条新消息通知
-    ((UILabel*)VIEWWITHTAG(_notifyView, 1001)).text = [notification.userInfo valueForKey:@"msg"];
+    ((UILabel*)VIEWWITHTAG(_notifyView, 1001)).text = notification.alertBody;
     [self showNotifyView];
     [[NSNotificationCenter defaultCenter]postNotificationName:kCZJNotifiGetNewNotify object:nil];
 }
@@ -519,16 +517,18 @@
 //接收APNs推送通知
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
-    iLog(@"========CZJ receivedRemoteNotification:%@", [userInfo description]);
+    iLog(@"========CZJ 接收到苹果远程通知:%@", [userInfo description]);
     [XGPush handleReceiveNotification:userInfo];
 }
 
 //接收APNs推送通知并启动或恢复应用
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
 {
+    DLog(@"userInfo:%@",[userInfo description]);
     //通知消息模型化
     CZJNotificationForm* notifiForm = [CZJNotificationForm objectWithKeyValues:userInfo];
-    iLog(@"RemoteNotification:%@",[notifiForm.keyValues description]);
+    iLog(@"========CZJ 接收到苹果远程通知带回调:%@",[notifiForm.keyValues description]);
+    NSString* alertStr = [userInfo objectForKey:@"msg"];
     
     //存入单例中，并写入本地文件中
     [[CZJMessageManager sharedCZJMessageManager] addMessageWithObject:notifiForm];
@@ -538,19 +538,17 @@
     
     //根据不同的状态做不同的处理
     if (application.applicationState == UIApplicationStateActive) {
-        iLog(@"========CZJ active");
         //程序当前正处于前台
         // 转换成一个本地通知，显示到通知栏，你也可以直接显示出一个alertView，只是那样稍显aggressive：）
         UILocalNotification *localNotification = [[UILocalNotification alloc] init];
         localNotification.userInfo = userInfo;
         localNotification.soundName = UILocalNotificationDefaultSoundName;
-        localNotification.alertBody = [[userInfo objectForKey:@"aps"] objectForKey:@"alert"];
+        localNotification.alertBody = [CZJUtils isBlankString:alertStr] ? [[userInfo objectForKey:@"aps"] objectForKey:@"alert"]: alertStr;
         localNotification.fireDate = [NSDate date];
         [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
     }
     else if(application.applicationState == UIApplicationStateInactive)
     {
-        iLog(@"========CZJ inactive");
         //程序处于后台
     }
 }
@@ -589,9 +587,6 @@
     //主页定时器
     [[NSNotificationCenter defaultCenter]postNotificationName:@"stopTimer" object:nil];
     
-    //环信
-    [[EMClient sharedClient] applicationDidEnterBackground:application];
-    
     [self beingBackgroundUpdateTask];
     /**
      *  在这里加上你需要长久运行的代码
@@ -625,7 +620,6 @@
     [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
     
     //清除所有通知(包含本地通知)
-//    [[UIApplication sharedApplication] cancelAllLocalNotifications];
     NSArray* notifications = [UIApplication sharedApplication].scheduledLocalNotifications;
     DLog(@"notifications:%@",notifications);
     

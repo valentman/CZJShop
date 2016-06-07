@@ -154,6 +154,15 @@ typedef enum {
 
 /*!
  *  \~chinese 
+ *  从数据库加载消息时是否按服务器时间排序，默认为NO，按接收方时间排序
+ *
+ *  \~english 
+ *  Whether sort message by server time when load message from database, default is NO, sort by receiver's time
+ */
+@property (nonatomic, assign) BOOL sortMessageByServerTime;
+
+/*!
+ *  \~chinese 
  *  iOS特有属性，推送证书的名称
  *
  *  只能在[EMClient initializeSDKWithOptions:]时设置，不能在程序运行过程中动态修改

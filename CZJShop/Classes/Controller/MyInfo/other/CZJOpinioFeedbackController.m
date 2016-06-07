@@ -50,8 +50,12 @@
         return;
     }
     NSDictionary* params = @{@"suggestion.content" : _textView.text,@"suggestion.mobile": CZJBaseDataInstance.userInfoForm.mobile};
+    __weak typeof(self) weakSelf = self;
     [CZJBaseDataInstance generalPost:params success:^(id json) {
-        
+        DLog(@"%@",[[CZJUtils DataFromJson:json] description]);
+        [CZJUtils tipWithText:@"提交成功" withCompeletHandler:^{
+            [weakSelf.navigationController popViewControllerAnimated:YES];
+        }];
     } fail:^{
         
     } andServerAPI:kCZJServerAPIFeedBack];

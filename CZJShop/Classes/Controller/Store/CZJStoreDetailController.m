@@ -1008,12 +1008,12 @@ MKMapViewDelegate
 
 
 #pragma mark CZJGoodsRecommendCellDelegate
-- (void)clickRecommendCellWithID:(NSString*)itemID andPromotionType:(CZJGoodsPromotionType)promotionType;
+- (void)clickRecommendCellWithID:(GoodsRecommendForm*)recoForm andPromotionType:(CZJGoodsPromotionType)promotionType;
 {
-    _touchedStoreItemPid = itemID;
+    _touchedStoreItemPid = recoForm.storeItemPid;
 
     CZJDetailViewController* detailVC = (CZJDetailViewController*)[CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:@"goodsDetailSBID"];
-    detailVC.storeItemPid = itemID;
+    detailVC.storeItemPid = _touchedStoreItemPid;
     detailVC.detaiViewType = CZJDetailTypeGoods;
     detailVC.promotionType = promotionType;
     NSString* itemType = @"";
@@ -1021,7 +1021,7 @@ MKMapViewDelegate
         case CZJGoodsPromotionTypeBaoKuan:
             for (CZJStoreDetailGoodsAndServiceForm* mForm in _nativeRecommendArray)
             {
-                if ([itemID isEqualToString:mForm.storeItemPid])
+                if ([_touchedStoreItemPid isEqualToString:mForm.storeItemPid])
                 {
                     itemType = mForm.itemType;
                     detailVC.promotionPrice = mForm.currentPrice;
@@ -1032,7 +1032,7 @@ MKMapViewDelegate
         case CZJGoodsPromotionTypeGeneral:
             for (CZJStoreDetailGoodsAndServiceForm* mForm in _nativeServiceAndGoodsArray)
             {
-                if ([itemID isEqualToString:mForm.storeItemPid])
+                if ([_touchedStoreItemPid isEqualToString:mForm.storeItemPid])
                 {
                     itemType = mForm.itemType;
                     detailVC.promotionPrice = mForm.currentPrice;

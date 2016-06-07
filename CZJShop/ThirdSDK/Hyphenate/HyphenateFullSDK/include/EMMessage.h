@@ -120,6 +120,15 @@ typedef enum{
 
 /*!
  *  \~chinese
+ *  服务器收到此消息的时间
+ *
+ *  \~english
+ *  The time of server received this message
+ */
+@property (nonatomic) long long serverTime;
+
+/*!
+ *  \~chinese
  *  消息类型
  *
  *  \~english

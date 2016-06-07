@@ -191,10 +191,10 @@
                         <rect key="frame" x="135" y="154" width="185" height="61"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="M7n-3i-Mj6">
-                                <rect key="frame" x="100" y="19" width="70" height="27"/>
+                                <rect key="frame" x="80" y="19" width="90" height="27"/>
                                 <animations/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="70" id="dje-XR-8AQ"/>
+                                    <constraint firstAttribute="width" constant="90" id="dje-XR-8AQ"/>
                                     <constraint firstAttribute="height" constant="27" id="tLD-Ib-VcQ"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
@@ -228,11 +228,11 @@
                         <rect key="frame" x="135" y="154" width="185" height="61"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1zC-J6-be3" userLabel="查看施工进度">
-                                <rect key="frame" x="-5" y="19" width="90" height="27"/>
+                                <rect key="frame" x="80" y="19" width="90" height="27"/>
                                 <animations/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="90" id="5dM-8X-S8B"/>
                                     <constraint firstAttribute="height" constant="27" id="FGV-q0-nGO"/>
+                                    <constraint firstAttribute="width" constant="90" id="NJH-p0-170"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                 <state key="normal" title="查看施工进度">
@@ -253,71 +253,23 @@
                                     <action selector="showBuildProgressAction:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="Eb3-Ma-ldQ"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pBS-q9-ece">
-                                <rect key="frame" x="100" y="19" width="70" height="27"/>
-                                <animations/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="70" id="GST-R9-gMh"/>
-                                    <constraint firstAttribute="height" constant="27" id="gtl-eU-5U2"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                <state key="normal" title="付款">
-                                    <color key="titleColor" red="1" green="0.40000000600000002" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                </state>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                        <integer key="value" value="4"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
-                                        <real key="value" value="0.5"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="color" keyPath="layer.borderColorWithUIColor">
-                                        <color key="value" red="1" green="0.40000000600000002" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                                <connections>
-                                    <action selector="payAction:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="070-yY-sgb"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="bottom" secondItem="pBS-q9-ece" secondAttribute="bottom" constant="15" id="ClW-1I-uhq"/>
-                            <constraint firstAttribute="trailing" secondItem="pBS-q9-ece" secondAttribute="trailing" constant="15" id="L1G-5Q-WVx"/>
                             <constraint firstAttribute="bottom" secondItem="1zC-J6-be3" secondAttribute="bottom" constant="15" id="mdz-3R-BaY"/>
-                            <constraint firstItem="pBS-q9-ece" firstAttribute="leading" secondItem="1zC-J6-be3" secondAttribute="trailing" constant="15" id="yQy-lS-SOM"/>
+                            <constraint firstAttribute="trailing" secondItem="1zC-J6-be3" secondAttribute="trailing" constant="15" id="omV-Y5-6ot"/>
+                            <constraint firstItem="1zC-J6-be3" firstAttribute="leading" secondItem="6Yz-CB-vil" secondAttribute="leading" constant="15" id="tUM-Ak-OqK"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="tUM-Ak-OqK"/>
+                            </mask>
+                        </variation>
                     </view>
-                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="c6i-YI-YuZ" userLabel="buildingPaidButtomView">
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="c6i-YI-YuZ" userLabel="buildingPaidButtomView">
                         <rect key="frame" x="135" y="154" width="185" height="61"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gmZ-Ro-rnT">
-                                <rect key="frame" x="-25" y="19" width="90" height="27"/>
-                                <animations/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="27" id="P3u-vp-EbY"/>
-                                    <constraint firstAttribute="width" constant="90" id="gRL-dg-tvF"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                <state key="normal" title="查看车检结果">
-                                    <color key="titleColor" red="0.20000000300000001" green="0.20000000300000001" blue="0.20000000300000001" alpha="1" colorSpace="calibratedRGB"/>
-                                </state>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                        <integer key="value" value="4"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
-                                        <real key="value" value="0.5"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="color" keyPath="layer.borderColorWithUIColor">
-                                        <color key="value" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                                <connections>
-                                    <action selector="checkCarConditionAction:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="wtK-Y7-cB5"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1md-Az-jUJ">
                                 <rect key="frame" x="80" y="19" width="90" height="27"/>
                                 <animations/>
@@ -348,8 +300,6 @@
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="1md-Az-jUJ" firstAttribute="leading" secondItem="gmZ-Ro-rnT" secondAttribute="trailing" constant="15" id="RJ5-lY-foA"/>
-                            <constraint firstAttribute="bottom" secondItem="gmZ-Ro-rnT" secondAttribute="bottom" constant="15" id="rEJ-qD-m7L"/>
                             <constraint firstAttribute="trailing" secondItem="1md-Az-jUJ" secondAttribute="trailing" constant="15" id="t7d-qn-E2O"/>
                             <constraint firstAttribute="bottom" secondItem="1md-Az-jUJ" secondAttribute="bottom" constant="15" id="zZY-no-VZ9"/>
                         </constraints>
@@ -357,37 +307,11 @@
                     <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Rn6-8H-1Kj" userLabel="buildingNoPaidButtomViews">
                         <rect key="frame" x="135" y="154" width="185" height="61"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dWt-wn-1KX">
-                                <rect key="frame" x="-5" y="19" width="90" height="27"/>
-                                <animations/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="90" id="5p0-7l-gc5"/>
-                                    <constraint firstAttribute="height" constant="27" id="v5c-LX-BfI"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                <state key="normal" title="查看车检结果">
-                                    <color key="titleColor" red="0.20000000300000001" green="0.20000000300000001" blue="0.20000000300000001" alpha="1" colorSpace="calibratedRGB"/>
-                                </state>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                        <integer key="value" value="4"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
-                                        <real key="value" value="0.5"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="color" keyPath="layer.borderColorWithUIColor">
-                                        <color key="value" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                                <connections>
-                                    <action selector="checkCarConditionAction:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="cRN-Ib-p3l"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2AH-06-Gou">
-                                <rect key="frame" x="100" y="19" width="70" height="27"/>
+                                <rect key="frame" x="80" y="19" width="90" height="27"/>
                                 <animations/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="70" id="SNF-zW-SJ1"/>
+                                    <constraint firstAttribute="width" constant="90" id="SNF-zW-SJ1"/>
                                     <constraint firstAttribute="height" constant="27" id="yQf-Vj-71s"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
@@ -414,9 +338,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="2AH-06-Gou" secondAttribute="trailing" constant="15" id="ODd-JO-fWo"/>
-                            <constraint firstAttribute="bottom" secondItem="dWt-wn-1KX" secondAttribute="bottom" constant="15" id="ar5-0Z-Q4u"/>
                             <constraint firstAttribute="bottom" secondItem="2AH-06-Gou" secondAttribute="bottom" constant="15" id="gtA-fT-Plz"/>
-                            <constraint firstItem="2AH-06-Gou" firstAttribute="leading" secondItem="dWt-wn-1KX" secondAttribute="trailing" constant="15" id="yLR-OD-Ubk"/>
                         </constraints>
                     </view>
                     <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="faH-b7-feA" userLabel="noPayButtomView">
@@ -488,11 +410,11 @@
                         <rect key="frame" x="135" y="154" width="185" height="61"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jNc-Zo-WfF">
-                                <rect key="frame" x="100" y="19" width="70" height="27"/>
+                                <rect key="frame" x="80" y="19" width="90" height="27"/>
                                 <animations/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="27" id="QCX-Kq-TJm"/>
-                                    <constraint firstAttribute="width" constant="70" id="pjG-GZ-bTz"/>
+                                    <constraint firstAttribute="width" constant="90" id="pjG-GZ-bTz"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                 <state key="normal" title="取消订单">

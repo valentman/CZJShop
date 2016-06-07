@@ -151,7 +151,7 @@ UITextFieldDelegate
         [self.plateNumTextField.text isEqualToString:@""] ||
         [CZJUtils isBlankString:self.plateNumTextField.text])
     {
-        [CZJUtils tipWithText:@"请输入车牌" andView:nil];
+        [CZJUtils tipWithText:@"请输入车牌号" andView:nil];
         return;
     }
     else if (![CZJUtils isLicencePlate:self.plateNumTextField.text]) {

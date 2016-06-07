@@ -42,6 +42,7 @@
 #import "CZJMyInfoRecordController.h"
 #import "CZJMyMessageCenterController.h"
 #import "CZJChatViewController.h"
+#import "AppDelegate.h"
 
 #define kTagScrollView  1002
 #define kTagTableView   1001
@@ -86,12 +87,14 @@ CZJChooseProductTypeDelegate
     NSInteger _timestamp;                           //秒杀倒计时
     NSTimer* timer;                                 //秒杀定时器
     
+    UIView *_backgroundView;
+    
     NSMutableArray* _settleOrderAry;
     NSInteger buyCount;                             //当前商品已选规格个数
 }
 @property (weak, nonatomic) IBOutlet UIScrollView *myScrollView;
 @property (weak, nonatomic) IBOutlet UIView *borderLineView;
-@property (weak, nonatomic) IBOutlet UIView *backgroundView;
+//@property (weak, nonatomic) IBOutlet UIView *backgroundView;
 @property (weak, nonatomic) IBOutlet UIView *shoppingCartView;
 @property (weak, nonatomic) IBOutlet UIButton *addProductToShoppingCartBtn;
 @property (weak, nonatomic) IBOutlet UIButton *attentionBtn;
@@ -208,7 +211,9 @@ CZJChooseProductTypeDelegate
     [self.attentionBtn setImage:IMAGENAMED(@"prodetail_icon_guanzhu02_sel") forState:UIControlStateSelected];
     
     //背景触摸层
+    _backgroundView = [[UIView alloc]initWithFrame:self.view.bounds];
     _backgroundView.backgroundColor = RGBA(100, 240, 240, 0);
+    [CZJAppdelegate.window addSubview:_backgroundView];
     UIGestureRecognizer *gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapBackground:)];
     UISwipeGestureRecognizer* leftGesture = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(tapBackground:)];
     [leftGesture setDirection:UISwipeGestureRecognizerDirectionLeft];

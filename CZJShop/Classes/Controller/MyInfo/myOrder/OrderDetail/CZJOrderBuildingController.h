@@ -10,5 +10,6 @@
 
 @interface CZJOrderBuildingController : CZJViewController
 @property (strong,  nonatomic)NSString* orderNo;
+@property (strong, nonatomic)NSString* status;
 
 @end

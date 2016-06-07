@@ -11,8 +11,8 @@
 @protocol CZJGoodsRecommendCellDelegate <NSObject>
 
 @optional
-- (void)clickRecommendCellWithID:(NSString*)itemID;
-- (void)clickRecommendCellWithID:(NSString*)itemID andPromotionType:(CZJGoodsPromotionType)promotionType;
+- (void)clickRecommendCellWithID:(GoodsRecommendForm*)itemID;
+- (void)clickRecommendCellWithID:(GoodsRecommendForm*)itemID andPromotionType:(CZJGoodsPromotionType)promotionType;
 
 @end
 

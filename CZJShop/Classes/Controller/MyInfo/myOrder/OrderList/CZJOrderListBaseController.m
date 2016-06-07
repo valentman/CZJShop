@@ -58,20 +58,20 @@ CZJOrderListCellDelegate
 - (void)initViews
 {
     CGRect viewRect = CGRectMake(0, 0, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT- 114);
-    if ([[_params valueForKey:@"type"] isEqualToString:@"1"])
-    {
-        viewRect = CGRectMake(0, 0, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT- 114 - 60);
-        CGRect buttomRect = CGRectMake(0, PJ_SCREEN_HEIGHT - 114 - 60, PJ_SCREEN_WIDTH,60);
-        _noPayButtomView = [CZJUtils getXibViewByName:@"CZJOrderListNoPayButtomView"];
-        _noPayButtomView.frame = buttomRect;
-        if (iPhone4 || iPhone5)
-        {
-            _noPayButtomView.goToPayWidth.constant = 100;
-        }
-        [self.view addSubview:_noPayButtomView];
-        [_noPayButtomView.allChooseBtn addTarget:self action:@selector(chooseAllActioin:) forControlEvents:UIControlEventTouchUpInside];
-        [_noPayButtomView.goToPayBtn addTarget:self action:@selector(buttomViewGoToPay:) forControlEvents:UIControlEventTouchUpInside];
-    }
+//    if ([[_params valueForKey:@"type"] isEqualToString:@"1"])
+//    {
+//        viewRect = CGRectMake(0, 0, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT- 114 - 60);
+//        CGRect buttomRect = CGRectMake(0, PJ_SCREEN_HEIGHT - 114 - 60, PJ_SCREEN_WIDTH,60);
+//        _noPayButtomView = [CZJUtils getXibViewByName:@"CZJOrderListNoPayButtomView"];
+//        _noPayButtomView.frame = buttomRect;
+//        if (iPhone4 || iPhone5)
+//        {
+//            _noPayButtomView.goToPayWidth.constant = 100;
+//        }
+//        [self.view addSubview:_noPayButtomView];
+//        [_noPayButtomView.allChooseBtn addTarget:self action:@selector(chooseAllActioin:) forControlEvents:UIControlEventTouchUpInside];
+//        [_noPayButtomView.goToPayBtn addTarget:self action:@selector(buttomViewGoToPay:) forControlEvents:UIControlEventTouchUpInside];
+//    }
     
     _myTableView = [[UITableView alloc]initWithFrame:viewRect style:UITableViewStylePlain];
     _myTableView.backgroundColor = WHITECOLOR;
@@ -105,7 +105,7 @@ CZJOrderListCellDelegate
     
     [CZJBaseDataInstance getOrderList:_params Success:^(id json) {
         [MBProgressHUD hideAllHUDsForView:self.view animated:NO];
-        DLog(@"orderList:%@",[[[CZJUtils DataFromJson:json] valueForKey:@"msg"] description]);
+        DLog(@"orderList:%@",[[CZJUtils DataFromJson:json] description]);
         //========获取数据返回，判断数据大于0不==========
         NSArray* tmpAry = [[CZJUtils DataFromJson:json] valueForKey:@"msg"];
         if (CZJHomeGetDataFromServerTypeTwo == _getdataType)
@@ -136,7 +136,7 @@ CZJOrderListCellDelegate
             [CZJUtils showNoDataAlertViewOnTarget:self.view withPromptString:_noDataPrompt];
             if ([[_params valueForKey:@"type"] isEqualToString:@"1"])
             {
-                _noPayButtomView.hidden = YES;
+//                _noPayButtomView.hidden = YES;
             }
         }
         else
@@ -148,7 +148,7 @@ CZJOrderListCellDelegate
             self.myTableView.footer.hidden = self.myTableView.mj_contentH < self.myTableView.frame.size.height;
             if ([[_params valueForKey:@"type"] isEqualToString:@"1"])
             {
-                _noPayButtomView.hidden = NO;
+//                _noPayButtomView.hidden = NO;
             }
         }
     } fail:^{
@@ -188,7 +188,7 @@ CZJOrderListCellDelegate
         totalToPay += [cellForm.orderMoney floatValue] * (allchooseBtn.selected ? 1 : 0);;
         cellForm.isSelected = allchooseBtn.selected;
     }
-    _noPayButtomView.totalLabel.text = [NSString stringWithFormat:@"￥%.2f",totalToPay];
+//    _noPayButtomView.totalLabel.text = [NSString stringWithFormat:@"￥%.2f",totalToPay];
     [self.myTableView reloadData];
 }
 
@@ -273,9 +273,9 @@ CZJOrderListCellDelegate
             allChoose = NO;
         }
     }
-    _noPayButtomView.allChooseBtn.selected = allChoose;
+//    _noPayButtomView.allChooseBtn.selected = allChoose;
     totalToPay += [orderListForm.orderMoney floatValue] * (btn.selected ? 1 : -1);
-    _noPayButtomView.totalLabel.text = [NSString stringWithFormat:@"￥%.2f",totalToPay];
+//    _noPayButtomView.totalLabel.text = [NSString stringWithFormat:@"￥%.2f",totalToPay];
     [self.delegate clickOrderListCellButton:btn
                               andButtonType:CZJOrderListCellBtnTypeSelectToPay
                                andOrderForm:orderListForm];

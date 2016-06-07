@@ -127,7 +127,7 @@
 
     if ([USER_DEFAULT objectForKey:CCLastCity])
     {
-        [[NSNotificationCenter defaultCenter]postNotificationName:kCZJChangeCurCityName object:self userInfo:@{@"cityname" : [USER_DEFAULT objectForKey:CCLastCity]}];
+        [[NSNotificationCenter defaultCenter]postNotificationName:kCZJChangeCurCityName object:self userInfo:@{@"cityname" : [CZJUtils isBlankString:[USER_DEFAULT objectForKey:CCLastCity]] ? @"全部地区" : [USER_DEFAULT objectForKey:CCLastCity]}];
     }
 }
 

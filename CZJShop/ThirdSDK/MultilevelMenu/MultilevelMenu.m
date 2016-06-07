@@ -276,6 +276,7 @@
          [self.rightCollection scrollRectToVisible:CGRectMake(0, 0, self.rightCollection.frame.size.width, self.rightCollection.frame.size.height) animated:NO];
     }
     
+    self.rightCollection.hidden = YES;
     if (nextAry.count <= 0) {
         [self getCategoryDataFromServer];
     }
@@ -314,7 +315,12 @@
 }
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
+
     rightMeun * title = _allData[self.selectIndex];
+    if (title.nextArray.count <= 0)
+    {
+        return;
+    }
     rightMeun * touchedItemMeun=title.nextArray[indexPath.item];
     if (self.block)
     {

@@ -61,7 +61,7 @@
  */
 - (void)removeDelegate:(id<EMChatroomManagerDelegate>)aDelegate;
 
-#pragma mark - Api
+#pragma mark - Sync method
 
 /*!
  *  \~chinese
@@ -131,5 +131,68 @@
  */
 - (EMChatroom *)leaveChatroom:(NSString *)aChatroomId
                         error:(EMError **)pError;
+
+#pragma mark - Async method
+
+/*!
+ *  \~chinese
+ *  从服务器获取所有的聊天室
+ *
+ *  @param aSuccessBlock         成功的回调
+ *  @param aFailureBlock         失败的回调
+ *
+ *  \~english
+ *  Get all the chatrooms from server
+ *
+ *  @param aSuccessBlock         The callback block of success
+ *  @param aFailureBlock         The callback block of failure
+ *
+ */
+- (void)asyncGetAllChatroomsFromServer:(void (^)(NSArray *aList))aSuccessBlock
+                               failure:(void (^)(EMError *aError))aFailureBlock;
+
+/*!
+ *  \~chinese
+ *  加入聊天室
+ *
+ *  @param aChatroomId      聊天室的ID
+ *  @param aSuccessBlock    成功的回调
+ *  @param aFailureBlock    失败的回调
+ *
+ *
+ *  \~english
+ *  Join a chatroom
+ *
+ *  @param aChatroomId      Chatroom id
+ *  @param aSuccessBlock    The callback block of success
+ *  @param aFailureBlock    The callback block of failure
+ *
+ */
+- (void)asyncJoinChatroom:(NSString *)aChatroomId
+                  success:(void (^)(EMChatroom *aRoom))aSuccessBlock
+                  failure:(void (^)(EMError *aError))aFailureBlock;
+
+/*!
+ *  \~chinese
+ *  退出聊天室
+ *
+ *  @param aChatroomId          聊天室ID
+ *  @param aSuccessBlock        成功的回调
+ *  @param aFailureBlock        失败的回调
+ *
+ *  @result 退出的聊天室
+ *
+ *  \~english
+ *  Leave a chatroom
+ *
+ *  @param aChatroomId      Chatroom id
+ *  @param aSuccessBlock    The callback block of success
+ *  @param aFailureBlock    The callback block of failure
+ *
+ *  @result Leaved chatroom
+ */
+- (void)asyncLeaveChatroom:(NSString *)aChatroomId
+                   success:(void (^)(EMChatroom *aRoom))aSuccessBlock
+                   failure:(void (^)(EMError *aError))aFailureBlock;
 
 @end

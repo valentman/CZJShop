@@ -69,7 +69,7 @@ CZJMiaoShaCellDelegate
     NSString* _curSeviceName;
     NSString* _webViewTitle;
     NSString* _serviceTypeId;
-    NSString* _touchedStoreItemPid;
+    GoodsRecommendForm* _touchedRecommendForm;
     
     UIView* _errorView;
     UISearchBar* customSearchBar;
@@ -322,7 +322,7 @@ CZJMiaoShaCellDelegate
     [CZJBaseDataInstance generalPost:recommendParams success:^(id json) {
         //推荐商品分页返回数据
         NSArray* tmpAry = [[CZJUtils DataFromJson:json] valueForKey:@"msg"];
-//        DLog(@"recommend:%@",[[CZJUtils DataFromJson:json] description]);
+        DLog(@"recommend:%@",[[CZJUtils DataFromJson:json] description]);
         if (tmpAry.count < 20)
         {
             [refreshFooter noticeNoMoreData];
@@ -834,9 +834,9 @@ CZJMiaoShaCellDelegate
 
 
 #pragma mark- CZJGoodsRecommendCellDelegate
-- (void)clickRecommendCellWithID:(NSString*)itemID
+- (void)clickRecommendCellWithID:(GoodsRecommendForm*)goodRecoForm
 {
-    _touchedStoreItemPid = itemID;
+    _touchedRecommendForm = goodRecoForm;
     [self performSegueWithIdentifier:@"segueToGoodsDetail" sender:self];
 }
 
@@ -854,8 +854,8 @@ CZJMiaoShaCellDelegate
     if ([segue.identifier isEqualToString:@"segueToGoodsDetail"])
     {
         CZJDetailViewController* detailVC = segue.destinationViewController;
-        detailVC.storeItemPid = _touchedStoreItemPid;
-        detailVC.detaiViewType = CZJDetailTypeGoods;
+        detailVC.storeItemPid = _touchedRecommendForm.storeItemPid;
+        detailVC.detaiViewType = (([_touchedRecommendForm.itemType integerValue] == 1) ? CZJDetailTypeService : CZJDetailTypeGoods);
         detailVC.promotionType = CZJGoodsPromotionTypeGeneral;
         detailVC.promotionPrice = @"";
     }

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<dict>
+		<key>title</key>
+		<string>待付款</string>
+		<key>buttonImage</key>
+		<string>my_icon_pay</string>
+		<key>budge</key>
+		<string>0</string>
+		<key>item</key>
+		<string>nopay</string>
+		<key>orderTypeTag</key>
+		<string>0</string>
+	</dict>
+	<dict>
+		<key>title</key>
+		<string>待施工</string>
+		<key>buttonImage</key>
+		<string>my_icon_shigong</string>
+		<key>budge</key>
+		<string>0</string>
+		<key>item</key>
+		<string>nobuild</string>
+		<key>orderTypeTag</key>
+		<string>1</string>
+	</dict>
+	<dict>
+		<key>title</key>
+		<string>待收货</string>
+		<key>buttonImage</key>
+		<string>my_icon_shouhuo</string>
+		<key>budge</key>
+		<string>0</string>
+		<key>item</key>
+		<string>noreceive</string>
+		<key>orderTypeTag</key>
+		<string>2</string>
+	</dict>
+	<dict>
+		<key>title</key>
+		<string>待评价</string>
+		<key>buttonImage</key>
+		<string>my_icon_recommend</string>
+		<key>budge</key>
+		<string>0</string>
+		<key>item</key>
+		<string>noevaluate</string>
+		<key>orderTypeTag</key>
+		<string>3</string>
+	</dict>
+	<dict>
+		<key>title</key>
+		<string>退换货</string>
+		<key>buttonImage</key>
+		<string>my_icon_tuihuo</string>
+		<key>budge</key>
+		<string>0</string>
+		<key>item</key>
+		<string></string>
+		<key>orderTypeTag</key>
+		<string>4</string>
+	</dict>
+</array>
+</plist>

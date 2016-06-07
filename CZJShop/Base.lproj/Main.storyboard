@@ -1402,7 +1402,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <animations/>
                         <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
-                        <color key="separatorColor" patternImage="9AC9A24D-9C95-45E4-8F42-F6E2ED6E14D3" colorSpace="pattern"/>
+                        <color key="separatorColor" patternImage="60C3F778-4889-48C3-9315-B5C0D258856A" colorSpace="pattern"/>
                         <inset key="separatorInset" minX="15" minY="0.0" maxX="15" maxY="0.0"/>
                         <sections>
                             <tableViewSection id="t6n-nw-cfg" userLabel="Activity">
@@ -3062,7 +3062,7 @@
                                 <rect key="frame" x="0.0" y="464" width="320" height="55"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IJJ-TJ-6wT">
-                                        <rect key="frame" x="15" y="10" width="90" height="35"/>
+                                        <rect key="frame" x="15" y="10" width="140" height="35"/>
                                         <animations/>
                                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                         <state key="normal" title="查看车检结果">
@@ -3084,7 +3084,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eNc-5f-2Al">
-                                        <rect key="frame" x="115" y="10" width="90" height="35"/>
+                                        <rect key="frame" x="165" y="10" width="140" height="35"/>
                                         <animations/>
                                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                         <state key="normal" title="查看施工进度">
@@ -3105,45 +3105,19 @@
                                             <action selector="viewBuildingProgressAction:" destination="8ch-ke-9Jk" eventType="touchUpInside" id="C3s-UP-uSH"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UTD-zk-baA">
-                                        <rect key="frame" x="215" y="10" width="90" height="35"/>
-                                        <animations/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                        <state key="normal" title="付款">
-                                            <color key="titleColor" red="0.98431372640000003" green="0.27450981740000002" blue="0.3058823645" alpha="1" colorSpace="calibratedRGB"/>
-                                        </state>
-                                        <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                <integer key="value" value="4"/>
-                                            </userDefinedRuntimeAttribute>
-                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
-                                                <real key="value" value="0.5"/>
-                                            </userDefinedRuntimeAttribute>
-                                            <userDefinedRuntimeAttribute type="color" keyPath="layer.borderColorWithUIColor">
-                                                <color key="value" red="1" green="0.40000000600000002" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                            </userDefinedRuntimeAttribute>
-                                        </userDefinedRuntimeAttributes>
-                                        <connections>
-                                            <action selector="payAction:" destination="8ch-ke-9Jk" eventType="touchUpInside" id="yVm-79-aVD"/>
-                                        </connections>
-                                    </button>
                                 </subviews>
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="55" id="2PW-k1-enc"/>
-                                    <constraint firstAttribute="bottom" secondItem="UTD-zk-baA" secondAttribute="bottom" constant="10" id="A9W-ok-Y0P"/>
                                     <constraint firstAttribute="bottom" secondItem="IJJ-TJ-6wT" secondAttribute="bottom" constant="10" id="Dge-m7-UMz"/>
                                     <constraint firstItem="eNc-5f-2Al" firstAttribute="leading" secondItem="IJJ-TJ-6wT" secondAttribute="trailing" constant="10" id="EMO-AS-cGS"/>
                                     <constraint firstItem="IJJ-TJ-6wT" firstAttribute="top" secondItem="CQZ-KX-Bgt" secondAttribute="top" constant="10" id="JsS-bq-UvQ"/>
                                     <constraint firstItem="IJJ-TJ-6wT" firstAttribute="leading" secondItem="CQZ-KX-Bgt" secondAttribute="leading" constant="15" id="KA4-mz-pWH"/>
-                                    <constraint firstItem="UTD-zk-baA" firstAttribute="leading" secondItem="eNc-5f-2Al" secondAttribute="trailing" constant="10" id="Lun-Ii-pvL"/>
-                                    <constraint firstItem="UTD-zk-baA" firstAttribute="top" secondItem="CQZ-KX-Bgt" secondAttribute="top" constant="10" id="SNP-VE-C42"/>
                                     <constraint firstAttribute="bottom" secondItem="eNc-5f-2Al" secondAttribute="bottom" constant="10" id="UcH-p4-6YF"/>
                                     <constraint firstItem="eNc-5f-2Al" firstAttribute="width" secondItem="IJJ-TJ-6wT" secondAttribute="width" id="XKK-DW-XUa"/>
                                     <constraint firstItem="eNc-5f-2Al" firstAttribute="top" secondItem="CQZ-KX-Bgt" secondAttribute="top" constant="10" id="eEk-39-PsZ"/>
-                                    <constraint firstItem="UTD-zk-baA" firstAttribute="width" secondItem="IJJ-TJ-6wT" secondAttribute="width" id="gzR-xX-4a1"/>
-                                    <constraint firstAttribute="trailing" secondItem="UTD-zk-baA" secondAttribute="trailing" constant="15" id="rre-zn-nA7"/>
+                                    <constraint firstAttribute="trailing" secondItem="eNc-5f-2Al" secondAttribute="trailing" constant="15" id="x5G-fK-Xvc"/>
                                 </constraints>
                             </view>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TxE-DN-iPc" userLabel="等待收货">
@@ -3289,7 +3263,7 @@
                                 <rect key="frame" x="0.0" y="464" width="320" height="55"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Y0D-Ab-9cJ">
-                                        <rect key="frame" x="15" y="13" width="87" height="30"/>
+                                        <rect key="frame" x="15" y="13" width="138" height="30"/>
                                         <animations/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="wRh-CO-9CR"/>
@@ -3313,33 +3287,8 @@
                                             <action selector="viewCarCheckAction:" destination="8ch-ke-9Jk" eventType="touchUpInside" id="Tii-SH-HHh"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FHe-yP-7rr">
-                                        <rect key="frame" x="218" y="13" width="87" height="30"/>
-                                        <animations/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="30" id="GKm-hn-C9a"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                        <state key="normal" title="付款">
-                                            <color key="titleColor" red="0.98431372640000003" green="0.27450981740000002" blue="0.3058823645" alpha="1" colorSpace="calibratedRGB"/>
-                                        </state>
-                                        <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                <integer key="value" value="4"/>
-                                            </userDefinedRuntimeAttribute>
-                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
-                                                <real key="value" value="0.5"/>
-                                            </userDefinedRuntimeAttribute>
-                                            <userDefinedRuntimeAttribute type="color" keyPath="layer.borderColorWithUIColor">
-                                                <color key="value" red="1" green="0.40000000600000002" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                            </userDefinedRuntimeAttribute>
-                                        </userDefinedRuntimeAttributes>
-                                        <connections>
-                                            <action selector="payAction:" destination="8ch-ke-9Jk" eventType="touchUpInside" id="dRl-fy-iGA"/>
-                                        </connections>
-                                    </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VoA-BL-wrx">
-                                        <rect key="frame" x="117" y="13" width="86" height="30"/>
+                                        <rect key="frame" x="168" y="13" width="137" height="30"/>
                                         <animations/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="Dha-ng-bxz"/>
@@ -3367,15 +3316,12 @@
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstItem="FHe-yP-7rr" firstAttribute="leading" secondItem="VoA-BL-wrx" secondAttribute="trailing" constant="15" id="5JK-Af-EG1"/>
-                                    <constraint firstItem="FHe-yP-7rr" firstAttribute="centerY" secondItem="kRd-bI-oFv" secondAttribute="centerY" id="CAt-bs-92R"/>
+                                    <constraint firstItem="VoA-BL-wrx" firstAttribute="width" secondItem="Y0D-Ab-9cJ" secondAttribute="width" id="9qy-Ou-mBC"/>
+                                    <constraint firstAttribute="trailing" secondItem="VoA-BL-wrx" secondAttribute="trailing" constant="15" id="GMt-nD-gjS"/>
                                     <constraint firstItem="VoA-BL-wrx" firstAttribute="centerY" secondItem="kRd-bI-oFv" secondAttribute="centerY" id="HjR-eQ-jS0"/>
-                                    <constraint firstItem="VoA-BL-wrx" firstAttribute="width" secondItem="Y0D-Ab-9cJ" secondAttribute="width" id="L7K-WY-eQV"/>
-                                    <constraint firstItem="FHe-yP-7rr" firstAttribute="width" secondItem="Y0D-Ab-9cJ" secondAttribute="width" id="Uxt-e8-R6e"/>
                                     <constraint firstItem="VoA-BL-wrx" firstAttribute="leading" secondItem="Y0D-Ab-9cJ" secondAttribute="trailing" constant="15" id="cZP-6S-eNJ"/>
                                     <constraint firstItem="Y0D-Ab-9cJ" firstAttribute="leading" secondItem="kRd-bI-oFv" secondAttribute="leading" constant="15" id="fol-wp-CIl"/>
                                     <constraint firstItem="Y0D-Ab-9cJ" firstAttribute="centerY" secondItem="kRd-bI-oFv" secondAttribute="centerY" id="hpS-f1-7kW"/>
-                                    <constraint firstAttribute="trailing" secondItem="FHe-yP-7rr" secondAttribute="trailing" constant="15" id="psv-ew-pxt"/>
                                 </constraints>
                             </view>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7Xw-cu-8cP" userLabel="取消订单查看车检">
@@ -3678,33 +3624,8 @@
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RhH-LZ-8FV" userLabel="取消订单付款">
                                 <rect key="frame" x="0.0" y="464" width="320" height="55"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dev-VB-cEt">
-                                        <rect key="frame" x="168" y="13" width="137" height="30"/>
-                                        <animations/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="30" id="BR7-PW-ZeH"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                        <state key="normal" title="付款">
-                                            <color key="titleColor" red="0.98431372640000003" green="0.27450981740000002" blue="0.3058823645" alpha="1" colorSpace="calibratedRGB"/>
-                                        </state>
-                                        <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                <integer key="value" value="4"/>
-                                            </userDefinedRuntimeAttribute>
-                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
-                                                <real key="value" value="0.5"/>
-                                            </userDefinedRuntimeAttribute>
-                                            <userDefinedRuntimeAttribute type="color" keyPath="layer.borderColorWithUIColor">
-                                                <color key="value" red="1" green="0.40000000600000002" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                            </userDefinedRuntimeAttribute>
-                                        </userDefinedRuntimeAttributes>
-                                        <connections>
-                                            <action selector="payAction:" destination="8ch-ke-9Jk" eventType="touchUpInside" id="zKJ-bi-Aff"/>
-                                        </connections>
-                                    </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zhv-mx-NAO">
-                                        <rect key="frame" x="15" y="13" width="138" height="30"/>
+                                        <rect key="frame" x="15" y="13" width="290" height="30"/>
                                         <animations/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="ohr-Jf-KZG"/>
@@ -3732,11 +3653,8 @@
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="Zhv-mx-NAO" secondAttribute="trailing" constant="15" id="2hA-Ur-b6s"/>
                                     <constraint firstItem="Zhv-mx-NAO" firstAttribute="leading" secondItem="RhH-LZ-8FV" secondAttribute="leading" constant="15" id="Dkf-h3-3N0"/>
-                                    <constraint firstItem="dev-VB-cEt" firstAttribute="centerY" secondItem="RhH-LZ-8FV" secondAttribute="centerY" id="UIG-3P-90S"/>
-                                    <constraint firstItem="dev-VB-cEt" firstAttribute="width" secondItem="Zhv-mx-NAO" secondAttribute="width" id="Xdj-9s-e49"/>
-                                    <constraint firstAttribute="trailing" secondItem="dev-VB-cEt" secondAttribute="trailing" constant="15" id="mHI-g1-AFF"/>
-                                    <constraint firstItem="dev-VB-cEt" firstAttribute="leading" secondItem="Zhv-mx-NAO" secondAttribute="trailing" constant="15" id="wAA-de-JDX"/>
                                     <constraint firstItem="Zhv-mx-NAO" firstAttribute="centerY" secondItem="RhH-LZ-8FV" secondAttribute="centerY" id="yd7-Jl-ugg"/>
                                 </constraints>
                             </view>
@@ -4717,7 +4635,7 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </tableView>
                             <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7cj-nT-zGU">
-                                <rect key="frame" x="0.0" y="518" width="320" height="50"/>
+                                <rect key="frame" x="0.0" y="568" width="320" height="50"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3An-Si-pFe">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="1"/>
@@ -4796,7 +4714,7 @@
                         <constraints>
                             <constraint firstItem="4bu-eG-OmT" firstAttribute="top" secondItem="CKI-ZS-cjI" secondAttribute="bottom" constant="44" id="1mc-Gz-h2A"/>
                             <constraint firstAttribute="trailing" secondItem="4bu-eG-OmT" secondAttribute="trailing" id="6dt-cN-ZGx"/>
-                            <constraint firstAttribute="bottom" secondItem="7cj-nT-zGU" secondAttribute="bottom" id="9Us-0i-Dhd"/>
+                            <constraint firstAttribute="bottom" secondItem="7cj-nT-zGU" secondAttribute="bottom" constant="-50" id="9Us-0i-Dhd"/>
                             <constraint firstItem="4bu-eG-OmT" firstAttribute="leading" secondItem="iCb-7r-heh" secondAttribute="leading" id="A8A-XZ-pzl"/>
                             <constraint firstAttribute="trailing" secondItem="7cj-nT-zGU" secondAttribute="trailing" id="B80-ca-dA3"/>
                             <constraint firstItem="JWk-DV-ABV" firstAttribute="top" secondItem="4bu-eG-OmT" secondAttribute="bottom" id="dFa-YH-4fi"/>
@@ -4808,6 +4726,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="buttomView" destination="7cj-nT-zGU" id="l9w-O7-pGK"/>
+                        <outlet property="buttomViewButtom" destination="9Us-0i-Dhd" id="dsO-LU-n4u"/>
                         <outlet property="deleteBtn" destination="JTe-SU-exF" id="kIi-L5-1lm"/>
                         <outlet property="myTableView" destination="4bu-eG-OmT" id="7Rj-5O-oKs"/>
                         <outlet property="selectAllBtn" destination="EnI-De-cJv" id="etE-AB-WZ7"/>
@@ -5646,7 +5565,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="收货地址:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="fec-6g-0rq">
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="fec-6g-0rq">
                                                     <rect key="frame" x="15" y="0.0" width="270" height="43"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <animations/>
@@ -5658,7 +5577,7 @@
                                             <animations/>
                                         </tableViewCellContentView>
                                         <animations/>
-                                        <inset key="separatorInset" minX="15" minY="0.0" maxX="15" maxY="0.0"/>
+                                        <inset key="separatorInset" minX="15" minY="0.0" maxX="0.0" maxY="0.0"/>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="czjcell" textLabel="WVw-Nm-zGg" style="IBUITableViewCellStyleDefault" id="nFS-r1-DgA">
                                         <rect key="frame" x="0.0" y="313" width="320" height="44"/>
@@ -5701,7 +5620,7 @@
         <!--我的车辆-->
         <scene sceneID="U7n-Ro-65C">
             <objects>
-                <viewController title="我的车辆" id="CGg-qF-nna" customClass="CZJMyCarListController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="carListSBID" title="我的车辆" id="CGg-qF-nna" customClass="CZJMyCarListController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="JRr-Lm-ziZ"/>
                         <viewControllerLayoutGuide type="bottom" id="ISZ-TK-v6Y"/>
@@ -7429,7 +7348,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="9AC9A24D-9C95-45E4-8F42-F6E2ED6E14D3" width="256" height="256">
+        <image name="60C3F778-4889-48C3-9315-B5C0D258856A" width="256" height="256">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPT5YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQrLjE3OlUkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw
@@ -11918,17 +11837,17 @@ AAAAAAAEDtA
         <image name="yue_img_bj.png" width="375" height="289"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="yxJ-Kx-arp"/>
+        <segue reference="9kg-PH-ln9"/>
         <segue reference="ftO-I4-rYb"/>
         <segue reference="S3X-r2-NXJ"/>
         <segue reference="s7d-yk-Kc5"/>
-        <segue reference="e36-zy-AYm"/>
-        <segue reference="DcO-CT-9a9"/>
-        <segue reference="qf8-R0-rau"/>
-        <segue reference="qV1-hw-Cqi"/>
-        <segue reference="9kg-PH-ln9"/>
+        <segue reference="OGv-AU-DWf"/>
+        <segue reference="md8-5U-07U"/>
+        <segue reference="Eev-Mt-eBi"/>
+        <segue reference="88D-z9-9MA"/>
         <segue reference="B1X-5g-nhm"/>
         <segue reference="lel-ft-RgU"/>
-        <segue reference="88D-z9-9MA"/>
         <segue reference="Yrw-VN-Mar"/>
     </inferredMetricsTieBreakers>
 </document>

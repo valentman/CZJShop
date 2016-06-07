@@ -22,7 +22,7 @@ UITableViewDelegate
 >
 {
     BOOL isEdit;
-    CZJButtomView* buttomView;
+    __block CZJButtomView* buttomView;
     NSMutableArray* conversationAry;
 }
 @property (strong, nonatomic)UITableView* myTableView;
@@ -64,10 +64,7 @@ UITableViewDelegate
     rightBtn.titleLabel.font = SYSTEMFONT(16);
     [self.naviBarView addSubview:rightBtn];
     [rightBtn addTarget:self action:@selector(edit:) forControlEvents:UIControlEventTouchUpInside];
-    
-//    UIBarButtonItem* rightItem2 = [[UIBarButtonItem alloc]initWithTitle:@"编辑" style:UIBarButtonItemStylePlain target:self action:@selector(edit:)];
-//    self.navigationItem.rightBarButtonItem = rightItem2;
-//    [self.navigationItem.rightBarButtonItem setTintColor:BLACKCOLOR];
+
     
     self.myTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 64, PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - StatusBar_HEIGHT - NavigationBar_HEIGHT) style:UITableViewStylePlain];
     self.myTableView.tableFooterView = [[UIView alloc]init];
@@ -108,20 +105,7 @@ UITableViewDelegate
     if (conversationAry.count <= 0)
         return;
     
-    if (isEdit)
-    {
-        [UIView animateWithDuration:Duration animations:^{
-            [buttomView setPosition:CGPointMake(0, PJ_SCREEN_HEIGHT - 60) atAnchorPoint:CGPointZero];
-            [self.myTableView setSize:CGSizeMake(PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - 64 - 60)];
-        }];
-    }
-    else
-    {
-        [UIView animateWithDuration:Duration animations:^{
-            [buttomView setPosition:CGPointMake(0, PJ_SCREEN_HEIGHT) atAnchorPoint:CGPointZero];
-            [self.myTableView setSize:CGSizeMake(PJ_SCREEN_WIDTH, PJ_SCREEN_HEIGHT - 64)];
-        }];
-    }
+    [self setButtomViewShowAnimation:isEdit];
     [self.myTableView reloadData];
 }
 
@@ -300,6 +284,7 @@ UITableViewDelegate
 
 - (void)deleteMessageAction:(UIButton*)sender
 {
+    __weak typeof(self) weakSelf = self;
     BOOL isSelected = NO;
     NSMutableArray* tmpAry = [NSMutableArray array];
     for (CZJConversation* conver in conversationAry)
@@ -313,26 +298,34 @@ UITableViewDelegate
     
     if (isSelected)
     {
-        [CZJUtils tipWithText:@"删除成功" andView:nil];
-        [conversationAry removeObjectsInArray:tmpAry];
-        
-        NSMutableArray* tmpAry2 = [NSMutableArray array];
-        for (CZJConversation* conver in tmpAry)
-        {
-            [tmpAry2 addObject:conver.emConversation];
-        }
-        [[EMClient sharedClient].chatManager deleteConversations:tmpAry2 deleteMessages:YES];
-        if (conversationAry.count == 0)
-        {
-            buttomView.allChooseBtn.selected = NO;
-            buttomView.allChooseBtn.enabled = NO;
-            buttomView.buttonOne.enabled = NO;
-            buttomView.buttonTwo.enabled = NO;
-            [buttomView.buttonOne setBackgroundColor:CZJGRAYCOLOR];
-            [buttomView.buttonTwo setBackgroundColor:CZJGRAYCOLOR];
-        }
-        [[NSNotificationCenter defaultCenter]postNotificationName:kCZJNotifiRefreshMessageReadStatus object:nil];
-        [self.myTableView reloadData];
+        NSString* alertStr = [NSString stringWithFormat:@"确认删除这%ld条消息记录吗?",tmpAry.count];
+        [self showCZJAlertView:alertStr andConfirmHandler:^{
+            [CZJUtils tipWithText:@"删除成功" andView:nil];
+            [conversationAry removeObjectsInArray:tmpAry];
+            if (conversationAry.count == 0)
+            {
+                [weakSelf setButtomViewShowAnimation:NO];
+            }
+            
+            NSMutableArray* tmpAry2 = [NSMutableArray array];
+            for (CZJConversation* conver in tmpAry)
+            {
+                [tmpAry2 addObject:conver.emConversation];
+            }
+            [[EMClient sharedClient].chatManager deleteConversations:tmpAry2 deleteMessages:YES];
+            if (conversationAry.count == 0)
+            {
+                buttomView.allChooseBtn.selected = NO;
+                buttomView.allChooseBtn.enabled = NO;
+                buttomView.buttonOne.enabled = NO;
+                buttomView.buttonTwo.enabled = NO;
+                [buttomView.buttonOne setBackgroundColor:CZJGRAYCOLOR];
+                [buttomView.buttonTwo setBackgroundColor:CZJGRAYCOLOR];
+            }
+            [[NSNotificationCenter defaultCenter]postNotificationName:kCZJNotifiRefreshMessageReadStatus object:nil];
+            [weakSelf.myTableView reloadData];
+            [weakSelf hideWindow];
+        } andCancleHandler:nil];
     }
     else
     {
@@ -340,5 +333,14 @@ UITableViewDelegate
     }
 }
 
-
+- (void)setButtomViewShowAnimation:(BOOL)_isShow
+{
+    [UIView animateWithDuration:0.3 animations:^{
+        CGPoint destPt = CGPointMake(0, _isShow? PJ_SCREEN_HEIGHT - 60 : PJ_SCREEN_HEIGHT);
+        CGSize destSize = CGSizeMake(PJ_SCREEN_WIDTH, _isShow ? PJ_SCREEN_HEIGHT - 64 - 60 : PJ_SCREEN_HEIGHT - 64);
+        [buttomView setPosition:destPt atAnchorPoint:CGPointZero];
+        [self.myTableView setSize:destSize];
+    }];
+    
+}
 @end

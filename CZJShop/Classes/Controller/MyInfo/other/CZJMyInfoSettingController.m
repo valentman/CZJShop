@@ -165,10 +165,6 @@ UITableViewDataSource
             [weak hideWindow];
         } andCancleHandler:nil];
     }
-//    if (2 == indexPath.row)
-//    {
-//        [self getAppID];
-//    }
 }
 
 
@@ -230,6 +226,7 @@ UITableViewDataSource
         [USER_DEFAULT setObject:@"0" forKey:kUserDefaultShoppingCartCount];
         [USER_DEFAULT setObject:@"" forKey:kCZJDefaultCityID];
         [USER_DEFAULT setObject:@"" forKey:kCZJDefaultyCityName];
+        [USER_DEFAULT synchronize];
         
         CZJBaseDataInstance.userInfoForm = nil;
         CZJLoginModelInstance.usrBaseForm = nil;

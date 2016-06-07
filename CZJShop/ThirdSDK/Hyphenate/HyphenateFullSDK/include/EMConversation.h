@@ -52,7 +52,6 @@ typedef enum{
  */
 @interface EMConversation : NSObject
 
-
 /*!
  *  \~chinese
  *  会话唯一标识

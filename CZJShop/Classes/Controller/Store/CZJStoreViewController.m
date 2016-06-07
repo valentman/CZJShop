@@ -56,33 +56,6 @@ UITableViewDelegate
     [NSTimer timerWithTimeInterval:300 target:self selector:@selector(getStoreDataFromServer) userInfo:nil repeats:YES];
 }
 
-- (void)viewDidAppear:(BOOL)animated
-{
-    //定位刷新栏,初始显示页面时执行弹出动画
-    __weak typeof(self) weak = self;
-    if (isFirstIn) {
-        [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-            [_refreshLocationBarView setPosition:CGPointMake(30, PJ_SCREEN_HEIGHT - 85) atAnchorPoint:CGPointLeftMiddle];
-            _refreshLocationBarView.locationButton.tag = CZJViewMoveOrientationLeft;
-            _refreshLocationBarView.locationNameLabel.text = [USER_DEFAULT objectForKey:CCLastAddress];
-        } completion:^(BOOL finished) {
-            [weak justLocation];
-            if ([USER_DEFAULT objectForKey:CCLastCity])
-            {
-                [[NSNotificationCenter defaultCenter]postNotificationName:kCZJChangeCurCityName object:self userInfo:@{@"cityname" : [USER_DEFAULT objectForKey:CCLastCity]}];
-            }
-        }];
-        isFirstIn = NO;
-    }
-    self.navigationController.interactivePopGestureRecognizer.enabled = true;
-    [_pullDownMenu registNotification];
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [_pullDownMenu removeNotificationObserve];
-}
-
 - (void)initDatas
 {
     //变量数据初始
@@ -221,6 +194,34 @@ UITableViewDelegate
 {
     [_sortedStoreArys removeAllObjects];
     _sortedStoreArys = [[NSArray arrayWithArray:[CZJBaseDataInstance storeForm].storeListForms]mutableCopy];
+}
+
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    //定位刷新栏,初始显示页面时执行弹出动画
+    __weak typeof(self) weak = self;
+    if (isFirstIn) {
+        [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+            [_refreshLocationBarView setPosition:CGPointMake(30, PJ_SCREEN_HEIGHT - 85) atAnchorPoint:CGPointLeftMiddle];
+            _refreshLocationBarView.locationButton.tag = CZJViewMoveOrientationLeft;
+            _refreshLocationBarView.locationNameLabel.text = [USER_DEFAULT objectForKey:CCLastAddress];
+        } completion:^(BOOL finished) {
+            [weak justLocation];
+            if ([USER_DEFAULT objectForKey:CCLastCity])
+            {
+                [[NSNotificationCenter defaultCenter]postNotificationName:kCZJChangeCurCityName object:self userInfo:@{@"cityname" : [CZJUtils isBlankString:[USER_DEFAULT objectForKey:CCLastCity]] ? @"全部地区" : [USER_DEFAULT objectForKey:CCLastCity]}];
+            }
+        }];
+        isFirstIn = NO;
+    }
+    self.navigationController.interactivePopGestureRecognizer.enabled = true;
+    [_pullDownMenu registNotification];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [_pullDownMenu removeNotificationObserve];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -406,11 +407,6 @@ UITableViewDelegate
             [self performSelector:@selector(moveLocationBarViewOut) withObject:nil afterDelay:1.5];
         }
     }];
-}
-
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView
-{
-    
 }
 
 

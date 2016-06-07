@@ -74,9 +74,7 @@ CZJViewControllerDelegate
 - (void)viewWillAppear:(BOOL)animated
 {
     [self dealWithInitNavigationBar];
-    iLog(@"显示我的信息界面");
     if ([USER_DEFAULT boolForKey:kCZJIsUserHaveLogined]) {
-        iLog(@"登录成功请求个人数据");
         [self getMyInfoDataFromServer];
     }
     else
@@ -117,21 +115,46 @@ CZJViewControllerDelegate
 - (void)initDatas
 {
     orderSubCellAry  = [NSArray array];
-    NSMutableDictionary* dict1 = [@{@"title":@"待付款", @"buttonImage":@"my_icon_pay", @"budge":@"0", @"item":@"nopay"} mutableCopy];
-    NSMutableDictionary* dict2 = [@{@"title":@"待施工", @"buttonImage":@"my_icon_shigong", @"budge":@"0", @"item":@"nobuild"} mutableCopy];
-    NSMutableDictionary* dict3 = [@{@"title":@"待收货", @"buttonImage":@"my_icon_shouhuo", @"budge":@"0", @"item":@"noreceive"} mutableCopy];
-    NSMutableDictionary* dict4 = [@{@"title":@"待评价", @"buttonImage":@"my_icon_recommend", @"budge":@"0", @"item":@"noevaluate"} mutableCopy];
-    NSMutableDictionary* dict5 = [@{@"title":@"退换货", @"buttonImage":@"my_icon_tuihuo", @"budge":@"0", @"item":@""} mutableCopy];
-    orderSubCellAry = @[dict1,dict2,dict3,dict4,dict5];
+    NSMutableDictionary* dict1 = [@{@"title":@"待付款",
+                                    @"buttonImage":@"my_icon_pay",
+                                    @"budge":@"0",
+                                    @"item":@"nopay"} mutableCopy];
+    NSMutableDictionary* dict2 = [@{@"title":@"待施工",
+                                    @"buttonImage":@"my_icon_shigong",
+                                    @"budge":@"0",
+                                    @"item":@"nobuild"} mutableCopy];
+    NSMutableDictionary* dict3 = [@{@"title":@"待收货",
+                                    @"buttonImage":@"my_icon_shouhuo",
+                                    @"budge":@"0",
+                                    @"item":@"noreceive"} mutableCopy];
+    NSMutableDictionary* dict4 = [@{@"title":@"待评价",
+                                    @"buttonImage":@"my_icon_recommend",
+                                    @"budge":@"0",
+                                    @"item":@"noevaluate"} mutableCopy];
+    NSMutableDictionary* dict5 = [@{@"title":@"退换货",
+                                    @"buttonImage":@"my_icon_tuihuo",
+                                    @"budge":@"0",
+                                    @"item":@""} mutableCopy];
+    orderSubCellAry = @[dict1,dict2,dict4];
     
     walletSubCellAry = [NSArray array];
-    NSMutableDictionary* dict6 = [@{@"title":@"红包", @"buttonTitle":@"0.0", @"item":@"redpacket"} mutableCopy];
-    NSMutableDictionary* dict7 = [@{@"title":@"积分卡", @"buttonTitle":@"0", @"item":@"pointCard"} mutableCopy];
-    NSMutableDictionary* dict8 = [@{@"title":@"会员卡", @"buttonTitle":@"0", @"item":@"memberCard"} mutableCopy];
-    NSMutableDictionary* dict9 = [@{@"title":@"套餐卡", @"buttonTitle":@"0", @"item":@"card"} mutableCopy];
-    NSMutableDictionary* dict0 = [@{@"title":@"优惠券", @"buttonTitle":@"0", @"item":@"coupon"} mutableCopy];
+    NSMutableDictionary* dict6 = [@{@"title":@"红包",
+                                    @"buttonTitle":@"0.0",
+                                    @"item":@"redpacket"} mutableCopy];
+    NSMutableDictionary* dict7 = [@{@"title":@"积分卡",
+                                    @"buttonTitle":@"0",
+                                    @"item":@"pointCard"} mutableCopy];
+    NSMutableDictionary* dict8 = [@{@"title":@"储值卡",
+                                    @"buttonTitle":@"0",
+                                    @"item":@"memberCard"} mutableCopy];
+    NSMutableDictionary* dict9 = [@{@"title":@"套餐卡",
+                                    @"buttonTitle":@"0",
+                                    @"item":@"card"} mutableCopy];
+    NSMutableDictionary* dict0 = [@{@"title":@"优惠券",
+                                    @"buttonTitle":@"0",
+                                    @"item":@"coupon"} mutableCopy];
     
-    walletSubCellAry = @[dict6,dict7,dict8,dict9,dict0];
+    walletSubCellAry = @[dict7,dict8,dict9,dict0];
     
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(refreshTabBarDotLabel) name:kCZJNotifiRefreshMessageReadStatus object:nil];
 }
@@ -461,25 +484,25 @@ CZJViewControllerDelegate
         NSString* segueId = @"";
         switch (_currentTouchOrderListType)
         {
-            case 1:
-                segueId = @"segueToRedPacket";
-                break;
+//            case 1:
+//                segueId = @"segueToRedPacket";
+//                break;
                 
-            case 2:
+            case 1:
                 segueId = @"segueToPoint";
                 break;
                 
-            case 3:
+            case 2:
             {
                 segueId = @"segueToMemberCard";
             }
                 break;
                 
-            case 4:
+            case 3:
                 segueId = @"segueToCard";
                 break;
                 
-            case 5:
+            case 4:
                 segueId = @"segueToCoupon";
                 break;
                 

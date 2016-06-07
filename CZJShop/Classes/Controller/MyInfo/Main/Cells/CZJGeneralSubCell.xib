@@ -14,7 +14,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7HB-xi-3sy" userLabel="view1">
+                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7HB-xi-3sy" userLabel="view1">
                         <rect key="frame" x="0.0" y="0.0" width="64" height="60"/>
                         <subviews>
                             <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="characterWrap" translatesAutoresizingMaskIntoConstraints="NO" id="OHf-ua-x2s" customClass="CZJButton">
@@ -57,7 +57,7 @@
                             <constraint firstItem="OHf-ua-x2s" firstAttribute="centerX" secondItem="7HB-xi-3sy" secondAttribute="centerX" id="j7K-J6-411"/>
                         </constraints>
                     </view>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QIJ-g0-nRU" userLabel="view2">
+                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QIJ-g0-nRU" userLabel="view2">
                         <rect key="frame" x="64" y="0.0" width="64" height="60"/>
                         <subviews>
                             <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="characterWrap" translatesAutoresizingMaskIntoConstraints="NO" id="KqD-dC-I40" customClass="CZJButton">
@@ -100,7 +100,7 @@
                             <constraint firstAttribute="trailing" secondItem="KqD-dC-I40" secondAttribute="trailing" id="sMl-ls-yh8"/>
                         </constraints>
                     </view>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ew4-0b-t7n" userLabel="view3">
+                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ew4-0b-t7n" userLabel="view3">
                         <rect key="frame" x="128" y="0.0" width="64" height="60"/>
                         <subviews>
                             <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="characterWrap" translatesAutoresizingMaskIntoConstraints="NO" id="RV8-S0-uRf" customClass="CZJButton">
@@ -143,7 +143,7 @@
                             <constraint firstItem="q7y-a1-Aev" firstAttribute="centerX" secondItem="ew4-0b-t7n" secondAttribute="centerX" id="zE5-oj-8zw"/>
                         </constraints>
                     </view>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9ba-kN-Hwf" userLabel="view4">
+                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9ba-kN-Hwf" userLabel="view4">
                         <rect key="frame" x="192" y="0.0" width="64" height="60"/>
                         <subviews>
                             <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="characterWrap" translatesAutoresizingMaskIntoConstraints="NO" id="rbT-6s-tJR" customClass="CZJButton">
@@ -186,7 +186,7 @@
                             <constraint firstAttribute="trailing" secondItem="TYI-FA-ULo" secondAttribute="trailing" id="uca-cM-ULn"/>
                         </constraints>
                     </view>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GpE-63-QSY" userLabel="view5">
+                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GpE-63-QSY" userLabel="view5">
                         <rect key="frame" x="256" y="0.0" width="64" height="60"/>
                         <subviews>
                             <button opaque="NO" tag="5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="characterWrap" translatesAutoresizingMaskIntoConstraints="NO" id="k7l-gg-Pq7" customClass="CZJButton">

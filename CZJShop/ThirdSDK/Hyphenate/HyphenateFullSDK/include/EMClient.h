@@ -183,10 +183,12 @@
  */
 - (EMError *)initializeSDKWithOptions:(EMOptions *)aOptions;
 
+#pragma mark - Sync method
+
 #pragma mark - Register
 
 /*!
- *  \~chinese 
+ *  \~chinese
  *  注册用户
  *
  *  同步方法，会阻塞当前线程. 不推荐使用，建议后台通过REST注册
@@ -196,7 +198,7 @@
  *
  *  @result 错误信息
  *
- *  \~english 
+ *  \~english
  *  Register a new user
  *
  *  Synchronization method will block the current thread. It is not recommended, advise to register new user through REST API
@@ -212,7 +214,7 @@
 #pragma mark - Login
 
 /*!
- *  \~chinese 
+ *  \~chinese
  *  登录
  *
  *  同步方法，会阻塞当前线程
@@ -238,12 +240,12 @@
 #pragma makr - Logout
 
 /*!
- *  \~chinese 
+ *  \~chinese
  *  退出
  *
  *  同步方法，会阻塞当前线程
  *
- *  @param bIsUnbindDeviceToken 是否解除device token的绑定，解除绑定后设备不会再收到消息推送
+ *  @param aIsUnbindDeviceToken 是否解除device token的绑定，解除绑定后设备不会再收到消息推送
  *         如果传入YES, 解除绑定失败，将返回error
  *
  *  @result 错误信息
@@ -253,16 +255,16 @@
  *
  *  Synchronization method will block the current thread
  *
- *  @param bIsUnbindDeviceToken Whether unbind device token, device will don't receive message push after unbind token, if input YES, unbind failed will return error
+ *  @param aIsUnbindDeviceToken Whether unbind device token, device will don't receive message push after unbind token, if input YES, unbind failed will return error
  *
  *  @result Error
  */
-- (EMError *)logout:(BOOL)bIsUnbindDeviceToken;
+- (EMError *)logout:(BOOL)aIsUnbindDeviceToken;
 
 #pragma mark - Apns
 
 /*!
- *  \~chinese 
+ *  \~chinese
  *  绑定device token
  *
  *  同步方法，会阻塞当前线程
@@ -281,6 +283,27 @@
  *  @result Error
  */
 - (EMError *)bindDeviceToken:(NSData *)aDeviceToken;
+
+/*!
+ *  \~chinese
+ *  设置推送消息显示的昵称
+ *
+ *  同步方法，会阻塞当前线程
+ *
+ *  @param aNickname  要设置的昵称
+ *
+ *  @result 错误信息
+ *
+ *  \~english
+ *  Set nick name to show in push message
+ *
+ *  Synchronization method will block the current thread
+ *
+ *  @param aNickname  Nickname
+ *
+ *  @result Error
+ */
+- (EMError *)setApnsNickname:(NSString *)aNickname;
 
 /*!
  *  \~chinese 
@@ -305,27 +328,6 @@
 
 /*!
  *  \~chinese 
- *  设置推送消息显示的昵称
- *
- *  同步方法，会阻塞当前线程
- *
- *  @param aNickname  要设置的昵称
- *
- *  @result 错误信息
- *
- *  \~english
- *  Set nick name to show in push message
- *
- *  Synchronization method will block the current thread
- *
- *  @param aNickname  Nickname
- *
- *  @result Error
- */
-- (EMError *)setApnsNickname:(NSString *)aNickname;
-
-/*!
- *  \~chinese 
  *  更新推送设置到服务器
  *
  *  同步方法，会阻塞当前线程
@@ -340,6 +342,183 @@
  *  @result Error
  */
 - (EMError *)updatePushOptionsToServer;
+
+/*!
+ *  \~chinese
+ *  上传日志到服务器
+ *
+ *  同步方法，会阻塞当前线程
+ *
+ *  @result 错误信息
+ *
+ *  \~english
+ *  Upload log to server
+ *
+ *  Synchronization method will block the current thread
+ *
+ *  @result Error
+ */
+- (EMError *)uploadLogToServer;
+
+#pragma mark - Async method
+
+/*!
+ *  \~chinese
+ *  注册用户
+ *
+ *  不推荐使用，建议后台通过REST注册
+ *
+ *  @param aUsername        用户名
+ *  @param aPassword        密码
+ *  @param aSuccessBlock    成功的回调
+ *  @param aFailureBlock    失败的回调
+ *
+ *  \~english
+ *  Register a new user
+ *
+ *  It is not recommended, advise to register new user through REST API
+ *
+ *  @param aUsername        Username
+ *  @param aPassword        Password
+ *  @param aSuccessBlock    The callback block of success
+ *  @param aFailureBlock    The callback block of failure
+ *
+ */
+- (void)asyncRegisterWithUsername:(NSString *)aUsername
+                         password:(NSString *)aPassword
+                          success:(void (^)())aSuccessBlock
+                          failure:(void (^)(EMError *aError))aFailureBlock;
+
+/*!
+ *  \~chinese
+ *  登录
+ *
+ *  @param aUsername        用户名
+ *  @param aPassword        密码
+ *  @param aSuccessBlock    成功的回调
+ *  @param aFailureBlock    失败的回调
+ *
+ *  \~english
+ *  Login
+ *
+ *  @param aUsername        Username
+ *  @param aPassword        Password
+ *  @param aSuccessBlock    The callback block of success
+ *  @param aFailureBlock    The callback block of failure
+ *
+ */
+- (void)asyncLoginWithUsername:(NSString *)aUsername
+                      password:(NSString *)aPassword
+                       success:(void (^)())aSuccessBlock
+                       failure:(void (^)(EMError *aError))aFailureBlock;
+
+/*!
+ *  \~chinese
+ *  退出
+ *
+ *  @param aIsUnbindDeviceToken 是否解除device token的绑定，解除绑定后设备不会再收到消息推送
+ *         如果传入YES, 解除绑定失败，将返回error
+ *
+ *  @result 错误信息
+ *
+ *  \~english
+ *  Logout
+ *
+ *  @param aIsUnbindDeviceToken Whether unbind device token, device will don't receive message push after unbind token, if input YES, unbind failed will return error
+ *
+ *  @result Error
+ */
+- (void)asyncLogout:(BOOL)aIsUnbindDeviceToken
+            success:(void (^)())aSuccessBlock
+            failure:(void (^)(EMError *aError))aFailureBlock;
+
+/*!
+ *  \~chinese
+ *  绑定device token
+ *
+ *  @param aDeviceToken     要绑定的token
+ *  @param aSuccessBlock    成功的回调
+ *  @param aFailureBlock    失败的回调
+ *
+ *  \~english
+ *  Bind device token
+ *
+ *  @param aDeviceToken     Device token to bind
+ *  @param aSuccessBlock    The callback block of success
+ *  @param aFailureBlock    The callback block of failure
+ */
+- (void)asyncBindDeviceToken:(NSData *)aDeviceToken
+                     success:(void (^)())aSuccessBlock
+                     failure:(void (^)(EMError *aError))aFailureBlock;
+
+/*!
+ *  \~chinese
+ *  设置推送消息显示的昵称
+ *
+ *  @param aNickname        要设置的昵称
+ *  @param aSuccessBlock    成功的回调
+ *  @param aFailureBlock    失败的回调
+ *
+ *  \~english
+ *  Set nick name to show in push message
+ *
+ *  @param aNickname        Nickname
+ *  @param aSuccessBlock    The callback block of success
+ *  @param aFailureBlock    The callback block of failure
+ *
+ */
+- (void)asyncSetApnsNickname:(NSString *)aNickname
+                     success:(void (^)())aSuccessBlock
+                     failure:(void (^)(EMError *aError))aFailureBlock;
+
+/*!
+ *  \~chinese
+ *  从服务器获取推送属性
+ *
+ *  @param aSuccessBlock    成功的回调
+ *  @param aFailureBlock    失败的回调
+ *
+ *  \~english
+ *  Get apns options from the server
+ *
+ *  @param aSuccessBlock    The callback block of success
+ *  @param aFailureBlock    The callback block of failure
+ */
+- (void)asyncGetPushOptionsFromServer:(void (^)(EMPushOptions *))aSuccessBlock
+                              failure:(void (^)(EMError *aError))aFailureBlock;
+
+/*!
+ *  \~chinese
+ *  更新推送设置到服务器
+ *
+ *  @param aSuccessBlock    成功的回调
+ *  @param aFailureBlock    失败的回调
+ *
+ *  \~english
+ *  Update APNS options to the server
+ *
+ *  @param aSuccessBlock    The callback block of success
+ *  @param aFailureBlock    The callback block of failure
+ *
+ */
+- (void)asyncUpdatePushOptionsToServer:(void (^)())aSuccessBlock
+                               failure:(void (^)(EMError *aError))aFailureBlock;
+
+/*!
+ *  \~chinese
+ *  上传日志到服务器
+ *
+ *  @param aSuccessBlock    成功的回调
+ *  @param aFailureBlock    失败的回调
+ *
+ *  \~english
+ *  Upload log to server
+ *
+ *  @param aSuccessBlock    The callback block of success
+ *  @param aFailureBlock    The callback block of failure
+ */
+- (void)asyncUploadLogToServer:(void (^)())aSuccessBlock
+                       failure:(void (^)(EMError *aError))aFailureBlock;
 
 #pragma mark - iOS
 
@@ -389,5 +568,6 @@
  *  @param aApplication  UIApplication
  */
 - (void)applicationWillEnterForeground:(id)aApplication;
+
 
 @end

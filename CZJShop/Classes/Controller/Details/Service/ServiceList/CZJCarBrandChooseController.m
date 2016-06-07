@@ -41,7 +41,7 @@ UITableViewDelegate
 
 - (void)initTableView
 {
-    self.title = @"选择车辆";
+    self.title = @"选择品牌";
     
     if (_carlistType == CZJCarListTypeGeneral)
     {

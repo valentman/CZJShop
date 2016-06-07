@@ -42,7 +42,7 @@ UITableViewDataSource
 
 - (void)getTableView:(NSInteger)itemCount
 {
-    self.myTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 150, PJ_SCREEN_WIDTH- 20, itemCount* 30) style:UITableViewStylePlain];
+    self.myTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 150, PJ_SCREEN_WIDTH- 20, itemCount* 25) style:UITableViewStylePlain];
     self.myTableView.tableFooterView = [[UIView alloc]init];
     self.myTableView.delegate = self;
     self.myTableView.dataSource = self;
@@ -97,7 +97,7 @@ UITableViewDataSource
 #pragma mark-UITableViewDelegate
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 30;
+    return 25;
 }
 
 @end

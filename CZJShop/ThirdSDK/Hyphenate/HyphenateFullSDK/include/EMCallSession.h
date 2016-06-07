@@ -329,9 +329,26 @@ typedef enum{
  *  \~chinese
  *  停止录制视频
  *
+ *  @result 录制视频的路径
+ *
  *  \~english
  *  Stop recording video
+ *
+ *  @result path of record file
  */
 - (NSString *)stopVideoRecord;
+
+/*!
+ *  \~chinese
+ *  设置使用前置摄像头还是后置摄像头,默认使用前置摄像头
+ *
+ *  @param  isFont    是否使用前置摄像头,YES使用前置,NO使用后置
+ *
+ *  \~english
+ *  Use front camera or back camera,default use front
+ *
+ *  @param  isFont    Weather use front camera or not,Yes is Front,No is Back
+ */
+- (void)setCameraBackOrFront:(BOOL)isFont;
 
 @end

@@ -58,6 +58,7 @@ UITableViewDelegate
 @property (assign) BOOL isEdit;
 @property (weak, nonatomic) IBOutlet UIButton *deleteBtn;
 
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *buttomViewButtom;
 
 - (IBAction)deleteAction:(id)sender;
 - (IBAction)selectAllAction:(id)sender;
@@ -83,7 +84,7 @@ UITableViewDelegate
     _isServiceTouched = NO;
     _isGoodsTouched = NO;
     _isStoreTouched = NO;
-    self.buttomView.hidden = !_isEdit;
+//    self.buttomView.hidden = !_isEdit;
     
     pageService = 1;
     pageGoods = 1;
@@ -272,7 +273,7 @@ UITableViewDelegate
         {
             self.myTableView.hidden = YES;
             [CZJUtils showNoDataAlertViewOnTarget:self.view withPromptString:prompStr];
-            self.buttomView.hidden = YES;
+            [self setButtomViewShowAnimation:NO];
         }
         else
         {
@@ -286,6 +287,7 @@ UITableViewDelegate
                 if (weak.isEdit)
                 {
                     [weak pitchOn];
+                    [weak setButtomViewShowAnimation:YES];
                 }
             }
             VIEWWITHTAG(self.naviBarView, 1999).hidden = tmpArray.count == 0 ? YES : NO;
@@ -309,8 +311,8 @@ UITableViewDelegate
     UIButton* itemButton = (UIButton*)sender;
     itemButton.selected = !itemButton.selected;
     self.isEdit = !self.isEdit;
-    self.buttomView.hidden = !self.isEdit;
-    DLog(@"self.myTableView reloadData");
+    [self setButtomViewShowAnimation:self.isEdit];
+    
     [self.myTableView reloadData];
     if (self.isEdit)
     {
@@ -390,9 +392,14 @@ UITableViewDelegate
         cell.attentionCountLabel.text = form.attentionCount;
         cell.attentionCountLayoutWidth.constant = attentionSize.width + 5;
         cell.selectBtn.selected = form.isSelected;
-        [UIView animateWithDuration:1.0 delay:0.1 options:UIViewAnimationOptionCurveLinear animations:^{
-            cell.viewLayoutLeading.constant = self.isEdit ? 30 : 0;
-        } completion:nil];
+        
+        [cell layoutIfNeeded];
+        [UIView animateWithDuration:0.35 animations:^{
+            cell.viewLayoutLeading.constant = _isEdit? 30 : 0;
+            [cell layoutIfNeeded];
+        } completion:^(BOOL finished) {
+        }];
+        
         [cell setSeparatorViewHidden:NO];
         return cell;
     }
@@ -412,9 +419,14 @@ UITableViewDelegate
         cell.goodNameLayoutHeight.constant = nameSize.height > 18 ? 36 : 18;
         cell.priceLabel.text = form.currentPrice;
         cell.selectBtn.selected = form.isSelected;
-        [UIView animateWithDuration:1.0 delay:0.1 options:UIViewAnimationOptionCurveLinear animations:^{
-            cell.viewLayoutLeading.constant = self.isEdit ? 30 : 0;
-        } completion:nil];
+
+        
+        [cell layoutIfNeeded];
+        [UIView animateWithDuration:0.35 animations:^{
+            cell.viewLayoutLeading.constant = _isEdit? 30 : 0;
+            [cell layoutIfNeeded];
+        } completion:^(BOOL finished) {
+        }];
 
         return cell;
     }
@@ -488,7 +500,8 @@ UITableViewDelegate
     self.myTableView.hidden = YES;
     self.isEdit = NO;
     ((UIButton*)VIEWWITHTAG(self.naviBarView, 1999)).selected = NO;
-    self.buttomView.hidden = !_isEdit;
+//    self.buttomView.hidden = !_isEdit;
+    [self setButtomViewShowAnimation:_isEdit];
     if (1 == index)
     {
         _currentType = [NSString stringWithFormat:@"%lu",index - 1];
@@ -594,26 +607,24 @@ UITableViewDelegate
         NSString* alertStr;
         if (0 == [_currentType integerValue])
         {
-            alertStr = @"商品";
+            alertStr = [NSString stringWithFormat:@"确认要取消关注这%ld种%@吗?",deleteIdAry.count,@"商品"];
         }
         if (1 == [_currentType integerValue])
         {
-            alertStr = @"服务";
+            alertStr = [NSString stringWithFormat:@"确认要取消关注这%ld种%@吗?",deleteIdAry.count,@"服务"];
         }
         if (2 == [_currentType integerValue])
         {
-            alertStr = @"门店";
+            alertStr = [NSString stringWithFormat:@"确认要取消关注这%ld个%@吗?",deleteIdAry.count,@"门店"];
         }
-        [self showCZJAlertView:[NSString stringWithFormat:@"确认要取消关注这%ld个%@吗?",deleteIdAry.count,alertStr] andConfirmHandler:^{
+        [self showCZJAlertView:alertStr andConfirmHandler:^{
             [CZJBaseDataInstance cancleAttentionList:params Success:^(id json) {
                 [deleteIdAry removeAllObjects];
                 [weakSelf getDataAttentionDataFromServer];
-            } fail:^{
-                
-            }];
-        } andCancleHandler:^{
-            
-        }];
+                [weakSelf hideWindow];
+                [CZJUtils tipWithText:@"取消成功" andView:nil];
+            } fail:nil];
+        } andCancleHandler:nil];
         
     }
 }
@@ -637,5 +648,18 @@ UITableViewDelegate
     [self pitchOn];
     DLog(@"self.myTableView reloadData");
     [self.myTableView reloadData];
+}
+
+- (void)setButtomViewShowAnimation:(BOOL)_isShow
+{
+    __weak typeof(self) weakSelf = self;
+    [self.view layoutIfNeeded];
+    [UIView animateWithDuration:0.35 animations:^{
+        //遍历查找view的heigh约束，并修改它
+        weakSelf.buttomViewButtom.constant = _isShow ? 0 : -50;
+        //更新约束  在某个时刻约束会被还原成frame使视图显示
+        [weakSelf.view layoutIfNeeded];
+    } completion:^(BOOL finished) {
+    }];
 }
 @end

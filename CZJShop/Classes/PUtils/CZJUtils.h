@@ -8,8 +8,6 @@
 
 #import <Foundation/Foundation.h>
 #import "CZJDateTime.h"
-
-
 @interface CZJUtils : NSObject
 #pragma mark- Zhouxin
 //---------------------------数据解析-----------------------------
@@ -174,4 +172,6 @@
 
 //大图预览
 + (void)showDetailInfoWithIndex:(NSInteger)index withImgAry:(NSArray*)imgs onTarget:(UIViewController*)target;
+
++ (BOOL)isCanSIMCardAvaiable;
 @end

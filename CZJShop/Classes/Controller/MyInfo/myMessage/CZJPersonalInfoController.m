@@ -49,7 +49,8 @@ VPImageCropperDelegate
     isFromServer = YES;
     
     //昵称
-    nameTextField = [[UITextField alloc]initWithFrame:CGRectMake(PJ_SCREEN_WIDTH - 200 - 15, 15, 200, 21)];
+    nameTextField = [[UITextField alloc]initWithFrame:CGRectMake(100, 15, PJ_SCREEN_WIDTH - 100 - 15, 21)];
+    nameTextField.placeholder = @"输入真是姓名便于更好的联系";
     nameTextField.textAlignment = NSTextAlignmentRight;
     nameTextField.font = SYSTEMFONT(14);
     nameTextField.textColor = [UIColor darkTextColor];
@@ -131,12 +132,16 @@ VPImageCropperDelegate
     }
     
     //隐藏车辆cell的分割线（但貌似不行）
-    UITableViewCell* cell2 = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:1]];
-    UILabel* carManageLabel = [[UILabel alloc]initWithFrame:CGRectMake(15, 12, 100, 20)];
-    carManageLabel.font = SYSTEMFONT(14);
-    carManageLabel.text = @"车辆管理:";
-    carManageLabel.textColor = RGB(153, 153, 153);
-    [cell2 addSubview:carManageLabel];
+    UITableViewCell* cell2 = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:1]];
+    if (!VIEWWITHTAG(cell2, 9001))
+    {
+        UILabel* carManageLabel = [[UILabel alloc]initWithFrame:CGRectMake(15, 12, 100, 20)];
+        carManageLabel.font = SYSTEMFONT(14);
+        carManageLabel.text = @"车辆管理:";
+        carManageLabel.textColor = RGB(153, 153, 153);
+        [cell2 addSubview:carManageLabel];
+        carManageLabel.tag = 9001;
+    }
     
     cell2.separatorInset = IndentCellSeparator(PJ_SCREEN_WIDTH*0.5);
 }
@@ -176,13 +181,14 @@ VPImageCropperDelegate
     }
     if (0 == indexPath.row && 1 == indexPath.section)
     {
-        CZJDeliveryAddrController* deliveryVC = (CZJDeliveryAddrController*)[CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:@"deliveryAddrSBID"];
-        [self.navigationController pushViewController:deliveryVC animated:true];
+//        CZJDeliveryAddrController* deliveryVC = (CZJDeliveryAddrController*)[CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:@"deliveryAddrSBID"];
+        CZJMyCarListController* carList = (CZJMyCarListController*)[CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:@"carListSBID"];
+        [self.navigationController pushViewController:carList animated:true];
         
     }
     if (1 == indexPath.section && 1 == indexPath.row)
     {
-//        CZJMyCarListController* carList = [CZJMyCarListController alloc]
+        
     }
 }
 

@@ -88,6 +88,36 @@
  */
 - (NSArray *)getContactsFromDB;
 
+#pragma mark - Black List
+
+/*!
+ *  \~chinese
+ *  从内存中获取黑名单列表
+ *
+ *  @result 黑名单列表<NSString>
+ *
+ *  \~english
+ *  Get the blacklist from memory
+ *
+ *  @result Blacklist<EMGroup>
+ */
+- (NSArray *)getBlackList;
+
+/*!
+ *  \~chinese
+ *  从数据库获取黑名单列表
+ *
+ *  @return 黑名单列表<NSString>
+ *
+ *  \~english
+ *  Get the blacklist from the DB
+ *
+ *  @return Blacklist<NSString>
+ */
+- (NSArray *)getBlackListFromDB;
+
+#pragma mark - Sync method
+
 /*!
  *  \~chinese
  *  从服务器获取所有的好友
@@ -155,32 +185,6 @@
 - (EMError *)deleteContact:(NSString *)aUsername;
 
 #pragma mark - Block List
-
-/*!
- *  \~chinese
- *  从内存中获取黑名单列表
- *
- *  @result 黑名单列表<NSString>
- *
- *  \~english
- *  Get the blacklist from memory
- *
- *  @result Blacklist<EMGroup>
- */
-- (NSArray *)getBlackList;
-
-/*!
- *  \~chinese
- *  从数据库获取黑名单列表
- *
- *  @return 黑名单列表<NSString>
- *
- *  \~english
- *  Get the blacklist from the DB
- *
- *  @return Blacklist<NSString>
- */
-- (NSArray *)getBlackListFromDB;
 
 /*!
  *  \~chinese
@@ -291,5 +295,167 @@
  *  @return Error
  */
 - (EMError *)declineInvitationForUsername:(NSString *)aUsername;
+
+#pragma mark - Async method
+
+/*!
+ *  \~chinese
+ *  从服务器获取所有的好友
+ *
+ *  @param aSuccessBlock    成功的回调
+ *  @param aFailureBlock    失败的回调
+ *
+ *  \~english
+ *  Get all the friends from the server
+ *
+ *  @param aSuccessBlock    The callback block of success
+ *  @param aFailureBlock    The callback block of failure
+ *
+ */
+- (void)asyncGetContactsFromServer:(void (^)(NSArray *aList))aSuccessBlock
+                           failure:(void (^)(EMError *aError))aFailureBlock;
+
+/*!
+ *  \~chinese
+ *  添加好友
+ *
+ *  @param aUsername        要添加的用户
+ *  @param aMessage         邀请信息
+ *  @param aSuccessBlock    成功的回调
+ *  @param aFailureBlock    失败的回调
+ *
+ *  \~english
+ *  Add a contact
+ *
+ *  @param aUsername        The user to add
+ *  @param aMessage         Friend invitation message
+ *  @param aSuccessBlock    The callback block of success
+ *  @param aFailureBlock    The callback block of failure
+ *
+ */
+- (void)asyncAddContact:(NSString *)aUsername
+                message:(NSString *)aMessage
+                success:(void (^)())aSuccessBlock
+                failure:(void (^)(EMError *aError))aFailureBlock;
+
+/*!
+ *  \~chinese
+ *  删除好友
+ *
+ *  @param aUsername        要删除的好友
+ *  @param aSuccessBlock    成功的回调
+ *  @param aFailureBlock    失败的回调
+ *
+ *  \~english
+ *  Delete friend
+ *
+ *  @param aUsername        The user to delete
+ *  @param aSuccessBlock    The callback block of success
+ *  @param aFailureBlock    The callback block of failure
+ *
+ */
+- (void)asyncDeleteContact:(NSString *)aUsername
+                   success:(void (^)())aSuccessBlock
+                   failure:(void (^)(EMError *aError))aFailureBlock;
+
+/*!
+ *  \~chinese
+ *  从服务器获取黑名单列表
+ *
+ *  @param aSuccessBlock    成功的回调
+ *  @param aFailureBlock    失败的回调
+ *
+ *  \~english
+ *  Get the blacklist from the server
+ *
+ *  @param aSuccessBlock    The callback block of success
+ *  @param aFailureBlock    The callback block of failure
+ *
+ */
+- (void)asyncGetBlackListFromServer:(void (^)(NSArray *aList))aSuccessBlock
+                            failure:(void (^)(EMError *aError))aFailureBlock;
+
+/*!
+ *  \~chinese
+ *  将用户加入黑名单
+ *
+ *  @param aUsername        要加入黑命单的用户
+ *  @param aBoth            是否同时屏蔽发给对方的消息
+ *  @param aSuccessBlock    成功的回调
+ *  @param aFailureBlock    失败的回调
+ *
+ *  \~english
+ *  Add user to blacklist
+ *
+ *  @param aUsername        The user to add
+ *  @param aBoth            Whether block messages from me to the user which is added to the black list
+ *  @param aSuccessBlock    The callback block of success
+ *  @param aFailureBlock    The callback block of failure
+ *
+ */
+- (void)asyncAddUserToBlackList:(NSString *)aUsername
+               relationshipBoth:(BOOL)aBoth
+                        success:(void (^)())aSuccessBlock
+                        failure:(void (^)(EMError *aError))aFailureBlock;
+
+/*!
+ *  \~chinese
+ *  将用户移出黑名单
+ *
+ *  @param aUsername        要移出黑命单的用户
+ *  @param aSuccessBlock    成功的回调
+ *  @param aFailureBlock    失败的回调
+ *
+ *  \~english
+ *  Remove user from blacklist
+ *
+ *  @param aUsername        The user to remove from blacklist
+ *  @param aSuccessBlock    The callback block of success
+ *  @param aFailureBlock    The callback block of failure
+ *
+ */
+- (void)asyncRemoveUserFromBlackList:(NSString *)aUsername
+                             success:(void (^)())aSuccessBlock
+                             failure:(void (^)(EMError *aError))aFailureBlock;
+
+/*!
+ *  \~chinese
+ *  同意加好友的申请
+ *
+ *  @param aUsername        申请者
+ *  @param aSuccessBlock    成功的回调
+ *  @param aFailureBlock    失败的回调
+ *
+ *  \~english
+ *  Agree invitation
+ *
+ *  @param aUsername        Applicants
+ *  @param aSuccessBlock    The callback block of success
+ *  @param aFailureBlock    The callback block of failure
+ *
+ */
+- (void)asyncAcceptInvitationForUsername:(NSString *)aUsername
+                                 success:(void (^)())aSuccessBlock
+                                 failure:(void (^)(EMError *aError))aFailureBlock;
+
+/*!
+ *  \~chinese
+ *  拒绝加好友的申请
+ *
+ *  @param aUsername        申请者
+ *  @param aSuccessBlock    成功的回调
+ *  @param aFailureBlock    失败的回调
+ *
+ *  \~english
+ *  Decline invitation
+ *
+ *  @param aUsername        Applicants
+ *  @param aSuccessBlock    The callback block of success
+ *  @param aFailureBlock    The callback block of failure
+ *
+ */
+- (void)asyncDeclineInvitationForUsername:(NSString *)aUsername
+                                  success:(void (^)())aSuccessBlock
+                                  failure:(void (^)(EMError *aError))aFailureBlock;
 
 @end
