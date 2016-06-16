@@ -86,6 +86,7 @@
 + (void)showSearchView:(UIViewController*)target andNaviBar:(UIView*)naviBar;
 + (void)removeSearchVCFromCurrent:(UIViewController*)target;
 //登录界面和购物车界面的共通处理
++ (BOOL)isLoginIn:(UIViewController*)target andNaviBar:(UIView*)naviBar;
 + (void)showLoginView:(UIViewController*)target andNaviBar:(UIView*)naviBar;
 + (void)removeLoginViewFromCurrent:(UIViewController*)target;
 + (void)showCommitOrderView:(UIViewController *)target andParams:(NSArray*)_settleOrderAry;

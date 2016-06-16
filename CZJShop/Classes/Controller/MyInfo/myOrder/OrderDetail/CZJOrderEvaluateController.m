@@ -135,7 +135,7 @@ CZJStarRateViewDelegate
         NSDictionary* dicts = [CZJUtils DataFromJson:json];
         MBProgressHUD* hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         hud.mode = MBProgressHUDModeText;
-        hud.labelText = [dicts valueForKey:@"msg"];
+        hud.labelText = @"感谢发表";
         [hud hide:YES afterDelay:1.5];
         hud.completionBlock = ^{
             [[NSNotificationCenter defaultCenter] postNotificationName:kCZJNotifiRefreshOrderlist object:nil];

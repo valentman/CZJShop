@@ -729,6 +729,19 @@ void tapToHidePopViewAction(id sender, SEL _cmd)
 }
 
 
++ (BOOL)isLoginIn:(CZJViewController*)target andNaviBar:(CZJNaviagtionBarView*)naviBar
+{
+    if ([USER_DEFAULT boolForKey:kCZJIsUserHaveLogined])
+    {
+        return YES;
+    }
+    else
+    {
+        [self showLoginView:target andNaviBar:nil];
+        return NO;
+    }
+}
+
 + (void)showLoginView:(CZJViewController*)target andNaviBar:(CZJNaviagtionBarView*)naviBar
 {
     //由storyboard根据LoginView获取到登录界面

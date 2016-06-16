@@ -401,7 +401,7 @@
     
     
     //--------------------9.开启帧数显示------------------
-    [KMCGeigerCounter sharedGeigerCounter].enabled = false;
+    [KMCGeigerCounter sharedGeigerCounter].enabled = NO;
     
     
     //-------------------10.崩溃收集接口---------------

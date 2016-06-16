@@ -1324,7 +1324,7 @@ CZJChooseProductTypeDelegate
 - (void)buyNow
 {
     [_settleOrderAry removeAllObjects];
-    if ([USER_DEFAULT boolForKey:kCZJIsUserHaveLogined])
+    if ([CZJUtils isLoginIn:self andNaviBar:self.naviBarView])
     {
         NSDictionary* itemDict = @{@"itemCode" : goodsDetailForm.goods.itemCode,
                                    @"storeItemPid" : goodsDetailForm.goods.storeItemPid,
@@ -1350,10 +1350,6 @@ CZJChooseProductTypeDelegate
         
         [CZJUtils showCommitOrderView:self andParams:_settleOrderAry];
     }
-    else
-    {
-        [CZJUtils showLoginView:self andNaviBar:self.naviBarView];
-    }
 }
 
 - (IBAction)addProductToShoppingCartAction:(id)sender
@@ -1376,7 +1372,7 @@ CZJChooseProductTypeDelegate
 
 - (void)addGoodsToShoppingCart
 {
-    if ([USER_DEFAULT boolForKey:kCZJIsUserHaveLogined])
+    if ([CZJUtils isLoginIn:self andNaviBar:self.naviBarView])
     {
         NSDictionary* pramas = @{@"companyId" : _goodsDetail.companyId ? _goodsDetail.companyId : @"",
                                  @"storeId" : _goodsDetail.storeId,
@@ -1424,10 +1420,6 @@ CZJChooseProductTypeDelegate
             
         }];
     }
-    else
-    {
-        [CZJUtils showLoginView:self andNaviBar:self.naviBarView];
-    }
 }
 
 
@@ -1471,17 +1463,13 @@ CZJChooseProductTypeDelegate
 
 - (IBAction)contactServiceAction:(id)sender
 {
-    if ([USER_DEFAULT boolForKey:kCZJIsUserHaveLogined])
+    if ([CZJUtils isLoginIn:self andNaviBar:nil])
     {
         CZJChatViewController *chatController = [[CZJChatViewController alloc] initWithConversationChatter: _storeInfo.contactAccount conversationType:EMConversationTypeChat];
         chatController.storeName = _storeInfo.storeName;
         chatController.storeId = _storeInfo.storeId;
         chatController.storeImg = _storeInfo.logo;
         [self.navigationController pushViewController:chatController animated:YES];
-    }
-    else
-    {
-        [CZJUtils showLoginView:self andNaviBar:nil];
     }
 }
 

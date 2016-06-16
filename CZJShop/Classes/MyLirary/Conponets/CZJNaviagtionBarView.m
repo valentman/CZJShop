@@ -328,14 +328,10 @@
     
     switch (touchBt.tag) {
         case CZJButtonTypeHomeShopping:
-            if ([USER_DEFAULT boolForKey:kCZJIsUserHaveLogined])
+            if ([CZJUtils isLoginIn:(UIViewController*)_delegate andNaviBar:self])
             {
                 CZJShoppingCartController* shoppingCart = (CZJShoppingCartController*)[CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:@"SBIDShoppingCart"];
                 [((UIViewController*)_delegate).navigationController pushViewController:shoppingCart animated:YES];
-            }
-            else
-            {
-                [CZJUtils showLoginView:(UIViewController*)_delegate andNaviBar:self];
             }
             break;
             

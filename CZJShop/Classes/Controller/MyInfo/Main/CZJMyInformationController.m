@@ -429,24 +429,28 @@ CZJViewControllerDelegate
     if (indexPath.section == 2)
     {
         if (indexPath.row == 0) {
-//            segueIdentifer = @"segueToShare";
-            CZJChatViewController *chatController = [[CZJChatViewController alloc] initWithConversationChatter: CZJBaseDataInstance.userInfoForm.kefuId conversationType:EMConversationTypeChat];
-            chatController.storeName = @"车之健客服";
-            chatController.storeId = @"";
-            chatController.storeImg = CZJBaseDataInstance.userInfoForm.kefuHead;
-            chatController.hidesBottomBarWhenPushed = YES;
-            [self.navigationController pushViewController:chatController animated:YES];
+            //如果没有登录则进入登录页面
+            if ([CZJUtils isLoginIn:self andNaviBar:nil])
+            {
+                CZJChatViewController *chatController = [[CZJChatViewController alloc] initWithConversationChatter: CZJBaseDataInstance.userInfoForm.kefuId conversationType:EMConversationTypeChat];
+                chatController.storeName = @"车之健客服";
+                chatController.storeId = @"";
+                chatController.storeImg = CZJBaseDataInstance.userInfoForm.kefuHead;
+                chatController.hidesBottomBarWhenPushed = YES;
+                [self.navigationController pushViewController:chatController animated:YES];
+            }
         }
         else
         {
-//            segueIdentifer = @"segueToInputCode";
-            [CZJUtils callHotLine:myInfoForm.hotline AndTarget:self.view];
+            if ([CZJUtils isLoginIn:self andNaviBar:nil])
+            {
+                [CZJUtils callHotLine:myInfoForm.hotline AndTarget:self.view];
+            }
         }
     }
     if (indexPath.section == 3)
     {
         if (indexPath.row == 0) {
-//            segueIdentifer = @"segueToOpinionFeedback";
             CZJOpinioFeedbackController* opinionVC = (CZJOpinioFeedbackController*)[CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:@"OpinionFeedBackSBID"];
             opinionVC.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:opinionVC animated:YES];
@@ -484,10 +488,6 @@ CZJViewControllerDelegate
         NSString* segueId = @"";
         switch (_currentTouchOrderListType)
         {
-//            case 1:
-//                segueId = @"segueToRedPacket";
-//                break;
-                
             case 1:
                 segueId = @"segueToPoint";
                 break;
@@ -528,15 +528,8 @@ CZJViewControllerDelegate
     {
         case 0:
         {
+            //浏览记录
             [self performSegueWithIdentifier:@"segutToRecord" sender:self];
-            //如果没有登录则进入登录页面
-//            if (![USER_DEFAULT boolForKey:kCZJIsUserHaveLogined])
-//            {
-//                [CZJUtils showLoginView:self andNaviBar:nil];
-//                return;
-//            }
-//            UIViewController *shoppingcart = [CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:@"SBIDShoppingCart"];
-//            [self.navigationController pushViewController:shoppingcart animated:true];
         }
             break;
         case 1:
@@ -567,8 +560,6 @@ CZJViewControllerDelegate
         //浏览记录
         [self performSegueWithIdentifier:@"segutToRecord" sender:self];
     }
-    
-    
 }
 
 #pragma mark- CZJViewControllerDelegate
@@ -585,15 +576,10 @@ CZJViewControllerDelegate
 - (void)performSegueWithIdentifier:(NSString *)identifier sender:(id)sender
 {
     //如果没有登录则进入登录页面
-    if ([USER_DEFAULT boolForKey:kCZJIsUserHaveLogined] ||
-        [identifier isEqualToString:@"segueToSetting"])
+    if ([identifier isEqualToString:@"segueToSetting"] ||
+        [CZJUtils isLoginIn:self andNaviBar:nil])
     {
         [super performSegueWithIdentifier:identifier sender:sender];
-    }
-    else
-    {
-        [CZJUtils showLoginView:self andNaviBar:nil];
-        return;
     }
 }
 

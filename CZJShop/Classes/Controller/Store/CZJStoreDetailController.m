@@ -1060,7 +1060,7 @@ MKMapViewDelegate
 #pragma mark- Actions
 - (IBAction)contactServiceAction:(id)sender
 {
-    if ([USER_DEFAULT boolForKey:kCZJIsUserHaveLogined])
+    if ([CZJUtils isLoginIn:self andNaviBar:nil])
     {
         CZJChatViewController *chatController = [[CZJChatViewController alloc] initWithConversationChatter: _storeDetailForm.contactAccount conversationType:EMConversationTypeChat];
         chatController.storeName = _storeDetailForm.storeName;
@@ -1068,11 +1068,6 @@ MKMapViewDelegate
         chatController.storeImg = _imgsArray.firstObject;
         [self.navigationController pushViewController:chatController animated:YES];
     }
-    else
-    {
-        [CZJUtils showLoginView:self andNaviBar:nil];
-    }
-    
 }
 
 

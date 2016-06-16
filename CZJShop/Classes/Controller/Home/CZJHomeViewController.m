@@ -887,7 +887,7 @@ CZJMiaoShaCellDelegate
     [CZJBaseDataInstance generalPost:nil success:^(id json) {
         DLog(@"version:%@",[[CZJUtils DataFromJson:json] description]);
         versionForm = [CZJVersionForm objectWithKeyValues:[[CZJUtils DataFromJson:json]valueForKey:@"msg"]];
-        [weakSelft checkUpdate:versionForm.version];
+        [weakSelft checkUpdate:versionForm.versionNo];
         
         [CZJUtils writeDictionaryToDocumentsDirectory:[[CZJUtils DataFromJson:json]valueForKey:@"msg"] withPlistName:@"checkVersion.plist"];
     } fail:^{
@@ -899,13 +899,13 @@ CZJMiaoShaCellDelegate
     
     //获取bundle里面关于当前版本的信息
     NSDictionary *infoDict = [[NSBundle mainBundle] infoDictionary];
-    NSString *nowVersion = [infoDict objectForKey:@"CFBundleShortVersionString"];
+    NSString *nowVersion = [infoDict objectForKey:@"CFBundleVersion"];
     NSLog(@"nowVersion == %@",nowVersion);
     [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
     
     NSString* messge = @"亲，版本已升级，请立即更新吧~";
-    //检查当前版本与appstore的版本是否一致
-    if (![versionFromAppStroe isEqualToString:nowVersion])
+    //检查当前版本版本号是否小于服务器的版本号，如果是，则更新
+    if ([versionFromAppStroe integerValue]  > [nowVersion integerValue])
     {
         UIAlertView *createUserResponseAlert;
         if ([versionForm.enforce boolValue])

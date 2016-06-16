@@ -162,7 +162,7 @@ DZNEmptyDataSetDelegate
 
 - (void)toSettleOrder:(NSArray*)_settleOrderAry andCouponUsable:(BOOL)couponUseable
 {
-    if ([USER_DEFAULT boolForKey:kCZJIsUserHaveLogined])
+    if ([CZJUtils isLoginIn:self andNaviBar:self.naviBarView])
     {
         UINavigationController* commitVC = (UINavigationController*)[CZJUtils getViewControllerFromStoryboard:kCZJStoryBoardFileMain andVCName:@"OrderSettleNavi"];
         CZJCommitOrderController* settleOrder = ((CZJCommitOrderController*)commitVC.topViewController);
@@ -170,10 +170,6 @@ DZNEmptyDataSetDelegate
         settleOrder.isUseCouponAble = couponUseable;
         settleOrder.detaiViewType = CZJDetailTypeService;
         [self presentViewController:commitVC animated:YES completion:nil];
-    }
-    else
-    {
-        [CZJUtils showLoginView:self andNaviBar:self.naviBarView];
     }
 }
 

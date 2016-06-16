@@ -1402,7 +1402,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <animations/>
                         <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
-                        <color key="separatorColor" patternImage="60C3F778-4889-48C3-9315-B5C0D258856A" colorSpace="pattern"/>
+                        <color key="separatorColor" patternImage="39E8BFB9-2147-4F6F-91BA-1F14A4B6ECDE" colorSpace="pattern"/>
                         <inset key="separatorInset" minX="15" minY="0.0" maxX="15" maxY="0.0"/>
                         <sections>
                             <tableViewSection id="t6n-nw-cfg" userLabel="Activity">
@@ -7348,7 +7348,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="60C3F778-4889-48C3-9315-B5C0D258856A" width="256" height="256">
+        <image name="39E8BFB9-2147-4F6F-91BA-1F14A4B6ECDE" width="256" height="256">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPT5YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQrLjE3OlUkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw
